@@ -1,5 +1,5 @@
-*/config/development
-*/logs/log-*.php
-*/logs/!index.html
-*/cache/*
-*/cache/!index.html
+/bootstrap/compiled.php
+/vendor
+composer.phar
+composer.lock
+.DS_Store
