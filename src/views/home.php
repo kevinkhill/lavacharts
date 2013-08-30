@@ -191,7 +191,7 @@ if(Lava::hasErrors())
     <div class="section s4">
             <div class="inner">
                 <h1>Examples</h1>
-                <a href="/examples.html">Click Here to view the Examples</a>
+                <h2><a href="examples.html">Click Here to view the Examples</a></h2>
             </div>
     </div>
 <!--/Examples-->
