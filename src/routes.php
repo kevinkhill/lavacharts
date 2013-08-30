@@ -1,5 +1,7 @@
 <?php
 
+View::share('lavaAssetPath', 'packages/khill/lavacharts/');
+
 /**
  * LavaChart Home
  */

@@ -6,13 +6,13 @@
 <meta name="description" content="Charts & Graphs for Laravel powered by the Google Chart API." />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1 user-scalable=no">
 <?php
-    echo HTML::style('css/site.css');
-    echo HTML::style('css/home.css');
-    echo HTML::style('css/smint.css');
-    echo HTML::style('css/prettify.dark.css');
-    echo HTML::script('js/jquery.js');
-    echo HTML::script('js/jquery.smint.js');
-    echo HTML::script('js/prettify.run.js');
+    echo HTML::style($lavaAssetPath.'css/site.css');
+    echo HTML::style($lavaAssetPath.'css/home.css');
+    echo HTML::style($lavaAssetPath.'css/smint.css');
+    echo HTML::style($lavaAssetPath.'css/prettify.dark.css');
+    echo HTML::script($lavaAssetPath.'js/jquery.js');
+    echo HTML::script($lavaAssetPath.'js/jquery.smint.js');
+    echo HTML::script($lavaAssetPath.'js/prettify.run.js');
 ?>
 
 <script type="text/javascript">
@@ -33,7 +33,7 @@
 </head>
 <body onload="setTimeout(function() { window.scrollTo(0, 0) }, 100);">
     <a href="https://github.com/kevinkhill/" id="forkMe">
-        <img src="<?php echo asset('images/forkme.png'); ?>" alt="Fork me on GitHub">
+        <img src="<?php echo url('public/packages/khill/lavacharts/images/forkme.png'); ?>" alt="Fork me on GitHub">
     </a>
     <div class="wrap">
       <div class="subMenu" >
@@ -48,7 +48,7 @@
         </div>
 
 
-	<div class="section sTop">
+    <div class="section sTop">
             <div class="inner">
                 <div class="welcome">
                     <table>
@@ -73,11 +73,11 @@
                 </div>
             </div>
             <br class="clear">
-	</div>
+    </div>
 
 
 <!--Intro-->
-	<div class="section s1">
+    <div class="section s1">
             <div class="inner left">
                 <h1 class="heading">Intro</h1>
                 <ul class="arrows">
@@ -85,23 +85,26 @@
                     <li>Utilizing the power of PHP5.3+ we can render fantastic charts dynamically in page with very little code in the views.</li>
                     <li>Configuration is intuitive and easy to follow since it directly coordinates with Google's Chart API.</li>
                 </ul>
-                <div style="margin-top:140px;text-align:right;font-size:26pt;">Lets make some sweet charts!</div>
+                <div style="margin-top:140px;text-align:right;font-size:26pt;">Lets make some charts!</div>
             </div>
-	</div>
+    </div>
 <!--/Intro-->
 
 
 <!--Installing-->
-	<div class="section s2">
+    <div class="section s2">
             <div class="inner left">
                 <h1 class="heading">Installing</h1>
-                To your project's main composer.json file, add:<br />
-                <pre class="prettyprint inline">"khill\lavacharts" : "1.0.0-dev"</pre><br />
-                Then open the app/app.php file and add this to the providers array:
+                To your project's main composer.json file, add this the the requirements:<br />
+                <pre class="prettyprint inline">"khill\lavacharts" : "master-dev"</pre><br />
+                Register the LavaChart Service Provider by adding this line the providers array in "app/config/app.php"
                 <pre class="prettyprint inline">'Khill\Lavacharts\LavachartsServiceProvider'</pre><br />
+                Finally, to download and install, just run:
+                <pre class="prettyprint inline">composer install</pre><br />
 
+                <div style="margin-top:140px;text-align:right;font-size:26pt;">Thanks Composer, and away we go!</div>
             </div>
-	</div>
+    </div>
 <!--/Installing-->
 
 
@@ -109,109 +112,98 @@
 	<div class="section s3">
             <div class="inner left">
                 <h1 class="heading">Usage</h1>
-                Here is an example of how to create a line chart with two lines of data:
+                <ul class="arrows">
+                    <li>Getting up and running with LavaCharts is a breeze and you can follow along with these easy steps to get you going.</li>
+                    <li>You can also view the examples if you want to dive right in and look under the hood.</li>
+                    <li>These steps will show you how to put a simple line chart into your project.</li>
+                </ul>
+                <br />
+                <br />
 
-                ###The Controller
-                1. Load the library in the controller you will use to define the chart, or add it to your autoload config file.
+                <h3>First, The Controller / Route Closure</h3>
+                <p>First we need data, so create a new DataTable where we can load some fresh data into.</p>
+                <p>Pass a string to the DataTable function to assign a label to the table, we'll call this one "Stocks"</p>
+                <pre class="prettyprint inline">
+$stocksTable = Lava::DataTable('Stocks');</pre><br />
 
+                <p>Next we add some columns, defining the structure of the chart's data.</p>
+                <p>In this example, the first column is the horizontal axis, then then next two columns are the two sets of data.</p>
+                <p>The order of arguments are as follows: [data type, label, id]</p>
                  <pre class="prettyprint inline">
-//Load in the controller
-$this->load->library('lavacharts');
+$stocksTable->addColumn('number', 'Count', 'count');
+$stocksTable->addColumn('number', 'Projected', 'projected');
+$stocksTable->addColumn('number', 'Official', 'official');</pre><br/>
 
-//Or in the autoload config file
-$autoload['libraries'] = array('lavacharts');</pre><br/>
-
-                2. Next load the chart that you are going to use, or autoload it in the lavacharts config file.
-
-                 <pre class="prettyprint inline">
-//Load in th controller
-Lava::load('LineChart');
-
-//Or in the lavacharts config file
-$config['autoloadCharts'] = array('LineChart');</pre><br/>
-
-                3. Now we can use the lavacharts library to create a DataTable. Pass a string to the DataTable function to assign a label for the table.
-                4. Then add your columns, defining what the chart's data will consist of. In this example, the first column is the horizontal axis, then then next two columns are the two sets of data. The order of arguments are as follows: [data type, label, id]
-
-                 <pre class="prettyprint inline">
-$dataTable = Lava::DataTable('Stocks');
-
-$dataTable->addColumn('number', 'Count', 'count');
-$dataTable->addColumn('number', 'Projected', 'projected');
-$dataTable->addColumn('number', 'Official', 'official');</pre><br/>
-
-                5. Next add some data, for this example, it is filled with randomness. The addRow() function argument order follows the order in which the columns were added.
-                So here, array[0] is for 'count', array[1] is for 'projected' and array[2] is for 'official'
-
+                <p>Let's add some data! You will probably have useful data, but this example will be filled with random values.</p>
+                <p>The addRow() function signature, follows the order in which the columns were added.</p>
+                <p>So here, array[0] is for 'count', array[1] is for 'projected' and array[2] is for 'official'</p>
                  <pre class="prettyprint inline">
 for($a = 1; $a < 25; $a++)
 {
-    $data[0] = $a; //Count
-    $data[1] = rand(800,1000); //Line 1's data
-    $data[2] = rand(800,1000); //Line 2's data
+    $data[0] = $a;              //Count
+    $data[1] = rand(800,1000);  //Projected Data
+    $data[2] = rand(800,1000);  //Official Data
 
-    $dataTable->addRow($data);
+    $stocksTable->addRow($data);
 }</pre><br/>
 
-                6. Now lets configure some options for the chart. There are many ways to customize the chart, but we'll keep it simple. (Refer to the documentation for the list of configuration options.)
-
-                 <pre class="prettyprint inline">
+                <p>Now lets configure some options for the chart. There are many ways to customize the chart, but for the example, we'll keep it simple.</p>
+                <p>For the full list of options, <strong>Click Here</strong></p>
+                <pre class="prettyprint inline">
 $config = array(
-    'title' => 'Stocks'
+    'title' => 'My Stocks'
 );</pre><br/>
 
-                7. Finally, pass the configuration to the chart of choice, LineChart in this example, making sure that the Chart label matches the DataTable label.
+                <p>Finally, we choose what type of chart, LineChart for this example.</p>
+                <p>As long as the Chart's label matches the DataTable's label, the DataTable will automatically be applied to the chart.</p>
+                <p>Currently, the supported Charts are: Line, Area, Pie, Donut, Column, and Geo</p>
+                <p>Lastly, apply the configuration to the chart, chaining onto the chart.</p>
+                <pre class="prettyprint inline">
+Lava::LineChart('Stocks');->setConfig($config);</pre><br/>
 
-                 <pre class="prettyprint inline">
-// Since we named the dataTable "Stocks"...
-// Call the LineChart function with "Stocks" as the param to use that dataTable
-Lava::LineChart('Stocks')->setConfig($config);</pre><br/>
 
-
-
-                ###The View
-                1. Within your view, use these functions to get your chart onto the page.
-                        * If you want everything generated automatically, use outputInto() with the div() function.
-                        * Pass a string as a label to the outputInto() function which will be used when creating the div.
-                        * Then use the div() function to create a div that autoomatically has the corresponding label as it's id.
-                        * NOTE: You can also pass [width, height] to the div() function and it will be applied to the div.
-                        2. If you already have a &lt;div id="SOME-ID"&gt; on the page, then ommit the div() function and just pass the div's ID into the outputInto() function.
-
-                 <pre class="prettyprint inline">
+                <h3>On to The View</h3>
+                <p>There are two ways to get your chart to display on your page.</p>
+                <p>With the first method, LavaCharts will generate everything you need.</p>
+                <p>In the second method, LavaCharts will output into a div with a set "id"</p>
+                <pre class="prettyprint inline">
 //Example #1, have the library create the div
-echo Lava::LineChart('Stocks')->outputInto('stock_div');
+echo Lava::LineChart('Stocks')->outputInto('stocks_div');
 echo Lava::div(600, 300);
 
 //Example #2, output into a div you already created
-echo Lava::LineChart('Stocks')->outputInto('DIV_ELEMENT_ID');</pre><br/>
-                3. You can also setup a way of viewing errors in the creation of the chart by using this method.
+//Such as &lt;div id="myStocks"&gt;
+echo Lava::LineChart('Stocks')->outputInto('myStocks');</pre><br/>
 
-                 <pre class="prettyprint inline">
+                <p>You can also use these two functions to test for errors in the setup and configuration of the chart.</p>
+                <pre class="prettyprint inline">
 if(Lava::hasErrors())
 {
     echo Lava::getErrors();
 }</pre><br/>
 
             </div>
-	</div>
+    </div>
 <!--/Installing-->
 
 
 <!--Examples-->
-	<div class="section s4">
+    <div class="section s4">
             <div class="inner">
                 <h1>Examples</h1>
+                <a href="/examples.html">Click Here to view the Examples</a>
             </div>
-	</div>
+    </div>
 <!--/Examples-->
 
 
 <!--API-->
-	<div class="section s5">
+    <div class="section s5">
             <div class="inner">
-                <h1>API</h1>
+                <h1>API (Work in Progress)</h1>
+                <p>I have all the code documented, I just need to ran through apigen and get it ready to post.</p>
             </div>
-	</div>
+    </div>
 <!--/API-->
 
 </div>

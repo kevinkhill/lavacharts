@@ -55,7 +55,7 @@
 </head>
 <body onload="setTimeout(function() { window.scrollTo(0, 0) }, 100);">
     <a href="https://github.com/kevinkhill/" id="forkMe">
-        <img src="<?php echo asset('images/forkme.png'); ?>" alt="Fork me on GitHub">
+        <img src="<?php echo url('public/packages/khill/lavacharts/images/forkme.png'); ?>" alt="Fork me on GitHub">
     </a>
     <div class="wrap">
         <div class="subMenu" >

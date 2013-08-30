@@ -1,0 +1,80 @@
+.exampleHeading {
+    font-size: 46px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    border-bottom: 2px solid #62AEFF;
+}
+
+.exampleTitle {
+    font-size: 46px;
+    font-weight: 700;
+    margin-top: -6px;
+    padding: 20px;
+    text-align: center;
+    background-color: #62AEFF;
+}
+
+.prettyprintContainer {
+    text-align: left;
+    /*max-width: 800px;*/
+    max-height: 400px;
+    margin: 60px 0;
+}
+
+.prettyprintCode {
+    font-size: 11pt;
+    max-height: 400px;
+    overflow: auto;
+    border: solid 2px #62AEFF;
+    background-color: #000;
+    -moz-border-top-right-radius: 5px;
+    -moz-border-bottom-left-radius: 5px;
+    -moz-border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.prettyprintCode pre {
+    margin-left: 10px;
+}
+
+.prettyprintContainerLabel {
+    font-size: 1.4em;
+    background-color: #62AEFF;
+    padding: 0 40px 0 50px;
+    -moz-border-top-left-radius: 5px;
+    -moz-border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.prettyprintContainerLabel:hover {
+    cursor: pointer;
+}
+
+.hidden {
+    border-bottom: 4px solid #62AEFF;
+}
+
+.expand {
+    background: url('/images/toggle_expand_w.png') #62AEFF no-repeat 2px 4px;
+}
+
+.collapse {
+    background: url('/images/toggle_collapse_w.png') #62AEFF no-repeat 2px 4px;
+}
+
+.prettyprint {
+    padding: 5px;
+}
+
+#clip_button {
+  width:150px;
+  text-align:center;
+  border:1px solid black;
+  background-color:#ccc;
+  margin:10px; padding:10px;
+}
+#clip_button.zeroclipboard-is-hover { background-color:#eee; }
+#clip_button.zeroclipboard-is-active { background-color:#aaa; }
