@@ -1,13 +1,10 @@
 language: php
 
 php:
-  - 5.3
+  - "5.3"
 
 before_script:
   - composer self-update
-#  - php artisan dump-autoload
-
-#script:
-#  - phpunit
+  - composer install
 
 email: kevinkhill@gmail.com
