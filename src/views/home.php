@@ -191,7 +191,9 @@ if(Lava::hasErrors())
     <div class="section s4">
             <div class="inner">
                 <h1>Examples</h1>
-                <h2><a href="examples.html">Click Here to view the Examples</a></h2>
+                <h2 style="color:white;">
+                    <a href="examples.html">Click Here to view the Examples Page</a>
+                </h2>
             </div>
     </div>
 <!--/Examples-->
@@ -201,7 +203,7 @@ if(Lava::hasErrors())
     <div class="section s5">
             <div class="inner">
                 <h1>API (Work in Progress)</h1>
-                <p>I have all the code documented, I just need to ran through apigen and get it ready to post.</p>
+                <p>I have all the code documented, I just need to run the code through apigen and get it ready to post.</p>
             </div>
     </div>
 <!--/API-->
