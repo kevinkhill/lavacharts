@@ -1,11 +1,9 @@
 #!/bin/bash
 
-DIR=`pwd`
-
 echo "=========================================="
 echo "== Compressing CSS"
 echo "=========================================="
-for FILE in `ls -A "$DIR/public/css/"`
+for FILE in `ls -A "./public/css/"`
 do
     FILENAME=$(basename "$FILE")
     FN="${FILENAME%.*}"
@@ -18,7 +16,7 @@ done
 echo "=========================================="
 echo "== Compressing JS"
 echo "=========================================="
-for FILE in `ls -A "$DIR/public/js/" | grep -v ".swf"`
+for FILE in `ls -A "./public/js/" | grep -v ".swf"`
 do
     FILENAME=$(basename "$FILE")
     FN="${FILENAME%.*}"
@@ -31,26 +29,43 @@ done
 
 
 
-
 echo "=========================================="
 echo "== Concatenating CSS"
 echo "=========================================="
-echo "Creating ./public/master.min.css"
-for FILE in `ls -A "$DIR/public/builds/css/"`
+MASTERCSS="./public/master.min.css"
+
+echo "Creating $MASTERCSS"
+if [[ -e $MASTERCSS ]]
+then
+    rm $MASTERCSS
+fi
+
+for FILE in `ls -A "./public/builds/css/"`
 do
-    cat "./public/builds/css/$FILE" >> "./public/master.min.css"
+    cat "./public/builds/css/$FILE" >> $MASTERCSS
 done
 echo "                                   ...Done"
+
+
 
 echo "=========================================="
 echo "== Concatenating JS"
 echo "=========================================="
-echo "Creating ./public/master.min.js"
-for FILE in `ls -A "$DIR/public/builds/js/"`
+MASTERJS="./public/master.min.js"
+
+echo "Creating $MASTERJS"
+if [[ -e $MASTERJS ]]
+then
+    rm $MASTERJS
+fi
+
+for FILE in `ls -A "./public/builds/js/"`
 do
     cat "./public/builds/js/$FILE" >> "./public/master.min.js"
 done
 echo "                                   ...Done"
+
+
 
 echo "=========================================="
 echo "== Complete!"
