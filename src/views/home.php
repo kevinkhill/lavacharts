@@ -96,7 +96,7 @@
             <div class="inner left">
                 <h1 class="heading">Installing</h1>
                 To your project's main composer.json file, add this the the requirements:<br />
-                <pre class="prettyprint inline">"khill\lavacharts" : "master-dev"</pre><br />
+                <pre class="prettyprint inline">"khill\lavacharts" : "dev-master"</pre><br />
                 Register the LavaChart Service Provider by adding this line the providers array in "app/config/app.php"
                 <pre class="prettyprint inline">'Khill\Lavacharts\LavachartsServiceProvider'</pre><br />
                 Finally, to download and install, just run:
