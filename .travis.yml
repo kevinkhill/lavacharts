@@ -3,8 +3,8 @@ language: php
 php:
   - 5.3
 
-#before_script:
-#  - composer install
+before_script:
+  - composer self-update
 #  - php artisan dump-autoload
 
 #script:
