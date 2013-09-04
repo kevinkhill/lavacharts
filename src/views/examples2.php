@@ -55,7 +55,7 @@
 </head>
 <body onload="setTimeout(function() { window.scrollTo(0, 0) }, 100);">
     <a href="https://github.com/kevinkhill/" id="forkMe">
-        <img src="<?php echo url('public/packages/khill/lavacharts/images/forkme.png'); ?>" alt="Fork me on GitHub">
+        <img src="<?php echo url($lavaAssetPath.'images/forkme.png'); ?>" alt="Fork me on GitHub">
     </a>
     <div class="wrap">
         <div class="subMenu" >
@@ -105,8 +105,8 @@
                 <h1 class="exampleHeading">Line Charts</h1>
     <!-- Basic -->
                 <h2>Basic Example</h2>
-                <a href="<?php echo asset('images/examples/line.basic.png'); ?>" title="Basic Line Chart Example">
-                    <img src="<?php echo asset('images/examples/line.basic.png'); ?>" />
+                <a href="<?php echo asset($lavaAssetPath.'images/examples/line.basic.png'); ?>" title="Basic Line Chart Example">
+                    <img src="<?php echo asset($lavaAssetPath.'images/examples/line.basic.png'); ?>" />
                 </a>
                 <br />
 
@@ -158,8 +158,8 @@ if(Lava::hasErrors())
 
     <!-- Advanced -->
                 <h2>Advanced Example</h2>
-                <a href="<?php echo asset('images/examples/line.advanced.png'); ?>">
-                    <img src="<?php echo asset('images/examples/line.advanced.png'); ?>" />
+                <a href="<?php echo asset($lavaAssetPath.'images/examples/line.advanced.png'); ?>">
+                    <img src="<?php echo asset($lavaAssetPath.'images/examples/line.advanced.png'); ?>" />
                 </a>
                 <br />
 

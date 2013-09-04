@@ -33,7 +33,7 @@
 </head>
 <body onload="setTimeout(function() { window.scrollTo(0, 0) }, 100);">
     <a href="https://github.com/kevinkhill/" id="forkMe">
-        <img src="<?php echo url('public/packages/khill/lavacharts/images/forkme.png'); ?>" alt="Fork me on GitHub">
+        <img src="<?php echo url($lavaAssetPath.'images/forkme.png'); ?>" alt="Fork me on GitHub">
     </a>
     <div class="wrap">
       <div class="subMenu" >
@@ -95,12 +95,20 @@
     <div class="section s2">
             <div class="inner left">
                 <h1 class="heading">Installing</h1>
-                To your project's main composer.json file, add this the the requirements:<br />
-                <pre class="prettyprint inline">"khill\lavacharts" : "dev-master"</pre><br />
-                Register the LavaChart Service Provider by adding this line the providers array in "app/config/app.php"
-                <pre class="prettyprint inline">'Khill\Lavacharts\LavachartsServiceProvider'</pre><br />
-                Finally, to download and install, just run:
+                In your project's main composer.json file, add this line to the requirements:<br />
+                <pre class="prettyprint inline">"khill/lavacharts" : "dev-master"</pre><br />
+                
+                Run Composer to install LavaCharts:
                 <pre class="prettyprint inline">composer install</pre><br />
+                
+                Finally, register LavaCharts in your app by adding this line the providers array in "app/config/app.php"
+                <pre class="prettyprint inline">'Khill\Lavacharts\LavachartsServiceProvider'</pre><br />
+                
+                If you want to view the demos, publish the assets with:
+                <pre class="prettyprint inline">php artisan asset::publish khill/lavacharts</pre><br />
+
+                If you want to overide the default config of the package, run:
+                <pre class="prettyprint inline">php artisan config::publish khill/lavacharts</pre><br />
 
                 <div style="margin-top:140px;text-align:right;font-size:26pt;">Thanks Composer, and away we go!</div>
             </div>
@@ -192,7 +200,7 @@ if(Lava::hasErrors())
             <div class="inner">
                 <h1>Examples</h1>
                 <h2 style="color:white;">
-                    <a href="examples.html">Click Here to view the Examples Page</a>
+                    <?php echo link_to('/lavacharts/examples', 'Click Here to view the Examples Page'); ?>
                 </h2>
             </div>
     </div>
