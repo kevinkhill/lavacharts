@@ -14,7 +14,7 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Helpers\Helpers;
 
 class ColumnChart extends Chart
 {
@@ -29,7 +29,7 @@ class ColumnChart extends Chart
             'focusTarget',
             'hAxis',
             'isHtml',
-            'vAxes',
+//            'vAxes',
             'vAxis'
         ));
     }
@@ -119,7 +119,7 @@ class ColumnChart extends Chart
      */
     public function barGroupWidth($barGroupWidth)
     {
-        if(is_int_or_percent($barGroupWidth))
+        if(Helpers::is_int_or_percent($barGroupWidth))
         {
 //            $bar = new bar($barGroupWidth);
 //            $this->addOption($bar->toArray());
@@ -131,19 +131,6 @@ class ColumnChart extends Chart
         return $this;
     }
 
-//    public function enableInteractivity($param)
-//    {
-//
-//
-//        return $this;
-//    }
-//
-//    public function focusTarget($param)
-//    {
-//
-//
-//        return $this;
-//    }
 
     /**
      * An object with members to configure various horizontal axis elements. To
@@ -155,7 +142,7 @@ class ColumnChart extends Chart
      */
     public function hAxis($hAxis)
     {
-        if(is_a($hAxis, 'hAxis'))
+        if(Helpers::is_hAxis($hAxis))
         {
             $this->addOption($hAxis->toArray());
         } else {
@@ -197,6 +184,26 @@ class ColumnChart extends Chart
             $this->addOption(array('isStacked' => $isStacked));
         } else {
             $this->type_error(__FUNCTION__, 'boolean');
+        }
+
+        return $this;
+    }
+
+    /**
+     * An object with members to configure various vertical axis elements. To
+     * specify properties of this property, create a new vAxis() object, set
+     * the values then pass it to this function or to the constructor.
+     *
+     * @param vAxis $vAxis
+     * @return \ColumnChart
+     */
+    public function vAxis($vAxis)
+    {
+        if(Helpers::is_vAxis($vAxis))
+        {
+            $this->addOption($vAxis->toArray());
+        } else {
+            $this->type_error(__FUNCTION__, 'vAxis');
         }
 
         return $this;
