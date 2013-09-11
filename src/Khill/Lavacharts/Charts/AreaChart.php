@@ -24,17 +24,13 @@ class AreaChart extends Chart
         $this->defaults = array_merge($this->defaults, array(
 //            'animation',
             'areaOpacity',
-//            'enableInteractivity',
+            'axisTitlesPosition',
             'events',
-//            'focusTarget',
             'hAxis',
             'isHtml',
             'interpolateNulls',
             'lineWidth',
             'pointSize',
-//            'reverseCategories',
-//            'series',
-//            'theme',
             'vAxes',
             'vAxis'
         ));
@@ -130,20 +126,6 @@ class AreaChart extends Chart
 
         return $this;
     }
-
-//    public function enableInteractivity($param)
-//    {
-//
-//
-//        return $this;
-//    }
-//
-//    public function focusTarget($param)
-//    {
-//
-//
-//        return $this;
-//    }
 
     /**
      * An object with members to configure various horizontal axis elements. To
@@ -273,12 +255,5 @@ class AreaChart extends Chart
 
         return $this;
     }
-
-//    public function theme($param)
-//    {
-//
-//
-//        return $this;
-//    }
 
 }

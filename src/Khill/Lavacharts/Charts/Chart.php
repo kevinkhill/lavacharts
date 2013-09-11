@@ -154,6 +154,25 @@ class Chart
     }
 
     /**
+     * The background color for the main area of the chart. Can be either a simple
+     * HTML color string, for example: 'red' or '#00cc00', or a backgroundColor object
+     *
+     * @param $backgroundColor backgroundColor
+     * @return \Chart
+     */
+    public function backgroundColor($backgroundColor)
+    {
+        if(Helpers::is_backgroundColor($backgroundColor))
+        {
+            $this->addOption($backgroundColor->toArray());
+        } else {
+            $this->type_error(__FUNCTION__, 'backgroundColor');
+        }
+
+        return $this;
+    }
+
+    /**
      * An object with members to configure the placement and size of the chart area
      * (where the chart itself is drawn, excluding axis and legends).
      * Two formats are supported: a number, or a number followed by %.

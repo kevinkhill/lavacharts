@@ -24,15 +24,11 @@ class ColumnChart extends Chart
 
         $this->defaults = array_merge($this->defaults, array(
 //            'animation',
-//            'enableInteractivity',
             'axisTitlesPosition',
             'barGroupWidth',
             'focusTarget',
             'hAxis',
             'isHtml',
-//            'reverseCategories',
-//            'series',
-//            'theme',
             'vAxes',
             'vAxis'
         ));
@@ -205,26 +201,5 @@ class ColumnChart extends Chart
 
         return $this;
     }
-
-//    public function reverseCatagories($param)
-//    {
-//
-//
-//        return $this;
-//    }
-//
-//    public function series($param)
-//    {
-//
-//
-//        return $this;
-//    }
-//
-//    public function theme($param)
-//    {
-//
-//
-//        return $this;
-//    }
 
 }

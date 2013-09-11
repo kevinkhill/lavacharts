@@ -23,17 +23,14 @@ class LineChart extends Chart
 
         $this->defaults = array_merge($this->defaults, array(
 //            'animation',
+            'axisTitlesPosition',
             'curveType',
-//            'enableInteractivity',
             'focusTarget',
             'hAxis',
             'isHtml',
             'interpolateNulls',
             'lineWidth',
             'pointSize',
-//            'reverseCategories',
-//            'series',
-//            'theme',
             'vAxes',
             'vAxis'
         ));
@@ -139,34 +136,6 @@ class LineChart extends Chart
         return $this;
     }
 
-//    public function enableInteractivity($param)
-//    {
-//
-//
-//        return $this;
-//    }
-//
-//    public function focusTarget($param)
-//    {
-//
-//
-//        return $this;
-//    }
-//
-//    public function fontSize($param)
-//    {
-//
-//
-//        return $this;
-//    }
-//
-//    public function fontName($param)
-//    {
-//
-//
-//        return $this;
-//    }
-
     /**
      * An object with members to configure various horizontal axis elements. To
      * specify properties of this property, create a new hAxis() object, set
@@ -263,26 +232,5 @@ class LineChart extends Chart
 
         return $this;
     }
-
-//    public function reverseCatagories($param)
-//    {
-//
-//
-//        return $this;
-//    }
-//
-//    public function series($param)
-//    {
-//
-//
-//        return $this;
-//    }
-//
-//    public function theme($param)
-//    {
-//
-//
-//        return $this;
-//    }
 
 }
