@@ -6,7 +6,7 @@ LavaCharts is a Package for Laravel 4 that wraps the Google Chart API for PHP5.3
 [![Build Status](https://travis-ci.org/kevinkhill/LavaCharts.png?branch=master)](https://travis-ci.org/kevinkhill/LavaCharts)
 
 #Installing
-In your project's main composer.json file, add this line to the requirements:  
+In your project's main ```composer.json``` file, add this line to the requirements:  
 
   ```
   "khill/lavacharts" : "dev-master"
@@ -18,7 +18,7 @@ Run Composer to install LavaCharts:
   composer install
   ```
 
-Next, register LavaCharts in your app by adding this line the providers array in "app/config/app.php":  
+Next, register LavaCharts in your app by adding this line to the providers array in ```app/config/app.php```:  
 
   ```
   "Khill\Lavacharts\LavachartsServiceProvider"
