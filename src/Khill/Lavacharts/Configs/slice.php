@@ -83,7 +83,7 @@ class slice extends configOptions
      */
     public function offset($offset)
     {
-        if(is_float($offset) && Helpers::between($offset, 0.0, 1.0))
+        if(is_float($offset) && Helpers::between(0.0, $offset, 1.0))
         {
             $this->offset = $offset;
         } else {

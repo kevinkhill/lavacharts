@@ -37,16 +37,21 @@ class Helpers
      */
     public static function array_string($defaultValues)
     {
-        $tmp = '[ ';
-
-        natcasesort($defaultValues);
-
-        foreach($defaultValues as $k => $v)
+        if(is_array($defaultValues))
         {
-            $tmp .= $v . ' | ';
-        }
+            $output = '[ ';
 
-        return substr_replace($tmp, "", -2) . ']';
+            natcasesort($defaultValues);
+
+            foreach($defaultValues as $value)
+            {
+                $output .= $value . ' | ';
+            }
+
+            return substr_replace($output, "", -2) . ']';
+        } else {
+            return FALSE;
+        }
     }
 
     /**
@@ -56,13 +61,16 @@ class Helpers
      * @return boolean Returns TRUE is first element in the array is an array,
      * otherwise FALSE.
      */
-    public static function array_is_multi($arr)
+    public static function array_is_multi($array)
     {
-        $rv = array_filter($arr, 'is_array');
-
-        if(count($rv) > 0)
+        if(is_array($array))
         {
-            return TRUE;
+            if(count(array_filter($array, 'is_array')) > 0)
+            {
+                return TRUE;
+            } else {
+                return FALSE;
+            }
         } else {
             return FALSE;
         }
@@ -72,32 +80,43 @@ class Helpers
      * Simple test to see if array values are of specified type.
      *
      * @param array Array of values.
+     * @param string Type to check
+     * @param string Named class, if type == 'class'
      * @return boolean Returns TRUE is all values match type, otherwise FALSE.
      */
-    public static function array_values_check(&$arr, $type, $extra = NULL)
+    public static function array_values_check($array, $type, $extra = '')
     {
         $status = TRUE;
 
-        if(is_array($arr) && is_string($type))
+        if(is_array($array) && is_string($type))
         {
             if($type == 'class' && is_string($extra) && !empty($extra))
             {
-                foreach($arr as $item)
+                foreach($array as $item)
                 {
-                    if(is_a($item, $extra) == FALSE)
+                    $className = self::get_real_class($item);
+
+                    if($className == FALSE)
                     {
                         $status = FALSE;
-                        break;
+//                        break;
+                    } else {
+                        if($className != $extra)
+                        {
+                            $status = FALSE;
+//                            break 2;
+                        }
                     }
                 }
             } else {
-                foreach($arr as $item)
+                foreach($array as $item)
                 {
                     $function = 'is_'.$type;
+
                     if($function($item) == FALSE)
                     {
                         $status = FALSE;
-                        break;
+//                        break;
                     }
                 }
             }
@@ -148,7 +167,8 @@ class Helpers
     }
 
     /**
-     * Simple public function to test if a number is between two other numbers.
+     * Test if a number is between two other numbers.
+     *
      * Pass in the number to test, the lower limit and upper limit.
      * Defaults to including the limits with <= & >=, set to FALSE to exclude
      * the limits with < & >
@@ -159,31 +179,41 @@ class Helpers
      * @param boolean whether to include limits
      * @return boolean
      */
-    public static function between($test, $lower, $upper, $inclusive = TRUE)
+    public static function between($lower, $test, $upper, $includeLimits = TRUE)
     {
-        if($inclusive === TRUE)
+        if(is_numeric($test) && is_numeric($lower) && is_numeric($upper))
         {
-            return ($test >= $lower && $test <= $upper) ? TRUE : FALSE;
+            if($includeLimits === TRUE)
+            {
+                return ($test >= $lower && $test <= $upper) ? TRUE : FALSE;
+            } else {
+                return ($test > $lower && $test < $upper) ? TRUE : FALSE;
+            }
         } else {
-            return ($test > $lower && $test < $upper) ? TRUE : FALSE;
+            return FALSE;
         }
     }
 
     /**
-    * Obtains an object class name without namespaces
-    *
-    * @param object $obj
-    * @return string Class Name
-    */
-   public static function get_real_class($obj)
+     * Gets object class name without namespace
+     *
+     * @param object $obj
+     * @return string Class Name
+     */
+    public static function get_real_class($obj)
     {
-       $classname = get_class($obj);
+        if(is_object($obj))
+        {
+            $classname = get_class($obj);
 
-       if (preg_match('@\\\\([\w]+)$@', $classname, $matches)) {
-           $classname = $matches[1];
-       }
+            if (preg_match('@\\\\([\w]+)$@', $classname, $matches)) {
+                $classname = $matches[1];
+            }
 
-       return $classname;
-   }
+            return $classname;
+        } else {
+            return FALSE;
+        }
+    }
 
 }

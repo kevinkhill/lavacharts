@@ -152,7 +152,7 @@ class hAxis extends Axis
      */
     public function slantedTextAngle($angle)
     {
-        if(is_int($angle) && Helpers::between($angle, 1, 90))
+        if(is_int($angle) && Helpers::between(1, $angle, 90))
         {
             $this->slantedTextAngle = $angle;
         } else {
