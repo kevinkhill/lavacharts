@@ -3,8 +3,10 @@
 
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
          strict="true"
-         verbose="true">
+         verbose="true"
+         colors="true">
   <testsuites>
     <testsuite name="LavaCharts">
       <directory suffix="Test.php">./tests/</directory>

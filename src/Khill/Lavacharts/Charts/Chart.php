@@ -17,15 +17,15 @@ use Khill\Lavacharts\Helpers\Helpers;
 
 class Chart
 {
-    public $chartType = NULL;
+    public $chartType  = NULL;
     public $chartLabel = NULL;
-    public $dataTable = NULL;
+    public $dataTable  = NULL;
 
-    public $data = NULL;
-    public $options = NULL;
-    public $defaults = NULL;
-    public $events = NULL;
-    public $elementID = NULL;
+    public $data       = NULL;
+    public $options    = NULL;
+    public $defaults   = NULL;
+    public $events     = NULL;
+    public $elementID  = NULL;
 
     public function __construct($chartLabel)
     {

@@ -187,5 +187,3 @@ class Helpers
    }
 
 }
-
-?>

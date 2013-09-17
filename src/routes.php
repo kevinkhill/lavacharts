@@ -27,6 +27,14 @@ Route::get('/lavacharts/examples2', function()
 });
 
 /**
+ * LavaChart Home
+ */
+Route::get('/lavacharts/tests', function()
+{
+    return View::make('lavacharts::tests');
+});
+
+/**
  * Advanced Line Chart
  */
 Route::get('/line/basic', function()

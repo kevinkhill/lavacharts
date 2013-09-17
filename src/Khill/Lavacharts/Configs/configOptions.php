@@ -134,7 +134,7 @@ class configOptions
      *
      * @return array Array of the options of the object.
      */
-    public function values()
+    public function getValues()
     {
         $this->output = array();
 
@@ -150,6 +150,3 @@ class configOptions
     }
 
 }
-
-/* End of file configOptions.php */
-/* Location: ./lavacharts/configs/configOptions.php */
