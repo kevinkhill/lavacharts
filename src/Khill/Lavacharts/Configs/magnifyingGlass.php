@@ -29,7 +29,7 @@ class magnifyingGlass extends configOptions
      *
      * @var string
      */
-    public $zoomFactor = 5;
+    public $zoomFactor;
 
     /**
      * Builds the magnifyingGlass object.
@@ -42,16 +42,13 @@ class magnifyingGlass extends configOptions
      * @param zoomfactor
      * @return \tooltip
      */
-    public function __construct($zoomFactor = NULL)
+    public function __construct($zoomFactor = 5)
     {
         $this->options = array('zoomFactor');
 
-        if(is_null($zoomFactor))
-        {
-            parent::__construct(array());
-        } else {
-            parent::__construct(array('zoomFactor' => $zoomFactor));
-        }
+        $this->zoomFactor($zoomFactor);
+
+        parent::__construct(array('zoomFactor' => $zoomFactor));
     }
 
     /**
