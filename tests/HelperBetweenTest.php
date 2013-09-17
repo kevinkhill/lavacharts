@@ -57,7 +57,10 @@ class HelperBetweenTest extends TestCase\HelperTestCase
 
     public function testBetweenWithBadParams()
     {
+        $this->assertFalse( H::between(1, 2, 3, 'string') );
         $this->assertFalse( H::between('2', '1', '3') );
+        $this->assertFalse( H::between(array(), array(), array()) );
+        $this->assertFalse( H::between(TRUE, TRUE, TRUE, 'string') );
     }
 
 }
