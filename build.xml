@@ -83,7 +83,7 @@
 
  <target name="phpdoc" description="Generate API documentation using PHPDocumentor">
   <exec executable="phpdoc">
-   <arg line="-d ${source} -t ${basedir}/build/api --template=responsive" />
+   <arg line="-d ${source} -t ${basedir}/build/api --template=responsive -log ${basedir}/build/logs" />
   </exec>
  </target>
 
