@@ -181,7 +181,7 @@ class DataTable
      * @param mixed $opt_cell Array of values or DataCells.
      * @return \DataTable
      */
-    public function addRow($opt_cellArray = NULL)
+    public function addRow($opt_cellArray = null)
     {
         $props = array(
             'v',
@@ -193,7 +193,7 @@ class DataTable
         {
             for($a = 0; $a < count($this->cols); $a++)
             {
-                $tmp[] = array('v' => NULL);
+                $tmp[] = array('v' => null);
             }
             $this->rows[] = array('c' => $tmp);
         } else {
@@ -226,7 +226,7 @@ class DataTable
                                     $rowVals[] = array('v' => $opt_cellArray[$b]);
                                 }
                             } else {
-                                $rowVals[] = array('v' => NULL);
+                                $rowVals[] = array('v' => null);
                             }
                         }
                         $this->rows[] = array('c' => $rowVals);

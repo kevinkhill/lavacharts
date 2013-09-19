@@ -22,21 +22,21 @@ class tooltip extends configOptions
      *
      * @var boolean
      */
-    public $showColorCode = NULL;
+    public $showColorCode = null;
 
     /**
      * Tooltip text style
      *
      * @var textStyle
      */
-    public $textStyle = NULL;
+    public $textStyle = null;
 
     /**
      * Trigger Action of the tooltip.
      *
      * @var string
      */
-    public $trigger = NULL;
+    public $trigger = null;
 
 
     /**

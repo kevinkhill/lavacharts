@@ -22,28 +22,28 @@ class chartArea extends configOptions
      *
      * @var int Amount in pixels
      */
-    public $left = NULL;
+    public $left = null;
 
     /**
      * How far to draw the chart from the top border.
      *
      * @var int Amount in pixels
      */
-    public $top = NULL;
+    public $top = null;
 
     /**
      * Width of the chart.
      *
      * @var int Amount in pixels
      */
-    public $width = NULL;
+    public $width = null;
 
     /**
      * Height of the chart.
      *
      * @var int Amount in pixels
      */
-    public $height = NULL;
+    public $height = null;
 
 
     /**

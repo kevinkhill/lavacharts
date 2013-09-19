@@ -20,28 +20,28 @@ class colorAxis extends configOptions
      *
      * @var int
      */
-    public $minValue = NULL;
+    public $minValue = null;
 
     /**
      * Maximum value for chart color data.
      *
      * @var int
      */
-    public $maxValue = NULL;
+    public $maxValue = null;
 
     /**
      * Controls how values are associated with colors.
      *
      * @var array
      */
-    public $values = NULL;
+    public $values = null;
 
     /**
      * Colors to assign to values in the visualization.
      *
      * @var array
      */
-    public $colors = NULL;
+    public $colors = null;
 
 
     /**

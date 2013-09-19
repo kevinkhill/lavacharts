@@ -37,13 +37,13 @@ class jsDate
      * @return \jsDate
      */
     public function __construct(
-        $year = NULL,
-        $month = NULL,
-        $day = NULL,
-        $hour = NULL,
-        $minute = NULL,
-        $second = NULL,
-        $millisecond = NULL
+        $year = null,
+        $month = null,
+        $day = null,
+        $hour = null,
+        $minute = null,
+        $second = null,
+        $millisecond = null
     )
     {
         $this->year = $year;
@@ -65,13 +65,13 @@ class jsDate
      */
     public function parseArray($array)
     {
-        $this->year        = isset($array[0]) ? $array[0] : NULL;
-        $this->month       = isset($array[1]) ? $array[1] : NULL;
-        $this->day         = isset($array[2]) ? $array[2] : NULL;
-        $this->hour        = isset($array[3]) ? $array[3] : NULL;
-        $this->minute      = isset($array[4]) ? $array[4] : NULL;
-        $this->second      = isset($array[5]) ? $array[5] : NULL;
-        $this->millisecond = isset($array[6]) ? $array[6] : NULL;
+        $this->year        = isset($array[0]) ? $array[0] : null;
+        $this->month       = isset($array[1]) ? $array[1] : null;
+        $this->day         = isset($array[2]) ? $array[2] : null;
+        $this->hour        = isset($array[3]) ? $array[3] : null;
+        $this->minute      = isset($array[4]) ? $array[4] : null;
+        $this->second      = isset($array[5]) ? $array[5] : null;
+        $this->millisecond = isset($array[6]) ? $array[6] : null;
 
         return $this;
     }
@@ -83,13 +83,13 @@ class jsDate
      */
     public function toString()
     {
-        if($this->hour !== NULL && is_int($this->hour))
+        if($this->hour !== null && is_int($this->hour))
         {
-            if($this->minute !== NULL && is_int($this->minute))
+            if($this->minute !== null && is_int($this->minute))
             {
-                if($this->second !== NULL && is_int($this->second))
+                if($this->second !== null && is_int($this->second))
                 {
-                    if($this->millisecond !== NULL && is_int($this->millisecond))
+                    if($this->millisecond !== null && is_int($this->millisecond))
                     {
                         $this->format = 'Date(%d, %d, %d, %d, %d, %d, %d)';
                         $this->output = sprintf($this->format, $this->year, $this->month, $this->day, $this->hour, $this->minute, $this->second, $this->millisecond);

@@ -26,14 +26,14 @@ class Lavacharts
      *
      * @var string
      */
-    protected static $output = NULL;
+    protected static $output = null;
 
     /**
      * The ID of the HTML element that will be receiving the chart.
      *
      * @var string
      */
-    protected static $elementID = NULL;
+    protected static $elementID = null;
 
     /**
      * Version of Google's DataTable.
@@ -294,7 +294,7 @@ class Lavacharts
      * Each error message is wrapped in the HTML element defined within the
      * configuration for lavacharts.
      *
-     * @return mixed NULL if there are no errors, otherwise a string with the
+     * @return mixed null if there are no errors, otherwise a string with the
      * errors
      */
     public static function getErrors()
@@ -312,7 +312,7 @@ class Lavacharts
 
             return $errors;
         } else {
-            return NULL;
+            return null;
         }
     }
 
@@ -352,7 +352,7 @@ class Lavacharts
 
         $out .= self::$jsOpen.PHP_EOL;
 
-        if($chart->elementID == NULL)
+        if($chart->elementID == null)
         {
             $out .= 'alert("Error calling '.$chart->chartType.'(\''.$chart->chartLabel.'\')->outputInto(), requires a valid html elementID.");'.PHP_EOL;
         }
@@ -460,7 +460,7 @@ class Lavacharts
      * @param boolean $enabled
      * @param textStyle $globalTextStyle
      */
-    public static function globalTextStyle(boolean $enabled, textStyle $globalTextStyle = NULL)
+    public static function globalTextStyle(boolean $enabled, textStyle $globalTextStyle = null)
     {
 
         $this->config->set('lavacharts::globalTextStyleEnabled', $enabled);

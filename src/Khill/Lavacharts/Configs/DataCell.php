@@ -55,7 +55,7 @@ class DataCell
      * @param string $p An object that is a map of custom values applied to the cell
      * @return \DataCell
      */
-    public function __construct($v = NULL, $f = NULL, $p = NULL)
+    public function __construct($v = null, $f = NULL, $p = NULL)
     {
         $this->v = $v;
         $this->f = $f;
@@ -84,9 +84,9 @@ class DataCell
     {
         $output = array();
 
-        if($this->v != NULL) { $output['v'] = $this->v; }
-        if($this->f != NULL) { $output['f'] = $this->f; }
-        if($this->p != NULL) { $output['p'] = $this->p; }
+        if($this->v != null) { $output['v'] = $this->v; }
+        if($this->f != null) { $output['f'] = $this->f; }
+        if($this->p != null) { $output['p'] = $this->p; }
 
         return json_encode($output);
     }

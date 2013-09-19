@@ -20,21 +20,21 @@ class backgroundColor extends configOptions
      *
      * @var string Valid HTML color.
      */
-    public $stroke = NULL;
+    public $stroke = null;
 
     /**
      * The border width, in pixels.
      *
      * @var int Width in number of pixels.
      */
-    public $strokeWidth = NULL;
+    public $strokeWidth = null;
 
     /**
      * The chart fill color, as an HTML color string.
      *
      * @var string Valid HTML color.
      */
-    public $fill = NULL;
+    public $fill = null;
 
 
     /**

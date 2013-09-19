@@ -22,14 +22,14 @@ class configOptions
      *
      * @var string
      */
-    public $output = NULL;
+    public $output = null;
 
     /**
      * Array of allowed key values for the configOptions child objects.
      *
      * @var array
      */
-    public $options = NULL;
+    public $options = null;
 
     /**
      * Class name without namespace
@@ -109,7 +109,7 @@ class configOptions
      *
      * @return array
      */
-    public function toArray($keyName = NULL)
+    public function toArray($keyName = null)
     {
         $this->output = array();
 

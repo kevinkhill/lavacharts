@@ -17,15 +17,15 @@ use Khill\Lavacharts\Helpers\Helpers;
 
 class Chart
 {
-    public $chartType  = NULL;
-    public $chartLabel = NULL;
-    public $dataTable  = NULL;
+    public $chartType  = null;
+    public $chartLabel = null;
+    public $dataTable  = null;
 
-    public $data       = NULL;
-    public $options    = NULL;
-    public $defaults   = NULL;
-    public $events     = NULL;
-    public $elementID  = NULL;
+    public $data       = null;
+    public $options    = null;
+    public $defaults   = null;
+    public $events     = null;
+    public $elementID  = null;
 
     public function __construct($chartLabel)
     {
@@ -122,7 +122,7 @@ class Chart
      * @param mixed dataTableLabel String label or DataTable object
      * @return \DataTable DataTable object
      */
-    public function dataTable($data = NULL)
+    public function dataTable($data = null)
     {
         switch(gettype($data))
         {
@@ -469,14 +469,14 @@ class Chart
      * @param string $elementID
      * @return string Javscript code blocks
      */
-    public function outputInto($elementID = NULL)
+    public function outputInto($elementID = null)
     {
-        if($this->dataTable === NULL)
+        if($this->dataTable === null)
         {
             $this->dataTable = $this->chartLabel;
         }
 
-        if(gettype($elementID) == 'string' && $elementID != NULL)
+        if(gettype($elementID) == 'string' && $elementID != null)
         {
             $this->elementID = $elementID;
         }

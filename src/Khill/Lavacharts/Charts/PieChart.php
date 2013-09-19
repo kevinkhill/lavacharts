@@ -56,7 +56,7 @@ class PieChart extends Chart
     /**
      * An array of slice objects, each describing the format of the
      * corresponding slice in the pie. To use default values for a slice,
-     * specify a NULL. If a slice or a value is not specified, the global
+     * specify a null. If a slice or a value is not specified, the global
      * value will be used.
      *
      * The values of the array keys will correspond to each numbered piece
@@ -94,7 +94,7 @@ class PieChart extends Chart
 
     /**
      * The color of the slice borders. Only applicable when the chart is
-     * two-dimensional; is3D == false || NULL
+     * two-dimensional; is3D == false || null
      *
      * @param string HTML color
      * @return \PieChart
