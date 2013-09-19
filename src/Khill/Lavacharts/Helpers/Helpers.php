@@ -27,10 +27,10 @@ class Helpers
 
                 return $type == $is_a;
             } else {
-                return FALSE;
+                return false;
             }
         } else {
-            return FALSE;
+            return false;
         }
     }
 
@@ -56,7 +56,7 @@ class Helpers
 
             return substr_replace($output, "", -2) . ']';
         } else {
-            return FALSE;
+            return false;
         }
     }
 
@@ -64,8 +64,8 @@ class Helpers
      * Simple test to see if array is multi-dimensional.
      *
      * @param array Array of values.
-     * @return boolean Returns TRUE is first element in the array is an array,
-     * otherwise FALSE.
+     * @return boolean Returns true is first element in the array is an array,
+     * otherwise false.
      */
     public static function array_is_multi($array)
     {
@@ -73,12 +73,12 @@ class Helpers
         {
             if(count(array_filter($array, 'is_array')) > 0)
             {
-                return TRUE;
+                return true;
             } else {
-                return FALSE;
+                return false;
             }
         } else {
-            return FALSE;
+            return false;
         }
     }
 
@@ -88,11 +88,11 @@ class Helpers
      * @param array Array of values.
      * @param string Type to check
      * @param string Named class, if type == 'class'
-     * @return boolean Returns TRUE is all values match type, otherwise FALSE.
+     * @return boolean Returns true is all values match type, otherwise false.
      */
     public static function array_values_check($array, $type, $className = '')
     {
-        $status = TRUE;
+        $status = true;
 
         if(is_array($array) && is_string($type))
         {
@@ -102,13 +102,13 @@ class Helpers
                 {
                     $realClassName = self::get_real_class($item);
 
-                    if($realClassName === FALSE)
+                    if($realClassName === false)
                     {
-                        $status = FALSE;
+                        $status = false;
                     } else {
                         if($realClassName != $className)
                         {
-                            $status = FALSE;
+                            $status = false;
                         }
                     }
                 }
@@ -119,17 +119,17 @@ class Helpers
 
                     if(function_exists($function))
                     {
-                        if($function($item) === FALSE)
+                        if($function($item) === false)
                         {
-                            $status = FALSE;
+                            $status = false;
                         }
                     } else {
-                        $status = FALSE;
+                        $status = false;
                     }
                 }
             }
         } else {
-            $status = FALSE;
+            $status = false;
         }
 
         return $status;
@@ -142,35 +142,35 @@ class Helpers
      * Valid percent = 32% or 100%
      *
      * @param mixed Integer or string.
-     * @return boolean Returns TRUE if valid in or percent, otherwise FALSE.
+     * @return boolean Returns true if valid in or percent, otherwise false.
      */
     public static function is_int_or_percent($val)
     {
-        if(is_int($val) === TRUE)
+        if(is_int($val) === true)
         {
-            return TRUE;
-        } else if(is_string($val) === TRUE)
+            return true;
+        } else if(is_string($val) === true)
         {
-            if(ctype_digit($val) === TRUE)
+            if(ctype_digit($val) === true)
             {
-                return TRUE;
+                return true;
             } else {
                 if($val[strlen($val) - 1] == '%')
                 {
                     $tmp = str_replace('%', '', $val);
 
-                    if(ctype_digit((string) $tmp) === TRUE)
+                    if(ctype_digit((string) $tmp) === true)
                     {
-                        return TRUE;
+                        return true;
                     } else {
-                        return FALSE;
+                        return false;
                     }
                 } else {
-                    return FALSE;
+                    return false;
                 }
             }
         } else {
-            return FALSE;
+            return false;
         }
     }
 
@@ -178,7 +178,7 @@ class Helpers
      * Test if a number is between two other numbers.
      *
      * Pass in the number to test, the lower limit and upper limit.
-     * Defaults to including the limits with <= & >=, set to FALSE to exclude
+     * Defaults to including the limits with <= & >=, set to false to exclude
      * the limits with < & >
      *
      * @param mixed number to test
@@ -187,22 +187,22 @@ class Helpers
      * @param boolean whether to include limits
      * @return boolean
      */
-    public static function between($lower, $test, $upper, $includeLimits = TRUE)
+    public static function between($lower, $test, $upper, $includeLimits = true)
     {
-        $lowerCheck = (is_int($lower) || is_float($lower) ? TRUE : FALSE);
-        $testCheck  = (is_int($test)  || is_float($test)  ? TRUE : FALSE);
-        $upperCheck = (is_int($upper) || is_float($upper) ? TRUE : FALSE);
+        $lowerCheck = (is_int($lower) || is_float($lower) ? true : false);
+        $testCheck  = (is_int($test)  || is_float($test)  ? true : false);
+        $upperCheck = (is_int($upper) || is_float($upper) ? true : false);
 
         if($lowerCheck && $testCheck && $upperCheck && is_bool($includeLimits))
         {
-            if($includeLimits === TRUE)
+            if($includeLimits === true)
             {
-                return ($test >= $lower && $test <= $upper) ? TRUE : FALSE;
+                return ($test >= $lower && $test <= $upper) ? true : false;
             } else {
-                return ($test > $lower && $test < $upper) ? TRUE : FALSE;
+                return ($test > $lower && $test < $upper) ? true : false;
             }
         } else {
-            return FALSE;
+            return false;
         }
     }
 
@@ -224,7 +224,7 @@ class Helpers
 
             return $classname;
         } else {
-            return FALSE;
+            return false;
         }
     }
 

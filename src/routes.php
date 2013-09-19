@@ -95,7 +95,7 @@ Route::get('/line/advanced', function()
 
     //Or pass in arrays with set options into the function's constructor
     $tooltip = Lava::tooltip(array(
-                    'showColorCode' => TRUE,
+                    'showColorCode' => true,
                     'textStyle' => Lava::textStyle(array(
                         'color' => '#C0C0B0',
                         'fontName' => 'Courier New',
@@ -147,7 +147,7 @@ Route::get('/line/advanced', function()
                 'fontName' => 'Tahoma',
                 'fontSize' => 10
             )),
-            'slantedText' => TRUE,
+            'slantedText' => true,
             'slantedTextAngle' => 30,
             'title' => 'Delivery Dates',
             'titleTextStyle' => Lava::textStyle(array(

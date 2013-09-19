@@ -22,7 +22,7 @@ class magnifyingGlass extends configOptions
     /**
      * The magnifying glass enabled state.
      */
-    private $enable = TRUE;
+    private $enable = true;
 
     /**
      * Zoom factor of the magnifying glass.

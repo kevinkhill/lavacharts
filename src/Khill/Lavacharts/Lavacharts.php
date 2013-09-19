@@ -75,7 +75,7 @@ class Lavacharts
      *
      * @var boolean
      */
-    protected static $hasError = FALSE;
+    protected static $hasError = false;
 
     /**
      * Array containing the list of errors.
@@ -280,8 +280,8 @@ class Lavacharts
     /**
      * Checks if any errors have occured.
      *
-     * @return boolean TRUE if any errors we created while building charts,
-     * otherwise FALSE.
+     * @return boolean true if any errors we created while building charts,
+     * otherwise false.
      */
     public static function hasErrors()
     {
@@ -299,7 +299,7 @@ class Lavacharts
      */
     public static function getErrors()
     {
-        if(self::$hasError === TRUE && count(self::$errorLog) > 0)
+        if(self::$hasError === true && count(self::$errorLog) > 0)
         {
             $errors = '';
 
@@ -324,7 +324,7 @@ class Lavacharts
      */
     public static function _set_error($where, $what)
     {
-        self::$hasError = TRUE;
+        self::$hasError = true;
         self::$errorLog[$where] = $what;
     }
 
@@ -357,7 +357,7 @@ class Lavacharts
             $out .= 'alert("Error calling '.$chart->chartType.'(\''.$chart->chartLabel.'\')->outputInto(), requires a valid html elementID.");'.PHP_EOL;
         }
 
-        if(isset($chart->data) === FALSE && isset(self::$chartsAndTables['DataTable'][$chart->dataTable]) === FALSE)
+        if(isset($chart->data) === false && isset(self::$chartsAndTables['DataTable'][$chart->dataTable]) === FALSE)
         {
             $out .= 'alert("No DataTable has been defined for '.$chart->chartType.'(\''.$chart->chartLabel.'\').");'.PHP_EOL;
         }
@@ -436,7 +436,7 @@ class Lavacharts
              $callback = self::$callbackPath.$chartType.'.'.$event.'.js';
              $callbackScript = file_get_contents($callback);
 
-             if($callbackScript !== FALSE)
+             if($callbackScript !== false)
              {
                 $script .= $callbackScript.PHP_EOL;
              } else {

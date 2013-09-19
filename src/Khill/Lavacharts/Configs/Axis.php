@@ -62,7 +62,7 @@ class Axis extends configOptions
     /**
      * Linear or Logarithmic scaled axis.
      *
-     * @var boolean If TRUE, axis will be scaled; If FALSE, linear.
+     * @var boolean If true, axis will be scaled; If false, linear.
      */
     public $logScale = NULL;
 
@@ -350,7 +350,7 @@ class Axis extends configOptions
 
     /**
      * Sets the axis property that makes the axis a logarithmic scale
-     * (requires all values to be positive). Set to [ TRUE | FALSE ].
+     * (requires all values to be positive). Set to [ true | false ].
      *
      * This option is only supported for a continuous axis.
      *

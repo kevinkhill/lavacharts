@@ -94,7 +94,7 @@ class PieChart extends Chart
 
     /**
      * The color of the slice borders. Only applicable when the chart is
-     * two-dimensional; is3D == FALSE || NULL
+     * two-dimensional; is3D == false || NULL
      *
      * @param string HTML color
      * @return \PieChart
