@@ -208,11 +208,11 @@ class PieChart extends Chart
      * @param numeric $sliceVisibilityThreshold
      * @return \PieChart
      */
-    public function sliceVisibilityThreshold($sliceVisibilityThreshold)
+    public function sliceVisibilityThreshold($sliceVizThreshold)
     {
-        if(is_numeric($sliceVisibilityThreshold))
+        if(is_numeric($sliceVizThreshold))
         {
-            $this->addOption(array('sliceVisibilityThreshold' => $sliceVisibilityThreshold));
+            $this->addOption(array('sliceVisibilityThreshold' => $sliceVizThreshold));
         } else {
             $this->type_error(__FUNCTION__, 'numeric');
         }

@@ -25,6 +25,7 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+/*
 use Khill\Lavacharts\Charts\Chart;
 
 class TreeMap extends Chart
@@ -63,7 +64,7 @@ class TreeMap extends Chart
      * @param string $headerColor
      * @return \TreeMap
      */
-    public function headerColor($headerColor)
+/*    public function headerColor($headerColor)
     {
 	return $this;
     }
@@ -74,7 +75,7 @@ class TreeMap extends Chart
      * @param int $headerHeight
      * @return \TreeMap
      */
-    public function headerHeight($headerHeight)
+/*    public function headerHeight($headerHeight)
     {
 	return $this;
     }
@@ -87,7 +88,7 @@ class TreeMap extends Chart
      * @param string $headerHighlightColor
      * @return \TreeMap
      */
-    public function headerHighlightColor($headerHighlightColor)
+ /*   public function headerHighlightColor($headerHighlightColor)
     {
 	return $this;
     }
@@ -99,7 +100,7 @@ class TreeMap extends Chart
      * @param string $maxColor
      * @return \TreeMap
      */
-    public function maxColor($maxColor)
+ /*   public function maxColor($maxColor)
     {
 	return $this;
     }
@@ -114,7 +115,7 @@ class TreeMap extends Chart
      * @param int $maxDepth
      * @return \TreeMap
      */
-    public function maxDepth($maxDepth)
+ /*   public function maxDepth($maxDepth)
     {
 	return $this;
     }
@@ -127,7 +128,7 @@ class TreeMap extends Chart
      * @param string $maxHighlightColor
      * @return \TreeMap
      */
-    public function maxHighlightColor($maxHighlightColor)
+ /*   public function maxHighlightColor($maxHighlightColor)
     {
 	return $this;
     }
@@ -140,7 +141,7 @@ class TreeMap extends Chart
      * @param int $maxPostDepth
      * @return \TreeMap
      */
-    public function maxPostDepth($maxPostDepth)
+ /*   public function maxPostDepth($maxPostDepth)
     {
 	return $this;
     }
@@ -153,7 +154,7 @@ class TreeMap extends Chart
      * @param int $maxColorValue
      * @return \TreeMap
      */
-    public function maxColorValue($maxColorValue)
+ /*   public function maxColorValue($maxColorValue)
     {
 	return $this;
     }
@@ -165,7 +166,7 @@ class TreeMap extends Chart
      * @param string $midColor
      * @return \TreeMap
      */
-    public function midColor($midColor)
+ /*   public function midColor($midColor)
     {
 	return $this;
     }
@@ -179,7 +180,7 @@ class TreeMap extends Chart
      * @param string $midHighlightColor
      * @return \TreeMap
      */
-    public function midHighlightColor($midHighlightColor)
+ /*   public function midHighlightColor($midHighlightColor)
     {
 	return $this;
     }
@@ -191,7 +192,7 @@ class TreeMap extends Chart
      * @param string $minColor
      * @return \TreeMap
      */
-    public function minColor($minColor)
+/*    public function minColor($minColor)
     {
 	return $this;
     }
@@ -204,7 +205,7 @@ class TreeMap extends Chart
      * @param string $minHighlightColor
      * @return \TreeMap
      */
-    public function minHighlightColor($minHighlightColor)
+/*    public function minHighlightColor($minHighlightColor)
     {
 	return $this;
     }
@@ -217,7 +218,7 @@ class TreeMap extends Chart
      * @param int $minColorValue
      * @return \TreeMap
      */
-    public function minColorValue($minColorValue)
+/*    public function minColorValue($minColorValue)
     {
 	return $this;
     }
@@ -230,7 +231,7 @@ class TreeMap extends Chart
      * @param string $noColor
      * @return \TreeMap
      */
-    public function noColor($noColor)
+ /*   public function noColor($noColor)
     {
 	return $this;
     }
@@ -243,7 +244,7 @@ class TreeMap extends Chart
      * @param string $noHighlightColor
      * @return \TreeMap
      */
-    public function noHighlightColor($noHighlightColor)
+ /*   public function noHighlightColor($noHighlightColor)
     {
 	return $this;
     }
@@ -255,7 +256,7 @@ class TreeMap extends Chart
      * @param boolean $showScale
      * @return \TreeMap
      */
-    public function showScale($showScale)
+  /*  public function showScale($showScale)
     {
 	return $this;
     }
@@ -266,7 +267,7 @@ class TreeMap extends Chart
      * @param boolean $showTooltips
      * @return \TreeMap
      */
-    public function showTooltips($showTooltips)
+  /*  public function showTooltips($showTooltips)
     {
 	return $this;
     }
@@ -277,7 +278,7 @@ class TreeMap extends Chart
      * @param string $fontColor
      * @return \TreeMap
      */
-    public function fontColor($fontColor)
+/*    public function fontColor($fontColor)
     {
 	return $this;
     }
@@ -288,7 +289,7 @@ class TreeMap extends Chart
      * @param string $fontFamily
      * @return \TreeMap
      */
-    public function fontFamily($fontFamily)
+ /*   public function fontFamily($fontFamily)
     {
 	return $this;
     }
@@ -299,9 +300,9 @@ class TreeMap extends Chart
      * @param int $fontSize
      * @return \TreeMap
      */
-    public function fontSize($fontSize)
+ /*   public function fontSize($fontSize)
     {
 	return $this;
     }
 
-}
+}*/

@@ -113,11 +113,11 @@ class GeoChart extends Chart
      * @param type $enableRegionInteractivity
      * @return \GeoChart
      */
-    public function enableRegionInteractivity($enableRegionInteractivity)
+    public function enableRegionInteractivity($enableRegionInter)
     {
-        if(is_bool($enableRegionInteractivity))
+        if(is_bool($enableRegionInter))
         {
-            $this->addOption(array('enableRegionInteractivity' => $enableRegionInteractivity));
+            $this->addOption(array('enableRegionInteractivity' => $enableRegionInter));
         } else {
             $this->type_error(__FUNCTION__, 'boolean');
         }
