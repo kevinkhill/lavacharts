@@ -135,7 +135,7 @@ class legend extends configOptions
     {
         if(Helpers::is_textStyle($textStyle))
         {
-            $this->textStyle = $textStyle->values();
+            $this->textStyle = $textStyle->getValues();
         } else {
             $this->type_error(__FUNCTION__, 'textStyle');
         }

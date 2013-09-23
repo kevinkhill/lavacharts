@@ -404,7 +404,7 @@ class Axis extends configOptions
     {
         if(Helpers::is_textStyle($textStyle))
         {
-            $this->textStyle = $textStyle->values();
+            $this->textStyle = $textStyle->getValues();
         } else {
             $this->type_error(__FUNCTION__, 'object', 'class textStyle');
         }
@@ -440,7 +440,7 @@ class Axis extends configOptions
     {
         if(Helpers::is_textStyle($titleTextStyle))
         {
-            $this->titleTextStyle = $titleTextStyle->values();
+            $this->titleTextStyle = $titleTextStyle->getValues();
         } else {
             $this->type_error(__FUNCTION__, 'object', 'class textStyle');
         }

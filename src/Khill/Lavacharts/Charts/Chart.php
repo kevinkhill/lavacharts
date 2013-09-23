@@ -381,7 +381,7 @@ class Chart
     {
         if(Helpers::is_textStyle($textStyleObj))
         {
-            $this->addOption(array('titleTextStyle' => $textStyleObj->values()));
+            $this->addOption(array('titleTextStyle' => $textStyleObj->getValues()));
         } else {
             $this->type_error(__FUNCTION__, 'textStyle');
         }
