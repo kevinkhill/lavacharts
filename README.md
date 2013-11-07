@@ -1,9 +1,8 @@
-LavaCharts
+LavaCharts [![Build Status](https://travis-ci.org/kevinkhill/LavaCharts.png?branch=master)](https://travis-ci.org/kevinkhill/LavaCharts)
 ==========
 
 LavaCharts is a Package for Laravel 4 / Composer that wraps the Google Chart API for PHP5.3+
 
-[![Build Status](https://travis-ci.org/kevinkhill/LavaCharts.png?branch=master)](https://travis-ci.org/kevinkhill/LavaCharts)
 
 #Installing
 In your project's main ```composer.json``` file, add this line to the requirements:  
