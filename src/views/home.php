@@ -167,7 +167,7 @@ $config = array(
                 <p>Currently, the supported Charts are: Line, Area, Pie, Donut, Column, and Geo</p>
                 <p>Lastly, apply the configuration to the chart, chaining onto the chart.</p>
                 <pre class="prettyprint inline">
-Lava::LineChart('Stocks');->setConfig($config);</pre><br/>
+Lava::LineChart('Stocks')->setConfig($config);</pre><br/>
 
 
                 <h3>On to The View</h3>
