@@ -16,10 +16,6 @@
         "mockery/mockery": "dev-master@dev"
     },
     "autoload": {
-        "classmap": [
-            "src/migrations",
-            "src/testcase"
-        ],
         "psr-0": {
             "Khill\\Lavacharts": "src/"
         }
