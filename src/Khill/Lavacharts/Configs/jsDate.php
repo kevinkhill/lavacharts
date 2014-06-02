@@ -25,9 +25,14 @@ class jsDate
     /**
      * Builds the jsDate object.
      *
-     * Designed to work the same way the javascript date object works.
+     * Designed to work the same way the exactly like the javascript date object works.
+     * with some extra functionality.
      *
-     * @param int Year
+     * Pass in an array of corresponding values to be parsed
+     * or
+     * Pass in a string to be parsed by the php function parse_date()
+     *
+     * @param int|string|array Year
      * @param int Month (starting with 0 = Jan, 1 = Feb, etc.)
      * @param int Day
      * @param int Hour
@@ -37,51 +42,54 @@ class jsDate
      * @return \jsDate
      */
     public function __construct(
-        $year = null,
-        $month = null,
-        $day = null,
-        $hour = null,
-        $minute = null,
-        $second = null,
+        $year        = null,
+        $month       = null,
+        $day         = null,
+        $hour        = null,
+        $minute      = null,
+        $second      = null,
         $millisecond = null
-    )
-    {
-        $this->year = $year;
-        $this->month = $month;
-        $this->day = $day;
-        $this->hour = $hour;
-        $this->minute = $minute;
-        $this->second = $second;
-        $this->millisecond = $millisecond;
+    ) {
+        if ( is_string($year) ) {
+            return $this->parseString($year);
+        } else {
+            $this->year        = $year;
+            $this->month       = $month;
+            $this->day         = $day;
+            $this->hour        = $hour;
+            $this->minute      = $minute;
+            $this->second      = $second;
+            $this->millisecond = $millisecond;
 
-        return $this;
+            return $this;
+        }
     }
 
+
     /**
-     * Parses array of values corresponding to if called as args to constructor
+     * Parses a date string according to the format specified by the standard
+     * php function date_parse()
      *
-     * @param array
+     * @param string
      * @return \jsDate
      */
-    public function parseArray($array)
+    private function parseString($dateString)
     {
-        $this->year        = isset($array[0]) ? $array[0] : null;
-        $this->month       = isset($array[1]) ? $array[1] : null;
-        $this->day         = isset($array[2]) ? $array[2] : null;
-        $this->hour        = isset($array[3]) ? $array[3] : null;
-        $this->minute      = isset($array[4]) ? $array[4] : null;
-        $this->second      = isset($array[5]) ? $array[5] : null;
-        $this->millisecond = isset($array[6]) ? $array[6] : null;
+        $date = date_parse($dateString);
+
+        $this->year        = isset($date['year'])     ? $date['year']     : null;
+        $this->month       = isset($date['month'])    ? $date['month']    : null;
+        $this->day         = isset($date['day'])      ? $date['day']      : null;
+        $this->hour        = isset($date['hour'])     ? $date['hour']     : null;
+        $this->minute      = isset($date['minute'])   ? $date['minute']   : null;
+        $this->second      = isset($date['second'])   ? $date['second']   : null;
+        $this->millisecond = isset($date['fraction']) ? $date['fraction'] : null;
 
         return $this;
     }
-/*
-            $date = date_parse($point->recorded_on);
 
-            $data[0] = Lava::jsDate($date['year'], $date['month'], $date['day']);
-*/
     /**
-     * Outputs the object as a valide javascript string.
+     * Outputs the object as a valid javascript string.
      *
      * @return string Javscript date declaration
      */
