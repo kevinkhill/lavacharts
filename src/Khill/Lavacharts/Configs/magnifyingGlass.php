@@ -11,9 +11,9 @@
  * Passing a number in upon creation, then the zoomFactor will be set.
  *
  * @author Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2013, KHill Designs
- * @link https://github.com/kevinkhill/Codeigniter-gCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/Codeigniter-gCharts/ GitHub Project Page
+ * @copyright (c) 2014, KHill Designs
+ * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
  * @license http://opensource.org/licenses/MIT MIT
  */
 

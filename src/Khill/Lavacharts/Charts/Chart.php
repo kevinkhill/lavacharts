@@ -6,8 +6,8 @@
  *
  *
  * @author Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2013, KHill Designs
- * @link https://github.com/kevinkhill/Codeigniter-gCharts Github Page
+ * @copyright (c) 2014, KHill Designs
+ * @link https://github.com/kevinkhill/LavaCharts Github Page
  * @license http://www.gnu.org/licenses/gpl.html GPL-V3
  *
  */
