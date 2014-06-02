@@ -1,22 +1,19 @@
-<?php
+<?php namespace Khill\Lavacharts\Tests;
 
-class JsDateTest extends TestCase {
+use Khill\Lavacharts\Configs\jsDate;
+
+class JsDateTest extends \Orchestra\Testbench\TestCase {
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->cfgObj = new Khill\Lavacharts\Configs\jsDate();
+        $this->cfgObj = new jsDate();
     }
 
-    public function testIfJsDateClassIsTrue()
+    public function testIfInstanceOfJsDate()
     {
-        $this->assertTrue(get_class($this->cfgObj) === 'jsDate');
-    }
-
-    public function testSomethingIsTrue()
-    {
-        $this->assertTrue(true);
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\jsDate', $this->cfgObj);
     }
 
 }

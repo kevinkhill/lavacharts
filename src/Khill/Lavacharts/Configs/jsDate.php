@@ -75,7 +75,11 @@ class jsDate
 
         return $this;
     }
+/*
+            $date = date_parse($point->recorded_on);
 
+            $data[0] = Lava::jsDate($date['year'], $date['month'], $date['day']);
+*/
     /**
      * Outputs the object as a valide javascript string.
      *

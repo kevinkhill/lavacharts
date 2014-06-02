@@ -1,7 +1,6 @@
 <?php namespace Khill\Lavacharts\Helpers;
 
-class Helpers
-{
+class Helpers {
 
     /**
      * Magic method as an alias to is_a($object, $type)

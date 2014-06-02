@@ -5,8 +5,8 @@ use Illuminate\Config\Repository;
 use Khill\Lavacharts\Configs\jsDate;
 use Khill\Lavacharts\Configs\textStyle;
 
-class Lavacharts
-{
+class Lavacharts {
+
     /**
      * Illuminate view environment.
      *

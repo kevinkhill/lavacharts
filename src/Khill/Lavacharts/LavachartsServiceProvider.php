@@ -3,8 +3,8 @@
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 
-class LavachartsServiceProvider extends ServiceProvider
-{
+class LavachartsServiceProvider extends ServiceProvider {
+
     protected $defer = false;
 
     public function boot()
@@ -18,7 +18,8 @@ class LavachartsServiceProvider extends ServiceProvider
     {
         $this->app['lavacharts'] = $this->app->share(function($app)
         {
-            return new Lavacharts($app['view'], $app['config']);
+            //return new Lavacharts($app['view'], $app['config']);
+            return new Lavacharts();
         });
 
         $this->app->booting(function()

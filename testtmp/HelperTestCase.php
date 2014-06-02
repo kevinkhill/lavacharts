@@ -1,9 +1,8 @@
-<?php namespace Khill\Lavacharts\TestCase;
+<?php namespace Khill\Lavacharts;
 
 use Khill\Lavacharts\Configs as C;
 
-class HelperTestCase extends \PHPUnit_Framework_TestCase
-{
+class HelperTestCase extends LavaTestCase {
 
     public function setUp()
     {
