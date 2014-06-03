@@ -8,13 +8,6 @@ use Khill\Lavacharts\Configs\textStyle;
 class Lavacharts {
 
     /**
-     * Illuminate view environment.
-     *
-     * @var Illuminate\View\Environment
-     */
-    protected $view;
-
-    /**
      * Illuminate config repository.
      *
      * @var Illuminate\Config\Repository
@@ -104,7 +97,8 @@ class Lavacharts {
         'PieChart',
         'DonutChart',
         'ColumnChart',
-        'GeoChart'
+        'GeoChart',
+        'ComboChart'
     );
 
     /**
@@ -133,13 +127,11 @@ class Lavacharts {
     /**
      * Create a new Lavacharts instance.
      *
-     * @param  Illuminate\View\Environment  $view
      * @param  Illuminate\Config\Repository  $config
      * @return void
      */
-    public function __construct(Environment $view, Repository $config)
+    public function __construct(Repository $config)
     {
-        $this->view   = $view;
         $this->config = $config;
     }
 
@@ -211,7 +203,7 @@ class Lavacharts {
             if($configObject == 'jsDate')
             {
                 $jsDate = new jsDate();
-                return $jsDate->parseArray($options);
+                return $jsDate->parse($options);
             } else {
                 $class = self::$rootSpace.'Configs\\'.$configObject;
                 return empty($options[0]) ? new $class() : new $class($options[0]);

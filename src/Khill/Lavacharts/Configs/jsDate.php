@@ -26,14 +26,10 @@ class jsDate
      * Builds the jsDate object.
      *
      * Designed to work the same way the exactly like the javascript date object works.
-     * with some extra functionality.
      *
-     * Pass in an array of corresponding values to be parsed
-     * or
-     * Pass in a string to be parsed by the php function parse_date()
      *
-     * @param int|string|array Year
-     * @param int Month (starting with 0 = Jan, 1 = Feb, etc.)
+     * @param int Year
+     * @param int Month (REMEMBER, javascript dates start with 0 = Jan, 1 = Feb, etc.)
      * @param int Day
      * @param int Hour
      * @param int Minute
@@ -50,21 +46,55 @@ class jsDate
         $second      = null,
         $millisecond = null
     ) {
-        if ( is_string($year) ) {
-            return $this->parseString($year);
-        } else {
-            $this->year        = $year;
-            $this->month       = $month;
-            $this->day         = $day;
-            $this->hour        = $hour;
-            $this->minute      = $minute;
-            $this->second      = $second;
-            $this->millisecond = $millisecond;
+        $this->year        = $year;
+        $this->month       = $month;
+        $this->day         = $day;
+        $this->hour        = $hour;
+        $this->minute      = $minute;
+        $this->second      = $second;
+        $this->millisecond = $millisecond;
 
-            return $this;
+        return $this;
+    }
+
+    /**
+     * Parses array of values corresponding constructor arguments
+     * or
+     * Parses a date string according to the format specified by the standard
+     * php function date_parse()
+     *
+     * @param array
+     * @return \jsDate
+     */
+    public function parse($arrayOrString)
+    {
+        if ( is_array($arrayOrString) ) {
+            return $this->parseArray($arrayOrString);
+        }
+
+        if ( is_string($arrayOrString) ) {
+            return $this->parseString($arrayOrString);
         }
     }
 
+    /**
+     * Parses array of values with the order corresponding to the constructor arguments
+     *
+     * @param array
+     * @return \jsDate
+     */
+    private function parseArray($array)
+    {
+        $this->year        = isset($array[0]) ? (int) $array[0] : null;
+        $this->month       = isset($array[1]) ? (int) $array[1] : null;
+        $this->day         = isset($array[2]) ? (int) $array[2] : null;
+        $this->hour        = isset($array[3]) ? (int) $array[3] : null;
+        $this->minute      = isset($array[4]) ? (int) $array[4] : null;
+        $this->second      = isset($array[5]) ? (int) $array[5] : null;
+        $this->millisecond = isset($array[6]) ? (int) $array[6] : null;
+
+        return $this;
+    }
 
     /**
      * Parses a date string according to the format specified by the standard
@@ -77,13 +107,13 @@ class jsDate
     {
         $date = date_parse($dateString);
 
-        $this->year        = isset($date['year'])     ? $date['year']     : null;
-        $this->month       = isset($date['month'])    ? $date['month']    : null;
-        $this->day         = isset($date['day'])      ? $date['day']      : null;
-        $this->hour        = isset($date['hour'])     ? $date['hour']     : null;
-        $this->minute      = isset($date['minute'])   ? $date['minute']   : null;
-        $this->second      = isset($date['second'])   ? $date['second']   : null;
-        $this->millisecond = isset($date['fraction']) ? $date['fraction'] : null;
+        $this->year        = isset($date['year'])     ? (int) $date['year']     : null;
+        $this->month       = isset($date['month'])    ? (int) $date['month']    : null;
+        $this->day         = isset($date['day'])      ? (int) $date['day']      : null;
+        $this->hour        = isset($date['hour'])     ? (int) $date['hour']     : null;
+        $this->minute      = isset($date['minute'])   ? (int) $date['minute']   : null;
+        $this->second      = isset($date['second'])   ? (int) $date['second']   : null;
+        $this->millisecond = isset($date['fraction']) ? intval($date['fraction'] * 1000) : null;
 
         return $this;
     }
