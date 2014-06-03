@@ -1,6 +1,6 @@
 <?php namespace Khill\Lavacharts;
 
-use Illuminate\View\Environment;
+use Illuminate\View\Factory;
 use Illuminate\Config\Repository;
 use Khill\Lavacharts\Configs\jsDate;
 use Khill\Lavacharts\Configs\textStyle;
@@ -137,7 +137,7 @@ class Lavacharts
      * @param  Illuminate\Config\Repository  $config
      * @return void
      */
-    public function __construct(Environment $view, Repository $config)
+    public function __construct(Factory $view, Repository $config)
     {
         $this->view   = $view;
         $this->config = $config;
