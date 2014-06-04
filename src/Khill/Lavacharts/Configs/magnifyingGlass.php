@@ -22,7 +22,7 @@ class magnifyingGlass extends configOptions
     /**
      * The magnifying glass enabled state.
      */
-    private $enable = true;
+    public $enable = true;
 
     /**
      * Zoom factor of the magnifying glass.
@@ -39,7 +39,7 @@ class magnifyingGlass extends configOptions
      *
      * Passing a number in upon creation, then the zoomFactor will be set.
      *
-     * @param zoomfactor
+     * @param boolean zoomfactor
      * @return \tooltip
      */
     public function __construct($zoomFactor = 5)

@@ -1,10 +1,9 @@
-<?php namespace Khill\Lavacharts\Tests;
+<?php namespace Khill\Lavacharts\Tests\Configs;
 
-//http://phpunit.de/manual/3.8/en/writing-tests-for-phpunit.html
-
+use Khill\Lavacharts\Tests\TestCase;
 use Khill\Lavacharts\Configs\jsDate;
 
-class JsDateTest extends \Orchestra\Testbench\TestCase {
+class JsDateTest extends TestCase {
 /*
     public function setUp()
     {
@@ -69,8 +68,79 @@ class JsDateTest extends \Orchestra\Testbench\TestCase {
         $this->assertEquals(13,   $date->hour);
         $this->assertEquals(4,    $date->minute);
         $this->assertEquals(5,    $date->second);
-        $this->assertEquals(600, $date->millisecond);
+        $this->assertEquals(600,  $date->millisecond);
     }
 
-    //$this->assertStringMatchesFormat('%i', 'foo');
+    public function testFullyDefinedJsOutput()
+    {
+        $this->expectOutputString('Date(2014, 1, 2, 3, 4, 5, 6)');
+
+        $date = new jsDate(2014, 1, 2, 3, 4, 5, 6);
+
+        echo $date->toString();
+    }
+
+    public function testNoMillisecondsJsOutput()
+    {
+        $this->expectOutputString('Date(2014, 1, 2, 3, 4, 5)');
+
+        $date = new jsDate(2014, 1, 2, 3, 4, 5);
+
+        echo $date->toString();
+    }
+
+    public function testNoMillisecondsNoSecondsJsOutput()
+    {
+        $this->expectOutputString('Date(2014, 1, 2, 3, 4)');
+
+        $date = new jsDate(2014, 1, 2, 3, 4);
+
+        echo $date->toString();
+    }
+
+    public function testNoMillisecondsNoSecondsNoMinutesJsOutput()
+    {
+        $this->expectOutputString('Date(2014, 1, 2, 3)');
+
+        $date = new jsDate(2014, 1, 2, 3);
+
+        echo $date->toString();
+    }
+
+    public function testNoMillisecondsNoSecondsNoMinutesNoHoursJsOutput()
+    {
+        $this->expectOutputString('Date(2014, 1, 2)');
+
+        $date = new jsDate(2014, 1, 2);
+
+        echo $date->toString();
+    }
+
+    public function testNoMillisecondsNoSecondsNoMinutesNoHoursNoDayJsOutput()
+    {
+        $this->expectOutputString('Date(2014, 1, 0)');
+
+        $date = new jsDate(2014, 1);
+
+        echo $date->toString();
+    }
+
+    public function testNoMillisecondsNoSecondsNoMinutesNoHoursNoDayNoMonthJsOutput()
+    {
+        $this->expectOutputString('Date(2014, 0, 0)');
+
+        $date = new jsDate(2014);
+
+        echo $date->toString();
+    }
+
+    public function testEmptyObjectJsOutput()
+    {
+        $this->expectOutputString('Date(0, 0, 0)');
+
+        $date = new jsDate();
+
+        echo $date->toString();
+    }
+
 }

@@ -108,6 +108,7 @@ class Lavacharts {
      */
     protected static $configClasses = array(
         'configOptions',
+        'annotation',
         'Axis',
 //        'DataCell',
         'backgroundColor',
