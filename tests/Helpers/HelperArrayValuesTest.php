@@ -1,9 +1,9 @@
-<?php namespace Khill\Lavacharts;
+<?php namespace Khill\Lavacharts\Tests\Helpers;
 
 use Khill\Lavacharts\Helpers\Helpers as H;
 use \Mockery as M;
 
-class HelperTest extends TestCase\HelperTestCase
+class HelperTest extends HelperTestCase
 {
 
     public function tearDown()

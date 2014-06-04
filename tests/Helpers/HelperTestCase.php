@@ -1,11 +1,14 @@
-<?php namespace Khill\Lavacharts;
+<?php namespace Khill\Lavacharts\Tests\Helpers;
 
+use Khill\Lavacharts\Tests\TestCase;
 use Khill\Lavacharts\Configs as C;
 
-class HelperTestCase extends LavaTestCase {
+class HelperTestCase extends TestCase {
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->backgroundColor = new C\backgroundColor();
         $this->chartArea = new C\chartArea();
         $this->colorAxis = new C\colorAxis();
@@ -18,7 +21,6 @@ class HelperTestCase extends LavaTestCase {
         $this->sizeAxis = new C\sizeAxis();
         $this->slice = new C\slice();
         $this->vAxis = new C\vAxis();
-
         $this->obj = new \stdClass();
     }
 

@@ -1,8 +1,8 @@
-<?php namespace Khill\Lavacharts;
+<?php namespace Khill\Lavacharts\Tests\Helpers;
 
 use Khill\Lavacharts\Helpers\Helpers as H;
 
-class HelperGetRealClassTest extends TestCase\HelperTestCase
+class HelperGetRealClassTest extends HelperTestCase
 {
 
     public function testGetRealClassFromConfigObject()

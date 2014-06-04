@@ -145,6 +145,34 @@ class ComboChart extends Chart
     }
 
     /**
+     * The default line type for any series not specified in the series property.
+     * Available values are:
+     * 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'
+     *
+     * @param string $type
+     * @return \ComboChart
+     */
+    public function seriesType($type)
+    {
+        $values = array(
+            'line',
+            'area',
+            'bars',
+            'candlesticks',
+            'steppedArea'
+        );
+
+        if(in_array($type, $values))
+        {
+            $this->addOption(array('seriesType' => $type));
+        } else {
+            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+        }
+
+        return $this;
+    }
+
+    /**
      * An object with members to configure various vertical axis elements. To
      * specify properties of this property, create a new vAxis() object, set
      * the values then pass it to this function or to the constructor.

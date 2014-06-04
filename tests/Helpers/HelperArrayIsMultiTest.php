@@ -1,8 +1,8 @@
-<?php namespace Khill\Lavacharts;
+<?php namespace Khill\Lavacharts\Tests\Helpers;
 
 use Khill\Lavacharts\Helpers\Helpers as H;
 
-class HelperArrayIsMultiTest extends TestCase\HelperTestCase
+class HelperArrayIsMultiTest extends HelperTestCase
 {
 
     public function testArrayIsMultiWithMultiArray()

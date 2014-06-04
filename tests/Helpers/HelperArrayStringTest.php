@@ -1,8 +1,8 @@
-<?php namespace Khill\Lavacharts;
+<?php namespace Khill\Lavacharts\Tests\Helpers;
 
 use Khill\Lavacharts\Helpers\Helpers as H;
 
-class HelperArrayStringTest extends TestCase\HelperTestCase
+class HelperArrayStringTest extends HelperTestCase
 {
 
     public function testArrayStringWithArray()

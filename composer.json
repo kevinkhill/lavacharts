@@ -23,7 +23,7 @@
         "psr-0": { "Khill\\Lavacharts": "src/" }
     },
     "autoload-dev": {
-        "psr-0": { "Khill\\Lavacharts\\Tests": "tests/" }
+        "psr-4": { "Khill\\Lavacharts\\Tests\\": "tests/" }
     },
     "minimum-stability": "dev"
 }
