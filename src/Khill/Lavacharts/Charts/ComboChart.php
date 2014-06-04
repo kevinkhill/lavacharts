@@ -30,7 +30,7 @@ class ComboChart extends Chart
             'focusTarget',
             'hAxis',
             'isHtml',
-//            'vAxes',
+            'seriesType',
             'vAxis'
         ));
     }

@@ -1,7 +1,7 @@
 {
     "name": "khill/lavacharts",
     "version": "0.1.0",
-    "license": "MIT",
+    "license": "GPLv3",
     "description": "PHP wrapper for Google Chart API",
     "authors": [
         {

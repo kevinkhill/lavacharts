@@ -12,7 +12,7 @@ class Lavacharts {
      *
      * @var Illuminate\Config\Repository
      */
-    protected $config;
+    protected static $config;
 
     /**
      * Holds all the html and javscript to be output into the browser.
@@ -132,7 +132,7 @@ class Lavacharts {
      */
     public function __construct(Repository $config)
     {
-        $this->config = $config;
+        self::$config = $config;
     }
 
     /**
@@ -297,9 +297,9 @@ class Lavacharts {
 
             foreach(self::$errorLog as $where => $error)
             {
-                $errors .= $this->config->get('lavacharts::errorPrepend');
+                $errors .= self::$config->get('lavacharts::errorPrepend');
                 $errors .= '['.$where.'] -> '.$error;
-                $errors .= $this->config->get('lavacharts::errorAppend');
+                $errors .= self::$config->get('lavacharts::errorAppend');
             }
 
             return $errors;
@@ -455,11 +455,11 @@ class Lavacharts {
     public static function globalTextStyle(boolean $enabled, textStyle $globalTextStyle = null)
     {
 
-        $this->config->set('lavacharts::globalTextStyleEnabled', $enabled);
+        self::$config->set('lavacharts::globalTextStyleEnabled', $enabled);
 
         if( ! is_null($globalTextStyle))
         {
-            $this->config->set('lavacharts::globalTextStyle', $globalTextStyle);
+            self::$config->set('lavacharts::globalTextStyle', $globalTextStyle);
         }
     }
 
