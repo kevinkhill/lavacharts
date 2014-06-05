@@ -1,6 +1,6 @@
 <?php namespace Khill\Lavacharts\Configs;
 /**
- * seriesDef Properties Object
+ * series Properties Object
  *
  * An object containing all the values for a single series in a multiple data
  * set chart, which can be passed into the series property of the chart's options.
@@ -15,7 +15,7 @@
 
 use Khill\Lavacharts\Helpers\Helpers;
 
-class seriesDef extends configOptions
+class series extends configOptions
 {
     /**
      * Position of the series.
