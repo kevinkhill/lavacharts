@@ -87,6 +87,11 @@ class gradient extends configOptions
         parent::__construct($config);
     }
 
+    public function expose()
+    {
+        return array_keys(get_class_vars(__CLASS__));
+    }
+
     /**
      * If present, specifies the start color for the gradient.
      * If undefined, a random color will be used.
@@ -115,7 +120,7 @@ class gradient extends configOptions
      */
     public function finishColor($finishColor)
     {
-        if(is_numeric($finishColor))
+        if(is_string($finishColor))
         {
             $this->finishColor = $finishColor;
         } else {
@@ -133,7 +138,7 @@ class gradient extends configOptions
      */
     public function x1($x1)
     {
-        if(is_string($values))
+        if(is_string($x1))
         {
             $this->x1 = $x1;
         } else {
@@ -151,7 +156,7 @@ class gradient extends configOptions
      */
     public function y1($y1)
     {
-        if(is_string($values))
+        if(is_string($y1))
         {
             $this->y1 = $y1;
         } else {
@@ -169,7 +174,7 @@ class gradient extends configOptions
      */
     public function x2($x2)
     {
-        if(is_string($values))
+        if(is_string($x2))
         {
             $this->x2 = $x2;
         } else {
@@ -187,7 +192,7 @@ class gradient extends configOptions
      */
     public function y2($y2)
     {
-        if(is_string($values))
+        if(is_string($y2))
         {
             $this->y2 = $y2;
         } else {

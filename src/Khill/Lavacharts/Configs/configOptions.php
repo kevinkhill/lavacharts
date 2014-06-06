@@ -13,6 +13,7 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+use Khill\Lavacharts\Lavacharts;
 use Khill\Lavacharts\Helpers\Helpers;
 
 class configOptions
@@ -22,21 +23,21 @@ class configOptions
      *
      * @var string
      */
-    public $output = null;
+    protected $output = null;
 
     /**
      * Array of allowed key values for the configOptions child objects.
      *
      * @var array
      */
-    public $options = null;
+    protected $options = null;
 
     /**
      * Class name without namespace
      *
      * @var string
      */
-    private $className;
+    protected $className;
 
     /**
      * Builds the configOptions object.

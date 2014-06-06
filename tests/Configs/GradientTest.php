@@ -1,146 +1,152 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
+use Khill\Lavacharts\Lavacharts;
 use Khill\Lavacharts\Tests\TestCase;
-use Khill\Lavacharts\Configs\jsDate;
+use Khill\Lavacharts\Configs\gradient;
 
-class JsDateTest extends TestCase {
+class GradientTest extends TestCase {
 /*
     public function setUp()
     {
         parent::setUp();
     }
 */
-    public function testIfInstanceOfJsDate()
+    public function testIfInstanceOfGradientDate()
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\jsDate', new jsDate());
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\gradient', new gradient());
+    }
+/*
+    public function testExpose()
+    {
+        $gradient = new gradient();
+
+        $this->assertEquals(array(
+                'startColor',
+                'finishColor',
+                'x1',
+                'y1',
+                'x2',
+                'y2'
+            ),
+            $gradient->expose()
+        );
+    }
+*/
+    public function testConstructorNoAssignmentsDefaults()
+    {
+        $gradient = new gradient();
+
+        $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $gradient->startColor);
+        $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $gradient->finishColor);
+        $this->assertEquals('0%',   $gradient->x1);
+        $this->assertEquals('0%',   $gradient->y1);
+        $this->assertEquals('100%', $gradient->x2);
+        $this->assertEquals('100%', $gradient->y2);
     }
 
-    public function testConstructorNoAssignmentsIsNulled()
+    public function testConstructorValuesAssignment()
     {
-        $date = new jsDate();
+        $gradient = new gradient(array(
+            'startColor'  => '#F0F0F0',
+            'finishColor' => '#3D3D3D',
+            'x1'          => '0%',
+            'y1'          => '0%',
+            'x2'          => '100%',
+            'y2'          => '100%'
+        ));
 
-        $this->assertEquals(null, $date->year);
-        $this->assertEquals(null, $date->month);
-        $this->assertEquals(null, $date->day);
-        $this->assertEquals(null, $date->hour);
-        $this->assertEquals(null, $date->minute);
-        $this->assertEquals(null, $date->second);
-        $this->assertEquals(null, $date->millisecond);
+        $this->assertEquals('#F0F0F0', $gradient->startColor);
+        $this->assertEquals('#3D3D3D', $gradient->finishColor);
+        $this->assertEquals('0%',      $gradient->x1);
+        $this->assertEquals('0%',      $gradient->y1);
+        $this->assertEquals('100%',    $gradient->x2);
+        $this->assertEquals('100%',    $gradient->y2);
+    }
+    
+    public function testInvalidPropertiesKey()
+    {
+        $gradient = new gradient(array('tacos' => '#F8C3B0'));
+
+        $this->assertTrue(Lavacharts::hasErrors());
     }
 
-    public function testConstructorWithAssignments()
+    /**
+     * @dataProvider badParamsProvider
+     */
+    public function testStartColorWithBadParams($badVals)
     {
-        $date = new jsDate(2014, 1, 2, 3, 4, 5, 6);
+        $gradient = new gradient();
+        $gradient->startColor($badVals);
 
-        $this->assertEquals(2014, $date->year);
-        $this->assertEquals(1,    $date->month);
-        $this->assertEquals(2,    $date->day);
-        $this->assertEquals(3,    $date->hour);
-        $this->assertEquals(4,    $date->minute);
-        $this->assertEquals(5,    $date->second);
-        $this->assertEquals(6,    $date->millisecond);
+        $this->assertTrue(Lavacharts::hasErrors());
     }
 
-    public function testParseWithArray()
+    /**
+     * @dataProvider badParamsProvider
+     */
+    public function testFinishColorWithBadParams($badVals)
     {
-        $dateArr = array(2014, 1, 2, 3, 4, 5, 6);
-        $date = new jsDate();
-        $date->parse($dateArr);
+        $gradient = new gradient();
+        $gradient->finishColor($badVals);
 
-        $this->assertEquals(2014, $date->year);
-        $this->assertEquals(1,    $date->month);
-        $this->assertEquals(2,    $date->day);
-        $this->assertEquals(3,    $date->hour);
-        $this->assertEquals(4,    $date->minute);
-        $this->assertEquals(5,    $date->second);
-        $this->assertEquals(6,    $date->millisecond);
+        $this->assertTrue(Lavacharts::hasErrors());
     }
 
-    public function testParseWithString()
+    /**
+     * @dataProvider badParamsProvider
+     */
+    public function testX1ColorWithBadParams($badVals)
     {
-        $dateStr = '2014-12-25 13:04:05.6';
-        $date = new jsDate();
-        $date->parse($dateStr);
+        $gradient = new gradient();
+        $gradient->x1($badVals);
 
-        $this->assertEquals(2014, $date->year);
-        $this->assertEquals(12,   $date->month);
-        $this->assertEquals(25,   $date->day);
-        $this->assertEquals(13,   $date->hour);
-        $this->assertEquals(4,    $date->minute);
-        $this->assertEquals(5,    $date->second);
-        $this->assertEquals(600,  $date->millisecond);
+        $this->assertTrue(Lavacharts::hasErrors());
     }
 
-    public function testFullyDefinedJsOutput()
+    /**
+     * @dataProvider badParamsProvider
+     */
+    public function testY1ColorWithBadParams($badVals)
     {
-        $this->expectOutputString('Date(2014, 1, 2, 3, 4, 5, 6)');
+        $gradient = new gradient();
+        $gradient->y1($badVals);
 
-        $date = new jsDate(2014, 1, 2, 3, 4, 5, 6);
-
-        echo $date->toString();
+        $this->assertTrue(Lavacharts::hasErrors());
     }
 
-    public function testNoMillisecondsJsOutput()
+    /**
+     * @dataProvider badParamsProvider
+     */
+    public function testX2ColorWithBadParams($badVals)
     {
-        $this->expectOutputString('Date(2014, 1, 2, 3, 4, 5)');
+        $gradient = new gradient();
+        $gradient->x2($badVals);
 
-        $date = new jsDate(2014, 1, 2, 3, 4, 5);
-
-        echo $date->toString();
+        $this->assertTrue(Lavacharts::hasErrors());
     }
 
-    public function testNoMillisecondsNoSecondsJsOutput()
+    /**
+     * @dataProvider badParamsProvider
+     */
+    public function testY2ColorWithBadParams($badVals)
     {
-        $this->expectOutputString('Date(2014, 1, 2, 3, 4)');
+        $gradient = new gradient();
+        $gradient->y2($badVals);
 
-        $date = new jsDate(2014, 1, 2, 3, 4);
-
-        echo $date->toString();
+        $this->assertTrue(Lavacharts::hasErrors());
     }
 
-    public function testNoMillisecondsNoSecondsNoMinutesJsOutput()
+    public function badParamsProvider()
     {
-        $this->expectOutputString('Date(2014, 1, 2, 3)');
-
-        $date = new jsDate(2014, 1, 2, 3);
-
-        echo $date->toString();
-    }
-
-    public function testNoMillisecondsNoSecondsNoMinutesNoHoursJsOutput()
-    {
-        $this->expectOutputString('Date(2014, 1, 2)');
-
-        $date = new jsDate(2014, 1, 2);
-
-        echo $date->toString();
-    }
-
-    public function testNoMillisecondsNoSecondsNoMinutesNoHoursNoDayJsOutput()
-    {
-        $this->expectOutputString('Date(2014, 1, 0)');
-
-        $date = new jsDate(2014, 1);
-
-        echo $date->toString();
-    }
-
-    public function testNoMillisecondsNoSecondsNoMinutesNoHoursNoDayNoMonthJsOutput()
-    {
-        $this->expectOutputString('Date(2014, 0, 0)');
-
-        $date = new jsDate(2014);
-
-        echo $date->toString();
-    }
-
-    public function testEmptyObjectJsOutput()
-    {
-        $this->expectOutputString('Date(0, 0, 0)');
-
-        $date = new jsDate();
-
-        echo $date->toString();
+        return array(
+            array(123),
+            array(123.456),
+            array(array()),
+            array(new \stdClass()),
+            array(true),
+            array(null)
+        );
     }
 
 }
+
