@@ -230,7 +230,7 @@ class Lavacharts {
      * @param  array Array of configurations options
      * @return \Lavachart
      */
-    public static setGlobalConfig($config)
+    public static function setGlobalConfig($config)
     {
         if (is_array($config))
         {
