@@ -19,14 +19,14 @@ class gradient extends configOptions
      *
      * @var int
      */
-    public $startColor = null;
+    public $color1 = null;
 
     /**
      * Finish color for gradient.
      *
      * @var int
      */
-    public $finishColor = null;
+    public $color2 = null;
 
     /**
      * Where on the boundary to start in X.
@@ -63,21 +63,21 @@ class gradient extends configOptions
      * @param array config
      * @return \gradient
      */
-    public function __construct($config = array()) {
-
-        if ( ! array_key_exists('startColor', $config))
+    public function __construct($config = array())
+    {
+        if ( ! array_key_exists('color1', $config))
         {
-            $this->startColor = $this->_randomColor();
+            $this->color1 = $this->_randomColor();
         }
 
-        if ( ! array_key_exists('finishColor', $config))
+        if ( ! array_key_exists('color2', $config))
         {
-            $this->finishColor = $this->_randomColor();
+            $this->color2 = $this->_randomColor();
         }
 
         $this->options = array(
-            'startColor',
-            'finishColor',
+            'color1',
+            'color2',
             'x1',
             'y1',
             'x2',
@@ -99,11 +99,11 @@ class gradient extends configOptions
      * @param string color1
      * @return \gradient
      */
-    public function startColor($startColor)
+    public function color1($color1)
     {
-        if(is_string($startColor))
+        if(is_string($color1))
         {
-            $this->startColor = $startColor;
+            $this->color1 = $color1;
         } else {
             $this->type_error(__FUNCTION__, 'string');
         }
@@ -118,11 +118,11 @@ class gradient extends configOptions
      * @param string finishColor
      * @return \gradient
      */
-    public function finishColor($finishColor)
+    public function color2($color2)
     {
-        if(is_string($finishColor))
+        if(is_string($color2))
         {
-            $this->finishColor = $finishColor;
+            $this->color2 = $color2;
         } else {
             $this->type_error(__FUNCTION__, 'string');
         }
@@ -214,6 +214,6 @@ class gradient extends configOptions
      */
     private function _randomColor() {
         return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
-    }   
+    }
 
 }

@@ -11,7 +11,7 @@ class GradientTest extends TestCase {
         parent::setUp();
     }
 */
-    public function testIfInstanceOfGradientDate()
+    public function testIfInstanceOfGradient()
     {
         $this->assertInstanceOf('Khill\Lavacharts\Configs\gradient', new gradient());
     }
@@ -21,8 +21,8 @@ class GradientTest extends TestCase {
         $gradient = new gradient();
 
         $this->assertEquals(array(
-                'startColor',
-                'finishColor',
+                'color1',
+                'color2',
                 'x1',
                 'y1',
                 'x2',
@@ -36,8 +36,8 @@ class GradientTest extends TestCase {
     {
         $gradient = new gradient();
 
-        $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $gradient->startColor);
-        $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $gradient->finishColor);
+        $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $gradient->color1);
+        $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $gradient->color2);
         $this->assertEquals('0%',   $gradient->x1);
         $this->assertEquals('0%',   $gradient->y1);
         $this->assertEquals('100%', $gradient->x2);
@@ -47,22 +47,22 @@ class GradientTest extends TestCase {
     public function testConstructorValuesAssignment()
     {
         $gradient = new gradient(array(
-            'startColor'  => '#F0F0F0',
-            'finishColor' => '#3D3D3D',
-            'x1'          => '0%',
-            'y1'          => '0%',
-            'x2'          => '100%',
-            'y2'          => '100%'
+            'color1' => '#F0F0F0',
+            'color2' => '#3D3D3D',
+            'x1'     => '0%',
+            'y1'     => '0%',
+            'x2'     => '100%',
+            'y2'     => '100%'
         ));
 
-        $this->assertEquals('#F0F0F0', $gradient->startColor);
-        $this->assertEquals('#3D3D3D', $gradient->finishColor);
+        $this->assertEquals('#F0F0F0', $gradient->color1);
+        $this->assertEquals('#3D3D3D', $gradient->color2);
         $this->assertEquals('0%',      $gradient->x1);
         $this->assertEquals('0%',      $gradient->y1);
         $this->assertEquals('100%',    $gradient->x2);
         $this->assertEquals('100%',    $gradient->y2);
     }
-    
+
     public function testInvalidPropertiesKey()
     {
         $gradient = new gradient(array('tacos' => '#F8C3B0'));
@@ -73,10 +73,10 @@ class GradientTest extends TestCase {
     /**
      * @dataProvider badParamsProvider
      */
-    public function testStartColorWithBadParams($badVals)
+    public function testColor1WithBadParams($badVals)
     {
         $gradient = new gradient();
-        $gradient->startColor($badVals);
+        $gradient->color1($badVals);
 
         $this->assertTrue(Lavacharts::hasErrors());
     }
@@ -84,10 +84,10 @@ class GradientTest extends TestCase {
     /**
      * @dataProvider badParamsProvider
      */
-    public function testFinishColorWithBadParams($badVals)
+    public function testColor2WithBadParams($badVals)
     {
         $gradient = new gradient();
-        $gradient->finishColor($badVals);
+        $gradient->color2($badVals);
 
         $this->assertTrue(Lavacharts::hasErrors());
     }
