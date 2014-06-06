@@ -8,9 +8,9 @@ use Khill\Lavacharts\Configs\textStyle;
 class Lavacharts {
 
     /**
-     * Illuminate config repository.
+     * Global Lavachart configuration options.
      *
-     * @var Illuminate\Config\Repository
+     * @var array
      */
     protected static $config;
 
@@ -116,30 +116,37 @@ class Lavacharts {
         'colorAxis',
         'hAxis',
         'jsDate',
+        'gradient',
         'legend',
         'magnifyingGlass',
         'textStyle',
         'tooltip',
+        'series',
         'sizeAxis',
         'slice',
         'vAxis'
     );
 
     /**
-     * Create a new Lavacharts instance.
-     *
-     * @param  Illuminate\Config\Repository  $config
-     * @return void
+     * Acceptable global configuration options.
+     * 
+     * @var array
      */
+    protected static $validOptions = array(
+        'errorPrepend',
+        'errorAppend',
+        'textStyle'
+    );
+
+/*  
     public function __construct(Repository $config)
     {
         self::$config = $config;
     }
+*/
 
     /**
      * Magic function to reduce repetitive coding and create aliases.
-     *
-     * This is never called directly.
      *
      * @param string Name of method
      * @param array Passed arguments
@@ -212,6 +219,35 @@ class Lavacharts {
         } else {
             exit('[Lavacharts::'.$configObject.'()] is not a valid configObject');
         }
+    }
+
+    /**
+     * Sets global configuration options for the whole Lavachart library.
+     *
+     * Accepted config options include:
+     * errorPrepend: An html string
+     * 
+     * @param  array Array of configurations options
+     * @return \Lavachart
+     */
+    public static setGlobalConfig($config)
+    {
+        if (is_array($config))
+        {
+            foreach ($config as $option => $value) {
+                if(in_array($option, self::$validOptions))
+                {
+                    self::$config[$option] = $value;
+                } else {
+                   $this->_set_error(__METHOD__, '"'.$option'" is not a valid configuration option.');
+                }       
+            }
+        } else {
+            $this->_set_error(__METHOD__, 'Global configuration options must be set by an array.');
+        }
+        
+
+        return $this;
     }
 
     /**
@@ -338,7 +374,7 @@ class Lavacharts {
 
         $out = self::$googleAPI.PHP_EOL;
 
-//        if(isset($chart->events) && is_array($chart->events) && count($chart->events) > 0)
+//        if(is_array($chart->events) && count($chart->events) > 0)
 //        {
 //            $out .= self::_build_event_callbacks($chart->chartType, $chart->events);
 //        }
@@ -378,21 +414,24 @@ class Lavacharts {
         {
             $data = $chart->data->toJSON();
             $format = 'var data = new google.visualization.DataTable(%s, %s);';
+
             $out .= sprintf($format, $data, self::$dataTableVersion).PHP_EOL;
         }
+
         if(isset(self::$chartsAndTables['DataTable'][$chart->dataTable]))
         {
             $data = self::$chartsAndTables['DataTable'][$chart->dataTable];
             $format = 'var data = new google.visualization.DataTable(%s, %s);';
+
             $out .= sprintf($format, $data->toJSON(), self::$dataTableVersion).PHP_EOL;
         }
 
-        $out .= "var options = ".$chart->optionsToJSON().";".PHP_EOL;
-        $out .= "var chart = new google.visualization.".$chart->chartType;
-            $out .= sprintf("(document.getElementById('%s'));", $chart->elementID).PHP_EOL;
-        $out .= "chart.draw(data, options);".PHP_EOL;
+        $out .= sprintf('var options = %s;', $chart->optionsToJSON()).PHP_EOL;
+        $out .= sprintf('var chart = new google.visualization.%s', $chart->chartType);
+        $out .= sprintf("(document.getElementById('%s'));", $chart->elementID).PHP_EOL;
+        $out .= 'chart.draw(data, options);'.PHP_EOL;
 
-//        if(isset($chart->events) && count($chart->events) > 0)
+//        if(is_array($chart->events) && count($chart->events) > 0)
 //        {
 //            foreach($chart->events as $event)
 //            {
@@ -402,7 +441,6 @@ class Lavacharts {
 //        }
 
         $out .= "}".PHP_EOL;
-
         $out .= self::$jsClose.PHP_EOL;
 
         self::$output = $out;
@@ -446,22 +484,5 @@ class Lavacharts {
         return $tmp;
     }
     */
-
-    /**
-     * Enables/Disables Global Text Styles
-     *
-     * @param boolean $enabled
-     * @param textStyle $globalTextStyle
-     */
-    public static function globalTextStyle(boolean $enabled, textStyle $globalTextStyle = null)
-    {
-
-        self::$config->set('lavacharts::globalTextStyleEnabled', $enabled);
-
-        if( ! is_null($globalTextStyle))
-        {
-            self::$config->set('lavacharts::globalTextStyle', $globalTextStyle);
-        }
-    }
 
 }
