@@ -239,7 +239,7 @@ class Lavacharts {
                 {
                     self::$config[$option] = $value;
                 } else {
-                   $this->_set_error(__METHOD__, '"'.$option'" is not a valid configuration option.');
+                   $this->_set_error(__METHOD__, '"'.$option.'" is not a valid configuration option.');
                 }       
             }
         } else {
