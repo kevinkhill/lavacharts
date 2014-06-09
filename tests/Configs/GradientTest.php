@@ -5,15 +5,17 @@ use Khill\Lavacharts\Tests\TestCase;
 use Khill\Lavacharts\Configs\gradient;
 
 class GradientTest extends TestCase {
-/*
+
     public function setUp()
     {
         parent::setUp();
+
+        $this->g = new gradient();
     }
-*/
+
     public function testIfInstanceOfGradient()
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\gradient', new gradient());
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\gradient', $this->g);
     }
 /*
     public function testExpose()
@@ -32,16 +34,14 @@ class GradientTest extends TestCase {
         );
     }
 */
-    public function testConstructorNoAssignmentsDefaults()
+    public function testConstructorDefaults()
     {
-        $gradient = new gradient();
-
-        $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $gradient->color1);
-        $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $gradient->color2);
-        $this->assertEquals('0%',   $gradient->x1);
-        $this->assertEquals('0%',   $gradient->y1);
-        $this->assertEquals('100%', $gradient->x2);
-        $this->assertEquals('100%', $gradient->y2);
+        $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $this->g->color1);
+        $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $this->g->color2);
+        $this->assertEquals('0%',   $this->g->x1);
+        $this->assertEquals('0%',   $this->g->y1);
+        $this->assertEquals('100%', $this->g->x2);
+        $this->assertEquals('100%', $this->g->y2);
     }
 
     public function testConstructorValuesAssignment()
@@ -63,7 +63,7 @@ class GradientTest extends TestCase {
         $this->assertEquals('100%',    $gradient->y2);
     }
 
-    public function testInvalidPropertiesKey()
+    public function testConstructorWithInvalidPropertiesKey()
     {
         $gradient = new gradient(array('tacos' => '#F8C3B0'));
 
@@ -75,8 +75,7 @@ class GradientTest extends TestCase {
      */
     public function testColor1WithBadParams($badVals)
     {
-        $gradient = new gradient();
-        $gradient->color1($badVals);
+        $this->g->color1($badVals);
 
         $this->assertTrue(Lavacharts::hasErrors());
     }
@@ -86,8 +85,7 @@ class GradientTest extends TestCase {
      */
     public function testColor2WithBadParams($badVals)
     {
-        $gradient = new gradient();
-        $gradient->color2($badVals);
+        $this->g->color2($badVals);
 
         $this->assertTrue(Lavacharts::hasErrors());
     }
@@ -97,8 +95,7 @@ class GradientTest extends TestCase {
      */
     public function testX1ColorWithBadParams($badVals)
     {
-        $gradient = new gradient();
-        $gradient->x1($badVals);
+        $this->g->x1($badVals);
 
         $this->assertTrue(Lavacharts::hasErrors());
     }
@@ -108,8 +105,7 @@ class GradientTest extends TestCase {
      */
     public function testY1ColorWithBadParams($badVals)
     {
-        $gradient = new gradient();
-        $gradient->y1($badVals);
+        $this->g->y1($badVals);
 
         $this->assertTrue(Lavacharts::hasErrors());
     }
@@ -119,8 +115,7 @@ class GradientTest extends TestCase {
      */
     public function testX2ColorWithBadParams($badVals)
     {
-        $gradient = new gradient();
-        $gradient->x2($badVals);
+        $this->g->x2($badVals);
 
         $this->assertTrue(Lavacharts::hasErrors());
     }
@@ -130,8 +125,7 @@ class GradientTest extends TestCase {
      */
     public function testY2ColorWithBadParams($badVals)
     {
-        $gradient = new gradient();
-        $gradient->y2($badVals);
+        $this->g->y2($badVals);
 
         $this->assertTrue(Lavacharts::hasErrors());
     }

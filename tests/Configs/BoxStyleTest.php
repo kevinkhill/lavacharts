@@ -6,51 +6,78 @@ use Khill\Lavacharts\Configs\boxStyle;
 use Khill\Lavacharts\Configs\gradient;
 
 class BoxStyleTest extends TestCase {
-/*
+
     public function setUp()
     {
         parent::setUp();
+
+        $this->bs = new boxStyle();
     }
-*/
+
     public function testIfInstanceOfBoxStyle()
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\boxStyle', new boxStyle());
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\boxStyle', $this->bs);
     }
 
-    public function testConstructorNoAssignmentsDefaults()
+    public function testConstructorDefaults()
     {
-        $boxStyle = new boxStyle();
-
-        $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $boxStyle->startColor);
-        $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $boxStyle->finishColor);
-        $this->assertEquals('0%',   $boxStyle->x1);
-        $this->assertEquals('0%',   $boxStyle->y1);
-        $this->assertEquals('100%', $boxStyle->x2);
-        $this->assertEquals('100%', $boxStyle->y2);
+        $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $this->bs->stroke);
+        $this->assertEquals('1',  $this->bs->strokeWidth);
+        $this->assertEquals('10', $this->bs->rx);
+        $this->assertEquals('10', $this->bs->ry);
+        $this->assertEquals(null, $this->bs->gradient);
     }
 
     public function testConstructorValuesAssignment()
     {
         $boxStyle = new boxStyle(array(
-            'startColor'  => '#F0F0F0',
-            'finishColor' => '#3D3D3D',
-            'x1'          => '0%',
-            'y1'          => '0%',
-            'x2'          => '100%',
-            'y2'          => '100%'
+            'stroke'      => '#5B5B5B',
+            'strokeWidth' => '5',
+            'rx'          => '10',
+            'ry'          => '10',
+            'gradient'    => new gradient()
         ));
 
-        $this->assertEquals('#F0F0F0', $boxStyle->startColor);
-        $this->assertEquals('#3D3D3D', $boxStyle->finishColor);
-        $this->assertEquals('0%',      $boxStyle->x1);
-        $this->assertEquals('0%',      $boxStyle->y1);
-        $this->assertEquals('100%',    $boxStyle->x2);
-        $this->assertEquals('100%',    $boxStyle->y2);
+        $this->assertEquals('#5B5B5B', $boxStyle->stroke);
+        $this->assertEquals('5',       $boxStyle->strokeWidth);
+        $this->assertEquals('10',      $boxStyle->rx);
+        $this->assertEquals('10',      $boxStyle->ry);
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\gradient', $boxStyle->gradient);
     }
 
-    public function testInvalidPropertiesKey()
+    public function testConstructorWithInvalidPropertiesKey()
     {
-        $boxStyle = new boxStyle(array('tacos' => '#F8C3B0'));
+        $boxStyle = new boxStyle(array('lasagna' => '50%'));
+
+        $this->assertTrue(Lavacharts::hasErrors());
+    }
+
+    /**
+     * @dataProvider numericParamsProvider
+     */
+    public function testStokeWidthWithNumericParams($badVals)
+    {
+        $this->bs->strokeWidth($badVals);
+
+        $this->assertTrue(Lavacharts::hasErrors());
+    }
+
+    /**
+     * @dataProvider numericParamsProvider
+     */
+    public function testRxWithNumericParams($badVals)
+    {
+        $this->bs->rx($badVals);
+
+        $this->assertTrue(Lavacharts::hasErrors());
+    }
+
+    /**
+     * @dataProvider numericParamsProvider
+     */
+    public function testRyWithNumericParams($badVals)
+    {
+        $this->bs->ry($badVals);
 
         $this->assertTrue(Lavacharts::hasErrors());
     }
@@ -58,10 +85,9 @@ class BoxStyleTest extends TestCase {
     /**
      * @dataProvider badParamsProvider
      */
-    public function testStartColorWithBadParams($badVals)
+    public function testStrokeWithBadParams($badVals)
     {
-        $boxStyle = new boxStyle();
-        $boxStyle->startColor($badVals);
+        $this->bs->stroke($badVals);
 
         $this->assertTrue(Lavacharts::hasErrors());
     }
@@ -69,10 +95,9 @@ class BoxStyleTest extends TestCase {
     /**
      * @dataProvider badParamsProvider
      */
-    public function testFinishColorWithBadParams($badVals)
+    public function testStokeWidthWithBadParams($badVals)
     {
-        $boxStyle = new boxStyle();
-        $boxStyle->finishColor($badVals);
+        $this->bs->strokeWidth($badVals);
 
         $this->assertTrue(Lavacharts::hasErrors());
     }
@@ -80,10 +105,9 @@ class BoxStyleTest extends TestCase {
     /**
      * @dataProvider badParamsProvider
      */
-    public function testX1ColorWithBadParams($badVals)
+    public function testRxWithBadParams($badVals)
     {
-        $boxStyle = new boxStyle();
-        $boxStyle->x1($badVals);
+        $this->bs->rx($badVals);
 
         $this->assertTrue(Lavacharts::hasErrors());
     }
@@ -91,41 +115,17 @@ class BoxStyleTest extends TestCase {
     /**
      * @dataProvider badParamsProvider
      */
-    public function testY1ColorWithBadParams($badVals)
+    public function testRyWithBadParams($badVals)
     {
-        $boxStyle = new boxStyle();
-        $boxStyle->y1($badVals);
+        $this->bs->ry($badVals);
 
         $this->assertTrue(Lavacharts::hasErrors());
     }
 
-    /**
-     * @dataProvider badParamsProvider
-     */
-    public function testX2ColorWithBadParams($badVals)
-    {
-        $boxStyle = new boxStyle();
-        $boxStyle->x2($badVals);
-
-        $this->assertTrue(Lavacharts::hasErrors());
-    }
-
-    /**
-     * @dataProvider badParamsProvider
-     */
-    public function testY2ColorWithBadParams($badVals)
-    {
-        $boxStyle = new boxStyle();
-        $boxStyle->y2($badVals);
-
-        $this->assertTrue(Lavacharts::hasErrors());
-    }
 
     public function badParamsProvider()
     {
         return array(
-            array(123),
-            array(123.456),
             array(array()),
             array(new \stdClass()),
             array(true),
@@ -133,5 +133,12 @@ class BoxStyleTest extends TestCase {
         );
     }
 
-}
+    public function numericParamsProvider()
+    {
+        return array(
+            array(123),
+            array('123')
+        );
+    }
 
+}

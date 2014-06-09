@@ -14,6 +14,7 @@
  */
 
 use \Khill\Lavacharts\Configs\gradient;
+use \Khill\Lavacharts\Helpers\Helpers;
 
 class boxStyle extends configOptions
 {
@@ -158,7 +159,7 @@ class boxStyle extends configOptions
      */
     public function gradient(gradient $gradient)
     {
-        if(is_string($gradient))
+        if(Helpers::is_gradient($gradient))
         {
             $this->gradient = $gradient;
         } else {
