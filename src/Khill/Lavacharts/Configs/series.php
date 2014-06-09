@@ -18,11 +18,11 @@ use Khill\Lavacharts\Helpers\Helpers;
 class series extends configOptions
 {
     /**
-     * Position of the series.
+     * The type of marker for this series.
      *
      * @var string
      */
-    public $position;
+    public $type;
 
     /**
      * Alignment of the series.
@@ -38,85 +38,63 @@ class series extends configOptions
      */
     public $textStyle;
 
+
     /**
      * Builds the series object when passed an array of configuration options.
      *
      * @param array Options for the series
-     * @return \tooltip
+     * @return \series
      */
     public function __construct($config = array())
     {
         $this->options = array(
-            'position',
-            'alignment',
-            'textStyle'
+            'annotation',
+            'type',
         );
 
         parent::__construct($config);
     }
 
     /**
-     * Sets the position of the series.
+     * An object to be applied to annotations for this series.
+     * This can be used to control, for instance, the textStyle for the series.
      *
-     * Can be one of the following:
-     * 'right'  - To the right of the chart. Incompatible with the vAxes option.
-     * 'top'    - Above the chart.
-     * 'bottom' - Below the chart.
-     * 'in'     - Inside the chart, by the top left corner.
-     * 'none'   - No series is displayed.
-     *
-     * @param string Location of series
+     * @param annotation Annotation style of the series
      * @return \series
      */
-    public function position($position)
+    public function annotation($annotation)
     {
-        $values = array(
-            'right',
-            'top',
-            'bottom',
-            'in',
-            'none'
-        );
-
-        if(in_array($position, $values))
+        if(Helpers::is_annotation($annotation))
         {
-            $this->position = $position;
+            $this->annotation = $annotation;
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            $this->type_error(__FUNCTION__, 'annotation');
         }
 
         return $this;
     }
 
     /**
-     * Sets the alignment of the series.
+     * The default line type for any series not specified in the series property.
+     * Available values are:
+     * 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'
      *
-     * Can be one of the following:
-     * 'start'  - Aligned to the start of the area allocated for the series.
-     * 'center' - Centered in the area allocated for the series.
-     * 'end'    - Aligned to the end of the area allocated for the series.
-     *
-     * Start, center, and end are relative to the style -- vertical or horizontal -- of the series.
-     * For example, in a 'right' series, 'start' and 'end' are at the top and bottom, respectively;
-     * for a 'top' series, 'start' and 'end' would be at the left and right of the area, respectively.
-     *
-     * The default value depends on the series's position. For 'bottom' seriess,
-     * the default is 'center'; other seriess default to 'start'.
-     *
-     * @param string Alignment of the series
+     * @param string $type
      * @return \series
      */
-    public function alignment($alignment)
+    public function type($type)
     {
         $values = array(
-            'start',
-            'center',
-            'end'
+            'line',
+            'area',
+            'bars',
+            'candlesticks',
+            'steppedArea'
         );
 
-        if(in_array($alignment, $values))
+        if(in_array($type, $values))
         {
-            $this->alignment = $alignment;
+            $this->type = $type;
         } else {
             $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
         }
@@ -134,7 +112,7 @@ class series extends configOptions
     {
         if(Helpers::is_textStyle($textStyle))
         {
-            $this->textStyle = $textStyle->getValues();
+            $this->textStyle = $textStyle;
         } else {
             $this->type_error(__FUNCTION__, 'textStyle');
         }
@@ -146,29 +124,29 @@ class series extends configOptions
 
 /*
 
-annotations - An object to be applied to annotations for this series. This can be used to control, for instance, the textStyle for the series:
+[x] annotations - :An object to be applied to annotations for this series. This can be used to control, for instance, the textStyle for the series
 series: {
   0: {
     annotations: {
       textStyle: {fontSize: 12, color: 'red' }
     }
   }
-}
-See the various annotations options for a more complete list of what can be customized.
-areaOpacity - Overrides the global areaOpacity for this series.
-color - The color to use for this series. Specify a valid HTML color string.
-curveType - Overrides the global curveType value for this series.
-fallingColor.fill - Overrides the global candlestick.fallingColor.fill value for this series.
-fallingColor.stroke - Overrides the global candlestick.fallingColor.stroke value for this series.
-fallingColor.strokeWidth - Overrides the global candlestick.fallingColor.strokeWidth value for this series.
-lineWidth - Overrides the global lineWidth value for this series.
-pointShape - Overrides the global pointShape value for this series.
-pointSize - Overrides the global pointSize value for this series.
-risingColor.fill - Overrides the global candlestick.risingColor.fill value for this series.
-risingColor.stroke - Overrides the global candlestick.risingColor.stroke value for this series.
-risingColor.strokeWidth - Overrides the global candlestick.risingColor.strokeWidth value for this series.
-targetAxisIndex - Which axis to assign this series to, where 0 is the default axis, and 1 is the opposite axis. Default value is 0; set to 1 to define a chart where different series are rendered against different axes. At least one series much be allocated to the default axis. You can define a different scale for different axes.
-type - The type of marker for this series. Valid values are 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'. Note that bars are actually vertical bars (columns). The default value is specified by the chart's seriesType option.
-visibleInLegend - A boolean value, where true means that the series should have a legend entry, and false means that it should not. Default is true.
+}   See the various annotations options for a more complete list of what can be customized.
+
+[ ] areaOpacity - Overrides the global areaOpacity for this series.
+[ ] color - The color to use for this series. Specify a valid HTML color string.
+[ ] curveType - Overrides the global curveType value for this series.
+[ ] fallingColor.fill - Overrides the global candlestick.fallingColor.fill value for this series.
+[ ] fallingColor.stroke - Overrides the global candlestick.fallingColor.stroke value for this series.
+[ ] fallingColor.strokeWidth - Overrides the global candlestick.fallingColor.strokeWidth value for this series.
+[ ] lineWidth - Overrides the global lineWidth value for this series.
+[ ] pointShape - Overrides the global pointShape value for this series.
+[ ] pointSize - Overrides the global pointSize value for this series.
+[ ] risingColor.fill - Overrides the global candlestick.risingColor.fill value for this series.
+[ ] risingColor.stroke - Overrides the global candlestick.risingColor.stroke value for this series.
+[ ] risingColor.strokeWidth - Overrides the global candlestick.risingColor.strokeWidth value for this series.
+[ ] targetAxisIndex - Which axis to assign this series to, where 0 is the default axis, and 1 is the opposite axis. Default value is 0; set to 1 to define a chart where different series are rendered against different axes. At least one series much be allocated to the default axis. You can define a different scale for different axes.
+[x] type - The type of marker for this series. Valid values are 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'. Note that bars are actually vertical bars (columns). The default value is specified by the chart's seriesType option.
+[ ] visibleInLegend - A boolean value, where true means that the series should have a legend entry, and false means that it should not. Default is true.
 
 */

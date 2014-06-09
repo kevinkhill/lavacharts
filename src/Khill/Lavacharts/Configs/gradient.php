@@ -19,14 +19,14 @@ class gradient extends configOptions
      *
      * @var int
      */
-    public $color1 = null;
+    public $color1;
 
     /**
      * Finish color for gradient.
      *
      * @var int
      */
-    public $color2 = null;
+    public $color2;
 
     /**
      * Where on the boundary to start in X.

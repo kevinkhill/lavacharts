@@ -129,16 +129,16 @@ class Lavacharts {
 
     /**
      * Acceptable global configuration options.
-     * 
+     *
      * @var array
      */
-    protected static $validOptions = array(
-        'errorPrepend',
-        'errorAppend',
+    protected static $validGlobals = array(
+        'errorWrap',
+        'errorClass',
         'textStyle'
     );
 
-/*  
+/*
     public function __construct(Repository $config)
     {
         self::$config = $config;
@@ -154,11 +154,11 @@ class Lavacharts {
      */
     public function __call($member, $arguments)
     {
-        if(in_array($member, self::$configClasses))
+        if (in_array($member, self::$configClasses))
         {
             return self::_config_object_factory($member, empty($arguments[0]) ? array() : $arguments);
         } else {
-            if(in_array($member, self::$supportedClasses))
+            if (in_array($member, self::$supportedClasses))
             {
                 return self::_chart_and_table_factory($member, empty($arguments[0]) ? '' : $arguments[0]);
             } else {
@@ -226,28 +226,25 @@ class Lavacharts {
      *
      * Accepted config options include:
      * errorPrepend: An html string
-     * 
+     *
      * @param  array Array of configurations options
      * @return \Lavachart
      */
-    public static function setGlobalConfig($config)
+    public static function setGlobals($config)
     {
         if (is_array($config))
         {
             foreach ($config as $option => $value) {
-                if(in_array($option, self::$validOptions))
+                if(in_array($option, self::$validGlobals))
                 {
                     self::$config[$option] = $value;
                 } else {
-                   $this->_set_error(__METHOD__, '"'.$option.'" is not a valid configuration option.');
-                }       
+                   self::_set_error(__METHOD__, '"'.$option.'" is not a valid configuration option.');
+                }
             }
         } else {
-            $this->_set_error(__METHOD__, 'Global configuration options must be set by an array.');
+            self::_set_error(__METHOD__, 'Global configuration options must be set by an array.');
         }
-        
-
-        return $this;
     }
 
     /**
@@ -334,9 +331,22 @@ class Lavacharts {
 
             foreach(self::$errorLog as $where => $error)
             {
-                $errors .= self::$config->get('lavacharts::errorPrepend');
+                if (isset(self::$config['errorWrap']))
+                {
+                    $errors .= '<' . self::$config['errorWrap'];
+
+                    if (isset(self::$config['errorClass']))
+                    {
+                        $errors .= ' class="' . self::$config['errorClass'] . '">';
+                    }
+                }
+
                 $errors .= '['.$where.'] -> '.$error;
-                $errors .= self::$config->get('lavacharts::errorAppend');
+
+                if (isset(self::$config['errorWrap']))
+                {
+                    $errors .= '</' . self::$config['errorWrap'] . '>';
+                }
             }
 
             return $errors;

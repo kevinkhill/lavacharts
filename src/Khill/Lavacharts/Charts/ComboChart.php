@@ -30,6 +30,7 @@ class ComboChart extends Chart
             'focusTarget',
             'hAxis',
             'isHtml',
+            'series',
             'seriesType',
             'vAxis'
         ));
@@ -139,6 +140,26 @@ class ComboChart extends Chart
             $this->addOption(array('isStacked' => $isStacked));
         } else {
             $this->type_error(__FUNCTION__, 'boolean');
+        }
+
+        return $this;
+    }
+
+    /**
+     * An array of objects, each describing the format of the corresponding series
+     * in the chart. To use default values for a series, specify an null in the array.
+     * If a series or a value is not specified, the global value will be used.
+     *
+     * @param array Array of Lava series objects
+     * @return \ComboChart
+     */
+    public function series($arrOfSeries)
+    {
+        if(is_array($arrOfSeries))
+        {
+            $this->addOption(array('series' => $arrOfSeries));
+        } else {
+            $this->type_error(__FUNCTION__, 'array', 'of Series objects');
         }
 
         return $this;
