@@ -1,7 +1,5 @@
 <?php namespace Khill\Lavacharts;
 
-use Illuminate\View\Environment;
-use Illuminate\Config\Repository;
 use Khill\Lavacharts\Configs\jsDate;
 use Khill\Lavacharts\Configs\textStyle;
 
@@ -54,7 +52,7 @@ class Lavacharts {
      *
      * @var string
      */
-    protected static $googleAPI = '<script type="text/javascript" src="https://www.google.com/jsapi"></script>';
+    protected static $googleAPI = '<script type="text/javascript" src="//google.com/jsapi"></script>';
 
     /**
      * Root Namespace

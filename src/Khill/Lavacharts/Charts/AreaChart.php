@@ -37,53 +37,6 @@ class AreaChart extends Chart
     }
 
     /**
-     * Animation Easing
-     *
-     * The easing function applied to the animation. The following options are available:
-     * 'linear' - Constant speed.
-     * 'in' - Ease in - Start slow and speed up.
-     * 'out' - Ease out - Start fast and slow down.
-     * 'inAndOut' - Ease in and out - Start slow, speed up, then slow down.
-     *
-     * @param string $easing
-     * @return \AreaChart
-     */
-//    public function animationEasing($easing = 'linear')
-//    {
-//        $values = array('linear', 'in', 'out', 'inAndOut');
-//
-//        if(in_array($easing, $values))
-//        {
-//            $this->easing = $easing;
-//            return $this;
-//        } else {
-//            $this->error('Invalid animationEasing value, must be (string) '.Helpers::array_string($values));
-//        }
-//
-//        return $this;
-//    }
-
-    /**
-     * Animation Duration
-     *
-     * The duration of the animation, in milliseconds.
-     *
-     * @param mixed $duration
-     * @return \AreaChart
-     */
-//    public function animationDuration($duration)
-//    {
-//        if(is_int($duration) || is_string($duration))
-//        {
-//            $this->duration = $this->_valid_int($duration);
-//        } else {
-//            $this->duration = 0;
-//        }
-//
-//        return $this;
-//    }
-
-    /**
      * The default opacity of the colored area under an area chart series, where
      * 0.0 is fully transparent and 1.0 is fully opaque. To specify opacity for
      * an individual series, set the areaOpacity value in the series property.
@@ -93,7 +46,7 @@ class AreaChart extends Chart
      */
     public function areaOpacity($opacity)
     {
-        if(is_float($opacity) && $opacity < 1.0 && $opacity > 0.0)
+        if(is_float($opacity) && $opacity < 1.0 && $opacity > 0.0) //Helpers::between
         {
             $this->addOption(array('areaOpacity' => $opacity));
         } else {
