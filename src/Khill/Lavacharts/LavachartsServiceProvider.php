@@ -18,7 +18,7 @@ class LavachartsServiceProvider extends ServiceProvider {
     {
         $this->app['lavacharts'] = $this->app->share(function($app)
         {
-            return new Lavacharts($app['config']);
+            return new Lavacharts();
         });
 
         $this->app->booting(function()

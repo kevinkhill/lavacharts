@@ -12,7 +12,7 @@ class Lavacharts {
      *
      * @var array
      */
-    protected static $config;
+    protected static $config = array();
 
     /**
      * Holds all the html and javscript to be output into the browser.
@@ -111,6 +111,7 @@ class Lavacharts {
         'annotation',
         'Axis',
 //        'DataCell',
+        'boxStyle',
         'backgroundColor',
         'chartArea',
         'colorAxis',
