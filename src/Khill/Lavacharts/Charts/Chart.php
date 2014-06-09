@@ -31,10 +31,10 @@ class Chart
     {
         $typePieces = explode('\\', get_class($this));
 
-        $this->chartType = $typePieces[count($typePieces) - 1];
+        $this->chartType  = $typePieces[count($typePieces) - 1];
         $this->chartLabel = $chartLabel;
-        $this->options = array();
-        $this->defaults = array(
+        $this->options    = array();
+        $this->defaults   = array(
             'backgroundColor',
             'chartArea',
             'colors',
@@ -335,7 +335,7 @@ class Chart
     {
         if(is_string($title))
         {
-            $this->addOption(array('title' => (string) $title));
+            $this->addOption(array('title' => $title));
         } else {
             $this->type_error(__FUNCTION__, 'string');
         }
