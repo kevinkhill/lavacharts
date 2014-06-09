@@ -22,9 +22,9 @@ class BoxStyleTest extends TestCase {
     public function testConstructorDefaults()
     {
         $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $this->bs->stroke);
-        $this->assertEquals('1',  $this->bs->strokeWidth);
-        $this->assertEquals('10', $this->bs->rx);
-        $this->assertEquals('10', $this->bs->ry);
+        $this->assertEquals(null, $this->bs->strokeWidth);
+        $this->assertEquals(null, $this->bs->rx);
+        $this->assertEquals(null, $this->bs->ry);
         $this->assertEquals(null, $this->bs->gradient);
     }
 

@@ -13,7 +13,6 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
-use \Khill\Lavacharts\Configs\gradient;
 use \Khill\Lavacharts\Helpers\Helpers;
 
 class boxStyle extends configOptions
@@ -23,35 +22,35 @@ class boxStyle extends configOptions
      *
      * @var int
      */
-    public $stroke = null;
+    public $stroke;
 
     /**
      * Thickness of the box outline.
      *
      * @var int
      */
-    public $strokeWidth = 1;
+    public $strokeWidth;
 
     /**
      * X radius of the corner curvature.
      *
      * @var int
      */
-    public $rx = 10;
+    public $rx;
 
     /**
      * Y radius of the corner curvature.
      *
      * @var int
      */
-    public $ry = 10;
+    public $ry;
 
     /**
      * Attributes for linear gradient fill.
      *
      * @var gradient
      */
-    public $gradient = null;
+    public $gradient;
 
 
     /**
@@ -157,7 +156,7 @@ class boxStyle extends configOptions
      * @param gradient Lava gradient object
      * @return \boxStyle
      */
-    public function gradient(gradient $gradient)
+    public function gradient($gradient)
     {
         if(Helpers::is_gradient($gradient))
         {

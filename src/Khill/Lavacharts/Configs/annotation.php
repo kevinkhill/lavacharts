@@ -13,6 +13,8 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+use \Khill\Lavacharts\Helpers\Helpers;
+
 class annotation extends configOptions
 {
     /**
@@ -77,7 +79,7 @@ class annotation extends configOptions
     {
         if(Helpers::is_textStyle($textStyle))
         {
-            $this->textStyle = $textStyle->getValues();
+            $this->textStyle = $textStyle;
         } else {
             $this->type_error(__FUNCTION__, 'textStyle');
         }
