@@ -1,10 +1,10 @@
+vendor/
+_site/
+tmp/
+build/
+cache/
+
 bootstrap/compiled.php
-vendor
-vendor/.git
-_site
-tmp
-build
 composer.phar
 composer.lock
-
 .DS_*

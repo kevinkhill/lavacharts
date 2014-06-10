@@ -9,11 +9,11 @@ $iterator = Finder::create()
     ->exclude('callbacks')
     ->exclude('Facades')
 	->exclude('Traits')
-    ->in('/src/Khill/Lavacharts')
+    ->in(__DIR__.'/src/Khill/Lavacharts/')
 ;
 
 return new Sami($iterator, array(
-    'theme'                => 'symfony',
+    //'theme'                => 'symfony',
     'title'                => 'Lavacharts API',
     'build_dir'            => __DIR__.'/build',
     'cache_dir'            => __DIR__.'/cache',
