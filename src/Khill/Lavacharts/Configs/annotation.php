@@ -14,6 +14,7 @@
  */
 
 use \Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class annotation extends configOptions
 {
@@ -32,8 +33,9 @@ class annotation extends configOptions
     /**
      * Builds the annotation object.
      *
-     * @param array Associative array containing key => value pairs for the
-     * various configuration options.
+     * @param array Associative array containing key => value pairs for the various configuration options.
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
      * @return \tooltip
      */
     public function __construct($config = array())
@@ -63,7 +65,7 @@ class annotation extends configOptions
         {
             $this->highContrast = $highContrast;
         } else {
-            $this->type_error(__FUNCTION__, 'boolean');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'boolean');
         }
 
         return $this;
@@ -81,7 +83,7 @@ class annotation extends configOptions
         {
             $this->textStyle = $textStyle;
         } else {
-            $this->type_error(__FUNCTION__, 'textStyle');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'textStyle');
         }
 
         return $this;

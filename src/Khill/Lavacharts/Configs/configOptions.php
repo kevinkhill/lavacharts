@@ -15,6 +15,8 @@
 
 use Khill\Lavacharts\Lavacharts;
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 class configOptions
 {
@@ -46,7 +48,9 @@ class configOptions
      * child object created from this master object.
      *
      * @param array Array of options.
-     * @return \configOptions
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
+     * @return mixed
      */
     public function __construct($config)
     {
@@ -60,44 +64,14 @@ class configOptions
                 {
                     $this->$option($value);
                 } else {
-                    $this->error('Ignoring "'.$option.'", not a valid configuration option.');
+                    throw new InvalidConfigProperty($this->className, __FUNCTION__, $option, $this->options);
                 }
             }
         } else {
-            $this->type_error($this->className.'()', 'array', 'with valid keys as '.Helpers::array_string($this->options));
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'array', 'with valid keys as '.Helpers::array_string($this->options));
         }
 
         return $this;
-    }
-
-    /**
-     * Adds an error message to the error log in the lavacharts object.
-     *
-     * @param string $msg
-     */
-    public function error($msg)
-    {
-        Lavacharts::_set_error($this->className, $msg);
-    }
-
-    /**
-     * Adds an function/type error message to the error log in the lavacharts object.
-     *
-     * @param string Property in error
-     * @param string Variable type
-     * @param string Extra message to append to error
-     */
-    public function type_error($val, $type, $extra = false)
-    {
-        $msg = sprintf(
-            'Invalid value for %s, must be type (%s)',
-            $val,
-            $type
-        );
-
-        $msg .= $extra ? ' '.$extra.'.' : '.';
-
-        $this->error($msg);
     }
 
     /**

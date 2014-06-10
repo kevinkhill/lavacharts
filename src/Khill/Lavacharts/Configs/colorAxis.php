@@ -13,6 +13,8 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+
 class colorAxis extends configOptions
 {
     /**
@@ -48,6 +50,8 @@ class colorAxis extends configOptions
      * Builds the colorAxis object with specified options
      *
      * @param array config
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
      * @return \colorAxis
      */
     public function __construct($config = array()) {
@@ -76,7 +80,7 @@ class colorAxis extends configOptions
         {
             $this->minValue = $minValue;
         } else {
-            $this->type_error(__FUNCTION__, 'numeric');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'numeric');
         }
 
         return $this;
@@ -96,7 +100,7 @@ class colorAxis extends configOptions
         {
             $this->maxValue = $maxValue;
         } else {
-            $this->type_error(__FUNCTION__, 'numeric');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'numeric');
         }
 
         return $this;
@@ -120,7 +124,7 @@ class colorAxis extends configOptions
         {
             $this->values = $values;
         } else {
-            $this->type_error(__FUNCTION__, 'array', 'with values as [ int | float ]');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'array', 'with values as [ int | float ]');
         }
         return $this;
     }
@@ -143,7 +147,7 @@ class colorAxis extends configOptions
         {
             $this->colors = $colors;
         } else {
-            $this->type_error(__FUNCTION__, 'array', 'with values as strings');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'array', 'with values as strings');
         }
         return $this;
     }

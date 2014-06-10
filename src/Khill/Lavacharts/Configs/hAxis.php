@@ -14,6 +14,7 @@
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class hAxis extends Axis
 {
@@ -74,6 +75,8 @@ class hAxis extends Axis
      * created.
      *
      * @param array $options
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
      * @return \hAxis
      */
     public function __construct($config = array())
@@ -108,7 +111,7 @@ class hAxis extends Axis
         {
             $this->allowContainerBoundaryTextCutoff = $cutoff;
         } else {
-            $this->type_error(__FUNCTION__, 'boolean');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'boolean');
         }
 
         return $this;
@@ -134,7 +137,7 @@ class hAxis extends Axis
         {
             $this->slantedText = $slant;
         } else {
-            $this->type_error(__FUNCTION__, 'boolean', 'and textPosition must be "out"');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'boolean', 'and textPosition must be "out"');
         }
 
         return $this;
@@ -156,7 +159,7 @@ class hAxis extends Axis
         {
             $this->slantedTextAngle = $angle;
         } else {
-            $this->type_error(__FUNCTION__, 'int', 'between 1 - 90');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int', 'between 1 - 90');
         }
 
         return $this;
@@ -182,7 +185,7 @@ class hAxis extends Axis
         {
             $this->maxAlternation = $alternation;
         } else {
-            $this->type_error(__FUNCTION__, 'int');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
         }
 
         return $this;
@@ -205,7 +208,7 @@ class hAxis extends Axis
         {
             $this->maxTextLines = $maxTextLines;
         } else {
-            $this->type_error(__FUNCTION__, 'int');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
         }
 
         return $this;
@@ -235,7 +238,7 @@ class hAxis extends Axis
             {
                 $this->minTextSpacing = $this->textStyle['fontSize'];
             } else {
-                $this->type_error(__FUNCTION__, 'int', 'or set via textStyle[\'fontSize\']');
+                throw new InvalidConfigValue($this->className, __FUNCTION__, 'int', 'or set via textStyle[\'fontSize\']');
             }
         }
 
@@ -259,7 +262,7 @@ class hAxis extends Axis
         {
             $this->showTextEvery = $showTextEvery;
         } else {
-            $this->type_error(__FUNCTION__, 'int');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
         }
 
         return $this;

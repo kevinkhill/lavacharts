@@ -14,6 +14,7 @@
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class slice extends configOptions
 {
@@ -43,6 +44,8 @@ class slice extends configOptions
      * Builds the slice object with specified options.
      *
      * @param array Configuration options for the tooltip
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
      * @return \tooltip
      */
     public function __construct($config = array())
@@ -68,7 +71,7 @@ class slice extends configOptions
         {
             $this->color = $color;
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'as a valid HTML color code');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'as a valid HTML color code');
         }
 
         return $this;
@@ -87,7 +90,7 @@ class slice extends configOptions
         {
             $this->offset = $offset;
         } else {
-            $this->type_error(__FUNCTION__, 'float', 'where 0.0 < $offset < 0.1');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'float', 'where 0.0 < $offset < 0.1');
         }
 
         return $this;
@@ -105,7 +108,7 @@ class slice extends configOptions
         {
             $this->textStyle = $textStyle->values();
         } else {
-            $this->type_error(__FUNCTION__, 'textStyle');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'textStyle');
         }
 
         return $this;

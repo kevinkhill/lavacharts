@@ -14,6 +14,7 @@
  */
 
 use \Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class boxStyle extends configOptions
 {
@@ -57,6 +58,8 @@ class boxStyle extends configOptions
      * Builds the boxStyle object with specified options
      *
      * @param array config
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
      * @return \boxStyle
      */
     public function __construct($config = array())
@@ -90,7 +93,7 @@ class boxStyle extends configOptions
         {
             $this->stroke = $stroke;
         } else {
-            $this->type_error(__FUNCTION__, 'string');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
         }
 
         return $this;
@@ -108,7 +111,7 @@ class boxStyle extends configOptions
         {
             $this->strokeWidth = $strokeWidth;
         } else {
-            $this->type_error(__FUNCTION__, 'numeric');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'numeric');
         }
 
         return $this;
@@ -126,7 +129,7 @@ class boxStyle extends configOptions
         {
             $this->rx = $rx;
         } else {
-            $this->type_error(__FUNCTION__, 'numeric');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'numeric');
         }
 
         return $this;
@@ -144,7 +147,7 @@ class boxStyle extends configOptions
         {
             $this->ry = $ry;
         } else {
-            $this->type_error(__FUNCTION__, 'string');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
         }
 
         return $this;
@@ -162,7 +165,7 @@ class boxStyle extends configOptions
         {
             $this->gradient = $gradient;
         } else {
-            $this->type_error(__FUNCTION__, 'string');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
         }
 
         return $this;

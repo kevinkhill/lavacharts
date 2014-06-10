@@ -14,6 +14,7 @@
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class series extends configOptions
 {
@@ -68,7 +69,7 @@ class series extends configOptions
         {
             $this->annotation = $annotation;
         } else {
-            $this->type_error(__FUNCTION__, 'annotation');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'annotation');
         }
 
         return $this;
@@ -96,7 +97,7 @@ class series extends configOptions
         {
             $this->type = $type;
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
         }
 
         return $this;
@@ -114,7 +115,7 @@ class series extends configOptions
         {
             $this->textStyle = $textStyle;
         } else {
-            $this->type_error(__FUNCTION__, 'textStyle');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'textStyle');
         }
 
         return $this;

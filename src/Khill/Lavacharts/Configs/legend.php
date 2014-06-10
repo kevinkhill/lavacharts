@@ -14,6 +14,7 @@
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class legend extends configOptions
 {
@@ -43,6 +44,8 @@ class legend extends configOptions
      * Builds the legend object when passed an array of configuration options.
      *
      * @param array Options for the legend
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
      * @return \tooltip
      */
     public function __construct($config = array())
@@ -83,7 +86,7 @@ class legend extends configOptions
         {
             $this->position = $position;
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
         }
 
         return $this;
@@ -119,7 +122,7 @@ class legend extends configOptions
         {
             $this->alignment = $alignment;
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
         }
 
         return $this;
@@ -137,7 +140,7 @@ class legend extends configOptions
         {
             $this->textStyle = $textStyle->getValues();
         } else {
-            $this->type_error(__FUNCTION__, 'textStyle');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'textStyle');
         }
 
         return $this;

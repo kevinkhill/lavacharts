@@ -13,6 +13,8 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+
 class textStyle extends configOptions
 {
     /**
@@ -41,6 +43,8 @@ class textStyle extends configOptions
      * Builds the textStyle object when passed an array of configuration options.
      *
      * @param array Options for the textStyle
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
      * @return \tooltip
      */
     public function __construct($config = array())
@@ -68,7 +72,7 @@ class textStyle extends configOptions
         {
             $this->color = $color;
         } else {
-            $this->type_error(__FUNCTION__, 'string', ' of a valid HTML color');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', ' of a valid HTML color');
         }
 
         return $this;
@@ -88,7 +92,7 @@ class textStyle extends configOptions
         {
             $this->fontName = $fontName;
         } else {
-            $this->type_error(__FUNCTION__, 'string');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
         }
 
         return $this;
@@ -108,7 +112,7 @@ class textStyle extends configOptions
         {
             $this->fontSize = $fontSize;
         } else {
-            $this->type_error(__FUNCTION__, 'int');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
         }
 
         return $this;

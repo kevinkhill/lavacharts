@@ -12,6 +12,8 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+
 class gradient extends configOptions
 {
     /**
@@ -61,6 +63,8 @@ class gradient extends configOptions
      * Builds the gradient object with specified options
      *
      * @param array config
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
      * @return \gradient
      */
     public function __construct($config = array())
@@ -89,7 +93,7 @@ class gradient extends configOptions
 
     public function expose()
     {
-        return array_keys(get_class_vars(__CLASS__));
+        return array_keys(get_class_vars($this->className));
     }
 
     /**
@@ -105,7 +109,7 @@ class gradient extends configOptions
         {
             $this->color1 = $color1;
         } else {
-            $this->type_error(__FUNCTION__, 'string');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
         }
 
         return $this;
@@ -124,7 +128,7 @@ class gradient extends configOptions
         {
             $this->color2 = $color2;
         } else {
-            $this->type_error(__FUNCTION__, 'string');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
         }
 
         return $this;
@@ -142,7 +146,7 @@ class gradient extends configOptions
         {
             $this->x1 = $x1;
         } else {
-            $this->type_error(__FUNCTION__, 'string');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
         }
 
         return $this;
@@ -160,7 +164,7 @@ class gradient extends configOptions
         {
             $this->y1 = $y1;
         } else {
-            $this->type_error(__FUNCTION__, 'string');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
         }
 
         return $this;
@@ -178,7 +182,7 @@ class gradient extends configOptions
         {
             $this->x2 = $x2;
         } else {
-            $this->type_error(__FUNCTION__, 'string');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
         }
 
         return $this;
@@ -196,7 +200,7 @@ class gradient extends configOptions
         {
             $this->y2 = $y2;
         } else {
-            $this->type_error(__FUNCTION__, 'string');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
         }
 
         return $this;

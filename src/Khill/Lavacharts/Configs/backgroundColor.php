@@ -13,6 +13,8 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+
 class backgroundColor extends configOptions
 {
     /**
@@ -44,6 +46,8 @@ class backgroundColor extends configOptions
      * [ stroke | strokeWidth | fill ]
      *
      * @param array Configuration options
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
      * @return \backgroundColor
      */
     public function __construct($config = array()) {
@@ -69,7 +73,7 @@ class backgroundColor extends configOptions
         {
             $this->stroke = $stroke;
         } else {
-            $this->type_error(__FUNCTION__, 'string');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
         }
 
         return $this;
@@ -87,7 +91,7 @@ class backgroundColor extends configOptions
         {
             $this->strokeWidth = $strokeWidth;
         } else {
-            $this->type_error(__FUNCTION__, 'int');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
         }
 
         return $this;
@@ -105,7 +109,7 @@ class backgroundColor extends configOptions
         {
             $this->fill = $fill;
         } else {
-            $this->type_error(__FUNCTION__, 'string');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
         }
 
         return $this;

@@ -14,6 +14,7 @@
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class tooltip extends configOptions
 {
@@ -43,6 +44,8 @@ class tooltip extends configOptions
      * Builds the tooltip object with specified options.
      *
      * @param array Configuration options for the tooltip
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
      * @return \tooltip
      */
     public function __construct($config = array())
@@ -68,7 +71,7 @@ class tooltip extends configOptions
         {
             $this->showColorCode = $showColorCode;
         } else {
-            $this->type_error(__FUNCTION__, 'boolean');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'boolean');
         }
 
         return $this;
@@ -86,7 +89,7 @@ class tooltip extends configOptions
         {
             $this->textStyle = $textStyle->getValues();
         } else {
-            $this->type_error(__FUNCTION__, 'object', 'class (textStyle)');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'textStyle');
         }
 
         return $this;
@@ -112,7 +115,7 @@ class tooltip extends configOptions
         {
             $this->trigger = $trigger;
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
         }
 
         return $this;

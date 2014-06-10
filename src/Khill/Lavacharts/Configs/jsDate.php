@@ -13,6 +13,8 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+
 class jsDate
 {
     /**

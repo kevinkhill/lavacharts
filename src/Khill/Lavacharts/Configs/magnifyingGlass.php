@@ -17,6 +17,8 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+
 class magnifyingGlass extends configOptions
 {
     /**
@@ -40,6 +42,8 @@ class magnifyingGlass extends configOptions
      * Passing a number in upon creation, then the zoomFactor will be set.
      *
      * @param boolean zoomfactor
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
      * @return \tooltip
      */
     public function __construct($zoomFactor = 5)
@@ -63,7 +67,7 @@ class magnifyingGlass extends configOptions
         {
             $this->zoomFactor = $zoomFactor;
         } else {
-            $this->type_error(__FUNCTION__, 'int', 'greater than 0');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int', 'greater than 0');
         }
 
         return $this;

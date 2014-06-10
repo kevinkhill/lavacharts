@@ -13,6 +13,8 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+
 class sizeAxis extends configOptions
 {
     /**
@@ -50,8 +52,9 @@ class sizeAxis extends configOptions
      * values for option => value, or by chaining together the functions once
      * an object has been created.
      *
-     * @param array Associative array containing key => value pairs for the
-     * various configuration options.
+     * @param array Associative array containing key => value pairs for the various configuration options.
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
      * @return \sizeAxis
      */
     public function __construct($config = array())
@@ -78,7 +81,7 @@ class sizeAxis extends configOptions
         {
             $this->maxSize = $maxSize;
         } else {
-            $this->type_error(__FUNCTION__, 'int | float');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int | float');
         }
 
         return $this;
@@ -97,7 +100,7 @@ class sizeAxis extends configOptions
         {
             $this->maxValue = $maxValue;
         } else {
-            $this->type_error(__FUNCTION__, 'int | float');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int | float');
         }
 
         return $this;
@@ -115,7 +118,7 @@ class sizeAxis extends configOptions
         {
             $this->minSize = $minSize;
         } else {
-            $this->type_error(__FUNCTION__, 'int | float');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int | float');
         }
 
         return $this;
@@ -134,7 +137,7 @@ class sizeAxis extends configOptions
         {
             $this->minValue = $minValue;
         } else {
-            $this->type_error(__FUNCTION__, 'int | float');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int | float');
         }
 
         return $this;
