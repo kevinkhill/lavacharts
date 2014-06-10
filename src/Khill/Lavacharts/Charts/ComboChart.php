@@ -17,6 +17,7 @@
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class ComboChart extends Chart
 {
@@ -45,6 +46,7 @@ class ComboChart extends Chart
      * none - Omit the axis titles.
      *
      * @param annotation $position
+     * @throws InvalidConfigValue
      * @return \ComboChart
      */
     public function annotations($annotation)
@@ -53,7 +55,28 @@ class ComboChart extends Chart
         {
             $this->addOption($annotations->toArray());
         } else {
-            $this->type_error(__FUNCTION__, 'annotation');
+            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'annotation');
+        }
+
+        return $this;
+    }
+
+    /**
+     * The default opacity of the colored area under an area chart series, where
+     * 0.0 is fully transparent and 1.0 is fully opaque. To specify opacity for
+     * an individual series, set the areaOpacity value in the series property.
+     *
+     * @param float $opacity
+     * @throws InvalidConfigValue
+     * @return \AreaChart
+     */
+    public function areaOpacity($opacity)
+    {
+        if (Helpers::between(0.0, $opacity, 1.0))
+        {
+            $this->addOption(array('areaOpacity' => $opacity));
+        } else {
+            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'float', 'between 0.0 - 1.0');
         }
 
         return $this;
@@ -66,7 +89,8 @@ class ComboChart extends Chart
      * none - Omit the axis titles.
      *
      * @param string $position
-     * @return Chart
+     * @throws InvalidConfigValue
+     * @return ComboChart
      */
     public function axisTitlesPosition($position)
     {
@@ -80,7 +104,7 @@ class ComboChart extends Chart
         {
             $this->addOption(array('axisTitlesPosition' => $position));
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
         }
 
         return $this;
@@ -92,7 +116,8 @@ class ComboChart extends Chart
      * - Percentage of the available width for each group (e.g. '20%'),
      *   where '100%' means that groups have no space between them.
      *
-     * @param mixed $barGroupWidth
+     * @param mixed Width of the bar group
+     * @throws InvalidConfigValue
      * @return \ComboChart
      */
     public function barGroupWidth($barGroupWidth)
@@ -101,7 +126,7 @@ class ComboChart extends Chart
         {
             $this->addOption(array('bar' => array('groupWidth' => $barGroupWidth)));
         } else {
-            $this->type_error(__FUNCTION__, 'string | int', 'must be a valid int or percent [ 50 | 65% ]');
+            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'string | int', 'must be a valid int or percent [ 50 | 65% ]');
         }
 
         return $this;
@@ -113,7 +138,8 @@ class ComboChart extends Chart
      * specify properties of this property, create a new hAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param hAxis $hAxis
+     * @param hAxis horizontal axis object
+     * @throws InvalidConfigValue
      * @return \ComboChart
      */
     public function hAxis($hAxis)
@@ -122,7 +148,7 @@ class ComboChart extends Chart
         {
             $this->addOption($hAxis->toArray());
         } else {
-            $this->type_error(__FUNCTION__, 'hAxis');
+            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'hAxis');
         }
 
         return $this;
@@ -133,6 +159,7 @@ class ComboChart extends Chart
      *
      * @todo was this merged into tooltip object???
      * @param boolean $isHTML
+     * @throws InvalidConfigValue
      * @return \ComboChart
      */
     public function isHtml($isHTML)
@@ -151,6 +178,7 @@ class ComboChart extends Chart
      * If set to true, series elements are stacked.
      *
      * @param boolean $isStacked
+     * @throws InvalidConfigValue
      * @return \ComboChart
      */
     public function isStacked($isStacked)
@@ -159,7 +187,7 @@ class ComboChart extends Chart
         {
             $this->addOption(array('isStacked' => $isStacked));
         } else {
-            $this->type_error(__FUNCTION__, 'boolean');
+            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'boolean');
         }
 
         return $this;
@@ -170,7 +198,8 @@ class ComboChart extends Chart
      * in the chart. To use default values for a series, specify an null in the array.
      * If a series or a value is not specified, the global value will be used.
      *
-     * @param array Array of Lava series objects
+     * @param array Array of series objects
+     * @throws InvalidConfigValue
      * @return \ComboChart
      */
     public function series($arrOfSeries)
@@ -179,7 +208,7 @@ class ComboChart extends Chart
         {
             $this->addOption(array('series' => $arrOfSeries));
         } else {
-            $this->type_error(__FUNCTION__, 'array', 'of Series objects');
+            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'array', 'of type (series) objects');
         }
 
         return $this;
@@ -190,7 +219,8 @@ class ComboChart extends Chart
      * Available values are:
      * 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'
      *
-     * @param string $type
+     * @param string Type of series
+     * @throws InvalidConfigValue
      * @return \ComboChart
      */
     public function seriesType($type)
@@ -207,7 +237,7 @@ class ComboChart extends Chart
         {
             $this->addOption(array('seriesType' => $type));
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
         }
 
         return $this;
@@ -218,7 +248,8 @@ class ComboChart extends Chart
      * specify properties of this property, create a new vAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param vAxis $vAxis
+     * @param vAxis Vertical axis object
+     * @throws InvalidConfigValue
      * @return \ComboChart
      */
     public function vAxis($vAxis)
@@ -227,7 +258,7 @@ class ComboChart extends Chart
         {
             $this->addOption($vAxis->toArray());
         } else {
-            $this->type_error(__FUNCTION__, 'vAxis');
+            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'vAxis');
         }
 
         return $this;
@@ -236,49 +267,6 @@ class ComboChart extends Chart
 }
 
 /*
-animation.duration - number - 0 - [[The duration of the animation, in milliseconds. For details, see the animation documentation.]]
-animation.easing - string - 'linear' - [[The easing function applied to the animation. The following options are available:
-
-      'linear' - Constant speed.
-      'in' - Ease in - Start slow and speed up.
-      'out' - Ease out - Start fast and slow down.
-      'inAndOut' - Ease in and out - Start slow, speed up, then slow down.
-
-  ]]
-annotations.boxStyle - object - null - [[For charts that support annotations, the annotations.boxStyle object controls the appearance of the boxes surrounding annotations:
-  var options = {  annotations: {    boxStyle: {      stroke: '#888',           // Color of the box outline.      strokeWidth: 1,           // Thickness of the box outline.      rx: 10,                   // x-radius of the corner curvature.      ry: 10,                   // y-radius of the corner curvature.      gradient: {               // Attributes for linear gradient fill.        color1: '#fbf6a7',      // Start color for gradient.        color2: '#33b679',      // Finish color for gradient.        x1: '0%', y1: '0%',     // Where on the boundary to start and end the        x2: '100%', y2: '100%', // color1/color2 gradient, relative to the                                // upper left corner of the boundary.        useObjectBoundingBoxUnits: true // If true, the boundary for x1, y1,                                        // x2, and y2 is the box. If false,                                        // it's the entire chart.      }    }  }};
-
-  <p>[This section requires a browser that supports JavaScript and iframes.]</p>
-
-
-This option is currently supported for area, bar, column, combo,
-line, and scatter charts. It is not supported by
-the
-Annotation Chart.
-
-]]
-annotations.highContrast - boolean - true - [[For charts that
-  support annotations,
-  the annotations.highContrast boolean lets you override
-  Google Charts' choice of the annotation color. By
-  default, annotations.highContrast is true, which causes
-  Charts to select an annotation color with good contrast: light
-  colors on dark backgrounds, and dark on light. If you
-  set annotations.highContrast to false and don't specify
-  your own annotation color, Google Charts will use the default series
-  color for the annotation:
-
-
-  <p>[This section requires a browser that supports JavaScript and iframes.]</p>
-
-]]
-annotations.textStyle - object - null - [[For charts that support annotations, the annotations.textStyle object controls the appearance of the text of the annotation:
-  var options = {  annotations: {    textStyle: {      fontName: 'Times-Roman',      fontSize: 18,      bold: true,      italic: true,      color: '#871b47',     // The color of the text.      auraColor: '#d799ae', // The color of the text outline.      opacity: 0.8          // The transparency of the text.    }  }};
-
-  <p>[This section requires a browser that supports JavaScript and iframes.]</p>
-
-This option is currently supported for area, bar, column, combo, line, and scatter charts. It is not supported by the Annotation Chart.
-]]
 areaOpacity - number, 0.0–1.0 - 0.3 - [[The default opacity of the colored area under an area chart series, where
     0.0 is fully transparent and 1.0 is fully opaque. To specify opacity for an
     individual series, set the areaOpacity value in the series
