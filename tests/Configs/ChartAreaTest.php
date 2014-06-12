@@ -1,8 +1,7 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
-use Khill\Lavacharts\Lavacharts;
 use Khill\Lavacharts\Tests\TestCase;
-use Khill\Lavacharts\Configs\chartArea;
+use Khill\Lavacharts\Configs\ChartArea;
 
 class ChartAreaTest extends TestCase {
 
@@ -15,7 +14,7 @@ class ChartAreaTest extends TestCase {
 
     public function testIfInstanceOfchartArea()
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\chartArea', $this->ca);
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\ChartArea', $this->ca);
     }
 
     public function testConstructorDefaults()
@@ -43,7 +42,7 @@ class ChartAreaTest extends TestCase {
 
     public function testConstructorWithPercentsValuesAssignment()
     {
-        $chartArea = new chartArea(array(
+        $chartArea = new ChartArea(array(
             'left'   => '5%',
             'top'    => '10%',
             'width'  => '90%',
@@ -56,51 +55,48 @@ class ChartAreaTest extends TestCase {
         $this->assertEquals('40%', $chartArea->height);
     }
 
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        $chartArea = new chartArea(array('Pizza' => 'sandwich'));
-
-        $this->assertTrue(Lavacharts::hasErrors());
+        $chartArea = new ChartArea(array('Pizza' => 'sandwich'));
     }
 
     /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testLeftWithBadParams($badVals)
     {
         $this->ca->left($badVals);
-
-        $this->assertTrue(Lavacharts::hasErrors());
     }
 
     /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testTopWithBadParams($badVals)
     {
         $this->ca->top($badVals);
-
-        $this->assertTrue(Lavacharts::hasErrors());
     }
 
     /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testWidthWithBadParams($badVals)
     {
         $this->ca->width($badVals);
-
-        $this->assertTrue(Lavacharts::hasErrors());
     }
 
     /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testHeightWithBadParams($badVals)
     {
         $this->ca->height($badVals);
-
-        $this->assertTrue(Lavacharts::hasErrors());
     }
 
     public function badParamsProvider()

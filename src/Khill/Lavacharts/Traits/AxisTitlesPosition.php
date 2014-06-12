@@ -1,15 +1,18 @@
 <?php namespace Khill\Lavacharts\Traits;
 
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-trait AxisTitlesPosition {
+trait AxisTitlesPosition
+{
     /**
      * Where to place the axis titles, compared to the chart area. Supported values:
      * in   - Draw the axis titles inside the the chart area.
      * out  - Draw the axis titles outside the chart area.
      * none - Omit the axis titles.
      *
-     * @param string $position
+     * @param string $position The position of the axis titles
+     *
      * @return Chart
      */
     public function axisTitlesPosition($position)
@@ -20,11 +23,15 @@ trait AxisTitlesPosition {
             'none'
         );
 
-        if(in_array($position, $values))
-        {
+        if (in_array($position, $values)) {
             $this->addOption(array('axisTitlesPosition' => $position));
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'string',
+                'with a value of '.Helpers::arrayToPipedString($values)
+            );
         }
 
         return $this;

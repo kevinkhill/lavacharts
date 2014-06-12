@@ -1,4 +1,5 @@
 <?php namespace Khill\Lavacharts\Charts;
+
 /**
  * Column Chart Class
  *
@@ -7,11 +8,13 @@
  * chart, see the Bar Chart.
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Charts
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://www.gnu.org/licenses/gpl.html GPL-V3
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
@@ -22,64 +25,19 @@ class ColumnChart extends Chart
     {
         parent::__construct($chartLabel);
 
-        $this->defaults = array_merge($this->defaults, array(
-//            'animation',
+        $this->defaults = array_merge(
+            $this->defaults, array(
+            //            'animation',
             'axisTitlesPosition',
             'barGroupWidth',
             'focusTarget',
             'hAxis',
             'isHtml',
-//            'vAxes',
+            //            'vAxes',
             'vAxis'
-        ));
+            )
+        );
     }
-
-    /**
-     * Animation Easing
-     *
-     * The easing function applied to the animation. The following options are available:
-     * 'linear' - Constant speed.
-     * 'in' - Ease in - Start slow and speed up.
-     * 'out' - Ease out - Start fast and slow down.
-     * 'inAndOut' - Ease in and out - Start slow, speed up, then slow down.
-     *
-     * @param string $easing
-     * @return \ColumnChart
-     */
-//    public function animationEasing($easing = 'linear')
-//    {
-//        $values = array('linear', 'in', 'out', 'inAndOut');
-//
-//        if(in_array($easing, $values))
-//        {
-//            $this->easing = $easing;
-//            return $this;
-//        } else {
-//            $this->error('Invalid animationEasing value, must be (string) '.Helpers::array_string($values));
-//        }
-//
-//        return $this;
-//    }
-
-    /**
-     * Animation Duration
-     *
-     * The duration of the animation, in milliseconds.
-     *
-     * @param mixed $duration
-     * @return \ColumnChart
-     */
-//    public function animationDuration($duration)
-//    {
-//        if(is_int($duration) || is_string($duration))
-//        {
-//            $this->duration = $this->_valid_int($duration);
-//        } else {
-//            $this->duration = 0;
-//        }
-//
-//        return $this;
-//    }
 
     /**
      * Where to place the axis titles, compared to the chart area. Supported values:
@@ -88,7 +46,8 @@ class ColumnChart extends Chart
      * none - Omit the axis titles.
      *
      * @param string $position
-     * @return \ColumnChart
+     *
+     * @return ColumnChart
      */
     public function axisTitlesPosition($position)
     {
@@ -98,11 +57,10 @@ class ColumnChart extends Chart
             'none'
         );
 
-        if(in_array($position, $values))
-        {
+        if (in_array($position, $values)) {
             $this->addOption(array('axisTitlesPosition' => $position));
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
         }
 
         return $this;
@@ -115,14 +73,14 @@ class ColumnChart extends Chart
      *   where '100%' means that groups have no space between them.
      *
      * @param mixed $barGroupWidth
-     * @return \ColumnChart
+     *
+     * @return ColumnChart
      */
     public function barGroupWidth($barGroupWidth)
     {
-        if(Helpers::is_int_or_percent($barGroupWidth))
-        {
-//            $bar = new bar($barGroupWidth);
-//            $this->addOption($bar->toArray());
+        if (Helpers::isIntOrPercent($barGroupWidth)) {
+            //            $bar = new bar($barGroupWidth);
+            //            $this->addOption($bar->toArray());
             $this->addOption(array('bar' => array('groupWidth' => $barGroupWidth)));
         } else {
             $this->type_error(__FUNCTION__, 'string | int', 'must be a valid int or percent [ 50 | 65% ]');
@@ -138,12 +96,12 @@ class ColumnChart extends Chart
      * the values then pass it to this function or to the constructor.
      *
      * @param hAxis $hAxis
-     * @return \ColumnChart
+     *
+     * @return ColumnChart
      */
     public function hAxis($hAxis)
     {
-        if(Helpers::is_hAxis($hAxis))
-        {
+        if (Helpers::is_hAxis($hAxis)) {
             $this->addOption($hAxis->toArray());
         } else {
             $this->type_error(__FUNCTION__, 'hAxis');
@@ -155,14 +113,14 @@ class ColumnChart extends Chart
     /**
      * If set to true, use HTML-rendered (rather than SVG-rendered) tooltips.
      *
-     * @todo was this merged into tooltip object???
+     * @todo  was this merged into tooltip object???
      * @param boolean $isHTML
-     * @return \ColumnChart
+     *
+     * @return ColumnChart
      */
     public function isHtml($isHTML)
     {
-        if(is_bool($isHTML))
-        {
+        if (is_bool($isHTML)) {
             $this->addOption(array('isHTML' => $isHTML));
         } else {
             $this->error(__FUNCTION__, 'boolean');
@@ -175,12 +133,12 @@ class ColumnChart extends Chart
      * If set to true, series elements are stacked.
      *
      * @param boolean $isStacked
-     * @return \ColumnChart
+     *
+     * @return ColumnChart
      */
     public function isStacked($isStacked)
     {
-        if(is_bool($isStacked))
-        {
+        if (is_bool($isStacked)) {
             $this->addOption(array('isStacked' => $isStacked));
         } else {
             $this->type_error(__FUNCTION__, 'boolean');
@@ -195,12 +153,12 @@ class ColumnChart extends Chart
      * the values then pass it to this function or to the constructor.
      *
      * @param vAxis $vAxis
-     * @return \ColumnChart
+     *
+     * @return ColumnChart
      */
     public function vAxis($vAxis)
     {
-        if(Helpers::is_vAxis($vAxis))
-        {
+        if (Helpers::is_vAxis($vAxis)) {
             $this->addOption($vAxis->toArray());
         } else {
             $this->type_error(__FUNCTION__, 'vAxis');
@@ -208,5 +166,4 @@ class ColumnChart extends Chart
 
         return $this;
     }
-
 }

@@ -1,4 +1,5 @@
 <?php namespace Khill\Lavacharts\Configs;
+
 /**
  * backgroundColor Object
  *
@@ -6,16 +7,18 @@
  * be passed into the chart's options.
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Configs
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://opensource.org/licenses/GPL-3.0 GPLv3
  */
 
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class backgroundColor extends configOptions
+class BackgroundColor extends ConfigOptions
 {
     /**
      * The color of the chart border, as an HTML color string.
@@ -45,12 +48,13 @@ class backgroundColor extends configOptions
      * Pass an associative array with values for the keys
      * [ stroke | strokeWidth | fill ]
      *
-     * @param array Configuration options
+     * @param  array Configuration options
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
-     * @return \backgroundColor
+     * @return backgroundColor
      */
-    public function __construct($config = array()) {
+    public function __construct($config = array())
+    {
 
         $this->options = array(
             'stroke',
@@ -65,12 +69,12 @@ class backgroundColor extends configOptions
      * Sets the chart border color. Example: 'red' or '#A2A2A2'
      *
      * @param string Valid HTML color string.
-     * @return \backgroundColor
+     *
+     * @return backgroundColor
      */
     public function stroke($stroke)
     {
-        if(is_string($stroke))
-        {
+        if (is_string($stroke)) {
             $this->stroke = $stroke;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
@@ -83,12 +87,12 @@ class backgroundColor extends configOptions
      * Sets the chart border width.
      *
      * @param int Border width, in pixels.
-     * @return \backgroundColor
+     *
+     * @return backgroundColor
      */
     public function strokeWidth($strokeWidth)
     {
-        if(is_int($strokeWidth))
-        {
+        if (is_int($strokeWidth)) {
             $this->strokeWidth = $strokeWidth;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
@@ -101,12 +105,12 @@ class backgroundColor extends configOptions
      * Sets the chart color fill, Example: 'blue' or '#C5C5C5'
      *
      * @param string Valid HTML color string.
-     * @return \backgroundColor
+     *
+     * @return backgroundColor
      */
     public function fill($fill)
     {
-        if(is_string($fill))
-        {
+        if (is_string($fill)) {
             $this->fill = $fill;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
@@ -114,5 +118,4 @@ class backgroundColor extends configOptions
 
         return $this;
     }
-
 }

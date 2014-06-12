@@ -1,9 +1,8 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
-use Khill\Lavacharts\Lavacharts;
 use Khill\Lavacharts\Tests\TestCase;
-use Khill\Lavacharts\Configs\boxStyle;
-use Khill\Lavacharts\Configs\gradient;
+use Khill\Lavacharts\Configs\BoxStyle;
+use Khill\Lavacharts\Configs\Gradient;
 
 class BoxStyleTest extends TestCase {
 
@@ -11,12 +10,12 @@ class BoxStyleTest extends TestCase {
     {
         parent::setUp();
 
-        $this->bs = new boxStyle();
+        $this->bs = new BoxStyle();
     }
 
     public function testIfInstanceOfBoxStyle()
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\boxStyle', $this->bs);
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\BoxStyle', $this->bs);
     }
 
     public function testConstructorDefaults()
@@ -30,7 +29,7 @@ class BoxStyleTest extends TestCase {
 
     public function testConstructorValuesAssignment()
     {
-        $boxStyle = new boxStyle(array(
+        $boxStyle = new BoxStyle(array(
             'stroke'      => '#5B5B5B',
             'strokeWidth' => '5',
             'rx'          => '10',
@@ -45,81 +44,85 @@ class BoxStyleTest extends TestCase {
         $this->assertInstanceOf('Khill\Lavacharts\Configs\gradient', $boxStyle->gradient);
     }
 
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        $boxStyle = new boxStyle(array('lasagna' => '50%'));
+        $boxStyle = new boxStyle(array('Lasagna' => '50%'));
+    }
 
-        $this->assertTrue(Lavacharts::hasErrors());
+    public function testStokeWithNumericParams()
+    {
+        $this->bs->stroke('#DE02FB');
+
+        $this->assertEquals('#DE02FB', $this->bs->stroke);
     }
 
     /**
      * @dataProvider numericParamsProvider
      */
-    public function testStokeWidthWithNumericParams($badVals)
+    public function testStokeWidthWithNumericParams($testNum)
     {
-        $this->bs->strokeWidth($badVals);
+        $this->bs->strokeWidth($testNum);
 
-        $this->assertTrue(Lavacharts::hasErrors());
+        $this->assertEquals($testNum, $this->bs->strokeWidth);
     }
 
     /**
      * @dataProvider numericParamsProvider
      */
-    public function testRxWithNumericParams($badVals)
+    public function testRxWithNumericParams($testNum)
     {
-        $this->bs->rx($badVals);
+        $this->bs->rx($testNum);
 
-        $this->assertTrue(Lavacharts::hasErrors());
+        $this->assertEquals($testNum, $this->bs->rx);
     }
 
     /**
      * @dataProvider numericParamsProvider
      */
-    public function testRyWithNumericParams($badVals)
+    public function testRyWithNumericParams($testNum)
     {
-        $this->bs->ry($badVals);
+        $this->bs->ry($testNum);
 
-        $this->assertTrue(Lavacharts::hasErrors());
+        $this->assertEquals($testNum, $this->bs->ry);
     }
 
     /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testStrokeWithBadParams($badVals)
     {
         $this->bs->stroke($badVals);
-
-        $this->assertTrue(Lavacharts::hasErrors());
     }
 
     /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testStokeWidthWithBadParams($badVals)
     {
         $this->bs->strokeWidth($badVals);
-
-        $this->assertTrue(Lavacharts::hasErrors());
     }
 
     /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testRxWithBadParams($badVals)
     {
         $this->bs->rx($badVals);
-
-        $this->assertTrue(Lavacharts::hasErrors());
     }
 
     /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testRyWithBadParams($badVals)
     {
         $this->bs->ry($badVals);
-
-        $this->assertTrue(Lavacharts::hasErrors());
     }
 
 
@@ -127,7 +130,7 @@ class BoxStyleTest extends TestCase {
     {
         return array(
             array(array()),
-            array(new \stdClass()),
+            array(new \stdClass),
             array(true),
             array(null)
         );

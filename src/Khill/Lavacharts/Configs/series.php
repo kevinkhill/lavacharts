@@ -1,22 +1,25 @@
 <?php namespace Khill\Lavacharts\Configs;
+
 /**
- * series Properties Object
+ * Series Properties Object
  *
  * An object containing all the values for a single series in a multiple data
  * set chart, which can be passed into the series property of the chart's options.
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Configs
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://opensource.org/licenses/GPL-3.0 GPLv3
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class series extends configOptions
+class Series extends ConfigOptions
 {
     /**
      * The type of marker for this series.
@@ -44,7 +47,8 @@ class series extends configOptions
      * Builds the series object when passed an array of configuration options.
      *
      * @param array Options for the series
-     * @return \series
+     *
+     * @return Khill\Lavacharts\Configs\Series
      */
     public function __construct($config = array())
     {
@@ -61,12 +65,12 @@ class series extends configOptions
      * This can be used to control, for instance, the textStyle for the series.
      *
      * @param annotation Annotation style of the series
-     * @return \series
+     *
+     * @return Khill\Lavacharts\Configs\Series
      */
     public function annotation($annotation)
     {
-        if(Helpers::is_annotation($annotation))
-        {
+        if (Helpers::isAnnotation($annotation)) {
             $this->annotation = $annotation;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'annotation');
@@ -81,7 +85,8 @@ class series extends configOptions
      * 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'
      *
      * @param string $type
-     * @return \series
+     *
+     * @return Khill\Lavacharts\Configs\Series
      */
     public function type($type)
     {
@@ -93,11 +98,10 @@ class series extends configOptions
             'steppedArea'
         );
 
-        if(in_array($type, $values))
-        {
+        if (in_array($type, $values)) {
             $this->type = $type;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
         }
 
         return $this;
@@ -107,12 +111,12 @@ class series extends configOptions
      * An object that specifies the series text style.
      *
      * @param textStyle Style of the series
-     * @return \series
+     *
+     * @return Khill\Lavacharts\Configs\Series
      */
     public function textStyle($textStyle)
     {
-        if(Helpers::is_textStyle($textStyle))
-        {
+        if (Helpers::isTextStyle($textStyle)) {
             $this->textStyle = $textStyle;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'textStyle');
@@ -120,7 +124,6 @@ class series extends configOptions
 
         return $this;
     }
-
 }
 
 /*

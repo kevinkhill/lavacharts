@@ -1,47 +1,42 @@
 <?php namespace Khill\Lavacharts\Configs;
+
 /**
- * colorAxis Object
+ * ColorAxis Object
  *
  * An object that specifies a mapping between color column values and colors
  * or a gradient scale.
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Configs
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://opensource.org/licenses/GPL-3.0 GPLv3
  */
 
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class colorAxis extends configOptions
+class ColorAxis extends ConfigOptions
 {
     /**
-     * Minimum value for chart color data.
-     *
-     * @var int
+     * @var int Minimum value for chart color data.
      */
     public $minValue = null;
 
     /**
-     * Maximum value for chart color data.
-     *
-     * @var int
+     * @var int Maximum value for chart color data.
      */
     public $maxValue = null;
 
     /**
-     * Controls how values are associated with colors.
-     *
-     * @var array
+     * @var array Controls how values are associated with colors.
      */
     public $values = null;
 
     /**
-     * Colors to assign to values in the visualization.
-     *
-     * @var array
+     * @var array Colors to assign to values in the visualization.
      */
     public $colors = null;
 
@@ -49,12 +44,14 @@ class colorAxis extends configOptions
     /**
      * Builds the colorAxis object with specified options
      *
-     * @param array config
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
-     * @return \colorAxis
+     * @param  array config
+     *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @return Khill\Lavacharts\Configs\ColorAxis
      */
-    public function __construct($config = array()) {
+    public function __construct($config = array())
+    {
 
         $this->options = array(
             'minValue',
@@ -72,12 +69,13 @@ class colorAxis extends configOptions
      * the $this->colors range.
      *
      * @param numeric minValue
-     * @return \colorAxis
+     *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Configs\ColorAxis
      */
     public function minValue($minValue)
     {
-        if(is_numeric($minValue))
-        {
+        if (is_numeric($minValue)) {
             $this->minValue = $minValue;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'numeric');
@@ -92,12 +90,13 @@ class colorAxis extends configOptions
      * the $this->colors range.
      *
      * @param numeric maxValue
-     * @return \colorAxis
+     *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Configs\ColorAxis
      */
     public function maxValue($maxValue)
     {
-        if(is_numeric($maxValue))
-        {
+        if (is_numeric($maxValue)) {
             $this->maxValue = $maxValue;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'numeric');
@@ -116,15 +115,21 @@ class colorAxis extends configOptions
      * [minValue, maxValue].
      *
      * @param array values
-     * @return \colorAxis
+     *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Configs\ColorAxis
      */
     public function values($values)
     {
-        if(is_array($values) && Helpers::array_values_check($values, 'numeric'))
-        {
+        if (is_array($values) && Helpers::arrayValuesCheck($values, 'numeric')) {
             $this->values = $values;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'array', 'with values as [ int | float ]');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'array',
+                'with values as [ int | float ]'
+            );
         }
         return $this;
     }
@@ -139,17 +144,17 @@ class colorAxis extends configOptions
      * smallest value, and the last color as the highest.
      *
      * @param array colors
-     * @return \colorAxis
+     *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Configs\ColorAxis
      */
     public function colors($colors)
     {
-        if(is_array($colors) && Helpers::array_values_check($colors, 'string'))
-        {
+        if (is_array($colors) && Helpers::arrayValuesCheck($colors, 'string')) {
             $this->colors = $colors;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'array', 'with values as strings');
         }
         return $this;
     }
-
 }

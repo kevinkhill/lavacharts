@@ -1,20 +1,23 @@
 <?php namespace Khill\Lavacharts\Configs;
+
 /**
- * gradient Object
+ * Gradient Object
  *
  * An object that specifies a color gradient
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Configs
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://opensource.org/licenses/GPL-3.0 GPLv3
  */
 
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class gradient extends configOptions
+class Gradient extends ConfigOptions
 {
     /**
      * Start color for gradient.
@@ -62,20 +65,18 @@ class gradient extends configOptions
     /**
      * Builds the gradient object with specified options
      *
-     * @param array config
+     * @param  array config
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
-     * @return \gradient
+     * @return gradient
      */
     public function __construct($config = array())
     {
-        if ( ! array_key_exists('color1', $config))
-        {
+        if (! array_key_exists('color1', $config)) {
             $this->color1 = $this->_randomColor();
         }
 
-        if ( ! array_key_exists('color2', $config))
-        {
+        if (! array_key_exists('color2', $config)) {
             $this->color2 = $this->_randomColor();
         }
 
@@ -101,12 +102,12 @@ class gradient extends configOptions
      * If undefined, a random color will be used.
      *
      * @param string color1
-     * @return \gradient
+     *
+     * @return gradient
      */
     public function color1($color1)
     {
-        if(is_string($color1))
-        {
+        if (is_string($color1)) {
             $this->color1 = $color1;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
@@ -120,12 +121,12 @@ class gradient extends configOptions
      * If undefined, a random color will be used.
      *
      * @param string finishColor
-     * @return \gradient
+     *
+     * @return gradient
      */
     public function color2($color2)
     {
-        if(is_string($color2))
-        {
+        if (is_string($color2)) {
             $this->color2 = $color2;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
@@ -138,12 +139,12 @@ class gradient extends configOptions
      * Sets where on the boundary to start in X.
      *
      * @param string x1
-     * @return \gradient
+     *
+     * @return gradient
      */
     public function x1($x1)
     {
-        if(is_string($x1))
-        {
+        if (is_string($x1)) {
             $this->x1 = $x1;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
@@ -156,12 +157,12 @@ class gradient extends configOptions
      * Sets where on the boundary to start in Y.
      *
      * @param string y1
-     * @return \gradient
+     *
+     * @return gradient
      */
     public function y1($y1)
     {
-        if(is_string($y1))
-        {
+        if (is_string($y1)) {
             $this->y1 = $y1;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
@@ -174,12 +175,12 @@ class gradient extends configOptions
      * Sets where on the boundary to end in X, relative to x1.
      *
      * @param string x2
-     * @return \gradient
+     *
+     * @return gradient
      */
     public function x2($x2)
     {
-        if(is_string($x2))
-        {
+        if (is_string($x2)) {
             $this->x2 = $x2;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
@@ -192,12 +193,12 @@ class gradient extends configOptions
      * Sets where on the boundary to end in Y, relative to y1.
      *
      * @param string y2
-     * @return \gradient
+     *
+     * @return gradient
      */
     public function y2($y2)
     {
-        if(is_string($y2))
-        {
+        if (is_string($y2)) {
             $this->y2 = $y2;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
@@ -214,10 +215,11 @@ class gradient extends configOptions
      * http://stackoverflow.com/users/90527/outis
      *
      * @param void
+     *
      * @return string
      */
-    private function _randomColor() {
+    private function _randomColor()
+    {
         return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
     }
-
 }

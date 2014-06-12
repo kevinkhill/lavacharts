@@ -2,7 +2,8 @@
 
 use Khill\Lavacharts\Helpers\Helpers;
 
-trait Animation {
+trait Animation
+{
 
     /**
      * Animation Easing
@@ -14,6 +15,7 @@ trait Animation {
      * 'inAndOut' - Ease in and out - Start slow, speed up, then slow down.
      *
      * @param string $easing
+     *
      * @return \Chart
      */
     public function animationEasing($easing = 'linear')
@@ -25,11 +27,10 @@ trait Animation {
             'inAndOut'
         );
 
-        if(in_array($easing, $values))
-        {
+        if (in_array($easing, $values)) {
             $this->easing = $easing;
         } else {
-            $this->error('Invalid animationEasing value, must be (string) '.Helpers::array_string($values));
+            $this->error('Invalid animationEasing value, must be (string) '.Helpers::arrayToPipedString($values));
         }
 
         return $this;
@@ -41,12 +42,12 @@ trait Animation {
      * The duration of the animation, in milliseconds.
      *
      * @param mixed $duration
+     *
      * @return \Chart
      */
     public function animationDuration($duration)
     {
-        if(is_int($duration) || is_string($duration))
-        {
+        if (is_int($duration) || is_string($duration)) {
             $this->duration = $this->_valid_int($duration);
         } else {
             $this->duration = 0;

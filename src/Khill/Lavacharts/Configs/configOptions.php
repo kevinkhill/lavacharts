@@ -1,16 +1,19 @@
 <?php namespace Khill\Lavacharts\Configs;
+
 /**
- * configOptions Parent Object
+ * ConfigOptions Parent Object
  *
  * The base class for the individual configuration objects, providing common
  * functions to the child objects.
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Configs
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://opensource.org/licenses/GPL-3.0 GPLv3
  */
 
 use Khill\Lavacharts\Lavacharts;
@@ -18,57 +21,63 @@ use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
-class configOptions
+class ConfigOptions
 {
     /**
-     * Output of the configOptions object.
-     *
-     * @var string
+     * @var string Output of the configOptions object.
      */
     protected $output = null;
 
     /**
-     * Array of allowed key values for the configOptions child objects.
-     *
-     * @var array
+     * @var array Allowed keys for the configOptions child objects.
      */
     protected $options = null;
 
     /**
-     * Class name without namespace
-     *
-     * @var string
+     * @var string Class name without namespace.
      */
     protected $className;
 
     /**
-     * Builds the configOptions object.
+     * Builds the ConfigOptions object.
      *
      * Passing an array of key value pairs will set the configuration for each
      * child object created from this master object.
      *
-     * @param array Array of options.
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
-     * @return mixed
+     * @param  array Array of options.
+     *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @return object
      */
     public function __construct($config)
     {
-        $this->className = Helpers::get_real_class($this);
+        if (preg_match('/\\\\([\w]+)$/', get_class($this), $matches)) {
+            $this->className = $matches[1];
+        } else {
+            throw new Exception("Error Processing Request", 1);
+        }
 
-        if(is_array($config))
-        {
-            foreach($config as $option => $value)
-            {
-                if(in_array($option, $this->options))
-                {
+        if (is_array($config)) {
+            foreach ($config as $option => $value) {
+                if (in_array($option, $this->options)) {
                     $this->$option($value);
                 } else {
-                    throw new InvalidConfigProperty($this->className, __FUNCTION__, $option, $this->options);
+                    throw new InvalidConfigProperty(
+                        $this->className,
+                        __FUNCTION__,
+                        $option,
+                        $this->options
+                    );
                 }
             }
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'array', 'with valid keys as '.Helpers::array_string($this->options));
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'array',
+                'with valid keys as '.Helpers::arrayToPipedString($this->options)
+            );
         }
 
         return $this;
@@ -88,16 +97,13 @@ class configOptions
     {
         $this->output = array();
 
-        foreach($this->options as $option)
-        {
-            if(isset($this->$option))
-            {
+        foreach ($this->options as $option) {
+            if (isset($this->$option)) {
                 $this->output[$option] = $this->$option;
             }
         }
 
-        if(is_null($keyName))
-        {
+        if (is_null($keyName)) {
             return array($this->className => $this->output);
         } else {
             return array($keyName => $this->output);
@@ -113,15 +119,12 @@ class configOptions
     {
         $this->output = array();
 
-        foreach($this->options as $option)
-        {
-            if(isset($this->$option))
-            {
+        foreach ($this->options as $option) {
+            if (isset($this->$option)) {
                 $this->output[$option] = $this->$option;
             }
         }
 
         return $this->output;
     }
-
 }

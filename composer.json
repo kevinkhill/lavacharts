@@ -1,8 +1,8 @@
 {
     "name": "khill/lavacharts",
-    "version": "0.0.23",
-    "license": "MIT",
-    "description": "PHP library for the Google Chart API",
+    "version": "1.0.0_alpha",
+    "license": "GPLv3",
+    "description": "A PHP wrapper library for the Google Chart API",
     "authors": [
         {
             "name": "Kevin Hill",
@@ -15,9 +15,11 @@
     },
     "require-dev": {
     	"phpunit/phpunit": "4.1.*",
+        "orchestra/testbench": "2.1.*",
         "mockery/mockery": "dev-master@dev",
         "sami/sami": "1.4.*@dev",
-        "orchestra/testbench": "2.1.*"
+        "phpdocumentor/phpdocumentor": "dev-master",
+        "squizlabs/php_codesniffer": "2.0.*@dev"
     },
     "autoload": {
         "psr-0": { "Khill\\Lavacharts": "src/" }

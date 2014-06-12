@@ -1,4 +1,5 @@
 <?php namespace Khill\Lavacharts\Charts;
+
 /**
  * Combo Chart Class
  *
@@ -9,14 +10,17 @@
  * Use the series property to specify properties of each series individually.
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2013, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @category  Class
+ * @package   Khill\Lavacharts\Charts
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2014, KHill Designs
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://www.gnu.org/licenses/gpl.html GPL-V3
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Configs\VerticalAxis;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class ComboChart extends Chart
@@ -27,16 +31,19 @@ class ComboChart extends Chart
     {
         parent::__construct($chartLabel);
 
-        $this->defaults = array_merge($this->defaults, array(
-            'axisTitlesPosition',
-            'barGroupWidth',
-            'focusTarget',
-            'hAxis',
-            'isHtml',
-            'series',
-            'seriesType',
-            'vAxis'
-        ));
+        $this->defaults = array_merge(
+            $this->defaults, array(
+                'axisTitlesPosition',
+                'barGroupWidth',
+                'focusTarget',
+                'hAxis',
+                'isHtml',
+                'series',
+                'seriesType',
+                'vAxes',
+                'vAxis'
+            )
+        );
     }
 
     /**
@@ -45,14 +52,13 @@ class ComboChart extends Chart
      * out - Draw the axis titles outside the chart area.
      * none - Omit the axis titles.
      *
-     * @param annotation $position
-     * @throws InvalidConfigValue
-     * @return \ComboChart
+     * @param  annotation $position
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function annotations($annotation)
     {
-        if(Helpers::is_annotation($annotation))
-        {
+        if (Helpers::is_annotation($annotation)) {
             $this->addOption($annotations->toArray());
         } else {
             throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'annotation');
@@ -66,17 +72,21 @@ class ComboChart extends Chart
      * 0.0 is fully transparent and 1.0 is fully opaque. To specify opacity for
      * an individual series, set the areaOpacity value in the series property.
      *
-     * @param float $opacity
-     * @throws InvalidConfigValue
-     * @return \AreaChart
+     * @param  float $opacity
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function areaOpacity($opacity)
     {
-        if (Helpers::between(0.0, $opacity, 1.0))
-        {
+        if (Helpers::between(0.0, $opacity, 1.0)) {
             $this->addOption(array('areaOpacity' => $opacity));
         } else {
-            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'float', 'between 0.0 - 1.0');
+            throw new InvalidConfigValue(
+                $this->chartType,
+                __FUNCTION__,
+                'float',
+                'between 0.0 - 1.0'
+            );
         }
 
         return $this;
@@ -88,9 +98,9 @@ class ComboChart extends Chart
      * out  - Draw the axis titles outside the chart area.
      * none - Omit the axis titles.
      *
-     * @param string $position
-     * @throws InvalidConfigValue
-     * @return ComboChart
+     * @param  string $position
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function axisTitlesPosition($position)
     {
@@ -100,11 +110,15 @@ class ComboChart extends Chart
             'none'
         );
 
-        if(in_array($position, $values))
-        {
+        if (in_array($position, $values)) {
             $this->addOption(array('axisTitlesPosition' => $position));
         } else {
-            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            throw new InvalidConfigValue(
+                $this->chartType,
+                __FUNCTION__,
+                'string',
+                'with a value of '.Helpers::arrayToPipedString($values)
+            );
         }
 
         return $this;
@@ -116,14 +130,13 @@ class ComboChart extends Chart
      * - Percentage of the available width for each group (e.g. '20%'),
      *   where '100%' means that groups have no space between them.
      *
-     * @param mixed Width of the bar group
-     * @throws InvalidConfigValue
-     * @return \ComboChart
+     * @param  mixed Width of the bar group
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function barGroupWidth($barGroupWidth)
     {
-        if(Helpers::is_int_or_percent($barGroupWidth))
-        {
+        if (Helpers::isIntOrPercent($barGroupWidth)) {
             $this->addOption(array('bar' => array('groupWidth' => $barGroupWidth)));
         } else {
             throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'string | int', 'must be a valid int or percent [ 50 | 65% ]');
@@ -138,14 +151,13 @@ class ComboChart extends Chart
      * specify properties of this property, create a new hAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param hAxis horizontal axis object
-     * @throws InvalidConfigValue
-     * @return \ComboChart
+     * @param  hAxis horizontal axis object
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function hAxis($hAxis)
     {
-        if(Helpers::is_hAxis($hAxis))
-        {
+        if (Helpers::is_hAxis($hAxis)) {
             $this->addOption($hAxis->toArray());
         } else {
             throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'hAxis');
@@ -157,15 +169,14 @@ class ComboChart extends Chart
     /**
      * If set to true, use HTML-rendered (rather than SVG-rendered) tooltips.
      *
-     * @todo was this merged into tooltip object???
-     * @param boolean $isHTML
-     * @throws InvalidConfigValue
-     * @return \ComboChart
+     * @todo   was this merged into tooltip object???
+     * @param  boolean $isHTML
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function isHtml($isHTML)
     {
-        if(is_bool($isHTML))
-        {
+        if (is_bool($isHTML)) {
             $this->addOption(array('isHTML' => $isHTML));
         } else {
             $this->error(__FUNCTION__, 'boolean');
@@ -177,14 +188,13 @@ class ComboChart extends Chart
     /**
      * If set to true, series elements are stacked.
      *
-     * @param boolean $isStacked
-     * @throws InvalidConfigValue
-     * @return \ComboChart
+     * @param  boolean $isStacked
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function isStacked($isStacked)
     {
-        if(is_bool($isStacked))
-        {
+        if (is_bool($isStacked)) {
             $this->addOption(array('isStacked' => $isStacked));
         } else {
             throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'boolean');
@@ -198,17 +208,21 @@ class ComboChart extends Chart
      * in the chart. To use default values for a series, specify an null in the array.
      * If a series or a value is not specified, the global value will be used.
      *
-     * @param array Array of series objects
-     * @throws InvalidConfigValue
-     * @return \ComboChart
+     * @param  array Array of series objects
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function series($arrOfSeries)
     {
-        if(is_array($arrOfSeries))
-        {
+        if (Helpers::arrayValuesCheck($arrOfSeries, 'class', 'Series')) {
             $this->addOption(array('series' => $arrOfSeries));
         } else {
-            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'array', 'of type (series) objects');
+            throw new InvalidConfigValue(
+                $this->chartType,
+                __FUNCTION__,
+                'array',
+                'of type (Series) objects'
+            );
         }
 
         return $this;
@@ -219,9 +233,9 @@ class ComboChart extends Chart
      * Available values are:
      * 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'
      *
-     * @param string Type of series
-     * @throws InvalidConfigValue
-     * @return \ComboChart
+     * @param  string Type of series
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function seriesType($type)
     {
@@ -233,14 +247,46 @@ class ComboChart extends Chart
             'steppedArea'
         );
 
-        if(in_array($type, $values))
-        {
+        if (in_array($type, $values)) {
             $this->addOption(array('seriesType' => $type));
         } else {
-            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            throw new InvalidConfigValue(
+                $this->chartType,
+                __FUNCTION__,
+                'string',
+                'with a value of '.Helpers::arrayToPipedString($values)
+            );
         }
 
         return $this;
+    }
+
+    /**
+     * Specifies properties for individual vertical axes
+     *
+     * If the chart has multiple vertical axes. Each child object is a vAxis object,
+     * and can contain all the properties supported by vAxis.
+     * These property values override any global settings for the same property.
+     *
+     * To specify a chart with multiple vertical axes, first define a new axis using
+     * series.targetAxisIndex, then configure the axis using vAxes.
+     *
+     * @param  array Array of Vaxis objects
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     *
+     * @return Khill\Lavacharts\Charts\ComboChart
+     */
+    public function vAxes($arrOfVaxis)
+    {
+        if (Helpers::arrayValuesCheck($arrOfVaxis, 'class', 'VerticalAxis')) {
+            $this->addOption(array('vAxes' => $arrOfVaxis));
+        } else {
+            throw new InvalidConfigValue(
+                $this->chartType,
+                __FUNCTION__,
+                'VerticalAxis'
+            );
+        }
     }
 
     /**
@@ -248,22 +294,24 @@ class ComboChart extends Chart
      * specify properties of this property, create a new vAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param vAxis Vertical axis object
-     * @throws InvalidConfigValue
-     * @return \ComboChart
+     * @param  vAxis Vertical axis object
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\ComboChart
      */
-    public function vAxis($vAxis)
+    public function vAxis(VerticalAxis $vAxis)
     {
-        if(Helpers::is_vAxis($vAxis))
-        {
+        if (Helpers::is_vAxis($vAxis)) {
             $this->addOption($vAxis->toArray());
         } else {
-            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'vAxis');
+            throw new InvalidConfigValue(
+                $this->chartType,
+                __FUNCTION__,
+                'VerticalAxis'
+            );
         }
 
         return $this;
     }
-
 }
 
 /*

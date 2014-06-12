@@ -1,15 +1,18 @@
 <?php namespace Khill\Lavacharts\Configs;
+
 /**
  * DataCell Object
  *
  * Holds the information for a data point
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Configs
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://opensource.org/licenses/GPL-3.0 GPLv3
  */
 
 class DataCell
@@ -49,22 +52,21 @@ class DataCell
      * assigning the values "low" "medium", and "high" as formatted values to
      * numeric cell values of 1, 2, and 3.
      *
-     * @see DataTable
+     * @see   DataTable
      * @param string $v The cell value
      * @param string $f A string version of the v value
      * @param string $p An object that is a map of custom values applied to the cell
-     * @return \DataCell
+     *
+     * @return DataCell
      */
-    public function __construct($v = null, $f = NULL, $p = NULL)
+    public function __construct($v = null, $f = null, $p = null)
     {
         $this->v = $v;
         $this->f = $f;
 
-        if(is_array($p))
-        {
+        if (is_array($p)) {
             $vals = array();
-            foreach($p as $k => $v)
-            {
+            foreach ($p as $k => $v) {
                 $vals[$k] = $v;
             }
             $this->p = $vals;
@@ -84,9 +86,15 @@ class DataCell
     {
         $output = array();
 
-        if($this->v != null) { $output['v'] = $this->v; }
-        if($this->f != null) { $output['f'] = $this->f; }
-        if($this->p != null) { $output['p'] = $this->p; }
+        if ($this->v != null) {
+            $output['v'] = $this->v;
+        }
+        if ($this->f != null) {
+            $output['f'] = $this->f;
+        }
+        if ($this->p != null) {
+            $output['p'] = $this->p;
+        }
 
         return json_encode($output);
     }

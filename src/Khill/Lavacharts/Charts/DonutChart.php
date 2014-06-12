@@ -1,4 +1,5 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php namespace Khill\Lavacharts\Charts;
+
 /**
  * DonutChart Class
  *
@@ -6,11 +7,13 @@
  * tooltips when hovering over slices.
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Charts
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://www.gnu.org/licenses/gpl.html GPL-V3
  */
 
 use Khill\Lavacharts\Charts\PieChart;
@@ -30,12 +33,12 @@ class DonutChart extends PieChart
      * equal to number times the radius of the chart.
      *
      * @param numeric $pieHole
-     * @return \PieChart
+     *
+     * @return DonutChart
      */
     public function pieHole($pieHole)
     {
-        if(is_numeric($pieHole) && $pieHole > 0 && $pieHole < 1)
-        {
+        if (is_numeric($pieHole) && $pieHole > 0 && $pieHole < 1) {
             $this->addOption(array('pieHole' => $pieHole));
         } else {
             $this->type_error(__FUNCTION__, 'numeric', 'while, 0 < pieHole < 1 ');
@@ -43,5 +46,4 @@ class DonutChart extends PieChart
 
         return $this;
     }
-
 }

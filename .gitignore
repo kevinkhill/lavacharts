@@ -3,6 +3,7 @@ _site/
 tmp/
 build/
 cache/
+docs/
 
 bootstrap/compiled.php
 composer.phar

@@ -1,8 +1,7 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
-use Khill\Lavacharts\Lavacharts;
 use Khill\Lavacharts\Tests\TestCase;
-use Khill\Lavacharts\Configs\gradient;
+use Khill\Lavacharts\Configs\Gradient;
 
 class GradientTest extends TestCase {
 
@@ -10,30 +9,14 @@ class GradientTest extends TestCase {
     {
         parent::setUp();
 
-        $this->g = new gradient();
+        $this->g = new Gradient();
     }
 
     public function testIfInstanceOfGradient()
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\gradient', $this->g);
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\Gradient', $this->g);
     }
-/*
-    public function testExpose()
-    {
-        $gradient = new gradient();
 
-        $this->assertEquals(array(
-                'color1',
-                'color2',
-                'x1',
-                'y1',
-                'x2',
-                'y2'
-            ),
-            $gradient->expose()
-        );
-    }
-*/
     public function testConstructorDefaults()
     {
         $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $this->g->color1);
@@ -46,7 +29,7 @@ class GradientTest extends TestCase {
 
     public function testConstructorValuesAssignment()
     {
-        $gradient = new gradient(array(
+        $gradient = new Gradient(array(
             'color1' => '#F0F0F0',
             'color2' => '#3D3D3D',
             'x1'     => '0%',
@@ -63,72 +46,68 @@ class GradientTest extends TestCase {
         $this->assertEquals('100%',    $gradient->y2);
     }
 
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        $gradient = new gradient(array('tacos' => '#F8C3B0'));
-
-        $this->assertTrue(Lavacharts::hasErrors());
+        new Gradient(array('tacos' => '#F8C3B0'));
     }
 
     /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testColor1WithBadParams($badVals)
     {
         $this->g->color1($badVals);
-
-        $this->assertTrue(Lavacharts::hasErrors());
     }
 
     /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testColor2WithBadParams($badVals)
     {
         $this->g->color2($badVals);
-
-        $this->assertTrue(Lavacharts::hasErrors());
     }
 
     /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testX1ColorWithBadParams($badVals)
     {
         $this->g->x1($badVals);
-
-        $this->assertTrue(Lavacharts::hasErrors());
     }
 
     /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testY1ColorWithBadParams($badVals)
     {
         $this->g->y1($badVals);
-
-        $this->assertTrue(Lavacharts::hasErrors());
     }
 
     /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testX2ColorWithBadParams($badVals)
     {
         $this->g->x2($badVals);
-
-        $this->assertTrue(Lavacharts::hasErrors());
     }
 
     /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testY2ColorWithBadParams($badVals)
     {
         $this->g->y2($badVals);
-
-        $this->assertTrue(Lavacharts::hasErrors());
     }
+
 
     public function badParamsProvider()
     {

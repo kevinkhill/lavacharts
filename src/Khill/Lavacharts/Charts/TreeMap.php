@@ -1,4 +1,5 @@
 <?php namespace Khill\Lavacharts\Charts;
+
 /**
  * TreeMap Chart Class
  *
@@ -18,11 +19,13 @@
  * long to show, the name will be truncated with an ellipsis (...).
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Charts
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://www.gnu.org/licenses/gpl.html GPL-V3
  */
 
 /*
@@ -62,6 +65,7 @@ class TreeMap extends Chart
      * The color of the header section for each node. Specify an HTML color value.
      *
      * @param string $headerColor
+     *
      * @return \TreeMap
      */
 /*    public function headerColor($headerColor)
@@ -73,6 +77,7 @@ class TreeMap extends Chart
      * The height of the header section for each node, in pixels (can be zero).
      *
      * @param int $headerHeight
+     *
      * @return \TreeMap
      */
 /*    public function headerHeight($headerHeight)
@@ -86,6 +91,7 @@ class TreeMap extends Chart
      * by 35%
      *
      * @param string $headerHighlightColor
+     *
      * @return \TreeMap
      */
  /*   public function headerHighlightColor($headerHighlightColor)
@@ -98,6 +104,7 @@ class TreeMap extends Chart
      * Specify an HTML color value.
      *
      * @param string $maxColor
+     *
      * @return \TreeMap
      */
  /*   public function maxColor($maxColor)
@@ -113,6 +120,7 @@ class TreeMap extends Chart
      * within these nodes.
      *
      * @param int $maxDepth
+     *
      * @return \TreeMap
      */
  /*   public function maxDepth($maxDepth)
@@ -126,6 +134,7 @@ class TreeMap extends Chart
      * will be the value of maxColor lightened by 35%.
      *
      * @param string $maxHighlightColor
+     *
      * @return \TreeMap
      */
  /*   public function maxHighlightColor($maxHighlightColor)
@@ -139,6 +148,7 @@ class TreeMap extends Chart
      * the maxDepth limit.
      *
      * @param int $maxPostDepth
+     *
      * @return \TreeMap
      */
  /*   public function maxPostDepth($maxPostDepth)
@@ -152,6 +162,7 @@ class TreeMap extends Chart
      * in the column.
      *
      * @param int $maxColorValue
+     *
      * @return \TreeMap
      */
  /*   public function maxColorValue($maxColorValue)
@@ -164,6 +175,7 @@ class TreeMap extends Chart
      * maxColorValue and minColorValue. Specify an HTML color value.
      *
      * @param string $midColor
+     *
      * @return \TreeMap
      */
  /*   public function midColor($midColor)
@@ -178,6 +190,7 @@ class TreeMap extends Chart
      * by 35%.
      *
      * @param string $midHighlightColor
+     *
      * @return \TreeMap
      */
  /*   public function midHighlightColor($midHighlightColor)
@@ -190,6 +203,7 @@ class TreeMap extends Chart
      * Specify an HTML color value.
      *
      * @param string $minColor
+     *
      * @return \TreeMap
      */
 /*    public function minColor($minColor)
@@ -203,6 +217,7 @@ class TreeMap extends Chart
      * will be the value of minColor lightened by 35%.
      *
      * @param string $minHighlightColor
+     *
      * @return \TreeMap
      */
 /*    public function minHighlightColor($minHighlightColor)
@@ -216,6 +231,7 @@ class TreeMap extends Chart
      * minimum value in the column.
      *
      * @param int $minColorValue
+     *
      * @return \TreeMap
      */
 /*    public function minColorValue($minColorValue)
@@ -229,6 +245,7 @@ class TreeMap extends Chart
      * color value.
      *
      * @param string $noColor
+     *
      * @return \TreeMap
      */
  /*   public function noColor($noColor)
@@ -242,6 +259,7 @@ class TreeMap extends Chart
      * lightened by 35%.
      *
      * @param string $noHighlightColor
+     *
      * @return \TreeMap
      */
  /*   public function noHighlightColor($noHighlightColor)
@@ -254,6 +272,7 @@ class TreeMap extends Chart
      * along the top of the chart. Specify true to show the scale.
      *
      * @param boolean $showScale
+     *
      * @return \TreeMap
      */
   /*  public function showScale($showScale)
@@ -265,6 +284,7 @@ class TreeMap extends Chart
      * Whether or not to show tooltips.
      *
      * @param boolean $showTooltips
+     *
      * @return \TreeMap
      */
   /*  public function showTooltips($showTooltips)
@@ -276,6 +296,7 @@ class TreeMap extends Chart
      * The text color. Specify an HTML color value.
      *
      * @param string $fontColor
+     *
      * @return \TreeMap
      */
 /*    public function fontColor($fontColor)
@@ -287,6 +308,7 @@ class TreeMap extends Chart
      * The font family to use for all text.
      *
      * @param string $fontFamily
+     *
      * @return \TreeMap
      */
  /*   public function fontFamily($fontFamily)
@@ -298,6 +320,7 @@ class TreeMap extends Chart
      * The font size for all text, in points.
      *
      * @param int $fontSize
+     *
      * @return \TreeMap
      */
  /*   public function fontSize($fontSize)

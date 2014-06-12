@@ -1,65 +1,60 @@
 <?php namespace Khill\Lavacharts\Tests\Helpers;
 
-use Khill\Lavacharts\Helpers\Helpers as H;
-use \Mockery as M;
+use Khill\Lavacharts\Tests\TestCase;
+use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Configs\TextStyle;
 
-class HelperTest extends HelperTestCase
+class HelperTest extends TestCase
 {
-
-    public function tearDown()
-    {
-       M::close();
-    }
 
     public function testArrayValuesCheckWithStrings()
     {
         $testArray = array('test1', 'test2', 'test3');
-        $this->assertTrue( H::array_values_check($testArray, 'string') );
+        $this->assertTrue( Helpers::arrayValuesCheck($testArray, 'string') );
     }
 
     public function testArrayValuesCheckWithInts()
     {
         $testArray = array(1, 2, 3, 4, 5);
-        $this->assertTrue( H::array_values_check($testArray, 'int') );
+        $this->assertTrue( Helpers::arrayValuesCheck($testArray, 'int') );
     }
 
     public function testArrayValuesCheckWithBools()
     {
         $testArray = array(TRUE, FALSE, TRUE, FALSE);
-        $this->assertTrue( H::array_values_check($testArray, 'bool') );
+        $this->assertTrue( Helpers::arrayValuesCheck($testArray, 'bool') );
     }
 
     public function testArrayValuesCheckWithObjects()
     {
-        $testArray = array($this->obj, $this->obj, $this->obj);
-        $this->assertTrue( H::array_values_check($testArray, 'object') );
+        $testArray = array(new \stdClass, new \stdClass, new \stdClass);
+        $this->assertTrue( Helpers::arrayValuesCheck($testArray, 'object') );
     }
 
     public function testArrayValuesCheckWithConfigObjects()
     {
-        $testArray = array($this->textStyle, $this->textStyle, $this->textStyle);
-        $this->assertTrue( H::array_values_check($testArray, 'class', 'textStyle') );
+        $testArray = array(new TextStyle, new TextStyle, new TextStyle);
+
+        $this->assertTrue( Helpers::arrayValuesCheck($testArray, 'class', 'TextStyle') );
     }
 
     /**
      * @dataProvider badParamsProvider
      */
-    public function testArrayValuesCheckWithBadParams($testArray, $testAgainst, $extra = '')
+    public function testArrayValuesCheckWithBadParams($badData, $testType, $extra = '')
     {
-        $this->assertFalse( H::array_values_check($testArray, $testAgainst, $extra) );
+        $this->assertFalse( Helpers::arrayValuesCheck($badData, $testType, $extra) );
     }
+
 
     public function badParamsProvider()
     {
-        $textStyle = M::mock('textStyle');
-
         return array(
-            array('string', 'string'),
-            array(array(1,2,3), 'tacos'),
-            array(array(1,2,3), 'class', 'tacos'),
-            array(array(1,2,3, 'string'), 'int'),
-            array(array('taco', new \stdClass(), 1), 'class', 'burrito'),
-            array(array($textStyle, $textStyle), 'class', 'textStyle'),
+            array('string', 'stringy'),
+            array(array(1, 2, 3), 'tacos'),
+            array(array(1, 2, 'blahblah', 3), 'int'),
+            array(array('taco', new \stdClass, 1), 'class', 'burrito'),
+            array(array(new TextStyle, new TextStyle, new \DateTime), 'class', 'TextStyle'),
             array(array(TRUE, TRUE), 4),
             array(array(FALSE, FALSE), 'boolean'),
             array(array(NULL, NULL), 'tacos')

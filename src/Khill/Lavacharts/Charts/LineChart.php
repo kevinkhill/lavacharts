@@ -1,4 +1,5 @@
 <?php namespace Khill\Lavacharts\Charts;
+
 /**
  * LineChart Class
  *
@@ -6,11 +7,13 @@
  * tips when hovering over points.
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Charts
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://www.gnu.org/licenses/gpl.html GPL-V3
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
@@ -21,8 +24,9 @@ class LineChart extends Chart
     {
         parent::__construct($chartLabel);
 
-        $this->defaults = array_merge($this->defaults, array(
-//            'animation',
+        $this->defaults = array_merge(
+            $this->defaults, array(
+            //            'animation',
             'axisTitlesPosition',
             'curveType',
             'hAxis',
@@ -30,9 +34,10 @@ class LineChart extends Chart
             'interpolateNulls',
             'lineWidth',
             'pointSize',
-//            'vAxes',
+            //            'vAxes',
             'vAxis'
-        ));
+            )
+        );
     }
 
 
@@ -43,7 +48,8 @@ class LineChart extends Chart
      * none - Omit the axis titles.
      *
      * @param string $position
-     * @return \LineChart
+     *
+     * @return LineChart
      */
     public function axisTitlesPosition($position)
     {
@@ -53,11 +59,10 @@ class LineChart extends Chart
             'none'
         );
 
-        if(in_array($position, $values))
-        {
+        if (in_array($position, $values)) {
             $this->addOption(array('axisTitlesPosition' => $position));
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
         }
 
         return $this;
@@ -70,7 +75,8 @@ class LineChart extends Chart
      * 'function' - The angles of the line will be smoothed.
      *
      * @param string $curveType
-     * @return \LineChart
+     *
+     * @return LineChart
      */
     public function curveType($curveType)
     {
@@ -79,11 +85,10 @@ class LineChart extends Chart
             'function'
         );
 
-        if(in_array($curveType, $values))
-        {
+        if (in_array($curveType, $values)) {
             $this->addOption(array('curveType' => (string) $curveType));
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
         }
 
         return $this;
@@ -95,12 +100,12 @@ class LineChart extends Chart
      * the values then pass it to this function or to the constructor.
      *
      * @param hAxis $hAxis
-     * @return \LineChart
+     *
+     * @return LineChart
      */
     public function hAxis($hAxis)
     {
-        if(Helpers::is_hAxis($hAxis))
-        {
+        if (Helpers::is_hAxis($hAxis)) {
             $this->addOption($hAxis->toArray());
         } else {
             $this->type_error(__FUNCTION__, 'hAxis');
@@ -113,12 +118,12 @@ class LineChart extends Chart
      * If set to true, use HTML-rendered (rather than SVG-rendered) tooltips.
      *
      * @param boolean $isHTML
-     * @return \LineChart
+     *
+     * @return LineChart
      */
     public function isHtml($isHTML)
     {
-        if(is_bool($isHTML))
-        {
+        if (is_bool($isHTML)) {
             $this->addOption(array('isHTML' => $isHTML));
         } else {
             $this->type_error(__FUNCTION__, 'boolean');
@@ -133,15 +138,15 @@ class LineChart extends Chart
      * leave a break in the line at the unknown point.
      *
      * @param boolean $interpolateNulls
-     * @return \LineChart
+     *
+     * @return LineChart
      */
     public function interpolateNulls($interpolateNulls)
     {
-        if(is_bool($interpolateNulls))
-        {
+        if (is_bool($interpolateNulls)) {
             $this->addOption(array('interpolateNulls' => $interpolateNulls));
         } else {
-           $this->type_error(__FUNCTION__, 'boolean');
+            $this->type_error(__FUNCTION__, 'boolean');
         }
 
         return $this;
@@ -153,12 +158,12 @@ class LineChart extends Chart
      * property.
      *
      * @param int $width
-     * @return \LineChart
+     *
+     * @return LineChart
      */
     public function lineWidth($width)
     {
-        if(is_int($width))
-        {
+        if (is_int($width)) {
             $this->addOption(array('lineWidth' => $width));
         } else {
             $this->type_error(__FUNCTION__, 'int');
@@ -172,12 +177,12 @@ class LineChart extends Chart
      * can override values for individual series using the series property.
      *
      * @param int $size
-     * @return \LineChart
+     *
+     * @return LineChart
      */
     public function pointSize($size)
     {
-        if(is_int($size))
-        {
+        if (is_int($size)) {
             $this->addOption(array('pointSize' => $size));
         } else {
             $this->type_error(__FUNCTION__, 'int');
@@ -192,12 +197,12 @@ class LineChart extends Chart
      * the values then pass it to this function or to the constructor.
      *
      * @param vAxis $vAxis
-     * @return \LineChart
+     *
+     * @return LineChart
      */
     public function vAxis($vAxis)
     {
-        if(Helpers::is_vAxis($vAxis))
-        {
+        if (Helpers::is_vAxis($vAxis)) {
             $this->addOption($vAxis->toArray());
         } else {
             $this->type_error(__FUNCTION__, 'vAxis');
@@ -205,5 +210,4 @@ class LineChart extends Chart
 
         return $this;
     }
-
 }

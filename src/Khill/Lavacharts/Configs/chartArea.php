@@ -1,48 +1,43 @@
 <?php namespace Khill\Lavacharts\Configs;
+
 /**
- * Chart Area Properties Object
+ * ChartArea Properties Object
  *
  * An object containing all the values for the chartArea which can be
  * passed into the chart's options.
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Configs
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://opensource.org/licenses/GPL-3.0 GPLv3
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class chartArea extends configOptions
+class ChartArea extends ConfigOptions
 {
     /**
-     * How far to draw the chart from the left border.
-     *
-     * @var int|string Amount in pixels
+     * @var int|string How far to draw the chart from the left border.
      */
     public $left = null;
 
     /**
-     * How far to draw the chart from the top border.
-     *
-     * @var int|string Amount in pixels
+     * @var int|string How far to draw the chart from the top border.
      */
     public $top = null;
 
     /**
-     * Width of the chart.
-     *
-     * @var int|string Amount in pixels
+     * @var int|string Width of the chart.
      */
     public $width = null;
 
     /**
-     * Height of the chart.
-     *
-     * @var int|string Amount in pixels
+     * @var int|string Height of the chart.
      */
     public $height = null;
 
@@ -51,7 +46,8 @@ class chartArea extends configOptions
      * Builds the chartArea object when passed an array of configuration options.
      *
      * @param array $config
-     * @return \chartArea
+     *
+     * @return Khill\Lavacharts\Configs\ChartArea
      */
     public function __construct($config = array())
     {
@@ -69,15 +65,21 @@ class chartArea extends configOptions
      * Sets the left padding of the chart in the container.
      *
      * @param int Amount in pixels
-     * @return \chartArea
+     *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Configs\ChartArea
      */
     public function left($left)
     {
-        if(Helpers::is_int_or_percent($left))
-        {
+        if (Helpers::isIntOrPercent($left)) {
             $this->left = $left;
         } else {
-            $this->type_error(__FUNCTION__, 'int | string', 'representing pixels or a percent.');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'int | string',
+                'representing pixels or a percent.'
+            );
         }
 
         return $this;
@@ -87,15 +89,21 @@ class chartArea extends configOptions
      * Sets the top padding of the chart in the container.
      *
      * @param int Amount in pixels
-     * @return \chartArea
+     *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Configs\ChartArea
      */
     public function top($top)
     {
-        if(Helpers::is_int_or_percent($top))
-        {
+        if (Helpers::isIntOrPercent($top)) {
             $this->top = $top;
         } else {
-            $this->type_error(__FUNCTION__, 'int | string', 'representing pixels or a percent.');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'int | string',
+                'representing pixels or a percent.'
+            );
         }
 
         return $this;
@@ -105,15 +113,21 @@ class chartArea extends configOptions
      * Sets the width of the chart in the container.
      *
      * @param int Amount in pixels
-     * @return \chartArea
+     *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Configs\ChartArea
      */
     public function width($width)
     {
-        if(Helpers::is_int_or_percent($width))
-        {
+        if (Helpers::isIntOrPercent($width)) {
             $this->width = $width;
         } else {
-            $this->type_error(__FUNCTION__, 'int | string', 'representing pixels or a percent.');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'int | string',
+                'representing pixels or a percent.'
+            );
         }
 
         return $this;
@@ -123,18 +137,23 @@ class chartArea extends configOptions
      * Sets the height of the chart in the container.
      *
      * @param int Amount in pixels
-     * @return \chartArea
+     *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Configs\ChartArea
      */
     public function height($height)
     {
-        if(Helpers::is_int_or_percent($height))
-        {
+        if (Helpers::isIntOrPercent($height)) {
             $this->height = $height;
         } else {
-            $this->type_error(__FUNCTION__, 'int | string', 'representing pixels or a percent.');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'int | string',
+                'representing pixels or a percent.'
+            );
         }
 
         return $this;
     }
-
 }

@@ -1,9 +1,8 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
-use Khill\Lavacharts\Lavacharts;
 use Khill\Lavacharts\Tests\TestCase;
-use Khill\Lavacharts\Configs\annotation;
-use Khill\Lavacharts\Configs\textStyle;
+use Khill\Lavacharts\Configs\Annotation;
+use Khill\Lavacharts\Configs\TextStyle;
 
 class AnnotationTest extends TestCase {
 
@@ -11,12 +10,12 @@ class AnnotationTest extends TestCase {
     {
         parent::setUp();
 
-        $this->a = new annotation();
+        $this->a = new Annotation();
     }
 
     public function testIfInstanceOfannotation()
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\annotation', $this->a);
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\Annotation', $this->a);
     }
 
     public function testConstructorDefaults()
@@ -33,9 +32,12 @@ class AnnotationTest extends TestCase {
         ));
 
         $this->assertFalse($annotation->highContrast);
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\textStyle', $annotation->textStyle);
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\TextStyle', $annotation->textStyle);
     }
 
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     */
     public function testConstructorWithInvalidPropertiesKey()
     {
         $annotation = new annotation(array('RainbowRoll' => 'spicy'));
@@ -44,24 +46,23 @@ class AnnotationTest extends TestCase {
     }
 
     /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider1
      */
     public function testHighContrastWithBadParams($badVals)
     {
         $this->a->highContrast($badVals);
-
-        $this->assertTrue(Lavacharts::hasErrors());
     }
 
     /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider2
      */
     public function testTextStyleWithBadParams($badVals)
     {
         $this->a->textStyle($badVals);
-
-        $this->assertTrue(Lavacharts::hasErrors());
     }
+
 
     public function badParamsProvider1()
     {

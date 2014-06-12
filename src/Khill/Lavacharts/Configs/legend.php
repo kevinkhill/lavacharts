@@ -1,4 +1,5 @@
 <?php namespace Khill\Lavacharts\Configs;
+
 /**
  * Legend Properties Object
  *
@@ -6,17 +7,19 @@
  * passed into the chart's options.
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Configs
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://opensource.org/licenses/GPL-3.0 GPLv3
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class legend extends configOptions
+class Legend extends ConfigOptions
 {
     /**
      * Position of the legend.
@@ -43,10 +46,10 @@ class legend extends configOptions
     /**
      * Builds the legend object when passed an array of configuration options.
      *
-     * @param array Options for the legend
+     * @param  array Options for the legend
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
-     * @return \tooltip
+     * @return legend
      */
     public function __construct($config = array())
     {
@@ -70,7 +73,8 @@ class legend extends configOptions
      * 'none'   - No legend is displayed.
      *
      * @param string Location of legend
-     * @return \legend
+     *
+     * @return legend
      */
     public function position($position)
     {
@@ -82,11 +86,10 @@ class legend extends configOptions
             'none'
         );
 
-        if(in_array($position, $values))
-        {
+        if (in_array($position, $values)) {
             $this->position = $position;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
         }
 
         return $this;
@@ -108,7 +111,8 @@ class legend extends configOptions
      * the default is 'center'; other legends default to 'start'.
      *
      * @param string Alignment of the legend
-     * @return \legend
+     *
+     * @return legend
      */
     public function alignment($alignment)
     {
@@ -118,11 +122,10 @@ class legend extends configOptions
             'end'
         );
 
-        if(in_array($alignment, $values))
-        {
+        if (in_array($alignment, $values)) {
             $this->alignment = $alignment;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
         }
 
         return $this;
@@ -132,12 +135,12 @@ class legend extends configOptions
      * An object that specifies the legend text style.
      *
      * @param textStyle Style of the legend
-     * @return \legend
+     *
+     * @return legend
      */
     public function textStyle($textStyle)
     {
-        if(Helpers::is_textStyle($textStyle))
-        {
+        if (Helpers::isTextStyle($textStyle)) {
             $this->textStyle = $textStyle->getValues();
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'textStyle');
@@ -145,5 +148,4 @@ class legend extends configOptions
 
         return $this;
     }
-
 }

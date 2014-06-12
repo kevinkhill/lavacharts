@@ -5,13 +5,12 @@ class InvalidConfigValue extends \Exception
     // Redefine the exception so message isn't optional
     public function __construct($class, $function, $requiredType, $extra = '', $code = 0)
     {
-    	$message  = 'The value for ' . $class . '->' . $function . ' ';
-    	$message .= 'must be of type (' . $requiredType .')';
+        $message  = 'The value for ' . $class . '->' . $function . ' ';
+        $message .= 'must be of type (' . $requiredType .')';
 
-    	if ($extra !== '')
-    	{
-    		$message .= ' ' . $extra;
-    	}
+    	   if ($extra !== '') {
+            $message .= ' ' . $extra;
+    	   }
 
         parent::__construct($message, $code);
     }
@@ -20,5 +19,4 @@ class InvalidConfigValue extends \Exception
     {
         return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
     }
-
 }

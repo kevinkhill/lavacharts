@@ -1,94 +1,85 @@
 <?php namespace Khill\Lavacharts;
 
-use Khill\Lavacharts\Configs\jsDate;
-use Khill\Lavacharts\Configs\textStyle;
+/**
+ * Lavacharts - A PHP wrapper library for the Google Chart API
+ *
+ *
+ * @category  Class
+ * @package   kHILL\Lavacharts
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2014, KHill Designs
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://opensource.org/licenses/GPL-3.0 GPLv3
+ */
 
-class Lavacharts {
+use Khill\Lavacharts\Configs\JsDate;
+use Khill\Lavacharts\Configs\TextStyle;
+use Khill\Lavacharts\Exceptions\InvalidLavaObject;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
+class Lavacharts
+{
     /**
-     * Global Lavachart configuration options.
-     *
-     * @var array
+     * @var array Lavachart configuration options.
      */
     protected static $config = array();
 
     /**
-     * Holds all the html and javscript to be output into the browser.
-     *
-     * @var string
+     * @var string Holds the HTML and javscript to be output into the browser.
      */
     protected static $output = null;
 
     /**
-     * The ID of the HTML element that will be receiving the chart.
-     *
-     * @var string
+     * @var string ID of the HTML element that will be receiving the chart.
      */
     protected static $elementID = null;
 
     /**
-     * Version of Google's DataTable.
-     *
-     * @var string
+     * @var string Version of Google's DataTable.
      */
     protected static $dataTableVersion = '0.6';
 
     /**
-     * Opening Javascript tag.
-     *
-     * @var string
+     * @var string Opening javascript tag.
      */
     protected static $jsOpen = '<script type="text/javascript">';
 
     /**
-     * Closing Javascript tag.
-     *
-     * @var string
+     * @var string Closing javascript tag.
      */
     protected static $jsClose = '</script>';
 
     /**
-     * Javscript block with a link to Google's Chart API.
-     *
-     * @var string
+     * @var string Javscript block with a link to Google's Chart API.
      */
     protected static $googleAPI = '<script type="text/javascript" src="//google.com/jsapi"></script>';
 
     /**
-     * Root Namespace
-     *
-     * @var string
+     * @var string Lavacharts root namespace
      */
     protected static $rootSpace = 'Khill\\Lavacharts\\';
 
     /**
-     * Property defining if the generation of charts occured any errors.
-     *
-     * @var boolean
+     * @var boolean Status of chart generation errors.
      */
     protected static $hasError = false;
 
     /**
-     * Array containing the list of errors.
-     *
-     * @var array
+     * @var array Array containing the list of errors.
      */
     protected static $errorLog = array();
 
     /**
-     * Holds all of the defined Charts.
-     *
-     * @var array
+     * @var array Holds all of the defined Charts.
      */
     protected static $chartsAndTables = array();
 
     /**
-     * Currently supported types of charts that can be created.
-     * Used by the magic __call function to prevent errors.
-     *
-     * @var array
+     * @var array Types of charts that can be created.
      */
-    protected static $supportedClasses = array(
+    protected static $chartClasses = array(
         'DataTable',
         'LineChart',
         'AreaChart',
@@ -96,40 +87,36 @@ class Lavacharts {
         'DonutChart',
         'ColumnChart',
         'GeoChart',
-        'ComboChart'
+        'ComboChart' // @TODO WIP
     );
 
     /**
-     * Holds all of the defined configuration class names.
-     *
-     * @var array
+     * @var array Holds all of the defined configuration class names.
      */
     protected static $configClasses = array(
-        'configOptions',
-        'annotation',
+        'ConfigOptions',
+        'Annotation',
         'Axis',
 //        'DataCell',
-        'boxStyle',
-        'backgroundColor',
-        'chartArea',
-        'colorAxis',
-        'hAxis',
-        'jsDate',
-        'gradient',
-        'legend',
-        'magnifyingGlass',
-        'textStyle',
-        'tooltip',
-        'series',
-        'sizeAxis',
-        'slice',
-        'vAxis'
+        'BoxStyle',
+        'BackgroundColor',
+        'ChartArea',
+        'ColorAxis',
+        'HorizontalAxis',
+        'JsDate',
+        'Gradient',
+        'Legend',
+        'MagnifyingGlass',
+        'TextStyle',
+        'Tooltip',
+        'Series', // @TODO WIP
+        'SizeAxis',
+        'Slice',
+        'VerticalAxis'
     );
 
     /**
-     * Acceptable global configuration options.
-     *
-     * @var array
+     * @var array Acceptable global configuration options.
      */
     protected static $validGlobals = array(
         'errorWrap',
@@ -137,87 +124,129 @@ class Lavacharts {
         'textStyle'
     );
 
-/*
+    /*
     public function __construct(Repository $config)
     {
-        self::$config = $config;
-    }
-*/
+        self::setGlobals($config);
+    }*/
 
     /**
      * Magic function to reduce repetitive coding and create aliases.
      *
+     * @access public
+     *
      * @param string Name of method
      * @param array Passed arguments
+     *
+     * @throws Khill\Lavacharts\Exceptions\InvalidLavaObject
      * @return object Returns Charts, DataTables, and Config Objects
      */
     public function __call($member, $arguments)
     {
-        if (in_array($member, self::$configClasses))
-        {
-            return self::_config_object_factory($member, empty($arguments[0]) ? array() : $arguments);
+        if (in_array($member, self::$configClasses)) {
+            return self::configObjectFactory($member, empty($arguments[0]) ? array() : $arguments);
         } else {
-            if (in_array($member, self::$supportedClasses))
-            {
-                return self::_chart_and_table_factory($member, empty($arguments[0]) ? '' : $arguments[0]);
+            if (in_array($member, self::$chartClasses)) {
+                return self::chartAndTableFactory($member, empty($arguments[0]) ? '' : $arguments[0]);
             } else {
-                exit(get_class($this).'::'.$member.'() Is Undefined');
+                throw new InvalidLavaObject($member);
             }
         }
     }
 
     /**
-     * Creates and stores Chart/DataTable
+     * Builds the Javascript code block
      *
-     * If there is no label, then the Chart/DataTable is just returned.
-     * If there is a label, the Chart/DataTable is stored within the Lavacharts
-     * objects in an array, accessable via a call to the type of object, with
-     * the label as the paramater.
+     * This will build the script block for the actual chart and passes it
+     * back to output function of the calling chart object. If there are any
+     * events defined, they will be automatically be attached to the chart and
+     * pulled from the callbacks folder.
      *
-     * @access private
-     * @param string Which type of object to generate.
-     * @param string Label applied to generated object.
-     * @return mixed Returns Charts or DataTables
+     * @access public
+     *
+     * @param string Passed from the calling chart.
+     *
+     * @return string Javascript code block.
      */
-    private static function _chart_and_table_factory($objType, $objLabel)
+    public static function buildScriptBlock($chart)
     {
-        if(is_string($objLabel) && $objLabel != '')
-        {
-            if( ! isset(self::$chartsAndTables[$objType][$objLabel]))
-            {
-                $class = $objType == 'DataTable' ? self::$rootSpace.'Configs\\'.$objType : self::$rootSpace.'Charts\\'.$objType;
-                self::$chartsAndTables[$objType][$objLabel] = new $class($objLabel);
-            }
+        self::$elementID = $chart->elementID;
 
-            return self::$chartsAndTables[$objType][$objLabel];
-        } else {
-            return new $objType();
-        }
-    }
+        $out = self::$googleAPI.PHP_EOL;
 
-    /**
-     * Creates configuration objects to save a step instansiating and allow for
-     * chaining directly from creation.
-     *
-     * @access private
-     * @param string $configObject
-     * @return object configuration object
-     */
-    private static function _config_object_factory($configObject, $options)
-    {
-        if(in_array($configObject, self::$configClasses))
-        {
-            if($configObject == 'jsDate')
-            {
-                $jsDate = new jsDate();
-                return $jsDate->parse($options);
-            } else {
-                $class = self::$rootSpace.'Configs\\'.$configObject;
-                return empty($options[0]) ? new $class() : new $class($options[0]);
-            }
-        } else {
-            exit('[Lavacharts::'.$configObject.'()] is not a valid configObject');
+        //        if(is_array($chart->events) && count($chart->events) > 0)
+        //        {
+        //            $out .= self::_build_event_callbacks($chart->chartType, $chart->events);
+        //        }
+
+        $out .= self::$jsOpen.PHP_EOL;
+
+        if ($chart->elementID == null) {
+            $out .= 'alert("Error calling '.$chart->chartType.'(\''.$chart->chartLabel.'\')->outputInto(), requires a valid html elementID.");'.PHP_EOL;
         }
+
+        if (
+            isset($chart->data) === false &&
+            isset(self::$chartsAndTables['DataTable'][$chart->dataTable]) === false
+        ) {
+            $out .= 'alert("No DataTable has been defined for '.$chart->chartType.'(\''.$chart->chartLabel.'\').");'.PHP_EOL;
+        }
+
+        switch($chart->chartType)
+        {
+            case 'AnnotatedTimeLine':
+                $vizType = 'annotatedtimeline';
+                break;
+
+            case 'GeoChart':
+                $vizType = 'geochart';
+                break;
+
+            default:
+                $vizType = 'corechart';
+                break;
+        }
+
+        $out .= sprintf("google.load('visualization', '1', {'packages':['%s']});", $vizType).PHP_EOL;
+        $out .= 'google.setOnLoadCallback(drawChart);'.PHP_EOL;
+        $out .= 'function drawChart() {'.PHP_EOL;
+
+        if (isset($chart->data) && $chart->dataTable == 'local') {
+            $out .= sprintf(
+                'var data = new google.visualization.DataTable(%s, %s);',
+                $chart->data->toJSON(),
+                self::$dataTableVersion
+            ).PHP_EOL;
+        }
+
+        if (isset(self::$chartsAndTables['DataTable'][$chart->dataTable])) {
+            $out .= sprintf(
+                'var data = new google.visualization.DataTable(%s, %s);',
+                self::$chartsAndTables['DataTable'][$chart->dataTable]->toJSON(),
+                self::$dataTableVersion
+            ).PHP_EOL;
+        }
+
+        $out .= sprintf('var options = %s;', $chart->optionsToJSON()).PHP_EOL;
+        $out .= sprintf('var chart = new google.visualization.%s', $chart->chartType);
+        $out .= sprintf("(document.getElementById('%s'));", $chart->elementID).PHP_EOL;
+        $out .= 'chart.draw(data, options);'.PHP_EOL;
+
+        //        if(is_array($chart->events) && count($chart->events) > 0)
+        //        {
+        //            foreach($chart->events as $event)
+        //            {
+        //                $out .= sprintf('google.visualization.events.addListener(chart, "%s", ', $event);
+        //                $out .= sprintf('function(event) { %s.%s(event); });', $chart->chartType, $event).PHP_EOL;
+        //            }
+        //        }
+
+        $out .= "}".PHP_EOL;
+        $out .= self::$jsClose.PHP_EOL;
+
+        self::$output = $out;
+
+        return self::$output;
     }
 
     /**
@@ -226,23 +255,32 @@ class Lavacharts {
      * Accepted config options include:
      * errorPrepend: An html string
      *
-     * @param  array Array of configurations options
-     * @return \Lavachart
+     * @access public
+     *
+     * @param array Array of configurations options
+     *
+     * @return Khill\Lavachart
      */
     public static function setGlobals($config)
     {
-        if (is_array($config))
-        {
+        if (is_array($config)) {
             foreach ($config as $option => $value) {
-                if(in_array($option, self::$validGlobals))
-                {
+                if (in_array($option, self::$validGlobals)) {
                     self::$config[$option] = $value;
                 } else {
-                   self::_set_error(__METHOD__, '"'.$option.'" is not a valid configuration option.');
+                    throw new InvalidConfigProperty(
+                        __METHOD__,
+                        $option,
+                        self::$validGlobals
+                    );
                 }
             }
         } else {
-            self::_set_error(__METHOD__, 'Global configuration options must be set by an array.');
+            throw new InvalidConfigValue(
+                get_class(),
+                __METHOD__,
+                'array'
+            );
         }
     }
 
@@ -262,38 +300,39 @@ class Lavacharts {
      * The other charts do not require height and width, but do require an ID of
      * the div that will be receiving the chart.
      *
+     * @access public
+     *
      * @param int Width of the containing div (optional).
      * @param int Height of the containing div (optional).
+     *
      * @return string HTML div element.
      */
     public static function div($width = 0, $height = 0)
     {
-        if($width == 0 || $height == 0)
-        {
-            if(isset(self::$elementID))
-            {
+        if ($width == 0 || $height == 0) {
+            if (isset(self::$elementID)) {
                 return sprintf('<div id="%s"></div>', self::$elementID);
             } else {
-                $this->_set_error(__METHOD__, 'Error, output element ID is not set.');
+                $this->setError(__METHOD__, 'Error, output element ID is not set.');
             }
         } else {
-            if((is_int($width) && $width > 0) && (is_int($height) && $height > 0))
-            {
-                if(isset(self::$elementID))
-                {
-                    $format = '<div id="%s" style="width:%spx;height:%spx;"></div>';
+            if ((is_int($width) && $width > 0) && (is_int($height) && $height > 0)) {
+                if (isset(self::$elementID)) {
+                    $format = '<div id="%s" style="width:%spx; height:%spx;"></div>';
                     return sprintf($format, self::$elementID, $width, $height);
                 } else {
-                    $this->_set_error(__METHOD__, 'Error, output element ID is not set.');
+                    $this->setError(__METHOD__, 'Error, output element ID is not set.');
                 }
             } else {
-                $this->_set_error(__METHOD__, 'Invalid div width & height, must be type (int) > 0');
+                $this->setError(__METHOD__, 'Invalid div width & height, must be type (int) > 0');
             }
         }
     }
 
     /**
      * Returns the Javascript block to place in the page manually.
+     *
+     * @access public
      *
      * @return string Javascript code blocks.
      */
@@ -304,6 +343,8 @@ class Lavacharts {
 
     /**
      * Checks if any errors have occured.
+     *
+     * @access public
      *
      * @return boolean true if any errors we created while building charts,
      * otherwise false.
@@ -319,31 +360,27 @@ class Lavacharts {
      * Each error message is wrapped in the HTML element defined within the
      * configuration for lavacharts.
      *
-     * @return mixed null if there are no errors, otherwise a string with the
+     * @access public
+     * @return null|string null if there are no errors, otherwise a string with the
      * errors
      */
     public static function getErrors()
     {
-        if(self::$hasError === true && count(self::$errorLog) > 0)
-        {
+        if (self::$hasError === true && count(self::$errorLog) > 0) {
             $errors = '';
 
-            foreach(self::$errorLog as $where => $error)
-            {
-                if (isset(self::$config['errorWrap']))
-                {
+            foreach (self::$errorLog as $where => $error) {
+                if (isset(self::$config['errorWrap'])) {
                     $errors .= '<' . self::$config['errorWrap'];
 
-                    if (isset(self::$config['errorClass']))
-                    {
+                    if (isset(self::$config['errorClass'])) {
                         $errors .= ' class="' . self::$config['errorClass'] . '">';
                     }
                 }
 
                 $errors .= '['.$where.'] -> '.$error;
 
-                if (isset(self::$config['errorWrap']))
-                {
+                if (isset(self::$config['errorWrap'])) {
                     $errors .= '</' . self::$config['errorWrap'] . '>';
                 }
             }
@@ -357,104 +394,72 @@ class Lavacharts {
     /**
      * Sets an error message.
      *
+     * @access private
+     *
      * @param string Where the error occured.
      * @param string What the error was.
      */
-    public static function _set_error($where, $what)
+    private static function setError($where, $what)
     {
         self::$hasError = true;
         self::$errorLog[$where] = $what;
     }
 
     /**
-     * Builds the Javascript code block
+     * Creates and stores Chart/DataTable
      *
-     * This will build the script block for the actual chart and passes it
-     * back to output function of the calling chart object. If there are any
-     * events defined, they will be automatically be attached to the chart and
-     * pulled from the callbacks folder.
+     * If there is no label, then the Chart/DataTable is just returned.
+     * If there is a label, the Chart/DataTable is stored within the Lavacharts
+     * objects in an array, accessable via a call to the type of object, with
+     * the label as the paramater.
      *
-     * @param string Passed from the calling chart.
-     * @return string Javascript code block.
+     * @access private
+     *
+     * @param  string Which type of object to generate.
+     * @param  string Label applied to generated object.
+     *
+     * @return Khill\Lavachart\Chart|Khill\Lavachart\DataTable
      */
-    public static function _build_script_block($chart)
+    private static function chartAndTableFactory($objType, $objLabel)
     {
-        self::$elementID = $chart->elementID;
+        if (is_string($objLabel) && $objLabel != '') {
+            if (! isset(self::$chartsAndTables[$objType][$objLabel])) {
+                if ($objType == 'DataTable') {
+                    $class = self::$rootSpace.'Configs\\'.$objType;
+                } else {
+                    $class = self::$rootSpace.'Charts\\'.$objType;
+                }
 
-        $out = self::$googleAPI.PHP_EOL;
+                self::$chartsAndTables[$objType][$objLabel] = new $class($objLabel);
+            }
 
-//        if(is_array($chart->events) && count($chart->events) > 0)
-//        {
-//            $out .= self::_build_event_callbacks($chart->chartType, $chart->events);
-//        }
-
-        $out .= self::$jsOpen.PHP_EOL;
-
-        if($chart->elementID == null)
-        {
-            $out .= 'alert("Error calling '.$chart->chartType.'(\''.$chart->chartLabel.'\')->outputInto(), requires a valid html elementID.");'.PHP_EOL;
+            return self::$chartsAndTables[$objType][$objLabel];
+        } else {
+            return new $objType();
         }
+    }
 
-        if(isset($chart->data) === false && isset(self::$chartsAndTables['DataTable'][$chart->dataTable]) === FALSE)
-        {
-            $out .= 'alert("No DataTable has been defined for '.$chart->chartType.'(\''.$chart->chartLabel.'\').");'.PHP_EOL;
+    /**
+     * Creates configuration objects to save a step instansiating and allow for
+     * chaining directly from creation.
+     *
+     * @access private
+     *
+     * @param  string $configObject
+     *
+     * @return Khill\Lavacharts\Configs\ConfigOptions configuration object
+     */
+    private static function configObjectFactory($configObject, $options)
+    {
+        if ($configObject == 'JsDate') {
+            $jsDate = new JsDate();
+
+            return $jsDate->parse($options);
+        } else {
+            $class = self::$rootSpace.'Configs\\'.$configObject;
+
+            return empty($options[0]) ? new $class() : new $class($options[0]);
         }
-
-        switch($chart->chartType)
-        {
-            case 'AnnotatedTimeLine':
-                $vizType = 'annotatedtimeline';
-            break;
-
-            case 'GeoChart':
-                $vizType = 'geochart';
-            break;
-
-            default:
-                $vizType = 'corechart';
-            break;
-        }
-
-        $out .= sprintf("google.load('visualization', '1', {'packages':['%s']});", $vizType).PHP_EOL;
-        $out .= 'google.setOnLoadCallback(drawChart);'.PHP_EOL;
-        $out .= 'function drawChart() {'.PHP_EOL;
-
-        if(isset($chart->data) && $chart->dataTable == 'local')
-        {
-            $data = $chart->data->toJSON();
-            $format = 'var data = new google.visualization.DataTable(%s, %s);';
-
-            $out .= sprintf($format, $data, self::$dataTableVersion).PHP_EOL;
-        }
-
-        if(isset(self::$chartsAndTables['DataTable'][$chart->dataTable]))
-        {
-            $data = self::$chartsAndTables['DataTable'][$chart->dataTable];
-            $format = 'var data = new google.visualization.DataTable(%s, %s);';
-
-            $out .= sprintf($format, $data->toJSON(), self::$dataTableVersion).PHP_EOL;
-        }
-
-        $out .= sprintf('var options = %s;', $chart->optionsToJSON()).PHP_EOL;
-        $out .= sprintf('var chart = new google.visualization.%s', $chart->chartType);
-        $out .= sprintf("(document.getElementById('%s'));", $chart->elementID).PHP_EOL;
-        $out .= 'chart.draw(data, options);'.PHP_EOL;
-
-//        if(is_array($chart->events) && count($chart->events) > 0)
-//        {
-//            foreach($chart->events as $event)
-//            {
-//                $out .= sprintf('google.visualization.events.addListener(chart, "%s", ', $event);
-//                $out .= sprintf('function(event) { %s.%s(event); });', $chart->chartType, $event).PHP_EOL;
-//            }
-//        }
-
-        $out .= "}".PHP_EOL;
-        $out .= self::$jsClose.PHP_EOL;
-
-        self::$output = $out;
-
-        return self::$output;
     }
 
     /**
@@ -462,10 +467,11 @@ class Lavacharts {
      *
      * @param string Chart type.
      * @param array Array of events to apply to the chart.
+     *
      * @return string Javascript code block.
      */
     /*
-    public static function _build_event_callbacks($chartType, $chartEvents)
+    private static function _build_event_callbacks($chartType, $chartEvents)
     {
         $script = sprintf('if(typeof %s !== "object") { %s = {}; }', $chartType, $chartType).PHP_EOL.PHP_EOL;
 
@@ -480,7 +486,7 @@ class Lavacharts {
              {
                 $script .= $callbackScript.PHP_EOL;
              } else {
-                 self::_set_error(__METHOD__, 'Error loading javascript file, in '.$callback.'.js');
+                 self::setError(__METHOD__, 'Error loading javascript file, in '.$callback.'.js');
              }
 
              $script .= "};".PHP_EOL;
@@ -493,5 +499,4 @@ class Lavacharts {
         return $tmp;
     }
     */
-
 }

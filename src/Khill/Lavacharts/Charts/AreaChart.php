@@ -1,4 +1,5 @@
 <?php namespace Khill\Lavacharts\Charts;
+
 /**
  * AreaChart Class
  *
@@ -6,11 +7,13 @@
  * tips when hovering over points.
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Charts
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://www.gnu.org/licenses/gpl.html GPL-V3
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
@@ -21,8 +24,9 @@ class AreaChart extends Chart
     {
         parent::__construct($chartLabel);
 
-        $this->defaults = array_merge($this->defaults, array(
-//            'animation',
+        $this->defaults = array_merge(
+            $this->defaults, array(
+            //            'animation',
             'areaOpacity',
             'axisTitlesPosition',
             'events',
@@ -31,9 +35,10 @@ class AreaChart extends Chart
             'interpolateNulls',
             'lineWidth',
             'pointSize',
-//            'vAxes',
+            //            'vAxes',
             'vAxis'
-        ));
+            )
+        );
     }
 
     /**
@@ -42,12 +47,12 @@ class AreaChart extends Chart
      * an individual series, set the areaOpacity value in the series property.
      *
      * @param float $opacity
-     * @return \AreaChart
+     *
+     * @return AreaChart
      */
     public function areaOpacity($opacity)
     {
-        if(is_float($opacity) && $opacity < 1.0 && $opacity > 0.0) //Helpers::between
-        {
+        if (is_float($opacity) && $opacity < 1.0 && $opacity > 0.0) {
             $this->addOption(array('areaOpacity' => $opacity));
         } else {
             $this->type_error(__FUNCTION__, 'float', 'between 0.0 - 1.0');
@@ -64,17 +69,17 @@ class AreaChart extends Chart
      * none - Omit the axis titles.
      *
      * @param string $position
-     * @return \AreaChart
+     *
+     * @return AreaChart
      */
     public function axisTitlesPosition($position)
     {
         $values = array('in', 'out', 'none');
 
-        if(in_array($position, $values))
-        {
+        if (in_array($position, $values)) {
             $this->addOption(array('axisTitlesPosition' => $position));
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
         }
 
         return $this;
@@ -86,12 +91,12 @@ class AreaChart extends Chart
      * the values then pass it to this function or to the constructor.
      *
      * @param hAxis $hAxis
-     * @return \AreaChart
+     *
+     * @return AreaChart
      */
     public function hAxis($hAxis)
     {
-        if(Helpers::is_hAxis($hAxis))
-        {
+        if (Helpers::is_hAxis($hAxis)) {
             $this->addOption($hAxis->toArray());
         } else {
             $this->type_error(__FUNCTION__, 'hAxis');
@@ -104,12 +109,12 @@ class AreaChart extends Chart
      * If set to true, use HTML-rendered (rather than SVG-rendered) tooltips.
      *
      * @param boolean $isHTML
-     * @return \AreaChart
+     *
+     * @return AreaChart
      */
     public function isHtml($isHTML)
     {
-        if(is_bool($isHTML))
-        {
+        if (is_bool($isHTML)) {
             $this->addOption(array('isHTML' => $isHTML));
         } else {
             $this->type_error(__FUNCTION__, 'boolean');
@@ -122,12 +127,12 @@ class AreaChart extends Chart
      * If set to true, series elements are stacked.
      *
      * @param type $isStacked
-     * @return \AreaChart
+     *
+     * @return AreaChart
      */
     public function isStacked($isStacked)
     {
-        if(is_bool($isStacked))
-        {
+        if (is_bool($isStacked)) {
             $this->addOption(array('isStacked' => $isStacked));
         } else {
             $this->type_error(__FUNCTION__, 'boolean');
@@ -142,12 +147,12 @@ class AreaChart extends Chart
      * leave a break in the line at the unknown point.
      *
      * @param boolean $interpolateNulls
-     * @return \AreaChart
+     *
+     * @return AreaChart
      */
     public function interpolateNulls($interpolateNulls)
     {
-        if(is_bool($interpolateNulls))
-        {
+        if (is_bool($interpolateNulls)) {
             $this->addOption(array('interpolateNulls' => $interpolateNulls));
         } else {
             $this->type_error(__FUNCTION__, 'boolean');
@@ -162,12 +167,12 @@ class AreaChart extends Chart
      * property.
      *
      * @param int $width
-     * @return \AreaChart
+     *
+     * @return AreaChart
      */
     public function lineWidth($width)
     {
-        if(is_int($width))
-        {
+        if (is_int($width)) {
             $this->addOption(array('lineWidth' => $width));
         } else {
             $this->type_error(__FUNCTION__, 'int');
@@ -181,12 +186,12 @@ class AreaChart extends Chart
      * can override values for individual series using the series property.
      *
      * @param int $size
-     * @return \AreaChart
+     *
+     * @return AreaChart
      */
     public function pointSize($size)
     {
-        if(is_int($size))
-        {
+        if (is_int($size)) {
             $this->addOption(array('pointSize' => $size));
         } else {
             $this->type_error(__FUNCTION__, 'int');
@@ -201,12 +206,12 @@ class AreaChart extends Chart
      * the values then pass it to this function or to the constructor.
      *
      * @param vAxis $vAxis
-     * @return \AreaChart
+     *
+     * @return AreaChart
      */
     public function vAxis($vAxis)
     {
-        if(Helpers::is_vAxis($vAxis))
-        {
+        if (Helpers::is_vAxis($vAxis)) {
             $this->addOption($vAxis->toArray());
         } else {
             $this->type_error(__FUNCTION__, 'vAxis');
@@ -214,5 +219,4 @@ class AreaChart extends Chart
 
         return $this;
     }
-
 }

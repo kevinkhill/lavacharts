@@ -1,4 +1,5 @@
 <?php namespace Khill\Lavacharts\Configs;
+
 /**
  * Tooltip Properties Object
  *
@@ -6,17 +7,20 @@
  * into the chart's options.
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Configs
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://opensource.org/licenses/GPL-3.0 GPLv3
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Configs\TextStyle;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class tooltip extends configOptions
+class Tooltip extends ConfigOptions
 {
     /**
      * Show color code for the tooltip
@@ -43,10 +47,12 @@ class tooltip extends configOptions
     /**
      * Builds the tooltip object with specified options.
      *
-     * @param array Configuration options for the tooltip
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
-     * @return \tooltip
+     * @param  array Configuration options for the tooltip
+     *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     *
+     * @return Khill\Lavacharts\Configs\Tooltip
      */
     public function __construct($config = array())
     {
@@ -63,12 +69,14 @@ class tooltip extends configOptions
      * Sets whether to show the color code.
      *
      * @param boolean State of showing the color code.
-     * @return \tooltip
+     *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     *
+     * @return Khill\Lavacharts\Configs\Tooltip
      */
     public function showColorCode($showColorCode)
     {
-        if(is_bool($showColorCode))
-        {
+        if (is_bool($showColorCode)) {
             $this->showColorCode = $showColorCode;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'boolean');
@@ -80,13 +88,15 @@ class tooltip extends configOptions
     /**
      * Sets the text style of the tooltip.
      *
-     * @param textStyle Valid textStyle object.
-     * @return \tooltip
+     * @param Khill\Lavacharts\Configs\TextStyle A valid textStyle object.
+     *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     *
+     * @return Khill\Lavacharts\Configs\Tooltip
      */
-    public function textStyle($textStyle)
+    public function textStyle(TextStyle $textStyle)
     {
-        if(Helpers::is_textStyle($textStyle))
-        {
+        if (Helpers::isTextStyle($textStyle)) {
             $this->textStyle = $textStyle->getValues();
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'textStyle');
@@ -101,8 +111,11 @@ class tooltip extends configOptions
      * 'focus' - The tooltip will be displayed when the user hovers over an element.
      * 'none' - The tooltip will not be displayed.
      *
-     * @param string Type of trigger, [ focus | none ].
-     * @return \tooltip
+     * @param string Type of trigger.
+     *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     *
+     * @return Khill\Lavacharts\Configs\Tooltip
      */
     public function trigger($trigger)
     {
@@ -111,14 +124,12 @@ class tooltip extends configOptions
             'none'
         );
 
-        if(in_array($trigger, $values))
-        {
+        if (in_array($trigger, $values)) {
             $this->trigger = $trigger;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
         }
 
         return $this;
     }
-
 }

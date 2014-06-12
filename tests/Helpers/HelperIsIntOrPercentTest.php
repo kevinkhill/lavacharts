@@ -1,23 +1,24 @@
 <?php namespace Khill\Lavacharts\Tests\Helpers;
 
-use Khill\Lavacharts\Helpers\Helpers as H;
+use Khill\Lavacharts\Tests\TestCase;
+use Khill\Lavacharts\Helpers\Helpers;
 
-class HelperIsIntOrPercentTest extends HelperTestCase
+class HelperIsIntOrPercentTest extends TestCase
 {
 
     public function testIntOrPercentWithInt()
     {
-        $this->assertTrue( H::is_int_or_percent(72) );
+        $this->assertTrue( Helpers::isIntOrPercent(72) );
     }
 
     public function testIntOrPercentWithIntAsString()
     {
-        $this->assertTrue( H::is_int_or_percent('26') );
+        $this->assertTrue( Helpers::isIntOrPercent('26') );
     }
 
     public function testIntOrPercentWithPercentAsString()
     {
-        $this->assertTrue( H::is_int_or_percent('45%') );
+        $this->assertTrue( Helpers::isIntOrPercent('45%') );
     }
 
     /**
@@ -25,8 +26,9 @@ class HelperIsIntOrPercentTest extends HelperTestCase
      */
     public function testIntOrPercentWithBadParams($value)
     {
-        $this->assertFalse( H::is_int_or_percent($value) );
+        $this->assertFalse( Helpers::isIntOrPercent($value) );
     }
+
 
     public function badParamsProvider()
     {
@@ -35,7 +37,7 @@ class HelperIsIntOrPercentTest extends HelperTestCase
             array('2f3%'),
             array(123.456),
             array(array('test1')),
-            array(new \stdClass()),
+            array(new \stdClass),
             array(TRUE),
             array(FALSE),
             array(NULL)

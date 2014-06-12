@@ -1,4 +1,5 @@
 <?php namespace Khill\Lavacharts\Configs;
+
 /**
  * DataTable Object
  *
@@ -14,11 +15,13 @@
  * arbitrary class names or styles to individual cells.
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Configs
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://opensource.org/licenses/GPL-3.0 GPLv3
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
@@ -26,16 +29,12 @@ use Khill\Lavacharts\Helpers\Helpers;
 class DataTable
 {
     /**
-     * Holds the information defining the columns.
-     *
-     * @var array
+     * @var array Holds the information defining the columns.
      */
     public $cols = array();
 
     /**
-     * Holds the information defining each row.
-     *
-     * @var array
+     * @var array Holds the information defining each row.
      */
     public $rows = array();
 
@@ -61,7 +60,8 @@ class DataTable
      * @param string Describing the column data type
      * @param string A label for the column. (Optional)
      * @param string An ID for the column. (Optinal)
-     * @return \DataTable
+     *
+     * @return Khill\Lavacharts\Configs\DataTable
      */
     public function addColumn($typeOrDescriptionArray, $opt_label = '', $opt_id = '')
     {
@@ -85,67 +85,53 @@ class DataTable
         switch(gettype($typeOrDescriptionArray))
         {
             case 'array':
-                foreach($typeOrDescriptionArray as $key => $value)
-                {
-                    if(array_key_exists('type', $typeOrDescriptionArray))
-                    {
-                        if(in_array($typeOrDescriptionArray['type'], $types))
-                        {
+                foreach ($typeOrDescriptionArray as $key => $value) {
+                    if (array_key_exists('type', $typeOrDescriptionArray)) {
+                        if (in_array($typeOrDescriptionArray['type'], $types)) {
                             $descArray['type'] = $typeOrDescriptionArray['type'];
-
-                            if(in_array($key, $descriptions))
-                            {
-                                if($key != 'type')
-                                {
-                                    if(is_string($value))
-                                    {
+                            if (in_array($key, $descriptions)) {
+                                if ($key != 'type') {
+                                    if (is_string($value)) {
                                         $descArray[$key] = $value;
                                     } else {
                                         $this->error('Invalid description array value, must be type (string).');
                                     }
                                 }
                             } else {
-                                $this->error('Invalid description array key value, must be type (string) with any key value '.Helpers::array_string($descriptions));
+                                $this->error('Invalid description array key value, must be type (string) with any key value '.Helpers::arrayToPipedString($descriptions));
                             }
                         } else {
-                            $this->error('Invalid type, must be type (string) with the value '.Helpers::array_string($types));
+                            $this->error('Invalid type, must be type (string) with the value '.Helpers::arrayToPipedString($types));
                         }
                     } else {
                         $this->error('Invalid description array, must contain (array) with at least one key type (string) value [ type ]');
                     }
                 }
-
                 $this->cols[] = $descArray;
-            break;
+                break;
 
             case 'string':
-                if(in_array($typeOrDescriptionArray, $types))
-                {
+                if (in_array($typeOrDescriptionArray, $types)) {
                     $descArray['type'] = $typeOrDescriptionArray;
-
-                    if(is_string($opt_label))
-                    {
+                    if (is_string($opt_label)) {
                         $descArray['label'] = $opt_label;
                     } else {
                         $this->error('Invalid opt_label, must be type (string).');
                     }
-
-                    if(is_string($opt_id))
-                    {
+                    if (is_string($opt_id)) {
                         $descArray['id'] = $opt_id;
                     } else {
                         $this->error('Invalid opt_id, must be type (string).');
                     }
                 } else {
-                    $this->error('Invalid type, must be type (string) with the value '.Helpers::array_string($types));
+                    $this->error('Invalid type, must be type (string) with the value '.Helpers::arrayToPipedString($types));
                 }
-
                 $this->cols[] = $descArray;
-            break;
+                break;
 
             default:
                 $this->error('Invalid type or description array, must be type (string) or (array).');
-            break;
+                break;
         }
 
         return $this;
@@ -177,9 +163,10 @@ class DataTable
      * a cell in an array, or omit trailing array members. So, to indicate a row
      * with null for the first two cells, you would specify [null, null, {cell_val}].
      *
-     * @see \DataCell
+     * @see   Khill\Lavacharts\Configs\DataCell
      * @param mixed $opt_cell Array of values or DataCells.
-     * @return \DataTable
+     *
+     * @return Khill\Lavacharts\Configs\DataTable
      */
     public function addRow($opt_cellArray = null)
     {
@@ -189,22 +176,16 @@ class DataTable
             'p'
         );
 
-        if(is_null($opt_cellArray))
-        {
-            for($a = 0; $a < count($this->cols); $a++)
-            {
+        if (is_null($opt_cellArray)) {
+            for ($a = 0; $a < count($this->cols); $a++) {
                 $tmp[] = array('v' => null);
             }
             $this->rows[] = array('c' => $tmp);
         } else {
-            if(is_array($opt_cellArray))
-            {
-                if(Helpers::array_is_multi($opt_cellArray))
-                {
-                    foreach($opt_cellArray as $prop => $value)
-                    {
-                        if(in_array($prop, $props))
-                        {
+            if (is_array($opt_cellArray)) {
+                if (Helpers::arrayIsMulti($opt_cellArray)) {
+                    foreach ($opt_cellArray as $prop => $value) {
+                        if (in_array($prop, $props)) {
                             $rowVals[] = array($prop => $value);
                         } else {
                             $this->error('Invalid row property, array with keys type (string) with values [ v | f | p ] ');
@@ -213,14 +194,10 @@ class DataTable
 
                     $this->rows[] = array('c' => $rowVals);
                 } else {
-                    if(count($opt_cellArray) <= count($this->cols))
-                    {
-                        for($b = 0; $b < count($this->cols); $b++)
-                        {
-                            if(isset($opt_cellArray[$b]))
-                            {
-                                if(Helpers::is_jsDate($opt_cellArray[$b]))
-                                {
+                    if (count($opt_cellArray) <= count($this->cols)) {
+                        for ($b = 0; $b < count($this->cols); $b++) {
+                            if (isset($opt_cellArray[$b])) {
+                                if (Helpers::is_jsDate($opt_cellArray[$b])) {
                                     $rowVals[] = array('v' => $opt_cellArray[$b]->toString());
                                 } else {
                                     $rowVals[] = array('v' => $opt_cellArray[$b]);
@@ -247,16 +224,15 @@ class DataTable
     /**
      * Adds multiple rows to the DataTable.
      *
-     * @see addRow()
+     * @see   addRow()
      * @param array Multi-dimensional array of rows.
-     * @return \DataTable
+     *
+     * @return Khill\Lavacharts\Configs\DataTable
      */
     public function addRows($arrayOfRows)
     {
-        if(Helpers::array_is_multi($arrayOfRows))
-        {
-            foreach($arrayOfRows as $row)
-            {
+        if (Helpers::arrayIsMulti($arrayOfRows)) {
+            foreach ($arrayOfRows as $row) {
                 $this->addRow($row);
             }
         } else {
@@ -265,7 +241,7 @@ class DataTable
 
         return $this;
     }
-/*
+    /*
     public function getColumnId($columnIndex)
     {
 
@@ -460,7 +436,7 @@ class DataTable
     {
 
     }
-*/
+    */
     public function toJSON()
     {
         return json_encode($this);
@@ -475,5 +451,4 @@ class DataTable
     {
         Lavacharts::_set_error(get_class($this), $msg);
     }
-
 }

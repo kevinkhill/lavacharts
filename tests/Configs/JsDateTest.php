@@ -1,23 +1,19 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
 use Khill\Lavacharts\Tests\TestCase;
-use Khill\Lavacharts\Configs\jsDate;
+use Khill\Lavacharts\Configs\JsDate;
 
-class JsDateTest extends TestCase {
-/*
-    public function setUp()
-    {
-        parent::setUp();
-    }
-*/
+class JsDateTest extends TestCase
+{
+
     public function testIfInstanceOfJsDate()
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\jsDate', new jsDate());
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\JsDate', new JsDate());
     }
 
     public function testConstructorNoAssignmentsIsNulled()
     {
-        $date = new jsDate();
+        $date = new JsDate();
 
         $this->assertEquals(null, $date->year);
         $this->assertEquals(null, $date->month);
@@ -30,7 +26,7 @@ class JsDateTest extends TestCase {
 
     public function testConstructorWithAssignments()
     {
-        $date = new jsDate(2014, 1, 2, 3, 4, 5, 6);
+        $date = new JsDate(2014, 1, 2, 3, 4, 5, 6);
 
         $this->assertEquals(2014, $date->year);
         $this->assertEquals(1,    $date->month);
@@ -44,7 +40,7 @@ class JsDateTest extends TestCase {
     public function testParseWithArray()
     {
         $dateArr = array(2014, 1, 2, 3, 4, 5, 6);
-        $date = new jsDate();
+        $date = new JsDate();
         $date->parse($dateArr);
 
         $this->assertEquals(2014, $date->year);
@@ -59,7 +55,7 @@ class JsDateTest extends TestCase {
     public function testParseWithString()
     {
         $dateStr = '2014-12-25 13:04:05.6';
-        $date = new jsDate();
+        $date = new JsDate();
         $date->parse($dateStr);
 
         $this->assertEquals(2014, $date->year);
@@ -75,7 +71,7 @@ class JsDateTest extends TestCase {
     {
         $this->expectOutputString('Date(2014, 1, 2, 3, 4, 5, 6)');
 
-        $date = new jsDate(2014, 1, 2, 3, 4, 5, 6);
+        $date = new JsDate(2014, 1, 2, 3, 4, 5, 6);
 
         echo $date->toString();
     }
@@ -84,7 +80,7 @@ class JsDateTest extends TestCase {
     {
         $this->expectOutputString('Date(2014, 1, 2, 3, 4, 5)');
 
-        $date = new jsDate(2014, 1, 2, 3, 4, 5);
+        $date = new JsDate(2014, 1, 2, 3, 4, 5);
 
         echo $date->toString();
     }
@@ -93,7 +89,7 @@ class JsDateTest extends TestCase {
     {
         $this->expectOutputString('Date(2014, 1, 2, 3, 4)');
 
-        $date = new jsDate(2014, 1, 2, 3, 4);
+        $date = new JsDate(2014, 1, 2, 3, 4);
 
         echo $date->toString();
     }
@@ -102,7 +98,7 @@ class JsDateTest extends TestCase {
     {
         $this->expectOutputString('Date(2014, 1, 2, 3)');
 
-        $date = new jsDate(2014, 1, 2, 3);
+        $date = new JsDate(2014, 1, 2, 3);
 
         echo $date->toString();
     }
@@ -111,7 +107,7 @@ class JsDateTest extends TestCase {
     {
         $this->expectOutputString('Date(2014, 1, 2)');
 
-        $date = new jsDate(2014, 1, 2);
+        $date = new JsDate(2014, 1, 2);
 
         echo $date->toString();
     }
@@ -120,7 +116,7 @@ class JsDateTest extends TestCase {
     {
         $this->expectOutputString('Date(2014, 1, 0)');
 
-        $date = new jsDate(2014, 1);
+        $date = new JsDate(2014, 1);
 
         echo $date->toString();
     }
@@ -129,7 +125,7 @@ class JsDateTest extends TestCase {
     {
         $this->expectOutputString('Date(2014, 0, 0)');
 
-        $date = new jsDate(2014);
+        $date = new JsDate(2014);
 
         echo $date->toString();
     }
@@ -138,7 +134,7 @@ class JsDateTest extends TestCase {
     {
         $this->expectOutputString('Date(0, 0, 0)');
 
-        $date = new jsDate();
+        $date = new JsDate();
 
         echo $date->toString();
     }

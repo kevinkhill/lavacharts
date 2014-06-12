@@ -1,4 +1,5 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php namespace Khill\Lavacharts\Charts;
+
 /**
  * GeoChart Class
  *
@@ -9,11 +10,13 @@
  *   according to a value that you specify.
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Charts
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://www.gnu.org/licenses/gpl.html GPL-V3
  */
 
 use Khill\Lavacharts\Charts\Chart;
@@ -24,7 +27,8 @@ class GeoChart extends Chart
     {
         parent::__construct($chartLabel);
 
-        $this->defaults = array_merge($this->defaults, array(
+        $this->defaults = array_merge(
+            $this->defaults, array(
             'colorAxis',
             'datalessRegionColor',
             'displayMode',
@@ -35,7 +39,8 @@ class GeoChart extends Chart
             'markerOpacity',
             'resolution',
             'sizeAxis'
-        ));
+            )
+        );
     }
 
     /**
@@ -43,12 +48,12 @@ class GeoChart extends Chart
      * or a gradient scale.
      *
      * @param colorAxis $colorAxis
-     * @return \GeoChart
+     *
+     * @return GeoChart
      */
     public function colorAxis($colorAxis)
     {
-        if(is_a($colorAxis, 'colorAxis'))
-        {
+        if (is_a($colorAxis, 'colorAxis')) {
             $this->addOption($colorAxis);
         } else {
             $this->type_error(__FUNCTION__, 'colorAxis');
@@ -61,12 +66,12 @@ class GeoChart extends Chart
      * Color to assign to regions with no associated data.
      *
      * @param string $datalessRegionColor
-     * @return \GeoChart
+     *
+     * @return GeoChart
      */
     public function datalessRegionColor($datalessRegionColor)
     {
-        if(is_string($datalessRegionColor) && ! empty($datalessRegionColor))
-        {
+        if (is_string($datalessRegionColor) && ! empty($datalessRegionColor)) {
             $this->addOption(array('datalessRegionColor' => $datalessRegionColor));
         } else {
             $this->type_error(__FUNCTION__, 'string');
@@ -83,7 +88,8 @@ class GeoChart extends Chart
      * 'markers' - This is a marker map
      *
      * @param string $displayMode
-     * @return \GeoChart
+     *
+     * @return GeoChart
      */
     public function displayMode($displayMode)
     {
@@ -93,11 +99,10 @@ class GeoChart extends Chart
             'markers',
         );
 
-        if(in_array($displayMode, $values))
-        {
+        if (in_array($displayMode, $values)) {
             $this->addOption(array('displayMode' => $displayMode));
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
         }
 
         return $this;
@@ -111,12 +116,12 @@ class GeoChart extends Chart
      * The default is true in region mode, and false in marker mode.
      *
      * @param type $enableRegionInteractivity
-     * @return \GeoChart
+     *
+     * @return GeoChart
      */
     public function enableRegionInteractivity($enableRegionInter)
     {
-        if(is_bool($enableRegionInter))
-        {
+        if (is_bool($enableRegionInter)) {
             $this->addOption(array('enableRegionInteractivity' => $enableRegionInter));
         } else {
             $this->type_error(__FUNCTION__, 'boolean');
@@ -135,12 +140,12 @@ class GeoChart extends Chart
      * specified by the width and height options.
      *
      * @param boolean $keepAspectRatio
-     * @return \GeoChart
+     *
+     * @return GeoChart
      */
     public function keepAspectRatio($keepAspectRatio)
     {
-        if(is_bool($keepAspectRatio))
-        {
+        if (is_bool($keepAspectRatio)) {
             $this->addOption(array('keepAspectRatio' => $keepAspectRatio));
         } else {
             $this->type_error(__FUNCTION__, 'boolean');
@@ -159,12 +164,12 @@ class GeoChart extends Chart
      * A state in the United States, specified by its ISO 3166-2:US code, e.g., 'US-AL' for Alabama. Note that the resolution option must be set to either 'provinces' or 'metros'.
      *
      * @param string $region
-     * @return \GeoChart
+     *
+     * @return GeoChart
      */
     public function region($region)
     {
-        if(is_string($region))
-        {
+        if (is_string($region)) {
             $this->addOption(array('region' => $region));
         } else {
             $this->type_error(__FUNCTION__, 'string');
@@ -178,12 +183,12 @@ class GeoChart extends Chart
      * marker, a magnifiying glass will be opened.
      *
      * @param magnifyingGlass $magnifyingGlass
-     * @return \GeoChart
+     *
+     * @return GeoChart
      */
     public function magnifyingGlass($magnifyingGlass)
     {
-        if(is_a($magnifyingGlass, 'magnifyingGlass'))
-        {
+        if (is_a($magnifyingGlass, 'magnifyingGlass')) {
             $this->addOption($magnifyingGlass);
         } else {
             $this->type_error(__FUNCTION__, 'object', 'of class magnifyingGlass');
@@ -197,12 +202,12 @@ class GeoChart extends Chart
      * is fully opaque.
      *
      * @param type $markerOpacity
-     * @return \GeoChart
+     *
+     * @return GeoChart
      */
     public function markerOpacity($markerOpacity)
     {
-        if(is_float($markerOpacity) && between($markerOpacity, 0, 1))
-        {
+        if (is_float($markerOpacity) && between($markerOpacity, 0, 1)) {
             $this->addOption(array('markerOpacity' => $markerOpacity));
         } else {
             $this->type_error(__FUNCTION__, 'float', 'between 0.0 - 1.0');
@@ -221,7 +226,8 @@ class GeoChart extends Chart
      * 'metros' - Supported for the US country region and US state regions only.
      *
      * @param string $resolution
-     * @return \GeoChart
+     *
+     * @return GeoChart
      */
     public function resolution($resolution)
     {
@@ -231,11 +237,10 @@ class GeoChart extends Chart
             'metros',
         );
 
-        if(in_array($resolution, $values))
-        {
+        if (in_array($resolution, $values)) {
             $this->addOption(array('resolution' => $resolution));
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
         }
 
         return $this;
@@ -246,12 +251,12 @@ class GeoChart extends Chart
      * bubble sizes.
      *
      * @param sizeAxis $sizeAxis
-     * @return \GeoChart
+     *
+     * @return GeoChart
      */
     public function sizeAxis($sizeAxis)
     {
-        if(is_a($sizeAxis, 'sizeAxis'))
-        {
+        if (is_a($sizeAxis, 'sizeAxis')) {
             $this->addOption($sizeAxis);
         } else {
             $this->type_error(__FUNCTION__, 'object', 'of class sizeAxis');
@@ -259,5 +264,4 @@ class GeoChart extends Chart
 
         return $this;
     }
-
 }

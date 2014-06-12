@@ -1,21 +1,24 @@
 <?php namespace Khill\Lavacharts\Configs;
+
 /**
- * sizeAxis Object
+ * SizeAxis Object
  *
  * An object containing all the values for the sizeAxis which can be
  * passed into the chart's options.
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Configs
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://opensource.org/licenses/GPL-3.0 GPLv3
  */
 
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class sizeAxis extends configOptions
+class SizeAxis extends ConfigOptions
 {
     /**
      * Maximum radius of the largest possible bubble, in pixels.
@@ -52,10 +55,10 @@ class sizeAxis extends configOptions
      * values for option => value, or by chaining together the functions once
      * an object has been created.
      *
-     * @param array Associative array containing key => value pairs for the various configuration options.
+     * @param  array Associative array containing key => value pairs for the various configuration options.
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
-     * @return \sizeAxis
+     * @return Khill\Lavacharts\Configs\SizeAxis
      */
     public function __construct($config = array())
     {
@@ -73,12 +76,12 @@ class sizeAxis extends configOptions
      * Sets maximum radius of the largest possible bubble, in pixels
      *
      * @param int $maxSize
-     * @return \sizeAxis
+     *
+     * @return Khill\Lavacharts\Configs\SizeAxis
      */
     function maxSize($maxSize)
     {
-        if(is_numeric($maxSize))
-        {
+        if (is_numeric($maxSize)) {
             $this->maxSize = $maxSize;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'int | float');
@@ -92,12 +95,12 @@ class sizeAxis extends configOptions
      * $this->maxSize. Larger values will be cropped to this value.
      *
      * @param int $maxValue
-     * @return \sizeAxis
+     *
+     * @return Khill\Lavacharts\Configs\SizeAxis
      */
     function maxValue($maxValue)
     {
-        if(is_numeric($maxValue))
-        {
+        if (is_numeric($maxValue)) {
             $this->maxValue = $maxValue;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'int | float');
@@ -110,12 +113,12 @@ class sizeAxis extends configOptions
      * Sets mininum radius of the smallest possible bubble, in pixels
      *
      * @param int $minSize
-     * @return \sizeAxis
+     *
+     * @return Khill\Lavacharts\Configs\SizeAxis
      */
     function minSize($minSize)
     {
-        if(is_numeric($minSize))
-        {
+        if (is_numeric($minSize)) {
             $this->minSize = $minSize;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'int | float');
@@ -129,12 +132,12 @@ class sizeAxis extends configOptions
      * $this->minSize. Larger values will be cropped to this value.
      *
      * @param int $minValue
-     * @return \sizeAxis
+     *
+     * @return Khill\Lavacharts\Configs\SizeAxis
      */
     function minValue($minValue)
     {
-        if(is_numeric($minValue))
-        {
+        if (is_numeric($minValue)) {
             $this->minValue = $minValue;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'int | float');
@@ -142,6 +145,4 @@ class sizeAxis extends configOptions
 
         return $this;
     }
-
-
 }

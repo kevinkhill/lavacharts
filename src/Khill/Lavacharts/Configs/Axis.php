@@ -1,4 +1,5 @@
 <?php namespace Khill\Lavacharts\Configs;
+
 /**
  * Axis Properties Parent Object
  *
@@ -6,17 +7,19 @@
  * passed into the chart's options.
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Configs
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://opensource.org/licenses/GPL-3.0 GPLv3
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class Axis extends configOptions
+class Axis extends ConfigOptions
 {
     /**
      * The baseline for the axis.
@@ -138,14 +141,15 @@ class Axis extends configOptions
      * values for option => value, or by chaining together the functions once
      * an object has been created.
      *
-     * @param array Associative array containing key => value pairs for the various configuration options.
+     * @param  array Associative array containing key => value pairs for the various configuration options.
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
-     * @return \Axis
+     * @return Axis
      */
     public function __construct($config = array())
     {
-        $this->options = array_merge($this->options, array(
+        $this->options = array_merge(
+            $this->options, array(
             'baseline',
             'baselineColor',
             'direction',
@@ -165,7 +169,8 @@ class Axis extends configOptions
             'minValue',
             'viewWindowMode',
             'viewWindow'
-        ));
+            )
+        );
 
         parent::__construct($config);
     }
@@ -176,16 +181,15 @@ class Axis extends configOptions
      * This option is only supported for a continuous axis.
      *
      * @param mixed Must match type defined for the column, [ number | jsDate ].
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function baseline($baseline)
     {
-        if(Helpers::is_jsDate($baseline))
-        {
+        if (Helpers::is_jsDate($baseline)) {
             $this->baseline = $baseline->toString();
         } else {
-            if(is_int($baseline))
-            {
+            if (is_int($baseline)) {
                 $this->baseline = $baseline;
             } else {
                 throw new InvalidConfigValue($this->className, __FUNCTION__, 'int | jsDate', '; int if column is "number", jsDate if column is "date"');
@@ -203,12 +207,12 @@ class Axis extends configOptions
      * This option is only supported for a continuous axis.
      *
      * @param string Valid HTML color.
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function baselineColor($color)
     {
-        if(is_string($color))
-        {
+        if (is_string($color)) {
             $this->baselineColor = $color;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'representing a valid HTML color');
@@ -223,12 +227,12 @@ class Axis extends configOptions
      * Specify -1 to reverse the order of the values.
      *
      * @param int $direction
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function direction($direction)
     {
-        if(is_int($direction) && ($direction == 1 || $direction == -1))
-        {
+        if (is_int($direction) && ($direction == 1 || $direction == -1)) {
             $this->direction = $direction;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'int', '1 || -1');
@@ -249,12 +253,12 @@ class Axis extends configOptions
      * This option is only supported for a continuous axis.
      *
      * @param string $format format string for numeric or date axis labels.
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function format($format)
     {
-        if(is_string($format))
-        {
+        if (is_string($format)) {
             $this->format = $format;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
@@ -275,18 +279,16 @@ class Axis extends configOptions
      * This option is only supported for a continuous axis.
      *
      * @param array $gridlines
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function gridlines($gridlines)
     {
         $tmp = array();
 
-        if(is_array($gridlines))
-        {
-            if(array_key_exists('count', $gridlines))
-            {
-                if($gridlines['count'] >= 2 || $gridlines['count'] == -1)
-                {
+        if (is_array($gridlines)) {
+            if (array_key_exists('count', $gridlines)) {
+                if ($gridlines['count'] >= 2 || $gridlines['count'] == -1) {
                     $tmp['count'] = $gridlines['count'];
                 } else {
                     $tmp['count'] = 5;
@@ -295,8 +297,7 @@ class Axis extends configOptions
                 $tmp['count'] = 5;
             }
 
-            if(array_key_exists('color', $gridlines))
-            {
+            if (array_key_exists('color', $gridlines)) {
                 $tmp['color'] = $gridlines['color'];
             } else {
                 $tmp['color'] = '#CCC';
@@ -320,25 +321,24 @@ class Axis extends configOptions
      * This option is only supported for a continuous axis.
      *
      * @param array $minorGridlines
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function minorGridlines($minorGridlines)
     {
-       $tmp = array();
+        $tmp = array();
 
-        if(is_array($minorGridlines))
-        {
-            if(array_key_exists('count', $minorGridlines) &&
+        if (is_array($minorGridlines)) {
+            if (array_key_exists('count', $minorGridlines) &&
                     $minorGridlines['count'] >= 2 ||
                     $minorGridlines['count'] == -1
             ) {
                 $tmp['count'] = $minorGridlines['count'];
             } else {
-                throw new InvalidConfigValue($this->className, __FUNCTION__.'[count]',  'int', '>= 2 or -1 for auto');
+                throw new InvalidConfigValue($this->className, __FUNCTION__.'[count]', 'int', '>= 2 or -1 for auto');
             }
 
-            if(array_key_exists('color', $minorGridlines))
-            {
+            if (array_key_exists('color', $minorGridlines)) {
                 $tmp['color'] = $minorGridlines['color'];
             }
 
@@ -357,12 +357,12 @@ class Axis extends configOptions
      * This option is only supported for a continuous axis.
      *
      * @param boolean $log
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function logScale($log)
     {
-        if(is_bool($log))
-        {
+        if (is_bool($log)) {
             $this->logScale = $log;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'boolean');
@@ -376,7 +376,8 @@ class Axis extends configOptions
      * Supported values: 'out', 'in', 'none'.
      *
      * @param string Setting the position of the text.
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function textPosition($position)
     {
@@ -386,11 +387,10 @@ class Axis extends configOptions
             'none'
         );
 
-        if(in_array($position, $values))
-        {
+        if (in_array($position, $values)) {
             $this->textPosition = $position;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'with a value of '.Helpers::array_string($values));
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
         }
 
         return $this;
@@ -400,12 +400,12 @@ class Axis extends configOptions
      * This function takes a textStyle object, created via "new textStyle();"
      *
      * @param textStyle $textStyle
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function textStyle($textStyle)
     {
-        if(Helpers::is_textStyle($textStyle))
-        {
+        if (Helpers::isTextStyle($textStyle)) {
             $this->textStyle = $textStyle->getValues();
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'object', 'class textStyle');
@@ -418,12 +418,12 @@ class Axis extends configOptions
      * Axis property that specifies the title of the axis.
      *
      * @param string $title
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function title($title)
     {
-        if(is_string($title))
-        {
+        if (is_string($title)) {
             $this->title = $title;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
@@ -436,12 +436,12 @@ class Axis extends configOptions
      * An object that specifies the axis title text style.
      *
      * @param textStyle $titleTextStyle
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function titleTextStyle($titleTextStyle)
     {
-        if(Helpers::is_textStyle($titleTextStyle))
-        {
+        if (Helpers::isTextStyle($titleTextStyle)) {
             $this->titleTextStyle = $titleTextStyle->getValues();
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'object', 'class textStyle');
@@ -460,12 +460,12 @@ class Axis extends configOptions
      * This option is only supported for a discrete axis.
      *
      * @param int $alternation
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function maxAlternation($alternation)
     {
-        if(is_int($alternation))
-        {
+        if (is_int($alternation)) {
             $this->maxAlternation = $alternation;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
@@ -482,12 +482,12 @@ class Axis extends configOptions
      * This option is only supported for a discrete axis.
      *
      * @param int $maxTextLines
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function maxTextLines($maxTextLines)
     {
-        if(is_int($maxTextLines))
-        {
+        if (is_int($maxTextLines)) {
             $this->maxTextLines = $maxTextLines;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
@@ -506,16 +506,15 @@ class Axis extends configOptions
      * This option is only supported for a discrete axis.
      *
      * @param int $minTextSpacing
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function minTextSpacing($minTextSpacing)
     {
-        if(is_int($minTextSpacing))
-        {
+        if (is_int($minTextSpacing)) {
             $this->minTextSpacing = $minTextSpacing;
         } else {
-            if(isset($this->textStyle['fontSize']))
-            {
+            if (isset($this->textStyle['fontSize'])) {
                 $this->minTextSpacing = $this->textStyle['fontSize'];
             } else {
                 throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
@@ -533,12 +532,12 @@ class Axis extends configOptions
      * This option is only supported for a discrete axis.
      *
      * @param int $showTextEvery
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function showTextEvery($showTextEvery)
     {
-        if(is_int($showTextEvery))
-        {
+        if (is_int($showTextEvery)) {
             $this->showTextEvery = $showTextEvery;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
@@ -555,12 +554,12 @@ class Axis extends configOptions
      * This option is only supported for a continuous axis.
      *
      * @param int $max
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function maxValue($max)
     {
-        if(is_int($max))
-        {
+        if (is_int($max)) {
             $this->maxValue = $max;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
@@ -577,15 +576,15 @@ class Axis extends configOptions
      * This option is only supported for a continuous axis.
      *
      * @param int $min
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function minValue($min)
     {
-        if(is_int($min))
-        {
+        if (is_int($min)) {
             $this->minValue = $min;
         } else {
-           throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
         }
 
         return $this;
@@ -606,7 +605,8 @@ class Axis extends configOptions
      * This option is only supported for a continuous axis.
      *
      * @param string $viewMode
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function viewWindowMode($viewMode)
     {
@@ -616,12 +616,10 @@ class Axis extends configOptions
             'explicit',
         );
 
-        if(in_array($viewMode, $values))
-        {
+        if (in_array($viewMode, $values)) {
             $this->viewWindowMode = $viewMode;
         } else {
-            if($this->viewWindow == null)
-            {
+            if ($this->viewWindow == null) {
                 $this->viewWindowMode = 'pretty';
             } else {
                 $this->viewWindowMode = 'explicit';
@@ -652,16 +650,15 @@ class Axis extends configOptions
      * such that min <= index < max will be displayed.
      *
      * @param array $viewWindow
-     * @return \Axis
+     *
+     * @return Axis
      */
     public function viewWindow($viewWindow)
     {
         $tmp = array();
 
-        if(is_array($viewWindow))
-        {
-            if(array_key_exists('min', $viewWindow) && array_key_exists('max', $viewWindow))
-            {
+        if (is_array($viewWindow)) {
+            if (array_key_exists('min', $viewWindow) && array_key_exists('max', $viewWindow)) {
                 $tmp['viewWindowMin'] = $viewWindow['min'];
                 $tmp['viewWindowMax'] = $viewWindow['max'];
 
@@ -678,5 +675,4 @@ class Axis extends configOptions
 
         return $this;
     }
-
 }

@@ -1,42 +1,45 @@
 <?php namespace Khill\Lavacharts\Configs;
+
 /**
- * annotation Properties Object
+ * Annotation Properties Object
  *
  * An object containing all the values for the annotation which can
  * be passed into the chart's options.
  *
  *
- * @author Kevin Hill <kevinkhill@gmail.com>
+ * @category  Class
+ * @package   Khill\Lavacharts\Configs
+ * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license http://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license   http://opensource.org/licenses/GPL-3.0 GPLv3
  */
 
-use \Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class annotation extends configOptions
+class Annotation extends ConfigOptions
 {
     /**
-     * The highContrast state.
+     * @var $highContrast The highContrast state.
      */
     public $highContrast = true;
 
     /**
-     * Text style of the annotation.
-     *
-     * @var textStyle
+     * @var Khill\Lavacharts\Configs\TextStyle Text style of the annotation.
      */
     public $textStyle = null;
 
     /**
      * Builds the annotation object.
      *
-     * @param array Associative array containing key => value pairs for the various configuration options.
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
-     * @return \tooltip
+     * @param  array Associative array containing key => value pairs for the various configuration options.
+     *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     *
+     * @return Khill\Lavacharts\Configs\Annotation
      */
     public function __construct($config = array())
     {
@@ -57,12 +60,12 @@ class annotation extends configOptions
      * will use the default series color for the annotation
      *
      * @param boolean Annotation color
-     * @return \annotation
+     *
+     * @return Khill\Lavacharts\Configs\Annotation
      */
     public function highContrast($highContrast)
     {
-        if(is_bool($highContrast))
-        {
+        if (is_bool($highContrast)) {
             $this->highContrast = $highContrast;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'boolean');
@@ -75,12 +78,12 @@ class annotation extends configOptions
      * An object that specifies the annotation text style.
      *
      * @param textStyle Style of the annotation
-     * @return \annotation
+     *
+     * @return Khill\Lavacharts\Configs\Annotation
      */
     public function textStyle($textStyle)
     {
-        if(Helpers::is_textStyle($textStyle))
-        {
+        if (Helpers::isTextStyle($textStyle)) {
             $this->textStyle = $textStyle;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'textStyle');
@@ -88,5 +91,4 @@ class annotation extends configOptions
 
         return $this;
     }
-
 }

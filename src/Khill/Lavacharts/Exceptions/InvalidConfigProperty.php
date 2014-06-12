@@ -6,12 +6,11 @@ class InvalidConfigProperty extends \Exception
     public function __construct($class, $function, $rejectedProp, $acceptedProps, $code = 0)
     {
         $message  = '"'.$rejectedProp.'" is not a valid property for ' . $class . '->' . $function . ', ';
-    	$message .= 'must be one of [ ';
+        $message .= 'must be one of [ ';
 
         natcasesort($acceptedProps);
 
-        foreach ($acceptedProps as $prop)
-        {
+        foreach ($acceptedProps as $prop) {
             $message .= $prop . ' | ';
         }
 
@@ -24,5 +23,4 @@ class InvalidConfigProperty extends \Exception
     {
         return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
     }
-
 }
