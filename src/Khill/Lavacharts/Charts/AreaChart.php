@@ -25,18 +25,19 @@ class AreaChart extends Chart
         parent::__construct($chartLabel);
 
         $this->defaults = array_merge(
-            $this->defaults, array(
-            //            'animation',
-            'areaOpacity',
-            'axisTitlesPosition',
-            'events',
-            'hAxis',
-            'isHtml',
-            'interpolateNulls',
-            'lineWidth',
-            'pointSize',
-            //            'vAxes',
-            'vAxis'
+            $this->defaults,
+            array(
+                //'animation',
+                'areaOpacity',
+                'axisTitlesPosition',
+                'events',
+                'hAxis',
+                'isHtml',
+                'interpolateNulls',
+                'lineWidth',
+                'pointSize',
+                //'vAxes',
+                'vAxis'
             )
         );
     }
@@ -52,7 +53,7 @@ class AreaChart extends Chart
      */
     public function areaOpacity($opacity)
     {
-        if (is_float($opacity) && $opacity < 1.0 && $opacity > 0.0) {
+        if (Helpers::between(0.0, $opacity, 1.0)) {
             $this->addOption(array('areaOpacity' => $opacity));
         } else {
             $this->type_error(__FUNCTION__, 'float', 'between 0.0 - 1.0');

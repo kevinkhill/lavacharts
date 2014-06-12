@@ -73,11 +73,11 @@ class Gradient extends ConfigOptions
     public function __construct($config = array())
     {
         if (! array_key_exists('color1', $config)) {
-            $this->color1 = $this->_randomColor();
+            $this->color1 = $this->randomColor();
         }
 
         if (! array_key_exists('color2', $config)) {
-            $this->color2 = $this->_randomColor();
+            $this->color2 = $this->randomColor();
         }
 
         $this->options = array(
@@ -218,7 +218,7 @@ class Gradient extends ConfigOptions
      *
      * @return string
      */
-    private function _randomColor()
+    private function randomColor()
     {
         return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
     }

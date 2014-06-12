@@ -22,51 +22,37 @@ use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class HorizontalAxis extends Axis
 {
     /**
-     * Allow container to cutoff labels.
-     *
-     * @var boolean
+     * @var bool Allow container to cutoff labels.
      */
     public $allowContainerBoundaryTextCutoff;
 
     /**
-     * Slanted or normal labels.
-     *
-     * @var boolean
+     * @var bool Slanted or normal labels.
      */
     public $slantedText;
 
     /**
-     * Angle of labels.
-     *
-     * @var int
+     * @var int Angle of labels.
      */
     public $slantedTextAngle;
 
     /**
-     * Number of levels of alternation.
-     *
-     * @var int
+     * @var int Number of levels of alternation.
      */
     public $maxAlternation;
 
     /**
-     * Maximum number of labels.
-     *
-     * @var int
+     * @var int Maximum number of labels.
      */
     public $maxTextLines;
 
     /**
-     * Minimum amount in pixels of space between labels.
-     *
-     * @var int
+     * @var int Minimum amount in pixels of space between labels.
      */
     public $minTextSpacing;
 
     /**
-     * Amount of labels to show.
-     *
-     * @var int
+     * @var int Amount of labels to show.
      */
     public $showTextEvery;
 
@@ -85,14 +71,15 @@ class HorizontalAxis extends Axis
     public function __construct($config = array())
     {
         $this->options = array_merge(
-            $this->options, array(
-            'allowContainerBoundaryTextCutoff',
-            'slantedText',
-            'slantedTextAngle',
-            'maxAlternation',
-            'maxTextLines',
-            'minTextSpacing',
-            'showTextEvery',
+            $this->options,
+            array(
+                'allowContainerBoundaryTextCutoff',
+                'slantedText',
+                'slantedTextAngle',
+                'maxAlternation',
+                'maxTextLines',
+                'minTextSpacing',
+                'showTextEvery',
             )
         );
 

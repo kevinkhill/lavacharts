@@ -38,7 +38,7 @@ class DataTable
      */
     public $rows = array();
 
-    //@TODO: private $_row_count;
+    //@TODO: private $rowCount;
 
 
     /**
@@ -197,11 +197,11 @@ class DataTable
                     if (count($opt_cellArray) <= count($this->cols)) {
                         for ($b = 0; $b < count($this->cols); $b++) {
                             if (isset($opt_cellArray[$b])) {
-                                if (Helpers::is_jsDate($opt_cellArray[$b])) {
-                                    $rowVals[] = array('v' => $opt_cellArray[$b]->toString());
-                                } else {
+                                //if (Helpers::isJsDate($opt_cellArray[$b])) {
+                                //    $rowVals[] = array('v' => $opt_cellArray[$b]->toString());
+                                //} else {
                                     $rowVals[] = array('v' => $opt_cellArray[$b]);
-                                }
+                                //}
                             } else {
                                 $rowVals[] = array('v' => null);
                             }

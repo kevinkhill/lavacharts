@@ -20,6 +20,8 @@
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Configs\Annotation;
+use Khill\Lavacharts\Configs\HorizontalAxis;
 use Khill\Lavacharts\Configs\VerticalAxis;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
@@ -32,7 +34,8 @@ class ComboChart extends Chart
         parent::__construct($chartLabel);
 
         $this->defaults = array_merge(
-            $this->defaults, array(
+            $this->defaults,
+            array(
                 'axisTitlesPosition',
                 'barGroupWidth',
                 'focusTarget',
@@ -52,16 +55,20 @@ class ComboChart extends Chart
      * out - Draw the axis titles outside the chart area.
      * none - Omit the axis titles.
      *
-     * @param  annotation $position
+     * @param  Khill\Lavacharts\Configs\Annotation $annotation
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ComboChart
      */
-    public function annotations($annotation)
+    public function annotations(Annotation $annotation)
     {
-        if (Helpers::is_annotation($annotation)) {
+        if (Helpers::isAnnotation($annotation)) {
             $this->addOption($annotations->toArray());
         } else {
-            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'annotation');
+            throw new InvalidConfigValue(
+                $this->chartType,
+                __FUNCTION__,
+                'annotation'
+            );
         }
 
         return $this;
@@ -130,7 +137,7 @@ class ComboChart extends Chart
      * - Percentage of the available width for each group (e.g. '20%'),
      *   where '100%' means that groups have no space between them.
      *
-     * @param  mixed Width of the bar group
+     * @param  int|string $barGroupWidth
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ComboChart
      */
@@ -146,21 +153,27 @@ class ComboChart extends Chart
     }
 
 
+
     /**
      * An object with members to configure various horizontal axis elements. To
      * specify properties of this property, create a new hAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param  hAxis horizontal axis object
+     * @param Khill\Lavacharts\Configs\HorizontalAxis $hAxis
+     *
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ComboChart
      */
-    public function hAxis($hAxis)
+    public function hAxis(HorizontalAxis $hAxis)
     {
         if (Helpers::is_hAxis($hAxis)) {
             $this->addOption($hAxis->toArray());
         } else {
-            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'hAxis');
+            throw new InvalidConfigValue(
+                $this->chartType,
+                __FUNCTION__,
+                'hAxis'
+            );
         }
 
         return $this;
@@ -208,7 +221,7 @@ class ComboChart extends Chart
      * in the chart. To use default values for a series, specify an null in the array.
      * If a series or a value is not specified, the global value will be used.
      *
-     * @param  array Array of series objects
+     * @param  array $arrOfSeries
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ComboChart
      */
@@ -233,7 +246,7 @@ class ComboChart extends Chart
      * Available values are:
      * 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'
      *
-     * @param  string Type of series
+     * @param  string $type
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ComboChart
      */
@@ -271,7 +284,7 @@ class ComboChart extends Chart
      * To specify a chart with multiple vertical axes, first define a new axis using
      * series.targetAxisIndex, then configure the axis using vAxes.
      *
-     * @param  array Array of Vaxis objects
+     * @param  array $arrOfVaxis
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Khill\Lavacharts\Charts\ComboChart
@@ -294,7 +307,7 @@ class ComboChart extends Chart
      * specify properties of this property, create a new vAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param  vAxis Vertical axis object
+     * @param  Khill\Lavacharts\Configs\VerticalAxis $vAxis
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ComboChart
      */

@@ -26,15 +26,16 @@ class ColumnChart extends Chart
         parent::__construct($chartLabel);
 
         $this->defaults = array_merge(
-            $this->defaults, array(
-            //            'animation',
-            'axisTitlesPosition',
-            'barGroupWidth',
-            'focusTarget',
-            'hAxis',
-            'isHtml',
-            //            'vAxes',
-            'vAxis'
+            $this->defaults,
+            array(
+//                'animation',
+                'axisTitlesPosition',
+                'barGroupWidth',
+                'focusTarget',
+                'hAxis',
+                'isHtml',
+//                'vAxes',
+                'vAxis'
             )
         );
     }

@@ -17,6 +17,9 @@
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Configs\HorizontalAxis;
+use Khill\Lavacharts\Configs\VerticalAxis;
+use Khll\Lavacharts\Exceptions\InvalidConfigValue;
 
 class LineChart extends Chart
 {
@@ -25,17 +28,18 @@ class LineChart extends Chart
         parent::__construct($chartLabel);
 
         $this->defaults = array_merge(
-            $this->defaults, array(
-            //            'animation',
-            'axisTitlesPosition',
-            'curveType',
-            'hAxis',
-            'isHtml',
-            'interpolateNulls',
-            'lineWidth',
-            'pointSize',
-            //            'vAxes',
-            'vAxis'
+            $this->defaults,
+            array(
+//                'animation',
+                'axisTitlesPosition',
+                'curveType',
+                'hAxis',
+                'isHtml',
+                'interpolateNulls',
+                'lineWidth',
+                'pointSize',
+//                'vAxes',
+                'vAxis'
             )
         );
     }
@@ -49,7 +53,8 @@ class LineChart extends Chart
      *
      * @param string $position
      *
-     * @return LineChart
+     * @throws Khll\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\LineCharti
      */
     public function axisTitlesPosition($position)
     {
@@ -62,7 +67,12 @@ class LineChart extends Chart
         if (in_array($position, $values)) {
             $this->addOption(array('axisTitlesPosition' => $position));
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
+            throw new InvalidConfigValue(
+                $this->chartType,
+                __FUNCTION__,
+                'string',
+                'with a value of '.Helpers::arrayToPipedString($values)
+            );
         }
 
         return $this;
@@ -76,7 +86,8 @@ class LineChart extends Chart
      *
      * @param string $curveType
      *
-     * @return LineChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\LineChart
      */
     public function curveType($curveType)
     {
@@ -88,7 +99,12 @@ class LineChart extends Chart
         if (in_array($curveType, $values)) {
             $this->addOption(array('curveType' => (string) $curveType));
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
+            throw new InvalidConfigValue(
+                $this->chartType,
+                __FUNCTION__,
+                'string',
+                'with a value of '.Helpers::arrayToPipedString($values)
+            );
         }
 
         return $this;
@@ -99,16 +115,21 @@ class LineChart extends Chart
      * specify properties of this property, create a new hAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param hAxis $hAxis
+     * @param Khill\Lavacharts\Configs\HorizontalAxis $hAxis
      *
-     * @return LineChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\LineChart
      */
-    public function hAxis($hAxis)
+    public function hAxis(HorizontalAxis $hAxis)
     {
         if (Helpers::is_hAxis($hAxis)) {
             $this->addOption($hAxis->toArray());
         } else {
-            $this->type_error(__FUNCTION__, 'hAxis');
+            throw new InvalidConfigValue(
+                $this->chartType,
+                __FUNCTION__,
+                'hAxis'
+            );
         }
 
         return $this;
@@ -119,14 +140,19 @@ class LineChart extends Chart
      *
      * @param boolean $isHTML
      *
-     * @return LineChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\LineChart
      */
     public function isHtml($isHTML)
     {
         if (is_bool($isHTML)) {
             $this->addOption(array('isHTML' => $isHTML));
         } else {
-            $this->type_error(__FUNCTION__, 'boolean');
+            throw new InvalidConfigValue(
+                $this->chartType,
+                __FUNCTION__,
+                'boolean'
+            );
         }
 
         return $this;
@@ -139,14 +165,19 @@ class LineChart extends Chart
      *
      * @param boolean $interpolateNulls
      *
-     * @return LineChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\LineChart
      */
     public function interpolateNulls($interpolateNulls)
     {
         if (is_bool($interpolateNulls)) {
             $this->addOption(array('interpolateNulls' => $interpolateNulls));
         } else {
-            $this->type_error(__FUNCTION__, 'boolean');
+            throw new InvalidConfigValue(
+                $this->chartType,
+                __FUNCTION__,
+                'boolean'
+            );
         }
 
         return $this;
@@ -159,14 +190,19 @@ class LineChart extends Chart
      *
      * @param int $width
      *
-     * @return LineChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\LineChart
      */
     public function lineWidth($width)
     {
         if (is_int($width)) {
             $this->addOption(array('lineWidth' => $width));
         } else {
-            $this->type_error(__FUNCTION__, 'int');
+            throw new InvalidConfigValue(
+                $this->chartType,
+                __FUNCTION__,
+                'int'
+            );
         }
 
         return $this;
@@ -178,14 +214,19 @@ class LineChart extends Chart
      *
      * @param int $size
      *
-     * @return LineChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\LineChart
      */
     public function pointSize($size)
     {
         if (is_int($size)) {
             $this->addOption(array('pointSize' => $size));
         } else {
-            $this->type_error(__FUNCTION__, 'int');
+            throw new InvalidConfigValue(
+                $this->chartType,
+                __FUNCTION__,
+                'int'
+            );
         }
 
         return $this;
@@ -196,16 +237,21 @@ class LineChart extends Chart
      * specify properties of this property, create a new vAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param vAxis $vAxis
+     * @param Khill\Lavacharts\Configs\VerticalAxis $vAxis
      *
-     * @return LineChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\LineChart
      */
-    public function vAxis($vAxis)
+    public function vAxis(VerticalAxis $vAxis)
     {
         if (Helpers::is_vAxis($vAxis)) {
             $this->addOption($vAxis->toArray());
         } else {
-            $this->type_error(__FUNCTION__, 'vAxis');
+            throw new InvalidConfigValue(
+                $this->chartType,
+                __FUNCTION__,
+                'vAxis'
+            );
         }
 
         return $this;

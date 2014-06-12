@@ -25,17 +25,18 @@ class PieChart extends Chart
         parent::__construct($chartLabel);
 
         $this->defaults = array_merge(
-            $this->defaults, array(
-            'is3D',
-            'slices',
-            'pieSliceBorderColor',
-            'pieSliceText',
-            'pieSliceTextStyle',
-            'pieStartAngle',
-            'reverseCategories',
-            'sliceVisibilityThreshold',
-            'pieResidueSliceColor',
-            'pieResidueSliceLabel',
+            $this->defaults,
+            array(
+                'is3D',
+                'slices',
+                'pieSliceBorderColor',
+                'pieSliceText',
+                'pieSliceTextStyle',
+                'pieStartAngle',
+                'reverseCategories',
+                'sliceVisibilityThreshold',
+                'pieResidueSliceColor',
+                'pieResidueSliceLabel',
             )
         );
     }
