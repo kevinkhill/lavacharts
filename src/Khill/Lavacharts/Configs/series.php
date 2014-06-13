@@ -31,6 +31,13 @@ class Series extends ConfigOptions
     public $annotation;
 
     /**
+     * Overrides the global curveType value for this series.
+     *
+     * @var string
+     */
+    public $curveType;
+
+    /**
      * The type of marker for this series.
      *
      * @var string
