@@ -18,7 +18,8 @@
         "mockery/mockery": "dev-master@dev",
     	"phpunit/phpunit": "4.1.*",
         "squizlabs/php_codesniffer": "2.0.*@dev",
-        "apigen/apigen": "dev-master"
+        "nette/nette": "~2.1.3",
+        "apigen/apigen": "2.*"
     },
     "autoload": {
         "psr-0": { "Khill\\Lavacharts": "src/" }

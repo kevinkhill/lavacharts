@@ -1,1 +1,0 @@
-alert('called from callbacks/LineChart.error.js');

@@ -215,7 +215,9 @@ class Chart
     }
 
     /**
-     * Register javascript callbacks for specific events. Valid values include
+     * Register javascript callbacks for specific events.
+     *
+     * Valid values include:
      * [ animationfinish | error | onmouseover | onmouseout | ready | select ]
      * associated to a respective pre-defined javascript function as the callback.
      *
@@ -223,7 +225,7 @@ class Chart
      *
      * @return Khill\Lavacharts\Charts\Chart
      */
-    public function events(array $events)
+    public function events($events)
     {
         $values = array(
             'animationfinish',
