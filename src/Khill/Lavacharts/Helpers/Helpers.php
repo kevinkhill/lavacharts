@@ -93,17 +93,13 @@ class Helpers
         if (is_array($array) && is_string($type)) {
             if ($type === 'class' && is_string($className) && ! empty($className)) {
                 foreach ($array as $item) {
-                    if (! is_object($item)) {
-                        $status = false;
-                    } else {
-                        if (preg_match('/(\\\\)?([\w]+)$/', get_class($item), $matches)) {
-                            $realClassName = $matches[2];
-                        }
-
-                        if ($realClassName === false) {
+                    if ( ! is_null($item)) {
+                        if (! is_object($item)) {
                             $status = false;
                         } else {
-                            if ($realClassName != $className) {
+                            preg_match('/(\\\\)?([\w]+)$/', get_class($item), $matches);
+
+                            if ($matches[2] != $className) {
                                 $status = false;
                             }
                         }

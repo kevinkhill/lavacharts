@@ -18,9 +18,18 @@
 
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Configs\Annotation;
+use Khill\Lavacharts\Configs\TextStyle;
 
 class Series extends ConfigOptions
 {
+    /**
+     * Alignment of the series.
+     *
+     * @var Khill\Lavacharts\Configs\Annotation
+     */
+    public $annotation;
+
     /**
      * The type of marker for this series.
      *
@@ -28,17 +37,11 @@ class Series extends ConfigOptions
      */
     public $type;
 
-    /**
-     * Alignment of the series.
-     *
-     * @var string
-     */
-    public $alignment;
 
     /**
      * Text style of the series.
      *
-     * @var textStyle
+     * @var Khill\Lavacharts\Configs\TextStyle
      */
     public $textStyle;
 
@@ -54,6 +57,8 @@ class Series extends ConfigOptions
     {
         $this->options = array(
             'annotation',
+            'curveType',
+            'targetAxisIndex',
             'type',
         );
 
@@ -66,14 +71,75 @@ class Series extends ConfigOptions
      *
      * @param annotation Annotation style of the series
      *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Configs\Series
      */
-    public function annotation($annotation)
+    public function annotation(Annotation $annotation)
     {
         if (Helpers::isAnnotation($annotation)) {
             $this->annotation = $annotation;
         } else {
             throw new InvalidConfigValue($this->className, __FUNCTION__, 'annotation');
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * Controls the curve of the lines when the line width is not zero.
+     *
+     * Can be one of the following:
+     * 'none' - Straight lines without curve.
+     * 'function' - The angles of the line will be smoothed.
+     *
+     * @param string $curveType
+     *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\LineChart
+     */
+    public function curveType($curveType)
+    {
+        $values = array(
+            'none',
+            'function'
+        );
+
+        if (is_string($curveType) && in_array($curveType, $values)) {
+            $this->curveType = $curveType;
+        } else {
+            throw new InvalidConfigValue(
+                $this->chartType,
+                __FUNCTION__,
+                'string',
+                'with a value of '.Helpers::arrayToPipedString($values)
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Which axis to assign this series to.
+     *
+     * 0 is the default axis, and 1 is the opposite axis.
+     *
+     * Default value is 0; set to 1 to define a chart where different series
+     * are rendered against different axes.
+     *
+     * At least one series much be allocated to the default axis.
+     * You can define a different scale for different axes.
+     *
+     * @param int $index
+     *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Configs\Series
+     */
+    public function targetAxisIndex($index) {
+        if (is_int($index)) {
+            $this->targetAxisIndex = $index;
+        } else {
+            throw new InvalidConfigValue($this->className, __FUNCTION__, 'index');
         }
 
         return $this;
@@ -86,6 +152,7 @@ class Series extends ConfigOptions
      *
      * @param string $type
      *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Configs\Series
      */
     public function type($type)
@@ -101,7 +168,12 @@ class Series extends ConfigOptions
         if (in_array($type, $values)) {
             $this->type = $type;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'string',
+                'with a value of '.Helpers::arrayToPipedString($values)
+            );
         }
 
         return $this;
@@ -110,11 +182,12 @@ class Series extends ConfigOptions
     /**
      * An object that specifies the series text style.
      *
-     * @param textStyle Style of the series
+     * @param Khill\Lavacharts\Configs\TextStyle $textStyle
      *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Configs\Series
      */
-    public function textStyle($textStyle)
+    public function textStyle(TextStyle $textStyle)
     {
         if (Helpers::isTextStyle($textStyle)) {
             $this->textStyle = $textStyle;
@@ -139,7 +212,7 @@ series: {
 
 [ ] areaOpacity - Overrides the global areaOpacity for this series.
 [ ] color - The color to use for this series. Specify a valid HTML color string.
-[ ] curveType - Overrides the global curveType value for this series.
+[x] curveType - Overrides the global curveType value for this series.
 [ ] fallingColor.fill - Overrides the global candlestick.fallingColor.fill value for this series.
 [ ] fallingColor.stroke - Overrides the global candlestick.fallingColor.stroke value for this series.
 [ ] fallingColor.strokeWidth - Overrides the global candlestick.fallingColor.strokeWidth value for this series.
@@ -149,7 +222,7 @@ series: {
 [ ] risingColor.fill - Overrides the global candlestick.risingColor.fill value for this series.
 [ ] risingColor.stroke - Overrides the global candlestick.risingColor.stroke value for this series.
 [ ] risingColor.strokeWidth - Overrides the global candlestick.risingColor.strokeWidth value for this series.
-[ ] targetAxisIndex - Which axis to assign this series to, where 0 is the default axis, and 1 is the opposite axis. Default value is 0; set to 1 to define a chart where different series are rendered against different axes. At least one series much be allocated to the default axis. You can define a different scale for different axes.
+[x] targetAxisIndex - Which axis to assign this series to, where 0 is the default axis, and 1 is the opposite axis. Default value is 0; set to 1 to define a chart where different series are rendered against different axes. At least one series much be allocated to the default axis. You can define a different scale for different axes.
 [x] type - The type of marker for this series. Valid values are 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'. Note that bars are actually vertical bars (columns). The default value is specified by the chart's seriesType option.
 [ ] visibleInLegend - A boolean value, where true means that the series should have a legend entry, and false means that it should not. Default is true.
 

@@ -3,6 +3,7 @@
 use Khill\Lavacharts\Tests\TestCase;
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Configs\TextStyle;
+use Khill\Lavacharts\Configs\VerticalAxis;
 
 class HelperTest extends TestCase
 {
@@ -17,6 +18,12 @@ class HelperTest extends TestCase
     {
         $testArray = array(1, 2, 3, 4, 5);
         $this->assertTrue( Helpers::arrayValuesCheck($testArray, 'int') );
+    }
+
+    public function testArrayValuesCheckWithFloats()
+    {
+        $testArray = array(1.1, 2.2, 3.3, 4.4, 5.5);
+        $this->assertTrue( Helpers::arrayValuesCheck($testArray, 'float') );
     }
 
     public function testArrayValuesCheckWithBools()
@@ -36,6 +43,13 @@ class HelperTest extends TestCase
         $testArray = array(new TextStyle, new TextStyle, new TextStyle);
 
         $this->assertTrue( Helpers::arrayValuesCheck($testArray, 'class', 'TextStyle') );
+    }
+
+    public function testArrayValuesCheckWithConfigObjectsAndNulls()
+    {
+        $testArray = array(null, new VerticalAxis, null, new VerticalAxis);
+
+        $this->assertTrue( Helpers::arrayValuesCheck($testArray, 'class', 'VerticalAxis') );
     }
 
     /**

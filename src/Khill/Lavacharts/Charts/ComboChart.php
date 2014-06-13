@@ -284,15 +284,15 @@ class ComboChart extends Chart
      * To specify a chart with multiple vertical axes, first define a new axis using
      * series.targetAxisIndex, then configure the axis using vAxes.
      *
-     * @param  array $arrOfVaxis
+     * @param  array $arrOfVertAxis Array of Khill\Lavacharts\Configs\VerticalAxis objects
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Khill\Lavacharts\Charts\ComboChart
      */
-    public function vAxes($arrOfVaxis)
+    public function vAxes($arrOfVertAxis)
     {
-        if (Helpers::arrayValuesCheck($arrOfVaxis, 'class', 'VerticalAxis')) {
-            $this->addOption(array('vAxes' => $arrOfVaxis));
+        if (Helpers::arrayValuesCheck($arrOfVertAxis, 'class', 'VerticalAxis')) {
+            $this->addOption(array('vAxes' => $arrOfVertAxis));
         } else {
             throw new InvalidConfigValue(
                 $this->chartType,
@@ -309,6 +309,7 @@ class ComboChart extends Chart
      *
      * @param  Khill\Lavacharts\Configs\VerticalAxis $vAxis
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     *
      * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function vAxis(VerticalAxis $vAxis)

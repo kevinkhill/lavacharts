@@ -1,22 +1,23 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <phpdoc>
   <title>LavaCharts</title>
 
   <parser>
-    <target>docs/output</target>
+    <target>docs/cache</target>
     <markers>
-      <item>TODO</item>
-      <item>FIXME</item>
+      <item>@TODO</item>
+      <item>@FIXME</item>
     </markers>
     <visibility></visibility>
   </parser>
 
   <transformer>
-    <target>docs/output</target>
+    <target>docs/html</target>
   </transformer>
 
   <transformations>
-    <template name="responsive" />
+    <template name="templates/lava/" />
   </transformations>
 
   <logging>

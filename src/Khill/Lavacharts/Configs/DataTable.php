@@ -197,11 +197,11 @@ class DataTable
                     if (count($opt_cellArray) <= count($this->cols)) {
                         for ($b = 0; $b < count($this->cols); $b++) {
                             if (isset($opt_cellArray[$b])) {
-                                //if (Helpers::isJsDate($opt_cellArray[$b])) {
-                                //    $rowVals[] = array('v' => $opt_cellArray[$b]->toString());
-                                //} else {
+                                if (Helpers::isJsDate($opt_cellArray[$b])) {
+                                    $rowVals[] = array('v' => $opt_cellArray[$b]->buildOutput());
+                                } else {
                                     $rowVals[] = array('v' => $opt_cellArray[$b]);
-                                //}
+                                }
                             } else {
                                 $rowVals[] = array('v' => null);
                             }

@@ -18,6 +18,9 @@
 
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
+ /**
+  * @TODO implements \JsonSerializable (PHP >=5.4)
+  */
 class JsDate
 {
     /**
@@ -31,15 +34,16 @@ class JsDate
      * Builds the jsDate object.
      *
      * Designed to work the same way the exactly like the javascript date object works.
+     * Please take note: Javascript dates start with 0 = Jan, 1 = Feb, etc. so this
+     * object needs to be build accordingly.
      *
-     *
-     * @param int Year
-     * @param int Month (REMEMBER, javascript dates start with 0 = Jan, 1 = Feb, etc.)
-     * @param int Day
-     * @param int Hour
-     * @param int Minute
-     * @param int Second
-     * @param int Millisecond
+     * @param int $year
+     * @param int $month
+     * @param int $day
+     * @param int $hour
+     * @param int $minute
+     * @param int $second
+     * @param int $millisecond
      *
      * @return Khill\Lavacharts\Configs\JsDate
      */
@@ -69,7 +73,7 @@ class JsDate
      * Parses a date string according to the format specified by the standard
      * php function date_parse()
      *
-     * @param array
+     * @param array $arrayOrString
      *
      * @return Khill\Lavacharts\Configs\JsDate
      */
@@ -91,7 +95,7 @@ class JsDate
      *
      * @return string Javscript date declaration
      */
-    public function toString()
+    public function buildOutput()
     {
         if ($this->hour !== null && is_int($this->hour)) {
             if ($this->minute !== null && is_int($this->minute)) {
@@ -117,11 +121,6 @@ class JsDate
         }
 
         return $this->output;
-    }
-
-    public function __toString()
-    {
-        return $this->toString();
     }
 
     /**

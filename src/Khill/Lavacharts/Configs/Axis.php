@@ -24,7 +24,7 @@ class Axis extends ConfigOptions
     /**
      * The baseline for the axis.
      *
-     * @var mixed Number or jsDate.
+     * @var int|Khill\Lavacharts\Configs\JsDate
      */
     public $baseline = null;
 
@@ -129,7 +129,7 @@ class Axis extends ConfigOptions
     /**
      * Stores all the configuration for the axis.
      *
-     * @var array
+     * @var array Configuration options.
      */
     public $options = array();
 
@@ -144,7 +144,7 @@ class Axis extends ConfigOptions
      * @param  array Associative array containing key => value pairs for the various configuration options.
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function __construct($config = array())
     {
@@ -182,7 +182,7 @@ class Axis extends ConfigOptions
      *
      * @param mixed Must match type defined for the column, [ number | jsDate ].
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function baseline($baseline)
     {
@@ -208,7 +208,7 @@ class Axis extends ConfigOptions
      *
      * @param string Valid HTML color.
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function baselineColor($color)
     {
@@ -228,7 +228,7 @@ class Axis extends ConfigOptions
      *
      * @param int $direction
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function direction($direction)
     {
@@ -254,7 +254,7 @@ class Axis extends ConfigOptions
      *
      * @param string $format format string for numeric or date axis labels.
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function format($format)
     {
@@ -280,7 +280,7 @@ class Axis extends ConfigOptions
      *
      * @param array $gridlines
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function gridlines($gridlines)
     {
@@ -322,7 +322,7 @@ class Axis extends ConfigOptions
      *
      * @param array $minorGridlines
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function minorGridlines($minorGridlines)
     {
@@ -358,7 +358,7 @@ class Axis extends ConfigOptions
      *
      * @param boolean $log
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function logScale($log)
     {
@@ -377,7 +377,7 @@ class Axis extends ConfigOptions
      *
      * @param string Setting the position of the text.
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function textPosition($position)
     {
@@ -401,7 +401,7 @@ class Axis extends ConfigOptions
      *
      * @param textStyle $textStyle
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function textStyle($textStyle)
     {
@@ -419,7 +419,7 @@ class Axis extends ConfigOptions
      *
      * @param string $title
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function title($title)
     {
@@ -437,7 +437,7 @@ class Axis extends ConfigOptions
      *
      * @param textStyle $titleTextStyle
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function titleTextStyle($titleTextStyle)
     {
@@ -461,7 +461,7 @@ class Axis extends ConfigOptions
      *
      * @param int $alternation
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function maxAlternation($alternation)
     {
@@ -483,7 +483,7 @@ class Axis extends ConfigOptions
      *
      * @param int $maxTextLines
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function maxTextLines($maxTextLines)
     {
@@ -507,7 +507,7 @@ class Axis extends ConfigOptions
      *
      * @param int $minTextSpacing
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function minTextSpacing($minTextSpacing)
     {
@@ -533,7 +533,7 @@ class Axis extends ConfigOptions
      *
      * @param int $showTextEvery
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function showTextEvery($showTextEvery)
     {
@@ -555,7 +555,7 @@ class Axis extends ConfigOptions
      *
      * @param int $max
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function maxValue($max)
     {
@@ -577,7 +577,7 @@ class Axis extends ConfigOptions
      *
      * @param int $min
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function minValue($min)
     {
@@ -606,7 +606,7 @@ class Axis extends ConfigOptions
      *
      * @param string $viewMode
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function viewWindowMode($viewMode)
     {
@@ -651,7 +651,7 @@ class Axis extends ConfigOptions
      *
      * @param array $viewWindow
      *
-     * @return Axis
+     * @return Khill\Lavacharts\Configs\Axis
      */
     public function viewWindow($viewWindow)
     {

@@ -96,8 +96,8 @@ class LineChart extends Chart
             'function'
         );
 
-        if (in_array($curveType, $values)) {
-            $this->addOption(array('curveType' => (string) $curveType));
+        if (is_string($curveType) && in_array($curveType, $values)) {
+            $this->addOption(array('curveType' => $curveType));
         } else {
             throw new InvalidConfigValue(
                 $this->chartType,

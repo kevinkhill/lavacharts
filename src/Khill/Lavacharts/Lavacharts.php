@@ -135,11 +135,11 @@ class Lavacharts
      *
      * @access public
      *
-     * @param string Name of method
-     * @param array Passed arguments
+     * @param string $member Name of method
+     * @param array $arguments Passed arguments
      *
      * @throws Khill\Lavacharts\Exceptions\InvalidLavaObject
-     * @return object Returns Charts, DataTables, and Config Objects
+     * @return mixed Returns Charts, DataTables, and Config Objects
      */
     public function __call($member, $arguments)
     {
@@ -164,7 +164,7 @@ class Lavacharts
      *
      * @access public
      *
-     * @param string Passed from the calling chart.
+     * @param string $chart Passed from the calling chart.
      *
      * @return string Javascript code block.
      */
@@ -257,7 +257,7 @@ class Lavacharts
      *
      * @access public
      *
-     * @param array Array of configurations options
+     * @param array $config Array of configurations options
      *
      * @return Khill\Lavachart
      */
@@ -302,8 +302,8 @@ class Lavacharts
      *
      * @access public
      *
-     * @param int Width of the containing div (optional).
-     * @param int Height of the containing div (optional).
+     * @param int $width Width of the containing div (optional).
+     * @param int $height Height of the containing div (optional).
      *
      * @return string HTML div element.
      */
@@ -396,8 +396,8 @@ class Lavacharts
      *
      * @access private
      *
-     * @param string Where the error occured.
-     * @param string What the error was.
+     * @param string $where Where the error occured.
+     * @param string $what What the error was.
      */
     private static function setError($where, $what)
     {
@@ -415,8 +415,8 @@ class Lavacharts
      *
      * @access private
      *
-     * @param  string Which type of object to generate.
-     * @param  string Label applied to generated object.
+     * @param  string $objType Which type of object to generate.
+     * @param  string $objLabel ype Label applied to generated object.
      *
      * @return Khill\Lavachart\Chart|Khill\Lavachart\DataTable
      */
@@ -446,6 +446,7 @@ class Lavacharts
      * @access private
      *
      * @param  string $configObject
+     * @param  array $options
      *
      * @return Khill\Lavacharts\Configs\ConfigOptions configuration object
      */
