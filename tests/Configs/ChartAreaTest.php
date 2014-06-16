@@ -1,10 +1,9 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
-use Khill\Lavacharts\Tests\TestCase;
 use Khill\Lavacharts\Configs\ChartArea;
 
-class ChartAreaTest extends TestCase {
-
+class ChartAreaTest extends \PHPUnit_Framework_TestCase
+{
     public function setUp()
     {
         parent::setUp();
@@ -19,10 +18,10 @@ class ChartAreaTest extends TestCase {
 
     public function testConstructorDefaults()
     {
-        $this->assertEquals(null, $this->ca->left);
-        $this->assertEquals(null, $this->ca->top);
-        $this->assertEquals(null, $this->ca->width);
-        $this->assertEquals(null, $this->ca->height);
+        $this->assertNull($this->ca->left);
+        $this->assertNull($this->ca->top);
+        $this->assertNull($this->ca->width);
+        $this->assertNull($this->ca->height);
     }
 
     public function testConstructorWithIntsValuesAssignment()

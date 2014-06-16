@@ -1,11 +1,9 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
-use Khill\Lavacharts\Tests\TestCase;
 use Khill\Lavacharts\Configs\JsDate;
 
-class JsDateTest extends TestCase
+class JsDateTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testIfInstanceOfJsDate()
     {
         $this->assertInstanceOf('Khill\Lavacharts\Configs\JsDate', new JsDate());

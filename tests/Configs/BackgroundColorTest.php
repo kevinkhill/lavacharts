@@ -1,10 +1,9 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
-use Khill\Lavacharts\Tests\TestCase;
 use Khill\Lavacharts\Configs\BackgroundColor;
 
-class BackgroundColorTest extends TestCase {
-
+class BackgroundColorTest extends \PHPUnit_Framework_TestCase
+{
     public function setUp()
     {
         parent::setUp();
@@ -19,8 +18,8 @@ class BackgroundColorTest extends TestCase {
 
     public function testConstructorDefaults()
     {
-        $this->assertEquals(null, $this->bgc->stroke);
-        $this->assertEquals(null, $this->bgc->strokeWidth);
+        $this->assertNull($this->bgc->stroke);
+        $this->assertNull($this->bgc->strokeWidth);
     }
 
     public function testConstructorValuesAssignment()

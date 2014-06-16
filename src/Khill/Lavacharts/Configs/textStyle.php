@@ -23,17 +23,17 @@ class TextStyle extends ConfigOptions
     /**
      * @var string Color of the text.
      */
-    public $color;
+    public $color = null;
 
     /**
      * @var string Font name.
      */
-    public $fontName;
+    public $fontName = null;
 
     /**
      * @var int Size of font, in pixels.
      */
-    public $fontSize;
+    public $fontSize = null;
 
 
     /**
@@ -71,7 +71,12 @@ class TextStyle extends ConfigOptions
         if (is_string($color)) {
             $this->color = $color;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', ' of a valid HTML color');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'string',
+                'representing a valid HTML color'
+            );
         }
 
         return $this;
@@ -91,7 +96,11 @@ class TextStyle extends ConfigOptions
         if (is_string($fontName)) {
             $this->fontName = $fontName;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'string'
+            );
         }
 
         return $this;
@@ -111,7 +120,11 @@ class TextStyle extends ConfigOptions
         if (is_int($fontSize)) {
             $this->fontSize = $fontSize;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'int'
+            );
         }
 
         return $this;

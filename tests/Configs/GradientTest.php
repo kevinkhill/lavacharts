@@ -1,10 +1,9 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
-use Khill\Lavacharts\Tests\TestCase;
 use Khill\Lavacharts\Configs\Gradient;
 
-class GradientTest extends TestCase {
-
+class GradientTest extends \PHPUnit_Framework_TestCase
+{
     public function setUp()
     {
         parent::setUp();

@@ -97,7 +97,7 @@ class Series extends ConfigOptions
      * Controls the curve of the lines when the line width is not zero.
      *
      * Can be one of the following:
-     * 'none' - Straight lines without curve.
+     * 'none'     - Straight lines without curve.
      * 'function' - The angles of the line will be smoothed.
      *
      * @param string $curveType

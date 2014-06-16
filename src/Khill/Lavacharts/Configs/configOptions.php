@@ -16,7 +16,6 @@
  * @license   http://opensource.org/licenses/GPL-3.0 GPLv3
  */
 
-use Khill\Lavacharts\Lavacharts;
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
@@ -52,11 +51,9 @@ class ConfigOptions
      */
     public function __construct($config)
     {
-        if (preg_match('/\\\\([\w]+)$/', get_class($this), $matches)) {
-            $this->className = $matches[1];
-        } else {
-            throw new Exception("Error Processing Request", 1);
-        }
+
+        $namespacePieces = explode('\\', get_class());
+        $this->className = $namespacePieces[count($namespacePieces) - 1];
 
         if (is_array($config)) {
             foreach ($config as $option => $value) {

@@ -95,7 +95,7 @@ class JsDate
      *
      * @return string Javscript date declaration
      */
-    public function buildOutput()
+    public function toString()
     {
         if ($this->hour !== null && is_int($this->hour)) {
             if ($this->minute !== null && is_int($this->minute)) {

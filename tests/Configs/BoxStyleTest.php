@@ -1,11 +1,10 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
-use Khill\Lavacharts\Tests\TestCase;
 use Khill\Lavacharts\Configs\BoxStyle;
 use Khill\Lavacharts\Configs\Gradient;
 
-class BoxStyleTest extends TestCase {
-
+class BoxStyleTest extends \PHPUnit_Framework_TestCase
+{
     public function setUp()
     {
         parent::setUp();
@@ -21,10 +20,10 @@ class BoxStyleTest extends TestCase {
     public function testConstructorDefaults()
     {
         $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $this->bs->stroke);
-        $this->assertEquals(null, $this->bs->strokeWidth);
-        $this->assertEquals(null, $this->bs->rx);
-        $this->assertEquals(null, $this->bs->ry);
-        $this->assertEquals(null, $this->bs->gradient);
+        $this->assertNull($this->bs->strokeWidth);
+        $this->assertNull($this->bs->rx);
+        $this->assertNull($this->bs->ry);
+        $this->assertNull($this->bs->gradient);
     }
 
     public function testConstructorValuesAssignment()

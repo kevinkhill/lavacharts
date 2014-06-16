@@ -6,6 +6,7 @@ php:
 branches:
   only:
     - master
+    - dev
 
 before_script:
   - composer self-update

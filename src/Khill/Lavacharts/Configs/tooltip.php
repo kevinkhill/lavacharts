@@ -23,23 +23,17 @@ use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class Tooltip extends ConfigOptions
 {
     /**
-     * Show color code for the tooltip
-     *
-     * @var boolean
+     * @var bool Show color code for the tooltip.
      */
     public $showColorCode = null;
 
     /**
-     * Tooltip text style
-     *
-     * @var textStyle
+     * @var TextStyle Tooltip text style
      */
     public $textStyle = null;
 
     /**
-     * Trigger Action of the tooltip.
-     *
-     * @var string
+     * @var string Trigger Action of the tooltip.
      */
     public $trigger = null;
 
@@ -47,8 +41,7 @@ class Tooltip extends ConfigOptions
     /**
      * Builds the tooltip object with specified options.
      *
-     * @param  array Configuration options for the tooltip
-     *
+     * @param  array $config Configuration options for the tooltip
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty
      *
@@ -68,8 +61,7 @@ class Tooltip extends ConfigOptions
     /**
      * Sets whether to show the color code.
      *
-     * @param boolean State of showing the color code.
-     *
+     * @param  boolean $showColorCode State of showing the color code.
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Khill\Lavacharts\Configs\Tooltip
@@ -82,7 +74,7 @@ class Tooltip extends ConfigOptions
             throw new InvalidConfigValue(
                 $this->className,
                 __FUNCTION__,
-                'boolean'
+                'bool'
             );
         }
 
@@ -92,23 +84,14 @@ class Tooltip extends ConfigOptions
     /**
      * Sets the text style of the tooltip.
      *
-     * @param Khill\Lavacharts\Configs\TextStyle A valid textStyle object.
-     *
+     * @param  Khill\Lavacharts\Configs\TextStyle $textStyle A valid TextStyle object.
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Khill\Lavacharts\Configs\Tooltip
      */
     public function textStyle(TextStyle $textStyle)
     {
-        if (Helpers::isTextStyle($textStyle)) {
-            $this->textStyle = $textStyle->getValues();
-        } else {
-            throw new InvalidConfigValue(
-                $this->className,
-                __FUNCTION__,
-                'textStyle'
-            );
-        }
+        $this->textStyle = $textStyle->getValues();
 
         return $this;
     }
@@ -117,10 +100,9 @@ class Tooltip extends ConfigOptions
      * Sets The user interaction that causes the tooltip to be displayed.
      *
      * 'focus' - The tooltip will be displayed when the user hovers over an element.
-     * 'none' - The tooltip will not be displayed.
+     * 'none'  - The tooltip will not be displayed.
      *
-     * @param string Type of trigger.
-     *
+     * @param  string $trigger Type of trigger.
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Khill\Lavacharts\Configs\Tooltip

@@ -1,11 +1,10 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
-use Khill\Lavacharts\Tests\TestCase;
 use Khill\Lavacharts\Configs\Annotation;
 use Khill\Lavacharts\Configs\TextStyle;
 
-class AnnotationTest extends TestCase {
-
+class AnnotationTest extends \PHPUnit_Framework_TestCase
+{
     public function setUp()
     {
         parent::setUp();
@@ -21,7 +20,7 @@ class AnnotationTest extends TestCase {
     public function testConstructorDefaults()
     {
         $this->assertTrue($this->a->highContrast);
-        $this->assertEquals(null, $this->a->textStyle);
+        $this->assertNull($this->a->textStyle);
     }
 
     public function testConstructorValuesAssignment()
