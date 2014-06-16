@@ -24,32 +24,32 @@ class Lavacharts
     /**
      * @var Khill\Lavacharts\Volcano Holds all of the defined Charts and DataTables.
      */
-    protected static $volcano = null;
+    protected $volcano = null;
 
     /**
      * @var array Lavachart configuration options.
      */
-    protected static $config = array();
+    protected $config = array();
 
     /**
      * @var string Lavacharts root namespace
      */
-    protected static $rootSpace = 'Khill\\Lavacharts\\';
+    protected $rootSpace = 'Khill\\Lavacharts\\';
 
     /**
      * @var boolean Status of chart generation errors.
      */
-    protected static $hasError = false;
+    protected $hasError = false;
 
     /**
      * @var array Array containing the list of errors.
      */
-    protected static $errorLog = array();
+    protected $errorLog = array();
 
     /**
      * @var array Types of charts that can be created.
      */
-    protected static $chartClasses = array(
+    protected $chartClasses = array(
         'DataTable',
         'LineChart',
         'AreaChart',
@@ -63,7 +63,7 @@ class Lavacharts
     /**
      * @var array Holds all of the defined configuration class names.
      */
-    protected static $configClasses = array(
+    protected $configClasses = array(
         'ConfigOptions',
         'Annotation',
         'Axis',
@@ -88,7 +88,7 @@ class Lavacharts
     /**
      * @var array Acceptable global configuration options.
      */
-    protected static $validGlobals = array(
+    protected $validGlobals = array(
         'errorWrap',
         'errorClass',
         'textStyle'
@@ -99,7 +99,7 @@ class Lavacharts
      */
     public function __construct()
     {
-        self::$volcano = new Volcano();
+        $this->volcano = new Volcano();
     }
 
     /**
@@ -118,18 +118,13 @@ class Lavacharts
         if ($member == 'DataTable') {
             //var_dump($arguments[0]);die();
             return self::dataTableFactory($arguments[0]);
-        } else if (in_array($member, self::$chartClasses)) {
+        } else if (in_array($member, $this->chartClasses)) {
             return self::chartFactory($member, $arguments[0]);
-        } else if (in_array($member, self::$configClasses)) {
+        } else if (in_array($member, $this->configClasses)) {
             return self::configFactory($member, $arguments[0]);
         } else {
             throw new InvalidLavaObject($member);
         }
-    }
-
-    public static function volcano()
-    {
-        return self::$volcano;
     }
 
     /**
@@ -146,17 +141,17 @@ class Lavacharts
      *
      * @return Khill\Lavachart\DataTable
      */
-    private static function dataTableFactory($label = '')
+    private function dataTableFactory($label = '')
     {
         if (empty($label)) {
             return new DataTable();
         } else {
             try {
-                return self::$volcano->getDataTable($label);
+                return $this->volcano->getDataTable($label);
             } catch (LabelNotFound $e) {
-                self::$volcano->storeDataTable(new DataTable(), $label);
+                $this->volcano->storeDataTable(new DataTable(), $label);
 
-                return self::$volcano->getDataTable($label);
+                return $this->volcano->getDataTable($label);
             }
         }
     }
@@ -175,17 +170,17 @@ class Lavacharts
      *
      * @return Khill\Lavachart\Chart
      */
-    private static function chartFactory($type, $label = '')
+    private function chartFactory($type, $label = '')
     {
-        $chartObj = self::$rootSpace . 'Charts\\' . $type;
+        $chartObj = $this->rootSpace . 'Charts\\' . $type;
 
         if (class_exists($chartObj)) {
             try {
-                return self::$volcano->getChart($label);
+                return $this->volcano->getChart($label);
             } catch (LabelNotFound $e) {
-                self::$volcano->storeChart(new $chartObj(self::$volcano, $label), $label);
+                $this->volcano->storeChart(new $chartObj($this->volcano, $label), $label);
 
-                return self::$volcano->getChart($label);
+                return $this->volcano->getChart($label);
             }
         } else {
             throw new InvalidLavaObject($type);
@@ -202,9 +197,9 @@ class Lavacharts
      *
      * @return Khill\Lavachart\Configs\ConfigObject
      */
-    private static function configFactory($type, $options = array())
+    private function configFactory($type, $options = array())
     {
-        $configObj = self::$rootSpace . 'Configs\\' . $type;
+        $configObj = $this->rootSpace . 'Configs\\' . $type;
 
         if (class_exists($configObj)) {
             return new $configObj($options);
@@ -224,14 +219,14 @@ class Lavacharts
      *
      * @return Khill\Lavacharts\Configs\ConfigOptions configuration object
      */
-    private static function configObjectFactory($configObject, $options)
+    private function configObjectFactory($configObject, $options)
     {
         if ($configObject == 'JsDate') {
             $jsDate = new JsDate();
 
             return $jsDate->parse($options);
         } else {
-            $class = self::$rootSpace.'Configs\\'.$configObject;
+            $class = $this->rootSpace.'Configs\\'.$configObject;
 
             return empty($options[0]) ? new $class() : new $class($options[0]);
         }
@@ -249,17 +244,17 @@ class Lavacharts
      *
      * @return Khill\Lavachart
      */
-    public static function setGlobals($config)
+    public function setGlobals($config)
     {
         if (is_array($config)) {
             foreach ($config as $option => $value) {
-                if (in_array($option, self::$validGlobals)) {
-                    self::$config[$option] = $value;
+                if (in_array($option, $this->validGlobals)) {
+                    $this->config[$option] = $value;
                 } else {
                     throw new InvalidConfigProperty(
                         __METHOD__,
                         $option,
-                        self::$validGlobals
+                        $this->validGlobals
                     );
                 }
             }
@@ -292,92 +287,34 @@ class Lavacharts
      *
      * @param int $width Width of the containing div (optional).
      * @param int $height Height of the containing div (optional).
+     * @throws Khill\Lavacharts\Exceptions\InvalidElementId
      *
      * @return string HTML div element.
      */
-    public static function div($width = 0, $height = 0)
+    public function div($elementId = '', $width = 0, $height = 0)
     {
-        if ($width == 0 || $height == 0) {
-            if (isset(self::$elementID)) {
-                return sprintf('<div id="%s"></div>', self::$elementID);
+        if (is_string($elementId) && ! empty($elementId)) {
+            if ($width == 0 || $height == 0) {
+                return sprintf('<div id="%s"></div>', $elementId);
             } else {
-                $this->setError(__METHOD__, 'Error, output element ID is not set.');
-            }
-        } else {
-            if ((is_int($width) && $width > 0) && (is_int($height) && $height > 0)) {
-                if (isset(self::$elementID)) {
-                    $format = '<div id="%s" style="width:%spx; height:%spx;"></div>';
-                    return sprintf($format, self::$elementID, $width, $height);
+                if ((is_int($width) && $width > 0) && (is_int($height) && $height > 0)) {
+                        return sprintf(
+                            '<div id="%s" style="width:%spx; height:%spx;"></div>',
+                            $elementId,
+                            $width,
+                            $height
+                        );
                 } else {
-                    $this->setError(__METHOD__, 'Error, output element ID is not set.');
-                }
-            } else {
-                $this->setError(__METHOD__, 'Invalid div width & height, must be type (int) > 0');
-            }
-        }
-    }
-
-    /**
-     * Checks if any errors have occured.
-     *
-     * @access public
-     *
-     * @return boolean true if any errors we created while building charts,
-     * otherwise false.
-     */
-    public static function hasErrors()
-    {
-        return self::$hasError;
-    }
-
-    /**
-     * Gets the error messages.
-     *
-     * Each error message is wrapped in the HTML element defined within the
-     * configuration for lavacharts.
-     *
-     * @access public
-     * @return null|string null if there are no errors, otherwise a string with the
-     * errors
-     */
-    public static function getErrors()
-    {
-        if (self::$hasError === true && count(self::$errorLog) > 0) {
-            $errors = '';
-
-            foreach (self::$errorLog as $where => $error) {
-                if (isset(self::$config['errorWrap'])) {
-                    $errors .= '<' . self::$config['errorWrap'];
-
-                    if (isset(self::$config['errorClass'])) {
-                        $errors .= ' class="' . self::$config['errorClass'] . '">';
-                    }
-                }
-
-                $errors .= '['.$where.'] -> '.$error;
-
-                if (isset(self::$config['errorWrap'])) {
-                    $errors .= '</' . self::$config['errorWrap'] . '>';
+                    throw new InvalidConfigValue(
+                        get_class(),
+                        __METHOD__,
+                        'int',
+                        'greater than 0'
+                    );
                 }
             }
-
-            return $errors;
-        } else {
-            return null;
+        } else{
+            throw new InvalidElementId($elementId);
         }
-    }
-
-    /**
-     * Sets an error message.
-     *
-     * @access private
-     *
-     * @param string $where Where the error occured.
-     * @param string $what What the error was.
-     */
-    private static function setError($where, $what)
-    {
-        self::$hasError = true;
-        self::$errorLog[$where] = $what;
     }
 }

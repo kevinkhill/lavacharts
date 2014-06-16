@@ -2,9 +2,9 @@
 
 class InvalidElementId extends \Exception
 {
-    public function __construct($invalidLabel, $code = 0)
+    public function __construct($invalidElementId = '', $code = 0)
     {
-        $message = '"' . $invalidLabel . '" is not a valid HTML Element ID, must be type (string) and not empty.';
+        $message = '"' . $invalidElementId . '" is not a valid HTML Element ID, must be type (string) and not empty.';
 
         parent::__construct($message, $code);
     }
