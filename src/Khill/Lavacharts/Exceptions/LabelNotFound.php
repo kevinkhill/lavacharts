@@ -1,10 +1,10 @@
 <?php namespace Khill\Lavacharts\Exceptions;
 
-class InvalidLavaObject extends \Exception
+class LabelNotFound extends \Exception
 {
-    public function __construct($badLavaObject, $code = 0)
+    public function __construct($missingLabel, $code = 0)
     {
-        $message = $badLavaObject . '() is not a valid object that Lavacharts can create.';
+        $message = 'The chart or datatable labeled "' . $missingLabel . '" was not found.';
 
         parent::__construct($message, $code);
     }

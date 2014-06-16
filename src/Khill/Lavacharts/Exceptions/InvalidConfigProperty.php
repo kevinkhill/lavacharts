@@ -2,7 +2,6 @@
 
 class InvalidConfigProperty extends \Exception
 {
-    // Redefine the exception so message isn't optional
     public function __construct($class, $function, $rejectedProp, $acceptedProps, $code = 0)
     {
         $message  = '"'.$rejectedProp.'" is not a valid property for ' . $class . '->' . $function . ', ';

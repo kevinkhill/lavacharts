@@ -13,8 +13,8 @@
  * @license   http://opensource.org/licenses/GPL-3.0 GPLv3
  */
 
-use Khill\Lavacharts\Configs\JsDate;
-use Khill\Lavacharts\Configs\TextStyle;
+use Khill\Lavacharts\Configs\DataTable;
+use Khill\Lavacharts\Exceptions\LabelNotFound;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
@@ -22,39 +22,14 @@ use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 class Lavacharts
 {
     /**
+     * @var Khill\Lavacharts\Volcano Holds all of the defined Charts and DataTables.
+     */
+    protected static $volcano = null;
+
+    /**
      * @var array Lavachart configuration options.
      */
     protected static $config = array();
-
-    /**
-     * @var string Holds the HTML and javscript to be output into the browser.
-     */
-    protected static $output = null;
-
-    /**
-     * @var string ID of the HTML element that will be receiving the chart.
-     */
-    protected static $elementID = null;
-
-    /**
-     * @var string Version of Google's DataTable.
-     */
-    protected static $dataTableVersion = '0.6';
-
-    /**
-     * @var string Opening javascript tag.
-     */
-    protected static $jsOpen = '<script type="text/javascript">';
-
-    /**
-     * @var string Closing javascript tag.
-     */
-    protected static $jsClose = '</script>';
-
-    /**
-     * @var string Javscript block with a link to Google's Chart API.
-     */
-    protected static $googleAPI = '<script type="text/javascript" src="//google.com/jsapi"></script>';
 
     /**
      * @var string Lavacharts root namespace
@@ -70,11 +45,6 @@ class Lavacharts
      * @var array Array containing the list of errors.
      */
     protected static $errorLog = array();
-
-    /**
-     * @var array Holds all of the defined Charts.
-     */
-    protected static $chartsAndTables = array();
 
     /**
      * @var array Types of charts that can be created.
@@ -124,11 +94,13 @@ class Lavacharts
         'textStyle'
     );
 
-    /*
-    public function __construct(Repository $config)
+    /**
+     * Starts up the Lavachart master object.
+     */
+    public function __construct()
     {
-        self::setGlobals($config);
-    }*/
+        self::$volcano = new Volcano();
+    }
 
     /**
      * Magic function to reduce repetitive coding and create aliases.
@@ -143,110 +115,126 @@ class Lavacharts
      */
     public function __call($member, $arguments)
     {
-        if (in_array($member, self::$configClasses)) {
-            return self::configObjectFactory($member, empty($arguments[0]) ? array() : $arguments);
+        if ($member == 'DataTable') {
+            //var_dump($arguments[0]);die();
+            return self::dataTableFactory($arguments[0]);
+        } else if (in_array($member, self::$chartClasses)) {
+            return self::chartFactory($member, $arguments[0]);
+        } else if (in_array($member, self::$configClasses)) {
+            return self::configFactory($member, $arguments[0]);
         } else {
-            if (in_array($member, self::$chartClasses)) {
-                return self::chartAndTableFactory($member, empty($arguments[0]) ? '' : $arguments[0]);
-            } else {
-                throw new InvalidLavaObject($member);
+            throw new InvalidLavaObject($member);
+        }
+    }
+
+    public static function volcano()
+    {
+        return self::$volcano;
+    }
+
+    /**
+     * Creates and stores DataTables
+     *
+     * If there is no label, then the DataTable is just returned.
+     * If there is a label, the DataTable is stored within the Volcano,
+     * accessable via a call to the type of object, with the label
+     * as the paramater.
+     *
+     * @access private
+     *
+     * @param  string $label Label applied to the datatable.
+     *
+     * @return Khill\Lavachart\DataTable
+     */
+    private static function dataTableFactory($label = '')
+    {
+        if (empty($label)) {
+            return new DataTable();
+        } else {
+            try {
+                return self::$volcano->getDataTable($label);
+            } catch (LabelNotFound $e) {
+                self::$volcano->storeDataTable(new DataTable(), $label);
+
+                return self::$volcano->getDataTable($label);
             }
         }
     }
 
     /**
-     * Builds the Javascript code block
+     * Creates and stores Charts
      *
-     * This will build the script block for the actual chart and passes it
-     * back to output function of the calling chart object. If there are any
-     * events defined, they will be automatically be attached to the chart and
-     * pulled from the callbacks folder.
+     * If there is no label, then the Chart is just returned.
+     * If there is a label, the Chart is stored within the Volcano,
+     * accessable via a call to the type of object, with the label
+     * as the paramater.
      *
-     * @access public
+     * @access private
      *
-     * @param string $chart Passed from the calling chart.
+     * @param  string $label Label applied to the chart.
      *
-     * @return string Javascript code block.
+     * @return Khill\Lavachart\Chart
      */
-    public static function buildScriptBlock($chart)
+    private static function chartFactory($type, $label = '')
     {
-        self::$elementID = $chart->elementID;
+        $chartObj = self::$rootSpace . 'Charts\\' . $type;
 
-        $out = self::$googleAPI.PHP_EOL;
+        if (class_exists($chartObj)) {
+            try {
+                return self::$volcano->getChart($label);
+            } catch (LabelNotFound $e) {
+                self::$volcano->storeChart(new $chartObj(self::$volcano, $label), $label);
 
-        //        if(is_array($chart->events) && count($chart->events) > 0)
-        //        {
-        //            $out .= self::_build_event_callbacks($chart->chartType, $chart->events);
-        //        }
-
-        $out .= self::$jsOpen.PHP_EOL;
-
-        if ($chart->elementID == null) {
-            $out .= 'alert("Error calling '.$chart->chartType.'(\''.$chart->chartLabel.'\')->outputInto(), requires a valid html elementID.");'.PHP_EOL;
+                return self::$volcano->getChart($label);
+            }
+        } else {
+            throw new InvalidLavaObject($type);
         }
+    }
 
-        if (
-            isset($chart->data) === false &&
-            isset(self::$chartsAndTables['DataTable'][$chart->dataTable]) === false
-        ) {
-            $out .= 'alert("No DataTable has been defined for '.$chart->chartType.'(\''.$chart->chartLabel.'\').");'.PHP_EOL;
+    /**
+     * Creates ConfigObjects
+     *
+     * @access private
+     *
+     * @param  string $type Type of configObject to create.
+     * @param  array $options Array of options to pass to the config object.
+     *
+     * @return Khill\Lavachart\Configs\ConfigObject
+     */
+    private static function configFactory($type, $options = array())
+    {
+        $configObj = self::$rootSpace . 'Configs\\' . $type;
+
+        if (class_exists($configObj)) {
+            return new $configObj($options);
+        } else {
+            throw new InvalidLavaObject($type);
         }
+    }
 
-        switch($chart->chartType)
-        {
-            case 'AnnotatedTimeLine':
-                $vizType = 'annotatedtimeline';
-                break;
+    /**
+     * Creates configuration objects to save a step instansiating and allow for
+     * chaining directly from creation.
+     *
+     * @access private
+     *
+     * @param  string $configObject
+     * @param  array $options
+     *
+     * @return Khill\Lavacharts\Configs\ConfigOptions configuration object
+     */
+    private static function configObjectFactory($configObject, $options)
+    {
+        if ($configObject == 'JsDate') {
+            $jsDate = new JsDate();
 
-            case 'GeoChart':
-                $vizType = 'geochart';
-                break;
+            return $jsDate->parse($options);
+        } else {
+            $class = self::$rootSpace.'Configs\\'.$configObject;
 
-            default:
-                $vizType = 'corechart';
-                break;
+            return empty($options[0]) ? new $class() : new $class($options[0]);
         }
-
-        $out .= sprintf("google.load('visualization', '1', {'packages':['%s']});", $vizType).PHP_EOL;
-        $out .= 'google.setOnLoadCallback(drawChart);'.PHP_EOL;
-        $out .= 'function drawChart() {'.PHP_EOL;
-
-        if (isset($chart->data) && $chart->dataTable == 'local') {
-            $out .= sprintf(
-                'var data = new google.visualization.DataTable(%s, %s);',
-                $chart->data->toJSON(),
-                self::$dataTableVersion
-            ).PHP_EOL;
-        }
-
-        if (isset(self::$chartsAndTables['DataTable'][$chart->dataTable])) {
-            $out .= sprintf(
-                'var data = new google.visualization.DataTable(%s, %s);',
-                self::$chartsAndTables['DataTable'][$chart->dataTable]->toJSON(),
-                self::$dataTableVersion
-            ).PHP_EOL;
-        }
-
-        $out .= sprintf('var options = %s;', $chart->optionsToJSON()).PHP_EOL;
-        $out .= sprintf('var chart = new google.visualization.%s', $chart->chartType);
-        $out .= sprintf("(document.getElementById('%s'));", $chart->elementID).PHP_EOL;
-        $out .= 'chart.draw(data, options);'.PHP_EOL;
-
-        //        if(is_array($chart->events) && count($chart->events) > 0)
-        //        {
-        //            foreach($chart->events as $event)
-        //            {
-        //                $out .= sprintf('google.visualization.events.addListener(chart, "%s", ', $event);
-        //                $out .= sprintf('function(event) { %s.%s(event); });', $chart->chartType, $event).PHP_EOL;
-        //            }
-        //        }
-
-        $out .= "}".PHP_EOL;
-        $out .= self::$jsClose.PHP_EOL;
-
-        self::$output = $out;
-
-        return self::$output;
     }
 
     /**
@@ -330,18 +318,6 @@ class Lavacharts
     }
 
     /**
-     * Returns the Javascript block to place in the page manually.
-     *
-     * @access public
-     *
-     * @return string Javascript code blocks.
-     */
-    public static function getOutput()
-    {
-        return self::$output;
-    }
-
-    /**
      * Checks if any errors have occured.
      *
      * @access public
@@ -404,100 +380,4 @@ class Lavacharts
         self::$hasError = true;
         self::$errorLog[$where] = $what;
     }
-
-    /**
-     * Creates and stores Chart/DataTable
-     *
-     * If there is no label, then the Chart/DataTable is just returned.
-     * If there is a label, the Chart/DataTable is stored within the Lavacharts
-     * objects in an array, accessable via a call to the type of object, with
-     * the label as the paramater.
-     *
-     * @access private
-     *
-     * @param  string $objType Which type of object to generate.
-     * @param  string $objLabel ype Label applied to generated object.
-     *
-     * @return Khill\Lavachart\Chart|Khill\Lavachart\DataTable
-     */
-    private static function chartAndTableFactory($objType, $objLabel)
-    {
-        if (is_string($objLabel) && $objLabel != '') {
-            if (! isset(self::$chartsAndTables[$objType][$objLabel])) {
-                if ($objType == 'DataTable') {
-                    $class = self::$rootSpace.'Configs\\'.$objType;
-                } else {
-                    $class = self::$rootSpace.'Charts\\'.$objType;
-                }
-
-                self::$chartsAndTables[$objType][$objLabel] = new $class($objLabel);
-            }
-
-            return self::$chartsAndTables[$objType][$objLabel];
-        } else {
-            return new $objType();
-        }
-    }
-
-    /**
-     * Creates configuration objects to save a step instansiating and allow for
-     * chaining directly from creation.
-     *
-     * @access private
-     *
-     * @param  string $configObject
-     * @param  array $options
-     *
-     * @return Khill\Lavacharts\Configs\ConfigOptions configuration object
-     */
-    private static function configObjectFactory($configObject, $options)
-    {
-        if ($configObject == 'JsDate') {
-            $jsDate = new JsDate();
-
-            return $jsDate->parse($options);
-        } else {
-            $class = self::$rootSpace.'Configs\\'.$configObject;
-
-            return empty($options[0]) ? new $class() : new $class($options[0]);
-        }
-    }
-
-    /**
-     * Builds the javascript object for the event callbacks.
-     *
-     * @param string Chart type.
-     * @param array Array of events to apply to the chart.
-     *
-     * @return string Javascript code block.
-     */
-    /*
-    private static function _build_event_callbacks($chartType, $chartEvents)
-    {
-        $script = sprintf('if(typeof %s !== "object") { %s = {}; }', $chartType, $chartType).PHP_EOL.PHP_EOL;
-
-        foreach($chartEvents as $event)
-        {
-             $script .= sprintf('%s.%s = function(event) {', $chartType, $event).PHP_EOL;
-
-             $callback = self::$callbackPath.$chartType.'.'.$event.'.js';
-             $callbackScript = file_get_contents($callback);
-
-             if($callbackScript !== false)
-             {
-                $script .= $callbackScript.PHP_EOL;
-             } else {
-                 self::setError(__METHOD__, 'Error loading javascript file, in '.$callback.'.js');
-             }
-
-             $script .= "};".PHP_EOL;
-        }
-
-        $tmp = self::$jsOpen.PHP_EOL;
-        $tmp .= $script;
-        $tmp .= self::$jsClose.PHP_EOL;
-
-        return $tmp;
-    }
-    */
 }

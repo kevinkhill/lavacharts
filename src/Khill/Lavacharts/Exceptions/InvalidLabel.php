@@ -1,10 +1,10 @@
 <?php namespace Khill\Lavacharts\Exceptions;
 
-class InvalidLavaObject extends \Exception
+class InvalidLabel extends \Exception
 {
-    public function __construct($badLavaObject, $code = 0)
+    public function __construct($invalidLabel, $code = 0)
     {
-        $message = $badLavaObject . '() is not a valid object that Lavacharts can create.';
+        $message = '"' . $invalidLabel . '" is not a valid label, must be type (string).';
 
         parent::__construct($message, $code);
     }

@@ -15,28 +15,41 @@
  * @license   http://www.gnu.org/licenses/gpl.html GPL-V3
  */
 
-use Khill\Lavacharts\Lavacharts;
-use Khill\Lavacharts\Configs;
+use Khill\Lavacharts\Volcano;
+use Khill\Lavacharts\JavascriptFactory;
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Exceptions\LabelNotFound;
+use Khill\Lavacharts\Exceptions\InvalidElementId;
 
 class Chart
 {
-    public $chartType  = null;
-    public $chartLabel = null;
+    public $volcano  = null;
+    public $type     = null;
+    public $label    = null;
+/*
+    public $dataLabel  = null;
     public $dataTable  = null;
-
     public $data       = null;
+*/
     public $options    = null;
     public $defaults   = null;
     public $events     = null;
     public $elementID  = null;
 
-    public function __construct($chartLabel)
+    /**
+     * Builds a new chart with a label and access to the volcano storage
+     *
+     * @param Khill\Lavacharts\Volcano $volcano
+     * @param string $label
+     */
+    public function __construct(Volcano $volcano, $label)
     {
+        $this->volcano = $volcano;
+
         $typePieces = explode('\\', get_class($this));
 
-        $this->chartType  = $typePieces[count($typePieces) - 1];
-        $this->chartLabel = $chartLabel;
+        $this->type  = $typePieces[count($typePieces) - 1];
+        $this->label = $label;
         $this->options    = array();
         $this->defaults   = array(
             'backgroundColor',
@@ -109,7 +122,7 @@ class Chart
                 break;
 
             default:
-                $this->type_error(__FUNCTION__, 'object | array', ', option != '.print_r($option));
+                throw new \Exception('Invalid option, must be type (object|array)');
                 break;
         }
 
@@ -117,14 +130,20 @@ class Chart
     }
 
     /**
-     * Assigns wich DataTable will be used for this Chart. If a label is provided
-     * then the defined DataTable will be used. If called with no argument, it will
-     * attempt to use a DataTable with the same label as the Chart.
+     * Assigns wich DataTable will be used for this Chart.
      *
-     * @param mixed dataTableLabel String label or DataTable object
+     * If a label is provided then the defined DataTable will be used.
+     * If called with no argument, or the chart is attempted to be generated
+     * without calling this function, the chart will search for a DataTable with
+     * the same label as the Chart.
      *
-     * @return Khill\Lavachart\DataTable
+     * @deprecated This is depreciated in favor of the Volcano class keeping
+     * track of the charts and datatables
+     * @param Khill\Lavachart\Configs\DataTable|string $dataTable
+     *
+     * @return Khill\Lavachart\Charts\Chart
      */
+/*
     public function dataTable($data = null)
     {
         switch(gettype($data))
@@ -147,11 +166,42 @@ class Chart
                 break;
 
             default:
-                $this->dataTable = $this->chartLabel;
+                $this->dataTable = $this->label;
                 break;
         }
 
         return $this;
+    }
+*/
+
+    /**
+     * Outputs the chart javascript into the page
+     *
+     * Pass in a string of the html elementID that you want the chart to be
+     * rendered into. Plus, if the dataTable function was never called on the
+     * chart to assign a DataTable to use, it will automatically attempt to use
+     * a DataTable with the same label as the chart.
+     *
+     * @param string $elementID
+     * @throws Khill\Lavacharts\Exceptions\LabelNotFound
+     * @throws Khill\Lavacharts\Exceptions\InvalidLabel
+     * @throws Khill\Lavacharts\Exceptions\InvalidElementId
+     *
+     * @return string Javscript code blocks
+     */
+    public function outputInto($elementID = '')
+    {
+        // /$this->dataTable = $this->volcano->getDataTable($this->label);
+
+        if (is_string($elementID) && ! empty($elementID)) {
+            $this->elementID = $elementID;
+        } else {
+            throw new InvalidElementId($elementID);
+        }
+
+        $js = new JavascriptFactory($this->volcano, $this->label);
+
+        return $js->output();
     }
 
     /**
@@ -437,7 +487,7 @@ class Chart
      */
     public function error($msg)
     {
-        Lavacharts::_set_error($this->chartType.'('.$this->chartLabel.')', $msg);
+        Lavacharts::_set_error($this->type.'('.$this->label.')', $msg);
     }
 
     /**
@@ -458,31 +508,6 @@ class Chart
         $msg .= $extra ? ' '.$extra.'.' : '.';
 
         $this->error($msg);
-    }
-
-    /**
-     * Outputs the chart javascript into the page
-     *
-     * Pass in a string of the html elementID that you want the chart to be
-     * rendered into. Plus, if the dataTable function was never called on the
-     * chart to assign a DataTable to use, it will automatically attempt to use
-     * a DataTable with the same label as the chart.
-     *
-     * @param string $elementID
-     *
-     * @return string Javscript code blocks
-     */
-    public function outputInto($elementID = null)
-    {
-        if (is_null($this->dataTable)) {
-            $this->dataTable = $this->chartLabel;
-        }
-
-        if (is_string($elementID) && ! is_null($elementID)) {
-            $this->elementID = $elementID;
-        }
-
-        return Lavacharts::buildScriptBlock($this);
     }
 
     /**

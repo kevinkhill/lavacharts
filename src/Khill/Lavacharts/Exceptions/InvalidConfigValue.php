@@ -2,7 +2,6 @@
 
 class InvalidConfigValue extends \Exception
 {
-    // Redefine the exception so message isn't optional
     public function __construct($class, $function, $requiredType, $extra = '', $code = 0)
     {
         $message  = 'The value for ' . $class . '->' . $function . ' ';
