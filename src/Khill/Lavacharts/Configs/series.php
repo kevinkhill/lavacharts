@@ -197,11 +197,7 @@ class Series extends ConfigOptions
      */
     public function textStyle(TextStyle $textStyle)
     {
-        if (Helpers::isTextStyle($textStyle)) {
-            $this->textStyle = $textStyle;
-        } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'textStyle');
-        }
+        $this->textStyle = $textStyle;
 
         return $this;
     }

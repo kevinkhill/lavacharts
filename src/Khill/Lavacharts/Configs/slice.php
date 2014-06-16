@@ -73,7 +73,12 @@ class Slice extends ConfigOptions
         if (is_string($color)) {
             $this->color = $color;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'as a valid HTML color code');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'string',
+                'as a valid HTML color code'
+            );
         }
 
         return $this;
@@ -92,7 +97,12 @@ class Slice extends ConfigOptions
         if (Helpers::between(0.0, $offset, 1.0)) {
             $this->offset = $offset;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'float', 'where 0.0 < $offset < 0.1');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'float',
+                'where 0.0 < $offset < 0.1'
+            );
         }
 
         return $this;
@@ -107,11 +117,7 @@ class Slice extends ConfigOptions
      */
     public function textStyle(TextStyle $textStyle)
     {
-        if (Helpers::isTextStyle($textStyle)) {
-            $this->textStyle = $textStyle->values();
-        } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'textStyle');
-        }
+        $this->textStyle = $textStyle->getValues();
 
         return $this;
     }

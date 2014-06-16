@@ -173,15 +173,7 @@ class BoxStyle extends ConfigOptions
      */
     public function gradient(Gradient $gradient)
     {
-        if (Helpers::isGradient($gradient)) {
-            $this->gradient = $gradient;
-        } else {
-            throw new InvalidConfigValue(
-                $this->className,
-                __FUNCTION__,
-                'string'
-            );
-        }
+        $this->gradient = $gradient;
 
         return $this;
     }

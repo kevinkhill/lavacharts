@@ -15,6 +15,7 @@
 
 use Khill\Lavacharts\Configs\DataTable;
 use Khill\Lavacharts\Exceptions\LabelNotFound;
+use Khill\Lavacharts\Exceptions\InvalidLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
@@ -109,21 +110,39 @@ class Lavacharts
      *
      * @param string $member Name of method
      * @param array $arguments Passed arguments
-     *
      * @throws Khill\Lavacharts\Exceptions\InvalidLavaObject
+     * @throws Khill\Lavacharts\Exceptions\InvalidLabel
+     *
      * @return mixed Returns Charts, DataTables, and Config Objects
      */
     public function __call($member, $arguments)
     {
         if ($member == 'DataTable') {
-            return $this->dataTableFactory($arguments[0]);
-
+            if (isset($arguments[0])) {
+                if (is_string($arguments[0])) {
+                    return $this->dataTableFactory();
+                } else {
+                    return $this->dataTableFactory($arguments[0]);
+                }
+            } else {
+                throw new InvalidLabel($arguments[0]);
+            }
         } elseif (in_array($member, $this->chartClasses)) {
-            return $this->chartFactory($member, $arguments[0]);
-
+            if (isset($arguments[0])) {
+                if (is_string($arguments[0])) {
+                    return $this->chartFactory($member);
+                } else {
+                    return $this->chartFactory($member, $arguments[0]);
+                }
+            } else {
+                throw new InvalidLabel($arguments[0]);
+            }
         } elseif (in_array($member, $this->configClasses)) {
-            return $this->configFactory($member, $arguments[0]);
-
+            if (isset($arguments[0]) && is_string($arguments[0])) {
+                return $this->configFactory($member, $arguments[0]);
+            } else {
+                return $this->configFactory($member);
+            }
         } else {
             throw new InvalidLavaObject($member);
         }

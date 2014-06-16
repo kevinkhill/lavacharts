@@ -17,6 +17,7 @@
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Configs\TextStyle;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Legend extends ConfigOptions
@@ -144,21 +145,13 @@ class Legend extends ConfigOptions
     /**
      * An object that specifies the legend text style.
      *
-     * @param textStyle Style of the legend
+     * @param  Khill\Lavacharts\Configs\TextStyle $textStyle Style of the legend
      *
      * @return legend
      */
-    public function textStyle($textStyle)
+    public function textStyle(TextStyle $textStyle)
     {
-        if (Helpers::isTextStyle($textStyle)) {
-            $this->textStyle = $textStyle->getValues();
-        } else {
-            throw new InvalidConfigValue(
-                $this->className,
-                __FUNCTION__,
-                'textStyle'
-            );
-        }
+        $this->textStyle = $textStyle->getValues();
 
         return $this;
     }

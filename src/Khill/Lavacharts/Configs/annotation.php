@@ -68,7 +68,11 @@ class Annotation extends ConfigOptions
         if (is_bool($highContrast)) {
             $this->highContrast = $highContrast;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'boolean');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'boolean'
+            );
         }
 
         return $this;
@@ -81,13 +85,9 @@ class Annotation extends ConfigOptions
      *
      * @return Khill\Lavacharts\Configs\Annotation
      */
-    public function textStyle($textStyle)
+    public function textStyle(TextStyle $textStyle)
     {
-        if (Helpers::isTextStyle($textStyle)) {
-            $this->textStyle = $textStyle;
-        } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'textStyle');
-        }
+        $this->textStyle = $textStyle;
 
         return $this;
     }

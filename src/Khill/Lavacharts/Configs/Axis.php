@@ -17,6 +17,7 @@
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Configs\TextStyle;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Axis extends ConfigOptions
@@ -80,7 +81,7 @@ class Axis extends ConfigOptions
     /**
      * An object that specifies the axis text style.
      *
-     * @var textStyle
+     * @var Khill\Lavacharts\Configs\TextStyle
      */
     public $textStyle = null;
 
@@ -388,14 +389,14 @@ class Axis extends ConfigOptions
      *
      * This option is only supported for a continuous axis.
      *
-     * @param boolean $log
+     * @param  boolean $logScale
      *
      * @return Khill\Lavacharts\Configs\Axis
      */
-    public function logScale($log)
+    public function logScale($logScale)
     {
-        if (is_bool($log)) {
-            $this->logScale = $log;
+        if (is_bool($logScale)) {
+            $this->logScale = $logScale;
         } else {
             throw new InvalidConfigValue(
                 $this->className,
@@ -411,7 +412,7 @@ class Axis extends ConfigOptions
      * Position of the axis text, relative to the chart area.
      * Supported values: 'out', 'in', 'none'.
      *
-     * @param string Setting the position of the text.
+     * @param string $position Setting the position of the text.
      *
      * @return Khill\Lavacharts\Configs\Axis
      */
@@ -440,21 +441,13 @@ class Axis extends ConfigOptions
     /**
      * This function takes a textStyle object, created via "new textStyle();"
      *
-     * @param textStyle $textStyle
+     * @param  Khill\Lavacharts\Configs\TextStyle $textStyle
      *
      * @return Khill\Lavacharts\Configs\Axis
      */
     public function textStyle($textStyle)
     {
-        if (Helpers::isTextStyle($textStyle)) {
-            $this->textStyle = $textStyle->getValues();
-        } else {
-            throw new InvalidConfigValue(
-                $this->className,
-                __FUNCTION__,
-                'TextSyle'
-            );
-        }
+        $this->textStyle = $textStyle->getValues();
 
         return $this;
     }
@@ -484,21 +477,13 @@ class Axis extends ConfigOptions
     /**
      * An object that specifies the axis title text style.
      *
-     * @param textStyle $titleTextStyle
+     * @param  Khill\Lavacharts\Configs\TextStyle $titleTextStyle
      *
      * @return Khill\Lavacharts\Configs\Axis
      */
-    public function titleTextStyle($titleTextStyle)
+    public function titleTextStyle(TextStyle $titleTextStyle)
     {
-        if (Helpers::isTextStyle($titleTextStyle)) {
-            $this->titleTextStyle = $titleTextStyle->getValues();
-        } else {
-            throw new InvalidConfigValue(
-                $this->className,
-                __FUNCTION__,
-                'TextStyle'
-            );
-        }
+        $this->titleTextStyle = $titleTextStyle->getValues();
 
         return $this;
     }
