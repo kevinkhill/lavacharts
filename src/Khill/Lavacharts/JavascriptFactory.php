@@ -22,12 +22,12 @@ use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 class JavascriptFactory
 {
-   /**
+    /**
      * @var Khill\Lavacharts\Charts\Chart Chart to used to generate output.
      */
     private $chart = null;
 
-   /**
+    /**
      * @var Khill\Lavacharts\Configs\DataTable Datatable to use for chart.
      */
     private $dataTable = null;
@@ -74,7 +74,6 @@ class JavascriptFactory
     {
         $this->chart     = $volcano->getChart($label);
         $this->dataTable = $volcano->getDataTable($label);
-        //var_dump($this);die();
     }
 
     /**
@@ -175,19 +174,17 @@ class JavascriptFactory
     {
         $script = sprintf('if(typeof %s !== "object") { %s = {}; }', $chartType, $chartType).PHP_EOL.PHP_EOL;
 
-        foreach($chartEvents as $event)
-        {
+        foreach ($chartEvents as $event) {
              $script .= sprintf('%s.%s = function(event) {', $chartType, $event).PHP_EOL;
 
              $callback = $this->callbackPath.$chartType.'.'.$event.'.js';
              $callbackScript = file_get_contents($callback);
 
-             if($callbackScript !== false)
-             {
+            if ($callbackScript !== false) {
                 $script .= $callbackScript.PHP_EOL;
-             } else {
-                 $this->setError(__METHOD__, 'Error loading javascript file, in '.$callback.'.js');
-             }
+            } else {
+                $this->setError(__METHOD__, 'Error loading javascript file, in '.$callback.'.js');
+            }
 
              $script .= "};".PHP_EOL;
         }

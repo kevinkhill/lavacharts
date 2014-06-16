@@ -16,6 +16,7 @@
  * @license   http://www.gnu.org/licenses/gpl.html GPL-V3
  */
 
+use Khill\Lavacharts\Volcano;
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Configs\HorizontalAxis;
 use Khill\Lavacharts\Configs\VerticalAxis;
@@ -23,14 +24,14 @@ use Khll\Lavacharts\Exceptions\InvalidConfigValue;
 
 class LineChart extends Chart
 {
-    public function __construct($chartLabel)
+    public function __construct(Volcano $volcano, $chartLabel)
     {
-        parent::__construct($chartLabel);
+        parent::__construct($volcano, $chartLabel);
 
         $this->defaults = array_merge(
             $this->defaults,
             array(
-//                'animation',
+            //                'animation',
                 'axisTitlesPosition',
                 'curveType',
                 'hAxis',
@@ -38,7 +39,7 @@ class LineChart extends Chart
                 'interpolateNulls',
                 'lineWidth',
                 'pointSize',
-//                'vAxes',
+            //                'vAxes',
                 'vAxis'
             )
         );

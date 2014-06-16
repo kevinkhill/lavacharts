@@ -79,7 +79,11 @@ class Tooltip extends ConfigOptions
         if (is_bool($showColorCode)) {
             $this->showColorCode = $showColorCode;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'boolean');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'boolean'
+            );
         }
 
         return $this;
@@ -99,7 +103,11 @@ class Tooltip extends ConfigOptions
         if (Helpers::isTextStyle($textStyle)) {
             $this->textStyle = $textStyle->getValues();
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'textStyle');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'textStyle'
+            );
         }
 
         return $this;
@@ -127,7 +135,12 @@ class Tooltip extends ConfigOptions
         if (in_array($trigger, $values)) {
             $this->trigger = $trigger;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'string',
+                'with a value of '.Helpers::arrayToPipedString($values)
+            );
         }
 
         return $this;

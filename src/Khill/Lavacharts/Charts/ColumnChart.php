@@ -17,24 +17,25 @@
  * @license   http://www.gnu.org/licenses/gpl.html GPL-V3
  */
 
+use Khill\Lavacharts\Volcano;
 use Khill\Lavacharts\Helpers\Helpers;
 
 class ColumnChart extends Chart
 {
-    public function __construct($chartLabel)
+    public function __construct(Volcano $volcano, $chartLabel)
     {
-        parent::__construct($chartLabel);
+        parent::__construct($volcano, $chartLabel);
 
         $this->defaults = array_merge(
             $this->defaults,
             array(
-//                'animation',
+            //                'animation',
                 'axisTitlesPosition',
                 'barGroupWidth',
                 'focusTarget',
                 'hAxis',
                 'isHtml',
-//                'vAxes',
+            //                'vAxes',
                 'vAxis'
             )
         );

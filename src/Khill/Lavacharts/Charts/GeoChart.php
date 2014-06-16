@@ -19,26 +19,28 @@
  * @license   http://www.gnu.org/licenses/gpl.html GPL-V3
  */
 
+use Khill\Lavacharts\Volcano;
 use Khill\Lavacharts\Charts\Chart;
 
 class GeoChart extends Chart
 {
-    public function __construct($chartLabel)
+    public function __construct(Volcano $volcano, $chartLabel)
     {
-        parent::__construct($chartLabel);
+        parent::__construct($volcano, $chartLabel);
 
         $this->defaults = array_merge(
-            $this->defaults, array(
-            'colorAxis',
-            'datalessRegionColor',
-            'displayMode',
-            'enableRegionInteractivity',
-            'keepAspectRatio',
-            'region',
-            'magnifyingGlass',
-            'markerOpacity',
-            'resolution',
-            'sizeAxis'
+            $this->defaults,
+            array(
+                'colorAxis',
+                'datalessRegionColor',
+                'displayMode',
+                'enableRegionInteractivity',
+                'keepAspectRatio',
+                'region',
+                'magnifyingGlass',
+                'markerOpacity',
+                'resolution',
+                'sizeAxis'
             )
         );
     }

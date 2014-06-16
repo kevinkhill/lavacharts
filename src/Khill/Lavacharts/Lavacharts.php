@@ -116,12 +116,14 @@ class Lavacharts
     public function __call($member, $arguments)
     {
         if ($member == 'DataTable') {
-            //var_dump($arguments[0]);die();
-            return self::dataTableFactory($arguments[0]);
-        } else if (in_array($member, $this->chartClasses)) {
-            return self::chartFactory($member, $arguments[0]);
-        } else if (in_array($member, $this->configClasses)) {
-            return self::configFactory($member, $arguments[0]);
+            return $this->dataTableFactory($arguments[0]);
+
+        } elseif (in_array($member, $this->chartClasses)) {
+            return $this->chartFactory($member, $arguments[0]);
+
+        } elseif (in_array($member, $this->configClasses)) {
+            return $this->configFactory($member, $arguments[0]);
+
         } else {
             throw new InvalidLavaObject($member);
         }
@@ -313,7 +315,7 @@ class Lavacharts
                     );
                 }
             }
-        } else{
+        } else {
             throw new InvalidElementId($elementId);
         }
     }

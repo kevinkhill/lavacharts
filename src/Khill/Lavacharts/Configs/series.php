@@ -142,7 +142,8 @@ class Series extends ConfigOptions
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Configs\Series
      */
-    public function targetAxisIndex($index) {
+    public function targetAxisIndex($index)
+    {
         if (is_int($index)) {
             $this->targetAxisIndex = $index;
         } else {

@@ -93,7 +93,7 @@ class Helpers
         if (is_array($array) && is_string($type)) {
             if ($type === 'class' && is_string($className) && ! empty($className)) {
                 foreach ($array as $item) {
-                    if ( ! is_null($item)) {
+                    if (! is_null($item)) {
                         if (! is_object($item)) {
                             $status = false;
                         } else {

@@ -149,26 +149,27 @@ class Axis extends ConfigOptions
     public function __construct($config = array())
     {
         $this->options = array_merge(
-            $this->options, array(
-            'baseline',
-            'baselineColor',
-            'direction',
-            'format',
-            'gridlines',
-            'minorGridlines',
-            'logScale',
-            'textPosition',
-            'textStyle',
-            'title',
-            'titleTextStyle',
-            'maxAlternation',
-            'maxTextLines',
-            'minTextSpacing',
-            'showTextEvery',
-            'maxValue',
-            'minValue',
-            'viewWindowMode',
-            'viewWindow'
+            $this->options,
+            array(
+                'baseline',
+                'baselineColor',
+                'direction',
+                'format',
+                'gridlines',
+                'minorGridlines',
+                'logScale',
+                'textPosition',
+                'textStyle',
+                'title',
+                'titleTextStyle',
+                'maxAlternation',
+                'maxTextLines',
+                'minTextSpacing',
+                'showTextEvery',
+                'maxValue',
+                'minValue',
+                'viewWindowMode',
+                'viewWindow'
             )
         );
 

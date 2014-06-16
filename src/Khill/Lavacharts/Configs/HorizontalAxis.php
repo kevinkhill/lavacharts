@@ -18,6 +18,7 @@
 
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 class HorizontalAxis extends Axis
 {
@@ -103,7 +104,11 @@ class HorizontalAxis extends Axis
         if (is_bool($cutoff)) {
             $this->allowContainerBoundaryTextCutoff = $cutoff;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'boolean');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'boolean'
+            );
         }
 
         return $this;
@@ -129,7 +134,12 @@ class HorizontalAxis extends Axis
         if (is_bool($slant) && $this->textPosition == 'out') {
             $this->slantedText = $slant;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'boolean', 'and textPosition must be "out"');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'boolean',
+                'and textPosition must be "out"'
+            );
         }
 
         return $this;
@@ -151,7 +161,12 @@ class HorizontalAxis extends Axis
         if (is_int($angle) && Helpers::between(1, $angle, 90)) {
             $this->slantedTextAngle = $angle;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int', 'between 1 - 90');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'int',
+                'between 1 - 90'
+            );
         }
 
         return $this;
@@ -177,7 +192,11 @@ class HorizontalAxis extends Axis
         if (is_int($alternation)) {
             $this->maxAlternation = $alternation;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'int'
+            );
         }
 
         return $this;
@@ -200,7 +219,11 @@ class HorizontalAxis extends Axis
         if (is_int($maxTextLines)) {
             $this->maxTextLines = $maxTextLines;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'int'
+            );
         }
 
         return $this;
@@ -229,7 +252,12 @@ class HorizontalAxis extends Axis
             if (isset($this->textStyle['fontSize'])) {
                 $this->minTextSpacing = $this->textStyle['fontSize'];
             } else {
-                throw new InvalidConfigValue($this->className, __FUNCTION__, 'int', 'or set via textStyle[\'fontSize\']');
+                throw new InvalidConfigValue(
+                    $this->className,
+                    __FUNCTION__,
+                    'int',
+                    'or set via textStyle[\'fontSize\']'
+                );
             }
         }
 
@@ -253,7 +281,11 @@ class HorizontalAxis extends Axis
         if (is_int($showTextEvery)) {
             $this->showTextEvery = $showTextEvery;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'int'
+            );
         }
 
         return $this;

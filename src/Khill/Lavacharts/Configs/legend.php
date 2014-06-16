@@ -89,7 +89,12 @@ class Legend extends ConfigOptions
         if (in_array($position, $values)) {
             $this->position = $position;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'string',
+                'with a value of '.Helpers::arrayToPipedString($values)
+            );
         }
 
         return $this;
@@ -125,7 +130,12 @@ class Legend extends ConfigOptions
         if (in_array($alignment, $values)) {
             $this->alignment = $alignment;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'string',
+                'with a value of '.Helpers::arrayToPipedString($values)
+            );
         }
 
         return $this;
@@ -143,7 +153,11 @@ class Legend extends ConfigOptions
         if (Helpers::isTextStyle($textStyle)) {
             $this->textStyle = $textStyle->getValues();
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'textStyle');
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'textStyle'
+            );
         }
 
         return $this;

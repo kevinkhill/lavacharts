@@ -61,7 +61,7 @@ class BoxStyle extends ConfigOptions
     public function __construct($config = array())
     {
         if (! array_key_exists('stroke', $config)) {
-            $this->stroke = $this->_randomColor();
+            $this->stroke = $this->randomColor();
         }
 
         $this->options = array(
@@ -195,7 +195,7 @@ class BoxStyle extends ConfigOptions
      *
      * @return string
      */
-    private function _randomColor()
+    private function randomColor()
     {
         return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
     }

@@ -29,13 +29,14 @@
  */
 
 /*
+use Khill\Lavacharts\Volcano;
 use Khill\Lavacharts\Charts\Chart;
 
 class TreeMap extends Chart
 {
-    public function __construct($chartLabel)
+    public function __construct(Volcano $volcano, $chartLabel)
     {
-        parent::__construct($chartLabel);
+        parent::__construct($volcano, $chartLabel);
 
         $this->defaults = array(
             'headerColor',
