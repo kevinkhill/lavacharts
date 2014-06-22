@@ -13,7 +13,7 @@
  * @copyright (c) 2014, KHill Designs
  * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
  * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://opensource.org/licenses/GPL-3.0 GPLv3
+ * @license   http://opensource.org/licenses/MIT MIT
  */
 
 class VerticalAxis extends Axis

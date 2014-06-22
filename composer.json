@@ -1,8 +1,9 @@
 {
     "name": "khill/lavacharts",
-    "version": "0.1.0",
-    "license": "GPLv3",
     "description": "A PHP wrapper library for the Google Chart API",
+    "keywords": ["composer", "packagist", "google", "charts", "graphs"],
+    "version": "0.1.0",
+    "license": "MIT",
     "authors": [
         {
             "name": "Kevin Hill",
