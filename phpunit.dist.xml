@@ -25,14 +25,13 @@
     </filter>
 
     <logging>
-        <log type="coverage-html"
-             target="./logs/coverage"
+        <log type="coverage-clover"
+             target="./build/logs/clover.xml"
              charset="UTF-8"
              highlight="false"
-             highLowerBound="70"
              lowUpperBound="35"
-        >
-        <log type="coverage-clover" target="./logs/coverage.xml"/>
-        <log type="testdox-html" target="./logs/testdox.html"/>
+             highLowerBound="70"
+        />
+        <log type="testdox-html" target="./build/logs/testdox.html" />
     </logging>
 </phpunit>

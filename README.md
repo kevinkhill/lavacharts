@@ -7,7 +7,9 @@ Branches
 ========
  - Master: [![Build Status](https://travis-ci.org/kevinkhill/LavaCharts.png?branch=master)](https://travis-ci.org/kevinkhill/LavaCharts)
 
- - Dev: [![Build Status](https://travis-ci.org/kevinkhill/LavaCharts.png?branch=dev)](https://travis-ci.org/kevinkhill/LavaCharts)
+ - Dev: [![Build Status](https://travis-ci.org/kevinkhill/LavaCharts.png?branch=dev)](https://travis-ci.org/kevinkhill/LavaCharts) 
+
+ - Tests: [![Coverage Status](https://coveralls.io/repos/kevinkhill/LavaCharts/badge.png)](https://coveralls.io/r/kevinkhill/LavaCharts)
 
 Installing
 ----------

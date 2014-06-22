@@ -1,7 +1,13 @@
 language: php
 
 php:
-  - "5.3"
+  - 5.5
+  - 5.4
+  - 5.3
+
+matrix:
+  allow_failures:
+    - php: 5.5
 
 branches:
   only:
@@ -9,7 +15,14 @@ branches:
     - dev
 
 before_script:
-  - composer self-update
+  - composer selfupdate
   - composer install
 
 email: kevinkhill@gmail.com
+
+script:
+  - mkdir -p build/logs
+  - php vendor/bin/phpunit -c phpunit.xml.dist
+
+after_script:
+  - php vendor/bin/coveralls
