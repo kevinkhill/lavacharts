@@ -11,6 +11,8 @@ Branches
 
  - Tests: [![Coverage Status](https://coveralls.io/repos/kevinkhill/LavaCharts/badge.png?branch=dev)](https://coveralls.io/r/kevinkhill/LavaCharts?branch=dev)
 
+ [![Latest Stable Version](https://poser.pugx.org/khill/lavacharts/v/stable.svg)](https://packagist.org/packages/khill/lavacharts) [![Total Downloads](https://poser.pugx.org/khill/lavacharts/downloads.svg)](https://packagist.org/packages/khill/lavacharts) [![Latest Unstable Version](https://poser.pugx.org/khill/lavacharts/v/unstable.svg)](https://packagist.org/packages/khill/lavacharts) [![License](https://poser.pugx.org/khill/lavacharts/license.svg)](https://packagist.org/packages/khill/lavacharts)
+
 Installing
 ----------
 In your project's main ```composer.json``` file, add this line to the requirements:
