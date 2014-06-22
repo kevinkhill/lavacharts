@@ -1,12 +1,10 @@
 <?php namespace Khill\Lavacharts\Tests\Helpers;
 
-use Khill\Lavacharts\Tests\TestCase;
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Configs as C;
 
-class HelperAliasTest extends TestCase
+class HelperAliasTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testAliasedIsAnnotation()
     {
         $this->assertTrue( Helpers::isAnnotation(new C\Annotation));
@@ -117,5 +115,4 @@ class HelperAliasTest extends TestCase
     {
         $this->assertFalse( Helpers::isTacos( array() ));
     }
-
 }

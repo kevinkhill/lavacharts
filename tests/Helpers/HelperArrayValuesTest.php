@@ -1,13 +1,11 @@
 <?php namespace Khill\Lavacharts\Tests\Helpers;
 
-use Khill\Lavacharts\Tests\TestCase;
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Configs\TextStyle;
 use Khill\Lavacharts\Configs\VerticalAxis;
 
-class HelperTest extends TestCase
+class HelperTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testArrayValuesCheckWithStrings()
     {
         $testArray = array('test1', 'test2', 'test3');
@@ -74,5 +72,4 @@ class HelperTest extends TestCase
             array(array(NULL, NULL), 'tacos')
         );
     }
-
 }

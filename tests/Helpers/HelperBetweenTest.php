@@ -1,11 +1,9 @@
 <?php namespace Khill\Lavacharts\Tests\Helpers;
 
-use Khill\Lavacharts\Tests\TestCase;
 use Khill\Lavacharts\Helpers\Helpers;
 
-class HelperBetweenTest extends TestCase
+class HelperBetweenTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testBetweenWithIntsInRange()
     {
         $this->assertTrue( Helpers::between(0, 5, 10) );
@@ -81,5 +79,4 @@ class HelperBetweenTest extends TestCase
             array(new \stdClass(), new \stdClass(), new \stdClass())
         );
     }
-
 }

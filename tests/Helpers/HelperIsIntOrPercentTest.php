@@ -1,11 +1,9 @@
 <?php namespace Khill\Lavacharts\Tests\Helpers;
 
-use Khill\Lavacharts\Tests\TestCase;
 use Khill\Lavacharts\Helpers\Helpers;
 
-class HelperIsIntOrPercentTest extends TestCase
+class HelperIsIntOrPercentTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testIntOrPercentWithInt()
     {
         $this->assertTrue( Helpers::isIntOrPercent(72) );
@@ -43,5 +41,4 @@ class HelperIsIntOrPercentTest extends TestCase
             array(NULL)
         );
     }
-
 }

@@ -1,9 +1,8 @@
 <?php namespace Khill\Lavacharts\Tests\Helpers;
 
-use Khill\Lavacharts\Tests\TestCase;
 use Khill\Lavacharts\Helpers\Helpers;
 
-class HelperArrayToPipedStringTest extends TestCase
+class HelperArrayToPipedStringTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testArrayStringWithArray()

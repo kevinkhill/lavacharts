@@ -1,6 +1,6 @@
 {
     "name": "khill/lavacharts",
-    "version": "1.0.0_rc1",
+    "version": "0.1.0",
     "license": "GPLv3",
     "description": "A PHP wrapper library for the Google Chart API",
     "authors": [
@@ -17,6 +17,7 @@
     	"phpunit/phpunit": "4.1.*",
         "mockery/mockery": "dev-master",
         "squizlabs/php_codesniffer": "1.*",
+        "satooshi/php-coveralls": "dev-master",
         "nette/nette": "~2.1.3",
         "apigen/apigen": "2.*"
     },

@@ -54,7 +54,7 @@ class AnnotationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \PHPUnit_Framework_Error
      * @dataProvider badParamsProvider2
      */
     public function testTextStyleWithBadParams($badVals)
