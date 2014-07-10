@@ -1,5 +1,7 @@
 <?php namespace Khill\Lavacharts\Configs;
 
+use Carbon\Carbon;
+
 /**
  * DataTable Object
  *
@@ -197,8 +199,9 @@ class DataTable
                     if (count($opt_cellArray) <= count($this->cols)) {
                         for ($b = 0; $b < count($this->cols); $b++) {
                             if (isset($opt_cellArray[$b])) {
-                                if (Helpers::isJsDate($opt_cellArray[$b])) {
-                                    $rowVals[] = array('v' => $opt_cellArray[$b]->buildOutput());
+                                //if (Helpers::isJsDate($opt_cellArray[$b])) {
+                                if (get_class($opt_cellArray[$b]) == 'Carbon\Carbon') {
+                                    $rowVals[] = array('v' => $this->carbonToString($opt_cellArray[$b]));
                                 } else {
                                     $rowVals[] = array('v' => $opt_cellArray[$b]);
                                 }
@@ -450,5 +453,34 @@ class DataTable
     private function error($msg)
     {
         Lavacharts::_set_error(get_class($this), $msg);
+    }
+
+    /**
+     * Outputs the Carbon object as a valid javascript Date string.
+     *
+     * @return string Javscript date declaration
+     */
+    private function carbonToString(Carbon $c)
+    {
+        if (isset($c->hour)) {
+            if (isset($c->minute)) {
+                if (isset($c->seconds)) {
+                        $format = 'Date(%d, %d, %d, %d, %d, %d)';
+                        $output = sprintf($format, $c->year, $c->month, $c->day, $c->hour, $c->minute, $c->second);
+                    }
+                } else {
+                    $format = 'Date(%d, %d, %d, %d, %d)';
+                    $output = sprintf($format, $c->year, $c->month, $c->day, $c->hour, $c->minute);
+                }
+            } else {
+                $format = 'Date(%d, %d, %d, %d)';
+                $output = sprintf($format, $c->year, $c->month, $c->day, $c->hour);
+            }
+        } else {
+            $format = 'Date(%d, %d, %d)';
+            $output = sprintf($format, $c->year, $c->month, $c->day);
+        }
+
+        return $output;
     }
 }
