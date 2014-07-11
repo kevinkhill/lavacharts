@@ -1,6 +1,7 @@
 <?php namespace Khill\Lavacharts\Configs;
 
 use Carbon\Carbon;
+use Khill\Lavacharts\Exceptions\InvalidDate;
 
 /**
  * DataTable Object
@@ -199,9 +200,8 @@ class DataTable
                     if (count($opt_cellArray) <= count($this->cols)) {
                         for ($b = 0; $b < count($this->cols); $b++) {
                             if (isset($opt_cellArray[$b])) {
-                                //if (Helpers::isJsDate($opt_cellArray[$b])) {
-                                if (get_class($opt_cellArray[$b]) == 'Carbon\Carbon') {
-                                    $rowVals[] = array('v' => $this->carbonToString($opt_cellArray[$b]));
+                                if ($this->cols[$b]['type'] == 'date') {
+                                    $rowVals[] = array('v' => $this->parseDate($opt_cellArray[$b]));
                                 } else {
                                     $rowVals[] = array('v' => $opt_cellArray[$b]);
                                 }
@@ -455,32 +455,40 @@ class DataTable
         Lavacharts::_set_error(get_class($this), $msg);
     }
 
+
+    /**
+     * Either passes the Carbon instance or parses a datetime string.
+     *
+     * @return string Javscript date declaration
+     */
+    private function parseDate($date)
+    {
+        if (is_a($date, 'Carbon\Carbon')) {
+            $carbonDate = $date;
+        } elseif (is_string($date)) {
+            $carbonDate = Carbon::parse($date);
+        } else {
+            throw new InvalidDate($date);
+        }
+
+        return $this->carbonToJsString($carbonDate);
+    }
+
     /**
      * Outputs the Carbon object as a valid javascript Date string.
      *
      * @return string Javscript date declaration
      */
-    private function carbonToString(Carbon $c)
+    private function carbonToJsString(Carbon $c)
     {
-        if (isset($c->hour)) {
-            if (isset($c->minute)) {
-                if (isset($c->seconds)) {
-                        $format = 'Date(%d, %d, %d, %d, %d, %d)';
-                        $output = sprintf($format, $c->year, $c->month, $c->day, $c->hour, $c->minute, $c->second);
-                    }
-                } else {
-                    $format = 'Date(%d, %d, %d, %d, %d)';
-                    $output = sprintf($format, $c->year, $c->month, $c->day, $c->hour, $c->minute);
-                }
-            } else {
-                $format = 'Date(%d, %d, %d, %d)';
-                $output = sprintf($format, $c->year, $c->month, $c->day, $c->hour);
-            }
-        } else {
-            $format = 'Date(%d, %d, %d)';
-            $output = sprintf($format, $c->year, $c->month, $c->day);
-        }
-
-        return $output;
+        return sprintf(
+            'Date(%d, %d, %d, %d, %d, %d)',
+            isset($c->year)   ? $c->year   : 'null',
+            isset($c->month)  ? $c->month  : 'null',
+            isset($c->day)    ? $c->day    : 'null',
+            isset($c->hour)   ? $c->hour   : 'null',
+            isset($c->minute) ? $c->minute : 'null',
+            isset($c->second) ? $c->second : 'null'
+        );
     }
 }

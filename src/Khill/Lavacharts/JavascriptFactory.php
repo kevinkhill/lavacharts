@@ -104,7 +104,7 @@ class JavascriptFactory
      */
     private function buildOutput()
     {
-        $out = $this->googleAPI.PHP_EOL;
+        $out = '';//$this->googleAPI.PHP_EOL;
 /*
         if(is_array($this->chart->events) && count($this->chart->events) > 0)
         {
@@ -128,7 +128,7 @@ class JavascriptFactory
                 break;
         }
 
-        $out .= sprintf("google.load('visualization', '1', {'packages':['%s']});", $vizType);
+        $out .= sprintf("google.load('visualization', '1', {'packages':['%s']});", $vizType).PHP_EOL;
         $out .= 'google.setOnLoadCallback(drawChart);'.PHP_EOL;
         $out .= 'function drawChart() {'.PHP_EOL;
 

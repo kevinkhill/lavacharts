@@ -118,22 +118,14 @@ class Lavacharts
     public function __call($member, $arguments)
     {
         if ($member == 'DataTable') {
-            if (isset($arguments[0])) {
-                if (is_string($arguments[0])) {
-                    return $this->dataTableFactory();
-                } else {
-                    return $this->dataTableFactory($arguments[0]);
-                }
+            if (isset($arguments[0]) && is_string($arguments[0])) {
+                return $this->dataTableFactory($arguments[0]);
             } else {
                 throw new InvalidLabel($arguments[0]);
             }
         } elseif (in_array($member, $this->chartClasses)) {
-            if (isset($arguments[0])) {
-                if (is_string($arguments[0])) {
-                    return $this->chartFactory($member);
-                } else {
-                    return $this->chartFactory($member, $arguments[0]);
-                }
+            if (isset($arguments[0]) && is_string($arguments[0])) {
+                return $this->chartFactory($member, $arguments[0]);
             } else {
                 throw new InvalidLabel($arguments[0]);
             }
@@ -146,6 +138,11 @@ class Lavacharts
         } else {
             throw new InvalidLavaObject($member);
         }
+    }
+
+    public function renderChart($label, $elementId)
+    {
+        return $this->volcano->getChart($label)->outputInto($elementId);
     }
 
     /**
