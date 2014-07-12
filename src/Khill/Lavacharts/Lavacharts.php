@@ -118,11 +118,12 @@ class Lavacharts
     public function __call($member, $arguments)
     {
         if ($member == 'DataTable') {
-            if (isset($arguments[0]) && is_string($arguments[0])) {
+            return new DataTable();
+            /*if (isset($arguments[0]) && is_string($arguments[0])) {
                 return $this->dataTableFactory($arguments[0]);
             } else {
                 throw new InvalidLabel($arguments[0]);
-            }
+            }*/
         } elseif (in_array($member, $this->chartClasses)) {
             if (isset($arguments[0]) && is_string($arguments[0])) {
                 return $this->chartFactory($member, $arguments[0]);
@@ -140,9 +141,25 @@ class Lavacharts
         }
     }
 
-    public function renderChart($label, $elementId)
+    /**
+     * Renders the chart into the page
+     *
+     * Given a chart label and an HTML element id, this will output
+     * all of the necessary javascript to generate the chart.
+     *
+     * @param  string $label Label of a saved chart.
+     * @param  string $elementId HTML element id to render the chart into.
+     *
+     * @return Khill\Lavachart\DataTable
+     */
+    public function render($chartType, $chartLabel, $elementId)
     {
-        return $this->volcano->getChart($label)->outputInto($elementId);
+        $chart = $this->volcano->getChart($chartType, $chartLabel);
+
+        $jsf = new JavascriptFactory($chart);
+        $jsf->useElementId($elementId);
+
+        return $jsf->buildOutput();
     }
 
     /**
@@ -154,7 +171,7 @@ class Lavacharts
      * as the paramater.
      *
      * @access private
-     *
+     * @deprecated deprecated in version 1.0
      * @param  string $label Label applied to the datatable.
      *
      * @return Khill\Lavachart\DataTable
@@ -189,14 +206,16 @@ class Lavacharts
         $chartObj = $this->rootSpace . 'Charts\\' . $type;
 
         if (class_exists($chartObj)) {
-            try {
-                return $this->volcano->getChart($type, $label);
-            } catch (ChartNotFound $e) {
-                $this->volcano->storeChart(new $chartObj($this->volcano, $label));
+            if ($this->volcano->checkChart($type, $label)) {
+                $chart = $this->volcano->getChart($type, $label);
+            } else {
+                //$chart = new $chartObj($this->volcano, $label);
+                $chart = new $chartObj($label);
 
-        var_dump($this->volcano);
-                return $this->volcano->getChart($type, $label);
+                $this->volcano->storeChart($chart);
             }
+
+            return $chart;
         } else {
             throw new InvalidLavaObject($type);
         }

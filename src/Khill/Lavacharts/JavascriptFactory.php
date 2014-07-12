@@ -15,7 +15,8 @@
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Volcano;
+//use Khill\Lavacharts\Volcano;
+use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
@@ -70,41 +71,46 @@ class JavascriptFactory
      * @param  string $label Label of the chart and datatable to use.
      * @return string Javascript code block.
      */
-    public function __construct(Volcano $volcano, $label)
+    public function __construct(Chart $chart)//Volcano $volcano, $label)
     {
-        $this->chart     = $volcano->getChart($label);
-        $this->dataTable = $volcano->getDataTable($label);
-    }
-
-    /**
-     * Returns the Javascript block to place in the page.
-     *
-     * @access public
-     *
-     * @return string Javascript code blocks.
-     */
-    public function output()
-    {
-        $this->buildOutput();
-
-        return $this->output;
+        $this->chart = $chart;//$volcano->getChart($label);
+        //$this->dataTable = $volcano->getDataTable($label);
     }
 
     /**
      * Builds the Javascript code block
      *
-     * Build the script block for the actual chart and passes it back to
-     * output function of the calling chart object. If there are any
-     * events defined, they will be automatically be attached to the chart and
+     * Build the script block for the chart. If there are any events defined,
+     * they will be automatically be attached to the chart and
      * pulled from the callbacks folder.
      *
      * @access private
      *
      * @return string Javascript code block.
      */
-    private function buildOutput()
+    public function useElementId($elementId)
     {
-        $out = '';//$this->googleAPI.PHP_EOL;
+        if (is_string($elementId) && ! empty($elementId)) {
+            $this->elementId = $elementId;
+        } else {
+            throw new InvalidElementId($elementId);
+        }
+    }
+
+    /**
+     * Builds the Javascript code block
+     *
+     * Build the script block for the chart. If there are any events defined,
+     * they will be automatically be attached to the chart and
+     * pulled from the callbacks folder.
+     *
+     * @access private
+     *
+     * @return string Javascript code block.
+     */
+    public function buildOutput()
+    {
+        $out = $this->googleAPI.PHP_EOL;
 /*
         if(is_array($this->chart->events) && count($this->chart->events) > 0)
         {
@@ -134,13 +140,20 @@ class JavascriptFactory
 
         $out .= sprintf(
             'var data = new google.visualization.DataTable(%s, %s);',
-            $this->dataTable->toJSON(),
+            $this->chart->dataTable->toJSON(),
             $this->googleDataTableVer
         ).PHP_EOL;
 
         $out .= sprintf('var options = %s;', $this->chart->optionsToJSON()).PHP_EOL;
         $out .= sprintf('var chart = new google.visualization.%s', $this->chart->type);
-        $out .= sprintf("(document.getElementById('%s'));", $this->chart->elementID).PHP_EOL;
+
+        if (isset($this->chart->elementId)) {
+            $htmlElementId = $this->chart->elementId;
+        } else {
+            $htmlElementId = $this->elementId;
+        }
+
+        $out .= sprintf("(document.getElementById('%s'));", $htmlElementId).PHP_EOL;
         $out .= 'chart.draw(data, options);'.PHP_EOL;
 /*
         if(is_array($this->chart->events) && count($this->chart->events) > 0)
@@ -156,9 +169,7 @@ class JavascriptFactory
         $out .= "}".PHP_EOL;
         $out .= $this->jsC.PHP_EOL;
 
-        $this->output = $out;
-
-        return $this;
+        return $out;
     }
 
     /**

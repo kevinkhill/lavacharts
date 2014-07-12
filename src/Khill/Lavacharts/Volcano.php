@@ -18,6 +18,7 @@ use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Configs\DataTable;
 use Khill\Lavacharts\Exceptions\InvalidLabel;
 use Khill\Lavacharts\Exceptions\LabelNotFound;
+use Khill\Lavacharts\Exceptions\DataTableNotFound;
 use Khill\Lavacharts\Exceptions\ChartNotFound;
 
 class Volcano
@@ -53,8 +54,7 @@ class Volcano
      * Retrieves a datatable from the volcano datastore.
      *
      * @param  string $label Identifying label for the datatable.
-     * @throws Khill\Lavacharts\Exceptions\LabelNotFound
-     * @throws Khill\Lavacharts\Exceptions\InvalidLabel
+     * @throws Khill\Lavacharts\Exceptions\DataTableNotFound
      *
      * @return Khill\Lavacharts\Configs\DataTable
      */
@@ -63,7 +63,7 @@ class Volcano
         if ($this->checkDataTable($label)) {
             return $this->dataTables[$label];
         } else {
-            throw new LabelNotFound($label);
+            throw new DataTableNotFound($label);
         }
     }
 
@@ -110,14 +110,13 @@ class Volcano
      * Retrieves a chart from the volcano datastore.
      *
      * @param  string $label Identifying label for the chart.
-     * @throws Khill\Lavacharts\Exceptions\LabelNotFound
-     * @throws Khill\Lavacharts\Exceptions\InvalidLabel
+     * @throws Khill\Lavacharts\Exceptions\ChartNotFound
      *
      * @return Khill\Lavacharts\Charts\Chart
      */
     public function getChart($type, $label)
     {
-        if ($this->checkChart($type, $label)) {
+        if (array_key_exists($label, $this->charts[$type])) {
             return $this->charts[$type][$label];
         } else {
             throw new ChartNotFound($type, $label);

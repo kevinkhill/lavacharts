@@ -24,9 +24,9 @@ use Khll\Lavacharts\Exceptions\InvalidConfigValue;
 
 class LineChart extends Chart
 {
-    public function __construct(Volcano $volcano, $chartLabel)
+    public function __construct($chartLabel)
     {
-        parent::__construct($volcano, $chartLabel);
+        parent::__construct($chartLabel);
 
         $this->defaults = array_merge(
             $this->defaults,

@@ -16,25 +16,25 @@
  */
 
 use Khill\Lavacharts\Volcano;
+use Khill\Lavacharts\Configs\DataTable;
 use Khill\Lavacharts\JavascriptFactory;
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Exceptions\DataTableNotFound;
 use Khill\Lavacharts\Exceptions\LabelNotFound;
 use Khill\Lavacharts\Exceptions\InvalidElementId;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Chart
 {
-    public $volcano  = null;
+    //public $volcano  = null;
+    public $dataTable  = null;
+
     public $type     = null;
     public $label    = null;
-/*
-    public $dataLabel  = null;
-    public $dataTable  = null;
-    public $data       = null;
-*/
     public $options    = null;
     public $defaults   = null;
     public $events     = null;
-    public $elementID  = null;
+    public $elementId  = null;
 
     /**
      * Builds a new chart with a label and access to the volcano storage
@@ -42,9 +42,9 @@ class Chart
      * @param Khill\Lavacharts\Volcano $volcano
      * @param string $label
      */
-    public function __construct(Volcano $volcano, $label)
+    public function __construct(/*Volcano $volcano, */$label)
     {
-        $this->volcano = $volcano;
+        //$this->volcano = $volcano;
 
         $typePieces = explode('\\', get_class($this));
 
@@ -52,6 +52,7 @@ class Chart
         $this->label = $label;
         $this->options    = array();
         $this->defaults   = array(
+            'dataTable',
             'backgroundColor',
             'chartArea',
             'colors',
@@ -137,42 +138,17 @@ class Chart
      * without calling this function, the chart will search for a DataTable with
      * the same label as the Chart.
      *
-     * @deprecated This is depreciated in favor of the Volcano class keeping
-     * track of the charts and datatables
-     * @param Khill\Lavachart\Configs\DataTable|string $dataTable
+     * @param Khill\Lavacharts\Configs\DataTable
      *
-     * @return Khill\Lavachart\Charts\Chart
+     * @return Khill\Lavacharts\Charts\Chart
      */
-/*
-    public function dataTable($data = null)
+
+    public function dataTable(DataTable $dataTable)
     {
-        switch(gettype($data))
-        {
-            case 'object':
-                if (get_class($data) == 'DataTable') {
-                    $this->data = $data;
-                    $this->dataTable = 'local';
-                } else {
-                    Lavacharts::_set_error(get_class($this), 'Invalid dataTable object, must be type (DataTable).');
-                }
-                break;
-
-            case 'string':
-                if ($data != '') {
-                    $this->dataTable = $data;
-                } else {
-                    Lavacharts::_set_error(get_class($this), 'Invalid dataTable label, must be type (string) non-empty.');
-                }
-                break;
-
-            default:
-                $this->dataTable = $this->label;
-                break;
-        }
+        $this->dataTable = $dataTable;
 
         return $this;
     }
-*/
 
     /**
      * Outputs the chart javascript into the page
@@ -182,26 +158,27 @@ class Chart
      * chart to assign a DataTable to use, it will automatically attempt to use
      * a DataTable with the same label as the chart.
      *
-     * @param string $elementID
+     * @param string $elementId The id of an HTML element to render the chart into.
      * @throws Khill\Lavacharts\Exceptions\LabelNotFound
-     * @throws Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws Khill\Lavacharts\Exceptions\InvalidElementId
      *
      * @return string Javscript code blocks
      */
-    public function outputInto($elementID = '')
+    public function outputInto($elementId = '')
     {
-        // /$this->dataTable = $this->volcano->getDataTable($this->label);
-
-        if (is_string($elementID) && ! empty($elementID)) {
-            $this->elementID = $elementID;
-        } else {
-            throw new InvalidElementId($elementID);
+        if (is_null($this->dataTable)) {
+            throw new DataTableNotFound($this->type, $this->label);
         }
 
-        $js = new JavascriptFactory($this->volcano, $this->label);
+        if (is_string($elementId) && ! empty($elementId)) {
+            $this->elementId = $elementId;
+        } else {
+            throw new InvalidElementId($elementId);
+        }
 
-        return $js->output();
+        $jsf = new JavascriptFactory($this);
+
+        return $jsf->buildOutput();
     }
 
     /**
