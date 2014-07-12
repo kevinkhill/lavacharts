@@ -15,28 +15,24 @@
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
-//use Khill\Lavacharts\Volcano;
 use Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Exceptions\DataTableNotFound;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+use Khill\Lavacharts\Exceptions\InvalidElementId;
 
 class JavascriptFactory
 {
     /**
      * @var Khill\Lavacharts\Charts\Chart Chart to used to generate output.
      */
-    private $chart = null;
+    private $chart;
 
     /**
-     * @var Khill\Lavacharts\Configs\DataTable Datatable to use for chart.
+     * @var string $elementId HTML element id to output the chart into.
      */
-    private $dataTable = null;
-
-    /**
-     * @var string Holds the javscript to be output into the browser.
-     */
-    private $output = null;
+    private $elementId;
 
     /**
      * @var string Opening javascript tag.
@@ -67,29 +63,17 @@ class JavascriptFactory
      * pulled from the callbacks folder.
      *
      * @access public
-     * @param  Khill\Lavacharts\Volcano $volcano
-     * @param  string $label Label of the chart and datatable to use.
+     * @param  Khill\Lavacharts\Charts\Chart $chart Chart object to render.
      * @return string Javascript code block.
      */
-    public function __construct(Chart $chart)//Volcano $volcano, $label)
+    public function __construct(Chart $chart, $elementId)
     {
-        $this->chart = $chart;//$volcano->getChart($label);
-        //$this->dataTable = $volcano->getDataTable($label);
-    }
+        if (isset($chart->dataTable)) {
+            $this->chart = $chart;
+        } else {
+            throw new DataTableNotFound($this->chart->type, $this->chart->label);
+        }
 
-    /**
-     * Builds the Javascript code block
-     *
-     * Build the script block for the chart. If there are any events defined,
-     * they will be automatically be attached to the chart and
-     * pulled from the callbacks folder.
-     *
-     * @access private
-     *
-     * @return string Javascript code block.
-     */
-    public function useElementId($elementId)
-    {
         if (is_string($elementId) && ! empty($elementId)) {
             $this->elementId = $elementId;
         } else {
@@ -104,7 +88,7 @@ class JavascriptFactory
      * they will be automatically be attached to the chart and
      * pulled from the callbacks folder.
      *
-     * @access private
+     * @access public
      *
      * @return string Javascript code block.
      */
@@ -146,14 +130,7 @@ class JavascriptFactory
 
         $out .= sprintf('var options = %s;', $this->chart->optionsToJSON()).PHP_EOL;
         $out .= sprintf('var chart = new google.visualization.%s', $this->chart->type);
-
-        if (isset($this->chart->elementId)) {
-            $htmlElementId = $this->chart->elementId;
-        } else {
-            $htmlElementId = $this->elementId;
-        }
-
-        $out .= sprintf("(document.getElementById('%s'));", $htmlElementId).PHP_EOL;
+        $out .= sprintf("(document.getElementById('%s'));", $this->elementId).PHP_EOL;
         $out .= 'chart.draw(data, options);'.PHP_EOL;
 /*
         if(is_array($this->chart->events) && count($this->chart->events) > 0)

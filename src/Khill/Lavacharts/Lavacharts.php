@@ -38,16 +38,6 @@ class Lavacharts
     protected $rootSpace = 'Khill\\Lavacharts\\';
 
     /**
-     * @var boolean Status of chart generation errors.
-     */
-    protected $hasError = false;
-
-    /**
-     * @var array Array containing the list of errors.
-     */
-    protected $errorLog = array();
-
-    /**
      * @var array Types of charts that can be created.
      */
     protected $chartClasses = array(
@@ -90,13 +80,11 @@ class Lavacharts
      * @var array Acceptable global configuration options.
      */
     protected $validGlobals = array(
-        'errorWrap',
-        'errorClass',
         'textStyle'
     );
 
     /**
-     * Starts up the Lavachart master object.
+     * Creates Volcano object for chart storage.
      */
     public function __construct()
     {
@@ -119,11 +107,6 @@ class Lavacharts
     {
         if ($member == 'DataTable') {
             return new DataTable();
-            /*if (isset($arguments[0]) && is_string($arguments[0])) {
-                return $this->dataTableFactory($arguments[0]);
-            } else {
-                throw new InvalidLabel($arguments[0]);
-            }*/
         } elseif (in_array($member, $this->chartClasses)) {
             if (isset($arguments[0]) && is_string($arguments[0])) {
                 return $this->chartFactory($member, $arguments[0]);
@@ -156,35 +139,9 @@ class Lavacharts
     {
         $chart = $this->volcano->getChart($chartType, $chartLabel);
 
-        $jsf = new JavascriptFactory($chart);
-        $jsf->useElementId($elementId);
+        $jsf = new JavascriptFactory($chart, $elementId);
 
         return $jsf->buildOutput();
-    }
-
-    /**
-     * Creates and stores DataTables
-     *
-     * If there is no label, then the DataTable is just returned.
-     * If there is a label, the DataTable is stored within the Volcano,
-     * accessable via a call to the type of object, with the label
-     * as the paramater.
-     *
-     * @access private
-     * @deprecated deprecated in version 1.0
-     * @param  string $label Label applied to the datatable.
-     *
-     * @return Khill\Lavachart\DataTable
-     */
-    private function dataTableFactory($label)
-    {
-        try {
-            return $this->volcano->getDataTable($label);
-        } catch (LabelNotFound $e) {
-            $this->volcano->storeDataTable(new DataTable(), $label);
-
-            return $this->volcano->getDataTable($label);
-        }
     }
 
     /**

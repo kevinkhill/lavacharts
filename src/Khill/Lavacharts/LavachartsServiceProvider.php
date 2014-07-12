@@ -5,7 +5,6 @@ use Illuminate\Foundation\AliasLoader;
 
 class LavachartsServiceProvider extends ServiceProvider
 {
-
     protected $defer = false;
 
     public function boot()
@@ -13,6 +12,7 @@ class LavachartsServiceProvider extends ServiceProvider
         $this->package('khill/lavacharts');
 
         include __DIR__.'/../../routes.php';
+        include __DIR__.'/../../blade.ext.php';
     }
 
     public function register()

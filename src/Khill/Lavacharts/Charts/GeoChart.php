@@ -16,17 +16,16 @@
  * @copyright (c) 2014, KHill Designs
  * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
  * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://www.gnu.org/licenses/gpl.html GPL-V3
+ * @license   http://www.gnu.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Volcano;
 use Khill\Lavacharts\Charts\Chart;
 
 class GeoChart extends Chart
 {
-    public function __construct(Volcano $volcano, $chartLabel)
+    public function __construct($chartLabel)
     {
-        parent::__construct($volcano, $chartLabel);
+        parent::__construct($chartLabel);
 
         $this->defaults = array_merge(
             $this->defaults,

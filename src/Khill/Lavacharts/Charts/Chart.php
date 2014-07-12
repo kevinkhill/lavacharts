@@ -12,47 +12,39 @@
  * @copyright (c) 2014, KHill Designs
  * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
  * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://www.gnu.org/licenses/gpl.html GPL-V3
+ * @license   http://www.gnu.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Volcano;
 use Khill\Lavacharts\Configs\DataTable;
 use Khill\Lavacharts\JavascriptFactory;
 use Khill\Lavacharts\Helpers\Helpers;
-use Khill\Lavacharts\Exceptions\DataTableNotFound;
 use Khill\Lavacharts\Exceptions\LabelNotFound;
 use Khill\Lavacharts\Exceptions\InvalidElementId;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Chart
 {
-    //public $volcano  = null;
+    public $type       = null;
+    public $label      = null;
     public $dataTable  = null;
-
-    public $type     = null;
-    public $label    = null;
-    public $options    = null;
-    public $defaults   = null;
     public $events     = null;
-    public $elementId  = null;
+    public $defaults   = null;
+    public $options    = array();
 
     /**
      * Builds a new chart with a label and access to the volcano storage
      *
-     * @param Khill\Lavacharts\Volcano $volcano
      * @param string $label
      */
-    public function __construct(/*Volcano $volcano, */$label)
+    public function __construct($label)
     {
-        //$this->volcano = $volcano;
-
         $typePieces = explode('\\', get_class($this));
 
         $this->type  = $typePieces[count($typePieces) - 1];
         $this->label = $label;
-        $this->options    = array();
-        $this->defaults   = array(
+        $this->defaults = array(
             'dataTable',
+
             'backgroundColor',
             'chartArea',
             'colors',
@@ -154,29 +146,16 @@ class Chart
      * Outputs the chart javascript into the page
      *
      * Pass in a string of the html elementID that you want the chart to be
-     * rendered into. Plus, if the dataTable function was never called on the
-     * chart to assign a DataTable to use, it will automatically attempt to use
-     * a DataTable with the same label as the chart.
+     * rendered into.
      *
      * @param string $elementId The id of an HTML element to render the chart into.
-     * @throws Khill\Lavacharts\Exceptions\LabelNotFound
      * @throws Khill\Lavacharts\Exceptions\InvalidElementId
      *
      * @return string Javscript code blocks
      */
-    public function outputInto($elementId = '')
+    public function outputInto($elementId)
     {
-        if (is_null($this->dataTable)) {
-            throw new DataTableNotFound($this->type, $this->label);
-        }
-
-        if (is_string($elementId) && ! empty($elementId)) {
-            $this->elementId = $elementId;
-        } else {
-            throw new InvalidElementId($elementId);
-        }
-
-        $jsf = new JavascriptFactory($this);
+        $jsf = new JavascriptFactory($this, $elementId);
 
         return $jsf->buildOutput();
     }

@@ -13,10 +13,9 @@
  * @copyright (c) 2014, KHill Designs
  * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
  * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://www.gnu.org/licenses/gpl.html GPL-V3
+ * @license   http://www.gnu.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Volcano;
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Configs\HorizontalAxis;
 use Khill\Lavacharts\Configs\VerticalAxis;
@@ -31,7 +30,7 @@ class LineChart extends Chart
         $this->defaults = array_merge(
             $this->defaults,
             array(
-            //                'animation',
+            //    'animation',
                 'axisTitlesPosition',
                 'curveType',
                 'hAxis',
@@ -39,7 +38,7 @@ class LineChart extends Chart
                 'interpolateNulls',
                 'lineWidth',
                 'pointSize',
-            //                'vAxes',
+            //    'vAxes',
                 'vAxis'
             )
         );
