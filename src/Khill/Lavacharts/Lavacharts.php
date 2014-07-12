@@ -159,18 +159,14 @@ class Lavacharts
      *
      * @return Khill\Lavachart\DataTable
      */
-    private function dataTableFactory($label = '')
+    private function dataTableFactory($label)
     {
-        if (empty($label)) {
-            return new DataTable();
-        } else {
-            try {
-                return $this->volcano->getDataTable($label);
-            } catch (LabelNotFound $e) {
-                $this->volcano->storeDataTable(new DataTable(), $label);
+        try {
+            return $this->volcano->getDataTable($label);
+        } catch (LabelNotFound $e) {
+            $this->volcano->storeDataTable(new DataTable(), $label);
 
-                return $this->volcano->getDataTable($label);
-            }
+            return $this->volcano->getDataTable($label);
         }
     }
 
@@ -188,17 +184,18 @@ class Lavacharts
      *
      * @return Khill\Lavachart\Chart
      */
-    private function chartFactory($type, $label = '')
+    private function chartFactory($type, $label)
     {
         $chartObj = $this->rootSpace . 'Charts\\' . $type;
 
         if (class_exists($chartObj)) {
             try {
-                return $this->volcano->getChart($label);
-            } catch (LabelNotFound $e) {
-                $this->volcano->storeChart(new $chartObj($this->volcano, $label), $label);
+                return $this->volcano->getChart($type, $label);
+            } catch (ChartNotFound $e) {
+                $this->volcano->storeChart(new $chartObj($this->volcano, $label));
 
-                return $this->volcano->getChart($label);
+        var_dump($this->volcano);
+                return $this->volcano->getChart($type, $label);
             }
         } else {
             throw new InvalidLavaObject($type);

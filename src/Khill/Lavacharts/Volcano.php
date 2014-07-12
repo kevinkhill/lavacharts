@@ -18,6 +18,7 @@ use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Configs\DataTable;
 use Khill\Lavacharts\Exceptions\InvalidLabel;
 use Khill\Lavacharts\Exceptions\LabelNotFound;
+use Khill\Lavacharts\Exceptions\ChartNotFound;
 
 class Volcano
 {
@@ -95,13 +96,14 @@ class Volcano
      *
      * @throws Khill\Lavacharts\Exceptions\InvalidLabel
      */
-    public function storeChart(Chart $chart, $label)
+    public function storeChart(Chart $chart)
     {
-        if (is_string($label)) {
-            $this->charts[$label] = $chart;
-        } else {
-            throw new InvalidLabel($label);
+        if (array_key_exists($chart->type, $this->charts) && array_key_exists($chart->label, $this->charts[$chart->type])) {
+            //trigger_error("Warning, a chart with the label $chart->label already exists, overwriting", E_USER_ERROR);
+            throw new Exception("Error Processing Request", 1);
         }
+
+        $this->charts[$chart->type][$chart->label] = $chart;
     }
 
     /**
@@ -113,12 +115,12 @@ class Volcano
      *
      * @return Khill\Lavacharts\Charts\Chart
      */
-    public function getChart($label)
+    public function getChart($type, $label)
     {
-        if ($this->checkChart($label)) {
-            return $this->charts[$label];
+        if ($this->checkChart($type, $label)) {
+            return $this->charts[$type][$label];
         } else {
-            throw new LabelNotFound($label);
+            throw new ChartNotFound($type, $label);
         }
     }
 
@@ -130,16 +132,16 @@ class Volcano
      *
      * @return bool
      */
-    public function checkChart($label)
+    public function checkChart($type, $label)
     {
-        if (is_string($label)) {
-            if (array_key_exists($label, $this->charts)) {
+        if (array_key_exists($type, $this->charts)) {
+             if (array_key_exists($label, $this->charts[$type])) {
                 return true;
             } else {
                 return false;
             }
         } else {
-            throw new InvalidLabel($label);
+            return false;
         }
     }
 }
