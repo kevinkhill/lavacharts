@@ -40,9 +40,9 @@ Route::get('/line/basic', function()
     for($a = 1; $a < 30; $a++)
     {
         $data = array(
-            Lava::jsDate(2011, 5, $a), //Date
-            rand(9500,10000),             //Line 1's data
-            rand(9500,10000)              //Line 2's data
+            Lava::jsDate(2011, 5, $a), // Date
+            rand(9500,10000),          // Line 1's data
+            rand(9500,10000)           // Line 2's data
         );
 
         $stocksTable->addRow($data);
