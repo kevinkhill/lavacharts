@@ -2,6 +2,7 @@ LavaCharts [![Build Status](https://travis-ci.org/kevinkhill/LavaCharts.png?bran
 ==========
 
 LavaCharts is a package for Composer that wraps the Google Chart API for PHP5.3+
+
 Aimed at Laravel 4, but will work with any PHP project.
 
 
