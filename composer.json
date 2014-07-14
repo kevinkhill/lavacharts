@@ -3,7 +3,7 @@
     "description": "PHP wrapper library for the Google Chart API",
     "keywords": ["composer", "packagist", "google", "charts", "graphs"],
     "version": "2.0.0-alpha1",
-    "homepage": "https://github.com/example/example",
+    "homepage": "http://kevinkhill.github.io/LavaCharts",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -18,7 +18,7 @@
         "nesbot/Carbon": "1.9.*"
     },
     "require-dev": {
-    	"phpunit/phpunit": "4.1.*",
+        "phpunit/phpunit": "4.1.*",
         "mockery/mockery": "dev-master",
         "squizlabs/php_codesniffer": "1.*",
         "satooshi/php-coveralls": "dev-master",

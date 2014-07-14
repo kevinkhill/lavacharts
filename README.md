@@ -7,7 +7,7 @@ Branches
 ========
  - Master: [![Build Status](https://travis-ci.org/kevinkhill/LavaCharts.png?branch=master)](https://travis-ci.org/kevinkhill/LavaCharts)
 
- - Dev: [![Build Status](https://travis-ci.org/kevinkhill/LavaCharts.png?branch=dev)](https://travis-ci.org/kevinkhill/LavaCharts) 
+ - Dev: [![Build Status](https://travis-ci.org/kevinkhill/LavaCharts.png?branch=dev)](https://travis-ci.org/kevinkhill/LavaCharts)
 
  - Tests: [![Coverage Status](https://coveralls.io/repos/kevinkhill/LavaCharts/badge.png?branch=dev)](https://coveralls.io/r/kevinkhill/LavaCharts?branch=dev)
 
@@ -18,7 +18,7 @@ Installing
 In your project's main ```composer.json``` file, add this line to the requirements:
 
   ```
-  "khill/lavacharts" : "0.1.*"
+  "khill/lavacharts" : "2.0.*"
   ```
 
 Run Composer to install LavaCharts:

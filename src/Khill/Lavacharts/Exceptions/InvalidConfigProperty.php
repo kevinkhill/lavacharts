@@ -17,9 +17,4 @@ class InvalidConfigProperty extends \Exception
 
         parent::__construct($message, $code);
     }
-
-    public function __toString()
-    {
-        return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
-    }
 }

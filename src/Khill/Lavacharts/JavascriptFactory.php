@@ -17,9 +17,6 @@
 
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Exceptions\DataTableNotFound;
-use Khill\Lavacharts\Exceptions\InvalidLavaObject;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 use Khill\Lavacharts\Exceptions\InvalidElementId;
 
 class JavascriptFactory
@@ -27,12 +24,12 @@ class JavascriptFactory
     /**
      * @var Khill\Lavacharts\Charts\Chart Chart to used to generate output.
      */
-    private $chart;
+    private $chart = null;
 
     /**
      * @var string $elementId HTML element id to output the chart into.
      */
-    private $elementId;
+    private $elementId = null;
 
     /**
      * @var string Opening javascript tag.
@@ -63,7 +60,12 @@ class JavascriptFactory
      * pulled from the callbacks folder.
      *
      * @access public
+     *
      * @param  Khill\Lavacharts\Charts\Chart $chart Chart object to render.
+     * @param  string $elementId HTML element id to output the chart into.
+     * @throws Khill\Lavacharts\Exceptions\DataTableNotFound
+     * @throws Khill\Lavacharts\Exceptions\InvalidElementId
+     *
      * @return string Javascript code block.
      */
     public function __construct(Chart $chart, $elementId)
@@ -71,7 +73,7 @@ class JavascriptFactory
         if (isset($chart->dataTable)) {
             $this->chart = $chart;
         } else {
-            throw new DataTableNotFound($this->chart->type, $this->chart->label);
+            throw new DataTableNotFound($chart);
         }
 
         if (is_string($elementId) && ! empty($elementId)) {

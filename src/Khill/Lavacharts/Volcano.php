@@ -29,19 +29,16 @@ class Volcano
     /**
      * Stores a chart in the volcano datastore.
      *
-     * @param  Khill\Lavacharts\Charts\Chart $chart
+     * @param  Khill\Lavacharts\Charts\Chart $chart Chart to store in the volcano.
      * @param  string $label Identifying label for the chart.
      *
      * @throws Khill\Lavacharts\Exceptions\InvalidLabel
      */
     public function storeChart(Chart $chart)
-    {//@TODO
-        if (array_key_exists($chart->type, $this->charts) && array_key_exists($chart->label, $this->charts[$chart->type])) {
-            //trigger_error("Warning, a chart with the label $chart->label already exists, overwriting", E_USER_ERROR);
-            throw new Exception("Error Processing Request", 1);
-        }
-
+    {
         $this->charts[$chart->type][$chart->label] = $chart;
+
+        return true;
     }
 
     /**
@@ -65,7 +62,6 @@ class Volcano
      * Simple true/false test if a chart exists.
      *
      * @param  string $label Identifying label of a chart to check.
-     * @throws Khill\Lavacharts\Exceptions\InvalidLabel
      *
      * @return bool
      */
