@@ -105,7 +105,19 @@ class Lavacharts
      */
     public function __call($member, $arguments)
     {
-        if ($member == 'DataTable') {
+        if ($this->strStartsWith($member, 'render')) {
+            $chartType = str_replace('render', '', $member);
+
+            switch ($chartType) {
+                case 'LineChart':
+                    return $this->render('LineChart', $arguments[0], $arguments[1]);
+                    break;
+
+                default:
+                    throw new InvalidLavaObject($chartType);
+                    break;
+            }
+        } elseif ($member == 'DataTable') {
             return new DataTable();
         } elseif (in_array($member, $this->chartClasses)) {
             if (isset($arguments[0]) && is_string($arguments[0])) {
@@ -307,5 +319,13 @@ class Lavacharts
         } else {
             throw new InvalidElementId($elementId);
         }
+    }
+
+    /**
+     * Simple string starts with function
+     */
+    private function strStartsWith($haystack, $needle)
+    {
+        return $needle === "" || strpos($haystack, $needle) === 0;
     }
 }

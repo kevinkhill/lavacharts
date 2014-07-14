@@ -118,6 +118,10 @@ class JavascriptFactory
                 break;
         }
 
+        //Checking if output div exists
+        $out .= sprintf("if (!document.getElementById('%s'))", $this->elementId);
+        $out .= sprintf("{console.error('[Lavacharts] No matching element was found with ID \"%s\"');}", $this->elementId).PHP_EOL;
+
         $out .= sprintf("google.load('visualization', '1', {'packages':['%s']});", $vizType).PHP_EOL;
         $out .= 'google.setOnLoadCallback(drawChart);'.PHP_EOL;
         $out .= 'function drawChart() {'.PHP_EOL;
