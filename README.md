@@ -9,7 +9,7 @@ Aimed at Laravel 4, but will work with any PHP project.
 In your project's main ```composer.json``` file, add this line to the requirements:
 
   ```
-  "khill/lavacharts" : "1.0.0"
+  "khill/lavacharts" : "1.0.x"
   ```
 
 Run Composer to install LavaCharts:
