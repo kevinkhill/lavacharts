@@ -37,12 +37,6 @@ If you want to view the demos, publish the assets with:
   php artisan asset:publish khill/lavacharts
   ```
 
-If you want to overide the default config of the package, run:
-
-  ```
-  php artisan config:publish khill/lavacharts
-  ```
-
 
 ##Like My Work?
 Feel like buying me a coffee? [Any amount donated to is greatly apprecieated :)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ)
