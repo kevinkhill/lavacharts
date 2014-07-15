@@ -2,14 +2,13 @@
 
 class InvalidConfigValue extends \Exception
 {
-    public function __construct($class, $function, $requiredType, $extra = '', $code = 0)
+    public function __construct($function, $requiredType, $extra = '', $code = 0)
     {
-        $message  = 'The value for ' . $class . '->' . $function . ' ';
-        $message .= 'must be of type (' . $requiredType .')';
+        $message  = "The value for $function must be of type '$requiredType'";
 
-    	   if ($extra !== '') {
+        if ($extra !== '') {
             $message .= ' ' . $extra;
-    	   }
+        }
 
         parent::__construct($message, $code);
     }

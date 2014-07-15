@@ -30,17 +30,12 @@ class Lavacharts
     /**
      * @var array Lavachart configuration options.
      */
-    protected $config = array();
-
-    /**
-     * @var string Lavacharts root namespace
-     */
-    private $rootSpace = 'Khill\\Lavacharts\\';
+    public $config = array();
 
     /**
      * @var array Types of charts that can be created.
      */
-    protected $chartClasses = array(
+    private $chartClasses = array(
         'DataTable',
         'LineChart',
         'AreaChart',
@@ -54,7 +49,7 @@ class Lavacharts
     /**
      * @var array Holds all of the defined configuration class names.
      */
-    protected $configClasses = array(
+    private $configClasses = array(
         'ConfigOptions',
         'Annotation',
         'Axis',
@@ -79,7 +74,7 @@ class Lavacharts
     /**
      * @var array Acceptable global configuration options.
      */
-    protected $validGlobals = array(
+    private $globalConfigs = array(
         'textStyle'
     );
 
@@ -120,7 +115,7 @@ class Lavacharts
         } elseif ($member == 'DataTable') {
             return new DataTable();
         } elseif (in_array($member, $this->chartClasses)) {
-            if (isset($arguments[0])) { 
+            if (isset($arguments[0])) {
                 if(is_string($arguments[0])) {
                     return $this->chartFactory($member, $arguments[0]);
                 } else {
@@ -130,7 +125,7 @@ class Lavacharts
                 throw new InvalidChartLabel();
             }
         } elseif (in_array($member, $this->configClasses)) {
-            if (isset($arguments[0]) && is_string($arguments[0])) {
+            if (isset($arguments[0]) && is_array($arguments[0])) {
                 return $this->configFactory($member, $arguments[0]);
             } else {
                 return $this->configFactory($member);
@@ -161,85 +156,6 @@ class Lavacharts
     }
 
     /**
-     * Creates and stores Charts
-     *
-     * If there is no label, then the Chart is just returned.
-     * If there is a label, the Chart is stored within the Volcano,
-     * accessable via a call to the type of object, with the label
-     * as the paramater.
-     *
-     * @access private
-     *
-     * @param  string $label Label applied to the chart.
-     *
-     * @return Khill\Lavachart\Chart
-     */
-    private function chartFactory($type, $label)
-    {
-        $chartObj = $this->rootSpace . 'Charts\\' . $type;
-
-        if (class_exists($chartObj)) {
-            if ($this->volcano->checkChart($type, $label)) {
-                $chart = $this->volcano->getChart($type, $label);
-            } else {
-                //$chart = new $chartObj($this->volcano, $label);
-                $chart = new $chartObj($label);
-
-                $this->volcano->storeChart($chart);
-            }
-
-            return $chart;
-        } else {
-            throw new InvalidLavaObject($type);
-        }
-    }
-
-    /**
-     * Creates ConfigObjects
-     *
-     * @access private
-     *
-     * @param  string $type Type of configObject to create.
-     * @param  array $options Array of options to pass to the config object.
-     *
-     * @return Khill\Lavachart\Configs\ConfigObject
-     */
-    private function configFactory($type, $options = array())
-    {
-        $configObj = $this->rootSpace . 'Configs\\' . $type;
-
-        if (class_exists($configObj)) {
-            return new $configObj($options);
-        } else {
-            throw new InvalidLavaObject($type);
-        }
-    }
-
-    /**
-     * Creates configuration objects to save a step instansiating and allow for
-     * chaining directly from creation.
-     *
-     * @access private
-     *
-     * @param  string $configObject
-     * @param  array $options
-     *
-     * @return Khill\Lavacharts\Configs\ConfigOptions configuration object
-     */
-    private function configObjectFactory($configObject, $options)
-    {
-        if ($configObject == 'JsDate') {
-            $jsDate = new JsDate();
-
-            return $jsDate->parse($options);
-        } else {
-            $class = $this->rootSpace.'Configs\\'.$configObject;
-
-            return empty($options[0]) ? new $class() : new $class($options[0]);
-        }
-    }
-
-    /**
      * Sets global configuration options for the whole Lavachart library.
      *
      * Accepted config options include:
@@ -267,7 +183,6 @@ class Lavacharts
             }
         } else {
             throw new InvalidConfigValue(
-                get_class(),
                 __METHOD__,
                 'array'
             );
@@ -313,7 +228,6 @@ class Lavacharts
                         );
                 } else {
                     throw new InvalidConfigValue(
-                        get_class(),
                         __METHOD__,
                         'int',
                         'greater than 0'
@@ -322,6 +236,60 @@ class Lavacharts
             }
         } else {
             throw new InvalidElementId($elementId);
+        }
+    }
+
+    /**
+     * Creates and stores Charts
+     *
+     * If there is no label, then the Chart is just returned.
+     * If there is a label, the Chart is stored within the Volcano,
+     * accessable via a call to the type of object, with the label
+     * as the paramater.
+     *
+     * @access private
+     *
+     * @param  string $label Label applied to the chart.
+     *
+     * @return Khill\Lavachart\Chart
+     */
+    private function chartFactory($type, $label)
+    {
+        $chartObj = __NAMESPACE__ . '\\Charts\\' . $type;
+
+        if (class_exists($chartObj)) {
+            if ($this->volcano->checkChart($type, $label)) {
+                $chart = $this->volcano->getChart($type, $label);
+            } else {
+                $chart = new $chartObj($label);
+
+                $this->volcano->storeChart($chart);
+            }
+
+            return $chart;
+        } else {
+            throw new InvalidLavaObject($type);
+        }
+    }
+
+    /**
+     * Creates ConfigObjects
+     *
+     * @access private
+     *
+     * @param  string $type Type of configObject to create.
+     * @param  array $options Array of options to pass to the config object.
+     *
+     * @return Khill\Lavachart\Configs\ConfigObject
+     */
+    private function configFactory($type, $options = array())
+    {
+        $configObject = __NAMESPACE__ . '\\Configs\\' . $type;
+
+        if (class_exists($configObject)) {
+            return isset($options[0]) ? new $configObject($options[0]) : new $configObject();
+        } else {
+            throw new InvalidLavaObject($type);
         }
     }
 

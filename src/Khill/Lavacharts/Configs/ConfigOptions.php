@@ -23,6 +23,11 @@ use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 class ConfigOptions
 {
     /**
+     * @var string Class name without namespace.
+     */
+    protected $className;
+
+    /**
      * @var string Output of the configOptions object.
      */
     protected $output = null;
@@ -31,11 +36,6 @@ class ConfigOptions
      * @var array Allowed keys for the configOptions child objects.
      */
     protected $options = null;
-
-    /**
-     * @var string Class name without namespace.
-     */
-    protected $className;
 
     /**
      * Builds the ConfigOptions object.
@@ -51,7 +51,6 @@ class ConfigOptions
      */
     public function __construct($config)
     {
-
         $namespacePieces = explode('\\', get_class());
         $this->className = $namespacePieces[count($namespacePieces) - 1];
 
@@ -70,7 +69,6 @@ class ConfigOptions
             }
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'array',
                 'with valid keys as '.Helpers::arrayToPipedString($this->options)

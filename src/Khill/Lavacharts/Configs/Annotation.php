@@ -69,7 +69,6 @@ class Annotation extends ConfigOptions
             $this->highContrast = $highContrast;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'boolean'
             );

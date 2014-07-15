@@ -91,7 +91,6 @@ class Legend extends ConfigOptions
             $this->position = $position;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'string',
                 'with a value of '.Helpers::arrayToPipedString($values)
@@ -132,7 +131,6 @@ class Legend extends ConfigOptions
             $this->alignment = $alignment;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'string',
                 'with a value of '.Helpers::arrayToPipedString($values)

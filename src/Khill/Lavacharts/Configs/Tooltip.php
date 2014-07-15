@@ -72,7 +72,6 @@ class Tooltip extends ConfigOptions
             $this->showColorCode = $showColorCode;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'bool'
             );
@@ -118,7 +117,6 @@ class Tooltip extends ConfigOptions
             $this->trigger = $trigger;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'string',
                 'with a value of '.Helpers::arrayToPipedString($values)

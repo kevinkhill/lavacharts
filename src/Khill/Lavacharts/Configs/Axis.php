@@ -186,7 +186,7 @@ class Axis extends ConfigOptions
      *
      * @return Khill\Lavacharts\Configs\Axis
      */
-    public function baseline($baseline)
+    public function baseline($baseline) //@TODO convert to carbon
     {
         if (Helpers::is_jsDate($baseline)) {
             $this->baseline = $baseline->toString();
@@ -195,7 +195,6 @@ class Axis extends ConfigOptions
                 $this->baseline = $baseline;
             } else {
                 throw new InvalidConfigValue(
-                    $this->className,
                     __FUNCTION__,
                     'int | jsDate',
                     'int if column is "number", jsDate if column is "date"'
@@ -362,7 +361,6 @@ class Axis extends ConfigOptions
                 $tmp['count'] = $minorGridlines['count'];
             } else {
                 throw new InvalidConfigValue(
-                    $this->className,
                     __FUNCTION__.'[count]', 'int', '>= 2 or -1 for auto');
             }
 
@@ -564,7 +562,6 @@ class Axis extends ConfigOptions
                 $this->minTextSpacing = $this->textStyle['fontSize'];
             } else {
                 throw new InvalidConfigValue(
-                    $this->className,
                     __FUNCTION__,
                     'int'
                 );

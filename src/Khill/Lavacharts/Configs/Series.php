@@ -86,7 +86,10 @@ class Series extends ConfigOptions
         if (Helpers::isAnnotation($annotation)) {
             $this->annotation = $annotation;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'annotation');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'annotation'
+            );
         }
 
         return $this;
@@ -116,7 +119,6 @@ class Series extends ConfigOptions
             $this->curveType = $curveType;
         } else {
             throw new InvalidConfigValue(
-                $this->chartType,
                 __FUNCTION__,
                 'string',
                 'with a value of '.Helpers::arrayToPipedString($values)
@@ -147,7 +149,10 @@ class Series extends ConfigOptions
         if (is_int($index)) {
             $this->targetAxisIndex = $index;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'index');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'index'
+            );
         }
 
         return $this;
@@ -177,7 +182,6 @@ class Series extends ConfigOptions
             $this->type = $type;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'string',
                 'with a value of '.Helpers::arrayToPipedString($values)

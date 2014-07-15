@@ -78,7 +78,10 @@ class ColorAxis extends ConfigOptions
         if (is_numeric($minValue)) {
             $this->minValue = $minValue;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'numeric');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'numeric'
+            );
         }
 
         return $this;
@@ -99,7 +102,10 @@ class ColorAxis extends ConfigOptions
         if (is_numeric($maxValue)) {
             $this->maxValue = $maxValue;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'numeric');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'numeric'
+            );
         }
 
         return $this;
@@ -125,7 +131,6 @@ class ColorAxis extends ConfigOptions
             $this->values = $values;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'array',
                 'with values as [ int | float ]'
@@ -153,7 +158,11 @@ class ColorAxis extends ConfigOptions
         if (is_array($colors) && Helpers::arrayValuesCheck($colors, 'string')) {
             $this->colors = $colors;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'array', 'with values as strings');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'array',
+                'with values as strings'
+            );
         }
         return $this;
     }

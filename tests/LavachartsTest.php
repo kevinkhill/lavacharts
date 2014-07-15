@@ -16,7 +16,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Khill\Lavacharts\Lavacharts', $lc);
         $this->assertInstanceOf('Khill\Lavacharts\Volcano', $lc->volcano);
     }
-    
+
     public function testCreateDataTable()
     {
         $lc = new Lavacharts;
@@ -35,19 +35,23 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\DataTableNotFound
+     * @dataProvider configObjectProvider
      */
-    public function testJavascriptFactoryChartMissingDataTable()
+    public function testCreateConfigObjects($configType)
     {
-        //
+        $lc = new Lavacharts;
+
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\\'.$configType, $lc->$configType());
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidElementId
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidLavaObject
      */
-    public function testJavascriptFactoryInvalidElementId()
+    public function testLavachartsInvalidLavaObject()
     {
-        //
+        $lc = new Lavacharts;
+
+        $lc->LaserChart();
     }
 
     public function chartTypeProvider()
@@ -60,6 +64,29 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
             array('ColumnChart'),
             array('GeoChart'),
             array('ComboChart')
+        );
+    }
+
+    public function configObjectProvider()
+    {
+        return array(
+            array('Annotation'),
+            array('Axis'),
+            array('BoxStyle'),
+            array('BackgroundColor'),
+            array('ChartArea'),
+            array('ColorAxis'),
+            array('HorizontalAxis'),
+            array('JsDate'),
+            array('Gradient'),
+            array('Legend'),
+            array('MagnifyingGlass'),
+            array('TextStyle'),
+            array('Tooltip'),
+            array('Series'),
+            array('SizeAxis'),
+            array('Slice'),
+            array('VerticalAxis')
         );
     }
 

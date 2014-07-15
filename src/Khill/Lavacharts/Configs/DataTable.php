@@ -450,7 +450,7 @@ class DataTable
      *
      * @param string $msg error message.
      */
-    private function error($msg)
+    private function error($msg)//@TODO get rid of this method for exceptions
     {
         Lavacharts::_set_error(get_class($this), $msg);
     }

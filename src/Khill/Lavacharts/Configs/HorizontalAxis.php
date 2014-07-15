@@ -105,7 +105,6 @@ class HorizontalAxis extends Axis
             $this->allowContainerBoundaryTextCutoff = $cutoff;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'boolean'
             );
@@ -135,7 +134,6 @@ class HorizontalAxis extends Axis
             $this->slantedText = $slant;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'boolean',
                 'and textPosition must be "out"'
@@ -162,7 +160,6 @@ class HorizontalAxis extends Axis
             $this->slantedTextAngle = $angle;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'int',
                 'between 1 - 90'
@@ -193,7 +190,6 @@ class HorizontalAxis extends Axis
             $this->maxAlternation = $alternation;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'int'
             );
@@ -220,7 +216,6 @@ class HorizontalAxis extends Axis
             $this->maxTextLines = $maxTextLines;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'int'
             );
@@ -282,7 +277,6 @@ class HorizontalAxis extends Axis
             $this->showTextEvery = $showTextEvery;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'int'
             );

@@ -78,7 +78,10 @@ class SizeAxis extends ConfigOptions
         if (is_numeric($maxSize)) {
             $this->maxSize = $maxSize;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int | float');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'int | float'
+            );
         }
 
         return $this;
@@ -97,7 +100,10 @@ class SizeAxis extends ConfigOptions
         if (is_numeric($maxValue)) {
             $this->maxValue = $maxValue;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int | float');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'int | float'
+            );
         }
 
         return $this;
@@ -115,7 +121,10 @@ class SizeAxis extends ConfigOptions
         if (is_numeric($minSize)) {
             $this->minSize = $minSize;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int | float');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'int | float'
+            );
         }
 
         return $this;
@@ -134,7 +143,10 @@ class SizeAxis extends ConfigOptions
         if (is_numeric($minValue)) {
             $this->minValue = $minValue;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int | float');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'int | float'
+            );
         }
 
         return $this;

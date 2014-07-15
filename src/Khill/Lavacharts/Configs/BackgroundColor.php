@@ -77,7 +77,10 @@ class BackgroundColor extends ConfigOptions
         if (is_string($stroke)) {
             $this->stroke = $stroke;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'string'
+            );
         }
 
         return $this;
@@ -95,7 +98,10 @@ class BackgroundColor extends ConfigOptions
         if (is_int($strokeWidth)) {
             $this->strokeWidth = $strokeWidth;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'int'
+            );
         }
 
         return $this;
@@ -113,7 +119,10 @@ class BackgroundColor extends ConfigOptions
         if (is_string($fill)) {
             $this->fill = $fill;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'string'
+            );
         }
 
         return $this;

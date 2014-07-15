@@ -75,7 +75,6 @@ class ChartArea extends ConfigOptions
             $this->left = $left;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'int | string',
                 'representing pixels or a percent.'
@@ -99,7 +98,6 @@ class ChartArea extends ConfigOptions
             $this->top = $top;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'int | string',
                 'representing pixels or a percent.'
@@ -123,7 +121,6 @@ class ChartArea extends ConfigOptions
             $this->width = $width;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'int | string',
                 'representing pixels or a percent.'
@@ -147,7 +144,6 @@ class ChartArea extends ConfigOptions
             $this->height = $height;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'int | string',
                 'representing pixels or a percent.'

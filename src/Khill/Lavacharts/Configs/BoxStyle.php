@@ -89,7 +89,6 @@ class BoxStyle extends ConfigOptions
             $this->stroke = $stroke;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'string'
             );
@@ -111,7 +110,6 @@ class BoxStyle extends ConfigOptions
             $this->strokeWidth = (int) $strokeWidth;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'numeric'
             );
@@ -133,7 +131,6 @@ class BoxStyle extends ConfigOptions
             $this->rx = (int) $rx;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'numeric'
             );
@@ -155,7 +152,6 @@ class BoxStyle extends ConfigOptions
             $this->ry = (int) $ry;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'string'
             );

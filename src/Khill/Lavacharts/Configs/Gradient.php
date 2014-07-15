@@ -92,10 +92,12 @@ class Gradient extends ConfigOptions
         parent::__construct($config);
     }
 
+/*
     public function expose()
     {
         return array_keys(get_class_vars($this->className));
     }
+*/
 
     /**
      * If present, specifies the start color for the gradient.
@@ -110,7 +112,10 @@ class Gradient extends ConfigOptions
         if (is_string($color1)) {
             $this->color1 = $color1;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'string'
+            );
         }
 
         return $this;
@@ -129,7 +134,10 @@ class Gradient extends ConfigOptions
         if (is_string($color2)) {
             $this->color2 = $color2;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'string'
+            );
         }
 
         return $this;
@@ -147,7 +155,10 @@ class Gradient extends ConfigOptions
         if (is_string($x1)) {
             $this->x1 = $x1;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'string'
+            );
         }
 
         return $this;
@@ -165,7 +176,10 @@ class Gradient extends ConfigOptions
         if (is_string($y1)) {
             $this->y1 = $y1;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'string'
+            );
         }
 
         return $this;
@@ -183,7 +197,10 @@ class Gradient extends ConfigOptions
         if (is_string($x2)) {
             $this->x2 = $x2;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'string'
+            );
         }
 
         return $this;
@@ -201,7 +218,10 @@ class Gradient extends ConfigOptions
         if (is_string($y2)) {
             $this->y2 = $y2;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'string');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'string'
+            );
         }
 
         return $this;

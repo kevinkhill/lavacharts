@@ -74,7 +74,6 @@ class Slice extends ConfigOptions
             $this->color = $color;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'string',
                 'as a valid HTML color code'
@@ -98,7 +97,6 @@ class Slice extends ConfigOptions
             $this->offset = $offset;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'float',
                 'where 0.0 < $offset < 0.1'

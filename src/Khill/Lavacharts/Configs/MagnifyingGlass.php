@@ -68,8 +68,12 @@ class MagnifyingGlass extends ConfigOptions
         if (is_numeric($zoomFactor) && $zoomFactor > 0) {
             $this->zoomFactor = $zoomFactor;
         } else {
-            throw new InvalidConfigValue($this->className, __FUNCTION__, 'int', 'greater than 0');
-        }
+            throw new InvalidConfigValue(
+                    __FUNCTION__,
+                    'int',
+                    'greater than 0'
+                );
+            }
 
         return $this;
     }
