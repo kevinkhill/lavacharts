@@ -45,13 +45,41 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidLavaObject
+     * @dataProvider chartTypeProvider
+     * @depends testCreateDataTable
      */
-    public function testLavachartsInvalidLavaObject()
+    public function testRenederChartAliases($chartType)
     {
         $lc = new Lavacharts;
 
-        $lc->LaserChart();
+        $chart = $lc->$chartType('test');
+        $chart->dataTable($lc->DataTable());
+
+        $render = 'render'.$chartType;
+
+        $this->assertTrue(is_string($lc->$render('test', 'test-div')));
+    }
+
+    /**
+     * @depends testCreateDataTable
+     */
+    public function testDirectRenederChart()
+    {
+        $lc = new Lavacharts;
+
+        $chart = $lc->LineChart('test');
+        $chart->dataTable($lc->DataTable());
+
+        $this->assertTrue(is_string($lc->render('LineChart', 'test', 'test-div')));
+    }
+
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidLavaObject
+     */
+    public function testInvalidLavaObject()
+    {
+        $lc = new Lavacharts;
+        $lc->PizzaChart();
     }
 
     public function chartTypeProvider()

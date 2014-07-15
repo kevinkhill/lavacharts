@@ -18,6 +18,7 @@ use Khill\Lavacharts\Exceptions\LabelNotFound;
 use Khill\Lavacharts\Exceptions\InvalidChartLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidDivDimensions;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 class Lavacharts
@@ -103,14 +104,10 @@ class Lavacharts
         if ($this->strStartsWith($member, 'render')) {
             $chartType = str_replace('render', '', $member);
 
-            switch ($chartType) {
-                case 'LineChart':
-                    return $this->render('LineChart', $arguments[0], $arguments[1]);
-                    break;
-
-                default:
-                    throw new InvalidLavaObject($chartType);
-                    break;
+            if (in_array($chartType, $this->chartClasses)) {
+                return $this->render($chartType, $arguments[0], $arguments[1]);
+            } else {
+                throw new InvalidLavaObject($chartType);
             }
         } elseif ($member == 'DataTable') {
             return new DataTable();
@@ -143,16 +140,28 @@ class Lavacharts
      *
      * @param  string $label Label of a saved chart.
      * @param  string $elementId HTML element id to render the chart into.
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Khill\Lavachart\DataTable
      */
-    public function render($chartType, $chartLabel, $elementId)
+    public function render($chartType, $chartLabel, $elementId, $divDimensions = false)
     {
         $chart = $this->volcano->getChart($chartType, $chartLabel);
 
         $jsf = new JavascriptFactory($chart, $elementId);
 
-        return $jsf->buildOutput();
+        if ($divDimensions === false) {
+            return $jsf->buildOutput();
+        } else {
+            if (is_array($divDimensions) && ! empty($divDimensions)) {
+                return $this->generateDiv($elementId, $divDimensions) . $jsf->buildOutput();
+            } else {
+                throw new InvalidConfigValue(
+                    __METHOD__,
+                    'array'
+                );
+            }
+        }
     }
 
     /**
@@ -162,10 +171,8 @@ class Lavacharts
      * errorPrepend: An html string
      *
      * @access public
-     *
-     * @param array $config Array of configurations options
-     *
-     * @return Khill\Lavachart
+     * @param  array $config Array of configurations options
+     * @return void
      */
     public function setGlobals($config)
     {
@@ -190,7 +197,7 @@ class Lavacharts
     }
 
     /**
-     * Builds a div html element for a chart to be rendered into.
+     * Builds a div html element for the chart to be rendered into.
      *
      * Calling with no arguments will return a div with the ID set to what was
      * given to the outputInto() function.
@@ -205,20 +212,19 @@ class Lavacharts
      * The other charts do not require height and width, but do require an ID of
      * the div that will be receiving the chart.
      *
-     * @access public
-     *
-     * @param int $width Width of the containing div (optional).
-     * @param int $height Height of the containing div (optional).
-     * @throws Khill\Lavacharts\Exceptions\InvalidElementId
-     *
+     * @access private
+     * @param  string $elementId Element id to apply to the div.
+     * @param  array  $dimensions Height & width of the div.
+     * @throws Khill\Lavacharts\Exceptions\InvalidDivDimensions
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return string HTML div element.
      */
-    public function div($elementId = '', $width = 0, $height = 0)
+    private function generateDiv($elementId, $dimensions = array())
     {
-        if (is_string($elementId) && ! empty($elementId)) {
-            if ($width == 0 || $height == 0) {
-                return sprintf('<div id="%s"></div>', $elementId);
-            } else {
+        if (empty($dimensions)) {
+            return sprintf('<div id="%s"></div>', $elementId);
+        } else {
+            if (array_key_exists('height', $dimensions) && array_key_exists('width', $dimensions)) {
                 if ((is_int($width) && $width > 0) && (is_int($height) && $height > 0)) {
                         return sprintf(
                             '<div id="%s" style="width:%spx; height:%spx;"></div>',
@@ -233,24 +239,20 @@ class Lavacharts
                         'greater than 0'
                     );
                 }
+            } else {
+                throw new InvalidDivDimensions();
             }
-        } else {
-            throw new InvalidElementId($elementId);
         }
     }
 
     /**
      * Creates and stores Charts
      *
-     * If there is no label, then the Chart is just returned.
-     * If there is a label, the Chart is stored within the Volcano,
-     * accessable via a call to the type of object, with the label
-     * as the paramater.
+     * If the Chart is found in the Volcano, then it is returned.
+     * Otherwise, a new chart is created and stored in the Volcano.
      *
      * @access private
-     *
      * @param  string $label Label applied to the chart.
-     *
      * @return Khill\Lavachart\Chart
      */
     private function chartFactory($type, $label)
@@ -276,10 +278,8 @@ class Lavacharts
      * Creates ConfigObjects
      *
      * @access private
-     *
      * @param  string $type Type of configObject to create.
      * @param  array $options Array of options to pass to the config object.
-     *
      * @return Khill\Lavachart\Configs\ConfigObject
      */
     private function configFactory($type, $options = array())
