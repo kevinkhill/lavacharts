@@ -109,9 +109,13 @@ class Lavacharts
             } else {
                 throw new InvalidLavaObject($chartType);
             }
-        } elseif ($member == 'DataTable') {
+        }
+
+        if ($member == 'DataTable') {
             return new DataTable();
-        } elseif (in_array($member, $this->chartClasses)) {
+        }
+
+        if (in_array($member, $this->chartClasses)) {
             if (isset($arguments[0])) {
                 if(is_string($arguments[0])) {
                     return $this->chartFactory($member, $arguments[0]);
@@ -121,13 +125,17 @@ class Lavacharts
             } else {
                 throw new InvalidChartLabel();
             }
-        } elseif (in_array($member, $this->configClasses)) {
+        }
+
+        if (in_array($member, $this->configClasses)) {
             if (isset($arguments[0]) && is_array($arguments[0])) {
                 return $this->configFactory($member, $arguments[0]);
             } else {
                 return $this->configFactory($member);
             }
-        } else {
+        }
+
+        if ( ! method_exists($this, $member)) {
             throw new InvalidLavaObject($member);
         }
     }
