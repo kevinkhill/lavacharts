@@ -8,4 +8,5 @@ docs/
 bootstrap/compiled.php
 composer.phar
 composer.lock
-.DS_*
+
+*DS_Store

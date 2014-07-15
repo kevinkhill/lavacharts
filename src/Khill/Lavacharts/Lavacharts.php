@@ -15,7 +15,7 @@
 
 use Khill\Lavacharts\Configs\DataTable;
 use Khill\Lavacharts\Exceptions\LabelNotFound;
-use Khill\Lavacharts\Exceptions\InvalidLabel;
+use Khill\Lavacharts\Exceptions\InvalidChartLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
@@ -25,7 +25,7 @@ class Lavacharts
     /**
      * @var Khill\Lavacharts\Volcano Holds all of the defined Charts and DataTables.
      */
-    protected $volcano = null;
+    public $volcano = null;
 
     /**
      * @var array Lavachart configuration options.
@@ -35,7 +35,7 @@ class Lavacharts
     /**
      * @var string Lavacharts root namespace
      */
-    protected $rootSpace = 'Khill\\Lavacharts\\';
+    private $rootSpace = 'Khill\\Lavacharts\\';
 
     /**
      * @var array Types of charts that can be created.
@@ -99,7 +99,7 @@ class Lavacharts
      * @param string $member Name of method
      * @param array $arguments Passed arguments
      * @throws Khill\Lavacharts\Exceptions\InvalidLavaObject
-     * @throws Khill\Lavacharts\Exceptions\InvalidLabel
+     * @throws Khill\Lavacharts\Exceptions\InvalidChartLabel
      *
      * @return mixed Returns Charts, DataTables, and Config Objects
      */
@@ -120,10 +120,14 @@ class Lavacharts
         } elseif ($member == 'DataTable') {
             return new DataTable();
         } elseif (in_array($member, $this->chartClasses)) {
-            if (isset($arguments[0]) && is_string($arguments[0])) {
-                return $this->chartFactory($member, $arguments[0]);
+            if (isset($arguments[0])) { 
+                if(is_string($arguments[0])) {
+                    return $this->chartFactory($member, $arguments[0]);
+                } else {
+                    throw new InvalidChartLabel($arguments[0]);
+                }
             } else {
-                throw new InvalidLabel($arguments[0]);
+                throw new InvalidChartLabel();
             }
         } elseif (in_array($member, $this->configClasses)) {
             if (isset($arguments[0]) && is_string($arguments[0])) {

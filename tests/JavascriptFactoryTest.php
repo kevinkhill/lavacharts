@@ -19,7 +19,7 @@ class JavascriptFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Khill\Lavacharts\JavascriptFactory', new JavascriptFactory($c, 'div_id'));
     }
 
-    public function testbuildOutput()
+    public function testBuildOutput()
     {
         $c = new LineChart('test');
         $c->dataTable(new DataTable);
