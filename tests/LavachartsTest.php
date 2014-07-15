@@ -17,7 +17,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Khill\Lavacharts\Volcano', $lc->volcano);
     }
 
-    public function testCreateDataTable()
+    public function testCreateDataTableViaAlias()
     {
         $lc = new Lavacharts;
 
@@ -27,7 +27,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider chartTypeProvider
      */
-    public function testCreateCharts($chartType)
+    public function testCreateChartsViaAlias($chartType)
     {
         $lc = new Lavacharts;
 
@@ -37,16 +37,28 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider configObjectProvider
      */
-    public function testCreateConfigObjects($configType)
+    public function testCreateConfigObjectsViaAliasNoParams($configType)
     {
         $lc = new Lavacharts;
 
         $this->assertInstanceOf('Khill\Lavacharts\Configs\\'.$configType, $lc->$configType());
     }
 
+    public function testCreateConfigObjectViaAliasWithParam()
+    {
+        $lc = new Lavacharts;
+
+        $params = array(
+            'fontSize' => 4,
+            'fontColor' => 'green'
+        );
+
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\TextStyle', $lc->TextStyle($params));
+    }
+
     /**
      * @dataProvider chartTypeProvider
-     * @depends testCreateDataTable
+     * @depends testCreateDataTableViaAlias
      */
     public function testRenederChartAliases($chartType)
     {
@@ -61,7 +73,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @depends testCreateDataTable
+     * @depends testCreateDataTableViaAlias
      */
     public function testDirectRenederChart()
     {
@@ -74,12 +86,122 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @depends testCreateDataTableViaAlias
+     */
+    public function testDirectRenederChartWithDivNoDimensions()
+    {
+        $lc = new Lavacharts;
+
+        $chart = $lc->LineChart('test');
+        $chart->dataTable($lc->DataTable());
+
+        $this->assertTrue(is_string($lc->render('LineChart', 'test', 'test-div', true)));
+    }
+
+    /**
+     * @depends testCreateDataTableViaAlias
+     */
+    public function testDirectRenederChartWithDivAndDimensions()
+    {
+        $lc = new Lavacharts;
+
+        $chart = $lc->LineChart('test');
+        $chart->dataTable($lc->DataTable());
+
+        $dims = array(
+            'height' => 200,
+            'width' => 200
+        );
+
+        $this->assertTrue(is_string($lc->render('LineChart', 'test', 'test-div', $dims)));
+    }
+
+    /**
+     * @depends testCreateDataTableViaAlias
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidDivDimensions
+     */
+    public function testDirectRenederChartWithDivAndBadDimensionKeys()
+    {
+        $lc = new Lavacharts;
+
+        $chart = $lc->LineChart('test');
+        $chart->dataTable($lc->DataTable());
+
+        $dims = array(
+            'heiXght' => 200,
+            'wZidth' => 200
+        );
+
+        $this->assertTrue(is_string($lc->render('LineChart', 'test', 'test-div', $dims)));
+    }
+
+    /**
+     * @depends testCreateDataTableViaAlias
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidDivDimensions
+     */
+    public function testDirectRenederChartWithDivAndBadDimensionType()
+    {
+        $lc = new Lavacharts;
+
+        $chart = $lc->LineChart('test');
+        $chart->dataTable($lc->DataTable());
+
+        $this->assertTrue(is_string($lc->render('LineChart', 'test', 'test-div', 'TacosTacosTacos')));
+    }
+
+    /**
+     * @depends testCreateDataTableViaAlias
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testDirectRenederChartWithDivAndDimensionsWithBadValues()
+    {
+        $lc = new Lavacharts;
+
+        $chart = $lc->LineChart('test');
+        $chart->dataTable($lc->DataTable());
+
+        $dims = array(
+            'height' => 4.6,
+            'width' => 'hotdogs'
+        );
+
+        $this->assertTrue(is_string($lc->render('LineChart', 'test', 'test-div', $dims)));
+    }
+
+    /**
      * @expectedException Khill\Lavacharts\Exceptions\InvalidLavaObject
      */
     public function testInvalidLavaObject()
     {
         $lc = new Lavacharts;
         $lc->PizzaChart();
+    }
+
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidLavaObject
+     */
+    public function testRenderAliasWithInvalidLavaObject()
+    {
+        $lc = new Lavacharts;
+        $lc->renderPizzaChart();
+    }
+
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidChartLabel
+     */
+    public function testCreateChartWithMissingLabel()
+    {
+        $lc = new Lavacharts;
+        $lc->LineChart();
+    }
+
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidChartLabel
+     */
+    public function testCreateChartWithInvalidLabel()
+    {
+        $lc = new Lavacharts;
+        $lc->LineChart(5);
     }
 
     public function chartTypeProvider()

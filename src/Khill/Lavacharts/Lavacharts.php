@@ -140,7 +140,6 @@ class Lavacharts
      *
      * @param  string $label Label of a saved chart.
      * @param  string $elementId HTML element id to render the chart into.
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Khill\Lavachart\DataTable
      */
@@ -153,14 +152,7 @@ class Lavacharts
         if ($divDimensions === false) {
             return $jsf->buildOutput();
         } else {
-            if (is_array($divDimensions) && ! empty($divDimensions)) {
-                return $this->generateDiv($elementId, $divDimensions) . $jsf->buildOutput();
-            } else {
-                throw new InvalidConfigValue(
-                    __METHOD__,
-                    'array'
-                );
-            }
+            return $this->div($elementId, $divDimensions) . $jsf->buildOutput();
         }
     }
 
@@ -219,25 +211,32 @@ class Lavacharts
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return string HTML div element.
      */
-    private function generateDiv($elementId, $dimensions = array())
+    private function div($elementId, $dimensions = true)
     {
-        if (empty($dimensions)) {
+        if ($dimensions === true) {
             return sprintf('<div id="%s"></div>', $elementId);
         } else {
-            if (array_key_exists('height', $dimensions) && array_key_exists('width', $dimensions)) {
-                if ((is_int($width) && $width > 0) && (is_int($height) && $height > 0)) {
-                        return sprintf(
-                            '<div id="%s" style="width:%spx; height:%spx;"></div>',
-                            $elementId,
-                            $width,
-                            $height
+            if (is_array($dimensions) && ! empty($dimensions)) {
+                if (array_key_exists('height', $dimensions) && array_key_exists('width', $dimensions)) {
+                    $widthCheck  = (is_int($dimensions['width'])  && $dimensions['width']  > 0);
+                    $heightCheck = (is_int($dimensions['height']) && $dimensions['height'] > 0);
+
+                    if ($widthCheck && $heightCheck) {
+                            return sprintf(
+                                '<div id="%s" style="width:%spx; height:%spx;"></div>',
+                                $elementId,
+                                $dimensions['width'],
+                                $dimensions['height']
+                            );
+                    } else {
+                        throw new InvalidConfigValue(
+                            __METHOD__,
+                            'int',
+                            'greater than 0'
                         );
+                    }
                 } else {
-                    throw new InvalidConfigValue(
-                        __METHOD__,
-                        'int',
-                        'greater than 0'
-                    );
+                    throw new InvalidDivDimensions();
                 }
             } else {
                 throw new InvalidDivDimensions();
@@ -252,18 +251,19 @@ class Lavacharts
      * Otherwise, a new chart is created and stored in the Volcano.
      *
      * @access private
-     * @param  string $label Label applied to the chart.
+     * @param  string $type Type of chart to fetch or create.
+     * @param  string $label Label of the chart.
      * @return Khill\Lavachart\Chart
      */
     private function chartFactory($type, $label)
     {
-        $chartObj = __NAMESPACE__ . '\\Charts\\' . $type;
+        $chartObject = __NAMESPACE__ . '\\Charts\\' . $type;
 
-        if (class_exists($chartObj)) {
+        if (class_exists($chartObject)) {
             if ($this->volcano->checkChart($type, $label)) {
                 $chart = $this->volcano->getChart($type, $label);
             } else {
-                $chart = new $chartObj($label);
+                $chart = new $chartObject($label);
 
                 $this->volcano->storeChart($chart);
             }
@@ -279,7 +279,7 @@ class Lavacharts
      *
      * @access private
      * @param  string $type Type of configObject to create.
-     * @param  array $options Array of options to pass to the config object.
+     * @param  array  $options Array of options to pass to the config object.
      * @return Khill\Lavachart\Configs\ConfigObject
      */
     private function configFactory($type, $options = array())
@@ -295,6 +295,9 @@ class Lavacharts
 
     /**
      * Simple string starts with function
+     *
+     * @param  string $haystack String to search through.
+     * @param  array  $needle String to search with.
      */
     private function strStartsWith($haystack, $needle)
     {
