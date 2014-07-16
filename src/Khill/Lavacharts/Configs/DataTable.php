@@ -42,8 +42,24 @@ class DataTable
      */
     private $rows = array();
 
-    //@TODO: private $rowCount;
+    private $rowCount = 0;
 
+    private $colCellTypes = array(
+        'string',
+        'number',
+        'boolean',
+        'date',
+        'datetime',
+        'timeofday'
+    );
+
+    private $colCellDesc = array(
+        'type',
+        'label',
+        'id',
+        'role',
+        'pattern'
+    );
 
     /**
      * Adds a column to the DataTable
@@ -65,80 +81,81 @@ class DataTable
      * @param string A label for the column. (Optional)
      * @param string An ID for the column. (Optinal)
      *
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     *
      * @return Khill\Lavacharts\Configs\DataTable
      */
-    public function addColumn($typeOrDescriptionArray, $optLabel = '', $optId = '')
+    public function addColumn($typeOrDescArr, $optLabel = '', $optId = '')
     {
-        $types = array(
-            'string',
-            'number',
-            'boolean',
-            'date',
-            'datetime',
-            'timeofday'
-        );
-
-        $descriptions = array(
-            'type',
-            'label',
-            'id',
-            'role',
-            'pattern'
-        );
-
-        switch(gettype($typeOrDescriptionArray))
-        {
-            case 'array':
-                foreach ($typeOrDescriptionArray as $key => $value) {
-                    if (array_key_exists('type', $typeOrDescriptionArray)) {
-                        if (in_array($typeOrDescriptionArray['type'], $types)) {
-                            $descArray['type'] = $typeOrDescriptionArray['type'];
-                            if (in_array($key, $descriptions)) {
-                                if ($key != 'type') {
-                                    if (is_string($value)) {
-                                        $descArray[$key] = $value;
-                                    } else {
-                                        $this->error('Invalid description array value, must be type (string).');
-                                    }
-                                }
-                            } else {
-                                $this->error('Invalid description array key value, must be type (string) with any key value '.Helpers::arrayToPipedString($descriptions));
-                            }
-                        } else {
-                            $this->error('Invalid type, must be type (string) with the value '.Helpers::arrayToPipedString($types));
-                        }
-                    } else {
-                        $this->error('Invalid description array, must contain (array) with at least one key type (string) value [ type ]');
-                    }
-                }
-                $this->cols[] = $descArray;
-                break;
-
-            case 'string':
-                if (in_array($typeOrDescriptionArray, $types)) {
-                    $descArray['type'] = $typeOrDescriptionArray;
-                    if (is_string($optLabel)) {
-                        $descArray['label'] = $optLabel;
-                    } else {
-                        $this->error('Invalid opt_label, must be type (string).');
-                    }
-                    if (is_string($optId)) {
-                        $descArray['id'] = $optId;
-                    } else {
-                        $this->error('Invalid opt_id, must be type (string).');
-                    }
-                } else {
-                    $this->error('Invalid type, must be type (string) with the value '.Helpers::arrayToPipedString($types));
-                }
-                $this->cols[] = $descArray;
-                break;
-
-            default:
-                $this->error('Invalid type or description array, must be type (string) or (array).');
-                break;
+        if (is_array($typeOrDescArr)) {
+            $this->addColumnFromArray($typeOrDescArr);
+        } elseif (is_string($typeOrDescArr)) {
+            $this->addColumnFromStrings($typeOrDescArr, $optLabel, $optId);
+        } else {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'string or array'
+            );
         }
 
         return $this;
+    }
+
+    private function addColumnFromArray($colDefArray)
+    {
+        foreach ($colDefArray as $key => $value) {
+            if (array_key_exists('type', $colDefArray)) {
+                if (in_array($colDefArray['type'], $this->colCellTypes)) {
+                    $descArray['type'] = $colDefArray['type'];
+
+                    if (in_array($key, $this->colCellDesc)) {
+                        if ($key != 'type') {
+                            if(is_string($value)) {
+                                $descArray[$key] = $value;
+                            } else {
+                                throw new \Exception('Invalid description array value, must be type (string).');
+                            }
+                        }
+                    } else {
+                        throw new \Exception('Invalid description array key value, must be type (string) with any key value '.Helpers::arrayToPipedString($this->colCellDesc));
+                    }
+                } else {
+                    throw new \Exception('Invalid type, must be type (string) with the value '.Helpers::arrayToPipedString($this->colCellTypes));
+                }
+            } else {
+                throw new \Exception('Invalid description array, must contain (array) with at least one key type (string) value [ type ]');
+            }
+        }
+
+        $this->cols[] = $descArray;
+    }
+
+    private function addColumnFromStrings($type, $label, $id)
+    {
+        if (in_array($type, $this->colCellTypes)) {
+            $descArray['type'] = $type;
+
+            if (is_string($label)) {
+                $descArray['label'] = $label;
+            } else {
+                throw new InvalidConfigValue('Invalid label, must be type (string).');
+            }
+
+            if (is_string($id)) {
+                $descArray['id'] = $id;
+            } else {
+                throw new InvalidConfigValue('Invalid id, must be type (string).');
+            }
+        } else {
+            throw new InvalidConfigProperty(
+                __FUNCTION__,
+                'string',
+                Helpers::arrayToPipedString($this->colCellTypes)
+            );
+        }
+
+        $this->cols[] = $descArray;
     }
 
     /**
@@ -192,7 +209,7 @@ class DataTable
                         if (in_array($prop, $props)) {
                             $rowVals[] = array($prop => $value);
                         } else {
-                            $this->error('Invalid row property, array with keys type (string) with values [ v | f | p ] ');
+                            throw new \Exception('Invalid row property, array with keys type (string) with values [ v | f | p ] ');
                         }
                     }
 
@@ -214,11 +231,11 @@ class DataTable
                     } else {
                         $msg = 'Invalid number of cells, must be equal or less than number of columns. ';
                         $msg .= '(cells '.count($optCellArray).' > cols '.count($this->cols).')';
-                        $this->error($msg);
+                        throw new \Exception($msg);
                     }
                 }
             } else {
-                $this->error('Invalid row definition, must be type (array)');
+                throw new \Exception('Invalid row definition, must be type (array)');
             }
         }
 
@@ -240,7 +257,7 @@ class DataTable
                 $this->addRow($row);
             }
         } else {
-            $this->error('Invalid value for addRows, must be type (array), multi-dimensional.');
+            throw new \Exception('Invalid value for addRows, must be type (array), multi-dimensional.');
         }
 
         return $this;
@@ -459,7 +476,10 @@ class DataTable
      */
     public function toJSON()
     {
-        return json_encode($this);
+        return json_encode(array(
+            'cols' => $this->cols,
+            'rows' => $this->rows,
+        ));
     }
 
     /**

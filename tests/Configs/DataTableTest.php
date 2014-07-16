@@ -55,6 +55,50 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($cols[0]['label'], 'Days in March');
         $this->assertEquals($cols[0]['id'],    'march-dates');
     }
+
+    public function testAddColumnWithArrayOfTypeAndDescriptionAndId()
+    {
+        $lc = new Lavacharts;
+        $dt = $lc->DataTable();
+
+        $dt->addColumn(array('date', 'Days in March', 'march-dates'));
+
+        $cols = $dt->getColumns();
+
+        $this->assertEquals($cols[0]['type'],  'date');
+        $this->assertEquals($cols[0]['label'], 'Days in March');
+        $this->assertEquals($cols[0]['id'],    'march-dates');
+    }
+
+    /**
+     * @depends testAddColumnWithArrayOfTypeAndDescriptionAndId
+     */
+    /*public function testAddMultipleColumnsWithArrayOfTypeAndDescriptionAndId()
+    {
+        $lc = new Lavacharts;
+        $dt = $lc->DataTable();
+
+        $dt->addColumns(array(
+            array('date', 'Days in March', 'march-dates'),
+            array('number', 'Day of the Week', 'dotw'),
+            array('number', 'Temperature', 'temp'),
+        ));
+
+        $cols = $dt->getColumns();
+
+        $this->assertEquals($cols[0]['type'],  'date');
+        $this->assertEquals($cols[0]['label'], 'Days in March');
+        $this->assertEquals($cols[0]['id'],    'march-dates');
+
+        $this->assertEquals($cols[1]['type'],  'number');
+        $this->assertEquals($cols[1]['label'], 'Day of the Week');
+        $this->assertEquals($cols[1]['id'],    'dotw');
+
+        $this->assertEquals($cols[2]['type'],  'number');
+        $this->assertEquals($cols[2]['label'], 'Temperature');
+        $this->assertEquals($cols[2]['id'],    'temp');
+    }*/
+
 }
 
 //dataProvider
