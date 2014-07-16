@@ -12,7 +12,7 @@ class AnnotationTest extends \PHPUnit_Framework_TestCase
         $this->a = new Annotation();
     }
 
-    public function testIfInstanceOfannotation()
+    public function testIfInstanceOfAnnotation()
     {
         $this->assertInstanceOf('Khill\Lavacharts\Configs\Annotation', $this->a);
     }
@@ -25,7 +25,7 @@ class AnnotationTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorValuesAssignment()
     {
-        $annotation = new annotation(array(
+        $annotation = new Annotation(array(
             'highContrast' => false,
             'textStyle'    => new textStyle()
         ));
@@ -39,9 +39,7 @@ class AnnotationTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        $annotation = new annotation(array('RainbowRoll' => 'spicy'));
-
-        $this->assertTrue(Lavacharts::hasErrors());
+        $annotation = new Annotation(array('RainbowRoll' => 'spicy'));
     }
 
     /**

@@ -1,8 +1,5 @@
 <?php namespace Khill\Lavacharts\Configs;
 
-use Carbon\Carbon;
-use Khill\Lavacharts\Exceptions\InvalidDate;
-
 /**
  * DataTable Object
  *
@@ -27,19 +24,23 @@ use Khill\Lavacharts\Exceptions\InvalidDate;
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
+use Carbon\Carbon;
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Exceptions\InvalidDate;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 class DataTable
 {
     /**
      * @var array Holds the information defining the columns.
      */
-    public $cols = array();
+    private $cols = array();
 
     /**
      * @var array Holds the information defining each row.
      */
-    public $rows = array();
+    private $rows = array();
 
     //@TODO: private $rowCount;
 
@@ -52,21 +53,21 @@ class DataTable
      * The type can be one of the following: 'string' 'number' 'boolean' 'date'
      * 'datetime' 'timeofday'.
      *
-     * opt_label - [Optional] A string with the label of the column. The column
+     * optLabel - [Optional] A string with the label of the column. The column
      * label is typically displayed as part of the visualization, for example as
      *  a column header in a table, or as a legend label in a pie chart. If not
      * value is specified, an empty string is assigned.
-     * opt_id - [Optional] A string with a unique identifier for the column. If
+     * optId - [Optional] A string with a unique identifier for the column. If
      * not value is specified, an empty string is assigned.
      *
      *
-     * @param string Describing the column data type
+     * @param string|array Column type or an array describing the column.
      * @param string A label for the column. (Optional)
      * @param string An ID for the column. (Optinal)
      *
      * @return Khill\Lavacharts\Configs\DataTable
      */
-    public function addColumn($typeOrDescriptionArray, $opt_label = '', $opt_id = '')
+    public function addColumn($typeOrDescriptionArray, $optLabel = '', $optId = '')
     {
         $types = array(
             'string',
@@ -116,13 +117,13 @@ class DataTable
             case 'string':
                 if (in_array($typeOrDescriptionArray, $types)) {
                     $descArray['type'] = $typeOrDescriptionArray;
-                    if (is_string($opt_label)) {
-                        $descArray['label'] = $opt_label;
+                    if (is_string($optLabel)) {
+                        $descArray['label'] = $optLabel;
                     } else {
                         $this->error('Invalid opt_label, must be type (string).');
                     }
-                    if (is_string($opt_id)) {
-                        $descArray['id'] = $opt_id;
+                    if (is_string($optId)) {
+                        $descArray['id'] = $optId;
                     } else {
                         $this->error('Invalid opt_id, must be type (string).');
                     }
@@ -171,7 +172,7 @@ class DataTable
      *
      * @return Khill\Lavacharts\Configs\DataTable
      */
-    public function addRow($opt_cellArray = null)
+    public function addRow($optCellArray = null)
     {
         $props = array(
             'v',
@@ -179,15 +180,15 @@ class DataTable
             'p'
         );
 
-        if (is_null($opt_cellArray)) {
+        if (is_null($optCellArray)) {
             for ($a = 0; $a < count($this->cols); $a++) {
                 $tmp[] = array('v' => null);
             }
             $this->rows[] = array('c' => $tmp);
         } else {
-            if (is_array($opt_cellArray)) {
-                if (Helpers::arrayIsMulti($opt_cellArray)) {
-                    foreach ($opt_cellArray as $prop => $value) {
+            if (is_array($optCellArray)) {
+                if (Helpers::arrayIsMulti($optCellArray)) {
+                    foreach ($optCellArray as $prop => $value) {
                         if (in_array($prop, $props)) {
                             $rowVals[] = array($prop => $value);
                         } else {
@@ -197,13 +198,13 @@ class DataTable
 
                     $this->rows[] = array('c' => $rowVals);
                 } else {
-                    if (count($opt_cellArray) <= count($this->cols)) {
+                    if (count($optCellArray) <= count($this->cols)) {
                         for ($b = 0; $b < count($this->cols); $b++) {
-                            if (isset($opt_cellArray[$b])) {
+                            if (isset($optCellArray[$b])) {
                                 if ($this->cols[$b]['type'] == 'date') {
-                                    $rowVals[] = array('v' => $this->parseDate($opt_cellArray[$b]));
+                                    $rowVals[] = array('v' => $this->parseDate($optCellArray[$b]));
                                 } else {
-                                    $rowVals[] = array('v' => $opt_cellArray[$b]);
+                                    $rowVals[] = array('v' => $optCellArray[$b]);
                                 }
                             } else {
                                 $rowVals[] = array('v' => null);
@@ -212,7 +213,7 @@ class DataTable
                         $this->rows[] = array('c' => $rowVals);
                     } else {
                         $msg = 'Invalid number of cells, must be equal or less than number of columns. ';
-                        $msg .= '(cells '.count($opt_cellArray).' > cols '.count($this->cols).')';
+                        $msg .= '(cells '.count($optCellArray).' > cols '.count($this->cols).')';
                         $this->error($msg);
                     }
                 }
@@ -244,7 +245,7 @@ class DataTable
 
         return $this;
     }
-    /*
+/*
     public function getColumnId($columnIndex)
     {
 
@@ -294,7 +295,7 @@ class DataTable
     {
 
     }
-
+*/
     public function getNumberOfColumns()
     {
         return count($this->cols);
@@ -304,7 +305,7 @@ class DataTable
     {
         return count($this->rows);
     }
-
+/*
     public function getProperties($rowIndex, $columnIndex)
     {
 
@@ -439,22 +440,27 @@ class DataTable
     {
 
     }
-    */
+*/
+
+    public function getColumns()
+    {
+        return $this->cols;
+    }
+
+    public function getRows()
+    {
+        return $this->rows;
+    }
+
+    /**
+     * Convert the DataTable to JSON
+     *
+     * @return string JSON representation of the DataTable.
+     */
     public function toJSON()
     {
         return json_encode($this);
     }
-
-    /**
-     * Adds the error message to the error log in the lavacharts master object.
-     *
-     * @param string $msg error message.
-     */
-    private function error($msg)//@TODO get rid of this method for exceptions
-    {
-        Lavacharts::_set_error(get_class($this), $msg);
-    }
-
 
     /**
      * Either passes the Carbon instance or parses a datetime string.

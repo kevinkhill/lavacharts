@@ -33,7 +33,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
             'strokeWidth' => '5',
             'rx'          => '10',
             'ry'          => '10',
-            'gradient'    => new gradient()
+            'gradient'    => new Gradient()
         ));
 
         $this->assertEquals('#5B5B5B', $boxStyle->stroke);
@@ -48,7 +48,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        $boxStyle = new boxStyle(array('Lasagna' => '50%'));
+        $boxStyle = new BoxStyle(array('Lasagna' => '50%'));
     }
 
     public function testStokeWithNumericParams()
