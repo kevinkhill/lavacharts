@@ -49,6 +49,7 @@ class MagnifyingGlass extends ConfigOptions
      */
     public function __construct($zoomFactor = 5)
     {
+        $this->className = str_replace("Khill\\Lavacharts\\Configs\\", '', __CLASS__);
         $this->options = array('zoomFactor');
 
         $this->zoomFactor($zoomFactor);

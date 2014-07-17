@@ -1,100 +1,55 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
 use Khill\Lavacharts\Configs\ConfigOptions;
+use Khill\Lavacharts\Configs\TextStyle;
 
 class ConfigOptionsTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         parent::setUp();
-
-        $this->bgc = new BackgroundColor();
     }
 
-    public function testIfInstanceOfbackgroundColor()
+    public function testTextStyleConstructorValuesAssignment()
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\backgroundColor', $this->bgc);
-    }
-
-    public function testConstructorDefaults()
-    {
-        $this->assertNull($this->bgc->stroke);
-        $this->assertNull($this->bgc->strokeWidth);
-    }
-
-    public function testConstructorValuesAssignment()
-    {
-        $backgroundColor = new BackgroundColor(array(
-            'stroke'      => '#E3D5F2',
-            'strokeWidth' => 6,
-            'fill'        => '#B0C9E3'
+        $textStyle = new TextStyle(array(
+            'color'    => 'blue',
+            'fontName' => 'Arial',
+            'fontSize' => 16
         ));
 
-        $this->assertEquals('#E3D5F2', $backgroundColor->stroke);
-        $this->assertEquals(6,         $backgroundColor->strokeWidth);
-        $this->assertEquals('#B0C9E3', $backgroundColor->fill);
-    }
-
-    /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     */
-    public function testConstructorWithInvalidPropertiesKey()
-    {
-        $backgroundColor = new BackgroundColor(array('TunaSalad' => 'sandwich'));
+        $this->assertEquals('blue',  $textStyle->color);
+        $this->assertEquals('Arial', $textStyle->fontName);
+        $this->assertEquals(16,      $textStyle->fontSize);
     }
 
     /**
      * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @dataProvider badParamsProvider1
      */
-    public function testStrokeWithBadParams($badVals)
+    public function testConstructorWithBadParam()
     {
-        $this->bgc->stroke($badVals);
+        $co = new ConfigOptions(4.25);
     }
 
     /**
-     * /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @dataProvider badParamsProvider2
+     * @depends testTextStyleConstructorValuesAssignment
      */
-    public function testStrokeWidthWithBadParams($badVals)
+    public function testToArrayWithTextStyleConfigObject()
     {
-        $this->bgc->strokeWidth($badVals);
+        $textStyle = new TextStyle(array(
+            'color'    => 'blue',
+            'fontName' => 'Arial',
+            'fontSize' => 16
+        ));
+
+        $textStyleArr = $textStyle->toArray();
+
+        $this->assertTrue(is_array($textStyleArr));
+        $this->assertEquals('TextStyle', array_keys($textStyleArr)[0]);
+        $this->assertTrue(is_array($textStyleArr['TextStyle']));
+
+        $this->assertEquals('blue',  $textStyleArr['TextStyle']['color']);
+        $this->assertEquals('Arial', $textStyleArr['TextStyle']['fontName']);
+        $this->assertEquals(16,      $textStyleArr['TextStyle']['fontSize']);
     }
-
-    /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @dataProvider badParamsProvider1
-     */
-    public function testFillWithBadParams($badVals)
-    {
-        $this->bgc->fill($badVals);
-    }
-
-
-    public function badParamsProvider1()
-    {
-        return array(
-            array(123),
-            array(123.456),
-            array(array()),
-            array(new \stdClass),
-            array(true),
-            array(null)
-        );
-    }
-
-    public function badParamsProvider2()
-    {
-        return array(
-            array('fruitsAndVeggies'),
-            array(123.456),
-            array(array()),
-            array(new \stdClass),
-            array(true),
-            array(null)
-        );
-    }
-
 }
-

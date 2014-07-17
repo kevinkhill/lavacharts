@@ -48,6 +48,7 @@ class TextStyle extends ConfigOptions
      */
     public function __construct($config = array())
     {
+        $this->className = str_replace("Khill\\Lavacharts\\Configs\\", '', __CLASS__);
         $this->options = array(
             'color',
             'fontName',
@@ -72,7 +73,6 @@ class TextStyle extends ConfigOptions
             $this->color = $color;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'string',
                 'representing a valid HTML color'
@@ -97,7 +97,6 @@ class TextStyle extends ConfigOptions
             $this->fontName = $fontName;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'string'
             );
@@ -121,7 +120,6 @@ class TextStyle extends ConfigOptions
             $this->fontSize = $fontSize;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
                 __FUNCTION__,
                 'int'
             );

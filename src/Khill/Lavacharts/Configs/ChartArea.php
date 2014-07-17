@@ -51,6 +51,7 @@ class ChartArea extends ConfigOptions
      */
     public function __construct($config = array())
     {
+        $this->className = str_replace("Khill\\Lavacharts\\Configs\\", '', __CLASS__);
         $this->options = array(
             'left',
             'top',

@@ -80,6 +80,7 @@ class Gradient extends ConfigOptions
             $this->color2 = $this->randomColor();
         }
 
+        $this->className = str_replace("Khill\\Lavacharts\\Configs\\", '', __CLASS__);
         $this->options = array(
             'color1',
             'color2',

@@ -9,19 +9,19 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->t = new Tooltip();
+        $this->tooltip = new Tooltip();
     }
 
     public function testIfInstanceOfTooltip()
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\Tooltip', $this->t);
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\Tooltip', $this->tooltip);
     }
 
     public function testConstructorDefaults()
     {
-        $this->assertNull($this->t->showColorCode);
-        $this->assertNull($this->t->textStyle);
-        $this->assertNull($this->t->trigger);
+        $this->assertNull($this->tooltip->showColorCode);
+        $this->assertNull($this->tooltip->textStyle);
+        $this->assertNull($this->tooltip->trigger);
     }
 
     public function testConstructorValuesAssignment()
@@ -33,7 +33,7 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->assertTrue($tooltip->showColorCode);
-        $this->assertEquals(array(), $tooltip->textStyle);
+        $this->assertTrue(is_array($tooltip->textStyle));
         $this->assertEquals('focus', $tooltip->trigger);
     }
 
@@ -51,16 +51,16 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
      */
     public function testShowColorCodeWithBadParams($badVals)
     {
-        $this->t->showColorCode($badVals);
+        $this->tooltip->showColorCode($badVals);
     }
 
     /**
-     * @expectedException \PHPUnit_Framework_Error
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testTextStyleWithBadParams($badVals)
     {
-        $this->t->textStyle($badVals);
+        $this->tooltip->textStyle($badVals);
     }
 
     /**
@@ -69,7 +69,7 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
      */
     public function testTriggerWithBadParams($badVals)
     {
-        $this->t->trigger($badVals);
+        $this->tooltip->trigger($badVals);
     }
 
 

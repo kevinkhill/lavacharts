@@ -30,12 +30,12 @@ class ConfigOptions
     /**
      * @var string Output of the configOptions object.
      */
-    protected $output = null;
+    protected $output;
 
     /**
      * @var array Allowed keys for the configOptions child objects.
      */
-    protected $options = null;
+    protected $options;
 
     /**
      * Builds the ConfigOptions object.
@@ -51,9 +51,6 @@ class ConfigOptions
      */
     public function __construct($config)
     {
-        $namespacePieces = explode('\\', get_class());
-        $this->className = $namespacePieces[count($namespacePieces) - 1];
-
         if (is_array($config)) {
             foreach ($config as $option => $value) {
                 if (in_array($option, $this->options)) {

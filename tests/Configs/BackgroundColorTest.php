@@ -7,23 +7,25 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-
-        $this->bgc = new BackgroundColor();
     }
 
     public function testIfInstanceOfbackgroundColor()
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\backgroundColor', $this->bgc);
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\backgroundColor', new BackgroundColor());
     }
 
     public function testConstructorDefaults()
     {
-        $this->assertNull($this->bgc->stroke);
-        $this->assertNull($this->bgc->strokeWidth);
+        $bgc = new BackgroundColor();
+
+        $this->assertNull($bgc->stroke);
+        $this->assertNull($bgc->strokeWidth);
     }
 
     public function testConstructorValuesAssignment()
     {
+        $bgc = new BackgroundColor();
+
         $backgroundColor = new BackgroundColor(array(
             'stroke'      => '#E3D5F2',
             'strokeWidth' => 6,
@@ -40,7 +42,7 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        $backgroundColor = new BackgroundColor(array('TunaSalad' => 'sandwich'));
+        $bgc = new BackgroundColor(array('TunaSalad' => 'sandwich'));
     }
 
     /**
@@ -49,7 +51,9 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
      */
     public function testStrokeWithBadParams($badVals)
     {
-        $this->bgc->stroke($badVals);
+        $bgc = new BackgroundColor();
+
+        $bgc->stroke($badVals);
     }
 
     /**
@@ -59,7 +63,9 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
      */
     public function testStrokeWidthWithBadParams($badVals)
     {
-        $this->bgc->strokeWidth($badVals);
+        $bgc = new BackgroundColor();
+
+        $bgc->strokeWidth($badVals);
     }
 
     /**
@@ -68,7 +74,9 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
      */
     public function testFillWithBadParams($badVals)
     {
-        $this->bgc->fill($badVals);
+        $bgc = new BackgroundColor();
+
+        $bgc->fill($badVals);
     }
 
 

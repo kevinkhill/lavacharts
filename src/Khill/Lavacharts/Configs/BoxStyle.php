@@ -64,6 +64,7 @@ class BoxStyle extends ConfigOptions
             $this->stroke = $this->randomColor();
         }
 
+        $this->className = str_replace("Khill\\Lavacharts\\Configs\\", '', __CLASS__);
         $this->options = array(
             'stroke',
             'strokeWidth',
