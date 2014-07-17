@@ -29,12 +29,37 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($cols[0]['type'], 'date');
     }
 
+    public function testAddColumnWithArrayOfTypeOnly()
+    {
+        $lc = new Lavacharts;
+        $dt = $lc->DataTable();
+
+        $dt->addColumn(array('date'));
+
+        $cols = $dt->getColumns();
+
+        $this->assertEquals($cols[0]['type'], 'date');
+    }
+
     public function testAddColumnWithTypeAndDescription()
     {
         $lc = new Lavacharts;
         $dt = $lc->DataTable();
 
         $dt->addColumn('date', 'Days in March');
+
+        $cols = $dt->getColumns();
+
+        $this->assertEquals($cols[0]['type'],  'date');
+        $this->assertEquals($cols[0]['label'], 'Days in March');
+    }
+
+    public function testAddColumnWithArrafOfTypeAndDescription()
+    {
+        $lc = new Lavacharts;
+        $dt = $lc->DataTable();
+
+        $dt->addColumn(array('date', 'Days in March'));
 
         $cols = $dt->getColumns();
 
@@ -73,7 +98,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testAddColumnWithArrayOfTypeAndDescriptionAndId
      */
-    /*public function testAddMultipleColumnsWithArrayOfTypeAndDescriptionAndId()
+    public function testAddMultipleColumnsWithArrayOfTypeAndDescriptionAndId()
     {
         $lc = new Lavacharts;
         $dt = $lc->DataTable();
@@ -97,7 +122,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($cols[2]['type'],  'number');
         $this->assertEquals($cols[2]['label'], 'Temperature');
         $this->assertEquals($cols[2]['id'],    'temp');
-    }*/
+    }
 
 }
 

@@ -29,6 +29,7 @@ use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Exceptions\InvalidDate;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+use Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
 
 class DataTable
 {
@@ -102,6 +103,41 @@ class DataTable
         return $this;
     }
 
+    public function addColumns($arrOfCols)
+    {
+        if (Helpers::arrayIsMulti($arrOfCols)) {
+            foreach ($arrOfCols as $col) {
+                $this->addColumnFromArray($col);
+            }
+        } else {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'array of arrays'
+            );
+        }
+
+        return $this;
+    }
+
+    private function addColumnFromArray($colDefArray)
+    {
+        if (Helpers::arrayValuesCheck($colDefArray, 'string') && Helpers::between(1, count($colDefArray), 3, true)) {  
+            switch (count($colDefArray)) {
+                case 1:
+                    $this->addColumnFromStrings($colDefArray[0]);
+                    break;
+                case 2:
+                    $this->addColumnFromStrings($colDefArray[0], $colDefArray[1]);
+                    break;
+                case 3:
+                    $this->addColumnFromStrings($colDefArray[0], $colDefArray[1], $colDefArray[2]);
+                    break;
+            }
+        } else {
+            throw new InvalidColumnDefinition($colDefArray);
+        }
+    }
+/*    
     private function addColumnFromArray($colDefArray)
     {
         foreach ($colDefArray as $key => $value) {
@@ -130,22 +166,25 @@ class DataTable
 
         $this->cols[] = $descArray;
     }
-
-    private function addColumnFromStrings($type, $label, $id)
+*/
+    private function addColumnFromStrings($type, $label = '', $id = '')
     {
         if (in_array($type, $this->colCellTypes)) {
-            $descArray['type'] = $type;
-
-            if (is_string($label)) {
-                $descArray['label'] = $label;
+            if (is_string($type) && ! empty($type)) {
+                $descArray['type'] = $type;
             } else {
-                throw new InvalidConfigValue('Invalid label, must be type (string).');
+                throw new InvalidConfigValue(
+                    __FUNCTION__,
+                    'string'
+                );
             }
 
-            if (is_string($id)) {
+            if (is_string($label) && ! empty($label)) {
+                $descArray['label'] = $label;
+            }
+
+            if (is_string($id) && ! empty($id)) {
                 $descArray['id'] = $id;
-            } else {
-                throw new InvalidConfigValue('Invalid id, must be type (string).');
             }
         } else {
             throw new InvalidConfigProperty(
