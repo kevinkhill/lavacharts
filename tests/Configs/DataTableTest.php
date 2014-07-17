@@ -2,6 +2,7 @@
 
 use Khill\Lavacharts\Lavacharts;
 use Khill\Lavacharts\Configs\DataTable;
+use Carbon\Carbon;
 
 class DataTableTest extends \PHPUnit_Framework_TestCase
 {
@@ -124,6 +125,127 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($cols[2]['id'],    'temp');
     }
 
+    /**
+     * @depends testAddColumnWithTypeOnly
+     */
+    public function testAddRowWithTypeDateOnly()
+    {
+        $lc = new Lavacharts;
+        $dt = $lc->DataTable();
+
+        $dt->addColumn('date');
+
+        $dt->addRow(array(Carbon::parse('March 24th, 1988')));
+
+        $cols = $dt->getColumns();
+        $rows = $dt->getRows();
+
+        $this->assertEquals($cols[0]['type'], 'date');
+        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988, 3, 24, 0, 0, 0)');
+    }
+
+    /**
+     * @depends testAddColumnWithTypeAndDescription
+     */
+    public function testAddRowWithMultipleColumnsWithDateAndNumbers()
+    {
+        $lc = new Lavacharts;
+        $dt = $lc->DataTable();
+
+        $dt->addColumn('date');
+        $dt->addColumn('number');
+        $dt->addColumn('number');
+
+        $dt->addRow(array(Carbon::parse('March 24th, 1988'), 12345, 67890));
+
+        $cols = $dt->getColumns();
+        $rows = $dt->getRows();
+        
+        $this->assertEquals($cols[0]['type'], 'date');
+        $this->assertEquals($cols[1]['type'], 'number');
+        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988, 3, 24, 0, 0, 0)');
+        $this->assertEquals($rows[0]['c'][1]['v'], 12345);
+        $this->assertEquals($rows[0]['c'][2]['v'], 67890);
+    }
+
+    /**
+     * @depends testAddColumnWithTypeAndDescription
+     */
+    public function testAddMultipleRowsWithMultipleColumnsWithDateAndNumbers()
+    {
+        $lc = new Lavacharts;
+        $dt = $lc->DataTable();
+
+        $dt->addColumn('date');
+        $dt->addColumn('number');
+        $dt->addColumn('number');
+
+        $rows = array(
+            array(Carbon::parse('March 24th, 1988'), 12345, 67890),
+            array(Carbon::parse('March 25th, 1988'), 1122, 3344)
+        );
+
+        $dt->addRows($rows);
+
+        $cols = $dt->getColumns();
+        $rows = $dt->getRows();
+        
+        $this->assertEquals($cols[0]['type'], 'date');
+        $this->assertEquals($cols[1]['type'], 'number');
+        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988, 3, 24, 0, 0, 0)');
+        $this->assertEquals($rows[0]['c'][1]['v'], 12345);
+        $this->assertEquals($rows[0]['c'][2]['v'], 67890);
+        $this->assertEquals($rows[1]['c'][0]['v'], 'Date(1988, 3, 25, 0, 0, 0)');
+        $this->assertEquals($rows[1]['c'][1]['v'], 1122);
+        $this->assertEquals($rows[1]['c'][2]['v'], 3344);
+    }
+
+    /**
+     * @depends testAddColumnWithTypeAndDescription
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidRowDefinition
+     */
+    public function testAddBadMultipleRowsWithMultipleColumnsWithDateAndNumbers()
+    {
+        $lc = new Lavacharts;
+        $dt = $lc->DataTable();
+
+        $dt->addColumn('date');
+        $dt->addColumn('number');
+        $dt->addColumn('number');
+
+        $rows = array(
+            array(Carbon::parse('March 24th, 1988'), 12345, 67890),
+            234.234
+        );
+
+        $dt->addRows($rows);
+
+        $cols = $dt->getColumns();
+        $rows = $dt->getRows();
+        
+        $this->assertEquals($cols[0]['type'], 'date');
+        $this->assertEquals($cols[1]['type'], 'number');
+        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988, 3, 24, 0, 0, 0)');
+        $this->assertEquals($rows[0]['c'][1]['v'], 12345);
+        $this->assertEquals($rows[0]['c'][2]['v'], 67890);
+        $this->assertEquals($rows[1]['c'][0]['v'], 'Date(1988, 3, 25, 0, 0, 0)');
+        $this->assertEquals($rows[1]['c'][1]['v'], 1122);
+        $this->assertEquals($rows[1]['c'][2]['v'], 3344);
+    }
+
+    /**
+     * @depends testAddColumnWithTypeAndDescription
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidCellCount
+     */
+    public function testAddMoreCellsThanColumns()
+    {
+        $lc = new Lavacharts;
+        $dt = $lc->DataTable();
+
+        $dt->addColumn('date');
+        $dt->addColumn('number');
+        $dt->addRow(array(Carbon::parse('March 24th, 1988'), 12345, 67890));
+    }
 }
 
 //dataProvider

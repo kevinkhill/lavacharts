@@ -30,6 +30,8 @@ use Khill\Lavacharts\Exceptions\InvalidDate;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 use Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
+use Khill\Lavacharts\Exceptions\InvalidRowDefinition;
+use Khill\Lavacharts\Exceptions\InvalidCellCount;
 
 class DataTable
 {
@@ -223,8 +225,9 @@ class DataTable
      * a cell in an array, or omit trailing array members. So, to indicate a row
      * with null for the first two cells, you would specify [null, null, {cell_val}].
      *
-     * @see   Khill\Lavacharts\Configs\DataCell
      * @param mixed $opt_cell Array of values or DataCells.
+     * 
+     * @throws Khill\Lavacharts\Exceptions\InvalidCellCount
      *
      * @return Khill\Lavacharts\Configs\DataTable
      */
@@ -240,6 +243,7 @@ class DataTable
             for ($a = 0; $a < count($this->cols); $a++) {
                 $tmp[] = array('v' => null);
             }
+
             $this->rows[] = array('c' => $tmp);
         } else {
             if (is_array($optCellArray)) {
@@ -268,13 +272,11 @@ class DataTable
                         }
                         $this->rows[] = array('c' => $rowVals);
                     } else {
-                        $msg = 'Invalid number of cells, must be equal or less than number of columns. ';
-                        $msg .= '(cells '.count($optCellArray).' > cols '.count($this->cols).')';
-                        throw new \Exception($msg);
+                        throw new InvalidCellCount(count($optCellArray), count($this->cols));
                     }
                 }
             } else {
-                throw new \Exception('Invalid row definition, must be type (array)');
+                throw new InvalidRowDefinition($optCellArray);
             }
         }
 
@@ -296,7 +298,10 @@ class DataTable
                 $this->addRow($row);
             }
         } else {
-            throw new \Exception('Invalid value for addRows, must be type (array), multi-dimensional.');
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'array of arrays'
+            );
         }
 
         return $this;
