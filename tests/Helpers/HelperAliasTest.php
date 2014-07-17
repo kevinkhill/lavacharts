@@ -47,12 +47,6 @@ class HelperAliasTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse( Helpers::isHorizontalAxis(new \stdClass));
     }
 
-    public function testAliasedIsJsDate()
-    {
-        $this->assertTrue( Helpers::isJsDate(new C\JsDate));
-        $this->assertFalse( Helpers::isJsDate(new \stdClass));
-    }
-
     public function testAliasedIsLegend()
     {
         $this->assertTrue( Helpers::isLegend(new C\Legend));
