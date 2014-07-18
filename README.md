@@ -57,7 +57,7 @@ Here is an example of the simplest chart you can create: A line chart with one d
 Controller
 ==========
   ```
-  $stocksTable = Lava::DataTable('Stocks');
+  $stocksTable = Lava::DataTable();
 
   $stocksTable->addColumn('date', 'Date', 'date')
               ->addColumn('number', 'Projected', 'projected')
@@ -66,33 +66,47 @@ Controller
   for($a = 1; $a < 30; $a++)
   {
       $data = array(
-          Lava::jsDate(2011, 5, $a), //Date
-          rand(9500,10000),          //Column 1's data
-          rand(9500,10000)           //Column 2's data
+          Carbon::create(2011, 5, $a), //Date
+          rand(9500,10000),            //Column 1's data
+          rand(9500,10000)             //Column 2's data
       );
 
       $stocksTable->addRow($data);
   }
 
-  Lava::LineChart('Stocks')->title('Stock Market Trends');
+  Lava::LineChart('Stocks')
+      ->dataTable($stocksTable)
+      ->title('Stock Market Trends');
   ```
 
 View
 ====
+If you are using Laravel and the Blade templating engine, there are some nifty extensions thrown in for a cleaner view
+
   ```
-  echo Lava::LineChart('Stocks')->outputInto('stocks');
+  @linechart('Stocks', 'stocks-div');
+  // Behind the scenes this just calls Lava::render('LineChart', 'Stocks', 'stocks-div')
   ```
 
-This is assuming you already have a div in your page with the id "stocks":
-```<div id="stocks"></div>```
+Or you can use the new render method, passing in the chart type, label, and element id.
+
+  ```
+  echo Lava::render('LineChart', 'Stocks', 'stocks-div');
+  ```
+
+This is all assuming you already have a div in your page with the id "stocks":
+```<div id="stocks-div"></div>```
+
 
 Changelog
 ---------
- - v1.0.0
-   - Refactored the main Lavacharts class to not be static anymore
+ - v2.0.0-alpha1
+   - Refactored the main Lavacharts class to not be static anymore (yay!)
    - Moved the creation of the javascript into it's own class
-   - Added a new class "Volcano" to hold all the LavaCharts and DataTables
-   - Modfied the charts to not staticly call the Lavacharts functions in favor
-     of dependancy injection with the Volcano class
+   - Added a new class "Volcano" to store all the charts.
+   - Modfied the charts to not staticly call the Lavacharts functions
+   - DataTable are no longer magic, but applied via method chainging
+   - Added render method in favor of outputInto
+   - Added Bladed Template extensions as aliases to the render method
    - Tests tests tests!
-   - Used phpcs to bring all the code up to PSR2 standards
+   - Using phpcs to bring all the code up to PSR2 standards
