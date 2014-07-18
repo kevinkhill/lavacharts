@@ -23,6 +23,8 @@ use Khill\Lavacharts\Charts\Chart;
 
 class GeoChart extends Chart
 {
+    public $type = 'GeoChart';
+
     public function __construct($chartLabel)
     {
         parent::__construct($chartLabel);

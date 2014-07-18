@@ -33,6 +33,8 @@ use Khill\Lavacharts\Charts\Chart;
 
 class TreeMap extends Chart
 {
+    public $type = 'TreeMap';
+
     public function __construct($chartLabel)
     {
         parent::__construct($chartLabel);

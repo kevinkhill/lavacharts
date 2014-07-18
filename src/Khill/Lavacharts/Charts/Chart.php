@@ -34,17 +34,13 @@ class Chart
     /**
      * Builds a new chart with a label and access to the volcano storage
      *
-     * @param string $label
+     * @param string $chartLabel Label for the chart to be stored in the Volcano. 
      */
-    public function __construct($label)
+    public function __construct($chartLabel)
     {
-        $typePieces = explode('\\', get_class($this));
-
-        $this->type  = $typePieces[count($typePieces) - 1];
-        $this->label = $label;
+        $this->label = $chartLabel;
         $this->defaults = array(
             'dataTable',
-
             'backgroundColor',
             'chartArea',
             'colors',

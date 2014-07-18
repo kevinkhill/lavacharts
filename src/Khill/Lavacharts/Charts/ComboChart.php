@@ -28,6 +28,8 @@ use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class ComboChart extends Chart
 {
     //use \Khill\Lavacharts\Traits\AxisTitlesPosition;
+ 
+    public $type = 'ComboChart';
 
     public function __construct($chartLabel)
     {

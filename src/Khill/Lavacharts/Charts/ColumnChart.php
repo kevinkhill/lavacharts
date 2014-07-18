@@ -21,6 +21,8 @@ use Khill\Lavacharts\Helpers\Helpers;
 
 class ColumnChart extends Chart
 {
+    public $type = 'ColumnChart';
+
     public function __construct($chartLabel)
     {
         parent::__construct($chartLabel);

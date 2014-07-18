@@ -20,6 +20,8 @@ use Khill\Lavacharts\Helpers\Helpers;
 
 class AreaChart extends Chart
 {
+    public $type = 'AreaChart';
+
     public function __construct($chartLabel)
     {
         parent::__construct($chartLabel);

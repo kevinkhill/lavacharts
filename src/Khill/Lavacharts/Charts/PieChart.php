@@ -20,6 +20,8 @@ use Khill\Lavacharts\Charts\Chart;
 
 class PieChart extends Chart
 {
+    public $type = 'PieChart';
+
     public function __construct($chartLabel)
     {
         parent::__construct($chartLabel);

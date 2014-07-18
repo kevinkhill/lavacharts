@@ -23,6 +23,8 @@ use Khll\Lavacharts\Exceptions\InvalidConfigValue;
 
 class LineChart extends Chart
 {
+    public $type = 'LineChart';
+
     public function __construct($chartLabel)
     {
         parent::__construct($chartLabel);
@@ -68,7 +70,6 @@ class LineChart extends Chart
             $this->addOption(array('axisTitlesPosition' => $position));
         } else {
             throw new InvalidConfigValue(
-                $this->chartType,
                 __FUNCTION__,
                 'string',
                 'with a value of '.Helpers::arrayToPipedString($values)
@@ -100,7 +101,6 @@ class LineChart extends Chart
             $this->addOption(array('curveType' => $curveType));
         } else {
             throw new InvalidConfigValue(
-                $this->chartType,
                 __FUNCTION__,
                 'string',
                 'with a value of '.Helpers::arrayToPipedString($values)
@@ -126,7 +126,6 @@ class LineChart extends Chart
             $this->addOption($hAxis->toArray());
         } else {
             throw new InvalidConfigValue(
-                $this->chartType,
                 __FUNCTION__,
                 'hAxis'
             );
@@ -149,7 +148,6 @@ class LineChart extends Chart
             $this->addOption(array('isHTML' => $isHTML));
         } else {
             throw new InvalidConfigValue(
-                $this->chartType,
                 __FUNCTION__,
                 'boolean'
             );
@@ -174,7 +172,6 @@ class LineChart extends Chart
             $this->addOption(array('interpolateNulls' => $interpolateNulls));
         } else {
             throw new InvalidConfigValue(
-                $this->chartType,
                 __FUNCTION__,
                 'boolean'
             );
@@ -199,7 +196,6 @@ class LineChart extends Chart
             $this->addOption(array('lineWidth' => $width));
         } else {
             throw new InvalidConfigValue(
-                $this->chartType,
                 __FUNCTION__,
                 'int'
             );
@@ -223,7 +219,6 @@ class LineChart extends Chart
             $this->addOption(array('pointSize' => $size));
         } else {
             throw new InvalidConfigValue(
-                $this->chartType,
                 __FUNCTION__,
                 'int'
             );
@@ -248,9 +243,8 @@ class LineChart extends Chart
             $this->addOption($vAxis->toArray());
         } else {
             throw new InvalidConfigValue(
-                $this->chartType,
                 __FUNCTION__,
-                'vAxis'
+                'VerticalAxis'
             );
         }
 
