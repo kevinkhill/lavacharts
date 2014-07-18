@@ -45,11 +45,32 @@ class ConfigOptionsTest extends \PHPUnit_Framework_TestCase
         $textStyleArr = $textStyle->toArray();
 
         $this->assertTrue(is_array($textStyleArr));
-        $this->assertEquals('TextStyle', array_keys($textStyleArr)[0]);
+        $textStyleArrKeys = array_keys($textStyleArr);
+        $this->assertEquals('TextStyle', $textStyleArrKeys[0]);
         $this->assertTrue(is_array($textStyleArr['TextStyle']));
 
         $this->assertEquals('blue',  $textStyleArr['TextStyle']['color']);
         $this->assertEquals('Arial', $textStyleArr['TextStyle']['fontName']);
         $this->assertEquals(16,      $textStyleArr['TextStyle']['fontSize']);
+    }
+
+    /**
+     * @depends testTextStyleConstructorValuesAssignment
+     */
+    public function testGetValuesWithTextStyleConfigObject()
+    {
+        $textStyle = new TextStyle(array(
+            'color'    => 'blue',
+            'fontName' => 'Arial',
+            'fontSize' => 16
+        ));
+
+        $textStyleArr = $textStyle->getValues();
+
+        $this->assertTrue(is_array($textStyleArr));
+
+        $this->assertEquals('blue',  $textStyleArr['color']);
+        $this->assertEquals('Arial', $textStyleArr['fontName']);
+        $this->assertEquals(16,      $textStyleArr['fontSize']);
     }
 }
