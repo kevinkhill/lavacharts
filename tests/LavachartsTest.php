@@ -227,7 +227,6 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
             array('ChartArea'),
             array('ColorAxis'),
             array('HorizontalAxis'),
-            array('JsDate'),
             array('Gradient'),
             array('Legend'),
             array('MagnifyingGlass'),
