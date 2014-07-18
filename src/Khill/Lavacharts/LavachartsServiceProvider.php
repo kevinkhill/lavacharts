@@ -1,6 +1,7 @@
 <?php namespace Khill\Lavacharts;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\AliasLoader;
 
 class LavachartsServiceProvider extends ServiceProvider {
 
@@ -32,12 +33,12 @@ class LavachartsServiceProvider extends ServiceProvider {
     {
         $this->app['lavacharts'] = $this->app->share(function($app)
         {
-            return new Lavacharts($app['view'], $app['config']);
+            return new Lavacharts();
         });
 
         $this->app->booting(function()
         {
-            $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+            $loader = AliasLoader::getInstance();
             $loader->alias('Lava', 'Khill\Lavacharts\Facades\Lavacharts');
         });
     }

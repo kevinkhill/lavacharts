@@ -1,26 +1,32 @@
 LavaCharts [![Build Status](https://travis-ci.org/kevinkhill/LavaCharts.png?branch=master)](https://travis-ci.org/kevinkhill/LavaCharts)
 ==========
 
-LavaCharts is a Package for Laravel 4 / Composer that wraps the Google Chart API for PHP5.3+
+LavaCharts is a package for Composer that wraps the Google Chart API for PHP5.3+
+
+Aimed at Laravel 4, but will work with any PHP project.
 
 
 #Installing
-In your project's main ```composer.json``` file, add this line to the requirements:  
+In your project's main ```composer.json``` file, add this line to the requirements:
 
   ```
-  "khill/lavacharts" : "dev-master"
-  ```  
-
-Run Composer to install LavaCharts:  
-
-  ```
-  composer install
+  "khill/lavacharts" : "1.0.x"
   ```
 
-Next, register LavaCharts in your app by adding this line to the providers array in ```app/config/app.php```:  
+Run Composer to install LavaCharts:
 
   ```
-  "Khill\Lavacharts\LavachartsServiceProvider"
+  composer update
+  ```
+
+Next, register LavaCharts in your app by adding this line to the providers array in ```app/config/app.php```:
+
+  ```
+  'providers' => array(
+     ...
+
+     "Khill\Lavacharts\LavachartsServiceProvider"
+  );
   ```
 
 *Don't worry about the Alias, it is set up for you :)*
@@ -30,13 +36,7 @@ If you want to view the demos, publish the assets with:
   ```
   php artisan asset:publish khill/lavacharts
   ```
-  
-If you want to overide the default config of the package, run:
 
-  ```
-  php artisan config:publish khill/lavacharts
-  ```
-  
 
 ##Like My Work?
 Feel like buying me a coffee? [Any amount donated to is greatly apprecieated :)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ)

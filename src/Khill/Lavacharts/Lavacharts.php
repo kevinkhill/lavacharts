@@ -1,26 +1,10 @@
 <?php namespace Khill\Lavacharts;
 
-use Illuminate\View\Environment;
-use Illuminate\Config\Repository;
 use Khill\Lavacharts\Configs\jsDate;
 use Khill\Lavacharts\Configs\textStyle;
 
 class Lavacharts
 {
-    /**
-     * Illuminate view environment.
-     *
-     * @var Illuminate\View\Environment
-     */
-    protected $view;
-
-    /**
-     * Illuminate config repository.
-     *
-     * @var Illuminate\Config\Repository
-     */
-    protected $config;
-
     /**
      * Holds all the html and javscript to be output into the browser.
      *
@@ -129,19 +113,6 @@ class Lavacharts
         'slice',
         'vAxis'
     );
-
-    /**
-     * Create a new Lavacharts instance.
-     *
-     * @param  Illuminate\View\Environment  $view
-     * @param  Illuminate\Config\Repository  $config
-     * @return void
-     */
-    public function __construct(Environment $view, Repository $config)
-    {
-        $this->view   = $view;
-        $this->config = $config;
-    }
 
     /**
      * Magic function to reduce repetitive coding and create aliases.
