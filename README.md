@@ -1,4 +1,7 @@
-LavaCharts [![Build Status](https://travis-ci.org/kevinkhill/LavaCharts.png?branch=master)](https://travis-ci.org/kevinkhill/LavaCharts)
+LavaCharts [![Build Status](https://travis-ci.org/kevinkhill/LavaCharts.png?branch=master)](https://travis-ci.org/kevinkhill/LavaCharts)  
+
+[![Latest Stable Version](https://poser.pugx.org/khill/lavacharts/v/stable.svg)](https://packagist.org/packages/khill/lavacharts) [![Total Downloads](https://poser.pugx.org/khill/lavacharts/downloads.svg)](https://packagist.org/packages/khill/lavacharts) [![License](https://poser.pugx.org/khill/lavacharts/license.svg)](https://packagist.org/packages/khill/lavacharts)
+
 ==========
 
 LavaCharts is a package for Composer that wraps the Google Chart API for PHP5.3+
