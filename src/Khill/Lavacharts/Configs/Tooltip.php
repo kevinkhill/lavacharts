@@ -85,7 +85,6 @@ class Tooltip extends ConfigOptions
      * Sets the text style of the tooltip.
      *
      * @param  Khill\Lavacharts\Configs\TextStyle $textStyle A valid TextStyle object.
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Khill\Lavacharts\Configs\Tooltip
      */
