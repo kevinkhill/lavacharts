@@ -55,7 +55,7 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException PHPUnit_Framework_Error
      * @dataProvider badParamsProvider
      */
     public function testTextStyleWithBadParams($badVals)
