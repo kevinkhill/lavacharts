@@ -62,7 +62,7 @@ class Series extends ConfigOptions
      */
     public function __construct($config = array())
     {
-        $this->className = str_replace("Khill\\Lavacharts\\Configs\\", '', __CLASS__);
+        $this->className = 'Series';
         $this->options = array(
             'annotation',
             'curveType',

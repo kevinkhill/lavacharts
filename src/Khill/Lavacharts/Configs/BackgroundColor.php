@@ -25,21 +25,21 @@ class BackgroundColor extends ConfigOptions
      *
      * @var string Valid HTML color.
      */
-    public $stroke = null;
+    public $stroke;
 
     /**
      * The border width, in pixels.
      *
      * @var int Width in number of pixels.
      */
-    public $strokeWidth = null;
+    public $strokeWidth;
 
     /**
      * The chart fill color, as an HTML color string.
      *
      * @var string Valid HTML color.
      */
-    public $fill = null;
+    public $fill;
 
 
     /**
@@ -55,7 +55,7 @@ class BackgroundColor extends ConfigOptions
      */
     public function __construct($config = array())
     {
-        $this->className = str_replace("Khill\\Lavacharts\\Configs\\", '', __CLASS__);
+        $this->className = 'BackgroundColor';
         $this->options = array(
             'stroke',
             'strokeWidth',

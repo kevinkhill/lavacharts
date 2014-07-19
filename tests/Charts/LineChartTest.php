@@ -8,21 +8,21 @@ class LineChartTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->linechart = new LineChart('test');
+        $this->lc = new LineChart('test');
     }
 
     public function testInstanceOfLineChartWithType()
     {
-    	$this->assertInstanceOf('Khill\Lavacharts\Charts\LineChart', $this->linechart);
+    	$this->assertInstanceOf('Khill\Lavacharts\Charts\LineChart', $this->lc);
     }
 
     public function testTypeLineChart()
     {
-    	$this->assertEquals('LineChart', $this->linechart->type);
+    	$this->assertEquals('LineChart', $this->lc->type);
     }
 
     public function testLabelAssignedViaConstructor()
     {
-    	$this->assertEquals('test', $this->linechart->label);
+    	$this->assertEquals('test', $this->lc->label);
     }
 }

@@ -27,113 +27,106 @@ class Axis extends ConfigOptions
      *
      * @var int|Khill\Lavacharts\Configs\JsDate
      */
-    public $baseline = null;
+    public $baseline;
 
     /**
      * The color of the baseline for the axis.
      *
      * @var string Valid HTML color.
      */
-    public $baselineColor = null;
+    public $baselineColor;
 
     /**
      * The direction in which the values along the axis grow.
      *
      * @var int 1 for natural, -1 for reverse.
      */
-    public $direction = null;
+    public $direction;
 
     /**
      * A format string for numeric axis labels.
      *
      * @var string A string representing how data should be formatted.
      */
-    public $format = null;
+    public $format;
 
     /**
      * An array with key => value pairs to configure the gridlines.
      *
      * @var array Accepted array keys [ color | count ].
      */
-    public $gridlines = null;
+    public $gridlines;
 
     /**
      * An array with key => value pairs to configure the minorGridlines.
      *
      * @var array Accepted array keys [ color | count ].
      */
-    public $minorGridlines = null;
+    public $minorGridlines;
 
     /**
      * Linear or Logarithmic scaled axis.
      *
      * @var boolean If true, axis will be scaled; If false, linear.
      */
-    public $logScale = null;
+    public $logScale;
 
     /**
      * Position of the vertical axis text, relative to the chart area.
      *
      * @var string Accepted values [ out | in | none ].
      */
-    public $textPosition = null;
+    public $textPosition;
 
     /**
      * An object that specifies the axis text style.
      *
      * @var Khill\Lavacharts\Configs\TextStyle
      */
-    public $textStyle = null;
+    public $textStyle;
 
     /**
      * Property that specifies a title for the axis.
      *
      * @var string Axis title.
      */
-    public $title = null;
+    public $title;
 
     /**
      * An object that specifies the text style of the chart title.
      *
      * @var textStyle
      */
-    public $titleTextStyle = null;
+    public $titleTextStyle;
 
     /**
      * Moves the max value of the axis to the specified value.
      *
      * @var int
      */
-    public $maxValue = null;
+    public $maxValue;
 
     /**
      * Moves the min value of the axis to the specified value.
      *
      * @var int
      */
-    public $minValue = null;
+    public $minValue;
 
     /**
      * Specifies how to scale the axis to render the values within the chart area.
      *
      * @var string Accepted values [ pretty | maximized | explicit ].
      */
-    public $viewWindowMode = null;
+    public $viewWindowMode;
 
     /**
      * Specifies the cropping range of the vertical axis.
      *
      * @var array Accepted array keys [ min | max ].
      */
-    public $viewWindow = null;
-
-    /**
-     * Stores all the configuration for the axis.
-     *
-     * @var array Configuration options.
-     */
-    public $options = array();
-
+    public $viewWindow;
+    
 
     /**
      * Builds the configuration when passed an array of options.

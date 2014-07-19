@@ -60,11 +60,7 @@ class BoxStyle extends ConfigOptions
      */
     public function __construct($config = array())
     {
-        if (! array_key_exists('stroke', $config)) {
-            $this->stroke = $this->randomColor();
-        }
-
-        $this->className = str_replace("Khill\\Lavacharts\\Configs\\", '', __CLASS__);
+        $this->className = 'BoxStyle';
         $this->options = array(
             'stroke',
             'strokeWidth',
@@ -72,6 +68,10 @@ class BoxStyle extends ConfigOptions
             'ry',
             'gradient'
         );
+
+        if (! array_key_exists('stroke', $config)) {
+            $this->stroke = $this->randomColor();
+        }
 
         parent::__construct($config);
     }

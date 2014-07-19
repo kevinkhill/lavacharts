@@ -23,11 +23,6 @@ use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 class ConfigOptions
 {
     /**
-     * @var string Class name without namespace.
-     */
-    protected $className;
-
-    /**
      * @var string Output of the configOptions object.
      */
     protected $output;
@@ -35,7 +30,7 @@ class ConfigOptions
     /**
      * @var array Allowed keys for the configOptions child objects.
      */
-    protected $options;
+    protected $options = array();
 
     /**
      * Builds the ConfigOptions object.

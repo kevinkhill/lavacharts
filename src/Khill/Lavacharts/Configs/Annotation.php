@@ -29,7 +29,7 @@ class Annotation extends ConfigOptions
     /**
      * @var Khill\Lavacharts\Configs\TextStyle Text style of the annotation.
      */
-    public $textStyle = null;
+    public $textStyle;
 
     /**
      * Builds the annotation object.
@@ -43,7 +43,7 @@ class Annotation extends ConfigOptions
      */
     public function __construct($config = array())
     {
-        $this->className = str_replace("Khill\\Lavacharts\\Configs\\", '', __CLASS__);
+        $this->className = 'Annotation';
         $this->options = array(
             'highContrast',
             'textStyle'

@@ -24,22 +24,22 @@ class ChartArea extends ConfigOptions
     /**
      * @var int|string How far to draw the chart from the left border.
      */
-    public $left = null;
+    public $left;
 
     /**
      * @var int|string How far to draw the chart from the top border.
      */
-    public $top = null;
+    public $top;
 
     /**
      * @var int|string Width of the chart.
      */
-    public $width = null;
+    public $width;
 
     /**
      * @var int|string Height of the chart.
      */
-    public $height = null;
+    public $height;
 
 
     /**
@@ -51,7 +51,7 @@ class ChartArea extends ConfigOptions
      */
     public function __construct($config = array())
     {
-        $this->className = str_replace("Khill\\Lavacharts\\Configs\\", '', __CLASS__);
+        $this->className = 'ChartArea';
         $this->options = array(
             'left',
             'top',
