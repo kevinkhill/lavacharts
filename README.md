@@ -94,7 +94,7 @@ Or you can use the new render method, passing in the chart type, label, and elem
   echo Lava::render('LineChart', 'Stocks', 'stocks-div');
   ```
 
-This is all assuming you already have a div in your page with the id "stocks":
+This is all assuming you already have a div in your page with the id "stocks-div":
 ```<div id="stocks-div"></div>```
 
 
@@ -105,8 +105,8 @@ Changelog
    - Moved the creation of the javascript into it's own class
    - Added a new class "Volcano" to store all the charts.
    - Modfied the charts to not staticly call the Lavacharts functions
-   - DataTable are no longer magic, but applied via method chainging
-   - Added render method in favor of outputInto
-   - Added Bladed Template extensions as aliases to the render method
+   - DataTables are no longer magic, but applied via method chaining
+   - Added render method in favor of outputInto method
+   - Added blade template extensions as aliases to the render method
    - Tests tests tests!
    - Using phpcs to bring all the code up to PSR2 standards
