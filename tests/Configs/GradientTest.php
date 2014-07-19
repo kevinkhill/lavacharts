@@ -8,7 +8,7 @@ class GradientTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->g = new Gradient();
+        $this->g = new Gradient;
     }
 
     public function testIfInstanceOfGradient()

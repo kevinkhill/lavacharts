@@ -8,19 +8,19 @@ class TextStyleTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->textStyle = new TextStyle();
+        $this->ts = new TextStyle;
     }
 
     public function testIfInstanceOfTextStyle()
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\TextStyle', $this->textStyle);
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\TextStyle', $this->ts);
     }
 
     public function testConstructorDefaults()
     {
-        $this->assertNull($this->textStyle->color);
-        $this->assertNull($this->textStyle->fontName);
-        $this->assertNull($this->textStyle->fontSize);
+        $this->assertNull($this->ts->color);
+        $this->assertNull($this->ts->fontName);
+        $this->assertNull($this->ts->fontSize);
     }
 
     public function testConstructorValuesAssignment()
@@ -50,7 +50,7 @@ class TextStyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testColorWithBadParams($badVals)
     {
-        $this->textStyle->color($badVals);
+        $this->ts->color($badVals);
     }
 
     /**
@@ -59,7 +59,7 @@ class TextStyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testFontNameWithBadParams($badVals)
     {
-        $this->textStyle->fontName($badVals);
+        $this->ts->fontName($badVals);
     }
 
     /**
@@ -68,7 +68,7 @@ class TextStyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testFontSizeWithBadParams($badVals)
     {
-        $this->textStyle->fontSize($badVals);
+        $this->ts->fontSize($badVals);
     }
 
 

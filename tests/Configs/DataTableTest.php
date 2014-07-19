@@ -9,19 +9,18 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
+
+        $this->lc = new Lavacharts;
     }
 
     public function testIfInstanceOfDataTable()
     {
-        $lc = new Lavacharts;
-
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\DataTable', $lc->DataTable());
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\DataTable', $this->lc->DataTable());
     }
 
     public function testAddColumnWithTypeOnly()
     {
-        $lc = new Lavacharts;
-        $dt = $lc->DataTable();
+        $dt = $this->lc->DataTable();
 
         $dt->addColumn('date');
 
@@ -32,8 +31,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
     public function testAddColumnWithArrayOfTypeOnly()
     {
-        $lc = new Lavacharts;
-        $dt = $lc->DataTable();
+        $dt = $this->lc->DataTable();
 
         $dt->addColumn(array('date'));
 
@@ -44,8 +42,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
     public function testAddColumnWithTypeAndDescription()
     {
-        $lc = new Lavacharts;
-        $dt = $lc->DataTable();
+        $dt = $this->lc->DataTable();
 
         $dt->addColumn('date', 'Days in March');
 
@@ -57,8 +54,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
     public function testAddColumnWithArrafOfTypeAndDescription()
     {
-        $lc = new Lavacharts;
-        $dt = $lc->DataTable();
+        $dt = $this->lc->DataTable();
 
         $dt->addColumn(array('date', 'Days in March'));
 
@@ -70,8 +66,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
     public function testAddColumnWithTypeAndDescriptionAndId()
     {
-        $lc = new Lavacharts;
-        $dt = $lc->DataTable();
+        $dt = $this->lc->DataTable();
 
         $dt->addColumn('date', 'Days in March', 'march-dates');
 
@@ -84,8 +79,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
     public function testAddColumnWithArrayOfTypeAndDescriptionAndId()
     {
-        $lc = new Lavacharts;
-        $dt = $lc->DataTable();
+        $dt = $this->lc->DataTable();
 
         $dt->addColumn(array('date', 'Days in March', 'march-dates'));
 
@@ -101,8 +95,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddMultipleColumnsWithArrayOfTypeAndDescriptionAndId()
     {
-        $lc = new Lavacharts;
-        $dt = $lc->DataTable();
+        $dt = $this->lc->DataTable();
 
         $dt->addColumns(array(
             array('date', 'Days in March', 'march-dates'),
@@ -130,8 +123,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddRowWithTypeDateOnly()
     {
-        $lc = new Lavacharts;
-        $dt = $lc->DataTable();
+        $dt = $this->lc->DataTable();
 
         $dt->addColumn('date');
 
@@ -149,8 +141,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddRowWithMultipleColumnsWithDateAndNumbers()
     {
-        $lc = new Lavacharts;
-        $dt = $lc->DataTable();
+        $dt = $this->lc->DataTable();
 
         $dt->addColumn('date');
         $dt->addColumn('number');
@@ -173,8 +164,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddMultipleRowsWithMultipleColumnsWithDateAndNumbers()
     {
-        $lc = new Lavacharts;
-        $dt = $lc->DataTable();
+        $dt = $this->lc->DataTable();
 
         $dt->addColumn('date');
         $dt->addColumn('number');
@@ -206,8 +196,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddBadMultipleRowsWithMultipleColumnsWithDateAndNumbers()
     {
-        $lc = new Lavacharts;
-        $dt = $lc->DataTable();
+        $dt = $this->lc->DataTable();
 
         $dt->addColumn('date');
         $dt->addColumn('number');
@@ -239,8 +228,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddMoreCellsThanColumns()
     {
-        $lc = new Lavacharts;
-        $dt = $lc->DataTable();
+        $dt = $this->lc->DataTable();
 
         $dt->addColumn('date');
         $dt->addColumn('number');

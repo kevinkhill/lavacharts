@@ -8,7 +8,7 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->ca = new ChartArea();
+        $this->ca = new ChartArea;
     }
 
     public function testIfInstanceOfchartArea()

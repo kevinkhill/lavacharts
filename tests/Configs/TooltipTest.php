@@ -9,19 +9,19 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->tooltip = new Tooltip();
+        $this->tt = new Tooltip();
     }
 
     public function testIfInstanceOfTooltip()
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\Tooltip', $this->tooltip);
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\Tooltip', $this->tt);
     }
 
     public function testConstructorDefaults()
     {
-        $this->assertNull($this->tooltip->showColorCode);
-        $this->assertNull($this->tooltip->textStyle);
-        $this->assertNull($this->tooltip->trigger);
+        $this->assertNull($this->tt->showColorCode);
+        $this->assertNull($this->tt->textStyle);
+        $this->assertNull($this->tt->trigger);
     }
 
     public function testConstructorValuesAssignment()
@@ -51,7 +51,7 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
      */
     public function testShowColorCodeWithBadParams($badVals)
     {
-        $this->tooltip->showColorCode($badVals);
+        $this->tt->showColorCode($badVals);
     }
 
     /**
@@ -60,7 +60,7 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
      */
     public function testTextStyleWithBadParams($badVals)
     {
-        $this->tooltip->textStyle($badVals);
+        $this->tt->textStyle($badVals);
     }
 
     /**
@@ -69,7 +69,7 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
      */
     public function testTriggerWithBadParams($badVals)
     {
-        $this->tooltip->trigger($badVals);
+        $this->tt->trigger($badVals);
     }
 
 

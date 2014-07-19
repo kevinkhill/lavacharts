@@ -9,7 +9,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->bs = new BoxStyle();
+        $this->bs = new BoxStyle;
     }
 
     public function testIfInstanceOfBoxStyle()

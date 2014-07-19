@@ -7,25 +7,23 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
+
+        $this->bgc = new BackgroundColor;
     }
 
     public function testIfInstanceOfbackgroundColor()
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\backgroundColor', new BackgroundColor());
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\backgroundColor', $this->bgc);
     }
 
     public function testConstructorDefaults()
     {
-        $bgc = new BackgroundColor();
-
-        $this->assertNull($bgc->stroke);
-        $this->assertNull($bgc->strokeWidth);
+        $this->assertNull($this->bgc->stroke);
+        $this->assertNull($this->bgc->strokeWidth);
     }
 
     public function testConstructorValuesAssignment()
     {
-        $bgc = new BackgroundColor();
-
         $backgroundColor = new BackgroundColor(array(
             'stroke'      => '#E3D5F2',
             'strokeWidth' => 6,
@@ -51,9 +49,7 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
      */
     public function testStrokeWithBadParams($badVals)
     {
-        $bgc = new BackgroundColor();
-
-        $bgc->stroke($badVals);
+        $this->bgc->stroke($badVals);
     }
 
     /**
@@ -63,9 +59,7 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
      */
     public function testStrokeWidthWithBadParams($badVals)
     {
-        $bgc = new BackgroundColor();
-
-        $bgc->strokeWidth($badVals);
+        $this->bgc->strokeWidth($badVals);
     }
 
     /**
@@ -74,9 +68,7 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
      */
     public function testFillWithBadParams($badVals)
     {
-        $bgc = new BackgroundColor();
-
-        $bgc->fill($badVals);
+        $this->bgc->fill($badVals);
     }
 
 

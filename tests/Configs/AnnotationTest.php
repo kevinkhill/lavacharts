@@ -9,7 +9,7 @@ class AnnotationTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->a = new Annotation();
+        $this->a = new Annotation;
     }
 
     public function testIfInstanceOfAnnotation()
