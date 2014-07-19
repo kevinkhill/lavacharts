@@ -44,6 +44,9 @@ If you want to view the demos, publish the assets with:
 ##Like My Work?
 Feel like buying me a coffee? [Any amount donated to is greatly apprecieated :)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ)
 
+
+*psssst, version 2.0 is in the works, if you want to check it out, take a peek at the v2 branch*
+
 - - -
 
 ##[MIT License](http://opensource.org/licenses/MIT)
