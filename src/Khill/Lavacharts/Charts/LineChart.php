@@ -19,7 +19,7 @@
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Configs\HorizontalAxis;
 use Khill\Lavacharts\Configs\VerticalAxis;
-use Khll\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class LineChart extends Chart
 {
@@ -66,10 +66,10 @@ class LineChart extends Chart
             'none'
         );
 
-        if (in_array($position, $values)) {
+        if (is_string($position) && in_array($position, $values)) {
             $this->addOption(array('axisTitlesPosition' => $position));
         } else {
-            throw new InvalidConfigValue(
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
                 'with a value of '.Helpers::arrayToPipedString($values)
@@ -80,8 +80,9 @@ class LineChart extends Chart
     }
 
     /**
-     * Controls the curve of the lines when the line width is not zero. Can be one of the following:
-     *
+     * Controls the curve of the lines when the line width is not zero.
+     * 
+     * Can be one of the following:
      * 'none' - Straight lines without curve.
      * 'function' - The angles of the line will be smoothed.
      *
@@ -100,7 +101,7 @@ class LineChart extends Chart
         if (is_string($curveType) && in_array($curveType, $values)) {
             $this->addOption(array('curveType' => $curveType));
         } else {
-            throw new InvalidConfigValue(
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
                 'with a value of '.Helpers::arrayToPipedString($values)
@@ -122,23 +123,18 @@ class LineChart extends Chart
      */
     public function hAxis(HorizontalAxis $hAxis)
     {
-        if (Helpers::is_hAxis($hAxis)) {
-            $this->addOption($hAxis->toArray());
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'hAxis'
-            );
-        }
+        $this->addOption($hAxis->toArray('hAxis'));
 
         return $this;
     }
 
     /**
      * If set to true, use HTML-rendered (rather than SVG-rendered) tooltips.
-     *
+     * 
+     * @codeCoverageIgnore 
+     * @deprecated Deprecated by Google, now a value of Tooltip Object
+     * 
      * @param boolean $isHTML
-     *
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\LineChart
      */
@@ -147,7 +143,7 @@ class LineChart extends Chart
         if (is_bool($isHTML)) {
             $this->addOption(array('isHTML' => $isHTML));
         } else {
-            throw new InvalidConfigValue(
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'boolean'
             );
@@ -171,7 +167,7 @@ class LineChart extends Chart
         if (is_bool($interpolateNulls)) {
             $this->addOption(array('interpolateNulls' => $interpolateNulls));
         } else {
-            throw new InvalidConfigValue(
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'boolean'
             );
@@ -195,7 +191,7 @@ class LineChart extends Chart
         if (is_int($width)) {
             $this->addOption(array('lineWidth' => $width));
         } else {
-            throw new InvalidConfigValue(
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
@@ -218,7 +214,7 @@ class LineChart extends Chart
         if (is_int($size)) {
             $this->addOption(array('pointSize' => $size));
         } else {
-            throw new InvalidConfigValue(
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
@@ -239,15 +235,8 @@ class LineChart extends Chart
      */
     public function vAxis(VerticalAxis $vAxis)
     {
-        if (Helpers::is_vAxis($vAxis)) {
-            $this->addOption($vAxis->toArray());
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'VerticalAxis'
-            );
-        }
-
+        $this->addOption($vAxis->toArray('vAxis'));
+ 
         return $this;
     }
 }

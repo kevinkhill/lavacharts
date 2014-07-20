@@ -18,6 +18,10 @@
 use Khill\Lavacharts\Configs\DataTable;
 use Khill\Lavacharts\JavascriptFactory;
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Configs\Tooltip;
+use Khill\Lavacharts\Configs\TextStyle;
+use Khill\Lavacharts\Configs\ChartArea;
+use Khill\Lavacharts\Configs\BackgroundColor;
 use Khill\Lavacharts\Exceptions\LabelNotFound;
 use Khill\Lavacharts\Exceptions\InvalidElementId;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -160,18 +164,13 @@ class Chart
      * The background color for the main area of the chart. Can be either a simple
      * HTML color string, for example: 'red' or '#00cc00', or a backgroundColor object
      *
-     * @param Khill\Lavacharts\Configs\BackgroundColor $backgroundColor backgroundColor
+     * @param Khill\Lavacharts\Configs\BackgroundColor $backgroundColor
      *
      * @return Khill\Lavacharts\Charts\Chart
      */
     public function backgroundColor(BackgroundColor $backgroundColor)
     {
-        if (Helpers::is_backgroundColor($backgroundColor)) {
-            $this->addOption($backgroundColor->toArray());
-        } else {
-            //throw new InvalidConfigValue($this->className, __FUNCTION__, 'int');
-            //$this->type_error(__FUNCTION__, 'backgroundColor');
-        }
+        $this->addOption($backgroundColor->toArray());
 
         return $this;
     }
@@ -188,12 +187,8 @@ class Chart
      */
     public function chartArea(ChartArea $chartArea)
     {
-        if (Helpers::is_chartArea($chartArea)) {
-            $this->addOption($chartArea->toArray());
-        } else {
-           // $this->type_error(__FUNCTION__, 'chartArea');
-        }
-
+        $this->addOption($chartArea->toArray());
+ 
         return $this;
     }
 
@@ -205,7 +200,7 @@ class Chart
      *
      * @return Khill\Lavacharts\Charts\Chart
      */
-    public function colors(array $colorArray)
+    public function colors($colorArray)
     {
         if (Helpers::arrayValuesCheck($colorArray, 'string')) {
             $this->addOption(array('colors' => $colorArray));
@@ -261,7 +256,7 @@ class Chart
      *
      * @return Khill\Lavacharts\Charts\Chart
      */
-    public function fontSize(int $fontSize)
+    public function fontSize($fontSize)
     {
         if (is_int($fontSize)) {
             $this->addOption(array('fontSize' => $fontSize));
@@ -298,7 +293,7 @@ class Chart
      *
      * @return Khill\Lavacharts\Charts\Chart
      */
-    public function height(int $height)
+    public function height($height)
     {
         if (is_int($height)) {
             $this->addOption(array('height' => $height));
@@ -314,18 +309,14 @@ class Chart
      * specify properties of this object, create a new legend() object, set the
      * values then pass it to this function or to the constructor.
      *
-     * @param Khill\Lavacharts\Configs\Legend $legendObj
+     * @param Khill\Lavacharts\Configs\Legend $legend
      *
-     * @return Khill\Lavacharts\Charts\Charts\Chart
+     * @return Khill\Lavacharts\Charts\Chart
      */
-    public function legend(Legend $legendObj)
+    public function legend(Legend $legend)
     {
-        if (Helpers::is_legend($legendObj)) {
-            $this->addOption($legendObj->toArray());
-        } else {
-            $this->type_error(__FUNCTION__, 'legend');
-        }
-
+        $this->addOption($legend->toArray());
+ 
         return $this;
     }
 
@@ -378,17 +369,13 @@ class Chart
      * An object that specifies the title text style. create a new textStyle()
      * object, set the values then pass it to this function or to the constructor.
      *
-     * @param Khill\Lavacharts\Configs\TextStyle $textStyleObj
+     * @param Khill\Lavacharts\Configs\TextStyle $textStyle
      *
      * @return Khill\Lavacharts\Charts\Chart
      */
-    public function titleTextStyle(TextStyle $textStyleObj)
+    public function titleTextStyle(TextStyle $textStyle)
     {
-        if (Helpers::is_textStyle($textStyleObj)) {
-            $this->addOption(array('titleTextStyle' => $textStyleObj->getValues()));
-        } else {
-            $this->type_error(__FUNCTION__, 'textStyle');
-        }
+        $this->addOption(array('titleTextStyle' => $textStyle->getValues()));           
 
         return $this;
     }
@@ -399,18 +386,14 @@ class Chart
      * properties of this object, create a new tooltip() object, set the values
      * then pass it to this function or to the constructor.
      *
-     * @param Khill\Lavacharts\Configs\Tooltip $tooltipObj
+     * @param Khill\Lavacharts\Configs\Tooltip $tooltip
      *
      * @return Khill\Lavacharts\Charts\Chart
      */
-    public function tooltip(Tooltip $tooltipObj)
+    public function tooltip(Tooltip $tooltip)
     {
-        if (Helpers::is_tooltip($tooltipObj)) {
-            $this->addOption($tooltipObj->toArray());
-        } else {
-            $this->error(__FUNCTION__, 'tooltip');
-        }
-
+        $this->addOption($tooltip->toArray());
+ 
         return $this;
     }
 
@@ -433,42 +416,28 @@ class Chart
     }
 
     /**
-     * Adds the error message to the error log in the lavacharts master object.
-     *
-     * @param string $msg
-     */
-    public function error($msg)
-    {
-        Lavacharts::_set_error($this->type.'('.$this->label.')', $msg);
-    }
-
-    /**
-     * Adds an function/type error message to the error log in the lavacharts object.
-     *
-     * @param string Property in error
-     * @param string Variable type
-     * @param string Extra message to append to error
-     */
-    public function type_error($val, $type, $extra = false)
-    {
-        $msg = sprintf(
-            'Invalid value for %s, must be type (%s)',
-            $val,
-            $type
-        );
-
-        $msg .= $extra ? ' '.$extra.'.' : '.';
-
-        $this->error($msg);
-    }
-
-    /**
      * Returns a JSON string representation of the object's properties.
      *
      * @return string
      */
-    public function optionsToJSON()
+    public function optionsToJson()
     {
         return json_encode($this->options);
+    }
+
+    protected function invalidConfigValue($func, $type, $extra = '')
+    { 
+        if ( ! empty($extra)) {
+            return new InvalidConfigValue(
+                $this->type . '::' . $func,
+                $type,
+                $extra
+            );
+        } else {
+            return new InvalidConfigValue(
+                $this->type . '::' . $func,
+                $type
+            );
+        }
     }
 }
