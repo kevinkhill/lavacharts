@@ -5,7 +5,7 @@ LavaCharts is a graphing library for PHP5.3+ that wraps the Google Chart API
 
 Branches
 ========
-[![Build Status](https://travis-ci.org/kevinkhill/LavaCharts.png?branch=dev)](https://travis-ci.org/kevinkhill/LavaCharts) [![Coverage Status](https://coveralls.io/repos/kevinkhill/LavaCharts/badge.png?branch=dev)](https://coveralls.io/r/kevinkhill/LavaCharts?branch=dev) [![Total Downloads](https://poser.pugx.org/khill/lavacharts/downloads.svg)](https://packagist.org/packages/khill/lavacharts) [![License](https://poser.pugx.org/khill/lavacharts/license.svg)](https://packagist.org/packages/khill/lavacharts)
+[![Build Status](https://travis-ci.org/kevinkhill/LavaCharts.png?branch=v2.0)](https://travis-ci.org/kevinkhill/LavaCharts) [![Coverage Status](https://coveralls.io/repos/kevinkhill/LavaCharts/badge.png?branch=v2.0)](https://coveralls.io/r/kevinkhill/LavaCharts?branch=v2.0) [![Total Downloads](https://poser.pugx.org/khill/lavacharts/downloads.svg)](https://packagist.org/packages/khill/lavacharts) [![License](https://poser.pugx.org/khill/lavacharts/license.svg)](https://packagist.org/packages/khill/lavacharts)
 
 Installing
 ----------

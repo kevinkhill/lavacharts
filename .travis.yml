@@ -12,7 +12,7 @@ matrix:
 branches:
   only:
     - master
-    - dev
+    - v2.0
 
 before_script:
   - composer selfupdate
