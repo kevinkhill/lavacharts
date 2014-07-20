@@ -1,7 +1,6 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
 use Khill\Lavacharts\Configs\Annotation;
-use Khill\Lavacharts\Configs\TextStyle;
 
 class AnnotationTest extends \PHPUnit_Framework_TestCase
 {
@@ -10,6 +9,11 @@ class AnnotationTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->a = new Annotation;
+
+        $this->mockTextStyle = $this->getMock(
+            'Khill\Lavacharts\Configs\TextStyle',
+            array('__construct')
+        );
     }
 
     public function testIfInstanceOfAnnotation()
@@ -27,7 +31,7 @@ class AnnotationTest extends \PHPUnit_Framework_TestCase
     {
         $annotation = new Annotation(array(
             'highContrast' => false,
-            'textStyle'    => new textStyle()
+            'textStyle'    => $this->mockTextStyle
         ));
 
         $this->assertFalse($annotation->highContrast);

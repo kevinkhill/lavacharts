@@ -1,7 +1,6 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
 use Khill\Lavacharts\Configs\Tooltip;
-use Khill\Lavacharts\Configs\TextStyle;
 
 class TooltipTest extends \PHPUnit_Framework_TestCase
 {
@@ -10,6 +9,11 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->tt = new Tooltip();
+
+        $this->mockTextStyle = $this->getMock(
+            'Khill\Lavacharts\Configs\TextStyle',
+            array('__construct')
+        );
     }
 
     public function testIfInstanceOfTooltip()
@@ -26,9 +30,14 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorValuesAssignment()
     {
+        $mockTextStyle = $this->getMock(
+            'Khill\Lavacharts\Configs\TextStyle',
+            array('__construct')
+        );
+
         $tooltip = new Tooltip(array(
             'showColorCode' => true,
-            'textStyle'     => new TextStyle(),
+            'textStyle'     => $this->mockTextStyle,
             'trigger'       => 'focus'
         ));
 

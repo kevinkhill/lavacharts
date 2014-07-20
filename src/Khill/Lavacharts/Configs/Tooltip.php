@@ -25,17 +25,17 @@ class Tooltip extends ConfigOptions
     /**
      * @var bool Show color code for the tooltip.
      */
-    public $showColorCode = null;
+    public $showColorCode;
 
     /**
      * @var TextStyle Tooltip text style
      */
-    public $textStyle = null;
+    public $textStyle;
 
     /**
      * @var string Trigger Action of the tooltip.
      */
-    public $trigger = null;
+    public $trigger;
 
 
     /**

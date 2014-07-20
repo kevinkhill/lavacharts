@@ -1,7 +1,6 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
 use Khill\Lavacharts\Configs\BoxStyle;
-use Khill\Lavacharts\Configs\Gradient;
 
 class BoxStyleTest extends \PHPUnit_Framework_TestCase
 {
@@ -10,6 +9,11 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->bs = new BoxStyle;
+
+        $this->mockGradient = $this->getMock(
+            'Khill\Lavacharts\Configs\Gradient',
+            array('__construct')
+        );
     }
 
     public function testIfInstanceOfBoxStyle()
@@ -33,7 +37,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
             'strokeWidth' => '5',
             'rx'          => '10',
             'ry'          => '10',
-            'gradient'    => new Gradient()
+            'gradient'    => $this->mockGradient
         ));
 
         $this->assertEquals('#5B5B5B', $boxStyle->stroke);

@@ -32,6 +32,6 @@ class VerticalAxis extends Axis
     {
         $this->className = 'VerticalAxis';
 
-        return parent::__construct($config);
+        parent::__construct($config);
     }
 }

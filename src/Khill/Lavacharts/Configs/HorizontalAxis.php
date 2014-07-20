@@ -67,7 +67,7 @@ class HorizontalAxis extends Axis
      * @param  array $options
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
-     * @return hAxis
+     * @return HorizontalAxis
      */
     public function __construct($config = array())
     {
@@ -98,7 +98,7 @@ class HorizontalAxis extends Axis
      *
      * @param boolean Status of allowing label cutoff
      *
-     * @return hAxis
+     * @return HorizontalAxis
      */
     public function allowContainerBoundaryTextCutoff($cutoff)
     {
@@ -127,7 +127,7 @@ class HorizontalAxis extends Axis
      *
      * @param boolean Status of label slant
      *
-     * @return hAxis
+     * @return HorizontalAxis
      */
     public function slantedText($slant)
     {
@@ -153,7 +153,7 @@ class HorizontalAxis extends Axis
      *
      * @param int Angle of labels
      *
-     * @return hAxis
+     * @return HorizontalAxis
      */
     public function slantedTextAngle($angle)
     {
@@ -183,7 +183,7 @@ class HorizontalAxis extends Axis
      *
      * @param int Number of levels
      *
-     * @return hAxis
+     * @return HorizontalAxis
      */
     public function maxAlternation($alternation)
     {
@@ -209,7 +209,7 @@ class HorizontalAxis extends Axis
      *
      * @param int Number of lines
      *
-     * @return hAxis
+     * @return HorizontalAxis
      */
     public function maxTextLines($maxTextLines)
     {
@@ -238,7 +238,7 @@ class HorizontalAxis extends Axis
      *
      * @param int Amount in pixels
      *
-     * @return hAxis
+     * @return HorizontalAxis
      */
     public function minTextSpacing($minTextSpacing)
     {
@@ -252,7 +252,7 @@ class HorizontalAxis extends Axis
                     $this->className,
                     __FUNCTION__,
                     'int',
-                    'or set via textStyle[\'fontSize\']'
+                    'or set via TextStyle[\'fontSize\']'
                 );
             }
         }
@@ -270,7 +270,7 @@ class HorizontalAxis extends Axis
      *
      * @param int Number of labels
      *
-     * @return hAxis
+     * @return HorizontalAxis
      */
     public function showTextEvery($showTextEvery)
     {
