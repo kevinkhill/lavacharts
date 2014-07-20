@@ -29,7 +29,6 @@
  */
 
 /*
-use Khill\Lavacharts\Charts\Chart;
 
 class TreeMap extends Chart
 {

@@ -16,7 +16,6 @@
 
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Exceptions\InvalidLabel;
-use Khill\Lavacharts\Exceptions\LabelNotFound;
 use Khill\Lavacharts\Exceptions\ChartNotFound;
 
 class Volcano
@@ -29,8 +28,8 @@ class Volcano
     /**
      * Stores a chart in the volcano datastore.
      *
-     * @param  Khill\Lavacharts\Charts\Chart $chart Chart to store in the volcano.
-     * @param  string $label Identifying label for the chart.
+     * @param Khill\Lavacharts\Charts\Chart $chart Chart to store in the volcano.
+     * @param string                        $label Identifying label for the chart.
      *
      * @throws Khill\Lavacharts\Exceptions\InvalidLabel
      */
@@ -44,7 +43,7 @@ class Volcano
     /**
      * Retrieves a chart from the volcano datastore.
      *
-     * @param  string $label Identifying label for the chart.
+     * @param  string                                    $label Identifying label for the chart.
      * @throws Khill\Lavacharts\Exceptions\ChartNotFound
      *
      * @return Khill\Lavacharts\Charts\Chart
@@ -61,14 +60,14 @@ class Volcano
     /**
      * Simple true/false test if a chart exists.
      *
-     * @param  string $label Identifying label of a chart to check.
+     * @param string $label Identifying label of a chart to check.
      *
      * @return bool
      */
     public function checkChart($type, $label)
     {
         if (array_key_exists($type, $this->charts)) {
-             if (array_key_exists($label, $this->charts[$type])) {
+            if (array_key_exists($label, $this->charts[$type])) {
                 return true;
             } else {
                 return false;

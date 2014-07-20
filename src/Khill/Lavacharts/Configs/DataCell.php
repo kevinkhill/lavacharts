@@ -38,7 +38,6 @@ class DataCell
      */
     public $p;
 
-
     /**
      * Defines a DataCell for a DataTable
      *

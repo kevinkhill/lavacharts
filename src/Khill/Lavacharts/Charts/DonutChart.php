@@ -17,7 +17,6 @@
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
-use Khill\Lavacharts\Charts\PieChart;
 
 class DonutChart extends PieChart
 {

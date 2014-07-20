@@ -40,7 +40,6 @@ class ColorAxis extends ConfigOptions
      */
     public $colors = null;
 
-
     /**
      * Builds the colorAxis object with specified options
      *
@@ -136,6 +135,7 @@ class ColorAxis extends ConfigOptions
                 'with values as [ int | float ]'
             );
         }
+
         return $this;
     }
 
@@ -164,6 +164,7 @@ class ColorAxis extends ConfigOptions
                 'with values as strings'
             );
         }
+
         return $this;
     }
 }

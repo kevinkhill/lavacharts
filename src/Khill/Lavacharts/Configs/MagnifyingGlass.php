@@ -40,7 +40,7 @@ class MagnifyingGlass extends ConfigOptions
      * If created with no parameter, it defaults to enabled with a zoom factor
      * of 5. Passing a number in upon creation, then the zoomFactor will be set.
      *
-     * @param  boolean $zoomFactor
+     * @param boolean $zoomFactor
      *
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty
@@ -70,11 +70,11 @@ class MagnifyingGlass extends ConfigOptions
             $this->zoomFactor = $zoomFactor;
         } else {
             throw new InvalidConfigValue(
-                    __FUNCTION__,
-                    'int',
-                    'greater than 0'
-                );
-            }
+                __FUNCTION__,
+                'int',
+                'greater than 0'
+            );
+        }
 
         return $this;
     }

@@ -16,8 +16,6 @@
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers;
-use Khill\Lavacharts\Configs\Gradient;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
@@ -48,11 +46,10 @@ class BoxStyle extends ConfigOptions
      */
     public $gradient;
 
-
     /**
      * Builds the boxStyle object with specified options
      *
-     * @param  array $config
+     * @param array $config
      *
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty

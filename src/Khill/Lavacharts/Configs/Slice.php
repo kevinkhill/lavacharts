@@ -17,7 +17,6 @@
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
-use Khill\Lavacharts\Configs\TextStyle;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Slice extends ConfigOptions

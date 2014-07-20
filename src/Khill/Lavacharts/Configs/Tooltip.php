@@ -17,7 +17,6 @@
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
-use Khill\Lavacharts\Configs\TextStyle;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Tooltip extends ConfigOptions
@@ -41,7 +40,7 @@ class Tooltip extends ConfigOptions
     /**
      * Builds the tooltip object with specified options.
      *
-     * @param  array $config Configuration options for the tooltip
+     * @param  array                                             $config Configuration options for the tooltip
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty
      *
@@ -62,7 +61,7 @@ class Tooltip extends ConfigOptions
     /**
      * Sets whether to show the color code.
      *
-     * @param  boolean $showColorCode State of showing the color code.
+     * @param  boolean                                        $showColorCode State of showing the color code.
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Khill\Lavacharts\Configs\Tooltip
@@ -84,7 +83,7 @@ class Tooltip extends ConfigOptions
     /**
      * Sets the text style of the tooltip.
      *
-     * @param  Khill\Lavacharts\Configs\TextStyle $textStyle A valid TextStyle object.
+     * @param Khill\Lavacharts\Configs\TextStyle $textStyle A valid TextStyle object.
      *
      * @return Khill\Lavacharts\Configs\Tooltip
      */
@@ -101,7 +100,7 @@ class Tooltip extends ConfigOptions
      * 'focus' - The tooltip will be displayed when the user hovers over an element.
      * 'none'  - The tooltip will not be displayed.
      *
-     * @param  string $trigger Type of trigger.
+     * @param  string                                         $trigger Type of trigger.
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Khill\Lavacharts\Configs\Tooltip

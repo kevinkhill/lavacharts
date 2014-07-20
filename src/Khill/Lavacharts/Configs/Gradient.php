@@ -61,7 +61,6 @@ class Gradient extends ConfigOptions
      */
     public $y2 = '100%';
 
-
     /**
      * Builds the gradient object with specified options
      *

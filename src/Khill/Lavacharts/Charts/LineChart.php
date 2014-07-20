@@ -45,7 +45,6 @@ class LineChart extends Chart
         );
     }
 
-
     /**
      * Where to place the axis titles, compared to the chart area. Supported values:
      * in - Draw the axis titles inside the the chart area.
@@ -80,7 +79,7 @@ class LineChart extends Chart
 
     /**
      * Controls the curve of the lines when the line width is not zero.
-     * 
+     *
      * Can be one of the following:
      * 'none' - Straight lines without curve.
      * 'function' - The angles of the line will be smoothed.
@@ -211,7 +210,7 @@ class LineChart extends Chart
     public function vAxis(VerticalAxis $vAxis)
     {
         $this->addOption($vAxis->toArray('vAxis'));
- 
+
         return $this;
     }
 }

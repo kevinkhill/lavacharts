@@ -19,8 +19,6 @@
  * @license   http://www.gnu.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Charts\Chart;
-
 class GeoChart extends Chart
 {
     public $type = 'GeoChart';

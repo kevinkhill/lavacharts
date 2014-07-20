@@ -18,8 +18,6 @@
 
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use Khill\Lavacharts\Configs\Annotation;
-use Khill\Lavacharts\Configs\TextStyle;
 
 class Series extends ConfigOptions
 {

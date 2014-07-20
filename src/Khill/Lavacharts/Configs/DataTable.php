@@ -123,7 +123,7 @@ class DataTable
 
     private function addColumnFromArray($colDefArray)
     {
-        if (Helpers::arrayValuesCheck($colDefArray, 'string') && Helpers::between(1, count($colDefArray), 3, true)) {  
+        if (Helpers::arrayValuesCheck($colDefArray, 'string') && Helpers::between(1, count($colDefArray), 3, true)) {
             switch (count($colDefArray)) {
                 case 1:
                     $this->addColumnFromStrings($colDefArray[0]);
@@ -139,7 +139,7 @@ class DataTable
             throw new InvalidColumnDefinition($colDefArray);
         }
     }
-/*    
+/*
     private function addColumnFromArray($colDefArray)
     {
         foreach ($colDefArray as $key => $value) {
@@ -149,7 +149,7 @@ class DataTable
 
                     if (in_array($key, $this->colCellDesc)) {
                         if ($key != 'type') {
-                            if(is_string($value)) {
+                            if (is_string($value)) {
                                 $descArray[$key] = $value;
                             } else {
                                 throw new \Exception('Invalid description array value, must be type (string).');
@@ -226,7 +226,7 @@ class DataTable
      * with null for the first two cells, you would specify [null, null, {cell_val}].
      *
      * @param mixed $opt_cell Array of values or DataCells.
-     * 
+     *
      * @throws Khill\Lavacharts\Exceptions\InvalidCellCount
      *
      * @return Khill\Lavacharts\Configs\DataTable

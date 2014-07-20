@@ -17,7 +17,6 @@
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
-use Khill\Lavacharts\Configs\TextStyle;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Axis extends ConfigOptions
@@ -126,7 +125,7 @@ class Axis extends ConfigOptions
      * @var array Accepted array keys [ min | max ].
      */
     public $viewWindow;
-    
+
 
     /**
      * Builds the configuration when passed an array of options.
@@ -351,7 +350,10 @@ class Axis extends ConfigOptions
                 $tmp['count'] = $minorGridlines['count'];
             } else {
                 throw new InvalidConfigValue(
-                    __FUNCTION__.'[count]', 'int', '>= 2 or -1 for auto');
+                    __FUNCTION__.'[count]',
+                    'int',
+                    '>= 2 or -1 for auto'
+                );
             }
 
             if (array_key_exists('color', $minorGridlines)) {
@@ -377,7 +379,7 @@ class Axis extends ConfigOptions
      *
      * This option is only supported for a continuous axis.
      *
-     * @param  boolean $logScale
+     * @param boolean $logScale
      *
      * @return Khill\Lavacharts\Configs\Axis
      */
@@ -429,7 +431,7 @@ class Axis extends ConfigOptions
     /**
      * This function takes a textStyle object, created via "new textStyle();"
      *
-     * @param  Khill\Lavacharts\Configs\TextStyle $textStyle
+     * @param Khill\Lavacharts\Configs\TextStyle $textStyle
      *
      * @return Khill\Lavacharts\Configs\Axis
      */
@@ -465,7 +467,7 @@ class Axis extends ConfigOptions
     /**
      * An object that specifies the axis title text style.
      *
-     * @param  Khill\Lavacharts\Configs\TextStyle $titleTextStyle
+     * @param Khill\Lavacharts\Configs\TextStyle $titleTextStyle
      *
      * @return Khill\Lavacharts\Configs\Axis
      */

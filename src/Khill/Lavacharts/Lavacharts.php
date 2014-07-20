@@ -14,7 +14,6 @@
  */
 
 use Khill\Lavacharts\Configs\DataTable;
-use Khill\Lavacharts\Exceptions\LabelNotFound;
 use Khill\Lavacharts\Exceptions\InvalidChartLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -92,8 +91,8 @@ class Lavacharts
      *
      * @access public
      *
-     * @param string $member Name of method
-     * @param array $arguments Passed arguments
+     * @param  string                                        $member    Name of method
+     * @param  array                                         $arguments Passed arguments
      * @throws Khill\Lavacharts\Exceptions\InvalidLavaObject
      * @throws Khill\Lavacharts\Exceptions\InvalidChartLabel
      *
@@ -117,7 +116,7 @@ class Lavacharts
 
         if (in_array($member, $this->chartClasses)) {
             if (isset($arguments[0])) {
-                if(is_string($arguments[0])) {
+                if (is_string($arguments[0])) {
                     return $this->chartFactory($member, $arguments[0]);
                 } else {
                     throw new InvalidChartLabel($arguments[0]);
@@ -135,7 +134,7 @@ class Lavacharts
             }
         }
 
-        if ( ! method_exists($this, $member)) {
+        if (! method_exists($this, $member)) {
             throw new InvalidLavaObject($member);
         }
     }
@@ -146,8 +145,8 @@ class Lavacharts
      * Given a chart label and an HTML element id, this will output
      * all of the necessary javascript to generate the chart.
      *
-     * @param  string $label Label of a saved chart.
-     * @param  string $elementId HTML element id to render the chart into.
+     * @param string $label     Label of a saved chart.
+     * @param string $elementId HTML element id to render the chart into.
      *
      * @return Khill\Lavachart\DataTable
      */
@@ -213,11 +212,11 @@ class Lavacharts
      * the div that will be receiving the chart.
      *
      * @access private
-     * @param  string $elementId Element id to apply to the div.
-     * @param  array  $dimensions Height & width of the div.
+     * @param  string                                           $elementId  Element id to apply to the div.
+     * @param  array                                            $dimensions Height & width of the div.
      * @throws Khill\Lavacharts\Exceptions\InvalidDivDimensions
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return string HTML div element.
+     * @return string                                           HTML div element.
      */
     private function div($elementId, $dimensions = true)
     {
@@ -259,8 +258,8 @@ class Lavacharts
      * Otherwise, a new chart is created and stored in the Volcano.
      *
      * @access private
-     * @param  string $type Type of chart to fetch or create.
-     * @param  string $label Label of the chart.
+     * @param  string                $type  Type of chart to fetch or create.
+     * @param  string                $label Label of the chart.
      * @return Khill\Lavachart\Chart
      */
     private function chartFactory($type, $label)
@@ -286,8 +285,8 @@ class Lavacharts
      * Creates ConfigObjects
      *
      * @access private
-     * @param  string $type Type of configObject to create.
-     * @param  array  $options Array of options to pass to the config object.
+     * @param  string                               $type    Type of configObject to create.
+     * @param  array                                $options Array of options to pass to the config object.
      * @return Khill\Lavachart\Configs\ConfigObject
      */
     private function configFactory($type, $options = array())
@@ -304,8 +303,8 @@ class Lavacharts
     /**
      * Simple string starts with function
      *
-     * @param  string $haystack String to search through.
-     * @param  array  $needle String to search with.
+     * @param string $haystack String to search through.
+     * @param array  $needle   String to search with.
      */
     private function strStartsWith($haystack, $needle)
     {

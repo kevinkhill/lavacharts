@@ -61,8 +61,8 @@ class JavascriptFactory
      *
      * @access public
      *
-     * @param  Khill\Lavacharts\Charts\Chart $chart Chart object to render.
-     * @param  string $elementId HTML element id to output the chart into.
+     * @param  Khill\Lavacharts\Charts\Chart                 $chart     Chart object to render.
+     * @param  string                                        $elementId HTML element id to output the chart into.
      * @throws Khill\Lavacharts\Exceptions\DataTableNotFound
      * @throws Khill\Lavacharts\Exceptions\InvalidElementId
      *
@@ -98,15 +98,13 @@ class JavascriptFactory
     {
         $out = $this->googleAPI.PHP_EOL;
 /*
-        if(is_array($this->chart->events) && count($this->chart->events) > 0)
-        {
+        if (is_array($this->chart->events) && count($this->chart->events) > 0) {
             $out .= $this->_build_event_callbacks($this->chart->type, $this->chart->events);
         }
 */
         $out .= $this->jsO.PHP_EOL;
 
-        switch($this->chart->type)
-        {
+        switch ($this->chart->type) {
             case 'AnnotatedTimeLine':
                 $vizType = 'annotatedtimeline';
                 break;
@@ -139,12 +137,10 @@ class JavascriptFactory
         $out .= sprintf("(document.getElementById('%s'));", $this->elementId).PHP_EOL;
         $out .= 'chart.draw(data, options);'.PHP_EOL;
 /*
-        if(is_array($this->chart->events) && count($this->chart->events) > 0)
-        {
-            foreach($this->chart->events as $event)
-            {
+        if (is_array($this->chart->events) && count($this->chart->events) > 0) {
+            foreach ($this->chart->events as $event) {
                 $out .= sprintf('google.visualization.events.addListener(chart, "%s", ', $event);
-                $out .= sprintf('function(event) { %s.%s(event); });', $this->chart->type, $event).PHP_EOL;
+                $out .= sprintf('function (event) { %s.%s(event); });', $this->chart->type, $event).PHP_EOL;
             }
         }
 */
@@ -160,16 +156,16 @@ class JavascriptFactory
      *
      * @access private
      * @param string $chartType.
-     * @param array $chartEvents Array of events to apply to the chart.
+     * @param array  $chartEvents Array of events to apply to the chart.
      *
      * @return string Javascript code block.
      */
     private function buildEventCallbacks($chartType, $chartEvents)
     {
-        $script = sprintf('if(typeof %s !== "object") { %s = {}; }', $chartType, $chartType).PHP_EOL.PHP_EOL;
+        $script = sprintf('if (typeof %s !== "object") { %s = {}; }', $chartType, $chartType).PHP_EOL.PHP_EOL;
 
         foreach ($chartEvents as $event) {
-             $script .= sprintf('%s.%s = function(event) {', $chartType, $event).PHP_EOL;
+             $script .= sprintf('%s.%s = function (event) {', $chartType, $event).PHP_EOL;
 
              $callback = $this->callbackPath.$chartType.'.'.$event.'.js';
              $callbackScript = file_get_contents($callback);

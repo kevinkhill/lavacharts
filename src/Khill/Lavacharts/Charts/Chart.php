@@ -22,7 +22,6 @@ use Khill\Lavacharts\Configs\Tooltip;
 use Khill\Lavacharts\Configs\TextStyle;
 use Khill\Lavacharts\Configs\ChartArea;
 use Khill\Lavacharts\Configs\BackgroundColor;
-use Khill\Lavacharts\Exceptions\LabelNotFound;
 use Khill\Lavacharts\Exceptions\InvalidElementId;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
@@ -38,7 +37,7 @@ class Chart
     /**
      * Builds a new chart with a label and access to the volcano storage
      *
-     * @param string $chartLabel Label for the chart to be stored in the Volcano. 
+     * @param string $chartLabel Label for the chart to be stored in the Volcano.
      */
     public function __construct($chartLabel)
     {
@@ -142,7 +141,7 @@ class Chart
      * Pass in a string of the html elementID that you want the chart to be
      * rendered into.
      *
-     * @param string $elementId The id of an HTML element to render the chart into.
+     * @param  string                                       $elementId The id of an HTML element to render the chart into.
      * @throws Khill\Lavacharts\Exceptions\InvalidElementId
      *
      * @return string Javscript code blocks
@@ -182,7 +181,7 @@ class Chart
     public function chartArea(ChartArea $chartArea)
     {
         $this->addOption($chartArea->toArray());
- 
+
         return $this;
     }
 
@@ -310,7 +309,7 @@ class Chart
     public function legend(Legend $legend)
     {
         $this->addOption($legend->toArray());
- 
+
         return $this;
     }
 
@@ -369,11 +368,10 @@ class Chart
      */
     public function titleTextStyle(TextStyle $textStyle)
     {
-        $this->addOption(array('titleTextStyle' => $textStyle->getValues()));           
+        $this->addOption(array('titleTextStyle' => $textStyle->getValues()));
 
         return $this;
     }
-
 
     /**
      * An object with members to configure various tooltip elements. To specify
@@ -387,7 +385,7 @@ class Chart
     public function tooltip(Tooltip $tooltip)
     {
         $this->addOption($tooltip->toArray());
- 
+
         return $this;
     }
 
@@ -420,8 +418,8 @@ class Chart
     }
 
     protected function invalidConfigValue($func, $type, $extra = '')
-    { 
-        if ( ! empty($extra)) {
+    {
+        if (! empty($extra)) {
             return new InvalidConfigValue(
                 $this->type . '::' . $func,
                 $type,

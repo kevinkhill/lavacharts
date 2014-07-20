@@ -51,7 +51,7 @@ class AreaChart extends Chart
      * 0.0 is fully transparent and 1.0 is fully opaque. To specify opacity for
      * an individual series, set the areaOpacity value in the series property.
      *
-     * @param float $opacity
+     * @param  float                                          $opacity
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
@@ -77,7 +77,7 @@ class AreaChart extends Chart
      * out - Draw the axis titles outside the chart area.
      * none - Omit the axis titles.
      *
-     * @param  string $position
+     * @param  string                                         $position
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
@@ -107,21 +107,21 @@ class AreaChart extends Chart
      * specify properties of this property, create a new hAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param  Khill\Lavacharts\Configs\HorizontalAxis $hAxis
+     * @param  Khill\Lavacharts\Configs\HorizontalAxis        $hAxis
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
     public function hAxis(HorizontalAxis $hAxis)
     {
         $this->addOption($hAxis->toArray('hAxis'));
-   
+
         return $this;
     }
 
     /**
      * If set to true, series elements are stacked.
      *
-     * @param  boolean $isStacked
+     * @param  boolean                                        $isStacked
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
@@ -132,8 +132,8 @@ class AreaChart extends Chart
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-               'boolean'
-           );
+                'boolean'
+            );
         }
 
         return $this;
@@ -144,7 +144,7 @@ class AreaChart extends Chart
      * value of any missing data based on neighboring points. If false, it will
      * leave a break in the line at the unknown point.
      *
-     * @param  boolean $interpolateNulls
+     * @param  boolean                                        $interpolateNulls
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
@@ -155,8 +155,8 @@ class AreaChart extends Chart
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-               'boolean'
-           );
+                'boolean'
+            );
         }
 
         return $this;
@@ -167,7 +167,7 @@ class AreaChart extends Chart
      * points. You can override values for individual series using the series
      * property.
      *
-     * @param  int $width
+     * @param  int                                            $width
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
@@ -178,8 +178,8 @@ class AreaChart extends Chart
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-               'int'
-           );
+                'int'
+            );
         }
 
         return $this;
@@ -189,7 +189,7 @@ class AreaChart extends Chart
      * Diameter of displayed points in pixels. Use zero to hide all points. You
      * can override values for individual series using the series property.
      *
-     * @param  int $size
+     * @param  int                                            $size
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
@@ -200,8 +200,8 @@ class AreaChart extends Chart
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-               'int'
-           );
+                'int'
+            );
         }
 
         return $this;
@@ -212,14 +212,14 @@ class AreaChart extends Chart
      * specify properties of this property, create a new vAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param  Khill\Lavacharts\Configs\VerticalAxis $vAxis
+     * @param  Khill\Lavacharts\Configs\VerticalAxis          $vAxis
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
     public function vAxis(VerticalAxis $vAxis)
     {
         $this->addOption($vAxis->toArray('vAxis'));
- 
+
         return $this;
     }
 }

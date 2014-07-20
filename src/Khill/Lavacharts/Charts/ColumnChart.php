@@ -50,7 +50,7 @@ class ColumnChart extends Chart
      * out - Draw the axis titles outside the chart area.
      * none - Omit the axis titles.
      *
-     * @param string $position
+     * @param  string                              $position
      * @return Khill\Lavacharts\Charts\ColumnChart
      */
     public function axisTitlesPosition($position)
@@ -80,7 +80,7 @@ class ColumnChart extends Chart
      * - Percentage of the available width for each group (e.g. '20%'),
      *   where '100%' means that groups have no space between them.
      *
-     * @param mixed $barGroupWidth
+     * @param  mixed                               $barGroupWidth
      * @return Khill\Lavacharts\Charts\ColumnChart
      */
     public function barGroupWidth($barGroupWidth)
@@ -98,27 +98,26 @@ class ColumnChart extends Chart
         return $this;
     }
 
-
     /**
      * An object with members to configure various horizontal axis elements. To
      * specify properties of this property, create a new hAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param  Khill\Lavacharts\Configs\HorizontalAxis $hAxis
+     * @param  Khill\Lavacharts\Configs\HorizontalAxis        $hAxis
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ColumnChart
      */
     public function hAxis(HorizontalAxis $hAxis)
     {
         $this->addOption($hAxis->toArray('hAxis'));
- 
+
         return $this;
     }
 
     /**
      * If set to true, series elements are stacked.
      *
-     * @param boolean $isStacked
+     * @param  boolean                             $isStacked
      * @return Khill\Lavacharts\Charts\ColumnChart
      */
     public function isStacked($isStacked)
@@ -140,14 +139,14 @@ class ColumnChart extends Chart
      * specify properties of this property, create a new vAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param  Khill\Lavacharts\Configs\VerticalAxis $vAxis
+     * @param  Khill\Lavacharts\Configs\VerticalAxis          $vAxis
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ColumnChart
      */
     public function vAxis(VerticalAxis $vAxis)
     {
         $this->addOption($vAxis->toArray('vAxis'));
- 
+
         return $this;
     }
 }

@@ -16,7 +16,6 @@
  * @license   http://www.gnu.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Configs\Slice;
 use Khill\Lavacharts\Configs\TextStyle;
@@ -49,7 +48,7 @@ class PieChart extends Chart
     /**
      * If set to true, displays a three-dimensional chart.
      *
-     * @param boolean $is3D
+     * @param  boolean                                        $is3D
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\PieChart
      */
@@ -147,7 +146,7 @@ class PieChart extends Chart
      * 'label' - The name of the slice.
      * 'none' - No text is displayed.
      *
-     * @param string $pieSliceText
+     * @param  string                                         $pieSliceText
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\PieChart
      */
@@ -165,7 +164,8 @@ class PieChart extends Chart
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'string', 'with a value of '.Helpers::arrayToPipedString($values)
+                'string',
+                'with a value of '.Helpers::arrayToPipedString($values)
             );
         }
 
@@ -176,14 +176,14 @@ class PieChart extends Chart
      * An object that specifies the slice text style. create a new textStyle()
      * object, set the values then pass it to this function or to the constructor.
      *
-     * @param  Khill\Lavacharts\Configs\TextStyle $textStyle
+     * @param  Khill\Lavacharts\Configs\TextStyle             $textStyle
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\PieChart
      */
     public function pieSliceTextStyle(TextStyle $textStyle)
     {
         $this->addOption(array('pieSliceTextStyle' => $textStyle->getValues()));
- 
+
         return $this;
     }
 
@@ -213,7 +213,7 @@ class PieChart extends Chart
      * If set to true, will draw slices counterclockwise. The default is to
      * draw clockwise.
      *
-     * @param boolean $reverseCategories
+     * @param  boolean                                        $reverseCategories
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\PieChart
      */
@@ -237,7 +237,7 @@ class PieChart extends Chart
      * single slice, whose size is the sum of all their sizes. Default is not
      * to show individually any slice which is smaller than half a degree.
      *
-     * @param numeric $sliceVisibilityThreshold
+     * @param  numeric                                        $sliceVisibilityThreshold
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\PieChart
      */
@@ -259,7 +259,7 @@ class PieChart extends Chart
      * Color for the combination slice that holds all slices below
      * sliceVisibilityThreshold.
      *
-     * @param type $pieResidueSliceColor
+     * @param  type                                           $pieResidueSliceColor
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\PieChart
      */
@@ -270,7 +270,8 @@ class PieChart extends Chart
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'string', 'representing a valide HTML color'
+                'string',
+                'representing a valid HTML color'
             );
         }
 
@@ -281,7 +282,7 @@ class PieChart extends Chart
      * A label for the combination slice that holds all slices below
      * sliceVisibilityThreshold.
      *
-     * @param string $pieResidueSliceLabel
+     * @param  string                                         $pieResidueSliceLabel
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\PieChart
      */
