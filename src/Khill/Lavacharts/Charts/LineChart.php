@@ -128,30 +128,6 @@ class LineChart extends Chart
     }
 
     /**
-     * If set to true, use HTML-rendered (rather than SVG-rendered) tooltips.
-     * 
-     * @codeCoverageIgnore 
-     * @deprecated Deprecated by Google, now a value of Tooltip Object
-     * 
-     * @param boolean $isHTML
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\LineChart
-     */
-    public function isHtml($isHTML)
-    {
-        if (is_bool($isHTML)) {
-            $this->addOption(array('isHTML' => $isHTML));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'boolean'
-            );
-        }
-
-        return $this;
-    }
-
-    /**
      * Whether to guess the value of missing points. If true, it will guess the
      * value of any missing data based on neighboring points. If false, it will
      * leave a break in the line at the unknown point.

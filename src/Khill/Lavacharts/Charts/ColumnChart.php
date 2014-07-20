@@ -49,8 +49,7 @@ class ColumnChart extends Chart
      * none - Omit the axis titles.
      *
      * @param string $position
-     *
-     * @return ColumnChart
+     * @return Khill\Lavacharts\Charts\ColumnChart
      */
     public function axisTitlesPosition($position)
     {
@@ -63,7 +62,11 @@ class ColumnChart extends Chart
         if (in_array($position, $values)) {
             $this->addOption(array('axisTitlesPosition' => $position));
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string',
+                'with a value of '.Helpers::arrayToPipedString($values)
+            );
         }
 
         return $this;
@@ -76,8 +79,7 @@ class ColumnChart extends Chart
      *   where '100%' means that groups have no space between them.
      *
      * @param mixed $barGroupWidth
-     *
-     * @return ColumnChart
+     * @return Khill\Lavacharts\Charts\ColumnChart
      */
     public function barGroupWidth($barGroupWidth)
     {
@@ -86,7 +88,11 @@ class ColumnChart extends Chart
             //            $this->addOption($bar->toArray());
             $this->addOption(array('bar' => array('groupWidth' => $barGroupWidth)));
         } else {
-            $this->type_error(__FUNCTION__, 'string | int', 'must be a valid int or percent [ 50 | 65% ]');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string | int',
+                'must be a valid int or percent [ 50 | 65% ]'
+            );
         }
 
         return $this;
@@ -98,37 +104,14 @@ class ColumnChart extends Chart
      * specify properties of this property, create a new hAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param hAxis $hAxis
-     *
-     * @return ColumnChart
+     * @param  Khill\Lavacharts\Configs\HorizontalAxis $hAxis
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\ColumnChart
      */
-    public function hAxis($hAxis)
+    public function hAxis(HorizontalAxis $hAxis)
     {
-        if (Helpers::is_hAxis($hAxis)) {
-            $this->addOption($hAxis->toArray());
-        } else {
-            $this->type_error(__FUNCTION__, 'hAxis');
-        }
-
-        return $this;
-    }
-
-    /**
-     * If set to true, use HTML-rendered (rather than SVG-rendered) tooltips.
-     *
-     * @todo  was this merged into tooltip object???
-     * @param boolean $isHTML
-     *
-     * @return ColumnChart
-     */
-    public function isHtml($isHTML)
-    {
-        if (is_bool($isHTML)) {
-            $this->addOption(array('isHTML' => $isHTML));
-        } else {
-            $this->error(__FUNCTION__, 'boolean');
-        }
-
+        $this->addOption($hAxis->toArray());
+ 
         return $this;
     }
 
@@ -136,15 +119,17 @@ class ColumnChart extends Chart
      * If set to true, series elements are stacked.
      *
      * @param boolean $isStacked
-     *
-     * @return ColumnChart
+     * @return Khill\Lavacharts\Charts\ColumnChart
      */
     public function isStacked($isStacked)
     {
         if (is_bool($isStacked)) {
             $this->addOption(array('isStacked' => $isStacked));
         } else {
-            $this->type_error(__FUNCTION__, 'boolean');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'boolean'
+            );
         }
 
         return $this;
@@ -155,18 +140,14 @@ class ColumnChart extends Chart
      * specify properties of this property, create a new vAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param vAxis $vAxis
-     *
-     * @return ColumnChart
+     * @param  Khill\Lavacharts\Configs\VerticalAxis $vAxis
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\ColumnChart
      */
-    public function vAxis($vAxis)
+    public function vAxis(VerticalAxis $vAxis)
     {
-        if (Helpers::is_vAxis($vAxis)) {
-            $this->addOption($vAxis->toArray());
-        } else {
-            $this->type_error(__FUNCTION__, 'vAxis');
-        }
-
+        $this->addOption($vAxis->toArray());
+ 
         return $this;
     }
 }

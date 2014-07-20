@@ -107,7 +107,7 @@ class AreaChart extends Chart
      * specify properties of this property, create a new hAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param  \Khill\Lavacharts\Configs\HorizontalAxis $hAxis
+     * @param  Khill\Lavacharts\Configs\HorizontalAxis $hAxis
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
@@ -119,33 +119,9 @@ class AreaChart extends Chart
     }
 
     /**
-     * If set to true, use HTML-rendered (rather than SVG-rendered) tooltips.
-     *
-     * @codeCoverageIgnore 
-     * @deprecated Deprecated by Google, now a value of Tooltip Object
-     * 
-     * @param boolean $isHTML
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\AreaChart
-     */
-    public function isHtml($isHTML)
-    {
-        if (is_bool($isHTML)) {
-            $this->addOption(array('isHTML' => $isHTML));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-               'boolean'
-           );
-        }
-
-        return $this;
-    }
-
-    /**
      * If set to true, series elements are stacked.
      *
-     * @param type $isStacked
+     * @param  boolean $isStacked
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
@@ -168,7 +144,7 @@ class AreaChart extends Chart
      * value of any missing data based on neighboring points. If false, it will
      * leave a break in the line at the unknown point.
      *
-     * @param boolean $interpolateNulls
+     * @param  boolean $interpolateNulls
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
@@ -191,7 +167,7 @@ class AreaChart extends Chart
      * points. You can override values for individual series using the series
      * property.
      *
-     * @param int $width
+     * @param  int $width
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
@@ -213,7 +189,7 @@ class AreaChart extends Chart
      * Diameter of displayed points in pixels. Use zero to hide all points. You
      * can override values for individual series using the series property.
      *
-     * @param int $size
+     * @param  int $size
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
@@ -236,7 +212,7 @@ class AreaChart extends Chart
      * specify properties of this property, create a new vAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param vAxis $vAxis
+     * @param  Khill\Lavacharts\Configs\VerticalAxis $vAxis
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
