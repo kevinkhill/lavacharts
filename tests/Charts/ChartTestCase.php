@@ -10,7 +10,7 @@ class ChartTestCase extends \PHPUnit_Framework_TestCase
     public function nonStringProvider()
     {
         return array(
-            array(1),
+            array(9),
             array(1.2),
             array(true),
             array(false),
@@ -23,7 +23,7 @@ class ChartTestCase extends \PHPUnit_Framework_TestCase
     {
         return array(
             array('Imastring'),
-            array(1),
+            array(9),
             array(1.2),
             array(array()),
             array(new \stdClass())
@@ -46,7 +46,7 @@ class ChartTestCase extends \PHPUnit_Framework_TestCase
     {
         return array(
             array('Imastring'),
-            array(1),
+            array(9),
             array(true),
             array(false),
             array(array()),
@@ -69,7 +69,7 @@ class ChartTestCase extends \PHPUnit_Framework_TestCase
     {
         return array(
             array('Imastring'),
-            array(1),
+            array(9),
             array(1.2),
             array(true),
             array(false),

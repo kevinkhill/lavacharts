@@ -25,17 +25,17 @@ class Slice extends ConfigOptions
     /**
      * @var string The slice fill color.
      */
-    public $color = null;
+    public $color;
 
     /**
      * @var string Offset amount.
      */
-    public $offset = null;
+    public $offset;
 
     /**
      * @var Khill\Lavacharts\Configs\TextStyle Slice text style.
      */
-    public $textStyle = null;
+    public $textStyle;
 
 
     /**
@@ -46,7 +46,7 @@ class Slice extends ConfigOptions
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
      *
-     * @return Khill\Lavacharts\Configs;\Slice
+     * @return Khill\Lavacharts\Configs\Slice
      */
     public function __construct($config = array())
     {

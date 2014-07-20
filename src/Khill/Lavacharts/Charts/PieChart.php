@@ -17,6 +17,9 @@
  */
 
 use Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Configs\Slice;
+use Khill\Lavacharts\Configs\TextStyle;
 
 class PieChart extends Chart
 {
@@ -47,15 +50,18 @@ class PieChart extends Chart
      * If set to true, displays a three-dimensional chart.
      *
      * @param boolean $is3D
-     *
-     * @return PieChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\PieChart
      */
     public function is3D($is3D)
     {
         if (is_bool($is3D)) {
             $this->addOption(array('is3D' => $is3D));
         } else {
-            $this->type_error(__FUNCTION__, 'boolean');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'boolean'
+            );
         }
 
         return $this;
@@ -73,30 +79,42 @@ class PieChart extends Chart
      *
      * This would apply slice values to the first and fourth slice of the pie
      * Example: array(
-     *              0 => new slice(),
-     *              3 => new slice()
+     *              0 => new Slice(),
+     *              3 => new Slice()
      *          );
      *
      *
      * @param array Array of slice objects
-     *
-     * @return PieChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\PieChart
      */
     public function slices($slices)
     {
-        if (is_array($slices) && array_values_check($slices, 'class', 'slice')) {
-            $pizzaBox = array();
+        if (is_array($slices) && ! empty($slices)) {
+            $pie = array();
 
             foreach ($slices as $key => $slice) {
-                $pizzaBox[$key] = $slice->values();
+                $pie[$key] = $this->addSlice($slice);
             }
 
-            $this->addOption(array('slices' => $pizzaBox));
+            $this->addOption(array('slices' => $pie));
         } else {
-            $this->type_error(__FUNCTION__, 'array', 'with keys as (int) and values as (slice)');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'array',
+                'as (int) => (Slice)'
+            );
         }
 
         return $this;
+    }
+
+    /**
+     * Supplemental function to add slices
+     */
+    private function addSlice(Slice $slice)
+    {
+        return $slice->getValues();
     }
 
     /**
@@ -104,15 +122,18 @@ class PieChart extends Chart
      * two-dimensional; is3D == false || null
      *
      * @param string HTML color
-     *
-     * @return PieChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\PieChart
      */
     public function pieSliceBorderColor($pieSliceBorderColor)
     {
         if (is_string($pieSliceBorderColor)) {
             $this->addOption(array('pieSliceBorderColor' => $pieSliceBorderColor));
         } else {
-            $this->type_error(__FUNCTION__, 'string');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string'
+            );
         }
 
         return $this;
@@ -127,8 +148,8 @@ class PieChart extends Chart
      * 'none' - No text is displayed.
      *
      * @param string $pieSliceText
-     *
-     * @return PieChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\PieChart
      */
     public function pieSliceText($pieSliceText)
     {
@@ -139,10 +160,13 @@ class PieChart extends Chart
             'none'
         );
 
-        if (in_array($pieSliceText, $values)) {
+        if (is_string($pieSliceText) && in_array($pieSliceText, $values)) {
             $this->addOption(array('pieSliceText' => $pieSliceText));
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string', 'with a value of '.Helpers::arrayToPipedString($values)
+            );
         }
 
         return $this;
@@ -152,19 +176,14 @@ class PieChart extends Chart
      * An object that specifies the slice text style. create a new textStyle()
      * object, set the values then pass it to this function or to the constructor.
      *
-     * @param textStyle $textStyle
-     *
-     * @return PieChart
+     * @param  Khill\Lavacharts\Configs\TextStyle $textStyle
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\PieChart
      */
-    public function pieSliceTextStyle($textStyle)
+    public function pieSliceTextStyle(TextStyle $textStyle)
     {
-        if (is_a($textStyle, 'textStyle')) {
-            //$this->addOption($textStyle->toArray(__FUNCTION__));
-            $this->addOption(array('pieSliceTextStyle' => $textStyle->values()));
-        } else {
-            $this->type_error(__FUNCTION__, 'textStyle');
-        }
-
+        $this->addOption(array('pieSliceTextStyle' => $textStyle->getValues()));
+ 
         return $this;
     }
 
@@ -173,15 +192,18 @@ class PieChart extends Chart
      * orient the leftmost edge of the first slice directly up.
      *
      * @param int start angle
-     *
-     * @return PieChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\PieChart
      */
     public function pieStartAngle($pieStartAngle)
     {
         if (is_int($pieStartAngle)) {
             $this->addOption(array('pieStartAngle' => $pieStartAngle));
         } else {
-            $this->type_error(__FUNCTION__, 'int');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'int'
+            );
         }
 
         return $this;
@@ -192,15 +214,18 @@ class PieChart extends Chart
      * draw clockwise.
      *
      * @param boolean $reverseCategories
-     *
-     * @return PieChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\PieChart
      */
     public function reverseCategories($reverseCategories)
     {
         if (is_bool($reverseCategories)) {
             $this->addOption(array('reverseCategories' => $reverseCategories));
         } else {
-            $this->type_error(__FUNCTION__, 'boolean');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'boolean'
+            );
         }
 
         return $this;
@@ -213,15 +238,18 @@ class PieChart extends Chart
      * to show individually any slice which is smaller than half a degree.
      *
      * @param numeric $sliceVisibilityThreshold
-     *
-     * @return PieChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\PieChart
      */
     public function sliceVisibilityThreshold($sliceVizThreshold)
     {
         if (is_numeric($sliceVizThreshold)) {
             $this->addOption(array('sliceVisibilityThreshold' => $sliceVizThreshold));
         } else {
-            $this->type_error(__FUNCTION__, 'numeric');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'numeric'
+            );
         }
 
         return $this;
@@ -232,15 +260,18 @@ class PieChart extends Chart
      * sliceVisibilityThreshold.
      *
      * @param type $pieResidueSliceColor
-     *
-     * @return PieChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\PieChart
      */
     public function pieResidueSliceColor($pieResidueSliceColor)
     {
         if (is_string($pieResidueSliceColor)) {
             $this->addOption(array('pieResidueSliceColor' => $pieResidueSliceColor));
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'representing a valide HTML color');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string', 'representing a valide HTML color'
+            );
         }
 
         return $this;
@@ -251,15 +282,18 @@ class PieChart extends Chart
      * sliceVisibilityThreshold.
      *
      * @param string $pieResidueSliceLabel
-     *
-     * @return PieChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\PieChart
      */
     public function pieResidueSliceLabel($pieResidueSliceLabel)
     {
         if (is_string($pieResidueSliceLabel)) {
             $this->addOption(array('pieResidueSliceLabel' => $pieResidueSliceLabel));
         } else {
-            $this->type_error(__FUNCTION__, 'string');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string'
+            );
         }
 
         return $this;

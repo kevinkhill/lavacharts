@@ -97,9 +97,7 @@ class Helpers
                         if (! is_object($item)) {
                             $status = false;
                         } else {
-                            preg_match('/(\\\\)?([\w]+)$/', get_class($item), $matches);
-
-                            if ($matches[2] != $className) {
+                            if (get_class($item) != 'Khill\\Lavacharts\\Configs\\' . $className) {
                                 $status = false;
                             }
                         }
