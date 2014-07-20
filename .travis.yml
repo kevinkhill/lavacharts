@@ -15,8 +15,8 @@ branches:
     - v2.0
 
 before_script:
-  - composer selfupdate
-  - composer install
+  #- composer selfupdate (errors with travis)
+  - composer update --prefer-dist
 
 email: kevinkhill@gmail.com
 
