@@ -11,28 +11,11 @@
          colors="true"
 >
   <testsuites>
-    <testsuite name="full">
-      <directory suffix="Test.php">./tests/</directory>
+    <testsuite name="Package Test Suite">
+      <directory suffix=".php">./tests/</directory>
+      <exclude>./tests/Charts/ChartTestCase.php</exclude>
     </testsuite>
   </testsuites>
-
-  <testsuites>
-    <testsuite name="helpers">
-      <directory suffix="Test.php">./tests/Helpers</directory>
-    </testsuite>
-  </testsuites>
-
-  <testsuites>
-    <testsuite name="configs">
-      <directory suffix="Test.php">./tests/Configs</directory>
-    </testsuite>
-  </testsuites>
-
-  <filter>
-    <whitelist addUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">./src/</directory>
-    </whitelist>
-  </filter>
 
   <listeners>
       <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
