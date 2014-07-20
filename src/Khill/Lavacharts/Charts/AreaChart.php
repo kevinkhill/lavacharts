@@ -17,6 +17,8 @@
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Configs\HorizontalAxis;
+use Khill\Lavacharts\Configs\VerticalAxis;
 
 class AreaChart extends Chart
 {
@@ -50,15 +52,19 @@ class AreaChart extends Chart
      * an individual series, set the areaOpacity value in the series property.
      *
      * @param float $opacity
-     *
-     * @return AreaChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\AreaChart
      */
     public function areaOpacity($opacity)
     {
-        if (Helpers::between(0.0, $opacity, 1.0)) {
+        if (Helpers::between(0.0, $opacity, 1.0, true)) {
             $this->addOption(array('areaOpacity' => $opacity));
         } else {
-            $this->type_error(__FUNCTION__, 'float', 'between 0.0 - 1.0');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'float',
+                'where 0 < opacity < 1'
+            );
         }
 
         return $this;
@@ -71,18 +77,26 @@ class AreaChart extends Chart
      * out - Draw the axis titles outside the chart area.
      * none - Omit the axis titles.
      *
-     * @param string $position
-     *
-     * @return AreaChart
+     * @param  string $position
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\AreaChart
      */
     public function axisTitlesPosition($position)
     {
-        $values = array('in', 'out', 'none');
+        $values = array(
+            'in',
+            'out',
+            'none'
+        );
 
-        if (in_array($position, $values)) {
+        if (is_string($position) && in_array($position, $values)) {
             $this->addOption(array('axisTitlesPosition' => $position));
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string',
+                'with a value of '.Helpers::arrayToPipedString($values)
+            );
         }
 
         return $this;
@@ -93,34 +107,36 @@ class AreaChart extends Chart
      * specify properties of this property, create a new hAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param hAxis $hAxis
-     *
-     * @return AreaChart
+     * @param  \Khill\Lavacharts\Configs\HorizontalAxis $hAxis
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\AreaChart
      */
-    public function hAxis($hAxis)
+    public function hAxis(HorizontalAxis $hAxis)
     {
-        if (Helpers::is_hAxis($hAxis)) {
-            $this->addOption($hAxis->toArray());
-        } else {
-            $this->type_error(__FUNCTION__, 'hAxis');
-        }
-
+        $this->addOption($hAxis->toArray('hAxis'));
+   
         return $this;
     }
 
     /**
      * If set to true, use HTML-rendered (rather than SVG-rendered) tooltips.
      *
+     * @codeCoverageIgnore 
+     * @deprecated Deprecated by Google, now a value of Tooltip Object
+     * 
      * @param boolean $isHTML
-     *
-     * @return AreaChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\AreaChart
      */
     public function isHtml($isHTML)
     {
         if (is_bool($isHTML)) {
             $this->addOption(array('isHTML' => $isHTML));
         } else {
-            $this->type_error(__FUNCTION__, 'boolean');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+               'boolean'
+           );
         }
 
         return $this;
@@ -130,15 +146,18 @@ class AreaChart extends Chart
      * If set to true, series elements are stacked.
      *
      * @param type $isStacked
-     *
-     * @return AreaChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\AreaChart
      */
     public function isStacked($isStacked)
     {
         if (is_bool($isStacked)) {
             $this->addOption(array('isStacked' => $isStacked));
         } else {
-            $this->type_error(__FUNCTION__, 'boolean');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+               'boolean'
+           );
         }
 
         return $this;
@@ -150,15 +169,18 @@ class AreaChart extends Chart
      * leave a break in the line at the unknown point.
      *
      * @param boolean $interpolateNulls
-     *
-     * @return AreaChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\AreaChart
      */
     public function interpolateNulls($interpolateNulls)
     {
         if (is_bool($interpolateNulls)) {
             $this->addOption(array('interpolateNulls' => $interpolateNulls));
         } else {
-            $this->type_error(__FUNCTION__, 'boolean');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+               'boolean'
+           );
         }
 
         return $this;
@@ -170,15 +192,18 @@ class AreaChart extends Chart
      * property.
      *
      * @param int $width
-     *
-     * @return AreaChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\AreaChart
      */
     public function lineWidth($width)
     {
         if (is_int($width)) {
             $this->addOption(array('lineWidth' => $width));
         } else {
-            $this->type_error(__FUNCTION__, 'int');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+               'int'
+           );
         }
 
         return $this;
@@ -189,15 +214,18 @@ class AreaChart extends Chart
      * can override values for individual series using the series property.
      *
      * @param int $size
-     *
-     * @return AreaChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\AreaChart
      */
     public function pointSize($size)
     {
         if (is_int($size)) {
             $this->addOption(array('pointSize' => $size));
         } else {
-            $this->type_error(__FUNCTION__, 'int');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+               'int'
+           );
         }
 
         return $this;
@@ -209,17 +237,13 @@ class AreaChart extends Chart
      * the values then pass it to this function or to the constructor.
      *
      * @param vAxis $vAxis
-     *
-     * @return AreaChart
+     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return Khill\Lavacharts\Charts\AreaChart
      */
-    public function vAxis($vAxis)
+    public function vAxis(VerticalAxis $vAxis)
     {
-        if (Helpers::is_vAxis($vAxis)) {
-            $this->addOption($vAxis->toArray());
-        } else {
-            $this->type_error(__FUNCTION__, 'vAxis');
-        }
-
+        $this->addOption($vAxis->toArray('vAxis'));
+ 
         return $this;
     }
 }

@@ -54,6 +54,17 @@ class ChartTestCase extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function nonNumericProvider()
+    {
+        return array(
+            array('Imastring'),
+            array(true),
+            array(false),
+            array(array()),
+            array(new \stdClass())
+        );
+    }
+
     public function nonArrayProvider()
     {
         return array(

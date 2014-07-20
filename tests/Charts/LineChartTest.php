@@ -27,7 +27,7 @@ class LineChartTest extends ChartTestCase
     	$this->assertEquals('MyTestChart', $this->lc->label);
     }
 
-    public function testAxisTitlesPositionValidValues()
+    public function testAxisTitlesPositionWithValidValues()
     {
         $this->lc->axisTitlesPosition('in');
         $this->assertEquals('in', $this->lc->options['axisTitlesPosition']);
@@ -56,7 +56,7 @@ class LineChartTest extends ChartTestCase
         $this->lc->axisTitlesPosition($badTypes);
     }
 
-    public function testCurveTypeValidValues()
+    public function testCurveTypeWithValidValues()
     {
         $this->lc->curveType('none');
         $this->assertEquals('none', $this->lc->options['curveType']);
@@ -68,7 +68,7 @@ class LineChartTest extends ChartTestCase
     /**
      * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function testCurveTypeBadValue()
+    public function testCurveTypeWithBadValue()
     {
         $this->lc->curveType('rocks');
     }

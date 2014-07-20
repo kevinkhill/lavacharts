@@ -19,7 +19,6 @@
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Configs\HorizontalAxis;
 use Khill\Lavacharts\Configs\VerticalAxis;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class LineChart extends Chart
 {
