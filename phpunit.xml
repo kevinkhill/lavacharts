@@ -17,6 +17,16 @@
     </testsuite>
   </testsuites>
 
+  <filter>
+    <whitelist processUncoveredFilesFromWhitelist="true">
+      <directory suffix=".php">./src/Khill/Lavacharts</directory>
+      <exclude>
+        <directory suffix=".php">./src/Khill/Lavacharts/Facades</directory>
+      <file>./src/Khill/Lavacharts/LavachartsServiceProvider.php</file>
+      </exclude>
+    </whitelist>
+  </filter>
+
   <listeners>
       <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
   </listeners>
