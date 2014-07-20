@@ -2,13 +2,14 @@ language: php
 
 php:
   - "5.3"
+  - "5.4"
 
 branches:
   only:
     - master
 
 before_script:
-  - composer self-update
+  - composer selfupdate
   - composer install
 
 email: kevinkhill@gmail.com
