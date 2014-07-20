@@ -18,6 +18,8 @@
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Configs\HorizontalAxis;
+use Khill\Lavacharts\Configs\VerticalAxis;
 
 class ColumnChart extends Chart
 {
@@ -59,7 +61,7 @@ class ColumnChart extends Chart
             'none'
         );
 
-        if (in_array($position, $values)) {
+        if (is_string($position) && in_array($position, $values)) {
             $this->addOption(array('axisTitlesPosition' => $position));
         } else {
             throw $this->invalidConfigValue(
@@ -84,8 +86,6 @@ class ColumnChart extends Chart
     public function barGroupWidth($barGroupWidth)
     {
         if (Helpers::isIntOrPercent($barGroupWidth)) {
-            //            $bar = new bar($barGroupWidth);
-            //            $this->addOption($bar->toArray());
             $this->addOption(array('bar' => array('groupWidth' => $barGroupWidth)));
         } else {
             throw $this->invalidConfigValue(
@@ -110,7 +110,7 @@ class ColumnChart extends Chart
      */
     public function hAxis(HorizontalAxis $hAxis)
     {
-        $this->addOption($hAxis->toArray());
+        $this->addOption($hAxis->toArray('hAxis'));
  
         return $this;
     }
@@ -146,7 +146,7 @@ class ColumnChart extends Chart
      */
     public function vAxis(VerticalAxis $vAxis)
     {
-        $this->addOption($vAxis->toArray());
+        $this->addOption($vAxis->toArray('vAxis'));
  
         return $this;
     }
