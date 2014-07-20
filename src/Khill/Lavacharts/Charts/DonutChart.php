@@ -26,24 +26,30 @@ class DonutChart extends PieChart
     {
         parent::__construct($chartLabel);
 
-        $this->defaults  = array_merge($this->defaults, array('pieHole'));
-        $this->chartType = 'PieChart';
+        $this->defaults = array_merge(
+            $this->defaults,
+            array('pieHole')
+        );
     }
 
     /**
      * If between 0 and 1, displays a donut chart. The hole with have a radius
-     * equal to number times the radius of the chart.
+     * equal to $pieHole times the radius of the chart.
      *
      * @param numeric $pieHole
      *
-     * @return DonutChart
+     * @return Khill\Lavacharts\Charts\DonutChart
      */
     public function pieHole($pieHole)
     {
-        if (is_numeric($pieHole) && $pieHole > 0 && $pieHole < 1) {
+        if (Helpers::bewteen(0, $pieHole, 1)) {
             $this->addOption(array('pieHole' => $pieHole));
         } else {
-            $this->type_error(__FUNCTION__, 'numeric', 'while, 0 < pieHole < 1 ');
+            $this->invalidConfigValue(
+                __FUNCTION__,
+                'float',
+                'while, 0 < pieHole < 1 '
+            );
         }
 
         return $this;

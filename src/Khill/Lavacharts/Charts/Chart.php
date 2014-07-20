@@ -104,19 +104,13 @@ class Chart
      */
     public function addOption($option)
     {
-        switch(gettype($option))
-        {
-            case 'object':
-                $this->options = array_merge($this->options, $option->toArray());
-                break;
-
-            case 'array':
-                $this->options = array_merge($this->options, $option);
-                break;
-
-            default:
-                throw new \Exception('Invalid option, must be type (object|array)');
-                break;
+        if (is_array($option)) {
+            $this->options = array_merge($this->options, $option);
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'array'
+            );
         }
 
         return $this;
