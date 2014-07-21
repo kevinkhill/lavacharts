@@ -1,9 +1,10 @@
 <?php namespace Khill\Lavacharts\Tests\Charts;
 
+use Khill\Lavacharts\Tests\DataProviders;
 use Khill\Lavacharts\Charts\PieChart;
 use Mockery as m;
 
-class PieChartTest extends ChartTestCase
+class PieChartTest extends DataProviders
 {
     public function setUp()
     {
@@ -147,7 +148,7 @@ class PieChartTest extends ChartTestCase
 
     public function testPieStartAngle()
     {
-        $this->pc->pieStartAngle(12);  
+        $this->pc->pieStartAngle(12);
 
         $this->assertEquals(12, $this->pc->options['pieStartAngle']);
     }
@@ -179,7 +180,7 @@ class PieChartTest extends ChartTestCase
 
     public function testSliceVisibilityThreshold()
     {
-        $this->pc->sliceVisibilityThreshold(23);  
+        $this->pc->sliceVisibilityThreshold(23);
 
         $this->assertEquals(23, $this->pc->options['sliceVisibilityThreshold']);
     }
@@ -195,7 +196,7 @@ class PieChartTest extends ChartTestCase
 
     public function testPieResidueSliceColor()
     {
-        $this->pc->pieResidueSliceColor('red');  
+        $this->pc->pieResidueSliceColor('red');
 
         $this->assertEquals('red', $this->pc->options['pieResidueSliceColor']);
     }
@@ -211,7 +212,7 @@ class PieChartTest extends ChartTestCase
 
     public function testPieResidueSliceLabel()
     {
-        $this->pc->pieResidueSliceLabel('leftovers');  
+        $this->pc->pieResidueSliceLabel('leftovers');
 
         $this->assertEquals('leftovers', $this->pc->options['pieResidueSliceLabel']);
     }

@@ -66,10 +66,6 @@ class BoxStyle extends ConfigOptions
             'gradient'
         );
 
-        if (! array_key_exists('stroke', $config)) {
-            $this->stroke = $this->randomColor();
-        }
-
         parent::__construct($config);
     }
 
@@ -170,19 +166,5 @@ class BoxStyle extends ConfigOptions
         $this->gradient = $gradient;
 
         return $this;
-    }
-
-    /**
-     * Generates a random color in hex format.
-     *
-     * Thank you outis from stackoverflow for letting me be lazy with google
-     * instead of coming up with this myself
-     * http://stackoverflow.com/users/90527/outis
-     *
-     * @return string
-     */
-    private function randomColor()
-    {
-        return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
     }
 }

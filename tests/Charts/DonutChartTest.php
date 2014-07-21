@@ -1,9 +1,10 @@
 <?php namespace Khill\Lavacharts\Tests\Charts;
 
+use Khill\Lavacharts\Tests\DataProviders;
 use Khill\Lavacharts\Charts\DonutChart;
 use Mockery as m;
 
-class DonutChartTest extends ChartTestCase
+class DonutChartTest extends DataProviders
 {
     public function setUp()
     {

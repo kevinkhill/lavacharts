@@ -1,12 +1,7 @@
-<?php namespace Khill\Lavacharts\Tests\Charts;
+<?php namespace Khill\Lavacharts\Tests;
 
-class ChartTestCase extends \PHPUnit_Framework_TestCase
+class DataProviders extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     public function nonStringProvider()
     {
         return array(

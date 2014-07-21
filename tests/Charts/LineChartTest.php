@@ -1,9 +1,10 @@
 <?php namespace Khill\Lavacharts\Tests\Charts;
 
+use Khill\Lavacharts\Tests\DataProviders;
 use Khill\Lavacharts\Charts\LineChart;
 use Mockery as m;
 
-class LineChartTest extends ChartTestCase
+class LineChartTest extends DataProviders
 {
     public function setUp()
     {

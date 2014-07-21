@@ -1,6 +1,7 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
 use Khill\Lavacharts\Configs\BoxStyle;
+use Mockery as m;
 
 class BoxStyleTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,7 +24,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorDefaults()
     {
-        $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $this->bs->stroke);
+        $this->assertNull($this->bs->stroke);
         $this->assertNull($this->bs->strokeWidth);
         $this->assertNull($this->bs->rx);
         $this->assertNull($this->bs->ry);
@@ -44,7 +45,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('5',       $boxStyle->strokeWidth);
         $this->assertEquals('10',      $boxStyle->rx);
         $this->assertEquals('10',      $boxStyle->ry);
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\gradient', $boxStyle->gradient);
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\Gradient', $boxStyle->gradient);
     }
 
     /**
