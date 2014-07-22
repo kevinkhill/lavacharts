@@ -71,7 +71,6 @@ class HorizontalAxis extends Axis
      */
     public function __construct($config = array())
     {
-        $this->className = 'HorizontalAxis';
         $this->options = array_merge(
             $this->options,
             array(
@@ -85,7 +84,7 @@ class HorizontalAxis extends Axis
             )
         );
 
-        parent::__construct($config);
+        parent::__construct($this, $config);
     }
 
     /**

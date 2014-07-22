@@ -56,15 +56,7 @@ class SizeAxis extends ConfigOptions
      */
     public function __construct($config = array())
     {
-        $this->className = 'SizeAxis';
-        $this->options = array(
-            'maxSize',
-            'maxValue',
-            'minSize',
-            'minValue'
-        );
-
-        parent::__construct($config);
+        parent::__construct($this, $config);
     }
 
     /**

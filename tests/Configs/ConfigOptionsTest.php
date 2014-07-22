@@ -24,14 +24,6 @@ class ConfigOptionsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testConstructorWithBadParam()
-    {
-        $co = new ConfigOptions(4.25);
-    }
-
-    /**
      * @depends testTextStyleConstructorValuesAssignment
      */
     public function testToArrayWithTextStyleConfigObject()

@@ -57,16 +57,7 @@ class BoxStyle extends ConfigOptions
      */
     public function __construct($config = array())
     {
-        $this->className = 'BoxStyle';
-        $this->options = array(
-            'stroke',
-            'strokeWidth',
-            'rx',
-            'ry',
-            'gradient'
-        );
-
-        parent::__construct($config);
+        parent::__construct($this, $config);
     }
 
     /**

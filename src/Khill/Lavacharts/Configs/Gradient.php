@@ -38,28 +38,28 @@ class Gradient extends ConfigOptions
      *
      * @var array
      */
-    public $x1 = '0%';
+    public $x1;
 
     /**
      * Where on the boundary to start in Y.
      *
      * @var array
      */
-    public $y1 = '0%';
+    public $y1;
 
     /**
      * Where on the boundary to finish, relative to $x1.
      *
      * @var array
      */
-    public $x2 = '100%';
+    public $x2;
 
     /**
      * Where on the boundary to finish, relative to $y1.
      *
      * @var array
      */
-    public $y2 = '100%';
+    public $y2;
 
     /**
      * Builds the gradient object with specified options
@@ -71,33 +71,8 @@ class Gradient extends ConfigOptions
      */
     public function __construct($config = array())
     {
-        if (! array_key_exists('color1', $config)) {
-            $this->color1 = $this->randomColor();
-        }
-
-        if (! array_key_exists('color2', $config)) {
-            $this->color2 = $this->randomColor();
-        }
-
-        $this->className = 'Gradient';
-        $this->options = array(
-            'color1',
-            'color2',
-            'x1',
-            'y1',
-            'x2',
-            'y2'
-        );
-
-        parent::__construct($config);
+        parent::__construct($this, $config);
     }
-
-/*
-    public function expose()
-    {
-        return array_keys(get_class_vars($this->className));
-    }
-*/
 
     /**
      * If present, specifies the start color for the gradient.
@@ -225,21 +200,5 @@ class Gradient extends ConfigOptions
         }
 
         return $this;
-    }
-
-    /**
-     * Generates a random color in hex format.
-     *
-     * Thank you outis from stackoverflow for letting me be lazy with google
-     * instead of coming up with this myself
-     * http://stackoverflow.com/users/90527/outis
-     *
-     * @param void
-     *
-     * @return string
-     */
-    private function randomColor()
-    {
-        return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
     }
 }

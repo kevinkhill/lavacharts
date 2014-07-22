@@ -46,7 +46,7 @@ class Series extends ConfigOptions
     /**
      * Text style of the series.
      *
-     * @var Khill\Lavacharts\Configs\TextStyle
+     * @var TextStyle
      */
     public $textStyle;
 
@@ -60,15 +60,7 @@ class Series extends ConfigOptions
      */
     public function __construct($config = array())
     {
-        $this->className = 'Series';
-        $this->options = array(
-            'annotation',
-            'curveType',
-            'targetAxisIndex',
-            'type',
-        );
-
-        parent::__construct($config);
+        parent::__construct($this, $config);
     }
 
     /**

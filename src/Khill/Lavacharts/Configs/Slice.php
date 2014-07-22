@@ -49,14 +49,7 @@ class Slice extends ConfigOptions
      */
     public function __construct($config = array())
     {
-        $this->className = 'Slice';
-        $this->options = array(
-            'color',
-            'offset',
-            'textStyle',
-        );
-
-        parent::__construct($config);
+        parent::__construct($this, $config);
     }
 
     /**

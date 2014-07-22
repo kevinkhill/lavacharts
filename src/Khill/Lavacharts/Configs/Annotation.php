@@ -42,13 +42,7 @@ class Annotation extends ConfigOptions
      */
     public function __construct($config = array())
     {
-        $this->className = 'Annotation';
-        $this->options = array(
-            'highContrast',
-            'textStyle'
-        );
-
-        parent::__construct($config);
+        parent::__construct($this, $config);
     }
 
     /**

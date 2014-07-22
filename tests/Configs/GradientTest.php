@@ -18,12 +18,12 @@ class GradientTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorDefaults()
     {
-        $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $this->g->color1);
-        $this->assertRegExp('/#([a-fA-F0-9]){3}(([a-fA-F0-9]){3})?\b/', $this->g->color2);
-        $this->assertEquals('0%',   $this->g->x1);
-        $this->assertEquals('0%',   $this->g->y1);
-        $this->assertEquals('100%', $this->g->x2);
-        $this->assertEquals('100%', $this->g->y2);
+        $this->assertNull($this->g->color1);
+        $this->assertNull($this->g->color2);
+        $this->assertNull($this->g->x1);
+        $this->assertNull($this->g->y1);
+        $this->assertNull($this->g->x2);
+        $this->assertNull($this->g->y2);
     }
 
     public function testConstructorValuesAssignment()

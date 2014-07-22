@@ -51,15 +51,7 @@ class ChartArea extends ConfigOptions
      */
     public function __construct($config = array())
     {
-        $this->className = 'ChartArea';
-        $this->options = array(
-            'left',
-            'top',
-            'width',
-            'height'
-        );
-
-        parent::__construct($config);
+        parent::__construct($this, $config);
     }
 
     /**

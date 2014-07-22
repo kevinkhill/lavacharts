@@ -52,15 +52,7 @@ class ColorAxis extends ConfigOptions
      */
     public function __construct($config = array())
     {
-        $this->className = 'ColorAxis';
-        $this->options = array(
-            'minValue',
-            'maxValue',
-            'values',
-            'colors'
-        );
-
-        parent::__construct($config);
+        parent::__construct($this, $config);
     }
 
     /**

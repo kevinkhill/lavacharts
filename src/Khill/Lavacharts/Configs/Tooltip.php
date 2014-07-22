@@ -7,16 +7,17 @@
  * into the chart's options.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Configs
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://opensource.org/licenses/MIT MIT
+ * @category   Class
+ * @package    Lavacharts
+ * @subpackage Configs
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Helpers\Helpers as H;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Tooltip extends ConfigOptions
@@ -40,31 +41,22 @@ class Tooltip extends ConfigOptions
     /**
      * Builds the tooltip object with specified options.
      *
-     * @param  array                                             $config Configuration options for the tooltip
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     *
-     * @return Khill\Lavacharts\Configs\Tooltip
+     * @param  array $config Configuration options for the tooltip
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
+     * @return Tooltip
      */
     public function __construct($config = array())
     {
-        $this->className = 'Tooltip';
-        $this->options = array(
-            'showColorCode',
-            'textStyle',
-            'trigger'
-        );
-
-        parent::__construct($config);
+        parent::__construct($this, $config);
     }
 
     /**
      * Sets whether to show the color code.
      *
-     * @param  boolean                                        $showColorCode State of showing the color code.
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
-     * @return Khill\Lavacharts\Configs\Tooltip
+     * @param  boolean $showColorCode State of showing the color code.
+     * @throws InvalidConfigValue
+     * @return Tooltip
      */
     public function showColorCode($showColorCode)
     {
@@ -83,9 +75,8 @@ class Tooltip extends ConfigOptions
     /**
      * Sets the text style of the tooltip.
      *
-     * @param Khill\Lavacharts\Configs\TextStyle $textStyle A valid TextStyle object.
-     *
-     * @return Khill\Lavacharts\Configs\Tooltip
+     * @param  TextStyle $textStyle A valid TextStyle object.
+     * @return Tooltip
      */
     public function textStyle(TextStyle $textStyle)
     {
@@ -100,10 +91,9 @@ class Tooltip extends ConfigOptions
      * 'focus' - The tooltip will be displayed when the user hovers over an element.
      * 'none'  - The tooltip will not be displayed.
      *
-     * @param  string                                         $trigger Type of trigger.
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
-     * @return Khill\Lavacharts\Configs\Tooltip
+     * @param  string $trigger Type of trigger.
+     * @throws InvalidConfigValue
+     * @return Tooltip
      */
     public function trigger($trigger)
     {
@@ -118,7 +108,7 @@ class Tooltip extends ConfigOptions
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.Helpers::arrayToPipedString($values)
+                'with a value of '.H::arrayToPipedString($values)
             );
         }
 

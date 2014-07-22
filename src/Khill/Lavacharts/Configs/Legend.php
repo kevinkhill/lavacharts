@@ -53,14 +53,7 @@ class Legend extends ConfigOptions
      */
     public function __construct($config = array())
     {
-        $this->className = 'Legend';
-        $this->options = array(
-            'position',
-            'alignment',
-            'textStyle'
-        );
-
-        parent::__construct($config);
+        parent::__construct($this, $config);
     }
 
     /**
@@ -87,7 +80,7 @@ class Legend extends ConfigOptions
             'none'
         );
 
-        if (in_array($position, $values)) {
+        if (is_string($position) && in_array($position, $values)) {
             $this->position = $position;
         } else {
             throw new InvalidConfigValue(
@@ -127,7 +120,7 @@ class Legend extends ConfigOptions
             'end'
         );
 
-        if (in_array($alignment, $values)) {
+        if (is_string($alignment) && in_array($alignment, $values)) {
             $this->alignment = $alignment;
         } else {
             throw new InvalidConfigValue(
@@ -143,9 +136,8 @@ class Legend extends ConfigOptions
     /**
      * An object that specifies the legend text style.
      *
-     * @param Khill\Lavacharts\Configs\TextStyle $textStyle Style of the legend
-     *
-     * @return legend
+     * @param  TextStyle $textStyle Style of the legend
+     * @return Legend
      */
     public function textStyle(TextStyle $textStyle)
     {

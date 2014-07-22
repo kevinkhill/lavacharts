@@ -7,13 +7,14 @@
  * into the chart's options.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Configs
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://opensource.org/licenses/MIT MIT
+ * @category   Class
+ * @package    Lavacharts
+ * @subpackage Configs
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       https://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 class VerticalAxis extends Axis
@@ -24,14 +25,11 @@ class VerticalAxis extends Axis
      * value, or by chaining together the functions once an object has been
      * created.
      *
-     * @param array Configuration options for the vAxis
-     *
+     * @param  $config array Configuration options for the VerticalAxis
      * @return VerticalAxis
      */
     public function __construct($config = array())
     {
-        $this->className = 'VerticalAxis';
-
-        parent::__construct($config);
+        parent::__construct($this, $config);
     }
 }

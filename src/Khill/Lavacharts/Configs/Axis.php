@@ -141,29 +141,7 @@ class Axis extends ConfigOptions
      */
     public function __construct($config = array())
     {
-        $this->options = array(
-            'baseline',
-            'baselineColor',
-            'direction',
-            'format',
-            'gridlines',
-            'minorGridlines',
-            'logScale',
-            'textPosition',
-            'textStyle',
-            'title',
-            'titleTextStyle',
-            'maxAlternation',
-            'maxTextLines',
-            'minTextSpacing',
-            'showTextEvery',
-            'maxValue',
-            'minValue',
-            'viewWindowMode',
-            'viewWindow'
-        );
-
-        parent::__construct($config);
+        parent::__construct($this, $config);
     }
 
     /**
@@ -177,7 +155,7 @@ class Axis extends ConfigOptions
      */
     public function baseline($baseline) //@TODO convert to carbon
     {
-        if (Helpers::is_jsDate($baseline)) {
+        if (Helpers::isJsDate($baseline)) {
             $this->baseline = $baseline->toString();
         } else {
             if (is_int($baseline)) {

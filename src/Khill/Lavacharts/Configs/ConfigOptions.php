@@ -16,10 +16,8 @@
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
-use \ReflectionClass as RC;
-use \ReflectionProperty as RP;
-use Khill\Lavacharts\Helpers\Helpers;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Helpers\Helpers as H;
+use Khill\Lavacharts\Exceptions\InvalidConfigValuE;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 class ConfigOptions
@@ -35,20 +33,20 @@ class ConfigOptions
      * Passing an array of key value pairs will set the configuration for each
      * child object created from this master object.
      *
-     * @param  array Array of options.
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return object
+     * @param  $child Child ConfigOption object.
+     * @param  $config Array of options.
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
+     * @return ConfigOption
      */
     public function __construct($child, $config)
     {
-        $class = new RC($child);
+        $class = new \ReflectionClass($child);
 
         $this->className = $class->getShortname();
         $this->options = array_map(function($prop) {
             return $prop->name;
-        }, $class->getProperties(RP::IS_PUBLIC));
+        }, $class->getProperties(\ReflectionProperty::IS_PUBLIC));
 
         if (is_array($config)) {
             foreach ($config as $option => $value) {
@@ -67,7 +65,7 @@ class ConfigOptions
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'array',
-                'with valid keys as '.Helpers::arrayToPipedString($this->options)
+                'with valid keys as '.H::arrayToPipedString($this->options)
             );
         }
 
@@ -82,7 +80,8 @@ class ConfigOptions
      *
      * Called with no label returns an array with the classname as the key.
      *
-     * @return array
+     * @param  string $keyName Key name to be applied to generated array.
+     * @return array  Assoc. array of the options of the object.
      */
     public function toArray($keyName = null)
     {
@@ -104,6 +103,7 @@ class ConfigOptions
     /**
      * Same as toArray, but without the class name as a key to being multi-dimension.
      *
+     * @param  void
      * @return array Array of the options of the object.
      */
     public function getValues()

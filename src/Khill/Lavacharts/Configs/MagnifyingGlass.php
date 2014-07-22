@@ -49,12 +49,9 @@ class MagnifyingGlass extends ConfigOptions
      */
     public function __construct($zoomFactor = 5)
     {
-        $this->className = 'MagnifyingGlass';
-        $this->options = array('zoomFactor');
-
         $this->zoomFactor($zoomFactor);
 
-        parent::__construct(array('zoomFactor' => $zoomFactor));
+        parent::__construct($this, array('zoomFactor' => $zoomFactor));
     }
 
     /**
