@@ -53,8 +53,7 @@ class ConfigOptions
         if (is_array($config)) {
             foreach ($config as $option => $value) {
                 if (in_array($option, $this->options)) {
-
-                    $this->$option($value);
+                    $this->{$option}($value);
                 } else {
                     throw new InvalidConfigProperty(
                         $this->className,
@@ -90,7 +89,7 @@ class ConfigOptions
         $output = array();
 
         foreach ($this->options as $option) {
-            if (isset($this->$option)) {
+            if (isset($this->{$option})) {
                 $output[$option] = $this->{$option};
             }
         }
@@ -112,8 +111,8 @@ class ConfigOptions
         $output = array();
 
         foreach ($this->options as $option) {
-            if (isset($this->$option)) {
-                $output[$option] = $this->$option;
+            if (isset($this->{$option})) {
+                $output[$option] = $this->{$option};
             }
         }
 
