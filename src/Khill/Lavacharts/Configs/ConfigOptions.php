@@ -23,12 +23,7 @@ use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 class ConfigOptions
 {
     /**
-     * @var string Output of the configOptions object.
-     */
-    protected $output;
-
-    /**
-     * @var array Allowed keys for the configOptions child objects.
+     * @var array Allowed keys for the ConfigOptions child objects.
      */
     protected $options = array();
 
@@ -49,6 +44,7 @@ class ConfigOptions
         if (is_array($config)) {
             foreach ($config as $option => $value) {
                 if (in_array($option, $this->options)) {
+
                     $this->$option($value);
                 } else {
                     throw new InvalidConfigProperty(
@@ -82,18 +78,18 @@ class ConfigOptions
      */
     public function toArray($keyName = null)
     {
-        $this->output = array();
+        $output = array();
 
         foreach ($this->options as $option) {
             if (isset($this->$option)) {
-                $this->output[$option] = $this->$option;
+                $output[$option] = $this->{$option};
             }
         }
 
         if (is_null($keyName)) {
-            return array($this->className => $this->output);
+            return array($this->className => $output);
         } else {
-            return array($keyName => $this->output);
+            return array($keyName => $output);
         }
     }
 
@@ -104,14 +100,14 @@ class ConfigOptions
      */
     public function getValues()
     {
-        $this->output = array();
+        $output = array();
 
         foreach ($this->options as $option) {
             if (isset($this->$option)) {
-                $this->output[$option] = $this->$option;
+                $output[$option] = $this->$option;
             }
         }
 
-        return $this->output;
+        return $output;
     }
 }

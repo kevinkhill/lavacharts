@@ -25,12 +25,7 @@ class ColorAxisTest extends DataProviders
         $this->assertNull($this->ca->values);
         $this->assertNull($this->ca->colors);
     }
-    /**
-     * @depends testMinValueWithNumericParams
-     * @depends testMaxValueWithNumericParams
-     * @depends testValuesWithArrayOfNumbers
-     * @depends testColorsWithArrayOfStrings
-     */
+
     public function testConstructorValuesAssignment()
     {
         $colorAxis = new ColorAxis(array(
@@ -60,8 +55,8 @@ class ColorAxisTest extends DataProviders
         $this->assertEquals(5, $this->ca->minValue);
 
 
-        $this->ca->minValue('18');
-        $this->assertEquals(18, $this->ca->minValue);
+        $this->ca->minValue('1');
+        $this->assertEquals(1, $this->ca->minValue);
     }
 
     /**
@@ -75,8 +70,8 @@ class ColorAxisTest extends DataProviders
 
     public function testMaxValueWithNumericParams()
     {
-        $this->ca->maxValue(5);
-        $this->assertEquals(5, $this->ca->maxValue);
+        $this->ca->maxValue(50);
+        $this->assertEquals(50, $this->ca->maxValue);
 
 
         $this->ca->maxValue('18');
