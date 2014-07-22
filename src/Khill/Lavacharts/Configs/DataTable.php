@@ -25,7 +25,7 @@
  */
 
 use Carbon\Carbon;
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Helpers\Helpers as H;
 use Khill\Lavacharts\Exceptions\InvalidDate;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
@@ -48,13 +48,6 @@ class DataTable
      * @var array
      */
     private $rows = array();
-
-    /**
-     * Number of rows in the DataTable.
-     *
-     * @var array
-     */
-    private $rowCount = 0;
 
     /**
      * Valid column types.
@@ -131,7 +124,7 @@ class DataTable
      */
     public function addColumns($arrOfCols)
     {
-        if (Helpers::arrayIsMulti($arrOfCols)) {
+        if (H::arrayIsMulti($arrOfCols)) {
             foreach ($arrOfCols as $col) {
                 $this->addColumnFromArray($col);
             }
@@ -154,7 +147,7 @@ class DataTable
      */
     private function addColumnFromArray($colDefArray)
     {
-        if (Helpers::arrayValuesCheck($colDefArray, 'string') && Helpers::between(1, count($colDefArray), 3, true)) {
+        if (H::arrayValuesCheck($colDefArray, 'string') && H::between(1, count($colDefArray), 3, true)) {
             switch (count($colDefArray)) {
                 case 1:
                     $this->addColumnFromStrings($colDefArray[0]);
@@ -187,10 +180,10 @@ class DataTable
                             }
                         }
                     } else {
-                        throw new \Exception('Invalid description array key value, must be type (string) with any key value '.Helpers::arrayToPipedString($this->colCellDesc));
+                        throw new \Exception('Invalid description array key value, must be type (string) with any key value '.H::arrayToPipedString($this->colCellDesc));
                     }
                 } else {
-                    throw new \Exception('Invalid type, must be type (string) with the value '.Helpers::arrayToPipedString($this->colCellTypes));
+                    throw new \Exception('Invalid type, must be type (string) with the value '.H::arrayToPipedString($this->colCellTypes));
                 }
             } else {
                 throw new \Exception('Invalid description array, must contain (array) with at least one key type (string) value [ type ]');
@@ -223,7 +216,7 @@ class DataTable
             throw new InvalidConfigProperty(
                 __FUNCTION__,
                 'string',
-                Helpers::arrayToPipedString($this->colCellTypes)
+                H::arrayToPipedString($this->colCellTypes)
             );
         }
 
@@ -278,7 +271,7 @@ class DataTable
             $this->rows[] = array('c' => $tmp);
         } else {
             if (is_array($optCellArray)) {
-                if (Helpers::arrayIsMulti($optCellArray)) {
+                if (H::arrayIsMulti($optCellArray)) {
                     foreach ($optCellArray as $prop => $value) {
                         if (in_array($prop, $props)) {
                             $rowVals[] = array($prop => $value);
@@ -324,7 +317,7 @@ class DataTable
      */
     public function addRows($arrayOfRows)
     {
-        if (Helpers::arrayIsMulti($arrayOfRows)) {
+        if (H::arrayIsMulti($arrayOfRows)) {
             foreach ($arrayOfRows as $row) {
                 $this->addRow($row);
             }
@@ -388,11 +381,22 @@ class DataTable
 
     }
 */
+
+    /**
+     * Returns the number of columns in the DataTable
+     *
+     * @return int
+     */
     public function getNumberOfColumns()
     {
         return count($this->cols);
     }
 
+    /**
+     * Returns the number of rows in the DataTable
+     *
+     * @return int
+     */
     public function getNumberOfRows()
     {
         return count($this->rows);
@@ -534,11 +538,21 @@ class DataTable
     }
 */
 
+    /**
+     * Returns the column array from the DataTable
+     *
+     * @return array
+     */
     public function getColumns()
     {
         return $this->cols;
     }
 
+    /**
+     * Returns the rows array from the DataTable
+     *
+     * @return array
+     */
     public function getRows()
     {
         return $this->rows;

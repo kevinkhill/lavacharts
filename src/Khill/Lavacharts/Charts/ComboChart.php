@@ -59,7 +59,7 @@ class ComboChart extends Chart
      *
      * @param  Khill\Lavacharts\Configs\Annotation            $annotation
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\ComboChart
+     * @return ComboChart
      */
     public function annotations(Annotation $annotation)
     {
@@ -83,7 +83,7 @@ class ComboChart extends Chart
      *
      * @param  float                                          $opacity
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\ComboChart
+     * @return ComboChart
      */
     public function areaOpacity($opacity)
     {
@@ -109,7 +109,7 @@ class ComboChart extends Chart
      *
      * @param  string                                         $position
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\ComboChart
+     * @return ComboChart
      */
     public function axisTitlesPosition($position)
     {
@@ -141,7 +141,7 @@ class ComboChart extends Chart
      *
      * @param  int|string                                     $barGroupWidth
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\ComboChart
+     * @return ComboChart
      */
     public function barGroupWidth($barGroupWidth)
     {
@@ -162,7 +162,7 @@ class ComboChart extends Chart
      * @param Khill\Lavacharts\Configs\HorizontalAxis $hAxis
      *
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\ComboChart
+     * @return ComboChart
      */
     public function hAxis(HorizontalAxis $hAxis)
     {
@@ -180,30 +180,11 @@ class ComboChart extends Chart
     }
 
     /**
-     * If set to true, use HTML-rendered (rather than SVG-rendered) tooltips.
-     *
-     * @todo   was this merged into tooltip object???
-     * @param  bool                                        $isHTML
-     * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\ComboChart
-     */
-    public function isHtml($isHTML)
-    {
-        if (is_bool($isHTML)) {
-            $this->addOption(array('isHTML' => $isHTML));
-        } else {
-            $this->error(__FUNCTION__, 'bool');
-        }
-
-        return $this;
-    }
-
-    /**
      * If set to true, series elements are stacked.
      *
      * @param  bool                                        $isStacked
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\ComboChart
+     * @return ComboChart
      */
     public function isStacked($isStacked)
     {
@@ -223,7 +204,7 @@ class ComboChart extends Chart
      *
      * @param  array                                          $arrOfSeries
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\ComboChart
+     * @return ComboChart
      */
     public function series($arrOfSeries)
     {
@@ -248,7 +229,7 @@ class ComboChart extends Chart
      *
      * @param  string                                         $type
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\ComboChart
+     * @return ComboChart
      */
     public function seriesType($type)
     {
@@ -284,10 +265,10 @@ class ComboChart extends Chart
      * To specify a chart with multiple vertical axes, first define a new axis using
      * series.targetAxisIndex, then configure the axis using vAxes.
      *
-     * @param  array                                          $arrOfVertAxis Array of Khill\Lavacharts\Configs\VerticalAxis objects
+     * @param  array               $arrOfVertAxis Array of VerticalAxis objects
      * @throws InvalidConfigValue
      *
-     * @return Khill\Lavacharts\Charts\ComboChart
+     * @return ComboChart
      */
     public function vAxes($arrOfVertAxis)
     {
@@ -307,10 +288,10 @@ class ComboChart extends Chart
      * specify properties of this property, create a new vAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param  Khill\Lavacharts\Configs\VerticalAxis          $vAxis
+     * @param  VerticalAxis          $vAxis
      * @throws InvalidConfigValue
      *
-     * @return Khill\Lavacharts\Charts\ComboChart
+     * @return ComboChart
      */
     public function vAxis(VerticalAxis $vAxis)
     {

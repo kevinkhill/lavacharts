@@ -51,7 +51,7 @@ class ColumnChart extends Chart
      * none - Omit the axis titles.
      *
      * @param  string                              $position
-     * @return Khill\Lavacharts\Charts\ColumnChart
+     * @return ColumnChart
      */
     public function axisTitlesPosition($position)
     {
@@ -81,7 +81,7 @@ class ColumnChart extends Chart
      *   where '100%' means that groups have no space between them.
      *
      * @param  mixed                               $barGroupWidth
-     * @return Khill\Lavacharts\Charts\ColumnChart
+     * @return ColumnChart
      */
     public function barGroupWidth($barGroupWidth)
     {
@@ -105,7 +105,7 @@ class ColumnChart extends Chart
      *
      * @param  Khill\Lavacharts\Configs\HorizontalAxis        $hAxis
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\ColumnChart
+     * @return ColumnChart
      */
     public function hAxis(HorizontalAxis $hAxis)
     {
@@ -118,7 +118,7 @@ class ColumnChart extends Chart
      * If set to true, series elements are stacked.
      *
      * @param  bool                             $isStacked
-     * @return Khill\Lavacharts\Charts\ColumnChart
+     * @return ColumnChart
      */
     public function isStacked($isStacked)
     {
@@ -141,7 +141,7 @@ class ColumnChart extends Chart
      *
      * @param  Khill\Lavacharts\Configs\VerticalAxis          $vAxis
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\ColumnChart
+     * @return ColumnChart
      */
     public function vAxis(VerticalAxis $vAxis)
     {

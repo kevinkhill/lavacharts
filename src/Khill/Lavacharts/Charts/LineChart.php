@@ -51,10 +51,9 @@ class LineChart extends Chart
      * out - Draw the axis titles outside the chart area.
      * none - Omit the axis titles.
      *
-     * @param string $position
-     *
-     * @throws Khll\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\LineCharti
+     * @param  string $position
+     * @throws InvalidConfigValue
+     * @return LineChart
      */
     public function axisTitlesPosition($position)
     {
@@ -84,10 +83,9 @@ class LineChart extends Chart
      * 'none' - Straight lines without curve.
      * 'function' - The angles of the line will be smoothed.
      *
-     * @param string $curveType
-     *
+     * @param  string $curveType
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\LineChart
+     * @return LineChart
      */
     public function curveType($curveType)
     {
@@ -114,10 +112,9 @@ class LineChart extends Chart
      * specify properties of this property, create a new hAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param Khill\Lavacharts\Configs\HorizontalAxis $hAxis
-     *
+     * @param  HorizontalAxis $hAxis
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\LineChart
+     * @return LineChart
      */
     public function hAxis(HorizontalAxis $hAxis)
     {
@@ -131,10 +128,9 @@ class LineChart extends Chart
      * value of any missing data based on neighboring points. If false, it will
      * leave a break in the line at the unknown point.
      *
-     * @param bool $interpolateNulls
-     *
+     * @param  bool $interpolateNulls
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\LineChart
+     * @return LineChart
      */
     public function interpolateNulls($interpolateNulls)
     {
@@ -155,10 +151,9 @@ class LineChart extends Chart
      * points. You can override values for individual series using the series
      * property.
      *
-     * @param int $width
-     *
+     * @param  int $width
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\LineChart
+     * @return LineChart
      */
     public function lineWidth($width)
     {
@@ -178,10 +173,9 @@ class LineChart extends Chart
      * Diameter of displayed points in pixels. Use zero to hide all points. You
      * can override values for individual series using the series property.
      *
-     * @param int $size
-     *
+     * @param  int $size
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\LineChart
+     * @return LineChart
      */
     public function pointSize($size)
     {
@@ -202,10 +196,9 @@ class LineChart extends Chart
      * specify properties of this property, create a new vAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param Khill\Lavacharts\Configs\VerticalAxis $vAxis
-     *
+     * @param  VerticalAxis $vAxis
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\LineChart
+     * @return LineChart
      */
     public function vAxis(VerticalAxis $vAxis)
     {

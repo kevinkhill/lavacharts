@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+  <title>LavaCharts</title>
+  <parser>
+    <target>./build/api</target>
+  </parser>
+  <transformer>
+    <target>./build/api</target>
+  </transformer>
+  <logging>
+    <level>warn</level>
+    <paths>
+      <default>./build/logs/phpdoc.{DATE}.log</default>
+      <errors>./build/logs/phpdoc.{DATE}.errors.log</errors>
+    </paths>
+  </logging>
+  <files>
+    <directory>./src/Khill/Lavacharts</directory>
+  </files>
+</phpdoc>

@@ -48,9 +48,9 @@ class PieChart extends Chart
     /**
      * If set to true, displays a three-dimensional chart.
      *
-     * @param  bool                                        $is3D
+     * @param  bool               $is3D
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\PieChart
+     * @return PieChart
      */
     public function is3D($is3D)
     {
@@ -83,9 +83,9 @@ class PieChart extends Chart
      *          );
      *
      *
-     * @param array Array of slice objects
+     * @param  array $slices Array of slice objects
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\PieChart
+     * @return PieChart
      */
     public function slices($slices)
     {
@@ -110,6 +110,9 @@ class PieChart extends Chart
 
     /**
      * Supplemental function to add slices
+     *
+     * @param  Slice $slice
+     * @return array
      */
     private function addSlice(Slice $slice)
     {
@@ -120,9 +123,9 @@ class PieChart extends Chart
      * The color of the slice borders. Only applicable when the chart is
      * two-dimensional; is3D == false || null
      *
-     * @param string HTML color
+     * @param  string $pieSliceBorderColor Valid HTML color
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\PieChart
+     * @return PieChart
      */
     public function pieSliceBorderColor($pieSliceBorderColor)
     {
@@ -146,9 +149,9 @@ class PieChart extends Chart
      * 'label' - The name of the slice.
      * 'none' - No text is displayed.
      *
-     * @param  string                                         $pieSliceText
+     * @param  string             $pieSliceText
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\PieChart
+     * @return PieChart
      */
     public function pieSliceText($pieSliceText)
     {
@@ -176,9 +179,9 @@ class PieChart extends Chart
      * An object that specifies the slice text style. create a new textStyle()
      * object, set the values then pass it to this function or to the constructor.
      *
-     * @param  Khill\Lavacharts\Configs\TextStyle             $textStyle
+     * @param  TextStyle             $textStyle
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\PieChart
+     * @return PieChart
      */
     public function pieSliceTextStyle(TextStyle $textStyle)
     {
@@ -191,9 +194,9 @@ class PieChart extends Chart
      * The angle, in degrees, to rotate the chart by. The default of 0 will
      * orient the leftmost edge of the first slice directly up.
      *
-     * @param int start angle
+     * @param  int $pieStartAngle Starting angle
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\PieChart
+     * @return PieChart
      */
     public function pieStartAngle($pieStartAngle)
     {
@@ -213,9 +216,9 @@ class PieChart extends Chart
      * If set to true, will draw slices counterclockwise. The default is to
      * draw clockwise.
      *
-     * @param  bool                                        $reverseCategories
+     * @param  bool                $reverseCategories
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\PieChart
+     * @return PieChart
      */
     public function reverseCategories($reverseCategories)
     {
@@ -237,9 +240,9 @@ class PieChart extends Chart
      * single slice, whose size is the sum of all their sizes. Default is not
      * to show individually any slice which is smaller than half a degree.
      *
-     * @param  numeric                                        $sliceVisibilityThreshold
+     * @param  int|float                                        $sliceVisibilityThreshold
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\PieChart
+     * @return PieChart
      */
     public function sliceVisibilityThreshold($sliceVizThreshold)
     {
@@ -259,9 +262,9 @@ class PieChart extends Chart
      * Color for the combination slice that holds all slices below
      * sliceVisibilityThreshold.
      *
-     * @param  type                                           $pieResidueSliceColor
+     * @param  string                                            $pieResidueSliceColor
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\PieChart
+     * @return PieChart
      */
     public function pieResidueSliceColor($pieResidueSliceColor)
     {
@@ -284,7 +287,7 @@ class PieChart extends Chart
      *
      * @param  string                                         $pieResidueSliceLabel
      * @throws InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\PieChart
+     * @return PieChart
      */
     public function pieResidueSliceLabel($pieResidueSliceLabel)
     {

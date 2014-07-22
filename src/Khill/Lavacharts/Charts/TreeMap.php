@@ -67,7 +67,7 @@ class TreeMap extends Chart
      *
      * @param string $headerColor
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
 /*    public function headerColor($headerColor)
     {
@@ -79,7 +79,7 @@ class TreeMap extends Chart
      *
      * @param int $headerHeight
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
 /*    public function headerHeight($headerHeight)
     {
@@ -93,7 +93,7 @@ class TreeMap extends Chart
      *
      * @param string $headerHighlightColor
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
  /*   public function headerHighlightColor($headerHighlightColor)
     {
@@ -106,7 +106,7 @@ class TreeMap extends Chart
      *
      * @param string $maxColor
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
  /*   public function maxColor($maxColor)
     {
@@ -122,7 +122,7 @@ class TreeMap extends Chart
      *
      * @param int $maxDepth
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
  /*   public function maxDepth($maxDepth)
     {
@@ -136,7 +136,7 @@ class TreeMap extends Chart
      *
      * @param string $maxHighlightColor
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
  /*   public function maxHighlightColor($maxHighlightColor)
     {
@@ -150,7 +150,7 @@ class TreeMap extends Chart
      *
      * @param int $maxPostDepth
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
  /*   public function maxPostDepth($maxPostDepth)
     {
@@ -164,7 +164,7 @@ class TreeMap extends Chart
      *
      * @param int $maxColorValue
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
  /*   public function maxColorValue($maxColorValue)
     {
@@ -177,7 +177,7 @@ class TreeMap extends Chart
      *
      * @param string $midColor
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
  /*   public function midColor($midColor)
     {
@@ -192,7 +192,7 @@ class TreeMap extends Chart
      *
      * @param string $midHighlightColor
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
  /*   public function midHighlightColor($midHighlightColor)
     {
@@ -205,7 +205,7 @@ class TreeMap extends Chart
      *
      * @param string $minColor
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
 /*    public function minColor($minColor)
     {
@@ -219,7 +219,7 @@ class TreeMap extends Chart
      *
      * @param string $minHighlightColor
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
 /*    public function minHighlightColor($minHighlightColor)
     {
@@ -233,7 +233,7 @@ class TreeMap extends Chart
      *
      * @param int $minColorValue
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
 /*    public function minColorValue($minColorValue)
     {
@@ -247,7 +247,7 @@ class TreeMap extends Chart
      *
      * @param string $noColor
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
  /*   public function noColor($noColor)
     {
@@ -261,7 +261,7 @@ class TreeMap extends Chart
      *
      * @param string $noHighlightColor
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
  /*   public function noHighlightColor($noHighlightColor)
     {
@@ -274,7 +274,7 @@ class TreeMap extends Chart
      *
      * @param bool $showScale
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
   /*  public function showScale($showScale)
     {
@@ -286,7 +286,7 @@ class TreeMap extends Chart
      *
      * @param bool $showTooltips
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
   /*  public function showTooltips($showTooltips)
     {
@@ -298,7 +298,7 @@ class TreeMap extends Chart
      *
      * @param string $fontColor
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
 /*    public function fontColor($fontColor)
     {
@@ -310,7 +310,7 @@ class TreeMap extends Chart
      *
      * @param string $fontFamily
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
  /*   public function fontFamily($fontFamily)
     {
@@ -322,7 +322,7 @@ class TreeMap extends Chart
      *
      * @param int $fontSize
      *
-     * @return \TreeMap
+     * @return TreeMap
      */
  /*   public function fontSize($fontSize)
     {

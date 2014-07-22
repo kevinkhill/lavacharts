@@ -36,9 +36,9 @@ class DonutChart extends PieChart
      * If between 0 and 1, displays a donut chart. The hole with have a radius
      * equal to $pieHole times the radius of the chart.
      *
-     * @param numeric $pieHole
+     * @param int|float $pieHole
      *
-     * @return Khill\Lavacharts\Charts\DonutChart
+     * @return DonutChart
      */
     public function pieHole($pieHole)
     {

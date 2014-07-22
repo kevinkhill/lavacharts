@@ -16,7 +16,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Helpers\Helpers as H;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class ChartArea extends ConfigOptions
@@ -70,7 +70,7 @@ class ChartArea extends ConfigOptions
      */
     public function left($left)
     {
-        if (Helpers::isIntOrPercent($left)) {
+        if (H::isIntOrPercent($left)) {
             $this->left = $left;
         } else {
             throw new InvalidConfigValue(
@@ -92,7 +92,7 @@ class ChartArea extends ConfigOptions
      */
     public function top($top)
     {
-        if (Helpers::isIntOrPercent($top)) {
+        if (H::isIntOrPercent($top)) {
             $this->top = $top;
         } else {
             throw new InvalidConfigValue(
@@ -114,7 +114,7 @@ class ChartArea extends ConfigOptions
      */
     public function width($width)
     {
-        if (Helpers::isIntOrPercent($width)) {
+        if (H::isIntOrPercent($width)) {
             $this->width = $width;
         } else {
             throw new InvalidConfigValue(
@@ -136,7 +136,7 @@ class ChartArea extends ConfigOptions
      */
     public function height($height)
     {
-        if (Helpers::isIntOrPercent($height)) {
+        if (H::isIntOrPercent($height)) {
             $this->height = $height;
         } else {
             throw new InvalidConfigValue(

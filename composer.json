@@ -22,9 +22,8 @@
         "mockery/mockery": "0.9.*",
         "squizlabs/php_codesniffer": "1.*",
         "fabpot/php-cs-fixer": "0.5.*",
-        "satooshi/php-coveralls": "0.6.*",
-        "nette/nette": "~2.1.3",
-        "apigen/apigen": "2.*"
+        "phpdocumentor/phpdocumentor": "2.*",
+        "satooshi/php-coveralls": "0.6.*"
     },
     "autoload": {
         "psr-0": { "Khill\\Lavacharts": "src/" }
