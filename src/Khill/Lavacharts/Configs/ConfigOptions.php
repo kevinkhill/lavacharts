@@ -16,6 +16,8 @@
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
+use \ReflectionClass as RC;
+use \ReflectionProperty as RP;
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
@@ -39,8 +41,15 @@ class ConfigOptions
      * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return object
      */
-    public function __construct($config)
+    public function __construct($child, $config)
     {
+        $class = new RC($child);
+
+        $this->className = $class->getShortname();
+        $this->options = array_map(function($prop) {
+            return $prop->name;
+        }, $class->getProperties(RP::IS_PUBLIC));
+
         if (is_array($config)) {
             foreach ($config as $option => $value) {
                 if (in_array($option, $this->options)) {

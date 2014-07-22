@@ -23,17 +23,17 @@ class TextStyle extends ConfigOptions
     /**
      * @var string Color of the text.
      */
-    public $color = null;
+    public $color;
 
     /**
      * @var string Font name.
      */
-    public $fontName = null;
+    public $fontName;
 
     /**
      * @var int Size of font, in pixels.
      */
-    public $fontSize = null;
+    public $fontSize;
 
 
     /**
@@ -48,14 +48,7 @@ class TextStyle extends ConfigOptions
      */
     public function __construct($config = array())
     {
-        $this->className = 'TextStyle';
-        $this->options = array(
-            'color',
-            'fontName',
-            'fontSize'
-        );
-
-        parent::__construct($config);
+        parent::__construct($this, $config);
     }
 
     /**
