@@ -10,13 +10,13 @@
  * Passing a number in upon creation, then the zoomFactor will be set.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Configs
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://opensource.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Configs
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -24,12 +24,16 @@ use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class MagnifyingGlass extends ConfigOptions
 {
     /**
-     * @var boolean Enabled state of the magnifying glass.
+     * Enabled state of the magnifying glass.
+     *
+     * @var bool
      */
     public $enable = true;
 
     /**
-     * @var int Zoom factor of the magnifying glass.
+     * Zoom factor of the magnifying glass.
+     *
+     * @var int
      */
     public $zoomFactor;
 
@@ -40,12 +44,10 @@ class MagnifyingGlass extends ConfigOptions
      * If created with no parameter, it defaults to enabled with a zoom factor
      * of 5. Passing a number in upon creation, then the zoomFactor will be set.
      *
-     * @param boolean $zoomFactor
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     *
-     * @return Khill\Lavacharts\Configs\MagnifyingGlass
+     * @param  bool $zoomFactor
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
+     * @return MagnifyingGlass
      */
     public function __construct($zoomFactor = 5)
     {
@@ -57,9 +59,8 @@ class MagnifyingGlass extends ConfigOptions
     /**
      * The zoom factor of the magnifying glass.
      *
-     * @param int $zoomFactor Can be any number greater than 0.
-     *
-     * @return Khill\Lavacharts\Configs\MagnifyingGlass
+     * @param  int $zoomFactor Can be any number greater than 0.
+     * @return MagnifyingGlass
      */
     public function zoomFactor($zoomFactor)
     {

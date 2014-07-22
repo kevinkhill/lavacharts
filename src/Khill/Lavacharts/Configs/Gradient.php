@@ -6,13 +6,13 @@
  * An object that specifies a color gradient
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Configs
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://opensource.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Configs
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -64,10 +64,10 @@ class Gradient extends ConfigOptions
     /**
      * Builds the gradient object with specified options
      *
-     * @param  array config
+     * @param  array $config
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
-     * @return gradient
+     * @return Gradient
      */
     public function __construct($config = array())
     {
@@ -76,11 +76,9 @@ class Gradient extends ConfigOptions
 
     /**
      * If present, specifies the start color for the gradient.
-     * If undefined, a random color will be used.
      *
-     * @param string color1
-     *
-     * @return gradient
+     * @param  string $color1
+     * @return Gradient
      */
     public function color1($color1)
     {
@@ -98,11 +96,9 @@ class Gradient extends ConfigOptions
 
     /**
      * If present, specifies the finish color for the gradient.
-     * If undefined, a random color will be used.
      *
-     * @param string finishColor
-     *
-     * @return gradient
+     * @param  string $color2
+     * @return Gradient
      */
     public function color2($color2)
     {
@@ -121,9 +117,8 @@ class Gradient extends ConfigOptions
     /**
      * Sets where on the boundary to start in X.
      *
-     * @param string x1
-     *
-     * @return gradient
+     * @param  string $x1
+     * @return Gradient
      */
     public function x1($x1)
     {
@@ -142,9 +137,8 @@ class Gradient extends ConfigOptions
     /**
      * Sets where on the boundary to start in Y.
      *
-     * @param string y1
-     *
-     * @return gradient
+     * @param  string $y1
+     * @return Gradient
      */
     public function y1($y1)
     {
@@ -163,9 +157,8 @@ class Gradient extends ConfigOptions
     /**
      * Sets where on the boundary to end in X, relative to x1.
      *
-     * @param string x2
-     *
-     * @return gradient
+     * @param  string $x2
+     * @return Gradient
      */
     public function x2($x2)
     {
@@ -184,9 +177,8 @@ class Gradient extends ConfigOptions
     /**
      * Sets where on the boundary to end in Y, relative to y1.
      *
-     * @param string y2
-     *
-     * @return gradient
+     * @param  string $y2
+     * @return Gradient
      */
     public function y2($y2)
     {

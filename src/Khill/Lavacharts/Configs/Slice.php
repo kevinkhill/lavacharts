@@ -7,13 +7,13 @@
  * into the chart's options.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Configs
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://opensource.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Configs
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
@@ -22,17 +22,23 @@ use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class Slice extends ConfigOptions
 {
     /**
-     * @var string The slice fill color.
+     * The slice fill color.
+     *
+     * @var string
      */
     public $color;
 
     /**
-     * @var string Offset amount.
+     * Offset amount.
+     *
+     * @var string
      */
     public $offset;
 
     /**
-     * @var Khill\Lavacharts\Configs\TextStyle Slice text style.
+     * Slice text style.
+     *
+     * @var TextStyle
      */
     public $textStyle;
 
@@ -40,12 +46,10 @@ class Slice extends ConfigOptions
     /**
      * Builds the slice object with specified options.
      *
-     * @param  array Configuration options for the tooltip
-     *
+     * @param  array $config Configuration options for the Slice
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
-     *
-     * @return Khill\Lavacharts\Configs\Slice
+     * @return Slice
      */
     public function __construct($config = array())
     {
@@ -55,11 +59,9 @@ class Slice extends ConfigOptions
     /**
      * The color to use for this slice. Specify a valid HTML color string.
      *
-     * @param string
-     *
+     * @param  string $color
      * @throws InvalidConfigValue
-     *
-     * @return Khill\Lavacharts\Configs\Slice
+     * @return Slice
      */
     public function color($color)
     {
@@ -80,9 +82,9 @@ class Slice extends ConfigOptions
      * How far to separate the slice from the rest of the pie.
      * from 0.0 (not at all) to 1.0 (the pie's radius).
      *
-     * @param float offset
-     *
-     * @return Khill\Lavacharts\Configs\Slice
+     * @param  float $offset
+     * @throws InvalidConfigValue
+     * @return Slice
      */
     public function offset($offset)
     {
@@ -102,9 +104,8 @@ class Slice extends ConfigOptions
     /**
      * Overrides the global pieSliceTextSlice for this slice.
      *
-     * @param Khill\Lavacharts\Configs\TextStyle $textStyle A valid textStyle object.
-     *
-     * @return Khill\Lavacharts\Configs\Slice
+     * @param  TextStyle $textStyle A valid textStyle object.
+     * @return Slice
      */
     public function textStyle(TextStyle $textStyle)
     {

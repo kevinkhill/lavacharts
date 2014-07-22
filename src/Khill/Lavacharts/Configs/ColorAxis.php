@@ -7,13 +7,13 @@
  * or a gradient scale.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Configs
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://opensource.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Configs
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
@@ -22,33 +22,40 @@ use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class ColorAxis extends ConfigOptions
 {
     /**
-     * @var int Minimum value for chart color data.
+     * Minimum value for chart color data.
+     *
+     * @var int
      */
     public $minValue;
 
     /**
-     * @var int Maximum value for chart color data.
+     * Maximum value for chart color data.
+     *
+     * @var int
      */
     public $maxValue;
 
     /**
-     * @var array Controls how values are associated with colors.
+     * Controls how values are associated with colors.
+     *
+     * @var array
      */
     public $values;
 
     /**
-     * @var array Colors to assign to values in the visualization.
+     * Colors to assign to values in the visualization.
+     *
+     * @var array
      */
     public $colors;
 
     /**
-     * Builds the colorAxis object with specified options
+     * Builds the ColorAxis object with specified options
      *
      * @param  array $config
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return Khill\Lavacharts\Configs\ColorAxis
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
+     * @return ColorAxis
      */
     public function __construct($config = array())
     {
@@ -60,10 +67,9 @@ class ColorAxis extends ConfigOptions
      * values of this value and lower will be rendered as the first color in
      * the $this->colors range.
      *
-     * @param numeric $minValue
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Khill\Lavacharts\Configs\ColorAxis
+     * @param  numeric $minValue
+     * @throws InvalidConfigValue
+     * @return ColorAxis
      */
     public function minValue($minValue)
     {
@@ -84,10 +90,9 @@ class ColorAxis extends ConfigOptions
      * values of this value and higher will be rendered as the last color in
      * the $this->colors range.
      *
-     * @param numeric $maxValue
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Khill\Lavacharts\Configs\ColorAxis
+     * @param  numeric $maxValue
+     * @throws InvalidConfigValue
+     * @return ColorAxis
      */
     public function maxValue($maxValue)
     {
@@ -112,10 +117,9 @@ class ColorAxis extends ConfigOptions
      * Not specifying a value for this option is equivalent to specifying
      * [minValue, maxValue].
      *
-     * @param array $values
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Khill\Lavacharts\Configs\ColorAxis
+     * @param  array $values
+     * @throws InvalidConfigValue
+     * @return ColorAxis
      */
     public function values($values)
     {
@@ -141,10 +145,9 @@ class ColorAxis extends ConfigOptions
      * values, plus calculated intermediary values, with the first color as the
      * smallest value, and the last color as the highest.
      *
-     * @param array $colors
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Khill\Lavacharts\Configs\ColorAxis
+     * @param  array $colors
+     * @throws InvalidConfigValue
+     * @return ColorAxis
      */
     public function colors($colors)
     {

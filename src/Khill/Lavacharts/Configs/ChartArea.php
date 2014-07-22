@@ -7,13 +7,13 @@
  * passed into the chart's options.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Configs
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://opensource.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Configs
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
@@ -22,22 +22,30 @@ use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class ChartArea extends ConfigOptions
 {
     /**
-     * @var int|string How far to draw the chart from the left border.
+     * How far to draw the chart from the left border.
+     *
+     * @var int|string
      */
     public $left;
 
     /**
-     * @var int|string How far to draw the chart from the top border.
+     * How far to draw the chart from the top border.
+     *
+     * @var int|string
      */
     public $top;
 
     /**
-     * @var int|string Width of the chart.
+     * Width of the chart.
+     *
+     * @var int|string
      */
     public $width;
 
     /**
-     * @var int|string Height of the chart.
+     * Height of the chart.
+     *
+     * @var int|string
      */
     public $height;
 
@@ -45,9 +53,8 @@ class ChartArea extends ConfigOptions
     /**
      * Builds the chartArea object when passed an array of configuration options.
      *
-     * @param array $config
-     *
-     * @return Khill\Lavacharts\Configs\ChartArea
+     * @param  array $config
+     * @return ChartArea
      */
     public function __construct($config = array())
     {
@@ -57,10 +64,9 @@ class ChartArea extends ConfigOptions
     /**
      * Sets the left padding of the chart in the container.
      *
-     * @param int Amount in pixels
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Khill\Lavacharts\Configs\ChartArea
+     * @param  int $left Amount in pixels
+     * @throws InvalidConfigValue
+     * @return ChartArea
      */
     public function left($left)
     {
@@ -80,10 +86,9 @@ class ChartArea extends ConfigOptions
     /**
      * Sets the top padding of the chart in the container.
      *
-     * @param int Amount in pixels
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Khill\Lavacharts\Configs\ChartArea
+     * @param  int $top Amount in pixels
+     * @throws InvalidConfigValue
+     * @return ChartArea
      */
     public function top($top)
     {
@@ -103,10 +108,9 @@ class ChartArea extends ConfigOptions
     /**
      * Sets the width of the chart in the container.
      *
-     * @param int Amount in pixels
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Khill\Lavacharts\Configs\ChartArea
+     * @param  int $width Amount in pixels
+     * @throws InvalidConfigValue
+     * @return ChartArea
      */
     public function width($width)
     {
@@ -126,10 +130,9 @@ class ChartArea extends ConfigOptions
     /**
      * Sets the height of the chart in the container.
      *
-     * @param int Amount in pixels
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Khill\Lavacharts\Configs\ChartArea
+     * @param  int $height Amount in pixels
+     * @throws InvalidConfigValue
+     * @return ChartArea
      */
     public function height($height)
     {

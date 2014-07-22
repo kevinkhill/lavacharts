@@ -7,13 +7,13 @@
  * tooltips when hovering over slices.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Charts
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://www.gnu.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Charts
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
@@ -48,8 +48,8 @@ class PieChart extends Chart
     /**
      * If set to true, displays a three-dimensional chart.
      *
-     * @param  boolean                                        $is3D
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @param  bool                                        $is3D
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\PieChart
      */
     public function is3D($is3D)
@@ -59,7 +59,7 @@ class PieChart extends Chart
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'boolean'
+                'bool'
             );
         }
 
@@ -84,7 +84,7 @@ class PieChart extends Chart
      *
      *
      * @param array Array of slice objects
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\PieChart
      */
     public function slices($slices)
@@ -121,7 +121,7 @@ class PieChart extends Chart
      * two-dimensional; is3D == false || null
      *
      * @param string HTML color
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\PieChart
      */
     public function pieSliceBorderColor($pieSliceBorderColor)
@@ -147,7 +147,7 @@ class PieChart extends Chart
      * 'none' - No text is displayed.
      *
      * @param  string                                         $pieSliceText
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\PieChart
      */
     public function pieSliceText($pieSliceText)
@@ -177,7 +177,7 @@ class PieChart extends Chart
      * object, set the values then pass it to this function or to the constructor.
      *
      * @param  Khill\Lavacharts\Configs\TextStyle             $textStyle
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\PieChart
      */
     public function pieSliceTextStyle(TextStyle $textStyle)
@@ -192,7 +192,7 @@ class PieChart extends Chart
      * orient the leftmost edge of the first slice directly up.
      *
      * @param int start angle
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\PieChart
      */
     public function pieStartAngle($pieStartAngle)
@@ -213,8 +213,8 @@ class PieChart extends Chart
      * If set to true, will draw slices counterclockwise. The default is to
      * draw clockwise.
      *
-     * @param  boolean                                        $reverseCategories
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @param  bool                                        $reverseCategories
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\PieChart
      */
     public function reverseCategories($reverseCategories)
@@ -224,7 +224,7 @@ class PieChart extends Chart
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'boolean'
+                'bool'
             );
         }
 
@@ -238,7 +238,7 @@ class PieChart extends Chart
      * to show individually any slice which is smaller than half a degree.
      *
      * @param  numeric                                        $sliceVisibilityThreshold
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\PieChart
      */
     public function sliceVisibilityThreshold($sliceVizThreshold)
@@ -260,7 +260,7 @@ class PieChart extends Chart
      * sliceVisibilityThreshold.
      *
      * @param  type                                           $pieResidueSliceColor
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\PieChart
      */
     public function pieResidueSliceColor($pieResidueSliceColor)
@@ -283,7 +283,7 @@ class PieChart extends Chart
      * sliceVisibilityThreshold.
      *
      * @param  string                                         $pieResidueSliceLabel
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\PieChart
      */
     public function pieResidueSliceLabel($pieResidueSliceLabel)

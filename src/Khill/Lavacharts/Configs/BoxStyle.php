@@ -7,13 +7,13 @@
  * of the boxes surrounding annotations
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Configs
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://opensource.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Configs
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
@@ -22,27 +22,37 @@ use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class BoxStyle extends ConfigOptions
 {
     /**
-     * @var string Color of the box outline.
+     * Color of the box outline.
+     *
+     * @var string
      */
     public $stroke;
 
     /**
-     * @var int|string Thickness of the box outline.
+     * Thickness of the box outline.
+     *
+     * @var int|string
      */
     public $strokeWidth;
 
     /**
-     * @var int|string X radius of the corner curvature.
+     * X radius of the corner curvature.
+     *
+     * @var int|string
      */
     public $rx;
 
     /**
-     * @var int|string Y radius of the corner curvature.
+     * Y radius of the corner curvature.
+     *
+     * @var int|string
      */
     public $ry;
 
     /**
-     * @var Khill\Lavacharts\Configs\Gradient Attributes for linear gradient fill.
+     * Attributes for linear gradient fill.
+     *
+     * @var Gradient
      */
     public $gradient;
 
@@ -51,9 +61,9 @@ class BoxStyle extends ConfigOptions
      *
      * @param array $config
      *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return Khill\Lavacharts\Configs\BoxStyle
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
+     * @return BoxStyle
      */
     public function __construct($config = array())
     {
@@ -64,9 +74,8 @@ class BoxStyle extends ConfigOptions
      * If present, specifies the color for the box outline.
      * If undefined, a random color will be used.
      *
-     * @param string $stroke Valid HTML color.
-     *
-     * @return Khill\Lavacharts\Configs\BoxStyle
+     * @param  string $stroke Valid HTML color.
+     * @return BoxStyle
      */
     public function stroke($stroke)
     {
@@ -85,9 +94,8 @@ class BoxStyle extends ConfigOptions
     /**
      * Sets the thickness of the box outline.
      *
-     * @param int|string $strokeWidth
-     *
-     * @return Khill\Lavacharts\Configs\BoxStyle
+     * @param  int|string $strokeWidth
+     * @return BoxStyle
      */
     public function strokeWidth($strokeWidth)
     {
@@ -106,9 +114,8 @@ class BoxStyle extends ConfigOptions
     /**
      * Sets the x-radius of the corner curvature.
      *
-     * @param int|string $rx
-     *
-     * @return Khill\Lavacharts\Configs\BoxStyle
+     * @param  int|string $rx
+     * @return BoxStyle
      */
     public function rx($rx)
     {
@@ -127,9 +134,8 @@ class BoxStyle extends ConfigOptions
     /**
      * Sets the y-radius of the corner curvature.
      *
-     * @param int|string $ry
-     *
-     * @return Khill\Lavacharts\Configs\BoxStyle
+     * @param  int|string $ry
+     * @return BoxStyle
      */
     public function ry($ry)
     {
@@ -148,9 +154,8 @@ class BoxStyle extends ConfigOptions
     /**
      * Sets the attributes for linear gradient fill.
      *
-     * @param Khill\Lavacharts\Configs\Gradient $gradient
-     *
-     * @return Khill\Lavacharts\Configs\BoxStyle
+     * @param  Gradient $gradient
+     * @return BoxStyle
      */
     public function gradient(Gradient $gradient)
     {

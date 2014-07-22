@@ -7,13 +7,13 @@
  * tips when hovering over points.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Charts
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://www.gnu.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Charts
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
@@ -86,7 +86,7 @@ class LineChart extends Chart
      *
      * @param string $curveType
      *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\LineChart
      */
     public function curveType($curveType)
@@ -116,7 +116,7 @@ class LineChart extends Chart
      *
      * @param Khill\Lavacharts\Configs\HorizontalAxis $hAxis
      *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\LineChart
      */
     public function hAxis(HorizontalAxis $hAxis)
@@ -131,9 +131,9 @@ class LineChart extends Chart
      * value of any missing data based on neighboring points. If false, it will
      * leave a break in the line at the unknown point.
      *
-     * @param boolean $interpolateNulls
+     * @param bool $interpolateNulls
      *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\LineChart
      */
     public function interpolateNulls($interpolateNulls)
@@ -143,7 +143,7 @@ class LineChart extends Chart
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'boolean'
+                'bool'
             );
         }
 
@@ -157,7 +157,7 @@ class LineChart extends Chart
      *
      * @param int $width
      *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\LineChart
      */
     public function lineWidth($width)
@@ -180,7 +180,7 @@ class LineChart extends Chart
      *
      * @param int $size
      *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\LineChart
      */
     public function pointSize($size)
@@ -204,7 +204,7 @@ class LineChart extends Chart
      *
      * @param Khill\Lavacharts\Configs\VerticalAxis $vAxis
      *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\LineChart
      */
     public function vAxis(VerticalAxis $vAxis)

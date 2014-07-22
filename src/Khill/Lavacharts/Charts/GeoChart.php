@@ -10,13 +10,13 @@
  *   according to a value that you specify.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Charts
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://www.gnu.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Charts
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 class GeoChart extends Chart
@@ -125,7 +125,7 @@ class GeoChart extends Chart
         if (is_bool($enableRegionInter)) {
             $this->addOption(array('enableRegionInteractivity' => $enableRegionInter));
         } else {
-            $this->type_error(__FUNCTION__, 'boolean');
+            $this->type_error(__FUNCTION__, 'bool');
         }
 
         return $this;
@@ -140,7 +140,7 @@ class GeoChart extends Chart
      * If false, the map will be stretched to the exact size of the chart as
      * specified by the width and height options.
      *
-     * @param boolean $keepAspectRatio
+     * @param bool $keepAspectRatio
      *
      * @return GeoChart
      */
@@ -149,7 +149,7 @@ class GeoChart extends Chart
         if (is_bool($keepAspectRatio)) {
             $this->addOption(array('keepAspectRatio' => $keepAspectRatio));
         } else {
-            $this->type_error(__FUNCTION__, 'boolean');
+            $this->type_error(__FUNCTION__, 'bool');
         }
 
         return $this;

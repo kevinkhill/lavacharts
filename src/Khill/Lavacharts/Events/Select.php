@@ -7,13 +7,13 @@
  * functions to the child objects.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Events
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://opensource.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Events
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
@@ -45,9 +45,9 @@ class Select extends Event
      *
      * @param  array Array of options.
      *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return object
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
+     * @return Event
      */
     public function __construct($config)
     {

@@ -8,13 +8,13 @@
  * chart, see the Bar Chart.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Charts
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://www.gnu.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Charts
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
@@ -104,7 +104,7 @@ class ColumnChart extends Chart
      * the values then pass it to this function or to the constructor.
      *
      * @param  Khill\Lavacharts\Configs\HorizontalAxis        $hAxis
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ColumnChart
      */
     public function hAxis(HorizontalAxis $hAxis)
@@ -117,7 +117,7 @@ class ColumnChart extends Chart
     /**
      * If set to true, series elements are stacked.
      *
-     * @param  boolean                             $isStacked
+     * @param  bool                             $isStacked
      * @return Khill\Lavacharts\Charts\ColumnChart
      */
     public function isStacked($isStacked)
@@ -127,7 +127,7 @@ class ColumnChart extends Chart
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'boolean'
+                'bool'
             );
         }
 
@@ -140,7 +140,7 @@ class ColumnChart extends Chart
      * the values then pass it to this function or to the constructor.
      *
      * @param  Khill\Lavacharts\Configs\VerticalAxis          $vAxis
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ColumnChart
      */
     public function vAxis(VerticalAxis $vAxis)

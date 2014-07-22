@@ -7,13 +7,13 @@
  * passed into the chart's options.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Configs
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://opensource.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Configs
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
@@ -38,7 +38,7 @@ class Legend extends ConfigOptions
     /**
      * Text style of the legend.
      *
-     * @var textStyle
+     * @var TextStyle
      */
     public $textStyle;
 
@@ -46,10 +46,10 @@ class Legend extends ConfigOptions
     /**
      * Builds the legend object when passed an array of configuration options.
      *
-     * @param  array Options for the legend
+     * @param  array $config Options for the legend
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
-     * @return legend
+     * @return Legend
      */
     public function __construct($config = array())
     {
@@ -66,9 +66,8 @@ class Legend extends ConfigOptions
      * 'in'     - Inside the chart, by the top left corner.
      * 'none'   - No legend is displayed.
      *
-     * @param string Location of legend
-     *
-     * @return legend
+     * @param  string $position Location of legend.
+     * @return Legend
      */
     public function position($position)
     {
@@ -108,9 +107,8 @@ class Legend extends ConfigOptions
      * The default value depends on the legend's position. For 'bottom' legends,
      * the default is 'center'; other legends default to 'start'.
      *
-     * @param string Alignment of the legend
-     *
-     * @return legend
+     * @param  string $alignment Alignment of the legend.
+     * @return Legend
      */
     public function alignment($alignment)
     {

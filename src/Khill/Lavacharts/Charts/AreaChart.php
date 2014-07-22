@@ -7,13 +7,13 @@
  * tips when hovering over points.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Charts
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://www.gnu.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Charts
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
@@ -52,7 +52,7 @@ class AreaChart extends Chart
      * an individual series, set the areaOpacity value in the series property.
      *
      * @param  float                                          $opacity
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
     public function areaOpacity($opacity)
@@ -78,7 +78,7 @@ class AreaChart extends Chart
      * none - Omit the axis titles.
      *
      * @param  string                                         $position
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
     public function axisTitlesPosition($position)
@@ -108,7 +108,7 @@ class AreaChart extends Chart
      * the values then pass it to this function or to the constructor.
      *
      * @param  Khill\Lavacharts\Configs\HorizontalAxis        $hAxis
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
     public function hAxis(HorizontalAxis $hAxis)
@@ -121,8 +121,8 @@ class AreaChart extends Chart
     /**
      * If set to true, series elements are stacked.
      *
-     * @param  boolean                                        $isStacked
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @param  bool                                        $isStacked
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
     public function isStacked($isStacked)
@@ -132,7 +132,7 @@ class AreaChart extends Chart
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'boolean'
+                'bool'
             );
         }
 
@@ -144,8 +144,8 @@ class AreaChart extends Chart
      * value of any missing data based on neighboring points. If false, it will
      * leave a break in the line at the unknown point.
      *
-     * @param  boolean                                        $interpolateNulls
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @param  bool                                        $interpolateNulls
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
     public function interpolateNulls($interpolateNulls)
@@ -155,7 +155,7 @@ class AreaChart extends Chart
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'boolean'
+                'bool'
             );
         }
 
@@ -168,7 +168,7 @@ class AreaChart extends Chart
      * property.
      *
      * @param  int                                            $width
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
     public function lineWidth($width)
@@ -190,7 +190,7 @@ class AreaChart extends Chart
      * can override values for individual series using the series property.
      *
      * @param  int                                            $size
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
     public function pointSize($size)
@@ -213,7 +213,7 @@ class AreaChart extends Chart
      * the values then pass it to this function or to the constructor.
      *
      * @param  Khill\Lavacharts\Configs\VerticalAxis          $vAxis
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\AreaChart
      */
     public function vAxis(VerticalAxis $vAxis)

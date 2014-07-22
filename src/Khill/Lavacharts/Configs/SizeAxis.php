@@ -7,13 +7,13 @@
  * passed into the chart's options.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Configs
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://opensource.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Configs
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -21,22 +21,30 @@ use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class SizeAxis extends ConfigOptions
 {
     /**
-     * @var int Maximum radius of the largest possible bubble, in pixels.
+     * Maximum radius of the largest possible bubble, in pixels.
+     *
+     * @var int
      */
     public $maxSize;
 
     /**
-     * @var int The size value to be mapped to $this->maxSize.
+     * The size value to be mapped to $this->maxSize.
+     *
+     * @var int
      */
     public $maxValue;
 
     /**
-     * @var int Mininum radius of the smallest possible bubble, in pixels.
+     * Mininum radius of the smallest possible bubble, in pixels.
+     *
+     * @var int
      */
     public $minSize;
 
     /**
-     * @var int The size value to be mapped to $this->minSize.
+     * The size value to be mapped to $this->minSize.
+     *
+     * @var int
      */
     public $minValue;
 
@@ -48,11 +56,10 @@ class SizeAxis extends ConfigOptions
      * values for option => value, or by chaining together the functions once
      * an object has been created.
      *
-     * @param  array An array containing configuration options.
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return Khill\Lavacharts\Configs\SizeAxis
+     * @param  array $config An array containing configuration options.
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
+     * @return SizeAxis
      */
     public function __construct($config = array())
     {
@@ -62,9 +69,8 @@ class SizeAxis extends ConfigOptions
     /**
      * Sets maximum radius of the largest possible bubble, in pixels
      *
-     * @param int $maxSize
-     *
-     * @return Khill\Lavacharts\Configs\SizeAxis
+     * @param  int $maxSize
+     * @return SizeAxis
      */
     public function maxSize($maxSize)
     {
@@ -84,9 +90,8 @@ class SizeAxis extends ConfigOptions
      * Set the size value (as appears in the chart data) to be mapped to
      * $this->maxSize. Larger values will be cropped to this value.
      *
-     * @param int $maxValue
-     *
-     * @return Khill\Lavacharts\Configs\SizeAxis
+     * @param  int $maxValue
+     * @return SizeAxis
      */
     public function maxValue($maxValue)
     {
@@ -105,9 +110,8 @@ class SizeAxis extends ConfigOptions
     /**
      * Sets mininum radius of the smallest possible bubble, in pixels
      *
-     * @param int $minSize
-     *
-     * @return Khill\Lavacharts\Configs\SizeAxis
+     * @param  int $minSize
+     * @return SizeAxis
      */
     public function minSize($minSize)
     {
@@ -127,9 +131,8 @@ class SizeAxis extends ConfigOptions
      * Set the size value (as appears in the chart data) to be mapped to
      * $this->minSize. Larger values will be cropped to this value.
      *
-     * @param int $minValue
-     *
-     * @return Khill\Lavacharts\Configs\SizeAxis
+     * @param  int $minValue
+     * @return SizeAxis
      */
     public function minValue($minValue)
     {

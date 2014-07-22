@@ -19,13 +19,13 @@
  * long to show, the name will be truncated with an ellipsis (...).
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Charts
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://www.gnu.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Charts
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 /*
@@ -272,7 +272,7 @@ class TreeMap extends Chart
      * Whether or not to show a color gradient scale from minColor to maxColor
      * along the top of the chart. Specify true to show the scale.
      *
-     * @param boolean $showScale
+     * @param bool $showScale
      *
      * @return \TreeMap
      */
@@ -284,7 +284,7 @@ class TreeMap extends Chart
     /**
      * Whether or not to show tooltips.
      *
-     * @param boolean $showTooltips
+     * @param bool $showTooltips
      *
      * @return \TreeMap
      */

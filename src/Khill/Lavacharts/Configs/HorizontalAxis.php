@@ -7,13 +7,13 @@
  * passed into the chart's options.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Configs
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://opensource.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Configs
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
@@ -23,37 +23,51 @@ use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 class HorizontalAxis extends Axis
 {
     /**
-     * @var bool Allow container to cutoff labels.
+     * Allow container to cutoff labels.
+     *
+     * @var bool
      */
     public $allowContainerBoundaryTextCutoff;
 
     /**
-     * @var bool Slanted or normal labels.
+     * Slanted or normal labels.
+     *
+     * @var bool
      */
     public $slantedText;
 
     /**
-     * @var int Angle of labels.
+     * Angle of labels.
+     *
+     * @var int
      */
     public $slantedTextAngle;
 
     /**
-     * @var int Number of levels of alternation.
+     * Number of levels of alternation.
+     *
+     * @var int
      */
     public $maxAlternation;
 
     /**
-     * @var int Maximum number of labels.
+     * Maximum number of labels.
+     *
+     * @var int
      */
     public $maxTextLines;
 
     /**
-     * @var int Minimum amount in pixels of space between labels.
+     * Minimum amount in pixels of space between labels.
+     *
+     * @var int
      */
     public $minTextSpacing;
 
     /**
-     * @var int Amount of labels to show.
+     * Amount of labels to show.
+     *
+     * @var int
      */
     public $showTextEvery;
 
@@ -95,7 +109,7 @@ class HorizontalAxis extends Axis
      *
      * This option is only supported for a discrete axis.
      *
-     * @param boolean Status of allowing label cutoff
+     * @param bool Status of allowing label cutoff
      *
      * @return HorizontalAxis
      */
@@ -106,7 +120,7 @@ class HorizontalAxis extends Axis
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
-                'boolean'
+                'bool'
             );
         }
 
@@ -124,7 +138,7 @@ class HorizontalAxis extends Axis
      *
      * This option is only supported for a discrete axis.
      *
-     * @param boolean Status of label slant
+     * @param bool Status of label slant
      *
      * @return HorizontalAxis
      */
@@ -135,7 +149,7 @@ class HorizontalAxis extends Axis
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
-                'boolean',
+                'bool',
                 'and textPosition must be "out"'
             );
         }

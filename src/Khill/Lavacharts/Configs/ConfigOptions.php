@@ -7,17 +7,17 @@
  * functions to the child objects.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Configs
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://opensource.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Configs
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Helpers\Helpers as H;
-use Khill\Lavacharts\Exceptions\InvalidConfigValuE;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 class ConfigOptions
@@ -33,11 +33,11 @@ class ConfigOptions
      * Passing an array of key value pairs will set the configuration for each
      * child object created from this master object.
      *
-     * @param  $child Child ConfigOption object.
-     * @param  $config Array of options.
+     * @param  mixed $child Child ConfigOption object.
+     * @param  array $config Array of options.
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
-     * @return ConfigOption
+     * @return mixed
      */
     public function __construct($child, $config)
     {

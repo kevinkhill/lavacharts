@@ -11,7 +11,7 @@ class Helpers
      * @param string $function
      * @param object $configObject
      *
-     * @return boolean
+     * @return bool
      */
     public static function __callStatic($function, $configObject)
     {
@@ -61,7 +61,7 @@ class Helpers
      *
      * @param array Array of values.
      *
-     * @return boolean Returns true is first element in the array is an array,
+     * @return bool Returns true is first element in the array is an array,
      *                 otherwise false.
      */
     public static function arrayIsMulti($array)
@@ -84,7 +84,7 @@ class Helpers
      * @param string Type to check
      * @param string Named class, if type == 'class'
      *
-     * @return boolean Returns true is all values match type, otherwise false.
+     * @return bool Returns true is all values match type, otherwise false.
      */
     public static function arrayValuesCheck($array, $type, $className = '')
     {
@@ -131,7 +131,7 @@ class Helpers
      *
      * @param mixed Integer or string.
      *
-     * @return boolean Returns true if valid in or percent, otherwise false.
+     * @return bool Returns true if valid in or percent, otherwise false.
      */
     public static function isIntOrPercent($val)
     {
@@ -168,9 +168,9 @@ class Helpers
      * @param mixed number to test
      * @param mixed lower limit
      * @param mixed upper limit
-     * @param boolean whether to include limits
+     * @param bool whether to include limits
      *
-     * @return boolean
+     * @return bool
      */
     public static function between($lower, $test, $upper, $includeLimits = true)
     {

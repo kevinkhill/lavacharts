@@ -7,13 +7,12 @@
  * into the chart's options.
  *
  *
- * @category   Class
  * @package    Lavacharts
  * @subpackage Configs
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2014, KHill Designs
- * @link       https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link       http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
@@ -23,17 +22,23 @@ use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class Tooltip extends ConfigOptions
 {
     /**
-     * @var bool Show color code for the tooltip.
+     * Show color code for the tooltip.
+     *
+     * @var bool
      */
     public $showColorCode;
 
     /**
-     * @var TextStyle Tooltip text style
+     * Tooltip text style
+     *
+     * @var TextStyle
      */
     public $textStyle;
 
     /**
-     * @var string Trigger Action of the tooltip.
+     * Trigger Action of the tooltip.
+     *
+     * @var string
      */
     public $trigger;
 
@@ -54,7 +59,7 @@ class Tooltip extends ConfigOptions
     /**
      * Sets whether to show the color code.
      *
-     * @param  boolean $showColorCode State of showing the color code.
+     * @param  bool $showColorCode State of showing the color code.
      * @throws InvalidConfigValue
      * @return Tooltip
      */

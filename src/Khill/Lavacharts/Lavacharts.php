@@ -8,8 +8,8 @@
  * @package   Khill\Lavacharts
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
+ * @link      http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link      http://kevinkhill.github.io/LavaCharts GitHub Project Page
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
@@ -91,10 +91,10 @@ class Lavacharts
      *
      * @access public
      *
-     * @param  string                                        $member    Name of method
-     * @param  array                                         $arguments Passed arguments
-     * @throws Khill\Lavacharts\Exceptions\InvalidLavaObject
-     * @throws Khill\Lavacharts\Exceptions\InvalidChartLabel
+     * @param  string            $member    Name of method
+     * @param  array             $arguments Passed arguments
+     * @throws InvalidLavaObject
+     * @throws InvalidChartLabel
      *
      * @return mixed Returns Charts, DataTables, and Config Objects
      */
@@ -215,7 +215,7 @@ class Lavacharts
      * @param  string                                           $elementId  Element id to apply to the div.
      * @param  array                                            $dimensions Height & width of the div.
      * @throws Khill\Lavacharts\Exceptions\InvalidDivDimensions
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return string                                           HTML div element.
      */
     private function div($elementId, $dimensions = true)

@@ -7,16 +7,16 @@
  * set chart, which can be passed into the series property of the chart's options.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Configs
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://opensource.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Configs
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Helpers\Helpers as H;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Series extends ConfigOptions
@@ -24,7 +24,7 @@ class Series extends ConfigOptions
     /**
      * Alignment of the series.
      *
-     * @var Khill\Lavacharts\Configs\Annotation
+     * @var Annotation
      */
     public $annotation;
 
@@ -42,7 +42,6 @@ class Series extends ConfigOptions
      */
     public $type;
 
-
     /**
      * Text style of the series.
      *
@@ -54,9 +53,8 @@ class Series extends ConfigOptions
     /**
      * Builds the series object when passed an array of configuration options.
      *
-     * @param array Options for the series
-     *
-     * @return Khill\Lavacharts\Configs\Series
+     * @param  array $config Options for the series
+     * @return Series
      */
     public function __construct($config = array())
     {
@@ -67,14 +65,13 @@ class Series extends ConfigOptions
      * An object to be applied to annotations for this series.
      * This can be used to control, for instance, the textStyle for the series.
      *
-     * @param annotation Annotation style of the series
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Khill\Lavacharts\Configs\Series
+     * @param  Annotation Style of the series annotations
+     * @throws InvalidConfigValue
+     * @return Series
      */
     public function annotation(Annotation $annotation)
     {
-        if (Helpers::isAnnotation($annotation)) {
+        if (H::isAnnotation($annotation)) {
             $this->annotation = $annotation;
         } else {
             throw new InvalidConfigValue(
@@ -94,10 +91,9 @@ class Series extends ConfigOptions
      * 'none'     - Straight lines without curve.
      * 'function' - The angles of the line will be smoothed.
      *
-     * @param string $curveType
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Khill\Lavacharts\Charts\LineChart
+     * @param  string $curveType
+     * @throws InvalidConfigValue
+     * @return Series
      */
     public function curveType($curveType)
     {
@@ -112,7 +108,7 @@ class Series extends ConfigOptions
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.Helpers::arrayToPipedString($values)
+                'with a value of '.H::arrayToPipedString($values)
             );
         }
 
@@ -130,10 +126,9 @@ class Series extends ConfigOptions
      * At least one series much be allocated to the default axis.
      * You can define a different scale for different axes.
      *
-     * @param int $index
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Khill\Lavacharts\Configs\Series
+     * @param  int $index
+     * @throws InvalidConfigValue
+     * @return Series
      */
     public function targetAxisIndex($index)
     {
@@ -142,7 +137,7 @@ class Series extends ConfigOptions
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
-                'index'
+                'int'
             );
         }
 
@@ -154,10 +149,9 @@ class Series extends ConfigOptions
      * Available values are:
      * 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'
      *
-     * @param string $type
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Khill\Lavacharts\Configs\Series
+     * @param  string $type
+     * @throws InvalidConfigValue
+     * @return Series
      */
     public function type($type)
     {
@@ -175,7 +169,7 @@ class Series extends ConfigOptions
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.Helpers::arrayToPipedString($values)
+                'with a value of '.H::arrayToPipedString($values)
             );
         }
 
@@ -185,10 +179,9 @@ class Series extends ConfigOptions
     /**
      * An object that specifies the series text style.
      *
-     * @param Khill\Lavacharts\Configs\TextStyle $textStyle
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Khill\Lavacharts\Configs\Series
+     * @param  TextStyle $textStyle
+     * @throws InvalidConfigValue
+     * @return Series
      */
     public function textStyle(TextStyle $textStyle)
     {
@@ -223,6 +216,6 @@ series: {
 [ ] risingColor.strokeWidth - Overrides the global candlestick.risingColor.strokeWidth value for this series.
 [x] targetAxisIndex - Which axis to assign this series to, where 0 is the default axis, and 1 is the opposite axis. Default value is 0; set to 1 to define a chart where different series are rendered against different axes. At least one series much be allocated to the default axis. You can define a different scale for different axes.
 [x] type - The type of marker for this series. Valid values are 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'. Note that bars are actually vertical bars (columns). The default value is specified by the chart's seriesType option.
-[ ] visibleInLegend - A boolean value, where true means that the series should have a legend entry, and false means that it should not. Default is true.
+[ ] visibleInLegend - A bool value, where true means that the series should have a legend entry, and false means that it should not. Default is true.
 
 */

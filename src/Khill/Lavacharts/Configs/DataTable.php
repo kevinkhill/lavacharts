@@ -15,13 +15,13 @@
  * arbitrary class names or styles to individual cells.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Configs
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://opensource.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Configs
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Carbon\Carbon;
@@ -36,26 +36,45 @@ use Khill\Lavacharts\Exceptions\InvalidCellCount;
 class DataTable
 {
     /**
-     * @var array Holds the information defining the columns.
+     * Holds the information defining the columns.
+     *
+     * @var array
      */
     private $cols = array();
 
     /**
-     * @var array Holds the information defining each row.
+     * Holds the information defining each row.
+     *
+     * @var array
      */
     private $rows = array();
 
+    /**
+     * Number of rows in the DataTable.
+     *
+     * @var array
+     */
     private $rowCount = 0;
 
+    /**
+     * Valid column types.
+     *
+     * @var array
+     */
     private $colCellTypes = array(
         'string',
         'number',
-        'boolean',
+        'bool',
         'date',
         'datetime',
         'timeofday'
     );
 
+    /**
+     * Valid column descriptions
+     *
+     * @var array
+     */
     private $colCellDesc = array(
         'type',
         'label',
@@ -69,7 +88,7 @@ class DataTable
      *
      * First signature has the following parameters:
      * type - A string with the data type of the values of the column.
-     * The type can be one of the following: 'string' 'number' 'boolean' 'date'
+     * The type can be one of the following: 'string' 'number' 'bool' 'date'
      * 'datetime' 'timeofday'.
      *
      * optLabel - [Optional] A string with the label of the column. The column
@@ -80,14 +99,12 @@ class DataTable
      * not value is specified, an empty string is assigned.
      *
      *
-     * @param string|array Column type or an array describing the column.
-     * @param string A label for the column. (Optional)
-     * @param string An ID for the column. (Optinal)
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     *
-     * @return Khill\Lavacharts\Configs\DataTable
+     * @param  string|array Column type or an array describing the column.
+     * @param  string A label for the column. (Optional)
+     * @param  string An ID for the column. (Optional)
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
+     * @return DataTable
      */
     public function addColumn($typeOrDescArr, $optLabel = '', $optId = '')
     {
@@ -105,6 +122,13 @@ class DataTable
         return $this;
     }
 
+    /**
+     * Adds multiple columns to the DataTable
+     *
+     * @param  array $arrOfCols Array of columns to batch add to the DataTable.
+     * @throws InvalidConfigValue
+     * @return DataTable
+     */
     public function addColumns($arrOfCols)
     {
         if (Helpers::arrayIsMulti($arrOfCols)) {
@@ -121,6 +145,13 @@ class DataTable
         return $this;
     }
 
+    /**
+     * Suplemental function to add columns from an array.
+     *
+     * @param  array $colDefArray
+     * @throws InvalidColumnDefinition
+     * @return DataTable
+     */
     private function addColumnFromArray($colDefArray)
     {
         if (Helpers::arrayValuesCheck($colDefArray, 'string') && Helpers::between(1, count($colDefArray), 3, true)) {
@@ -229,7 +260,7 @@ class DataTable
      *
      * @throws Khill\Lavacharts\Exceptions\InvalidCellCount
      *
-     * @return Khill\Lavacharts\Configs\DataTable
+     * @return DataTable
      */
     public function addRow($optCellArray = null)
     {
@@ -289,7 +320,7 @@ class DataTable
      * @see   addRow()
      * @param array Multi-dimensional array of rows.
      *
-     * @return Khill\Lavacharts\Configs\DataTable
+     * @return DataTable
      */
     public function addRows($arrayOfRows)
     {

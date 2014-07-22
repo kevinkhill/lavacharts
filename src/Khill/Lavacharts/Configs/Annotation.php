@@ -7,13 +7,13 @@
  * be passed into the chart's options.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Configs
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://opensource.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Configs
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -21,24 +21,26 @@ use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class Annotation extends ConfigOptions
 {
     /**
-     * @var $highContrast The highContrast state.
+     * The highContrast state.
+     *
+     * @var $highContrast
      */
     public $highContrast = true;
 
     /**
-     * @var Khill\Lavacharts\Configs\TextStyle Text style of the annotation.
+     * Style of the annotation.
+     *
+     * @var TextStyle
      */
     public $textStyle;
 
     /**
-     * Builds the annotation object.
+     * Builds the Annotation object.
      *
      * @param  array Associative array containing key => value pairs for the various configuration options.
-     *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     *
-     * @return Khill\Lavacharts\Configs\Annotation
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
+     * @return Annotation
      */
     public function __construct($config = array())
     {
@@ -46,16 +48,15 @@ class Annotation extends ConfigOptions
     }
 
     /**
-     * For charts that support annotations, the highContrast boolean lets you override Google Charts'
+     * For charts that support annotations, the highContrast bool lets you override Google Charts'
      * choice of the annotation color. By default, highContrast is true, which causes Charts to select
      * an annotation color with good contrast: light colors on dark backgrounds, and dark on light.
      *
      * If you set highContrast to false and don't specify your own annotation color, Google Charts
      * will use the default series color for the annotation
      *
-     * @param boolean Annotation color
-     *
-     * @return Khill\Lavacharts\Configs\Annotation
+     * @param  bool Annotation color
+     * @return Annotation
      */
     public function highContrast($highContrast)
     {
@@ -64,7 +65,7 @@ class Annotation extends ConfigOptions
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
-                'boolean'
+                'bool'
             );
         }
 
@@ -74,9 +75,8 @@ class Annotation extends ConfigOptions
     /**
      * An object that specifies the annotation text style.
      *
-     * @param textStyle Style of the annotation
-     *
-     * @return Khill\Lavacharts\Configs\Annotation
+     * @param  TextStyle $textStyle Style of the annotation
+     * @return Annotation
      */
     public function textStyle(TextStyle $textStyle)
     {

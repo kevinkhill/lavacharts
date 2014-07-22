@@ -7,13 +7,13 @@
  * be passed into the chart's options.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Configs
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://opensource.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Configs
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -48,10 +48,10 @@ class BackgroundColor extends ConfigOptions
      * Pass an associative array with values for the keys
      * [ stroke | strokeWidth | fill ]
      *
-     * @param  array Configuration options
+     * @param  array $config Configuration options
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
-     * @return backgroundColor
+     * @return BackgroundColor
      */
     public function __construct($config = array())
     {
@@ -61,9 +61,8 @@ class BackgroundColor extends ConfigOptions
     /**
      * Sets the chart border color. Example: 'red' or '#A2A2A2'
      *
-     * @param string Valid HTML color string.
-     *
-     * @return backgroundColor
+     * @param  string $stroke Valid HTML color string.
+     * @return BackgroundColor
      */
     public function stroke($stroke)
     {
@@ -82,9 +81,8 @@ class BackgroundColor extends ConfigOptions
     /**
      * Sets the chart border width.
      *
-     * @param int Border width, in pixels.
-     *
-     * @return backgroundColor
+     * @param  int $strokeWidth Border width, in pixels.
+     * @return BackgroundColor
      */
     public function strokeWidth($strokeWidth)
     {
@@ -103,9 +101,8 @@ class BackgroundColor extends ConfigOptions
     /**
      * Sets the chart color fill, Example: 'blue' or '#C5C5C5'
      *
-     * @param string Valid HTML color string.
-     *
-     * @return backgroundColor
+     * @param  string $fill Valid HTML color string.
+     * @return BackgroundColor
      */
     public function fill($fill)
     {

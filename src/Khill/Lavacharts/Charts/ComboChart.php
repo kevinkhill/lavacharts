@@ -10,13 +10,13 @@
  * Use the series property to specify properties of each series individually.
  *
  *
- * @category  Class
- * @package   Khill\Lavacharts\Charts
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      https://github.com/kevinkhill/LavaCharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/LavaCharts/ GitHub Project Page
- * @license   http://www.gnu.org/licenses/MIT MIT
+ * @package    Lavacharts
+ * @subpackage Charts
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/LavaCharts GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Helpers\Helpers;
@@ -58,7 +58,7 @@ class ComboChart extends Chart
      * none - Omit the axis titles.
      *
      * @param  Khill\Lavacharts\Configs\Annotation            $annotation
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function annotations(Annotation $annotation)
@@ -82,7 +82,7 @@ class ComboChart extends Chart
      * an individual series, set the areaOpacity value in the series property.
      *
      * @param  float                                          $opacity
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function areaOpacity($opacity)
@@ -108,7 +108,7 @@ class ComboChart extends Chart
      * none - Omit the axis titles.
      *
      * @param  string                                         $position
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function axisTitlesPosition($position)
@@ -140,7 +140,7 @@ class ComboChart extends Chart
      *   where '100%' means that groups have no space between them.
      *
      * @param  int|string                                     $barGroupWidth
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function barGroupWidth($barGroupWidth)
@@ -161,7 +161,7 @@ class ComboChart extends Chart
      *
      * @param Khill\Lavacharts\Configs\HorizontalAxis $hAxis
      *
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function hAxis(HorizontalAxis $hAxis)
@@ -183,8 +183,8 @@ class ComboChart extends Chart
      * If set to true, use HTML-rendered (rather than SVG-rendered) tooltips.
      *
      * @todo   was this merged into tooltip object???
-     * @param  boolean                                        $isHTML
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @param  bool                                        $isHTML
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function isHtml($isHTML)
@@ -192,7 +192,7 @@ class ComboChart extends Chart
         if (is_bool($isHTML)) {
             $this->addOption(array('isHTML' => $isHTML));
         } else {
-            $this->error(__FUNCTION__, 'boolean');
+            $this->error(__FUNCTION__, 'bool');
         }
 
         return $this;
@@ -201,8 +201,8 @@ class ComboChart extends Chart
     /**
      * If set to true, series elements are stacked.
      *
-     * @param  boolean                                        $isStacked
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @param  bool                                        $isStacked
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function isStacked($isStacked)
@@ -210,7 +210,7 @@ class ComboChart extends Chart
         if (is_bool($isStacked)) {
             $this->addOption(array('isStacked' => $isStacked));
         } else {
-            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'boolean');
+            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'bool');
         }
 
         return $this;
@@ -222,7 +222,7 @@ class ComboChart extends Chart
      * If a series or a value is not specified, the global value will be used.
      *
      * @param  array                                          $arrOfSeries
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function series($arrOfSeries)
@@ -247,7 +247,7 @@ class ComboChart extends Chart
      * 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'
      *
      * @param  string                                         $type
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      * @return Khill\Lavacharts\Charts\ComboChart
      */
     public function seriesType($type)
@@ -285,7 +285,7 @@ class ComboChart extends Chart
      * series.targetAxisIndex, then configure the axis using vAxes.
      *
      * @param  array                                          $arrOfVertAxis Array of Khill\Lavacharts\Configs\VerticalAxis objects
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      *
      * @return Khill\Lavacharts\Charts\ComboChart
      */
@@ -308,7 +308,7 @@ class ComboChart extends Chart
      * the values then pass it to this function or to the constructor.
      *
      * @param  Khill\Lavacharts\Configs\VerticalAxis          $vAxis
-     * @throws Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws InvalidConfigValue
      *
      * @return Khill\Lavacharts\Charts\ComboChart
      */
@@ -334,7 +334,7 @@ areaOpacity - number, 0.0–1.0 - 0.3 - [[The default opacity of the colored are
     individual series, set the areaOpacity value in the series
     property.]]
 
-candlestick.hollowIsRising - boolean - false (will later be changed to true) - [[If true, rising candles will appear hollow and falling candles will appear solid, otherwise, the opposite.]]
+candlestick.hollowIsRising - bool - false (will later be changed to true) - [[If true, rising candles will appear hollow and falling candles will appear solid, otherwise, the opposite.]]
 candlestick.fallingColor.fill - string - auto (depends on the series color and hollowIsRising) - [[The fill color of falling candles, as an HTML color string.]]
 candlestick.fallingColor.stroke - string - auto (the series color) - [[The stroke color of falling candles, as an HTML color string.]]
 candlestick.fallingColor.strokeWidth - number - 2 - [[The stroke width of falling candles, as an HTML color string.]]
@@ -355,7 +355,7 @@ curveType - string - 'none' - [[Controls the curve of the lines when the line wi
       'function' - The angles of the line will be smoothed.
     ]]
 dataOpacity - number - 1.0 - [[The transparency of data points, with 1.0 being completely opaque and 0.0 fully transparent. In scatter, histogram, bar, and column charts, this refers to the visible data: dots in the scatter chart and rectangles in the others. In charts where selecting data creates a dot, such as the line and area charts, this refers to the circles that appear upon hover or selection. The combo chart exhibits both behaviors, and this option has no effect on other charts. (To change the opacity of a trendline, see trendline opacity.)]]
-enableInteractivity - boolean - true - [[Whether the chart throws user-based events or reacts to user interaction. If false, the chart will not throw 'select' or other interaction-based events (but will throw ready or error events), and will not display hovertext or otherwise change depending on user input.]]
+enableInteractivity - bool - true - [[Whether the chart throws user-based events or reacts to user interaction. If false, the chart will not throw 'select' or other interaction-based events (but will throw ready or error events), and will not display hovertext or otherwise change depending on user input.]]
 focusTarget - string - 'datum' - [[
     The type of the entity that receives focus on mouse hover. Also affects which entity is selected by mouse click, and which data table element is associated with events. Can be one of the following:
 
@@ -364,12 +364,12 @@ focusTarget - string - 'datum' - [[
 
     In focusTarget 'category' the tooltip displays all the category values. This may be useful for comparing values of different series.
   ]]
-forceIFrame - boolean - false - [[Draws the chart inside an inline frame. (Note that on IE8, this option is ignored; all IE8 charts are drawn in i-frames.)]]
+forceIFrame - bool - false - [[Draws the chart inside an inline frame. (Note that on IE8, this option is ignored; all IE8 charts are drawn in i-frames.)]]
  -  -  - [[]]
-interpolateNulls - boolean - false - [[Whether to guess the value of missing points. If true, it will guess the
+interpolateNulls - bool - false - [[Whether to guess the value of missing points. If true, it will guess the
     value of any missing data based on neighboring points. If false, it will
     leave a break in the line at the unknown point.]]
-isStacked - boolean - false - [[If set to true, series elements of the same type are stacked.
+isStacked - bool - false - [[If set to true, series elements of the same type are stacked.
         Affects bar, column and area series only.]]
 lineWidth - number - 2 - [[Data line width in pixels. Use zero to hide all lines and show only the
     points. You can override values for individual series using the
@@ -386,7 +386,7 @@ pointShape - string - 'circle' - [[The shape of individual data elements: 'circl
 pointSize - number - 0 - [[Diameter of displayed points in pixels. Use zero to hide all points.
      You can override values for individual series using the
     series property.]]
-reverseCategories - boolean - false - [[
+reverseCategories - bool - false - [[
     If set to true, will draw series from right to left. The default is to draw left-to-right.
 
       This option is only supported for a discrete major axis.
@@ -412,7 +412,7 @@ series - Array of objects, or object with nested objects - {} - [[An array of ob
         risingColor.strokeWidth - Overrides the global candlestick.risingColor.strokeWidth value for this series.
         targetAxisIndex - Which axis to assign this series to, where 0 is the default axis, and 1 is the opposite axis. Default value is 0; set to 1 to define a chart where different series are rendered against different axes. At least one series much be allocated to the default axis. You can define a different scale for different axes.
         type - The type of marker for this series. Valid values are 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'. Note that bars are actually vertical bars (columns). The default value is specified by the chart's seriesType option.
-        visibleInLegend - A boolean value, where true means that the series should have a legend entry, and false means that it should not. Default is true.
+        visibleInLegend - A bool value, where true means that the series should have a legend entry, and false means that it should not. Default is true.
 
     You can specify either an array of objects, each of which applies to the
       series in the order given, or you can specify an object where each child
