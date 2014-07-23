@@ -15,6 +15,9 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
+/**
+ * @codeCoverageIgnore
+ */
 class DataCell
 {
     /**

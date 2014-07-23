@@ -19,6 +19,9 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
+use Khill\Lavacharts\Configs\ColorAxis;
+use Khill\Lavacharts\Configs\SizeAxis;
+
 class GeoChart extends Chart
 {
     public $type = 'GeoChart';
@@ -48,8 +51,9 @@ class GeoChart extends Chart
      * An object that specifies a mapping between color column values and colors
      * or a gradient scale.
      *
-     * @param colorAxis $colorAxis
+     * @uses   ColorAxis
      *
+     * @param  ColorAxis $colorAxis
      * @return GeoChart
      */
     public function colorAxis($colorAxis)
@@ -57,7 +61,10 @@ class GeoChart extends Chart
         if (is_a($colorAxis, 'colorAxis')) {
             $this->addOption($colorAxis);
         } else {
-            $this->type_error(__FUNCTION__, 'colorAxis');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'colorAxis')
+
         }
 
         return $this;
@@ -75,7 +82,10 @@ class GeoChart extends Chart
         if (is_string($datalessRegionColor) && ! empty($datalessRegionColor)) {
             $this->addOption(array('datalessRegionColor' => $datalessRegionColor));
         } else {
-            $this->type_error(__FUNCTION__, 'string');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string')
+
         }
 
         return $this;
@@ -103,7 +113,10 @@ class GeoChart extends Chart
         if (in_array($displayMode, $values)) {
             $this->addOption(array('displayMode' => $displayMode));
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string',
+                'with a value of '.Helpers::arrayToPipedString($values));
         }
 
         return $this;
@@ -125,7 +138,10 @@ class GeoChart extends Chart
         if (is_bool($enableRegionInter)) {
             $this->addOption(array('enableRegionInteractivity' => $enableRegionInter));
         } else {
-            $this->type_error(__FUNCTION__, 'bool');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'bool')
+
         }
 
         return $this;
@@ -149,7 +165,10 @@ class GeoChart extends Chart
         if (is_bool($keepAspectRatio)) {
             $this->addOption(array('keepAspectRatio' => $keepAspectRatio));
         } else {
-            $this->type_error(__FUNCTION__, 'bool');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'bool')
+
         }
 
         return $this;
@@ -173,7 +192,10 @@ class GeoChart extends Chart
         if (is_string($region)) {
             $this->addOption(array('region' => $region));
         } else {
-            $this->type_error(__FUNCTION__, 'string');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string')
+
         }
 
         return $this;
@@ -192,7 +214,10 @@ class GeoChart extends Chart
         if (is_a($magnifyingGlass, 'magnifyingGlass')) {
             $this->addOption($magnifyingGlass);
         } else {
-            $this->type_error(__FUNCTION__, 'object', 'of class magnifyingGlass');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'object',
+                'of class magnifyingGlass');
         }
 
         return $this;
@@ -211,7 +236,10 @@ class GeoChart extends Chart
         if (is_float($markerOpacity) && between($markerOpacity, 0, 1)) {
             $this->addOption(array('markerOpacity' => $markerOpacity));
         } else {
-            $this->type_error(__FUNCTION__, 'float', 'between 0.0 - 1.0');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'float',
+                'between 0.0 - 1.0');
         }
 
         return $this;
@@ -241,7 +269,11 @@ class GeoChart extends Chart
         if (in_array($resolution, $values)) {
             $this->addOption(array('resolution' => $resolution));
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string',
+                'with a value of '.Helpers::arrayToPipedString($values)
+            );
         }
 
         return $this;
@@ -251,16 +283,20 @@ class GeoChart extends Chart
      * An object with members to configure how values are associated with
      * bubble sizes.
      *
-     * @param sizeAxis $sizeAxis
+     * @uses   Sizeaxis
      *
+     * @param  SizeAxis $sizeAxis
      * @return GeoChart
      */
-    public function sizeAxis($sizeAxis)
+    public function sizeAxis(SizeAxis $sizeAxis)
     {
         if (is_a($sizeAxis, 'sizeAxis')) {
             $this->addOption($sizeAxis);
         } else {
-            $this->type_error(__FUNCTION__, 'object', 'of class sizeAxis');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'SizeAxis'
+            );
         }
 
         return $this;

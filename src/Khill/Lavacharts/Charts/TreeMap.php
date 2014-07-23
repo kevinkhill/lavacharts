@@ -28,8 +28,9 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-/*
-
+/**
+ * @codeCoverageIgnore
+ */
 class TreeMap extends Chart
 {
     public $type = 'TreeMap';
@@ -69,8 +70,8 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
-/*    public function headerColor($headerColor)
-    {
+    public function headerColor($headerColor)
+        {
 	return $this;
     }
 
@@ -81,9 +82,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
-/*    public function headerHeight($headerHeight)
+    public function headerHeight($headerHeight)
     {
-	return $this;
+	   return $this;
     }
 
     /**
@@ -95,9 +96,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
- /*   public function headerHighlightColor($headerHighlightColor)
+    public function headerHighlightColor($headerHighlightColor)
     {
-	return $this;
+	   return $this;
     }
 
     /**
@@ -108,9 +109,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
- /*   public function maxColor($maxColor)
+    public function maxColor($maxColor)
     {
-	return $this;
+	   return $this;
     }
 
     /**
@@ -124,9 +125,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
- /*   public function maxDepth($maxDepth)
+    public function maxDepth($maxDepth)
     {
-	return $this;
+	   return $this;
     }
 
     /**
@@ -138,9 +139,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
- /*   public function maxHighlightColor($maxHighlightColor)
+    public function maxHighlightColor($maxHighlightColor)
     {
-	return $this;
+	   return $this;
     }
 
     /**
@@ -152,9 +153,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
- /*   public function maxPostDepth($maxPostDepth)
+    public function maxPostDepth($maxPostDepth)
     {
-	return $this;
+	   return $this;
     }
 
     /**
@@ -166,9 +167,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
- /*   public function maxColorValue($maxColorValue)
+    public function maxColorValue($maxColorValue)
     {
-	return $this;
+	   return $this;
     }
 
     /**
@@ -179,9 +180,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
- /*   public function midColor($midColor)
+    public function midColor($midColor)
     {
-	return $this;
+	   return $this;
     }
 
     /**
@@ -194,9 +195,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
- /*   public function midHighlightColor($midHighlightColor)
+    public function midHighlightColor($midHighlightColor)
     {
-	return $this;
+	   return $this;
     }
 
     /**
@@ -207,9 +208,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
-/*    public function minColor($minColor)
+    public function minColor($minColor)
     {
-	return $this;
+	   return $this;
     }
 
     /**
@@ -221,9 +222,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
-/*    public function minHighlightColor($minHighlightColor)
+    public function minHighlightColor($minHighlightColor)
     {
-	return $this;
+	   return $this;
     }
 
     /**
@@ -235,9 +236,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
-/*    public function minColorValue($minColorValue)
+    public function minColorValue($minColorValue)
     {
-	return $this;
+	   return $this;
     }
 
     /**
@@ -249,9 +250,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
- /*   public function noColor($noColor)
+    public function noColor($noColor)
     {
-	return $this;
+	   return $this;
     }
 
     /**
@@ -263,9 +264,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
- /*   public function noHighlightColor($noHighlightColor)
+    public function noHighlightColor($noHighlightColor)
     {
-	return $this;
+	   return $this;
     }
 
     /**
@@ -276,9 +277,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
-  /*  public function showScale($showScale)
+    public function showScale($showScale)
     {
-	return $this;
+	   return $this;
     }
 
     /**
@@ -288,9 +289,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
-  /*  public function showTooltips($showTooltips)
+    public function showTooltips($showTooltips)
     {
-	return $this;
+	   return $this;
     }
 
     /**
@@ -300,9 +301,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
-/*    public function fontColor($fontColor)
+    public function fontColor($fontColor)
     {
-	return $this;
+	   return $this;
     }
 
     /**
@@ -312,9 +313,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
- /*   public function fontFamily($fontFamily)
+    public function fontFamily($fontFamily)
     {
-	return $this;
+	   return $this;
     }
 
     /**
@@ -324,9 +325,9 @@ class TreeMap extends Chart
      *
      * @return TreeMap
      */
- /*   public function fontSize($fontSize)
+    public function fontSize($fontSize)
     {
-	return $this;
+	   return $this;
     }
 
-}*/
+}
