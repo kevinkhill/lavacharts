@@ -1,24 +1,25 @@
 <?php
 
-Blade::extend(function($view, $compiler)
-{
-    $charts = array(
-        'LineChart',
-        'AreaChart',
-        'ComboChart',
-        'PieChart',
-        'DonutChart',
-        'GeoChart'
-    );
+$charts = array(
+    'LineChart',
+    'AreaChart',
+    'ComboChart',
+    'PieChart',
+    'DonutChart',
+    'GeoChart'
+);
 
-    foreach ($charts as $chart)
-    {
+foreach ($charts as $chart)
+{
+    Blade::extend(function($view, $compiler) use ($chart) {
         $pattern = $compiler->createMatcher(strtolower($chart));
         $output  = '<?php echo Lava::render'.$chart.'$2; ?>';
 
         return preg_replace($pattern, $output, $view);
-    }
-});
+    });
+}
 
-//@render('LineChart', 'Stocks', 'sales_div')
-//@linechart('Stocks', 'sales_div')
+// OLDEST: Lava::LineChart('Stocks')->outputInto('sales_div')
+// OLDER:  Lava::render('LineChart', 'Stocks', 'sales_div')
+// OLD:    Lava::renderLineChart('Stocks', 'sales_div')
+// NEW:    @linechart('Stocks', 'sales_div')

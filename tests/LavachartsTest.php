@@ -7,21 +7,19 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
+
+        $this->lc = new Lavacharts;
     }
 
     public function testIfInstanceOfJavascriptFactory()
     {
-        $lc = new Lavacharts;
-
-        $this->assertInstanceOf('Khill\Lavacharts\Lavacharts', $lc);
-        $this->assertInstanceOf('Khill\Lavacharts\Volcano', $lc->volcano);
+        $this->assertInstanceOf('Khill\Lavacharts\Lavacharts', $this->lc);
+        $this->assertInstanceOf('Khill\Lavacharts\Volcano', $this->lc->volcano);
     }
 
     public function testCreateDataTableViaAlias()
     {
-        $lc = new Lavacharts;
-
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\DataTable', $lc->DataTable());
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\DataTable', $this->lc->DataTable());
     }
 
     /**
@@ -29,9 +27,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateChartsViaAlias($chartType)
     {
-        $lc = new Lavacharts;
-
-        $this->assertInstanceOf('Khill\Lavacharts\Charts\\'.$chartType, $lc->$chartType('testchart'));
+        $this->assertInstanceOf('Khill\Lavacharts\Charts\\'.$chartType, $this->lc->$chartType('testchart'));
     }
 
     /**
@@ -39,21 +35,17 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateConfigObjectsViaAliasNoParams($configType)
     {
-        $lc = new Lavacharts;
-
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\\'.$configType, $lc->$configType());
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\\'.$configType, $this->lc->$configType());
     }
 
     public function testCreateConfigObjectViaAliasWithParam()
     {
-        $lc = new Lavacharts;
-
         $params = array(
             'fontSize' => 4,
             'fontColor' => 'green'
         );
 
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\TextStyle', $lc->TextStyle($params));
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\TextStyle', $this->lc->TextStyle($params));
     }
 
     /**
@@ -62,14 +54,12 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testRenederChartAliases($chartType)
     {
-        $lc = new Lavacharts;
-
-        $chart = $lc->$chartType('test');
-        $chart->dataTable($lc->DataTable());
+        $chart = $this->lc->$chartType('test');
+        $chart->dataTable($this->lc->DataTable());
 
         $render = 'render'.$chartType;
 
-        $this->assertTrue(is_string($lc->$render('test', 'test-div')));
+        $this->assertTrue(is_string($this->lc->$render('test', 'test-div')));
     }
 
     /**
@@ -77,12 +67,10 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testDirectRenederChart()
     {
-        $lc = new Lavacharts;
+        $chart = $this->lc->LineChart('test');
+        $chart->dataTable($this->lc->DataTable());
 
-        $chart = $lc->LineChart('test');
-        $chart->dataTable($lc->DataTable());
-
-        $this->assertTrue(is_string($lc->render('LineChart', 'test', 'test-div')));
+        $this->assertTrue(is_string($this->lc->render('LineChart', 'test', 'test-div')));
     }
 
     /**
@@ -90,12 +78,10 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testDirectRenederChartWithDivNoDimensions()
     {
-        $lc = new Lavacharts;
+        $chart = $this->lc->LineChart('test');
+        $chart->dataTable($this->lc->DataTable());
 
-        $chart = $lc->LineChart('test');
-        $chart->dataTable($lc->DataTable());
-
-        $this->assertTrue(is_string($lc->render('LineChart', 'test', 'test-div', true)));
+        $this->assertTrue(is_string($this->lc->render('LineChart', 'test', 'test-div', true)));
     }
 
     /**
@@ -103,17 +89,15 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testDirectRenederChartWithDivAndDimensions()
     {
-        $lc = new Lavacharts;
-
-        $chart = $lc->LineChart('test');
-        $chart->dataTable($lc->DataTable());
+        $chart = $this->lc->LineChart('test');
+        $chart->dataTable($this->lc->DataTable());
 
         $dims = array(
             'height' => 200,
             'width' => 200
         );
 
-        $this->assertTrue(is_string($lc->render('LineChart', 'test', 'test-div', $dims)));
+        $this->assertTrue(is_string($this->lc->render('LineChart', 'test', 'test-div', $dims)));
     }
 
     /**
@@ -122,17 +106,15 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testDirectRenederChartWithDivAndBadDimensionKeys()
     {
-        $lc = new Lavacharts;
-
-        $chart = $lc->LineChart('test');
-        $chart->dataTable($lc->DataTable());
+        $chart = $this->lc->LineChart('test');
+        $chart->dataTable($this->lc->DataTable());
 
         $dims = array(
             'heiXght' => 200,
             'wZidth' => 200
         );
 
-        $this->assertTrue(is_string($lc->render('LineChart', 'test', 'test-div', $dims)));
+        $this->assertTrue(is_string($this->lc->render('LineChart', 'test', 'test-div', $dims)));
     }
 
     /**
@@ -141,12 +123,10 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testDirectRenederChartWithDivAndBadDimensionType()
     {
-        $lc = new Lavacharts;
+        $chart = $this->lc->LineChart('test');
+        $chart->dataTable($this->lc->DataTable());
 
-        $chart = $lc->LineChart('test');
-        $chart->dataTable($lc->DataTable());
-
-        $this->assertTrue(is_string($lc->render('LineChart', 'test', 'test-div', 'TacosTacosTacos')));
+        $this->assertTrue(is_string($this->lc->render('LineChart', 'test', 'test-div', 'TacosTacosTacos')));
     }
 
     /**
@@ -155,53 +135,43 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testDirectRenederChartWithDivAndDimensionsWithBadValues()
     {
-        $lc = new Lavacharts;
-
-        $chart = $lc->LineChart('test');
-        $chart->dataTable($lc->DataTable());
+        $chart = $this->lc->LineChart('test');
+        $chart->dataTable($this->lc->DataTable());
 
         $dims = array(
             'height' => 4.6,
             'width' => 'hotdogs'
         );
 
-        $this->assertTrue(is_string($lc->render('LineChart', 'test', 'test-div', $dims)));
+        $this->assertTrue(is_string($this->lc->render('LineChart', 'test', 'test-div', $dims)));
     }
 
     /**
      * @expectedException Khill\Lavacharts\Exceptions\InvalidLavaObject
      */
     public function testInvalidLavaObject()
-    {
-        $lc = new Lavacharts;
-        $lc->PizzaChart();
+    {        $this->lc->PizzaChart();
     }
 
     /**
      * @expectedException Khill\Lavacharts\Exceptions\InvalidLavaObject
      */
     public function testRenderAliasWithInvalidLavaObject()
-    {
-        $lc = new Lavacharts;
-        $lc->renderPizzaChart();
+    {        $this->lc->renderTacoChart();
     }
 
     /**
      * @expectedException Khill\Lavacharts\Exceptions\InvalidChartLabel
      */
     public function testCreateChartWithMissingLabel()
-    {
-        $lc = new Lavacharts;
-        $lc->LineChart();
+    {        $this->lc->LineChart();
     }
 
     /**
      * @expectedException Khill\Lavacharts\Exceptions\InvalidChartLabel
      */
     public function testCreateChartWithInvalidLabel()
-    {
-        $lc = new Lavacharts;
-        $lc->LineChart(5);
+    {        $this->lc->LineChart(5);
     }
 
     public function chartTypeProvider()
@@ -226,7 +196,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
             array('BackgroundColor'),
             array('ChartArea'),
             array('ColorAxis'),
-            array('HorizontalAxis'),
+            //array('HorizontalAxis'),
             array('Gradient'),
             array('Legend'),
             array('MagnifyingGlass'),
@@ -235,7 +205,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
             array('Series'),
             array('SizeAxis'),
             array('Slice'),
-            array('VerticalAxis')
+            //array('VerticalAxis')
         );
     }
 

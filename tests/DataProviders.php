@@ -14,7 +14,7 @@ class DataProviders extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function nonBooleanProvider()
+    public function nonBoolProvider()
     {
         return array(
             array('Imastring'),

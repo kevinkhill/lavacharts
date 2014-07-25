@@ -28,97 +28,154 @@ class GeoChartTest extends DataProviders
     	$this->assertEquals('MyTestChart', $this->gc->label);
     }
 
-    public function testAxisTitlesPositionValidValues()
+    public function testColorAxis()
     {
-        $this->gc->axisTitlesPosition('in');
-        $this->assertEquals('in', $this->gc->options['axisTitlesPosition']);
+        $mockColorAxis = m::mock('Khill\Lavacharts\Configs\ColorAxis');
+        $mockColorAxis->shouldReceive('toArray')->once()->andReturn(array(
+            'ColorAxis' => array()
+        ));
 
-        $this->gc->axisTitlesPosition('out');
-        $this->assertEquals('out', $this->gc->options['axisTitlesPosition']);
+        $this->gc->colorAxis($mockColorAxis);
 
-        $this->gc->axisTitlesPosition('none');
-        $this->assertEquals('none', $this->gc->options['axisTitlesPosition']);
+        $this->assertTrue(is_array($this->gc->options['ColorAxis']));
     }
 
-    /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testAxisTitlesPositionWithBadValue()
+    public function testDatalessRegionColorWithValidValue()
     {
-        $this->gc->axisTitlesPosition('happymeal');
+        $this->gc->datalessRegionColor('#F6B0C3');
+        $this->assertEquals('#F6B0C3', $this->gc->options['datalessRegionColor']);
     }
 
     /**
      * @dataProvider nonStringProvider
      * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function testAxisTitlesPositionWithBadType($badTypes)
+    public function testDatalessRegionColorWithBadType($badTypes)
     {
-        $this->gc->axisTitlesPosition($badTypes);
+        $this->gc->datalessRegionColor($badTypes);
     }
 
-    public function testBarGroupWidthWithInt()
+    public function testDisplayModeValidValues()
     {
-        $this->gc->barGroupWidth(200);
+        $this->gc->displayMode('auto');
+        $this->assertEquals('auto', $this->gc->options['displayMode']);
 
-        $this->assertEquals(200, $this->gc->options['bar']['groupWidth']);
-    }
+        $this->gc->displayMode('regions');
+        $this->assertEquals('regions', $this->gc->options['displayMode']);
 
-    public function testBarGroupWidthWithPercent()
-    {
-        $this->gc->barGroupWidth('33%');
-
-        $this->assertEquals('33%', $this->gc->options['bar']['groupWidth']);
-    }
-
-    /**
-     * @dataProvider nonIntOrPercentProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testBarGroupWidthWithBadTypes($badTypes)
-    {
-        $this->gc->barGroupWidth($badTypes);
-    }
-
-    public function testHorizontalAxis()
-    {
-        $mockHorizontalAxis = m::mock('Khill\Lavacharts\Configs\HorizontalAxis');
-        $mockHorizontalAxis->shouldReceive('toArray')->once()->andReturn(array(
-            'hAxis' => array()
-        ));
-
-        $this->gc->hAxis($mockHorizontalAxis);
-
-        $this->assertTrue(is_array($this->gc->options['hAxis']));
-    }
-
-    public function testIsStacked()
-    {
-        $this->gc->isStacked(true);
-
-        $this->assertTrue($this->gc->options['isStacked']);
+        $this->gc->displayMode('markers');
+        $this->assertEquals('markers', $this->gc->options['displayMode']);
     }
 
     /**
-     * @dataProvider nonBooleanProvider
      * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function testIsStackedWithBadType($badTypes)
+    public function testDisplayModeWithBadValue()
     {
-        $this->gc->isStacked($badTypes);
+        $this->gc->displayMode('breakfast scramble');
     }
 
-    public function testVerticalAxis()
+    /**
+     * @dataProvider nonStringProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testDisplayModeWithBadType($badTypes)
     {
-        $mockVerticalAxis = m::mock('Khill\Lavacharts\Configs\VerticalAxis');
-        $mockVerticalAxis->shouldReceive('toArray')->once()->andReturn(array(
-            'vAxis' => array()
+        $this->gc->displayMode($badTypes);
+    }
+
+    public function testEnableRegionInteractivityWithValidValues()
+    {
+        $this->gc->enableRegionInteractivity(true);
+        $this->assertTrue($this->gc->options['enableRegionInteractivity']);
+
+        $this->gc->enableRegionInteractivity(false);
+        $this->assertFalse($this->gc->options['enableRegionInteractivity']);
+    }
+
+    /**
+     * @dataProvider nonBoolProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testEnableRegionInteractivityWithBadType($badTypes)
+    {
+        $this->gc->enableRegionInteractivity($badTypes);
+    }
+
+    public function testKeepAspectRatioWithValidValues()
+    {
+        $this->gc->keepAspectRatio(true);
+        $this->assertTrue($this->gc->options['keepAspectRatio']);
+
+        $this->gc->keepAspectRatio(false);
+        $this->assertFalse($this->gc->options['keepAspectRatio']);
+    }
+
+    /**
+     * @dataProvider nonBoolProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testKeepAspectRatioWithBadType($badTypes)
+    {
+        $this->gc->enableRegionInteractivity($badTypes);
+    }
+
+    public function testRegionWithValidValue()
+    {
+        $this->gc->region('#F6B0C3');
+        $this->assertEquals('#F6B0C3', $this->gc->options['region']);
+    }
+
+    /**
+     * @dataProvider nonStringProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testRegionWithBadType($badTypes)
+    {
+        $this->gc->region($badTypes);
+    }
+
+    public function testMagnifiyingGlass()
+    {
+        $mockMagnifiyingGlass = m::mock('Khill\Lavacharts\Configs\MagnifiyingGlass');
+        $mockMagnifiyingGlass->shouldReceive('toArray')->once()->andReturn(array(
+            'MagnifiyingGlass' => array()
         ));
 
-        $this->gc->vAxis($mockVerticalAxis);
+        $this->gc->magnifyingGlass($mockMagnifiyingGlass);
 
-        $this->assertTrue(is_array($this->gc->options['vAxis']));
+        $this->assertTrue(is_array($this->gc->options['MagnifiyingGlass']));
     }
+
+    public function testResolutionValidValues()
+    {
+        $this->gc->resolution('countries');
+        $this->assertEquals('countries', $this->gc->options['resolution']);
+
+        $this->gc->resolution('provinces');
+        $this->assertEquals('provinces', $this->gc->options['resolution']);
+
+        $this->gc->resolution('metros');
+        $this->assertEquals('metros', $this->gc->options['resolution']);
+    }
+
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testResolutionWithBadValue()
+    {
+        $this->gc->resolution('the borrowers');
+    }
+
+    /**
+     * @dataProvider nonStringProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testResolutionWithBadType($badTypes)
+    {
+        $this->gc->resolution($badTypes);
+    }
+
 
     public function nonIntOrPercentProvider()
     {

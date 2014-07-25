@@ -21,6 +21,8 @@
 
 use Khill\Lavacharts\Configs\ColorAxis;
 use Khill\Lavacharts\Configs\SizeAxis;
+use Khill\Lavacharts\Configs\MagnifyingGlass;
+use Khill\Lavacharts\Helpers\Helpers as H;
 
 class GeoChart extends Chart
 {
@@ -52,20 +54,12 @@ class GeoChart extends Chart
      * or a gradient scale.
      *
      * @uses   ColorAxis
-     *
-     * @param  ColorAxis $colorAxis
+     * @param  ColorAxis $ca
      * @return GeoChart
      */
-    public function colorAxis($colorAxis)
+    public function colorAxis(ColorAxis $ca)
     {
-        if (is_a($colorAxis, 'colorAxis')) {
-            $this->addOption($colorAxis);
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'colorAxis')
-
-        }
+        $this->addOption($ca->toArray(__FUNCTION__));
 
         return $this;
     }
@@ -73,19 +67,19 @@ class GeoChart extends Chart
     /**
      * Color to assign to regions with no associated data.
      *
-     * @param string $datalessRegionColor
-     *
+     * @param  string $drc
+     * @throws InvalidConfigValue
      * @return GeoChart
      */
-    public function datalessRegionColor($datalessRegionColor)
+    public function datalessRegionColor($drc)
     {
-        if (is_string($datalessRegionColor) && ! empty($datalessRegionColor)) {
-            $this->addOption(array('datalessRegionColor' => $datalessRegionColor));
+        if (is_string($drc) && ! empty($drc)) {
+            $this->addOption(array(__FUNCTION__ => $drc));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'string')
-
+                'string'
+            );
         }
 
         return $this;
@@ -98,25 +92,26 @@ class GeoChart extends Chart
      * 'regions' - This is a region map
      * 'markers' - This is a marker map
      *
-     * @param string $displayMode
-     *
+     * @param  string $dm
+     * @throws InvalidConfigValue
      * @return GeoChart
      */
-    public function displayMode($displayMode)
+    public function displayMode($dm)
     {
-        $values = array(
+        $v = array(
             'auto',
             'regions',
             'markers',
         );
 
-        if (in_array($displayMode, $values)) {
-            $this->addOption(array('displayMode' => $displayMode));
+        if (is_string($dm) && in_array($dm, $v)) {
+            $this->addOption(array(__FUNCTION__ => $dm));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.Helpers::arrayToPipedString($values));
+                'with a value of '.H::arrayToPipedString($v)
+            );
         }
 
         return $this;
@@ -129,19 +124,19 @@ class GeoChart extends Chart
      *
      * The default is true in region mode, and false in marker mode.
      *
-     * @param type $enableRegionInteractivity
-     *
+     * @param  bool $eri
+     * @throws InvalidConfigValue
      * @return GeoChart
      */
-    public function enableRegionInteractivity($enableRegionInter)
+    public function enableRegionInteractivity($eri)
     {
-        if (is_bool($enableRegionInter)) {
-            $this->addOption(array('enableRegionInteractivity' => $enableRegionInter));
+        if (is_bool($eri)) {
+            $this->addOption(array(__FUNCTION__ => $eri));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'bool')
-
+                'bool'
+            );
         }
 
         return $this;
@@ -156,19 +151,19 @@ class GeoChart extends Chart
      * If false, the map will be stretched to the exact size of the chart as
      * specified by the width and height options.
      *
-     * @param bool $keepAspectRatio
-     *
+     * @param  bool $kar
+     * @throws InvalidConfigValue
      * @return GeoChart
      */
-    public function keepAspectRatio($keepAspectRatio)
+    public function keepAspectRatio($kar)
     {
-        if (is_bool($keepAspectRatio)) {
-            $this->addOption(array('keepAspectRatio' => $keepAspectRatio));
+        if (is_bool($kar)) {
+            $this->addOption(array(__FUNCTION__ => $kar));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'bool')
-
+                'bool'
+            );
         }
 
         return $this;
@@ -183,19 +178,19 @@ class GeoChart extends Chart
      * A country, specified by its ISO 3166-1 alpha-2 code, e.g., 'AU' for Australia.
      * A state in the United States, specified by its ISO 3166-2:US code, e.g., 'US-AL' for Alabama. Note that the resolution option must be set to either 'provinces' or 'metros'.
      *
-     * @param string $region
-     *
+     * @param  string $r
+     * @throws InvalidConfigValue
      * @return GeoChart
      */
-    public function region($region)
+    public function region($r)
     {
-        if (is_string($region)) {
-            $this->addOption(array('region' => $region));
+        if (is_string($r)) {
+            $this->addOption(array(__FUNCTION__ => $r));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'string')
-
+                'string'
+            );
         }
 
         return $this;
@@ -205,20 +200,13 @@ class GeoChart extends Chart
      * Sets up the magnifying glass, so when the user lingers over a cluttered
      * marker, a magnifiying glass will be opened.
      *
-     * @param magnifyingGlass $magnifyingGlass
-     *
+     * @uses   MagnifyingGlass
+     * @param  MagnifyingGlass $magnifyingGlass
      * @return GeoChart
      */
-    public function magnifyingGlass($magnifyingGlass)
+    public function magnifyingGlass($mg)
     {
-        if (is_a($magnifyingGlass, 'magnifyingGlass')) {
-            $this->addOption($magnifyingGlass);
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'object',
-                'of class magnifyingGlass');
-        }
+        $this->addOption($mg->toArray(__FUNCTION__));
 
         return $this;
     }
@@ -227,19 +215,20 @@ class GeoChart extends Chart
      * The opacity of the markers, where 0.0 is fully transparent and 1.0
      * is fully opaque.
      *
-     * @param type $markerOpacity
-     *
+     * @param  float $mo
+     * @throws InvalidConfigValue
      * @return GeoChart
      */
-    public function markerOpacity($markerOpacity)
+    public function markerOpacity($mo)
     {
-        if (is_float($markerOpacity) && between($markerOpacity, 0, 1)) {
-            $this->addOption(array('markerOpacity' => $markerOpacity));
+        if (is_float($mo) && between(0, $mo, 1, true)) {
+            $this->addOption(array(__FUNCTION__ => $mo));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'float',
-                'between 0.0 - 1.0');
+                'between 0.0 - 1.0'
+            );
         }
 
         return $this;
@@ -254,25 +243,25 @@ class GeoChart extends Chart
      *               see whether this option is supported.
      * 'metros' - Supported for the US country region and US state regions only.
      *
-     * @param string $resolution
-     *
+     * @param  string $r
+     * @throws InvalidConfigValue
      * @return GeoChart
      */
-    public function resolution($resolution)
+    public function resolution($r)
     {
-        $values = array(
+        $v = array(
             'countries',
             'provinces',
             'metros',
         );
 
-        if (in_array($resolution, $values)) {
-            $this->addOption(array('resolution' => $resolution));
+        if (is_string($r) && in_array($r, $v)) {
+            $this->addOption(array(__FUNCTION__ => $r));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.Helpers::arrayToPipedString($values)
+                'with a value of '.H::arrayToPipedString($v)
             );
         }
 
@@ -284,20 +273,12 @@ class GeoChart extends Chart
      * bubble sizes.
      *
      * @uses   Sizeaxis
-     *
-     * @param  SizeAxis $sizeAxis
+     * @param  SizeAxis $sa
      * @return GeoChart
      */
-    public function sizeAxis(SizeAxis $sizeAxis)
+    public function sizeAxis(SizeAxis $sa)
     {
-        if (is_a($sizeAxis, 'sizeAxis')) {
-            $this->addOption($sizeAxis);
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'SizeAxis'
-            );
-        }
+        $this->addOption($sa->toArray(__FUNCTION__));
 
         return $this;
     }
