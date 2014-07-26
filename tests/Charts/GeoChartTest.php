@@ -117,7 +117,53 @@ class GeoChartTest extends DataProviders
      */
     public function testKeepAspectRatioWithBadType($badTypes)
     {
-        $this->gc->enableRegionInteractivity($badTypes);
+        $this->gc->keepAspectRatio($badTypes);
+    }
+
+    public function testmarkerOpacityWithValidIntValues()
+    {
+        $this->gc->markerOpacity(0);
+        $this->assertEquals(0, $this->gc->options['markerOpacity']);
+
+        $this->gc->markerOpacity(1);
+        $this->assertEquals(1, $this->gc->options['markerOpacity']);
+    }
+
+    public function testmarkerOpacityWithValidFloatValues()
+    {
+        $this->gc->markerOpacity(0.0);
+        $this->assertEquals(0.0, $this->gc->options['markerOpacity']);
+
+        $this->gc->markerOpacity(0.5);
+        $this->assertEquals(0.5, $this->gc->options['markerOpacity']);
+
+        $this->gc->markerOpacity(1.0);
+        $this->assertEquals(1.0, $this->gc->options['markerOpacity']);
+    }
+
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testmarkerOpacityWithUnderLimit()
+    {
+        $this->gc->markerOpacity(-1);
+    }
+
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testmarkerOpacityWithOverLimit()
+    {
+        $this->gc->markerOpacity(1.1);
+    }
+
+    /**
+     * @dataProvider nonStringProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testmarkerOpacityWithBadType($badTypes)
+    {
+        $this->gc->markerOpacity($badTypes);
     }
 
     public function testRegionWithValidValue()
@@ -176,6 +222,17 @@ class GeoChartTest extends DataProviders
         $this->gc->resolution($badTypes);
     }
 
+    public function testSizeAxis()
+    {
+        $mockSizeAxis = m::mock('Khill\Lavacharts\Configs\SizeAxis');
+        $mockSizeAxis->shouldReceive('toArray')->once()->andReturn(array(
+            'SizeAxis' => array()
+        ));
+
+        $this->gc->sizeAxis($mockSizeAxis);
+
+        $this->assertTrue(is_array($this->gc->options['SizeAxis']));
+    }
 
     public function nonIntOrPercentProvider()
     {

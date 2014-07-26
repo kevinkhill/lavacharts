@@ -15,9 +15,9 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Configs\DataTable;
+use Khill\Lavacharts\Helpers\Helpers as h;
 use Khill\Lavacharts\JavascriptFactory;
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Configs\DataTable;
 use Khill\Lavacharts\Configs\Tooltip;
 use Khill\Lavacharts\Configs\TextStyle;
 use Khill\Lavacharts\Configs\ChartArea;
@@ -66,29 +66,32 @@ class Chart
      * You can set the options all at once instead of passing them individually
      * or chaining the functions from the chart objects.
      *
-     * @param array $options
+     * @param array $o
      *
-     * @return Khill\Lavacharts\Charts\Chart
+     * @return Chart
      */
-    public function setConfig($options = array())
+    public function setConfig($o = array())
     {
-        if (is_array($options) && count($options) > 0) {
-            foreach ($options as $option => $value) {
+        if (is_array($o) && count($o) > 0) {
+            foreach ($o as $option => $value) {
                 if (in_array($option, $this->defaults)) {
                     if (method_exists($this, $option)) {
                         $this->$option($value);
                     } else {
-                        $this->addOption($value);
+                        return $this->addOption($value);
                     }
                 } else {
-                    $this->error('Invalid config value "'.$option.'", must be an option from this list '.Helpers::arrayToPipedString($this->defaults));
+                    throw $this->invalidConfigValue(
+                        'Invalid config value "'.$option.'", must be an option from this list '.h::arrayToPipedString($this->defaults));
                 }
             }
         } else {
-            $this->error('Invalid value for setConfig, must be type (array) containing a minimum of one key from '.Helpers::arrayToPipedString($this->defaults));
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'array',
+                'containing a minimum of one key from '.h::arrayToPipedString($this->defaults)
+            );
         }
-
-        return $this;
     }
 
     /**
@@ -99,7 +102,7 @@ class Chart
      *
      * @param mixed $option
      *
-     * @return Khill\Lavacharts\Charts\Chart
+     * @return Chart
      */
     public function addOption($option)
     {
@@ -125,7 +128,7 @@ class Chart
      *
      * @param Khill\Lavacharts\Configs\DataTable
      *
-     * @return Khill\Lavacharts\Charts\Chart
+     * @return Chart
      */
 
     public function dataTable(DataTable $dataTable)
@@ -141,8 +144,8 @@ class Chart
      * Pass in a string of the html elementID that you want the chart to be
      * rendered into.
      *
-     * @param  string                                       $elementId The id of an HTML element to render the chart into.
-     * @throws Khill\Lavacharts\Exceptions\InvalidElementId
+     * @param  string                   $elementId The id of an HTML element to render the chart into.
+     * @throws InvalidElementId
      *
      * @return string Javscript code blocks
      */
@@ -157,15 +160,13 @@ class Chart
      * The background color for the main area of the chart. Can be either a simple
      * HTML color string, for example: 'red' or '#00cc00', or a backgroundColor object
      *
-     * @param Khill\Lavacharts\Configs\BackgroundColor $backgroundColor
+     * @param Khill\Lavacharts\Configs\BackgroundColor $bc
      *
-     * @return Khill\Lavacharts\Charts\Chart
+     * @return Chart
      */
-    public function backgroundColor(BackgroundColor $backgroundColor)
+    public function backgroundColor(BackgroundColor $bc)
     {
-        $this->addOption($backgroundColor->toArray());
-
-        return $this;
+        return $this->addOption($bc->toArray());
     }
 
     /**
@@ -174,34 +175,36 @@ class Chart
      * Two formats are supported: a number, or a number followed by %.
      * A simple number is a value in pixels; a number followed by % is a percentage.
      *
-     * @param Khill\Lavacharts\Configs\ChartArea $chartArea
+     * @uses  ChartArea
+     * @param ChartArea $ca
      *
-     * @return Khill\Lavacharts\Charts\Chart
+     * @return Chart
      */
-    public function chartArea(ChartArea $chartArea)
+    public function chartArea(ChartArea $ca)
     {
-        $this->addOption($chartArea->toArray());
-
-        return $this;
+        return $this->addOption($ca->toArray());
     }
 
     /**
      * The colors to use for the chart elements. An array of strings, where each
      * element is an HTML color string, for example: colors:['red','#004411'].
      *
-     * @param array $colorArray
+     * @param array $cArr
+     * @throws InvalidConfigValue
      *
-     * @return Khill\Lavacharts\Charts\Chart
+     * @return Chart
      */
-    public function colors($colorArray)
+    public function colors($cArr)
     {
-        if (Helpers::arrayValuesCheck($colorArray, 'string')) {
-            $this->addOption(array('colors' => $colorArray));
+        if (h::arrayValuesCheck($cArr, 'string')) {
+            return $this->addOption(array('colors' => $cArr));
         } else {
-            $this->type_error(__FUNCTION__, 'array', 'with valid HTML colors');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'array',
+                'with valid HTML colors'
+            );
         }
-
-        return $this;
     }
 
     /**
@@ -211,11 +214,12 @@ class Chart
      * [ animationfinish | error | onmouseover | onmouseout | ready | select ]
      * associated to a respective pre-defined javascript function as the callback.
      *
-     * @param array $events Array of events associated to a callback
+     * @param array $e Array of events associated to a callback
+     * @throws InvalidConfigValue
      *
-     * @return Khill\Lavacharts\Charts\Chart
-     */
-    public function events($events)
+     * @return Chart
+     *//*
+    public function events($e)
     {
         $values = array(
             'animationfinish',
@@ -226,75 +230,84 @@ class Chart
             'select'
         );
 
-        if (is_array($events)) {
-            foreach ($events as $event) {
+        if (is_array($e)) {
+            foreach ($e as $event) {
                 if (in_array($event, $values)) {
                     $this->events[] = $event;
                 } else {
-                    $this->error('Invalid events array key value, must be (string) with any key '.Helpers::arrayToPipedString($values));
+                    throw $this->invalidConfigValue(
+                        'Invalid events array key value, must be (string) with any key '.h::arrayToPipedString($values));
                 }
             }
         } else {
-            $this->type_error(__FUNCTION__, 'array', 'containing any key '.Helpers::arrayToPipedString($values));
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'array',
+                'containing any key '.h::arrayToPipedString($values)
+            );
         }
-
-        return $this;
-    }
+    }*/
 
     /**
      * The default font size, in pixels, of all text in the chart. You can
      * override this using properties for specific chart elements.
      *
-     * @param int $fontSize
+     * @param int $fs
+     * @throws InvalidConfigValue
      *
-     * @return Khill\Lavacharts\Charts\Chart
+     * @return Chart
      */
-    public function fontSize($fontSize)
+    public function fontSize($fs)
     {
-        if (is_int($fontSize)) {
-            $this->addOption(array('fontSize' => $fontSize));
+        if (is_int($fs)) {
+            return $this->addOption(array('fontSize' => $fs));
         } else {
-            $this->type_error(__FUNCTION__, 'int');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'int'
+            );
         }
-
-        return $this;
     }
 
     /**
      * The default font face for all text in the chart. You can override this
      * using properties for specific chart elements.
      *
-     * @param string $fontName
+     * @param string $fn
+     * @throws InvalidConfigValue
      *
-     * @return Khill\Lavacharts\Charts\Chart
+     * @return Chart
      */
-    public function fontName($fontName)
+    public function fontName($fn)
     {
-        if (is_string($fontName)) {
-            $this->addOption(array('fontName' => $fontName));
+        if (is_string($fn)) {
+            return $this->addOption(array('fontName' => $fn));
         } else {
-            $this->error(__FUNCTION__, 'string');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string'
+            );
         }
-
-        return $this;
     }
 
     /**
      * Height of the chart, in pixels.
      *
-     * @param int $height
+     * @param int $h
+     * @throws InvalidConfigValue
      *
-     * @return Khill\Lavacharts\Charts\Chart
+     * @return Chart
      */
-    public function height($height)
+    public function height($h)
     {
-        if (is_int($height)) {
-            $this->addOption(array('height' => $height));
+        if (is_int($h)) {
+            return $this->addOption(array('height' => $h));
         } else {
-            $this->type_error(__FUNCTION__, 'int');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'int'
+            );
         }
-
-        return $this;
     }
 
     /**
@@ -302,33 +315,35 @@ class Chart
      * specify properties of this object, create a new legend() object, set the
      * values then pass it to this function or to the constructor.
      *
-     * @param Khill\Lavacharts\Configs\Legend $legend
+     * @uses   Legend
+     * @param  Legend $l
+     * @throws InvalidConfigValue
      *
-     * @return Khill\Lavacharts\Charts\Chart
+     * @return Chart
      */
-    public function legend(Legend $legend)
+    public function legend(Legend $l)
     {
-        $this->addOption($legend->toArray());
-
-        return $this;
+        return $this->addOption($l->toArray());
     }
 
     /**
      * Text to display above the chart.
      *
-     * @param string $title
+     * @param string $t
+     * @throws InvalidConfigValue
      *
-     * @return Khill\Lavacharts\Charts\Chart
+     * @return Chart
      */
-    public function title($title)
+    public function title($t)
     {
-        if (is_string($title)) {
-            $this->addOption(array('title' => $title));
+        if (is_string($t)) {
+            return $this->addOption(array('title' => $t));
         } else {
-            $this->type_error(__FUNCTION__, 'string');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string'
+            );
         }
-
-        return $this;
     }
 
     /**
@@ -337,11 +352,12 @@ class Chart
      * 'out' - Draw the title outside the chart area.
      * 'none' - Omit the title.
      *
-     * @param string $position
+     * @param string $tp
+     * @throws InvalidConfigValue
      *
-     * @return Khill\Lavacharts\Charts\Chart
+     * @return Chart
      */
-    public function titlePosition($position)
+    public function titlePosition($tp)
     {
         $values = array(
             'in',
@@ -349,28 +365,30 @@ class Chart
             'none'
         );
 
-        if (in_array($position, $values)) {
-            $this->addOption(array('titlePosition' => $position));
+        if (in_array($tp, $values)) {
+            return $this->addOption(array('titlePosition' => $tp));
         } else {
-            $this->type_error(__FUNCTION__, 'string', 'with a value of '.Helpers::arrayToPipedString($values));
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string',
+                'with a value of '.h::arrayToPipedString($values)
+            );
         }
-
-        return $this;
     }
 
     /**
      * An object that specifies the title text style. create a new textStyle()
      * object, set the values then pass it to this function or to the constructor.
      *
-     * @param Khill\Lavacharts\Configs\TextStyle $textStyle
+     * @uses   TextStyle
+     * @param  TextStyle $ts
+     * @throws InvalidConfigValue
      *
-     * @return Khill\Lavacharts\Charts\Chart
+     * @return Chart
      */
-    public function titleTextStyle(TextStyle $textStyle)
+    public function titleTextStyle(TextStyle $ts)
     {
-        $this->addOption(array('titleTextStyle' => $textStyle->getValues()));
-
-        return $this;
+        return $this->addOption($ts->toArray('titleTextStyle'));
     }
 
     /**
@@ -378,33 +396,35 @@ class Chart
      * properties of this object, create a new tooltip() object, set the values
      * then pass it to this function or to the constructor.
      *
-     * @param Khill\Lavacharts\Configs\Tooltip $tooltip
+     * @uses   Tooltip
+     * @param  Tooltip $t
+     * @throws InvalidConfigValue
      *
-     * @return Khill\Lavacharts\Charts\Chart
+     * @return Chart
      */
-    public function tooltip(Tooltip $tooltip)
+    public function tooltip(Tooltip $t)
     {
-        $this->addOption($tooltip->toArray());
-
-        return $this;
+        return $this->addOption($t->toArray());
     }
 
     /**
      * Width of the chart, in pixels.
      *
-     * @param int $width
+     * @param int $w
+     * @throws InvalidConfigValue
      *
-     * @return Khill\Lavacharts\Charts\Chart
+     * @return Chart
      */
-    public function width(int $width)
+    public function width(int $w)
     {
-        if (is_int($width)) {
-            $this->addOption(array('width' => $width));
+        if (is_int($w)) {
+            return $this->addOption(array('width' => $w));
         } else {
-            $this->type_error(__FUNCTION__, 'int');
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'int'
+            );
         }
-
-        return $this;
     }
 
     /**
@@ -417,6 +437,9 @@ class Chart
         return json_encode($this->options);
     }
 
+    /**
+     * function for easy creation of exceptions
+     */
     protected function invalidConfigValue($func, $type, $extra = '')
     {
         if (! empty($extra)) {

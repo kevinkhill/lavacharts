@@ -22,7 +22,7 @@
 use Khill\Lavacharts\Configs\ColorAxis;
 use Khill\Lavacharts\Configs\SizeAxis;
 use Khill\Lavacharts\Configs\MagnifyingGlass;
-use Khill\Lavacharts\Helpers\Helpers as H;
+use Khill\Lavacharts\Helpers\Helpers as h;
 
 class GeoChart extends Chart
 {
@@ -110,7 +110,7 @@ class GeoChart extends Chart
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.H::arrayToPipedString($v)
+                'with a value of '.h::arrayToPipedString($v)
             );
         }
 
@@ -215,13 +215,17 @@ class GeoChart extends Chart
      * The opacity of the markers, where 0.0 is fully transparent and 1.0
      * is fully opaque.
      *
-     * @param  float $mo
+     * @param  int|float $mo
      * @throws InvalidConfigValue
      * @return GeoChart
      */
     public function markerOpacity($mo)
     {
-        if (is_float($mo) && between(0, $mo, 1, true)) {
+        if ($mo === 0) {
+            $this->addOption(array(__FUNCTION__ => 0));
+        } else if ($mo === 1) {
+            $this->addOption(array(__FUNCTION__ => 1));
+        } else if (is_float($mo) && h::between(0.0, $mo, 1.0, true)) {
             $this->addOption(array(__FUNCTION__ => $mo));
         } else {
             throw $this->invalidConfigValue(
@@ -261,7 +265,7 @@ class GeoChart extends Chart
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.H::arrayToPipedString($v)
+                'with a value of '.h::arrayToPipedString($v)
             );
         }
 
