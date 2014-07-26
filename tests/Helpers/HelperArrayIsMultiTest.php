@@ -1,6 +1,6 @@
 <?php namespace Khill\Lavacharts\Tests\Helpers;
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Helpers\Helpers as h;
 
 class HelperArrayIsMultiTest extends \PHPUnit_Framework_TestCase
 {
@@ -8,16 +8,16 @@ class HelperArrayIsMultiTest extends \PHPUnit_Framework_TestCase
     {
         $multiArray = array( array('test1'), array('test2') );
 
-        $this->assertTrue( Helpers::arrayIsMulti( $multiArray ) );
+        $this->assertTrue(h::arrayIsMulti( $multiArray ) );
     }
 
     public function testArrayIsMultiWithNonMultiArray()
     {
-        $this->assertFalse( Helpers::arrayIsMulti( array('test1') ) );
+        $this->assertFalse(h::arrayIsMulti( array('test1') ) );
     }
 
     public function testArrayIsMultiWithNonArray()
     {
-        $this->assertFalse( Helpers::arrayIsMulti( 'test1' ) );
+        $this->assertFalse(h::arrayIsMulti( 'test1' ) );
     }
 }

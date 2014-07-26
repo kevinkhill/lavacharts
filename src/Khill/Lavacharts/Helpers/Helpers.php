@@ -19,10 +19,9 @@ class Helpers
             $is_a = substr($function, 2);
 
             if (is_object($configObject[0])) {
-                $argumentParts = explode('\\', get_class($configObject[0]));
-                $type = $argumentParts[count($argumentParts) - 1];
+                $class = new \ReflectionClass($configObject[0]);
 
-                return $type == $is_a;
+                return preg_match("/{$is_a}/", $class->getShortname()) ? true : false;
             } else {
                 return false;
             }
@@ -97,7 +96,9 @@ class Helpers
                         if (! is_object($item)) {
                             $status = false;
                         } else {
-                            if (get_class($item) != 'Khill\\Lavacharts\\Configs\\' . $className) {
+                            $class = new \ReflectionClass($item);
+
+                            if (! preg_match("/{$className}/", $class->getShortname())) {
                                 $status = false;
                             }
                         }

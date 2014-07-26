@@ -1,57 +1,57 @@
 <?php namespace Khill\Lavacharts\Tests\Helpers;
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Helpers\Helpers as h;
 
 class HelperBetweenTest extends \PHPUnit_Framework_TestCase
 {
     public function testBetweenWithIntsInRange()
     {
-        $this->assertTrue( Helpers::between(0, 5, 10) );
+        $this->assertTrue(h::between(0, 5, 10) );
     }
 
     public function testBetweenWithIntsOutOfLowerRange()
     {
-        $this->assertFalse( Helpers::between(3, 1, 10) );
+        $this->assertFalse(h::between(3, 1, 10) );
     }
 
     public function testBetweenWithIntsOutOfUpperRange()
     {
-        $this->assertFalse( Helpers::between(6, 12, 10) );
+        $this->assertFalse(h::between(6, 12, 10) );
     }
 
     public function testBetweenWithIntsInRangeInclusive()
     {
-        $this->assertTrue( Helpers::between(1, 1, 10) );
+        $this->assertTrue(h::between(1, 1, 10) );
     }
 
     public function testBetweenWithIntsInRangeNonInclusive()
     {
-        $this->assertFalse( Helpers::between(1, 1, 10, FALSE) );
+        $this->assertFalse(h::between(1, 1, 10, FALSE) );
     }
 
     public function testBetweenWithFloatsInRange()
     {
-        $this->assertTrue( Helpers::between(5.7, 6.4, 10.6) );
+        $this->assertTrue(h::between(5.7, 6.4, 10.6) );
     }
 
     public function testBetweenWithFloatsOutOfLowerRange()
     {
-        $this->assertFalse( Helpers::between(8.8, 6.4, 10.6) );
+        $this->assertFalse(h::between(8.8, 6.4, 10.6) );
     }
 
     public function testBetweenWithFloatsOutOfUpperRange()
     {
-        $this->assertFalse( Helpers::between(6.4, 12.5, 10.6) );
+        $this->assertFalse(h::between(6.4, 12.5, 10.6) );
     }
 
     public function testBetweenWithFloatsInRangeInclusive()
     {
-        $this->assertTrue( Helpers::between(6.4, 6.4, 10.6) );
+        $this->assertTrue(h::between(6.4, 6.4, 10.6) );
     }
 
     public function testBetweenWithFloatsInRangeNonInclusive()
     {
-        $this->assertFalse( Helpers::between(6.4, 6.4, 10.6, FALSE) );
+        $this->assertFalse(h::between(6.4, 6.4, 10.6, FALSE) );
     }
 
     /**
@@ -59,7 +59,7 @@ class HelperBetweenTest extends \PHPUnit_Framework_TestCase
      */
     public function testBetweenWithBadParams($lower, $test, $upper, $includeLimits = TRUE)
     {
-        $this->assertFalse( Helpers::between($lower, $test, $upper, $includeLimits) );
+        $this->assertFalse(h::between($lower, $test, $upper, $includeLimits) );
     }
 
 

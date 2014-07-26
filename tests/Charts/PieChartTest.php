@@ -36,7 +36,7 @@ class PieChartTest extends DataProviders
     }
 
     /**
-     * @dataProvider nonBooleanProvider
+     * @dataProvider nonBoolProvider
      * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testIs3DWithBadType($badTypes)
@@ -170,7 +170,7 @@ class PieChartTest extends DataProviders
     }
 
     /**
-     * @dataProvider nonBooleanProvider
+     * @dataProvider nonBoolProvider
      * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testReverseCategoriesWithBadType($badTypes)

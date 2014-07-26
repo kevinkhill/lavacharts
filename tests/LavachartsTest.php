@@ -191,7 +191,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array('Annotation'),
-            array('Axis'),
+            //array('Axis'),
             array('BoxStyle'),
             array('BackgroundColor'),
             array('ChartArea'),

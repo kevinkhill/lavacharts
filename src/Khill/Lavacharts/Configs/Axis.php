@@ -25,7 +25,7 @@ class Axis extends ConfigOptions
      * The baseline for the axis.
      *
      * @TODO: FIX THIS
-     * @var int|Khill\Lavacharts\Configs\JsDate
+     * @var int|Carbon
      */
     public $baseline;
 
@@ -140,9 +140,9 @@ class Axis extends ConfigOptions
      * @throws InvalidConfigProperty
      * @return Axis
      */
-    public function __construct($config = array())
+    public function __construct($child, $config)
     {
-        parent::__construct($this, $config);
+        parent::__construct($child, $config);
     }
 
     /**

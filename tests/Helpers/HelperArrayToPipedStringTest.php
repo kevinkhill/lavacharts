@@ -1,13 +1,13 @@
 <?php namespace Khill\Lavacharts\Tests\Helpers;
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Helpers\Helpers as h;
 
 class HelperArrayToPipedStringTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testArrayStringWithArray()
     {
-        $actual = Helpers::arrayToPipedString(array('test1', 'test2'));
+        $actual = h::arrayToPipedString(array('test1', 'test2'));
         $expected = '[ test1 | test2 ]';
 
         $this->assertEquals($actual, $expected);
@@ -15,7 +15,7 @@ class HelperArrayToPipedStringTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayStringWithNonArray()
     {
-        $this->assertFalse( Helpers::arrayToPipedString( 'test1' ) );
+        $this->assertFalse(h::arrayToPipedString( 'test1' ) );
     }
 
 }

@@ -93,7 +93,7 @@ class AreaChartTest extends DataProviders
     }
 
     /**
-     * @dataProvider nonBooleanProvider
+     * @dataProvider nonBoolProvider
      * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testIsStackedWithBadType($badTypes)
@@ -109,7 +109,7 @@ class AreaChartTest extends DataProviders
     }
 
     /**
-     * @dataProvider nonBooleanProvider
+     * @dataProvider nonBoolProvider
      * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testInterpolateNullsWithBadType($badTypes)

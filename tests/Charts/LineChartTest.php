@@ -103,7 +103,7 @@ class LineChartTest extends DataProviders
     }
 
     /**
-     * @dataProvider nonBooleanProvider
+     * @dataProvider nonBoolProvider
      * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testInterpolateNullsWithBadType($badTypes)

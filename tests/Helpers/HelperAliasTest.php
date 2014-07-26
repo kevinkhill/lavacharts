@@ -1,112 +1,112 @@
 <?php namespace Khill\Lavacharts\Tests\Helpers;
 
-use Khill\Lavacharts\Helpers\Helpers as H;
-use Khill\Lavacharts\Configs as C;
+use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Configs as c;
 
 class HelperAliasTest extends \PHPUnit_Framework_TestCase
 {
     public function testAliasedIsAnnotation()
     {
-        $this->assertTrue(H::isAnnotation(new C\Annotation));
-        $this->assertFalse(H::isAnnotation(new \stdClass));
+        $this->assertTrue(h::isAnnotation(new c\Annotation));
+        $this->assertFalse(h::isAnnotation(new \stdClass));
     }
 
     public function testAliasedIsBackgroundColor()
     {
-        $this->assertTrue(H::isBackgroundColor(new C\BackgroundColor));
-        $this->assertFalse(H::isBackgroundColor(new \stdClass));
+        $this->assertTrue(h::isBackgroundColor(new c\BackgroundColor));
+        $this->assertFalse(h::isBackgroundColor(new \stdClass));
     }
 
     public function testAliasedIsBoxStyle()
     {
-        $this->assertTrue(H::isBoxStyle(new C\BoxStyle));
-        $this->assertFalse(H::isBoxStyle(new \stdClass));
+        $this->assertTrue(h::isBoxStyle(new c\BoxStyle));
+        $this->assertFalse(h::isBoxStyle(new \stdClass));
     }
 
     public function testAliasedIsChartArea()
     {
-        $this->assertTrue(H::isChartArea(new C\ChartArea));
-        $this->assertFalse(H::isChartArea(new \stdClass));
+        $this->assertTrue(h::isChartArea(new c\ChartArea));
+        $this->assertFalse(h::isChartArea(new \stdClass));
     }
 
     public function testAliasedIsColorAxis()
     {
-        $this->assertTrue(H::isColorAxis(new C\ColorAxis));
-        $this->assertFalse(H::isColorAxis(new \stdClass));
+        $this->assertTrue(h::isColorAxis(new c\ColorAxis));
+        $this->assertFalse(h::isColorAxis(new \stdClass));
     }
 
     public function testAliasedIsGradient()
     {
-        $this->assertTrue(H::isGradient(new C\Gradient));
-        $this->assertFalse(H::isGradient(new \stdClass));
+        $this->assertTrue(h::isGradient(new c\Gradient));
+        $this->assertFalse(h::isGradient(new \stdClass));
     }
 
     public function testAliasedIsHorizontalAxis()
     {
-        $this->assertTrue(H::isHorizontalAxis(new C\HorizontalAxis));
-        $this->assertFalse(H::isHorizontalAxis(new \stdClass));
+        $this->assertTrue(h::isHorizontalAxis(new c\HorizontalAxis));
+        $this->assertFalse(h::isHorizontalAxis(new \stdClass));
     }
 
     public function testAliasedIsLegend()
     {
-        $this->assertTrue(H::isLegend(new C\Legend));
-        $this->assertFalse(H::isLegend(new \stdClass));
+        $this->assertTrue(h::isLegend(new c\Legend));
+        $this->assertFalse(h::isLegend(new \stdClass));
     }
 
     public function testAliasedIsMagnifyingGlass()
     {
-        $this->assertTrue(H::isMagnifyingGlass(new C\MagnifyingGlass));
-        $this->assertFalse(H::isMagnifyingGlass(new \stdClass));
+        $this->assertTrue(h::isMagnifyingGlass(new c\MagnifyingGlass));
+        $this->assertFalse(h::isMagnifyingGlass(new \stdClass));
     }
 
     public function testAliasedIsTextStyle()
     {
-        $this->assertTrue(H::isTextStyle(new C\TextStyle));
-        $this->assertFalse(H::isTextStyle(new \stdClass));
+        $this->assertTrue(h::isTextStyle(new c\TextStyle));
+        $this->assertFalse(h::isTextStyle(new \stdClass));
     }
 
     public function testAliasedIsTooltip()
     {
-        $this->assertTrue(H::isTooltip(new C\Tooltip));
-        $this->assertFalse(H::isTooltip(new \stdClass));
+        $this->assertTrue(h::isTooltip(new c\Tooltip));
+        $this->assertFalse(h::isTooltip(new \stdClass));
     }
 
     public function testAliasedSizeAxis()
     {
-        $this->assertTrue(H::isSizeAxis(new C\SizeAxis));
-        $this->assertFalse(H::isSizeAxis(new \stdClass));
+        $this->assertTrue(h::isSizeAxis(new c\SizeAxis));
+        $this->assertFalse(h::isSizeAxis(new \stdClass));
     }
 
     public function testAliasedSeries()
     {
-        $this->assertTrue(H::isSeries(new C\Series));
-        $this->assertFalse(H::isSeries(new \stdClass));
+        $this->assertTrue(h::isSeries(new c\Series));
+        $this->assertFalse(h::isSeries(new \stdClass));
     }
 
     public function testAliasedSlice()
     {
-        $this->assertTrue(H::isSlice(new C\Slice));
-        $this->assertFalse(H::isSlice(new \stdClass));
+        $this->assertTrue(h::isSlice(new c\Slice));
+        $this->assertFalse(h::isSlice(new \stdClass));
     }
 
     public function testAliasedVerticalAxis()
     {
-        $this->assertTrue(H::isVerticalAxis(new C\VerticalAxis));
-        $this->assertFalse(H::isVerticalAxis(new \stdClass));
+        $this->assertTrue(h::isVerticalAxis(new c\VerticalAxis));
+        $this->assertFalse(h::isVerticalAxis(new \stdClass));
     }
 
     public function testBadAliasWithObject()
     {
-        $this->assertFalse(H::isTacos(new \stdClass));
+        $this->assertFalse(h::isTacos(new \stdClass));
     }
 
     public function testBadAliasWithNonObject()
     {
-        $this->assertFalse(H::isTacos( array() ));
+        $this->assertFalse(h::isTacos( array() ));
     }
 
     public function testNonExistentAliasWithNonObject()
     {
-        $this->assertFalse(H::isTacos( array() ));
+        $this->assertFalse(h::isTacos( 'hi' ));
     }
 }
