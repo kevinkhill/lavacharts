@@ -2,6 +2,19 @@
 
 class DataProviders extends \PHPUnit_Framework_TestCase
 {
+    public function nonConfigObjectProvider()
+    {
+        return array(
+            array('stringy'),
+            array(9),
+            array(1.2),
+            array(true),
+            array(false),
+            array(array()),
+            array(new \stdClass())
+        );
+    }
+
     public function nonStringProvider()
     {
         return array(
