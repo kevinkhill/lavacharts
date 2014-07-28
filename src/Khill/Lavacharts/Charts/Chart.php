@@ -18,6 +18,7 @@
 use Khill\Lavacharts\Helpers\Helpers as h;
 use Khill\Lavacharts\JavascriptFactory;
 use Khill\Lavacharts\Configs\DataTable;
+use Khill\Lavacharts\Configs\Legend;
 use Khill\Lavacharts\Configs\Tooltip;
 use Khill\Lavacharts\Configs\TextStyle;
 use Khill\Lavacharts\Configs\ChartArea;
@@ -197,7 +198,7 @@ class Chart
     public function colors($cArr)
     {
         if (h::arrayValuesCheck($cArr, 'string')) {
-            return $this->addOption(array('colors' => $cArr));
+            return $this->addOption(array(__FUNCTION__ => $cArr));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -260,7 +261,7 @@ class Chart
     public function fontSize($fs)
     {
         if (is_int($fs)) {
-            return $this->addOption(array('fontSize' => $fs));
+            return $this->addOption(array(__FUNCTION__ => $fs));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -281,7 +282,7 @@ class Chart
     public function fontName($fn)
     {
         if (is_string($fn)) {
-            return $this->addOption(array('fontName' => $fn));
+            return $this->addOption(array(__FUNCTION__ => $fn));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -301,7 +302,7 @@ class Chart
     public function height($h)
     {
         if (is_int($h)) {
-            return $this->addOption(array('height' => $h));
+            return $this->addOption(array(__FUNCTION__ => $h));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -337,7 +338,7 @@ class Chart
     public function title($t)
     {
         if (is_string($t)) {
-            return $this->addOption(array('title' => $t));
+            return $this->addOption(array(__FUNCTION__ => $t));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -365,8 +366,8 @@ class Chart
             'none'
         );
 
-        if (in_array($tp, $values)) {
-            return $this->addOption(array('titlePosition' => $tp));
+        if (is_string($tp) && in_array($tp, $values)) {
+            return $this->addOption(array(__FUNCTION__ => $tp));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -388,7 +389,7 @@ class Chart
      */
     public function titleTextStyle(TextStyle $ts)
     {
-        return $this->addOption($ts->toArray('titleTextStyle'));
+        return $this->addOption($ts->toArray(__FUNCTION__));
     }
 
     /**
@@ -415,10 +416,10 @@ class Chart
      *
      * @return Chart
      */
-    public function width(int $w)
+    public function width($w)
     {
         if (is_int($w)) {
-            return $this->addOption(array('width' => $w));
+            return $this->addOption(array(__FUNCTION__ => $w));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,

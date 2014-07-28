@@ -96,7 +96,7 @@ class ConfigOptions
         }
 
         if (is_null($keyName)) {
-            return array($this->className => $output);
+            return array(lcfirst($this->className) => $output);
         } else {
             return array($keyName => $output);
         }
