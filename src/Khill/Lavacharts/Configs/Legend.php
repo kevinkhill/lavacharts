@@ -19,7 +19,7 @@
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class Legend extends ConfigOptions
+class Legend extends ConfigObject
 {
     /**
      * Position of the legend.

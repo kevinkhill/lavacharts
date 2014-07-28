@@ -19,7 +19,7 @@
 use Khill\Lavacharts\Helpers\Helpers as H;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class ColorAxis extends ConfigOptions
+class ColorAxis extends ConfigObject
 {
     /**
      * Minimum value for chart color data.

@@ -19,7 +19,7 @@
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class Axis extends ConfigOptions
+class Axis extends ConfigObject
 {
     /**
      * The baseline for the axis.

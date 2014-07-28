@@ -19,7 +19,7 @@
 use Khill\Lavacharts\Helpers\Helpers as H;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class ChartArea extends ConfigOptions
+class ChartArea extends ConfigObject
 {
     /**
      * How far to draw the chart from the left border.

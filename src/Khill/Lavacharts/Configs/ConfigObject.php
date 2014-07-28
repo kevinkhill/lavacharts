@@ -1,7 +1,7 @@
 <?php namespace Khill\Lavacharts\Configs;
 
 /**
- * ConfigOptions Parent Object
+ * ConfigObject Parent Class
  *
  * The base class for the individual configuration objects, providing common
  * functions to the child objects.
@@ -20,7 +20,7 @@ use Khill\Lavacharts\Helpers\Helpers as h;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
-class ConfigOptions
+class ConfigObject
 {
     /**
      * Allowed keys for the ConfigOptions child objects.

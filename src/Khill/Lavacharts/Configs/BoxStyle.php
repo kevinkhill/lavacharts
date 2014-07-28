@@ -19,7 +19,7 @@
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class BoxStyle extends ConfigOptions
+class BoxStyle extends ConfigObject
 {
     /**
      * Color of the box outline.

@@ -18,7 +18,7 @@
 
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class Annotation extends ConfigOptions
+class Annotation extends ConfigObject
 {
     /**
      * The highContrast state.

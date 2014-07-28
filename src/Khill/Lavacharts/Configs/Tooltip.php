@@ -19,7 +19,7 @@
 use Khill\Lavacharts\Helpers\Helpers as H;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class Tooltip extends ConfigOptions
+class Tooltip extends ConfigObject
 {
     /**
      * Show color code for the tooltip.

@@ -18,7 +18,7 @@
 
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class SizeAxis extends ConfigOptions
+class SizeAxis extends ConfigObject
 {
     /**
      * Maximum radius of the largest possible bubble, in pixels.

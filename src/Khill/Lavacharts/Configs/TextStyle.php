@@ -18,7 +18,7 @@
 
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class TextStyle extends ConfigOptions
+class TextStyle extends ConfigObject
 {
     /**
      * Color of the text.

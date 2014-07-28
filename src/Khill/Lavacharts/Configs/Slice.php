@@ -19,7 +19,7 @@
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class Slice extends ConfigOptions
+class Slice extends ConfigObject
 {
     /**
      * The slice fill color.

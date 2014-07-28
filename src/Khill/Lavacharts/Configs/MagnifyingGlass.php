@@ -21,7 +21,7 @@
 
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class MagnifyingGlass extends ConfigOptions
+class MagnifyingGlass extends ConfigObject
 {
     /**
      * Enabled state of the magnifying glass.

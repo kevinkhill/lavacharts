@@ -18,7 +18,7 @@
 
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class BackgroundColor extends ConfigOptions
+class BackgroundColor extends ConfigObject
 {
     /**
      * The color of the chart border, as an HTML color string.

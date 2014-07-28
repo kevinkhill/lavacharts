@@ -24,16 +24,18 @@ use Khill\Lavacharts\Configs\TextStyle;
 use Khill\Lavacharts\Configs\ChartArea;
 use Khill\Lavacharts\Configs\BackgroundColor;
 use Khill\Lavacharts\Exceptions\InvalidElementId;
+use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Chart
 {
-    public $type       = null;
-    public $label      = null;
-    public $dataTable  = null;
-    public $events     = null;
-    public $defaults   = null;
-    public $options    = array();
+    public $type      = null;
+    public $label     = null;
+
+    protected $datatable = null;
+    protected $events    = null;
+    protected $defaults  = null;
+    protected $options   = array();
 
     /**
      * Builds a new chart with a label and access to the volcano storage
@@ -44,7 +46,7 @@ class Chart
     {
         $this->label = $chartLabel;
         $this->defaults = array(
-            'dataTable',
+            'datatable',
             'backgroundColor',
             'chartArea',
             'colors',
@@ -62,53 +64,19 @@ class Chart
     }
 
     /**
-     * Sets configuration options from array of values
-     *
-     * You can set the options all at once instead of passing them individually
-     * or chaining the functions from the chart objects.
-     *
-     * @param array $o
-     *
-     * @return Chart
-     */
-    public function setConfig($o = array())
-    {
-        if (is_array($o) && count($o) > 0) {
-            foreach ($o as $option => $value) {
-                if (in_array($option, $this->defaults)) {
-                    if (method_exists($this, $option)) {
-                        $this->$option($value);
-                    } else {
-                        return $this->addOption($value);
-                    }
-                } else {
-                    throw $this->invalidConfigValue(
-                        'Invalid config value "'.$option.'", must be an option from this list '.h::arrayToPipedString($this->defaults));
-                }
-            }
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'array',
-                'containing a minimum of one key from '.h::arrayToPipedString($this->defaults)
-            );
-        }
-    }
-
-    /**
      * Sets a configuration option
      *
      * Takes an array with option => value, or an object created by
      * one of the configOptions child objects.
      *
-     * @param mixed $option
+     * @param mixed $o
      *
-     * @return Chart
+     * @return this
      */
-    public function addOption($option)
+    private function addOption($o)
     {
-        if (is_array($option)) {
-            $this->options = array_merge($this->options, $option);
+        if (is_array($o)) {
+            $this->options = array_merge($this->options, $o);
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -120,6 +88,70 @@ class Chart
     }
 
     /**
+     * Sets configuration options from array of values
+     *
+     * You can set the options all at once instead of passing them individually
+     * or chaining the functions from the chart objects.
+     *
+     * @param array $o
+     * @throws InvalidConfigProperty
+     * @throws InvalidConfigValue
+     * @return Chart
+     */
+    public function setOptions($o)
+    {
+        if (is_array($o) && count($o) > 0) {
+            foreach ($o as $option => $value) {
+                if (in_array($option, $this->defaults)) {
+                    call_user_func_array("self::$option", array($value));
+                } else {
+                    throw new InvalidConfigProperty(
+                        $this->type,
+                        __FUNCTION__,
+                        $option,
+                        $this->defaults
+                    );
+                }
+            }
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'array'
+            );
+        }
+    }
+
+    /**
+     * Gets the current chart options.
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Gets a specific option from the array.
+     *
+     * @param  string $o Which option to fetch
+     * @throws InvalidConfigValue
+     * @return mixed
+     */
+    public function getOption($o)
+    {
+        if (is_string($o) && array_key_exists($o, $this->options)) {
+            return $this->options[$o];
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string',
+                "{$o} is undefined, must be one of ".h::arrayToPipedString(array_keys($this->options))
+            );
+        }
+    }
+
+    /**
      * Assigns wich DataTable will be used for this Chart.
      *
      * If a label is provided then the defined DataTable will be used.
@@ -127,14 +159,14 @@ class Chart
      * without calling this function, the chart will search for a DataTable with
      * the same label as the Chart.
      *
-     * @param Khill\Lavacharts\Configs\DataTable
+     * @uses  DataTable
+     * @param DataTable
      *
      * @return Chart
      */
-
-    public function dataTable(DataTable $dataTable)
+    public function datatable(DataTable $d)
     {
-        $this->dataTable = $dataTable;
+        $this->datatable = $d;
 
         return $this;
     }
@@ -145,7 +177,7 @@ class Chart
      * Pass in a string of the html elementID that you want the chart to be
      * rendered into.
      *
-     * @param  string                   $elementId The id of an HTML element to render the chart into.
+     * @param  string            $elementId The id of an HTML element to render the chart into.
      * @throws InvalidElementId
      *
      * @return string Javscript code blocks
@@ -158,10 +190,21 @@ class Chart
     }
 
     /**
+     * Returns a JSON string representation of the object's properties.
+     *
+     * @return string
+     */
+    public function optionsToJson()
+    {
+        return json_encode($this->options);
+    }
+
+    /**
      * The background color for the main area of the chart. Can be either a simple
      * HTML color string, for example: 'red' or '#00cc00', or a backgroundColor object
      *
-     * @param Khill\Lavacharts\Configs\BackgroundColor $bc
+     * @uses  BackgroundColor
+     * @param BackgroundColor $bc
      *
      * @return Chart
      */
@@ -190,7 +233,7 @@ class Chart
      * The colors to use for the chart elements. An array of strings, where each
      * element is an HTML color string, for example: colors:['red','#004411'].
      *
-     * @param array $cArr
+     * @param  array $cArr
      * @throws InvalidConfigValue
      *
      * @return Chart
@@ -426,16 +469,6 @@ class Chart
                 'int'
             );
         }
-    }
-
-    /**
-     * Returns a JSON string representation of the object's properties.
-     *
-     * @return string
-     */
-    public function optionsToJson()
-    {
-        return json_encode($this->options);
     }
 
     /**

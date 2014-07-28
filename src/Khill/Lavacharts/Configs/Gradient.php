@@ -17,7 +17,7 @@
 
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class Gradient extends ConfigOptions
+class Gradient extends ConfigObject
 {
     /**
      * Start color for gradient.

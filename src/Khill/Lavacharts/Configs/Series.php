@@ -19,7 +19,7 @@
 use Khill\Lavacharts\Helpers\Helpers as H;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class Series extends ConfigOptions
+class Series extends ConfigObject
 {
     /**
      * Alignment of the series.

@@ -1,6 +1,7 @@
 <?php namespace Khill\Lavacharts\Tests\Charts;
 
 use Khill\Lavacharts\Tests\DataProviders;
+use Carbon\Carbon;
 use Mockery as m;
 
 class ChartTest extends DataProviders
@@ -17,6 +18,21 @@ class ChartTest extends DataProviders
     	$this->assertEquals('TestChart', $this->mlc->label);
     }
 
+    public function testDataTable()
+    {
+        $mdt = m::mock('Khill\Lavacharts\Configs\DataTable')->makePartial();
+
+        $mdt->addColumn('date');
+        $mdt->addColumn('number');
+        $mdt->addColumn('number');
+
+        $mdt->addRow(array(Carbon::parse('March 24th, 1988'), 12345, 67890));
+
+        $this->mlc->datatable($mdt);
+
+        //$this->assertTrue(is_array($this->mlc->getOption('datatable')));
+    }
+
     public function testBackgroundColorWithValidValues()
     {
         $mbc = m::mock('Khill\Lavacharts\Configs\BackgroundColor');
@@ -25,7 +41,7 @@ class ChartTest extends DataProviders
         ));
 
         $this->mlc->backgroundColor($mbc);
-        $this->assertTrue(is_array($this->mlc->options['backgroundColor']));
+        $this->assertTrue(is_array($this->mlc->getOption('backgroundColor')));
     }
 
     /**
@@ -45,7 +61,7 @@ class ChartTest extends DataProviders
         ));
 
         $this->mlc->chartArea($mca);
-        $this->assertTrue(is_array($this->mlc->options['chartArea']));
+        $this->assertTrue(is_array($this->mlc->getOption('chartArea')));
     }
 
     /**
@@ -62,7 +78,7 @@ class ChartTest extends DataProviders
         $colors = array('green', 'red');
 
         $this->mlc->colors($colors);
-        $this->assertEquals($colors, $this->mlc->options['colors']);
+        $this->assertEquals($colors, $this->mlc->getOption('colors'));
     }
 
     /**
@@ -77,7 +93,7 @@ class ChartTest extends DataProviders
     public function testFontNameWithValidValue()
     {
         $this->mlc->fontName('Tahoma');
-        $this->assertEquals('Tahoma', $this->mlc->options['fontName']);
+        $this->assertEquals('Tahoma', $this->mlc->getOption('fontName'));
     }
 
     /**
@@ -92,7 +108,7 @@ class ChartTest extends DataProviders
     public function testFontSizeWithValidValue()
     {
         $this->mlc->fontSize(34);
-        $this->assertEquals(34, $this->mlc->options['fontSize']);
+        $this->assertEquals(34, $this->mlc->getOption('fontSize'));
     }
 
     /**
@@ -107,7 +123,7 @@ class ChartTest extends DataProviders
     public function testHeightWithValidValue()
     {
         $this->mlc->height(500);
-        $this->assertEquals(500, $this->mlc->options['height']);
+        $this->assertEquals(500, $this->mlc->getOption('height'));
     }
 
     /**
@@ -127,7 +143,7 @@ class ChartTest extends DataProviders
         ));
 
         $this->mlc->legend($ml);
-        $this->assertTrue(is_array($this->mlc->options['legend']));
+        $this->assertTrue(is_array($this->mlc->getOption('legend')));
     }
 
     /**
@@ -142,7 +158,8 @@ class ChartTest extends DataProviders
     public function testTitleWithValidValue()
     {
         $this->mlc->title('Fancy Chart');
-        $this->assertEquals('Fancy Chart', $this->mlc->options['title']);
+
+        $this->assertEquals('Fancy Chart', $this->mlc->getOption('title'));
     }
 
     /**
@@ -157,13 +174,13 @@ class ChartTest extends DataProviders
     public function testTitlePositionWithValidValues()
     {
         $this->mlc->titlePosition('in');
-        $this->assertEquals('in', $this->mlc->options['titlePosition']);
+        $this->assertEquals('in', $this->mlc->getOption('titlePosition'));
 
         $this->mlc->titlePosition('out');
-        $this->assertEquals('out', $this->mlc->options['titlePosition']);
+        $this->assertEquals('out', $this->mlc->getOption('titlePosition'));
 
         $this->mlc->titlePosition('none');
-        $this->assertEquals('none', $this->mlc->options['titlePosition']);
+        $this->assertEquals('none', $this->mlc->getOption('titlePosition'));
     }
 
     /**
@@ -191,7 +208,7 @@ class ChartTest extends DataProviders
         ));
 
         $this->mlc->titleTextStyle($mts);
-        $this->assertTrue(is_array($this->mlc->options['titleTextStyle']));
+        $this->assertTrue(is_array($this->mlc->getOption('titleTextStyle')));
     }
 
     /**
@@ -211,7 +228,7 @@ class ChartTest extends DataProviders
         ));
 
         $this->mlc->tooltip($mtt);
-        $this->assertTrue(is_array($this->mlc->options['tooltip']));
+        $this->assertTrue(is_array($this->mlc->getOption('tooltip')));
     }
 
     /**
@@ -226,7 +243,7 @@ class ChartTest extends DataProviders
     public function testWidthWithValidValue()
     {
         $this->mlc->width(800);
-        $this->assertEquals(800, $this->mlc->options['width']);
+        $this->assertEquals(800, $this->mlc->getOption('width'));
     }
 
     /**
@@ -236,6 +253,66 @@ class ChartTest extends DataProviders
     public function testWidthWithBadTypes($badTypes)
     {
         $this->mlc->width($badTypes);
+    }
+
+    /**
+     * @depends testTitleWithValidValue
+     * @depends testWidthWithValidValue
+     * @depends testHeightWithValidValue
+     * @covers Chart::getOptions()
+     */
+    public function testSetOptionsWithArrayOfValidOptions()
+    {
+        $expected = array(
+            'title' => 'My Cool Chart',
+            'width' => 1024,
+            'height' => 768
+        );
+
+        $this->mlc->setOptions($expected);
+
+        $this->assertEquals($expected, $this->mlc->getOptions());
+    }
+
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     */
+    public function testSetOptionsWithArrayOfBadOptions()
+    {
+        $this->mlc->setOptions(array(
+            'tibtle' => 'My Cool Chart',
+            'widmth' => 1024,
+            'heaight' => 768
+        ));
+    }
+
+    /**
+     * @dataProvider nonArrayProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testSetOptionsWithBadTypes($badTypes)
+    {
+        $this->mlc->setOptions($badTypes);
+    }
+
+    /**
+     * @depends testTitleWithValidValue
+     * @depends testWidthWithValidValue
+     * @depends testHeightWithValidValue
+     */
+    public function testOptionsToJson()
+    {
+        $expected = array(
+            'title' => 'My Cool Chart',
+            'width' => 1024,
+            'height' => 768
+        );
+
+        $this->mlc->title('My Cool Chart');
+        $this->mlc->width(1024);
+        $this->mlc->height(768);
+
+        $this->assertEquals($expected, $this->mlc->getOptions());
     }
 
 }
