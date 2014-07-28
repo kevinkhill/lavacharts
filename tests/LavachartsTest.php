@@ -11,9 +11,8 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
         $this->lc = new Lavacharts;
     }
 
-    public function testIfInstanceOfJavascriptFactory()
+    public function testIfInstanceOfVolcano()
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Lavacharts', $this->lc);
         $this->assertInstanceOf('Khill\Lavacharts\Volcano', $this->lc->volcano);
     }
 
@@ -55,7 +54,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     public function testRenederChartAliases($chartType)
     {
         $chart = $this->lc->$chartType('test');
-        $chart->dataTable($this->lc->DataTable());
+        $chart->datatable($this->lc->DataTable());
 
         $render = 'render'.$chartType;
 
@@ -68,7 +67,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     public function testDirectRenederChart()
     {
         $chart = $this->lc->LineChart('test');
-        $chart->dataTable($this->lc->DataTable());
+        $chart->datatable($this->lc->DataTable());
 
         $this->assertTrue(is_string($this->lc->render('LineChart', 'test', 'test-div')));
     }
@@ -79,7 +78,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     public function testDirectRenederChartWithDivNoDimensions()
     {
         $chart = $this->lc->LineChart('test');
-        $chart->dataTable($this->lc->DataTable());
+        $chart->datatable($this->lc->DataTable());
 
         $this->assertTrue(is_string($this->lc->render('LineChart', 'test', 'test-div', true)));
     }
@@ -90,7 +89,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     public function testDirectRenederChartWithDivAndDimensions()
     {
         $chart = $this->lc->LineChart('test');
-        $chart->dataTable($this->lc->DataTable());
+        $chart->datatable($this->lc->DataTable());
 
         $dims = array(
             'height' => 200,
@@ -107,7 +106,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     public function testDirectRenederChartWithDivAndBadDimensionKeys()
     {
         $chart = $this->lc->LineChart('test');
-        $chart->dataTable($this->lc->DataTable());
+        $chart->datatable($this->lc->DataTable());
 
         $dims = array(
             'heiXght' => 200,
@@ -124,7 +123,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     public function testDirectRenederChartWithDivAndBadDimensionType()
     {
         $chart = $this->lc->LineChart('test');
-        $chart->dataTable($this->lc->DataTable());
+        $chart->datatable($this->lc->DataTable());
 
         $this->assertTrue(is_string($this->lc->render('LineChart', 'test', 'test-div', 'TacosTacosTacos')));
     }
@@ -136,7 +135,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     public function testDirectRenederChartWithDivAndDimensionsWithBadValues()
     {
         $chart = $this->lc->LineChart('test');
-        $chart->dataTable($this->lc->DataTable());
+        $chart->datatable($this->lc->DataTable());
 
         $dims = array(
             'height' => 4.6,

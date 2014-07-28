@@ -30,7 +30,7 @@ class ChartTest extends DataProviders
 
         $this->mlc->datatable($mdt);
 
-        //$this->assertTrue(is_array($this->mlc->getOption('datatable')));
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\DataTable', $this->mlc->datatable);
     }
 
     public function testBackgroundColorWithValidValues()
@@ -259,7 +259,6 @@ class ChartTest extends DataProviders
      * @depends testTitleWithValidValue
      * @depends testWidthWithValidValue
      * @depends testHeightWithValidValue
-     * @covers Chart::getOptions()
      */
     public function testSetOptionsWithArrayOfValidOptions()
     {
@@ -296,23 +295,36 @@ class ChartTest extends DataProviders
     }
 
     /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testGetOptionsWithBadValue()
+    {
+        $this->mlc->getOption('Bananas');
+    }
+
+    /**
+     * @dataProvider nonStringProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testGetOptionsWithBadTypes($badTypes)
+    {
+        $this->mlc->getOption($badTypes);
+    }
+
+    /**
      * @depends testTitleWithValidValue
      * @depends testWidthWithValidValue
      * @depends testHeightWithValidValue
      */
     public function testOptionsToJson()
     {
-        $expected = array(
-            'title' => 'My Cool Chart',
-            'width' => 1024,
-            'height' => 768
-        );
-
         $this->mlc->title('My Cool Chart');
         $this->mlc->width(1024);
         $this->mlc->height(768);
 
-        $this->assertEquals($expected, $this->mlc->getOptions());
+        $expected = '{"title":"My Cool Chart","width":1024,"height":768}';
+
+        $this->assertEquals($expected, $this->mlc->optionsToJson());
     }
 
 }

@@ -3,7 +3,7 @@
 use Khill\Lavacharts\Configs\ConfigOptions;
 use Khill\Lavacharts\Configs\TextStyle;
 
-class ConfigOptionsTest extends \PHPUnit_Framework_TestCase
+class ConfigObjectTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -38,7 +38,7 @@ class ConfigOptionsTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue(is_array($textStyleArr));
         $textStyleArrKeys = array_keys($textStyleArr);
-        $this->assertEquals('TextStyle', $textStyleArrKeys[0]);
+        $this->assertEquals('textStyle', $textStyleArrKeys[0]);
         $this->assertTrue(is_array($textStyleArr['TextStyle']));
 
         $this->assertEquals('blue',  $textStyleArr['TextStyle']['color']);

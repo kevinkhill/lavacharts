@@ -31,16 +31,16 @@ class Chart
 {
     public $type      = null;
     public $label     = null;
+    public $datatable = null;
+    public $events    = null;
 
-    protected $datatable = null;
-    protected $events    = null;
     protected $defaults  = null;
     protected $options   = array();
 
     /**
-     * Builds a new chart with a label and access to the volcano storage
+     * Builds a new chart with a label.
      *
-     * @param string $chartLabel Label for the chart to be stored in the Volcano.
+     * @param string $chartLabel Label for the chart accessed via the Volcano.
      */
     public function __construct($chartLabel)
     {
@@ -146,7 +146,7 @@ class Chart
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                "{$o} is undefined, must be one of ".h::arrayToPipedString(array_keys($this->options))
+                "must be one of ".h::arrayToPipedString(array_keys($this->options))
             );
         }
     }
