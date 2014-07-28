@@ -73,7 +73,7 @@ class Chart
      *
      * @return this
      */
-    private function addOption($o)
+    protected function addOption($o)
     {
         if (is_array($o)) {
             $this->options = array_merge($this->options, $o);
@@ -103,7 +103,7 @@ class Chart
         if (is_array($o) && count($o) > 0) {
             foreach ($o as $option => $value) {
                 if (in_array($option, $this->defaults)) {
-                    call_user_func_array("self::$option", array($value));
+                    $this->$option($value);
                 } else {
                     throw new InvalidConfigProperty(
                         $this->type,

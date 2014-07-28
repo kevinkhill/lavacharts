@@ -31,13 +31,13 @@ class ColumnChartTest extends DataProviders
     public function testAxisTitlesPositionValidValues()
     {
         $this->cc->axisTitlesPosition('in');
-        $this->assertEquals('in', $this->cc->options['axisTitlesPosition']);
+        $this->assertEquals('in', $this->cc->getOption('axisTitlesPosition'));
 
         $this->cc->axisTitlesPosition('out');
-        $this->assertEquals('out', $this->cc->options['axisTitlesPosition']);
+        $this->assertEquals('out', $this->cc->getOption('axisTitlesPosition'));
 
         $this->cc->axisTitlesPosition('none');
-        $this->assertEquals('none', $this->cc->options['axisTitlesPosition']);
+        $this->assertEquals('none', $this->cc->getOption('axisTitlesPosition'));
     }
 
     /**
@@ -61,14 +61,14 @@ class ColumnChartTest extends DataProviders
     {
         $this->cc->barGroupWidth(200);
 
-        $this->assertEquals(200, $this->cc->options['bar']['groupWidth']);
+        $this->assertEquals(200, $this->cc->getOption('bar')['groupWidth']);
     }
 
     public function testBarGroupWidthWithPercent()
     {
         $this->cc->barGroupWidth('33%');
 
-        $this->assertEquals('33%', $this->cc->options['bar']['groupWidth']);
+        $this->assertEquals('33%', $this->cc->getOption('bar')['groupWidth']);
     }
 
     /**
@@ -89,14 +89,14 @@ class ColumnChartTest extends DataProviders
 
         $this->cc->hAxis($mockHorizontalAxis);
 
-        $this->assertTrue(is_array($this->cc->options['hAxis']));
+        $this->assertTrue(is_array($this->cc->getOption('hAxis')));
     }
 
     public function testIsStacked()
     {
         $this->cc->isStacked(true);
 
-        $this->assertTrue($this->cc->options['isStacked']);
+        $this->assertTrue($this->cc->getOption('isStacked'));
     }
 
     /**
@@ -117,7 +117,7 @@ class ColumnChartTest extends DataProviders
 
         $this->cc->vAxis($mockVerticalAxis);
 
-        $this->assertTrue(is_array($this->cc->options['vAxis']));
+        $this->assertTrue(is_array($this->cc->getOption('vAxis')));
     }
 
     public function nonIntOrPercentProvider()

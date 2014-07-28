@@ -31,13 +31,13 @@ class LineChartTest extends DataProviders
     public function testAxisTitlesPositionWithValidValues()
     {
         $this->lc->axisTitlesPosition('in');
-        $this->assertEquals('in', $this->lc->options['axisTitlesPosition']);
+        $this->assertEquals('in', $this->lc->getOption('axisTitlesPosition'));
 
         $this->lc->axisTitlesPosition('out');
-        $this->assertEquals('out', $this->lc->options['axisTitlesPosition']);
+        $this->assertEquals('out', $this->lc->getOption('axisTitlesPosition'));
 
         $this->lc->axisTitlesPosition('none');
-        $this->assertEquals('none', $this->lc->options['axisTitlesPosition']);
+        $this->assertEquals('none', $this->lc->getOption('axisTitlesPosition'));
     }
 
     /**
@@ -60,10 +60,10 @@ class LineChartTest extends DataProviders
     public function testCurveTypeWithValidValues()
     {
         $this->lc->curveType('none');
-        $this->assertEquals('none', $this->lc->options['curveType']);
+        $this->assertEquals('none', $this->lc->getOption('curveType'));
 
         $this->lc->curveType('function');
-        $this->assertEquals('function', $this->lc->options['curveType']);
+        $this->assertEquals('function', $this->lc->getOption('curveType'));
     }
 
     /**
@@ -92,14 +92,14 @@ class LineChartTest extends DataProviders
 
         $this->lc->hAxis($mockHorizontalAxis);
 
-        $this->assertTrue(is_array($this->lc->options['hAxis']));
+        $this->assertTrue(is_array($this->lc->getOption('hAxis')));
     }
 
     public function testInterpolateNulls()
     {
         $this->lc->interpolateNulls(true);
 
-        $this->assertTrue($this->lc->options['interpolateNulls']);
+        $this->assertTrue($this->lc->getOption('interpolateNulls'));
     }
 
     /**
@@ -115,7 +115,7 @@ class LineChartTest extends DataProviders
     {
         $this->lc->lineWidth(22);
 
-        $this->assertEquals(22, $this->lc->options['lineWidth']);
+        $this->assertEquals(22, $this->lc->getOption('lineWidth'));
     }
 
     /**
@@ -131,7 +131,7 @@ class LineChartTest extends DataProviders
     {
         $this->lc->pointSize(3);
 
-        $this->assertEquals(3, $this->lc->options['pointSize']);
+        $this->assertEquals(3, $this->lc->getOption('pointSize'));
     }
 
     /**
@@ -152,6 +152,6 @@ class LineChartTest extends DataProviders
 
         $this->lc->vAxis($mockVerticalAxis);
 
-        $this->assertTrue(is_array($this->lc->options['vAxis']));
+        $this->assertTrue(is_array($this->lc->getOption('vAxis')));
     }
 }

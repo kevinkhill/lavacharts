@@ -32,7 +32,7 @@ class PieChartTest extends DataProviders
     {
         $this->pc->is3D(true);
 
-        $this->assertTrue($this->pc->options['is3D']);
+        $this->assertTrue($this->pc->getOption('is3D'));
     }
 
     /**
@@ -69,8 +69,8 @@ class PieChartTest extends DataProviders
 
         $this->pc->slices(array($mockSlice1, $mockSlice2));
 
-        $this->assertEquals($sliceVals, $this->pc->options['slices'][0]);
-        $this->assertEquals($sliceVals, $this->pc->options['slices'][1]);
+        $this->assertEquals($sliceVals, $this->pc->getOption('slices')[0]);
+        $this->assertEquals($sliceVals, $this->pc->getOption('slices')[1]);
     }
 
     /**
@@ -86,7 +86,7 @@ class PieChartTest extends DataProviders
     {
         $this->pc->pieSliceBorderColor('green');
 
-        $this->assertEquals('green', $this->pc->options['pieSliceBorderColor']);
+        $this->assertEquals('green', $this->pc->getOption('pieSliceBorderColor'));
     }
 
     /**
@@ -101,16 +101,16 @@ class PieChartTest extends DataProviders
     public function testPieSliceTextWithValidValues()
     {
         $this->pc->pieSliceText('percentage');
-        $this->assertEquals('percentage', $this->pc->options['pieSliceText']);
+        $this->assertEquals('percentage', $this->pc->getOption('pieSliceText'));
 
         $this->pc->pieSliceText('value');
-        $this->assertEquals('value', $this->pc->options['pieSliceText']);
+        $this->assertEquals('value', $this->pc->getOption('pieSliceText'));
 
         $this->pc->pieSliceText('label');
-        $this->assertEquals('label', $this->pc->options['pieSliceText']);
+        $this->assertEquals('label', $this->pc->getOption('pieSliceText'));
 
         $this->pc->pieSliceText('none');
-        $this->assertEquals('none', $this->pc->options['pieSliceText']);
+        $this->assertEquals('none', $this->pc->getOption('pieSliceText'));
     }
 
     /**
@@ -143,14 +143,14 @@ class PieChartTest extends DataProviders
 
         $this->pc->pieSliceTextStyle($mockTextStyle);
 
-        $this->assertEquals($textStyleVals, $this->pc->options['pieSliceTextStyle']);
+        $this->assertEquals($textStyleVals, $this->pc->getOption('pieSliceTextStyle'));
     }
 
     public function testPieStartAngle()
     {
         $this->pc->pieStartAngle(12);
 
-        $this->assertEquals(12, $this->pc->options['pieStartAngle']);
+        $this->assertEquals(12, $this->pc->getOption('pieStartAngle'));
     }
 
     /**
@@ -166,7 +166,7 @@ class PieChartTest extends DataProviders
     {
         $this->pc->reverseCategories(true);
 
-        $this->assertTrue($this->pc->options['reverseCategories']);
+        $this->assertTrue($this->pc->getOption('reverseCategories'));
     }
 
     /**
@@ -182,7 +182,7 @@ class PieChartTest extends DataProviders
     {
         $this->pc->sliceVisibilityThreshold(23);
 
-        $this->assertEquals(23, $this->pc->options['sliceVisibilityThreshold']);
+        $this->assertEquals(23, $this->pc->getOption('sliceVisibilityThreshold'));
     }
 
     /**
@@ -198,7 +198,7 @@ class PieChartTest extends DataProviders
     {
         $this->pc->pieResidueSliceColor('red');
 
-        $this->assertEquals('red', $this->pc->options['pieResidueSliceColor']);
+        $this->assertEquals('red', $this->pc->getOption('pieResidueSliceColor'));
     }
 
     /**
@@ -214,7 +214,7 @@ class PieChartTest extends DataProviders
     {
         $this->pc->pieResidueSliceLabel('leftovers');
 
-        $this->assertEquals('leftovers', $this->pc->options['pieResidueSliceLabel']);
+        $this->assertEquals('leftovers', $this->pc->getOption('pieResidueSliceLabel'));
     }
 
     /**

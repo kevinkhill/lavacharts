@@ -32,7 +32,7 @@ class DonutChartTest extends DataProviders
     {
         $this->dc->pieHole(0.23);
 
-        $this->assertEquals(0.23, $this->dc->options['pieHole']);
+        $this->assertEquals(0.23, $this->dc->getOption('pieHole'));
     }
 
     /**

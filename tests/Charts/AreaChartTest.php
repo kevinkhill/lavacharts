@@ -32,7 +32,7 @@ class AreaChartTest extends DataProviders
     {
         $this->ac->areaOpacity(0.6);
 
-        $this->assertEquals(0.6, $this->ac->options['areaOpacity']);
+        $this->assertEquals(0.6, $this->ac->getOption('areaOpacity'));
     }
 
     /**
@@ -47,13 +47,13 @@ class AreaChartTest extends DataProviders
     public function testAxisTitlesPositionValidValues()
     {
         $this->ac->axisTitlesPosition('in');
-        $this->assertEquals('in', $this->ac->options['axisTitlesPosition']);
+        $this->assertEquals('in', $this->ac->getOption('axisTitlesPosition'));
 
         $this->ac->axisTitlesPosition('out');
-        $this->assertEquals('out', $this->ac->options['axisTitlesPosition']);
+        $this->assertEquals('out', $this->ac->getOption('axisTitlesPosition'));
 
         $this->ac->axisTitlesPosition('none');
-        $this->assertEquals('none', $this->ac->options['axisTitlesPosition']);
+        $this->assertEquals('none', $this->ac->getOption('axisTitlesPosition'));
     }
 
     /**
@@ -82,14 +82,14 @@ class AreaChartTest extends DataProviders
 
         $this->ac->hAxis($mockHorizontalAxis);
 
-        $this->assertTrue(is_array($this->ac->options['hAxis']));
+        $this->assertTrue(is_array($this->ac->getOption('hAxis')));
     }
 
     public function testIsStacked()
     {
         $this->ac->isStacked(true);
 
-        $this->assertTrue($this->ac->options['isStacked']);
+        $this->assertTrue($this->ac->getOption('isStacked'));
     }
 
     /**
@@ -105,7 +105,7 @@ class AreaChartTest extends DataProviders
     {
         $this->ac->interpolateNulls(true);
 
-        $this->assertTrue($this->ac->options['interpolateNulls']);
+        $this->assertTrue($this->ac->getOption('interpolateNulls'));
     }
 
     /**
@@ -121,7 +121,7 @@ class AreaChartTest extends DataProviders
     {
         $this->ac->lineWidth(22);
 
-        $this->assertEquals(22, $this->ac->options['lineWidth']);
+        $this->assertEquals(22, $this->ac->getOption('lineWidth'));
     }
 
     /**
@@ -137,7 +137,7 @@ class AreaChartTest extends DataProviders
     {
         $this->ac->pointSize(3);
 
-        $this->assertEquals(3, $this->ac->options['pointSize']);
+        $this->assertEquals(3, $this->ac->getOption('pointSize'));
     }
 
     /**
@@ -158,6 +158,6 @@ class AreaChartTest extends DataProviders
 
         $this->ac->vAxis($mockVerticalAxis);
 
-        $this->assertTrue(is_array($this->ac->options['vAxis']));
+        $this->assertTrue(is_array($this->ac->getOption('vAxis')));
     }
 }
