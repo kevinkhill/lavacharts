@@ -6,26 +6,24 @@
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
+         strict="true"
          syntaxCheck="true"
-         colors="true"
 >
-
   <testsuites>
     <testsuite name="Package Test Suite">
       <directory suffix=".php">./tests/</directory>
-      <exclude>./tests/Charts/ChartTestCase.php</exclude>
     </testsuite>
   </testsuites>
 
-   <filter>
-     <whitelist processUncoveredFilesFromWhitelist="true">
-       <directory suffix=".php">./src/Khill/Lavacharts</directory>
-       <exclude>
-         <directory suffix=".php">./src/Khill/Lavacharts/Facades</directory>
-         <file>./src/Khill/Lavacharts/LavachartsServiceProvider.php</file>
-       </exclude>
-     </whitelist>
-   </filter>
+  <filter>
+    <whitelist processUncoveredFilesFromWhitelist="true">
+      <directory suffix=".php">./src/Khill/Lavacharts</directory>
+      <exclude>
+        <directory suffix=".php">./src/Khill/Lavacharts/Facades</directory>
+        <file>./src/Khill/Lavacharts/LavachartsServiceProvider.php</file>
+      </exclude>
+    </whitelist>
+  </filter>
 
   <logging>
     <log type="coverage-clover"
@@ -41,5 +39,4 @@
   <listeners>
     <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
   </listeners>
-
 </phpunit>
