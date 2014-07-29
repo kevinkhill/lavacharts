@@ -21,8 +21,9 @@ before_script:
 email: kevinkhill@gmail.com
 
 script:
+  - wget https://phar.phpunit.de/phpunit.phar
   - mkdir -p build/logs
-  - php vendor/bin/phpunit -c phpunit.dist.xml
+  - php phpunit.phar -c phpunit.dist.xml
 
 after_script:
   - php vendor/bin/coveralls
