@@ -563,7 +563,7 @@ class DataTable
      *
      * @return string JSON representation of the DataTable.
      */
-    public function toJSON()
+    public function toJson()
     {
         return json_encode(array(
             'cols' => $this->cols,

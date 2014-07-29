@@ -46,7 +46,9 @@ class LineChart extends Chart
     }
 
     /**
-     * Where to place the axis titles, compared to the chart area. Supported values:
+     * Where to place the axis titles, compared to the chart area.
+     *
+     * Supported values:
      * in - Draw the axis titles inside the the chart area.
      * out - Draw the axis titles outside the chart area.
      * none - Omit the axis titles.

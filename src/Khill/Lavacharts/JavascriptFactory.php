@@ -61,16 +61,17 @@ class JavascriptFactory
      *
      * @access public
      *
-     * @param  Khill\Lavacharts\Charts\Chart                 $chart     Chart object to render.
+     * @uses   Chart
+     * @param  Chart                 $chart     Chart object to render.
      * @param  string                                        $elementId HTML element id to output the chart into.
-     * @throws Khill\Lavacharts\Exceptions\DataTableNotFound
-     * @throws Khill\Lavacharts\Exceptions\InvalidElementId
+     * @throws DataTableNotFound
+     * @throws InvalidElementId
      *
      * @return string Javascript code block.
      */
     public function __construct(Chart $chart, $elementId)
     {
-        if (isset($chart->dataTable)) {
+        if (isset($chart->datatable)) {
             $this->chart = $chart;
         } else {
             throw new DataTableNotFound($chart);
@@ -128,7 +129,7 @@ class JavascriptFactory
 
         $out .= sprintf(
             'var data = new google.visualization.DataTable(%s, %s);',
-            $this->chart->dataTable->toJSON(),
+            $this->chart->datatable->toJson(),
             $this->googleDataTableVer
         ).PHP_EOL;
 

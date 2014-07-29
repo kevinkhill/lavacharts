@@ -17,7 +17,6 @@
 
 use Khill\Lavacharts\Helpers\Helpers as h;
 use Khill\Lavacharts\JavascriptFactory;
-use Khill\Lavacharts\Configs\DataTable;
 use Khill\Lavacharts\Configs\Legend;
 use Khill\Lavacharts\Configs\Tooltip;
 use Khill\Lavacharts\Configs\TextStyle;

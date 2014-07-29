@@ -13,7 +13,6 @@
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Configs\DataTable;
 use Khill\Lavacharts\Exceptions\InvalidChartLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -36,30 +35,27 @@ class Lavacharts
      * @var array Types of charts that can be created.
      */
     private $chartClasses = array(
-        'DataTable',
-        'LineChart',
         'AreaChart',
-        'PieChart',
-        'DonutChart',
         'ColumnChart',
+        'ComboChart', // @TODO WIP
+        'DonutChart',
         'GeoChart',
-        'ComboChart' // @TODO WIP
+        'LineChart',
+        'PieChart'
     );
 
     /**
      * @var array Holds all of the defined configuration class names.
      */
     private $configClasses = array(
-        'ConfigOptions',
+        'ConfigObject',
         'Annotation',
         'Axis',
-//        'DataCell',
         'BoxStyle',
         'BackgroundColor',
         'ChartArea',
         'ColorAxis',
         'HorizontalAxis',
-        'JsDate',
         'Gradient',
         'Legend',
         'MagnifyingGlass',
@@ -111,7 +107,7 @@ class Lavacharts
         }
 
         if ($member == 'DataTable') {
-            return new DataTable();
+            return new Configs\DataTable;
         }
 
         if (in_array($member, $this->chartClasses)) {
@@ -145,10 +141,11 @@ class Lavacharts
      * Given a chart label and an HTML element id, this will output
      * all of the necessary javascript to generate the chart.
      *
+     * @access public
      * @param string $label     Label of a saved chart.
      * @param string $elementId HTML element id to render the chart into.
      *
-     * @return Khill\Lavachart\DataTable
+     * @return string
      */
     public function render($chartType, $chartLabel, $elementId, $divDimensions = false)
     {
@@ -171,9 +168,10 @@ class Lavacharts
      *
      * @access public
      * @param  array $config Array of configurations options
+     * @throws InvalidConfigProperty
      * @return void
      */
-    public function setGlobals($config)
+    public function setOptions($config)
     {
         if (is_array($config)) {
             foreach ($config as $option => $value) {
@@ -258,18 +256,21 @@ class Lavacharts
      * Otherwise, a new chart is created and stored in the Volcano.
      *
      * @access private
-     * @param  string                $type  Type of chart to fetch or create.
-     * @param  string                $label Label of the chart.
-     * @return Khill\Lavachart\Chart
+     * @uses   Chart
+     * @param  string  $type  Type of chart to fetch or create.
+     * @param  string  $label Label of the chart.
+     *
+     * @return Chart
      */
     private function chartFactory($type, $label)
     {
-        $chartObject = __NAMESPACE__ . '\\Charts\\' . $type;
+        $chartObject = sprintf('\\%s\\Charts\\%s', __NAMESPACE__, $type);
 
-        if (class_exists($chartObject)) {
+        if (in_array($type, $this->chartClasses)) {
             if ($this->volcano->checkChart($type, $label)) {
                 $chart = $this->volcano->getChart($type, $label);
             } else {
+//var_dump($chartObject);die();
                 $chart = new $chartObject($label);
 
                 $this->volcano->storeChart($chart);
@@ -285,16 +286,17 @@ class Lavacharts
      * Creates ConfigObjects
      *
      * @access private
-     * @param  string                               $type    Type of configObject to create.
-     * @param  array                                $options Array of options to pass to the config object.
-     * @return Khill\Lavachart\Configs\ConfigObject
+     * @param  string       $type    Type of configObject to create.
+     * @param  array        $options Array of options to pass to the config object.
+     *
+     * @return ConfigObject
      */
     private function configFactory($type, $options = array())
     {
-        $configObject = __NAMESPACE__ . '\\Configs\\' . $type;
+        $configObject = sprintf('\\%s\\Configs\\%s', __NAMESPACE__, $type);
 
-        if (class_exists($configObject)) {
-            return isset($options[0]) ? new $configObject($options[0]) : new $configObject();
+        if (in_array($type, $this->configClasses)) {
+            return isset($options[0]) ? new $configObject($options[0]) : new $configObject;
         } else {
             throw new InvalidLavaObject($type);
         }
@@ -303,6 +305,7 @@ class Lavacharts
     /**
      * Simple string starts with function
      *
+     * @access private
      * @param string $haystack String to search through.
      * @param array  $needle   String to search with.
      */

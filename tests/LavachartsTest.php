@@ -1,6 +1,7 @@
 <?php namespace Khill\Lavacharts\Tests;
 
 use Khill\Lavacharts\Lavacharts;
+use Mockery as m;
 
 class LavachartsTest extends \PHPUnit_Framework_TestCase
 {
@@ -9,6 +10,12 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->lc = new Lavacharts;
+
+        $this->mdt = m::mock('Khill\Lavacharts\Charts\DataTable')
+                      ->shouldReceive('toJson')
+                      ->atMost(1)
+                      ->getMock();
+
     }
 
     public function testIfInstanceOfVolcano()
@@ -51,10 +58,10 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      * @dataProvider chartTypeProvider
      * @depends testCreateDataTableViaAlias
      */
-    public function testRenederChartAliases($chartType)
+    public function testRenderChartAliases($chartType)
     {
         $chart = $this->lc->$chartType('test');
-        $chart->datatable($this->lc->DataTable());
+        $chart->datatable($this->mdt);
 
         $render = 'render'.$chartType;
 
@@ -64,10 +71,10 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testCreateDataTableViaAlias
      */
-    public function testDirectRenederChart()
+    public function testDirectRenderChart()
     {
         $chart = $this->lc->LineChart('test');
-        $chart->datatable($this->lc->DataTable());
+        $chart->datatable($this->mdt);
 
         $this->assertTrue(is_string($this->lc->render('LineChart', 'test', 'test-div')));
     }
@@ -75,10 +82,10 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testCreateDataTableViaAlias
      */
-    public function testDirectRenederChartWithDivNoDimensions()
+    public function testDirectRenderChartWithDivNoDimensions()
     {
         $chart = $this->lc->LineChart('test');
-        $chart->datatable($this->lc->DataTable());
+        $chart->datatable($this->mdt);
 
         $this->assertTrue(is_string($this->lc->render('LineChart', 'test', 'test-div', true)));
     }
@@ -86,10 +93,10 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testCreateDataTableViaAlias
      */
-    public function testDirectRenederChartWithDivAndDimensions()
+    public function testDirectRenderChartWithDivAndDimensions()
     {
         $chart = $this->lc->LineChart('test');
-        $chart->datatable($this->lc->DataTable());
+        $chart->datatable($this->mdt);
 
         $dims = array(
             'height' => 200,
@@ -103,10 +110,10 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      * @depends testCreateDataTableViaAlias
      * @expectedException Khill\Lavacharts\Exceptions\InvalidDivDimensions
      */
-    public function testDirectRenederChartWithDivAndBadDimensionKeys()
+    public function testDirectRenderChartWithDivAndBadDimensionKeys()
     {
         $chart = $this->lc->LineChart('test');
-        $chart->datatable($this->lc->DataTable());
+        $chart->datatable($this->mdt);
 
         $dims = array(
             'heiXght' => 200,
@@ -120,10 +127,10 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      * @depends testCreateDataTableViaAlias
      * @expectedException Khill\Lavacharts\Exceptions\InvalidDivDimensions
      */
-    public function testDirectRenederChartWithDivAndBadDimensionType()
+    public function testDirectRenderChartWithDivAndBadDimensionType()
     {
         $chart = $this->lc->LineChart('test');
-        $chart->datatable($this->lc->DataTable());
+        $chart->datatable($this->mdt);
 
         $this->assertTrue(is_string($this->lc->render('LineChart', 'test', 'test-div', 'TacosTacosTacos')));
     }
@@ -132,10 +139,10 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      * @depends testCreateDataTableViaAlias
      * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function testDirectRenederChartWithDivAndDimensionsWithBadValues()
+    public function testDirectRenderChartWithDivAndDimensionsWithBadValues()
     {
         $chart = $this->lc->LineChart('test');
-        $chart->datatable($this->lc->DataTable());
+        $chart->datatable($this->mdt);
 
         $dims = array(
             'height' => 4.6,
@@ -176,13 +183,13 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     public function chartTypeProvider()
     {
         return array(
-            array('LineChart'),
             array('AreaChart'),
-            array('PieChart'),
-            array('DonutChart'),
             array('ColumnChart'),
+            array('ComboChart'),
+            array('DonutChart'),
             array('GeoChart'),
-            array('ComboChart')
+            array('LineChart'),
+            array('PieChart')
         );
     }
 
