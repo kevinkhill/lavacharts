@@ -61,7 +61,7 @@ class Helpers
      * @param array Array of values.
      *
      * @return bool Returns true is first element in the array is an array,
-     *                 otherwise false.
+     *              otherwise false.
      */
     public static function arrayIsMulti($array)
     {

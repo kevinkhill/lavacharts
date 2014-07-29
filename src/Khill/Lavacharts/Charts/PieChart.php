@@ -84,7 +84,7 @@ class PieChart extends Chart
      *          );
      *
      *
-     * @param  array $slices Array of slice objects
+     * @param  array              $slices Array of slice objects
      * @throws InvalidConfigValue
      * @return PieChart
      */
@@ -124,7 +124,7 @@ class PieChart extends Chart
      * The color of the slice borders. Only applicable when the chart is
      * two-dimensional; is3D == false || null
      *
-     * @param  string $pieSliceBorderColor Valid HTML color
+     * @param  string             $pieSliceBorderColor Valid HTML color
      * @throws InvalidConfigValue
      * @return PieChart
      */
@@ -180,7 +180,7 @@ class PieChart extends Chart
      * An object that specifies the slice text style. create a new textStyle()
      * object, set the values then pass it to this function or to the constructor.
      *
-     * @param  TextStyle             $textStyle
+     * @param  TextStyle          $textStyle
      * @throws InvalidConfigValue
      * @return PieChart
      */
@@ -195,7 +195,7 @@ class PieChart extends Chart
      * The angle, in degrees, to rotate the chart by. The default of 0 will
      * orient the leftmost edge of the first slice directly up.
      *
-     * @param  int $pieStartAngle Starting angle
+     * @param  int                $pieStartAngle Starting angle
      * @throws InvalidConfigValue
      * @return PieChart
      */
@@ -217,7 +217,7 @@ class PieChart extends Chart
      * If set to true, will draw slices counterclockwise. The default is to
      * draw clockwise.
      *
-     * @param  bool                $reverseCategories
+     * @param  bool               $reverseCategories
      * @throws InvalidConfigValue
      * @return PieChart
      */
@@ -241,7 +241,7 @@ class PieChart extends Chart
      * single slice, whose size is the sum of all their sizes. Default is not
      * to show individually any slice which is smaller than half a degree.
      *
-     * @param  int|float                                        $sliceVisibilityThreshold
+     * @param  int|float          $sliceVisibilityThreshold
      * @throws InvalidConfigValue
      * @return PieChart
      */
@@ -263,7 +263,7 @@ class PieChart extends Chart
      * Color for the combination slice that holds all slices below
      * sliceVisibilityThreshold.
      *
-     * @param  string                                            $pieResidueSliceColor
+     * @param  string             $pieResidueSliceColor
      * @throws InvalidConfigValue
      * @return PieChart
      */
@@ -286,7 +286,7 @@ class PieChart extends Chart
      * A label for the combination slice that holds all slices below
      * sliceVisibilityThreshold.
      *
-     * @param  string                                         $pieResidueSliceLabel
+     * @param  string             $pieResidueSliceLabel
      * @throws InvalidConfigValue
      * @return PieChart
      */

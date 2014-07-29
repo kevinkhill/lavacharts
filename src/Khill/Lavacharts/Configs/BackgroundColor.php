@@ -48,7 +48,7 @@ class BackgroundColor extends ConfigObject
      * Pass an associative array with values for the keys
      * [ stroke | strokeWidth | fill ]
      *
-     * @param  array $config Configuration options
+     * @param  array                 $config Configuration options
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
      * @return BackgroundColor
@@ -61,7 +61,7 @@ class BackgroundColor extends ConfigObject
     /**
      * Sets the chart border color. Example: 'red' or '#A2A2A2'
      *
-     * @param  string $stroke Valid HTML color string.
+     * @param  string          $stroke Valid HTML color string.
      * @return BackgroundColor
      */
     public function stroke($stroke)
@@ -81,7 +81,7 @@ class BackgroundColor extends ConfigObject
     /**
      * Sets the chart border width.
      *
-     * @param  int $strokeWidth Border width, in pixels.
+     * @param  int             $strokeWidth Border width, in pixels.
      * @return BackgroundColor
      */
     public function strokeWidth($strokeWidth)
@@ -101,7 +101,7 @@ class BackgroundColor extends ConfigObject
     /**
      * Sets the chart color fill, Example: 'blue' or '#C5C5C5'
      *
-     * @param  string $fill Valid HTML color string.
+     * @param  string          $fill Valid HTML color string.
      * @return BackgroundColor
      */
     public function fill($fill)

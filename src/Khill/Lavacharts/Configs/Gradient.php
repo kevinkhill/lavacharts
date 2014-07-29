@@ -64,7 +64,7 @@ class Gradient extends ConfigObject
     /**
      * Builds the gradient object with specified options
      *
-     * @param  array $config
+     * @param  array                 $config
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
      * @return Gradient
@@ -77,7 +77,7 @@ class Gradient extends ConfigObject
     /**
      * If present, specifies the start color for the gradient.
      *
-     * @param  string $color1
+     * @param  string   $color1
      * @return Gradient
      */
     public function color1($color1)
@@ -97,7 +97,7 @@ class Gradient extends ConfigObject
     /**
      * If present, specifies the finish color for the gradient.
      *
-     * @param  string $color2
+     * @param  string   $color2
      * @return Gradient
      */
     public function color2($color2)
@@ -117,7 +117,7 @@ class Gradient extends ConfigObject
     /**
      * Sets where on the boundary to start in X.
      *
-     * @param  string $x1
+     * @param  string   $x1
      * @return Gradient
      */
     public function x1($x1)
@@ -137,7 +137,7 @@ class Gradient extends ConfigObject
     /**
      * Sets where on the boundary to start in Y.
      *
-     * @param  string $y1
+     * @param  string   $y1
      * @return Gradient
      */
     public function y1($y1)
@@ -157,7 +157,7 @@ class Gradient extends ConfigObject
     /**
      * Sets where on the boundary to end in X, relative to x1.
      *
-     * @param  string $x2
+     * @param  string   $x2
      * @return Gradient
      */
     public function x2($x2)
@@ -177,7 +177,7 @@ class Gradient extends ConfigObject
     /**
      * Sets where on the boundary to end in Y, relative to y1.
      *
-     * @param  string $y2
+     * @param  string   $y2
      * @return Gradient
      */
     public function y2($y2)

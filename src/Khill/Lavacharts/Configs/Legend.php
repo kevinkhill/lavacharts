@@ -46,7 +46,7 @@ class Legend extends ConfigObject
     /**
      * Builds the legend object when passed an array of configuration options.
      *
-     * @param  array $config Options for the legend
+     * @param  array                 $config Options for the legend
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
      * @return Legend

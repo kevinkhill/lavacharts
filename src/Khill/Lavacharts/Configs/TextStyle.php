@@ -45,7 +45,7 @@ class TextStyle extends ConfigObject
     /**
      * Builds the textStyle object when passed an array of configuration options.
      *
-     * @param  array $config Options for the TextStyle
+     * @param  array                 $config Options for the TextStyle
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
      * @return TextStyle
@@ -60,7 +60,7 @@ class TextStyle extends ConfigObject
      *
      * valid HTML color string, for example: 'red' OR '#004411'
      *
-     * @param  string $color Valid HTML color
+     * @param  string             $color Valid HTML color
      * @throws InvalidConfigValue
      * @return TextStyle
      */
@@ -84,7 +84,7 @@ class TextStyle extends ConfigObject
      *
      * Must be a valid font name.
      *
-     * @param  string $fontName Valid font name
+     * @param  string             $fontName Valid font name
      * @throws InvalidConfigValue
      * @return TextStyle
      */
@@ -105,7 +105,7 @@ class TextStyle extends ConfigObject
     /**
      * Sets the font size to the textStyle.
      *
-     * @param  int $fontSize Font size in pixels
+     * @param  int                $fontSize Font size in pixels
      * @throws InvalidConfigValue
      * @return TextStyle
      */

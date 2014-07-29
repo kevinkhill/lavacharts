@@ -172,7 +172,7 @@ class Lavacharts
      * @access public
      * @since  v2.0.0
      *
-     * @param  array $config Array of configurations options
+     * @param  array                 $config Array of configurations options
      * @throws InvalidConfigProperty
      * @return void
      */
@@ -217,11 +217,11 @@ class Lavacharts
      * @access private
      * @since  v1.0.0
      *
-     * @param  string                                           $elementId  Element id to apply to the div.
-     * @param  array                                            $dimensions Height & width of the div.
+     * @param  string               $elementId  Element id to apply to the div.
+     * @param  array                $dimensions Height & width of the div.
      * @throws InvalidDivDimensions
      * @throws InvalidConfigValue
-     * @return string                                           HTML div element.
+     * @return string               HTML div element.
      */
     private function div($elementId, $dimensions = true)
     {
@@ -265,9 +265,9 @@ class Lavacharts
      * @access private
      * @since  v2.0.0
      *
-     * @uses   Chart
-     * @param  string  $type  Type of chart to fetch or create.
-     * @param  string  $label Label of the chart.
+     * @uses  Chart
+     * @param string $type  Type of chart to fetch or create.
+     * @param string $label Label of the chart.
      *
      * @return Chart
      */
@@ -296,8 +296,8 @@ class Lavacharts
      * @access private
      * @since  v2.0.0
      *
-     * @param  string       $type    Type of configObject to create.
-     * @param  array        $options Array of options to pass to the config object.
+     * @param string $type    Type of configObject to create.
+     * @param array  $options Array of options to pass to the config object.
      *
      * @return ConfigObject
      */

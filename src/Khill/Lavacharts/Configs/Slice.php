@@ -46,7 +46,7 @@ class Slice extends ConfigObject
     /**
      * Builds the slice object with specified options.
      *
-     * @param  array $config Configuration options for the Slice
+     * @param  array                 $config Configuration options for the Slice
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
      * @return Slice
@@ -59,7 +59,7 @@ class Slice extends ConfigObject
     /**
      * The color to use for this slice. Specify a valid HTML color string.
      *
-     * @param  string $color
+     * @param  string             $color
      * @throws InvalidConfigValue
      * @return Slice
      */
@@ -82,7 +82,7 @@ class Slice extends ConfigObject
      * How far to separate the slice from the rest of the pie.
      * from 0.0 (not at all) to 1.0 (the pie's radius).
      *
-     * @param  float $offset
+     * @param  float              $offset
      * @throws InvalidConfigValue
      * @return Slice
      */

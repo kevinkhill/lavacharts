@@ -53,7 +53,7 @@ class ChartArea extends ConfigObject
     /**
      * Builds the chartArea object when passed an array of configuration options.
      *
-     * @param  array $config
+     * @param  array     $config
      * @return ChartArea
      */
     public function __construct($config = array())
@@ -64,7 +64,7 @@ class ChartArea extends ConfigObject
     /**
      * Sets the left padding of the chart in the container.
      *
-     * @param  int $left Amount in pixels
+     * @param  int                $left Amount in pixels
      * @throws InvalidConfigValue
      * @return ChartArea
      */
@@ -86,7 +86,7 @@ class ChartArea extends ConfigObject
     /**
      * Sets the top padding of the chart in the container.
      *
-     * @param  int $top Amount in pixels
+     * @param  int                $top Amount in pixels
      * @throws InvalidConfigValue
      * @return ChartArea
      */
@@ -108,7 +108,7 @@ class ChartArea extends ConfigObject
     /**
      * Sets the width of the chart in the container.
      *
-     * @param  int $width Amount in pixels
+     * @param  int                $width Amount in pixels
      * @throws InvalidConfigValue
      * @return ChartArea
      */
@@ -130,7 +130,7 @@ class ChartArea extends ConfigObject
     /**
      * Sets the height of the chart in the container.
      *
-     * @param  int $height Amount in pixels
+     * @param  int                $height Amount in pixels
      * @throws InvalidConfigValue
      * @return ChartArea
      */

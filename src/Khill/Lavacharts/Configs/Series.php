@@ -53,7 +53,7 @@ class Series extends ConfigObject
     /**
      * Builds the series object when passed an array of configuration options.
      *
-     * @param  array $config Options for the series
+     * @param  array  $config Options for the series
      * @return Series
      */
     public function __construct($config = array())
@@ -91,7 +91,7 @@ class Series extends ConfigObject
      * 'none'     - Straight lines without curve.
      * 'function' - The angles of the line will be smoothed.
      *
-     * @param  string $curveType
+     * @param  string             $curveType
      * @throws InvalidConfigValue
      * @return Series
      */
@@ -126,7 +126,7 @@ class Series extends ConfigObject
      * At least one series much be allocated to the default axis.
      * You can define a different scale for different axes.
      *
-     * @param  int $index
+     * @param  int                $index
      * @throws InvalidConfigValue
      * @return Series
      */
@@ -149,7 +149,7 @@ class Series extends ConfigObject
      * Available values are:
      * 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'
      *
-     * @param  string $type
+     * @param  string             $type
      * @throws InvalidConfigValue
      * @return Series
      */
@@ -179,7 +179,7 @@ class Series extends ConfigObject
     /**
      * An object that specifies the series text style.
      *
-     * @param  TextStyle $textStyle
+     * @param  TextStyle          $textStyle
      * @throws InvalidConfigValue
      * @return Series
      */

@@ -118,7 +118,7 @@ class DataTable
     /**
      * Adds multiple columns to the DataTable
      *
-     * @param  array $arrOfCols Array of columns to batch add to the DataTable.
+     * @param  array              $arrOfCols Array of columns to batch add to the DataTable.
      * @throws InvalidConfigValue
      * @return DataTable
      */
@@ -141,7 +141,7 @@ class DataTable
     /**
      * Suplemental function to add columns from an array.
      *
-     * @param  array $colDefArray
+     * @param  array                   $colDefArray
      * @throws InvalidColumnDefinition
      * @return DataTable
      */

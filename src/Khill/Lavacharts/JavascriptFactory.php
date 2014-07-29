@@ -63,8 +63,8 @@ class JavascriptFactory
      * @access public
      *
      * @uses   Chart
-     * @param  Chart                 $chart     Chart object to render.
-     * @param  string                                        $elementId HTML element id to output the chart into.
+     * @param  Chart             $chart     Chart object to render.
+     * @param  string            $elementId HTML element id to output the chart into.
      * @throws DataTableNotFound
      * @throws InvalidElementId
      *

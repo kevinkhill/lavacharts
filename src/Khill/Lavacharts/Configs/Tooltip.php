@@ -46,7 +46,7 @@ class Tooltip extends ConfigObject
     /**
      * Builds the tooltip object with specified options.
      *
-     * @param  array $config Configuration options for the tooltip
+     * @param  array                 $config Configuration options for the tooltip
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
      * @return Tooltip
@@ -59,7 +59,7 @@ class Tooltip extends ConfigObject
     /**
      * Sets whether to show the color code.
      *
-     * @param  bool $showColorCode State of showing the color code.
+     * @param  bool               $showColorCode State of showing the color code.
      * @throws InvalidConfigValue
      * @return Tooltip
      */
@@ -96,7 +96,7 @@ class Tooltip extends ConfigObject
      * 'focus' - The tooltip will be displayed when the user hovers over an element.
      * 'none'  - The tooltip will not be displayed.
      *
-     * @param  string $trigger Type of trigger.
+     * @param  string             $trigger Type of trigger.
      * @throws InvalidConfigValue
      * @return Tooltip
      */

@@ -35,8 +35,8 @@ class ConfigObject
      * Passing an array of key value pairs will set the configuration for each
      * child object created from this master object.
      *
-     * @param  mixed $child Child ConfigOption object.
-     * @param  array $config Array of options.
+     * @param  mixed                 $child  Child ConfigOption object.
+     * @param  array                 $config Array of options.
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
      * @return mixed
@@ -46,7 +46,7 @@ class ConfigObject
         $class = new \ReflectionClass($child);
 
         $this->className = $class->getShortname();
-        $this->options = array_map(function($prop) {
+        $this->options = array_map(function ($prop) {
             return $prop->name;
         }, $class->getProperties(\ReflectionProperty::IS_PUBLIC));
 

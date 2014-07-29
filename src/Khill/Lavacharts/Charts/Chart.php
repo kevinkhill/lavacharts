@@ -93,7 +93,7 @@ class Chart
      * You can set the options all at once instead of passing them individually
      * or chaining the functions from the chart objects.
      *
-     * @param array $o
+     * @param  array                 $o
      * @throws InvalidConfigProperty
      * @throws InvalidConfigValue
      * @return Chart
@@ -134,7 +134,7 @@ class Chart
     /**
      * Gets a specific option from the array.
      *
-     * @param  string $o Which option to fetch
+     * @param  string             $o Which option to fetch
      * @throws InvalidConfigValue
      * @return mixed
      */
@@ -178,7 +178,7 @@ class Chart
      * rendered into.
      *
      * @since  v2.0.0
-     * @param  string            $elementId The id of an HTML element to render the chart into.
+     * @param  string           $elementId The id of an HTML element to render the chart into.
      * @throws InvalidElementId
      *
      * @return string Javscript code blocks
@@ -234,7 +234,7 @@ class Chart
      * The colors to use for the chart elements. An array of strings, where each
      * element is an HTML color string, for example: colors:['red','#004411'].
      *
-     * @param  array $cArr
+     * @param  array              $cArr
      * @throws InvalidConfigValue
      *
      * @return Chart
@@ -259,7 +259,7 @@ class Chart
      * [ animationfinish | error | onmouseover | onmouseout | ready | select ]
      * associated to a respective pre-defined javascript function as the callback.
      *
-     * @param array $e Array of events associated to a callback
+     * @param  array              $e Array of events associated to a callback
      * @throws InvalidConfigValue
      *
      * @return Chart
@@ -297,7 +297,7 @@ class Chart
      * The default font size, in pixels, of all text in the chart. You can
      * override this using properties for specific chart elements.
      *
-     * @param int $fs
+     * @param  int                $fs
      * @throws InvalidConfigValue
      *
      * @return Chart
@@ -318,7 +318,7 @@ class Chart
      * The default font face for all text in the chart. You can override this
      * using properties for specific chart elements.
      *
-     * @param string $fn
+     * @param  string             $fn
      * @throws InvalidConfigValue
      *
      * @return Chart
@@ -338,7 +338,7 @@ class Chart
     /**
      * Height of the chart, in pixels.
      *
-     * @param int $h
+     * @param  int                $h
      * @throws InvalidConfigValue
      *
      * @return Chart
@@ -361,7 +361,7 @@ class Chart
      * values then pass it to this function or to the constructor.
      *
      * @uses   Legend
-     * @param  Legend $l
+     * @param  Legend             $l
      * @throws InvalidConfigValue
      *
      * @return Chart
@@ -374,7 +374,7 @@ class Chart
     /**
      * Text to display above the chart.
      *
-     * @param string $t
+     * @param  string             $t
      * @throws InvalidConfigValue
      *
      * @return Chart
@@ -397,7 +397,7 @@ class Chart
      * 'out' - Draw the title outside the chart area.
      * 'none' - Omit the title.
      *
-     * @param string $tp
+     * @param  string             $tp
      * @throws InvalidConfigValue
      *
      * @return Chart
@@ -426,7 +426,7 @@ class Chart
      * object, set the values then pass it to this function or to the constructor.
      *
      * @uses   TextStyle
-     * @param  TextStyle $ts
+     * @param  TextStyle          $ts
      * @throws InvalidConfigValue
      *
      * @return Chart
@@ -442,7 +442,7 @@ class Chart
      * then pass it to this function or to the constructor.
      *
      * @uses   Tooltip
-     * @param  Tooltip $t
+     * @param  Tooltip            $t
      * @throws InvalidConfigValue
      *
      * @return Chart
@@ -455,7 +455,7 @@ class Chart
     /**
      * Width of the chart, in pixels.
      *
-     * @param int $w
+     * @param  int                $w
      * @throws InvalidConfigValue
      *
      * @return Chart

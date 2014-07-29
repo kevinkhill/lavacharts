@@ -74,7 +74,7 @@ class BoxStyle extends ConfigObject
      * If present, specifies the color for the box outline.
      * If undefined, a random color will be used.
      *
-     * @param  string $stroke Valid HTML color.
+     * @param  string   $stroke Valid HTML color.
      * @return BoxStyle
      */
     public function stroke($stroke)

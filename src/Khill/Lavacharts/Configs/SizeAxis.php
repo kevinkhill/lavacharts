@@ -56,7 +56,7 @@ class SizeAxis extends ConfigObject
      * values for option => value, or by chaining together the functions once
      * an object has been created.
      *
-     * @param  array $config An array containing configuration options.
+     * @param  array                 $config An array containing configuration options.
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
      * @return SizeAxis
@@ -69,7 +69,7 @@ class SizeAxis extends ConfigObject
     /**
      * Sets maximum radius of the largest possible bubble, in pixels
      *
-     * @param  int $maxSize
+     * @param  int      $maxSize
      * @return SizeAxis
      */
     public function maxSize($maxSize)
@@ -90,7 +90,7 @@ class SizeAxis extends ConfigObject
      * Set the size value (as appears in the chart data) to be mapped to
      * $this->maxSize. Larger values will be cropped to this value.
      *
-     * @param  int $maxValue
+     * @param  int      $maxValue
      * @return SizeAxis
      */
     public function maxValue($maxValue)
@@ -110,7 +110,7 @@ class SizeAxis extends ConfigObject
     /**
      * Sets mininum radius of the smallest possible bubble, in pixels
      *
-     * @param  int $minSize
+     * @param  int      $minSize
      * @return SizeAxis
      */
     public function minSize($minSize)
@@ -131,7 +131,7 @@ class SizeAxis extends ConfigObject
      * Set the size value (as appears in the chart data) to be mapped to
      * $this->minSize. Larger values will be cropped to this value.
      *
-     * @param  int $minValue
+     * @param  int      $minValue
      * @return SizeAxis
      */
     public function minValue($minValue)

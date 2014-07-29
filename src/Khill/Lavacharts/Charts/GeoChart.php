@@ -68,7 +68,7 @@ class GeoChart extends Chart
     /**
      * Color to assign to regions with no associated data.
      *
-     * @param  string $drc
+     * @param  string             $drc
      * @throws InvalidConfigValue
      * @return GeoChart
      */
@@ -93,7 +93,7 @@ class GeoChart extends Chart
      * 'regions' - This is a region map
      * 'markers' - This is a marker map
      *
-     * @param  string $dm
+     * @param  string             $dm
      * @throws InvalidConfigValue
      * @return GeoChart
      */
@@ -125,7 +125,7 @@ class GeoChart extends Chart
      *
      * The default is true in region mode, and false in marker mode.
      *
-     * @param  bool $eri
+     * @param  bool               $eri
      * @throws InvalidConfigValue
      * @return GeoChart
      */
@@ -152,7 +152,7 @@ class GeoChart extends Chart
      * If false, the map will be stretched to the exact size of the chart as
      * specified by the width and height options.
      *
-     * @param  bool $kar
+     * @param  bool               $kar
      * @throws InvalidConfigValue
      * @return GeoChart
      */
@@ -179,7 +179,7 @@ class GeoChart extends Chart
      * A country, specified by its ISO 3166-1 alpha-2 code, e.g., 'AU' for Australia.
      * A state in the United States, specified by its ISO 3166-2:US code, e.g., 'US-AL' for Alabama. Note that the resolution option must be set to either 'provinces' or 'metros'.
      *
-     * @param  string $r
+     * @param  string             $r
      * @throws InvalidConfigValue
      * @return GeoChart
      */
@@ -216,7 +216,7 @@ class GeoChart extends Chart
      * The opacity of the markers, where 0.0 is fully transparent and 1.0
      * is fully opaque.
      *
-     * @param  int|float $mo
+     * @param  int|float          $mo
      * @throws InvalidConfigValue
      * @return GeoChart
      */
@@ -224,9 +224,9 @@ class GeoChart extends Chart
     {
         if ($mo === 0) {
             $this->addOption(array(__FUNCTION__ => 0));
-        } else if ($mo === 1) {
+        } elseif ($mo === 1) {
             $this->addOption(array(__FUNCTION__ => 1));
-        } else if (is_float($mo) && h::between(0.0, $mo, 1.0, true)) {
+        } elseif (is_float($mo) && h::between(0.0, $mo, 1.0, true)) {
             $this->addOption(array(__FUNCTION__ => $mo));
         } else {
             throw $this->invalidConfigValue(
@@ -248,7 +248,7 @@ class GeoChart extends Chart
      *               see whether this option is supported.
      * 'metros' - Supported for the US country region and US state regions only.
      *
-     * @param  string $r
+     * @param  string             $r
      * @throws InvalidConfigValue
      * @return GeoChart
      */

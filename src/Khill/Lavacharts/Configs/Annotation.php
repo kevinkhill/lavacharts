@@ -75,7 +75,7 @@ class Annotation extends ConfigObject
     /**
      * An object that specifies the annotation text style.
      *
-     * @param  TextStyle $textStyle Style of the annotation
+     * @param  TextStyle  $textStyle Style of the annotation
      * @return Annotation
      */
     public function textStyle(TextStyle $textStyle)

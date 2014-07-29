@@ -52,7 +52,7 @@ class ColorAxis extends ConfigObject
     /**
      * Builds the ColorAxis object with specified options
      *
-     * @param  array $config
+     * @param  array                 $config
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
      * @return ColorAxis
@@ -67,7 +67,7 @@ class ColorAxis extends ConfigObject
      * values of this value and lower will be rendered as the first color in
      * the $this->colors range.
      *
-     * @param  numeric $minValue
+     * @param  numeric            $minValue
      * @throws InvalidConfigValue
      * @return ColorAxis
      */
@@ -90,7 +90,7 @@ class ColorAxis extends ConfigObject
      * values of this value and higher will be rendered as the last color in
      * the $this->colors range.
      *
-     * @param  numeric $maxValue
+     * @param  numeric            $maxValue
      * @throws InvalidConfigValue
      * @return ColorAxis
      */
@@ -117,7 +117,7 @@ class ColorAxis extends ConfigObject
      * Not specifying a value for this option is equivalent to specifying
      * [minValue, maxValue].
      *
-     * @param  array $values
+     * @param  array              $values
      * @throws InvalidConfigValue
      * @return ColorAxis
      */
@@ -145,7 +145,7 @@ class ColorAxis extends ConfigObject
      * values, plus calculated intermediary values, with the first color as the
      * smallest value, and the last color as the highest.
      *
-     * @param  array $colors
+     * @param  array              $colors
      * @throws InvalidConfigValue
      * @return ColorAxis
      */

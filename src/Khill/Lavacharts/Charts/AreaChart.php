@@ -52,7 +52,7 @@ class AreaChart extends Chart
      * 0.0 is fully transparent and 1.0 is fully opaque. To specify opacity for
      * an individual series, set the areaOpacity value in the series property.
      *
-     * @param  float                                          $opacity
+     * @param  float              $opacity
      * @throws InvalidConfigValue
      * @return AreaChart
      */
@@ -78,7 +78,7 @@ class AreaChart extends Chart
      * out - Draw the axis titles outside the chart area.
      * none - Omit the axis titles.
      *
-     * @param  string                                         $position
+     * @param  string             $position
      * @throws InvalidConfigValue
      * @return AreaChart
      */
@@ -108,7 +108,7 @@ class AreaChart extends Chart
      * specify properties of this property, create a new hAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param  Khill\Lavacharts\Configs\HorizontalAxis        $hAxis
+     * @param  Khill\Lavacharts\Configs\HorizontalAxis $hAxis
      * @throws InvalidConfigValue
      * @return AreaChart
      */
@@ -145,7 +145,7 @@ class AreaChart extends Chart
      * value of any missing data based on neighboring points. If false, it will
      * leave a break in the line at the unknown point.
      *
-     * @param  bool                $interpolateNulls
+     * @param  bool               $interpolateNulls
      * @throws InvalidConfigValue
      * @return AreaChart
      */
@@ -168,7 +168,7 @@ class AreaChart extends Chart
      * points. You can override values for individual series using the series
      * property.
      *
-     * @param  int                 $width
+     * @param  int                $width
      * @throws InvalidConfigValue
      * @return AreaChart
      */
@@ -190,7 +190,7 @@ class AreaChart extends Chart
      * Diameter of displayed points in pixels. Use zero to hide all points. You
      * can override values for individual series using the series property.
      *
-     * @param  int                 $size
+     * @param  int                $size
      * @throws InvalidConfigValue
      * @return AreaChart
      */
@@ -213,7 +213,7 @@ class AreaChart extends Chart
      * specify properties of this property, create a new vAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param  VerticalAxis          $vAxis
+     * @param  VerticalAxis       $vAxis
      * @throws InvalidConfigValue
      * @return AreaChart
      */
