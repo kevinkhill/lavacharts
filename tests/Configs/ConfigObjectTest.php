@@ -39,11 +39,11 @@ class ConfigObjectTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_array($textStyleArr));
         $textStyleArrKeys = array_keys($textStyleArr);
         $this->assertEquals('textStyle', $textStyleArrKeys[0]);
-        $this->assertTrue(is_array($textStyleArr['TextStyle']));
+        $this->assertTrue(is_array($textStyleArr['textStyle']));
 
-        $this->assertEquals('blue',  $textStyleArr['TextStyle']['color']);
-        $this->assertEquals('Arial', $textStyleArr['TextStyle']['fontName']);
-        $this->assertEquals(16,      $textStyleArr['TextStyle']['fontSize']);
+        $this->assertEquals('blue',  $textStyleArr['textStyle']['color']);
+        $this->assertEquals('Arial', $textStyleArr['textStyle']['fontName']);
+        $this->assertEquals(16,      $textStyleArr['textStyle']['fontSize']);
     }
 
     /**

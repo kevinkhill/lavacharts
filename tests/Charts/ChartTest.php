@@ -20,7 +20,7 @@ class ChartTest extends DataProviders
 
     public function testDataTable()
     {
-        $mdt = m::mock('Khill\Lavacharts\Configs\DataTable')->makePartial();
+        $mdt = m::mock(new \Khill\Lavacharts\Configs\DataTable);
 
         $mdt->addColumn('date');
         $mdt->addColumn('number');
@@ -30,7 +30,7 @@ class ChartTest extends DataProviders
 
         $this->mlc->datatable($mdt);
 
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\DataTable', $this->mlc->datatable);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\DataTable', $this->mlc->datatable);
     }
 
     public function testBackgroundColorWithValidValues()

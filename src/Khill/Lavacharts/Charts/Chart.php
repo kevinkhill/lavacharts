@@ -17,6 +17,7 @@
 
 use Khill\Lavacharts\Helpers\Helpers as h;
 use Khill\Lavacharts\JavascriptFactory;
+use Khill\Lavacharts\Configs\DataTable;
 use Khill\Lavacharts\Configs\Legend;
 use Khill\Lavacharts\Configs\Tooltip;
 use Khill\Lavacharts\Configs\TextStyle;
@@ -176,14 +177,15 @@ class Chart
      * Pass in a string of the html elementID that you want the chart to be
      * rendered into.
      *
+     * @since  v2.0.0
      * @param  string            $elementId The id of an HTML element to render the chart into.
      * @throws InvalidElementId
      *
      * @return string Javscript code blocks
      */
-    public function outputInto($elementId)
+    public function render($ei)
     {
-        $jsf = new JavascriptFactory($this, $elementId);
+        $jsf = new JavascriptFactory($this, $ei);
 
         return $jsf->buildOutput();
     }

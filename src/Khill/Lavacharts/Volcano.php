@@ -7,6 +7,7 @@
  *
  * @category  Class
  * @package   Khill\Lavacharts
+ * @since     v2.0.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
  * @link      http://github.com/kevinkhill/LavaCharts GitHub Repository Page

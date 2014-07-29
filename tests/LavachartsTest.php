@@ -1,6 +1,6 @@
 <?php namespace Khill\Lavacharts\Tests;
 
-use Khill\Lavacharts\Lavacharts;
+use \Khill\Lavacharts\Lavacharts;
 use Mockery as m;
 
 class LavachartsTest extends \PHPUnit_Framework_TestCase
@@ -11,7 +11,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
 
         $this->lc = new Lavacharts;
 
-        $this->mdt = m::mock('Khill\Lavacharts\Charts\DataTable')
+        $this->mdt = m::mock('\Khill\Lavacharts\Configs\DataTable')
                       ->shouldReceive('toJson')
                       ->atMost(1)
                       ->getMock();
@@ -20,12 +20,12 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
 
     public function testIfInstanceOfVolcano()
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Volcano', $this->lc->volcano);
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\Volcano', $this->lc->volcano);
     }
 
     public function testCreateDataTableViaAlias()
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\DataTable', $this->lc->DataTable());
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\Configs\DataTable', $this->lc->DataTable());
     }
 
     /**
@@ -33,7 +33,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateChartsViaAlias($chartType)
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Charts\\'.$chartType, $this->lc->$chartType('testchart'));
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\Charts\\'.$chartType, $this->lc->$chartType('testchart'));
     }
 
     /**
@@ -41,7 +41,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateConfigObjectsViaAliasNoParams($configType)
     {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\\'.$configType, $this->lc->$configType());
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\Configs\\'.$configType, $this->lc->$configType());
     }
 
     public function testCreateConfigObjectViaAliasWithParam()
@@ -51,7 +51,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
             'fontColor' => 'green'
         );
 
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\TextStyle', $this->lc->TextStyle($params));
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\Configs\TextStyle', $this->lc->TextStyle($params));
     }
 
     /**

@@ -86,6 +86,7 @@ class Lavacharts
      * Magic function to reduce repetitive coding and create aliases.
      *
      * @access public
+     * @since  v1.0.0
      *
      * @param  string            $member    Name of method
      * @param  array             $arguments Passed arguments
@@ -142,6 +143,8 @@ class Lavacharts
      * all of the necessary javascript to generate the chart.
      *
      * @access public
+     * @since  v2.0.0
+     *
      * @param string $label     Label of a saved chart.
      * @param string $elementId HTML element id to render the chart into.
      *
@@ -167,6 +170,8 @@ class Lavacharts
      * errorPrepend: An html string
      *
      * @access public
+     * @since  v2.0.0
+     *
      * @param  array $config Array of configurations options
      * @throws InvalidConfigProperty
      * @return void
@@ -210,9 +215,11 @@ class Lavacharts
      * the div that will be receiving the chart.
      *
      * @access private
+     * @since  v1.0.0
+     *
      * @param  string                                           $elementId  Element id to apply to the div.
      * @param  array                                            $dimensions Height & width of the div.
-     * @throws Khill\Lavacharts\Exceptions\InvalidDivDimensions
+     * @throws InvalidDivDimensions
      * @throws InvalidConfigValue
      * @return string                                           HTML div element.
      */
@@ -256,6 +263,8 @@ class Lavacharts
      * Otherwise, a new chart is created and stored in the Volcano.
      *
      * @access private
+     * @since  v2.0.0
+     *
      * @uses   Chart
      * @param  string  $type  Type of chart to fetch or create.
      * @param  string  $label Label of the chart.
@@ -264,13 +273,12 @@ class Lavacharts
      */
     private function chartFactory($type, $label)
     {
-        $chartObject = sprintf('\\%s\\Charts\\%s', __NAMESPACE__, $type);
+        $chartObject = __NAMESPACE__ . "\\Charts\\{$type}";
 
         if (in_array($type, $this->chartClasses)) {
             if ($this->volcano->checkChart($type, $label)) {
                 $chart = $this->volcano->getChart($type, $label);
             } else {
-//var_dump($chartObject);die();
                 $chart = new $chartObject($label);
 
                 $this->volcano->storeChart($chart);
@@ -286,6 +294,8 @@ class Lavacharts
      * Creates ConfigObjects
      *
      * @access private
+     * @since  v2.0.0
+     *
      * @param  string       $type    Type of configObject to create.
      * @param  array        $options Array of options to pass to the config object.
      *
@@ -293,7 +303,7 @@ class Lavacharts
      */
     private function configFactory($type, $options = array())
     {
-        $configObject = sprintf('\\%s\\Configs\\%s', __NAMESPACE__, $type);
+        $configObject = __NAMESPACE__ . "\\Configs\\{$type}";
 
         if (in_array($type, $this->configClasses)) {
             return isset($options[0]) ? new $configObject($options[0]) : new $configObject;
@@ -306,6 +316,8 @@ class Lavacharts
      * Simple string starts with function
      *
      * @access private
+     * @since  v2.0.0
+     *
      * @param string $haystack String to search through.
      * @param array  $needle   String to search with.
      */
