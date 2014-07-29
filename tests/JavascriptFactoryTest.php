@@ -1,54 +1,51 @@
 <?php namespace Khill\Lavacharts\Tests;
 
+use Khill\Lavacharts\Tests\DataProviders;
 use Khill\Lavacharts\JavascriptFactory;
-use Khill\Lavacharts\Charts\LineChart;
-use Khill\Lavacharts\Configs\DataTable;
+use Mockery as m;
 
-class JavascriptFactoryTest extends \PHPUnit_Framework_TestCase
+class JavascriptFactoryTest extends DataProviders
 {
     public function setUp()
     {
         parent::setUp();
+
+        $this->jsf = new JavascriptFactory;
+
+        $this->mlc = m::mock('Khill\Lavacharts\Charts\LineChart', array('TestChart'))->makePartial();
+        $this->mdt = m::mock('Khill\Lavacharts\Configs\DataTable')->makePartial();
+
+        $this->mdt->addColumn('number')
+                  ->addColumn('number')
+                  ->addColumn('number')
+                  ->addRow(array(10101, 12345, 67890));
     }
 
-    public function testIfInstanceOfJavascriptFactory()
+    public function testGetChartJsOutput()
     {
-        $c = new LineChart('test');
-        $c->dataTable(new DataTable);
+        $this->mlc->datatable($this->mdt);
 
-        $this->assertInstanceOf('Khill\Lavacharts\JavascriptFactory', new JavascriptFactory($c, 'div_id'));
-    }
+        $js = $this->jsf->getChartJs($this->mlc, 'div_id');
 
-    public function testBuildOutput()
-    {
-        $c = new LineChart('test');
-        $c->dataTable(new DataTable);
-
-        $jsf = new JavascriptFactory($c, 'div_id');
-
-        $js = $jsf->buildOutput();
-
-        $this->assertTrue(is_string($js));
+        $this->assertTrue(strpos($js, 'div_id') > 0 ? true : false);
     }
 
     /**
      * @expectedException Khill\Lavacharts\Exceptions\DataTableNotFound
      */
-    public function testJavascriptFactoryChartMissingDataTable()
+    public function testGetChartJsWithMissingDataTable()
     {
-        $c = new LineChart('test');
-
-        $jsf = new JavascriptFactory($c, 'div_id');
+        $this->jsf->getChartJs($this->mlc);
     }
 
     /**
+     * @dataProvider nonStringProvider
      * @expectedException Khill\Lavacharts\Exceptions\InvalidElementId
      */
-    public function testJavascriptFactoryInvalidElementId()
+    public function testGetChartJsWithBadElementIdTypes($badTypes)
     {
-        $c = new LineChart('test');
-        $c->dataTable(new DataTable);
+        $this->mlc->datatable($this->mdt);
 
-        $jsf = new JavascriptFactory($c, array());
+        $js = $this->jsf->getChartJs($this->mlc, $badTypes);
     }
 }

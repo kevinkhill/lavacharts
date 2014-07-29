@@ -9,6 +9,7 @@
  *
  * @package    Lavacharts
  * @subpackage Events
+ * @since      v2.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2014, KHill Designs
  * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
@@ -22,108 +23,17 @@ use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 class Ready extends Event
 {
-    /**
-     * @var string Output of the configOptions object.
-     */
-    protected $output = null;
 
     /**
-     * @var array Allowed keys for the configOptions child objects.
-     */
-    protected $options = null;
-
-    /**
-     * @var string Class name without namespace.
-     */
-    protected $className;
-
-    /**
-     * Builds the ConfigOptions object.
+     * Builds the Ready Event object when passed an array of configuration options.
      *
-     * Passing an array of key value pairs will set the configuration for each
-     * child object created from this master object.
-     *
-     * @param  array Array of options.
-     *
+     * @param  array                 $config Options for the Event
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
-     * @return object
+     * @return Ready
      */
-    public function __construct($config)
+    public function __construct($config = array())
     {
-        if (preg_match('/\\\\([\w]+)$/', get_class($this), $matches)) {
-            $this->className = $matches[1];
-        } else {
-            throw new Exception("Error Processing Request", 1);
-        }
-
-        if (is_array($config)) {
-            foreach ($config as $option => $value) {
-                if (in_array($option, $this->options)) {
-                    $this->$option($value);
-                } else {
-                    throw new InvalidConfigProperty(
-                        $this->className,
-                        __FUNCTION__,
-                        $option,
-                        $this->options
-                    );
-                }
-            }
-        } else {
-            throw new InvalidConfigValue(
-                $this->className,
-                __FUNCTION__,
-                'array',
-                'with valid keys as '.Helpers::arrayToPipedString($this->options)
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Returns an array representation of the object.
-     *
-     * If passed a label, then the array will be returned with the label as the
-     * key.
-     *
-     * Called with no label returns an array with the classname as the key.
-     *
-     * @return array
-     */
-    public function toArray($keyName = null)
-    {
-        $this->output = array();
-
-        foreach ($this->options as $option) {
-            if (isset($this->$option)) {
-                $this->output[$option] = $this->$option;
-            }
-        }
-
-        if (is_null($keyName)) {
-            return array($this->className => $this->output);
-        } else {
-            return array($keyName => $this->output);
-        }
-    }
-
-    /**
-     * Same as toArray, but without the class name as a key to being multi-dimension.
-     *
-     * @return array Array of the options of the object.
-     */
-    public function getValues()
-    {
-        $this->output = array();
-
-        foreach ($this->options as $option) {
-            if (isset($this->$option)) {
-                $this->output[$option] = $this->$option;
-            }
-        }
-
-        return $this->output;
+        parent::__construct($this, $config);
     }
 }

@@ -16,44 +16,66 @@
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
+use Khill\Lavacharts\Helpers\Helpers as h;
 use Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Events\Event;
 use Khill\Lavacharts\Exceptions\DataTableNotFound;
 use Khill\Lavacharts\Exceptions\InvalidElementId;
 
 class JavascriptFactory
 {
     /**
-     * @var Khill\Lavacharts\Charts\Chart Chart to used to generate output.
+     * Chart used to generate output.
+     *
+     * @var Chart
      */
-    private $chart = null;
+    private $chart;
 
     /**
-     * @var string $elementId HTML element id to output the chart into.
+     * HTML element id to output the chart into.
+     *
+     * @var string
      */
-    private $elementId = null;
+    private $elementId;
 
     /**
-     * @var string Opening javascript tag.
+     * Event used to generate output.
+     *
+     * @var Event
+     */
+    private $event;
+
+    /**
+     * Opening javascript tag.
+     *
+     * @var string
      */
     private $jsO = '<script type="text/javascript">';
 
     /**
-     * @var string Closing javascript tag.
+     * Closing javascript tag.
+     *
+     * @var string
      */
     private $jsC = '</script>';
 
     /**
-     * @var string Javscript block with a link to Google's Chart API.
+     * Javscript block with a link to Google's Chart API.
+     *
+     * @var string
      */
     private $googleAPI = '<script type="text/javascript" src="//google.com/jsapi"></script>';
 
     /**
-     * @var string Version of Google's DataTable.
+     * Google's DataTable Version
+     *
+     * @var string
      */
     private $googleDataTableVer = '0.6';
 
+
     /**
-     * Builds the Javascript code block
+     * Checks the Chart for DataTable and uilds the Javascript code block
      *
      * Build the script block for the actual chart and passes it back to
      * output function of the calling chart object. If there are any
@@ -70,19 +92,21 @@ class JavascriptFactory
      *
      * @return string Javascript code block.
      */
-    public function __construct(Chart $chart, $elementId)
+    public function getChartJs(Chart $chart, $elementId = null)
     {
-        if (isset($chart->datatable)) {
+        if (isset($chart->datatable) && h::isDataTable($chart->datatable)) {
             $this->chart = $chart;
         } else {
             throw new DataTableNotFound($chart);
         }
 
-        if (is_string($elementId) && ! empty($elementId)) {
+        if (h::nonEmptyString($elementId)) {
             $this->elementId = $elementId;
         } else {
             throw new InvalidElementId($elementId);
         }
+
+        return $this->buildChartJs();
     }
 
     /**
@@ -96,7 +120,7 @@ class JavascriptFactory
      *
      * @return string Javascript code block.
      */
-    public function buildOutput()
+    private function buildChartJs()
     {
         $out = $this->googleAPI.PHP_EOL;
 /*

@@ -22,9 +22,18 @@ use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 class Lavacharts
 {
     /**
-     * @var Khill\Lavacharts\Volcano Holds all of the defined Charts and DataTables.
+     * Holds all of the defined Charts and DataTables.
+     *
+     * @var Volcano
      */
-    public $volcano = null;
+    public $volcano;
+
+    /**
+     * Generates all the javascript blocks from charts.
+     *
+     * @var JavascriptFactory
+     */
+    public $jsFactory;
 
     /**
      * @var array Lavachart configuration options.
@@ -45,7 +54,9 @@ class Lavacharts
     );
 
     /**
-     * @var array Holds all of the defined configuration class names.
+     * Holds all of the defined configuration class names.
+     *
+     * @var array
      */
     private $configClasses = array(
         'ConfigObject',
@@ -68,18 +79,21 @@ class Lavacharts
     );
 
     /**
-     * @var array Acceptable global configuration options.
+     * Acceptable global configuration options.
+     *
+     * @var array
      */
     private $globalConfigs = array(
         'textStyle'
     );
 
     /**
-     * Creates Volcano object for chart storage.
+     * Creates Volcano & Javascript Factory
      */
     public function __construct()
     {
-        $this->volcano = new Volcano();
+        $this->volcano   = new Volcano;
+        $this->jsFactory = new JavascriptFactory;
     }
 
     /**
@@ -154,12 +168,10 @@ class Lavacharts
     {
         $chart = $this->volcano->getChart($chartType, $chartLabel);
 
-        $jsf = new JavascriptFactory($chart, $elementId);
-
         if ($divDimensions === false) {
-            return $jsf->buildOutput();
+            return $this->jsFactory->getChartJs($chart, $elementId);
         } else {
-            return $this->div($elementId, $divDimensions) . $jsf->buildOutput();
+            return $this->div($elementId, $divDimensions) . $this->jsFactory->getChartJs($chart, $elementId);
         }
     }
 

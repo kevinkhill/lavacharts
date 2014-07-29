@@ -37,19 +37,20 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayValuesCheckWithConfigObjects()
     {
-        $mockColorAxis = m::mock('Khill\Lavacharts\Configs\ColorAxis');
+        $mca = m::mock('Khill\Lavacharts\Configs\ColorAxis');
+        //$mca->className = 'ColorAxis';
 
-        $testArray = array($mockColorAxis, $mockColorAxis, $mockColorAxis);
+        $testArray = array($mca, $mca, $mca);
 
         $this->assertTrue(h::arrayValuesCheck($testArray, 'class', 'ColorAxis'));
     }
 
     public function testArrayValuesCheckWithConfigObjectsAndNulls()
     {
-        $mockColorAxis = m::mock('Khill\Lavacharts\Configs\ColorAxis');
-        $mockColorAxis->className = 'ColorAxis';
+        $mca = m::mock('Khill\Lavacharts\Configs\ColorAxis');
+        //$mca->className = 'ColorAxis';
 
-        $testArray = array(null, $mockColorAxis, null);
+        $testArray = array(null, $mca, null);
 
         $this->assertTrue(h::arrayValuesCheck($testArray, 'class', 'ColorAxis'));
     }
@@ -65,14 +66,14 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function badParamsProvider()
     {
-        $mockColorAxis = m::mock('Khill\Lavacharts\Configs\ColorAxis');
+        $mca = m::mock('Khill\Lavacharts\Configs\ColorAxis');
 
         return array(
             array('string', 'stringy'),
             array(array(1, 2, 3), 'tacos'),
             array(array(1, 2, 'blahblah', 3), 'int'),
             array(array('taco', new \stdClass, 1), 'class', 'burrito'),
-            array(array($mockColorAxis, $mockColorAxis), 'class', 'helicopters'),
+            array(array($mca, $mca), 'class', 'helicopters'),
             array(array(TRUE, TRUE), 4),
             array(array(FALSE, FALSE), 'boolean'),
             array(array(NULL, NULL), 'tacos')

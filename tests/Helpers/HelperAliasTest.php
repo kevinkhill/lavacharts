@@ -5,6 +5,12 @@ use Khill\Lavacharts\Configs as c;
 
 class HelperAliasTest extends \PHPUnit_Framework_TestCase
 {
+    public function testAliasedIsDataTable()
+    {
+        $this->assertTrue(h::isDataTable(new c\DataTable));
+        $this->assertFalse(h::isDataTable(new \stdClass));
+    }
+
     public function testAliasedIsAnnotation()
     {
         $this->assertTrue(h::isAnnotation(new c\Annotation));

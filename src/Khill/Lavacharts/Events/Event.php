@@ -9,6 +9,7 @@
  *
  * @package    Lavacharts
  * @subpackage Events
+ * @since      v2.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2014, KHill Designs
  * @link       http://github.com/kevinkhill/LavaCharts GitHub Repository Page
@@ -16,32 +17,31 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Helpers\Helpers as h;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 class Event
 {
     /**
-     * @var string Output of the configOptions object.
-     */
-    protected $output = null;
-
-    /**
-     * @var array Allowed keys for the configOptions child objects.
-     */
-    protected $options = null;
-
-    /**
-     * @var string Class name without namespace.
+     * Name of the Event Object
+     *
+     * @var string
      */
     protected $className;
 
     /**
-     * Builds the ConfigOptions object.
+     * Allowed keys for the Event child objects.
+     *
+     * @var array
+     */
+    protected $options = array();
+
+    /**
+     * Builds the Event object.
      *
      * Passing an array of key value pairs will set the configuration for each
-     * child object created from this master object.
+     * child object created from this parent object.
      *
      * @param  array Array of options.
      *
@@ -51,11 +51,12 @@ class Event
      */
     public function __construct($config)
     {
-        if (preg_match('/\\\\([\w]+)$/', get_class($this), $matches)) {
-            $this->className = $matches[1];
-        } else {
-            throw new Exception("Error Processing Request", 1);
-        }
+        $class = new \ReflectionClass($child);
+
+        $this->className = $class->getShortname();
+        $this->options = array_map(function ($prop) {
+            return $prop->name;
+        }, $class->getProperties(\ReflectionProperty::IS_PUBLIC));
 
         if (is_array($config)) {
             foreach ($config as $option => $value) {
@@ -75,55 +76,22 @@ class Event
                 $this->className,
                 __FUNCTION__,
                 'array',
-                'with valid keys as '.Helpers::arrayToPipedString($this->options)
+                'with valid keys as '.h::arrayToPipedString($this->options)
             );
         }
-
-        return $this;
     }
 
-    /**
-     * Returns an array representation of the object.
-     *
-     * If passed a label, then the array will be returned with the label as the
-     * key.
-     *
-     * Called with no label returns an array with the classname as the key.
-     *
-     * @return array
-     */
-    public function toArray($keyName = null)
+    public function setCallback($c)
     {
-        $this->output = array();
-
-        foreach ($this->options as $option) {
-            if (isset($this->$option)) {
-                $this->output[$option] = $this->$option;
-            }
-        }
-
-        if (is_null($keyName)) {
-            return array($this->className => $this->output);
+        if (is_string($c) && ! empty($c))
+        {
+            $this->callback = $c;
         } else {
-            return array($keyName => $this->output);
+            throw new InvalidConfigValue(
+                $this->className,
+                __FUNCTION__,
+                'string'
+            );
         }
-    }
-
-    /**
-     * Same as toArray, but without the class name as a key to being multi-dimension.
-     *
-     * @return array Array of the options of the object.
-     */
-    public function getValues()
-    {
-        $this->output = array();
-
-        foreach ($this->options as $option) {
-            if (isset($this->$option)) {
-                $this->output[$option] = $this->$option;
-            }
-        }
-
-        return $this->output;
     }
 }

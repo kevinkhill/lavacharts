@@ -99,8 +99,6 @@ class HorizontalAxis extends Axis
                 'showTextEvery',
             )
         );
-
-
     }
 
     /**

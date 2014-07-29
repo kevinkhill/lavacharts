@@ -23,6 +23,13 @@ use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 class ConfigObject
 {
     /**
+     * Name of the ConfigObject, no namespace
+     *
+     * @var string
+     */
+    protected $className;
+
+    /**
      * Allowed keys for the ConfigOptions child objects.
      *
      * @var array
@@ -33,7 +40,7 @@ class ConfigObject
      * Builds the ConfigOptions object.
      *
      * Passing an array of key value pairs will set the configuration for each
-     * child object created from this master object.
+     * child object created from this parent object.
      *
      * @param  mixed                 $child  Child ConfigOption object.
      * @param  array                 $config Array of options.
@@ -70,8 +77,6 @@ class ConfigObject
                 'with valid keys as '.h::arrayToPipedString($this->options)
             );
         }
-
-        return $this;
     }
 
     /**

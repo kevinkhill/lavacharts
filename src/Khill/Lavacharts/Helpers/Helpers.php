@@ -5,9 +5,6 @@ class Helpers
     /**
      * Magic method as an alias to is_a($object, $type)
      *
-     * Called as Helpers::isJsDate($object) or Helpers::isTextStyle($object)
-     * to test if they are valid config objects.
-     *
      * @param string $function
      * @param object $configObject
      *
@@ -106,7 +103,7 @@ class Helpers
                 }
             } else {
                 foreach ($array as $item) {
-                    $function = 'is_'.$type;
+                    $function = 'is_' . $type;
 
                     if (function_exists($function)) {
                         if ($function($item) === false) {
@@ -185,6 +182,22 @@ class Helpers
             } else {
                 return ($test > $lower && $test < $upper) ? true : false;
             }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if variable is a non-empty string
+     *
+     * @param  $var
+     *
+     * @return bool
+     */
+    public static function nonEmptyString($var)
+    {
+        if (is_string($var) && ! empty($var)) {
+            return true;
         } else {
             return false;
         }

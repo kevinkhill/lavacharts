@@ -185,9 +185,9 @@ class Chart
      */
     public function render($ei)
     {
-        $jsf = new JavascriptFactory($this, $ei);
+        $jsf = new JavascriptFactory;
 
-        return $jsf->buildOutput();
+        return $jsf->getChartJs($this, $ei);
     }
 
     /**
