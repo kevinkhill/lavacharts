@@ -16,14 +16,13 @@ branches:
 
 before_script:
   #- composer selfupdate (errors with travis)
-  - composer update --prefer-dist --no-dev
+  - composer update --prefer-dist
 
 email: kevinkhill@gmail.com
 
 script:
-  - wget https://phar.phpunit.de/phpunit.phar
   - mkdir -p build/logs
-  - php phpunit.phar -c phpunit.dist.xml
+  - vendor/bin/phpunit -c phpunit.dist.xml
 
 after_script:
   - php vendor/bin/coveralls
