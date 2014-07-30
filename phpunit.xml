@@ -22,6 +22,7 @@
       <exclude>
         <directory suffix=".php">./src/Khill/Lavacharts/Facades</directory>
         <file>./src/Khill/Lavacharts/LavachartsServiceProvider.php</file>
+        <file>./tests/DataProviders.php</file>
       </exclude>
     </whitelist>
   </filter>
