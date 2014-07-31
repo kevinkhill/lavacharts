@@ -61,14 +61,18 @@ class ColumnChartTest extends ProvidersTestCase
     {
         $this->cc->barGroupWidth(200);
 
-        $this->assertEquals(200, $this->cc->getOption('bar')['groupWidth']);
+        $bar = $this->cc->getOption('bar');
+
+        $this->assertEquals(200, $bar['groupWidth']);
     }
 
     public function testBarGroupWidthWithPercent()
     {
         $this->cc->barGroupWidth('33%');
 
-        $this->assertEquals('33%', $this->cc->getOption('bar')['groupWidth']);
+        $bar = $this->cc->getOption('bar');
+
+        $this->assertEquals('33%', $bar['groupWidth']);
     }
 
     /**
