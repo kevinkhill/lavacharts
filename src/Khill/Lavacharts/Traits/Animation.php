@@ -1,10 +1,9 @@
 <?php namespace Khill\Lavacharts\Traits;
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Helpers\Helpers as h;
 
 trait Animation
 {
-
     /**
      * Animation Easing
      *
@@ -16,7 +15,7 @@ trait Animation
      *
      * @param string $easing
      *
-     * @return \Chart
+     * @return Chart
      */
     public function animationEasing($easing = 'linear')
     {
@@ -30,7 +29,7 @@ trait Animation
         if (in_array($easing, $values)) {
             $this->easing = $easing;
         } else {
-            $this->error('Invalid animationEasing value, must be (string) '.Helpers::arrayToPipedString($values));
+            $this->error('Invalid animationEasing value, must be (string) '.h::arrayToPipedString($values));
         }
 
         return $this;
@@ -43,7 +42,7 @@ trait Animation
      *
      * @param mixed $duration
      *
-     * @return \Chart
+     * @return Chart
      */
     public function animationDuration($duration)
     {

@@ -1,6 +1,6 @@
 <?php namespace Khill\Lavacharts\Tests;
 
-class ProvidersTestCase extends \PHPUnit_Framework_TestCase
+abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {

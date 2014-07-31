@@ -20,8 +20,8 @@
       <directory suffix=".php">./src/Khill/Lavacharts</directory>
       <exclude>
         <directory suffix=".php">./src/Khill/Lavacharts/Facades</directory>
+        <directory suffix=".php">./src/Khill/Lavacharts/Traits</directory>
         <file>./src/Khill/Lavacharts/LavachartsServiceProvider.php</file>
-        <file>./tests/DataProviders.php</file>
       </exclude>
     </whitelist>
   </filter>
