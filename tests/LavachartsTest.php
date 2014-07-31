@@ -25,7 +25,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateDataTableViaAlias()
     {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Configs\DataTable', $this->lc->DataTable());
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\Configs\\DataTable', $this->lc->DataTable());
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php namespace Khill\Lavacharts\Tests;
 
-class DataProviders extends \PHPUnit_Framework_TestCase
+class ProvidersTestCase extends \PHPUnit_Framework_TestCase
 {
     public function nonConfigObjectProvider()
     {

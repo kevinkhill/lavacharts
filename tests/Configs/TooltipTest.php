@@ -16,11 +16,6 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testIfInstanceOfTooltip()
-    {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\Tooltip', $this->tt);
-    }
-
     public function testConstructorDefaults()
     {
         $this->assertNull($this->tt->showColorCode);

@@ -1,21 +1,16 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
-use Khill\Lavacharts\Tests\DataProviders;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\Configs\ColorAxis;
 use Mockery as m;
 
-class ColorAxisTest extends DataProviders
+class ColorAxisTest extends ProvidersTestCase
 {
     public function setUp()
     {
         parent::setUp();
 
         $this->ca = new ColorAxis;
-    }
-
-    public function testIfInstanceOfColorAxis()
-    {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\ColorAxis', $this->ca);
     }
 
     public function testConstructorDefaults()

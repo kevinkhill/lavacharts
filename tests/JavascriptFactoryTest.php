@@ -1,10 +1,10 @@
 <?php namespace Khill\Lavacharts\Tests;
 
-use Khill\Lavacharts\Tests\DataProviders;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\JavascriptFactory;
 use Mockery as m;
 
-class JavascriptFactoryTest extends DataProviders
+class JavascriptFactoryTest extends ProvidersTestCase
 {
     public function setUp()
     {

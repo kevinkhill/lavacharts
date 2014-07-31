@@ -11,11 +11,6 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
         $this->bgc = new BackgroundColor;
     }
 
-    public function testIfInstanceOfbackgroundColor()
-    {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\backgroundColor', $this->bgc);
-    }
-
     public function testConstructorDefaults()
     {
         $this->assertNull($this->bgc->stroke);

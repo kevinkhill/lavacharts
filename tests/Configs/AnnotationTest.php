@@ -16,11 +16,6 @@ class AnnotationTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testIfInstanceOfAnnotation()
-    {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\Annotation', $this->a);
-    }
-
     public function testConstructorDefaults()
     {
         $this->assertTrue($this->a->highContrast);

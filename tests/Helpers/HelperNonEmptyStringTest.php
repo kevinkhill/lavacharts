@@ -1,9 +1,9 @@
 <?php namespace Khill\Lavacharts\Tests\Helpers;
 
-use Khill\Lavacharts\Tests\DataProviders;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\Helpers\Helpers as h;
 
-class HelperNonEmptyStringTest extends DataProviders
+class HelperNonEmptyStringTest extends ProvidersTestCase
 {
     public function testWithValidString()
     {

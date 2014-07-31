@@ -11,11 +11,6 @@ class GradientTest extends \PHPUnit_Framework_TestCase
         $this->g = new Gradient;
     }
 
-    public function testIfInstanceOfGradient()
-    {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\Gradient', $this->g);
-    }
-
     public function testConstructorDefaults()
     {
         $this->assertNull($this->g->color1);

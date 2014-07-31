@@ -17,11 +17,6 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testIfInstanceOfBoxStyle()
-    {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\BoxStyle', $this->bs);
-    }
-
     public function testConstructorDefaults()
     {
         $this->assertNull($this->bs->stroke);

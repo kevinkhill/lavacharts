@@ -1,10 +1,10 @@
 <?php namespace Khill\Lavacharts\Tests\Charts;
 
-use Khill\Lavacharts\Tests\DataProviders;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\Charts\AreaChart;
 use Mockery as m;
 
-class AreaChartTest extends DataProviders
+class AreaChartTest extends ProvidersTestCase
 {
     public function setUp()
     {

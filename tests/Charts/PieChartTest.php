@@ -1,10 +1,10 @@
 <?php namespace Khill\Lavacharts\Tests\Charts;
 
-use Khill\Lavacharts\Tests\DataProviders;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\Charts\PieChart;
 use Mockery as m;
 
-class PieChartTest extends DataProviders
+class PieChartTest extends ProvidersTestCase
 {
     public function setUp()
     {

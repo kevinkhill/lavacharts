@@ -11,11 +11,6 @@ class TextStyleTest extends \PHPUnit_Framework_TestCase
         $this->ts = new TextStyle;
     }
 
-    public function testIfInstanceOfTextStyle()
-    {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\TextStyle', $this->ts);
-    }
-
     public function testConstructorDefaults()
     {
         $this->assertNull($this->ts->color);

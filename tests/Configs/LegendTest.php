@@ -1,10 +1,10 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
-use Khill\Lavacharts\Tests\DataProviders;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\Configs\Legend;
 use Mockery as m;
 
-class LegendTest extends DataProviders
+class LegendTest extends ProvidersTestCase
 {
     public function setUp()
     {
@@ -16,11 +16,6 @@ class LegendTest extends DataProviders
             'Khill\Lavacharts\Configs\TextStyle',
             array('__construct')
         );
-    }
-
-    public function testIfInstanceOfLegend()
-    {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\Legend', $this->l);
     }
 
     public function testPositionWithValidValues()

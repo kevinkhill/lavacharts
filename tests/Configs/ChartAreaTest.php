@@ -11,11 +11,6 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
         $this->ca = new ChartArea;
     }
 
-    public function testIfInstanceOfchartArea()
-    {
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\ChartArea', $this->ca);
-    }
-
     public function testConstructorDefaults()
     {
         $this->assertNull($this->ca->left);

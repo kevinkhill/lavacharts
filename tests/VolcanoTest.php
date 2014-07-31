@@ -1,18 +1,13 @@
 <?php namespace Khill\Lavacharts\Tests;
 
 use Khill\Lavacharts\Volcano;
-use Khill\Lavacharts\Charts\LineChart;
+use Khill\Lavacharts\Charts\LineChart; //@TODO fix this to mockery
 
 class VolcanoTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         parent::setUp();
-    }
-
-    public function testIfInstanceOfVolcano()
-    {
-        $this->assertInstanceOf('Khill\Lavacharts\Volcano', new Volcano);
     }
 
     public function testStoreChart()
