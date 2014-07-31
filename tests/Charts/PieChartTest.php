@@ -69,8 +69,10 @@ class PieChartTest extends ProvidersTestCase
 
         $this->pc->slices(array($mockSlice1, $mockSlice2));
 
-        $this->assertEquals($sliceVals, $this->pc->getOption('slices')[0]);
-        $this->assertEquals($sliceVals, $this->pc->getOption('slices')[1]);
+        $slices = $this->pc->getOption('slices');
+
+        $this->assertEquals($sliceVals, $slices[0]);
+        $this->assertEquals($sliceVals, $slices[1]);
     }
 
     /**
