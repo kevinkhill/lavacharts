@@ -13,6 +13,8 @@
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
+use Khill\Lavacharts\Volcano;
+use Khill\Lavacharts\JavascriptFactory;
 use Khill\Lavacharts\Exceptions\InvalidChartLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;

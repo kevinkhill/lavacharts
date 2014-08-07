@@ -24,6 +24,8 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
+//@TODO add method for setting timezone for Carbon;
+
 use Carbon\Carbon;
 use Khill\Lavacharts\Helpers\Helpers as H;
 use Khill\Lavacharts\Exceptions\InvalidDate;
