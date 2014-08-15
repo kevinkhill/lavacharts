@@ -30,7 +30,7 @@ class ComboChart extends Chart
 {
     //use Khill\Lavacharts\Traits\AxisTitlesPosition;
 
-    public $t = 'ComboChart';
+    public $type = 'ComboChart';
 
     public function __construct($c)
     {
@@ -58,7 +58,7 @@ class ComboChart extends Chart
      * out - Draw the axis titles outside the chart area.
      * none - Omit the axis titles.
      *
-     * @param  Khill\Lavacharts\Configs\Annotation $a
+     * @param  Annotation $a
      * @throws InvalidConfigValue
      * @return ComboChart
      */
@@ -133,20 +133,27 @@ class ComboChart extends Chart
         if (Helpers::isIntOrPercent($b)) {
             return $this->addOption(array(__FUNCTION__ => array('groupWidth' => $b)));
         } else {
-            throw $this->invalidConfigValue($this->chartType, __FUNCTION__, 'string | int', 'must be a valid int or percent [ 50 | 65% ]');
-          /**
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string | int',
+                'must be a valid int or percent [ 50 | 65% ]'
+            );
+        }
+    }
+
+   /**
      * An object with members to configure various horizontal axis elements. To
      * specify properties of this property, create a new hAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param Khill\Lavacharts\Configs\HorizontalAxis $h
+     * @param HorizontalAxis $h
      *
      * @throws InvalidConfigValue
      * @return ComboChart
      */
     public function hAxis(HorizontalAxis $h)
     {
-        return return $this->addOption($h->toArray(__FUNCTION__));
+        return $this->addOption($h->toArray(__FUNCTION__));
     }
 
     /**
@@ -161,8 +168,14 @@ class ComboChart extends Chart
         if (is_bool($i)) {
             return $this->addOption(array(__FUNCTION__ => $i));
         } else {
-            throw $this->invalidConfigValue($this->chartType, __FUNCTION__, 'bool');
-          /**
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'bool'
+            );
+        }
+    }
+
+   /**
      * An array of objects, each describing the format of the corresponding series
      * in the chart. To use default values for a series, specify an null in the array.
      * If a series or a value is not specified, the global value will be used.
@@ -236,7 +249,7 @@ class ComboChart extends Chart
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'array'
+                'array',
                 'of VerticalAxis Objects'
             );
         }

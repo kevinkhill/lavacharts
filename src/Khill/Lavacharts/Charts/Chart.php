@@ -31,7 +31,7 @@ class Chart
 {
     public $type      = null;
     public $label     = null;
-    public $dataTable = null;
+    public $datatable = null;
     public $events    = null;
 
     protected $defaults  = null;
@@ -152,21 +152,21 @@ class Chart
     }
 
     /**
-     * Assigns wich DataTable will be used for this Chart.
+     * Assigns wich Datatable will be used for this Chart.
      *
-     * If a label is provided then the defined DataTable will be used.
+     * If a label is provided then the defined Datatable will be used.
      * If called with no argument, or the chart is attempted to be generated
-     * without calling this function, the chart will search for a DataTable with
+     * without calling this function, the chart will search for a Datatable with
      * the same label as the Chart.
      *
-     * @uses  DataTable
-     * @param DataTable
+     * @uses  Datatable
+     * @param Datatable
      *
      * @return Chart
      */
-    public function dataTable(DataTable $d)
+    public function datatable(Datatable $d)
     {
-        $this->dataTable = $d;
+        $this->datatable = $d;
 
         return $this;
     }
