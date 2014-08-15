@@ -23,13 +23,6 @@ use Lavacharts\Exceptions\InvalidConfigProperty;
 class Format
 {
     /**
-     * Type of Formatter
-     *
-     * @var string
-     */
-    public $type;
-
-    /**
      * Allowed keys for the ConfigOptions child objects.
      *
      * @var array
@@ -80,12 +73,31 @@ class Format
     }
 
     /**
+     * Same as toArray, but without the class name as a key to being multi-dimension.
+     *
+     * @param  void
+     * @return array Array of the options of the object.
+     */
+    public function getValues()
+    {
+        $output = array();
+
+        foreach ($this->options as $option) {
+            if (isset($this->{$option})) {
+                $output[$option] = $this->{$option};
+            }
+        }
+
+        return $output;
+    }
+
+    /**
      * Returns a JSON string representation of the object's properties.
      *
      * @return string
      */
     public function toJson()
     {
-        return json_encode($this->options);
+        return json_encode($this->getValues());
     }
 }

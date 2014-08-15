@@ -84,6 +84,7 @@ class Lavacharts
      * @var array Types of column formatters.
      */
     private $formatterClasses = array(
+        'DateFormat',
         'NumberFormat'
     );
 

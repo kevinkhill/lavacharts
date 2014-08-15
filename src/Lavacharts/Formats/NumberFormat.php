@@ -3,9 +3,10 @@
 /**
  * NumberFormat Object
  *
- * An object that specifies a mapping between color column values and negativeColor
- * or a gradient scale.
+ * Formats number values in the datatable for display.
+ * Added to columns during column definition.
  *
+ * @see https://developers.google.com/chart/interactive/docs/reference#numberformatter
  *
  * @package    Lavacharts
  * @subpackage Formatters
@@ -85,7 +86,7 @@ class NumberFormat extends Format
      * @param  array                 $config
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
-     * @return NumberFormatter
+     * @return NumberFormat
      */
     public function __construct($config = array())
     {
@@ -97,7 +98,7 @@ class NumberFormat extends Format
      *
      * @param  string             $decimalSymbol
      * @throws InvalidConfigValue
-     * @return NumberFormatter
+     * @return NumberFormat
      */
     public function decimalSymbol($decimalSymbol)
     {
@@ -121,7 +122,7 @@ class NumberFormat extends Format
      *
      * @param  numeric            $fractionDigits
      * @throws InvalidConfigValue
-     * @return NumberFormatter
+     * @return NumberFormat
      */
     public function fractionDigits($fractionDigits)
     {
@@ -143,7 +144,7 @@ class NumberFormat extends Format
      *
      * @param  string              $groupingSymbol
      * @throws InvalidConfigValue
-     * @return NumberFormatter
+     * @return NumberFormat
      */
     public function groupingSymbol($groupingSymbol)
     {
@@ -165,7 +166,7 @@ class NumberFormat extends Format
      *
      * @param  string              $negativeColor Valid HTML color
      * @throws InvalidConfigValue
-     * @return NumberFormatter
+     * @return NumberFormat
      */
     public function negativeColor($negativeColor)
     {
@@ -187,7 +188,7 @@ class NumberFormat extends Format
      *
      * @param  bool              $negativeParens
      * @throws InvalidConfigValue
-     * @return NumberFormatter
+     * @return NumberFormat
      */
     public function negativeParens($negativeParens)
     {
@@ -213,7 +214,7 @@ class NumberFormat extends Format
      * @see    http://icu-project.org/apiref/icu4c/classDecimalFormat.html#_details
      * @param  array              $pattern
      * @throws InvalidConfigValue
-     * @return NumberFormatter
+     * @return NumberFormat
      */
     public function pattern($pattern)
     {
@@ -234,7 +235,7 @@ class NumberFormat extends Format
      *
      * @param  array              $prefix
      * @throws InvalidConfigValue
-     * @return NumberFormatter
+     * @return NumberFormat
      */
     public function prefix($prefix)
     {
@@ -255,7 +256,7 @@ class NumberFormat extends Format
      *
      * @param  array              $suffix
      * @throws InvalidConfigValue
-     * @return NumberFormatter
+     * @return NumberFormat
      */
     public function suffix($suffix)
     {

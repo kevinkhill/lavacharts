@@ -122,13 +122,14 @@ class JavascriptFactory
      */
     private function buildChartJs()
     {
-        $out = $this->googleAPI.PHP_EOL;
+        $out  = $this->googleAPI.PHP_EOL;
 /*
         if (is_array($this->chart->events) && count($this->chart->events) > 0) {
             $out .= $this->_build_event_callbacks($this->chart->type, $this->chart->events);
         }
 */
         $out .= $this->jsO.PHP_EOL;
+        $out .= 'var lavacharts = {formatters:{}};'.PHP_EOL;
 
         switch ($this->chart->type) {
             case 'AnnotatedTimeLine':
@@ -163,7 +164,7 @@ class JavascriptFactory
         $out .= sprintf("(document.getElementById('%s'));", $this->elementId).PHP_EOL;
 
         if ($this->chart->datatable->hasFormats()) {
-            $out .= $this->buildFormatters();
+            $out .= $this->buildFormatters().PHP_EOL;
         }
 
         $out .= 'chart.draw(data, options);'.PHP_EOL;
@@ -231,14 +232,14 @@ class JavascriptFactory
 
         foreach ($this->chart->datatable->getFormats() as $index => $format) {
             $out .= sprintf(
-                "var col%sFormatter = new google.visualization.%s(%s);",
+                'lavacharts.formatters.col%s = new google.visualization.%s(%s);',
                 $index,
                 $format::TYPE,
                 $format->toJson()
             ).PHP_EOL;
 
             $out .= sprintf(
-                "col%sFormatter.format(data, %s);",
+                'lavacharts.formatters.col%s.format(data, %s);',
                 $index,
                 $index
             ).PHP_EOL;
