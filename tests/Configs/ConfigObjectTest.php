@@ -1,7 +1,7 @@
-<?php namespace Khill\Lavacharts\Tests\Configs;
+<?php namespace Lavacharts\Tests\Configs;
 
-use Khill\Lavacharts\Configs\ConfigOptions;
-use Khill\Lavacharts\Configs\TextStyle;
+use \Lavacharts\Configs\ConfigOptions;
+use \Lavacharts\Configs\TextStyle;
 
 class ConfigObjectTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,4 +1,4 @@
-<?php namespace Khill\Lavacharts\Tests;
+<?php namespace Lavacharts\Tests;
 
 abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
 {

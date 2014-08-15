@@ -1,6 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Configs;
+<?php namespace Lavacharts\Tests\Configs;
 
-use Khill\Lavacharts\Configs\ChartArea;
+use \Lavacharts\Configs\ChartArea;
 
 class ChartAreaTest extends \PHPUnit_Framework_TestCase
 {
@@ -50,7 +50,7 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @expectedException Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
@@ -58,7 +58,7 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testLeftWithBadParams($badVals)
@@ -67,7 +67,7 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testTopWithBadParams($badVals)
@@ -76,7 +76,7 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testWidthWithBadParams($badVals)
@@ -85,7 +85,7 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testHeightWithBadParams($badVals)

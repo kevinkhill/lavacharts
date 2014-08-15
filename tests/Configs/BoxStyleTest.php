@@ -1,7 +1,7 @@
-<?php namespace Khill\Lavacharts\Tests\Configs;
+<?php namespace Lavacharts\Tests\Configs;
 
-use Khill\Lavacharts\Configs\BoxStyle;
-use Mockery as m;
+use \Lavacharts\Configs\BoxStyle;
+use \Mockery as m;
 
 class BoxStyleTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,7 +12,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
         $this->bs = new BoxStyle;
 
         $this->mockGradient = $this->getMock(
-            'Khill\Lavacharts\Configs\Gradient',
+            '\Lavacharts\Configs\Gradient',
             array('__construct')
         );
     }
@@ -40,11 +40,11 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('5',       $boxStyle->strokeWidth);
         $this->assertEquals('10',      $boxStyle->rx);
         $this->assertEquals('10',      $boxStyle->ry);
-        $this->assertInstanceOf('Khill\Lavacharts\Configs\Gradient', $boxStyle->gradient);
+        $this->assertInstanceOf('\Lavacharts\Configs\Gradient', $boxStyle->gradient);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @expectedException Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
@@ -89,7 +89,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testStrokeWithBadParams($badVals)
@@ -98,7 +98,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testStokeWidthWithBadParams($badVals)
@@ -107,7 +107,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testRxWithBadParams($badVals)
@@ -116,7 +116,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testRyWithBadParams($badVals)

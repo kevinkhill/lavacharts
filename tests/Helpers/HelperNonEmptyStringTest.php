@@ -1,7 +1,7 @@
-<?php namespace Khill\Lavacharts\Tests\Helpers;
+<?php namespace Lavacharts\Tests\Helpers;
 
-use Khill\Lavacharts\Tests\ProvidersTestCase;
-use Khill\Lavacharts\Helpers\Helpers as h;
+use \Lavacharts\Tests\ProvidersTestCase;
+use \Lavacharts\Helpers\Helpers as h;
 
 class HelperNonEmptyStringTest extends ProvidersTestCase
 {

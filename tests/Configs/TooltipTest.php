@@ -1,6 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Configs;
+<?php namespace Lavacharts\Tests\Configs;
 
-use Khill\Lavacharts\Configs\Tooltip;
+use \Lavacharts\Configs\Tooltip;
 
 class TooltipTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,7 +11,7 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
         $this->tt = new Tooltip();
 
         $this->mockTextStyle = $this->getMock(
-            'Khill\Lavacharts\Configs\TextStyle',
+            '\Lavacharts\Configs\TextStyle',
             array('__construct')
         );
     }
@@ -26,7 +26,7 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
     public function testConstructorValuesAssignment()
     {
         $mockTextStyle = $this->getMock(
-            'Khill\Lavacharts\Configs\TextStyle',
+            '\Lavacharts\Configs\TextStyle',
             array('__construct')
         );
 
@@ -42,7 +42,7 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @expectedException Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
@@ -50,7 +50,7 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testShowColorCodeWithBadParams($badVals)
@@ -68,7 +68,7 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testTriggerWithBadParams($badVals)

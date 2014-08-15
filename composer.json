@@ -2,7 +2,7 @@
     "name": "khill/lavacharts",
     "description": "PHP wrapper library for the Google Chart API",
     "keywords": ["composer", "packagist", "google", "charts", "graphs"],
-    "version": "2.0.0-alpha1",
+    "version": "2.0.0-alpha2",
     "homepage": "http://kevinkhill.github.io/LavaCharts",
     "type": "library",
     "license": "MIT",
@@ -26,10 +26,10 @@
         "satooshi/php-coveralls": "0.6.*"
     },
     "autoload": {
-        "psr-0": { "Khill\\Lavacharts": "src/" }
+        "psr-4": { "Lavacharts\\": "src/Lavacharts/" }
     },
     "autoload-dev": {
-        "psr-4": { "Khill\\Lavacharts\\Tests\\": "tests/" }
+        "psr-4": { "Lavacharts\\Tests\\": "tests/" }
     },
     "minimum-stability": "dev",
     "extra": {

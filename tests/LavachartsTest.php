@@ -1,7 +1,7 @@
-<?php namespace Khill\Lavacharts\Tests;
+<?php namespace Lavacharts\Tests;
 
-use \Khill\Lavacharts\Lavacharts;
-use Mockery as m;
+use \Lavacharts\Lavacharts;
+use \Mockery as m;
 
 class LavachartsTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,7 +11,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
 
         $this->lc = new Lavacharts;
 
-        $this->mdt = m::mock('\Khill\Lavacharts\Configs\DataTable')
+        $this->mdt = m::mock('\Lavacharts\Configs\DataTable')
                       ->shouldReceive('toJson')
                       ->atMost(1)
                       ->getMock();
@@ -20,12 +20,12 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
 
     public function testIfInstanceOfVolcano()
     {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Volcano', $this->lc->volcano);
+        $this->assertInstanceOf('\\Lavacharts\\Volcano', $this->lc->volcano);
     }
 
     public function testCreateDataTableViaAlias()
     {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Configs\\DataTable', $this->lc->DataTable());
+        $this->assertInstanceOf('\\Lavacharts\\Configs\\DataTable', $this->lc->DataTable());
     }
 
     /**
@@ -33,7 +33,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateChartsViaAlias($chartType)
     {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Charts\\'.$chartType, $this->lc->$chartType('testchart'));
+        $this->assertInstanceOf('\\Lavacharts\\Charts\\'.$chartType, $this->lc->$chartType('testchart'));
     }
 
     /**
@@ -41,7 +41,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateConfigObjectsViaAliasNoParams($configType)
     {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Configs\\'.$configType, $this->lc->$configType());
+        $this->assertInstanceOf('\\Lavacharts\\Configs\\'.$configType, $this->lc->$configType());
     }
 
     public function testCreateConfigObjectViaAliasWithParam()
@@ -51,7 +51,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
             'fontColor' => 'green'
         );
 
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Configs\TextStyle', $this->lc->TextStyle($params));
+        $this->assertInstanceOf('\\Lavacharts\\Configs\TextStyle', $this->lc->TextStyle($params));
     }
 
     /**
@@ -108,7 +108,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testCreateDataTableViaAlias
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidDivDimensions
+     * @expectedException Lavacharts\Exceptions\InvalidDivDimensions
      */
     public function testDirectRenderChartWithDivAndBadDimensionKeys()
     {
@@ -125,7 +125,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testCreateDataTableViaAlias
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidDivDimensions
+     * @expectedException Lavacharts\Exceptions\InvalidDivDimensions
      */
     public function testDirectRenderChartWithDivAndBadDimensionType()
     {
@@ -137,7 +137,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testCreateDataTableViaAlias
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testDirectRenderChartWithDivAndDimensionsWithBadValues()
     {
@@ -153,28 +153,28 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidLavaObject
+     * @expectedException Lavacharts\Exceptions\InvalidLavaObject
      */
     public function testInvalidLavaObject()
     {        $this->lc->PizzaChart();
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidLavaObject
+     * @expectedException Lavacharts\Exceptions\InvalidLavaObject
      */
     public function testRenderAliasWithInvalidLavaObject()
     {        $this->lc->renderTacoChart();
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidChartLabel
+     * @expectedException Lavacharts\Exceptions\InvalidChartLabel
      */
     public function testCreateChartWithMissingLabel()
     {        $this->lc->LineChart();
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidChartLabel
+     * @expectedException Lavacharts\Exceptions\InvalidChartLabel
      */
     public function testCreateChartWithInvalidLabel()
     {        $this->lc->LineChart(5);

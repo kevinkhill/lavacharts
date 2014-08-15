@@ -32,7 +32,7 @@
 
 </head>
 <body onload="setTimeout(function() { window.scrollTo(0, 0) }, 100);">
-    <a href="http://github.com/kevinkhill/LavaCharts" id="forkMe">
+    <a href="http://github.com/kevinkhill/Lavacharts" id="forkMe">
         <img src="<?php echo url($lavaAssetPath.'images/forkme.png'); ?>" alt="Fork me on GitHub">
     </a>
     <div class="wrap">
@@ -102,7 +102,7 @@
                 <pre class="prettyprint inline">composer install</pre><br />
 
                 Finally, register LavaCharts in your app by adding this line the providers array in "app/config/app.php"
-                <pre class="prettyprint inline">'Khill\Lavacharts\LavachartsServiceProvider'</pre><br />
+                <pre class="prettyprint inline">'Lavacharts\LavachartsServiceProvider'</pre><br />
 
                 If you want to view the demos, publish the assets with:
                 <pre class="prettyprint inline">php artisan asset:publish khill/lavacharts</pre><br />

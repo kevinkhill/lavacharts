@@ -1,7 +1,7 @@
-<?php namespace Khill\Lavacharts\Tests\Helpers;
+<?php namespace Lavacharts\Tests\Helpers;
 
-use Khill\Lavacharts\Helpers\Helpers as h;
-use Khill\Lavacharts\Configs as c;
+use \Lavacharts\Helpers\Helpers as h;
+use \Lavacharts\Configs as c;
 
 class HelperAliasTest extends \PHPUnit_Framework_TestCase
 {

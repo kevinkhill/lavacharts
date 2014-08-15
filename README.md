@@ -12,7 +12,7 @@ Installing
 In your project's main ```composer.json``` file, add this line to the requirements:
 
   ```
-  "khill/lavacharts": "2.0.*@dev"
+  "khill/lavacharts": "2.*"
   ```
 
 Run Composer to install LavaCharts:
@@ -26,7 +26,7 @@ For Laravel
 Register LavaCharts in your app by adding this line to the providers array in ```app/config/app.php```:
 
   ```
-  "Khill\Lavacharts\LavachartsServiceProvider"
+  "Lavacharts\LavachartsServiceProvider"
   ```
 
   Don't worry about the ```Lava``` alias, the service provider registers it automatically.
@@ -94,6 +94,14 @@ This is all assuming you already have a div in your page with the id "stocks-div
 
 Changelog
 ---------
+ - v2.0.0-alpha3
+   - Changed namespace
+
+ - v2.0.0-alpha2
+   - Added render method in favor of outputInto method
+   - Added blade template extensions for seamless chart rendering
+   - Moar tests!
+
  - v2.0.0-alpha1
    - Refactored the main Lavacharts class to not be static anymore (yay!)
    - Moved the creation of the javascript into it's own class

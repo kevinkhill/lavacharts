@@ -1,6 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Configs;
+<?php namespace Lavacharts\Tests\Configs;
 
-use Khill\Lavacharts\Configs\TextStyle;
+use \Lavacharts\Configs\TextStyle;
 
 class TextStyleTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,7 +32,7 @@ class TextStyleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @expectedException Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
@@ -40,7 +40,7 @@ class TextStyleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testColorWithBadParams($badVals)
@@ -49,7 +49,7 @@ class TextStyleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testFontNameWithBadParams($badVals)
@@ -58,7 +58,7 @@ class TextStyleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testFontSizeWithBadParams($badVals)

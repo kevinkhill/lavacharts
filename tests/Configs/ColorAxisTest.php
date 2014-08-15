@@ -1,8 +1,8 @@
-<?php namespace Khill\Lavacharts\Tests\Configs;
+<?php namespace Lavacharts\Tests\Configs;
 
-use Khill\Lavacharts\Tests\ProvidersTestCase;
-use Khill\Lavacharts\Configs\ColorAxis;
-use Mockery as m;
+use \Lavacharts\Tests\ProvidersTestCase;
+use \Lavacharts\Configs\ColorAxis;
+use \Mockery as m;
 
 class ColorAxisTest extends ProvidersTestCase
 {
@@ -37,7 +37,7 @@ class ColorAxisTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @expectedException Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
@@ -56,7 +56,7 @@ class ColorAxisTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonNumericProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMinValueWithBadTypes($badTypes)
     {
@@ -75,7 +75,7 @@ class ColorAxisTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonNumericProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMaxValueWithBadTypes($badTypes)
     {
@@ -91,7 +91,7 @@ class ColorAxisTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonArrayProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testValuesWithBadTypes($badTypes)
     {
@@ -108,7 +108,7 @@ class ColorAxisTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonArrayProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testColorsWithBadTypes($badTypes)
     {
