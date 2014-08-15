@@ -30,11 +30,11 @@ class ComboChart extends Chart
 {
     //use Khill\Lavacharts\Traits\AxisTitlesPosition;
 
-    public $type = 'ComboChart';
+    public $t = 'ComboChart';
 
-    public function __construct($chartLabel)
+    public function __construct($c)
     {
-        parent::__construct($chartLabel);
+        parent::__construct($c);
 
         $this->defaults = array_merge(
             $this->defaults,
@@ -58,23 +58,13 @@ class ComboChart extends Chart
      * out - Draw the axis titles outside the chart area.
      * none - Omit the axis titles.
      *
-     * @param  Khill\Lavacharts\Configs\Annotation $annotation
+     * @param  Khill\Lavacharts\Configs\Annotation $a
      * @throws InvalidConfigValue
      * @return ComboChart
      */
-    public function annotations(Annotation $annotation)
+    public function annotations(Annotation $a)
     {
-        if (Helpers::isAnnotation($annotation)) {
-            $this->addOption($annotations->toArray());
-        } else {
-            throw new InvalidConfigValue(
-                $this->chartType,
-                __FUNCTION__,
-                'annotation'
-            );
-        }
-
-        return $this;
+        return $this->addOption($a->toArray());
     }
 
     /**
@@ -82,24 +72,21 @@ class ComboChart extends Chart
      * 0.0 is fully transparent and 1.0 is fully opaque. To specify opacity for
      * an individual series, set the areaOpacity value in the series property.
      *
-     * @param  float              $opacity
+     * @param  float              $o
      * @throws InvalidConfigValue
      * @return ComboChart
      */
-    public function areaOpacity($opacity)
+    public function areaOpacity($o)
     {
-        if (Helpers::between(0.0, $opacity, 1.0)) {
-            $this->addOption(array('areaOpacity' => $opacity));
+        if (Helpers::between(0.0, $o, 1.0)) {
+            return $this->addOption(array(__FUNCTION__ => $o));
         } else {
-            throw new InvalidConfigValue(
-                $this->chartType,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'float',
                 'between 0.0 - 1.0'
             );
         }
-
-        return $this;
     }
 
     /**
@@ -108,30 +95,27 @@ class ComboChart extends Chart
      * out  - Draw the axis titles outside the chart area.
      * none - Omit the axis titles.
      *
-     * @param  string             $position
+     * @param  string             $p
      * @throws InvalidConfigValue
      * @return ComboChart
      */
-    public function axisTitlesPosition($position)
+    public function axisTitlesPosition($p)
     {
-        $values = array(
+        $v = array(
             'in',
             'out',
             'none'
         );
 
-        if (in_array($position, $values)) {
-            $this->addOption(array('axisTitlesPosition' => $position));
+        if (in_array($p, $v)) {
+            return $this->addOption(array(__FUNCTION__ => $p));
         } else {
-            throw new InvalidConfigValue(
-                $this->chartType,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.Helpers::arrayToPipedString($values)
+                'with a value of '.Helpers::arrayToPipedString($v)
             );
         }
-
-        return $this;
     }
 
     /**
@@ -140,87 +124,64 @@ class ComboChart extends Chart
      * - Percentage of the available width for each group (e.g. '20%'),
      *   where '100%' means that groups have no space between them.
      *
-     * @param  int|string         $barGroupWidth
+     * @param  int|string         $b
      * @throws InvalidConfigValue
      * @return ComboChart
      */
-    public function barGroupWidth($barGroupWidth)
+    public function barGroupWidth($b)
     {
-        if (Helpers::isIntOrPercent($barGroupWidth)) {
-            $this->addOption(array('bar' => array('groupWidth' => $barGroupWidth)));
+        if (Helpers::isIntOrPercent($b)) {
+            return $this->addOption(array(__FUNCTION__ => array('groupWidth' => $b)));
         } else {
-            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'string | int', 'must be a valid int or percent [ 50 | 65% ]');
-        }
-
-        return $this;
-    }
-
-    /**
+            throw $this->invalidConfigValue($this->chartType, __FUNCTION__, 'string | int', 'must be a valid int or percent [ 50 | 65% ]');
+          /**
      * An object with members to configure various horizontal axis elements. To
      * specify properties of this property, create a new hAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param Khill\Lavacharts\Configs\HorizontalAxis $hAxis
+     * @param Khill\Lavacharts\Configs\HorizontalAxis $h
      *
      * @throws InvalidConfigValue
      * @return ComboChart
      */
-    public function hAxis(HorizontalAxis $hAxis)
+    public function hAxis(HorizontalAxis $h)
     {
-        if (Helpers::is_hAxis($hAxis)) {
-            $this->addOption($hAxis->toArray());
-        } else {
-            throw new InvalidConfigValue(
-                $this->chartType,
-                __FUNCTION__,
-                'hAxis'
-            );
-        }
-
-        return $this;
+        return return $this->addOption($h->toArray(__FUNCTION__));
     }
 
     /**
      * If set to true, series elements are stacked.
      *
-     * @param  bool               $isStacked
+     * @param  bool               $i
      * @throws InvalidConfigValue
      * @return ComboChart
      */
-    public function isStacked($isStacked)
+    public function isStacked($i)
     {
-        if (is_bool($isStacked)) {
-            $this->addOption(array('isStacked' => $isStacked));
+        if (is_bool($i)) {
+            return $this->addOption(array(__FUNCTION__ => $i));
         } else {
-            throw new InvalidConfigValue($this->chartType, __FUNCTION__, 'bool');
-        }
-
-        return $this;
-    }
-
-    /**
+            throw $this->invalidConfigValue($this->chartType, __FUNCTION__, 'bool');
+          /**
      * An array of objects, each describing the format of the corresponding series
      * in the chart. To use default values for a series, specify an null in the array.
      * If a series or a value is not specified, the global value will be used.
      *
-     * @param  array              $arrOfSeries
+     * @param  array              $a
      * @throws InvalidConfigValue
      * @return ComboChart
      */
-    public function series($arrOfSeries)
+    public function series($a)
     {
-        if (Helpers::arrayValuesCheck($arrOfSeries, 'class', 'Series')) {
-            $this->addOption(array('series' => $arrOfSeries));
+        if (Helpers::arrayValuesCheck($a, 'class', 'Series')) {
+            return $this->addOption(array(__FUNCTION__ => $a));
         } else {
-            throw new InvalidConfigValue(
-                $this->chartType,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'array',
-                'of type (Series) objects'
+                'Series Objects'
             );
         }
-
-        return $this;
     }
 
     /**
@@ -228,13 +189,13 @@ class ComboChart extends Chart
      * Available values are:
      * 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'
      *
-     * @param  string             $type
+     * @param  string             $t
      * @throws InvalidConfigValue
      * @return ComboChart
      */
-    public function seriesType($type)
+    public function seriesType($t)
     {
-        $values = array(
+        $v = array(
             'line',
             'area',
             'bars',
@@ -242,18 +203,15 @@ class ComboChart extends Chart
             'steppedArea'
         );
 
-        if (in_array($type, $values)) {
-            $this->addOption(array('seriesType' => $type));
+        if (in_array($t, $v)) {
+            return $this->addOption(array(__FUNCTION__ => $t));
         } else {
-            throw new InvalidConfigValue(
-                $this->chartType,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.Helpers::arrayToPipedString($values)
+                'with a value of '.Helpers::arrayToPipedString($v)
             );
         }
-
-        return $this;
     }
 
     /**
@@ -266,20 +224,20 @@ class ComboChart extends Chart
      * To specify a chart with multiple vertical axes, first define a new axis using
      * series.targetAxisIndex, then configure the axis using vAxes.
      *
-     * @param  array              $arrOfVertAxis Array of VerticalAxis objects
+     * @param  array              $a Array of VerticalAxis objects
      * @throws InvalidConfigValue
      *
      * @return ComboChart
      */
-    public function vAxes($arrOfVertAxis)
+    public function vAxes($a)
     {
-        if (Helpers::arrayValuesCheck($arrOfVertAxis, 'class', 'VerticalAxis')) {
-            $this->addOption(array('vAxes' => $arrOfVertAxis));
+        if (Helpers::arrayValuesCheck($a, 'class', 'VerticalAxis')) {
+            return $this->addOption(array(__FUNCTION__ => $a));
         } else {
-            throw new InvalidConfigValue(
-                $this->chartType,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'VerticalAxis'
+                'array'
+                'of VerticalAxis Objects'
             );
         }
     }
@@ -289,24 +247,14 @@ class ComboChart extends Chart
      * specify properties of this property, create a new vAxis() object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param  VerticalAxis       $vAxis
+     * @param  VerticalAxis       $v
      * @throws InvalidConfigValue
      *
      * @return ComboChart
      */
-    public function vAxis(VerticalAxis $vAxis)
+    public function vAxis(VerticalAxis $v)
     {
-        if (Helpers::is_vAxis($vAxis)) {
-            $this->addOption($vAxis->toArray());
-        } else {
-            throw new InvalidConfigValue(
-                $this->chartType,
-                __FUNCTION__,
-                'VerticalAxis'
-            );
-        }
-
-        return $this;
+        return $this->addOption($v->toArray(__FUNCTION__));
     }
 }
 

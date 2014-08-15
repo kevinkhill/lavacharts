@@ -31,7 +31,7 @@ class Chart
 {
     public $type      = null;
     public $label     = null;
-    public $datatable = null;
+    public $dataTable = null;
     public $events    = null;
 
     protected $defaults  = null;
@@ -164,9 +164,9 @@ class Chart
      *
      * @return Chart
      */
-    public function datatable(DataTable $d)
+    public function dataTable(DataTable $d)
     {
-        $this->datatable = $d;
+        $this->dataTable = $d;
 
         return $this;
     }
