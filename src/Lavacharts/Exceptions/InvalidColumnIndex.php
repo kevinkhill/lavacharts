@@ -1,6 +1,6 @@
 <?php namespace Lavacharts\Exceptions;
 
-class InvalidColumnDefinition extends \Exception
+class InvalidColumnIndex extends \Exception
 {
     public function __construct($invalidColInd, $code = 0)
     {
