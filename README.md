@@ -96,6 +96,7 @@ Changelog
 ---------
  - v2.0.0-alpha3
    - Changed namespace
+   - Added DataTable column formatters
 
  - v2.0.0-alpha2
    - Added render method in favor of outputInto method
