@@ -160,7 +160,7 @@ class DataTable
     private function addColumnFromArray($colDefArray)
     {
         if (h::arrayValuesCheck($colDefArray, 'string') && h::between(1, count($colDefArray), 4, true)) {
-            call_user_func_array($this->addColumnFromStrings, $colDefArray);
+            call_user_func_array(array($this, 'addColumnFromStrings'), $colDefArray);
         } else {
             throw new InvalidColumnDefinition($colDefArray);
         }
@@ -178,7 +178,7 @@ class DataTable
      * @throws InvalidConfigValue
      * @return DataTable
      */
-    private function addColumnFromStrings($type, $label, $id, $format)
+    private function addColumnFromStrings($type, $label='', $id='', $format=null)
     {
         $colIndex = $this->getNumberOfColumns();
 

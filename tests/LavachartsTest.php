@@ -14,6 +14,8 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
         $this->mdt = m::mock('\Lavacharts\Configs\DataTable')
                       ->shouldReceive('toJson')
                       ->atMost(1)
+                      ->shouldReceive('hasFormats')
+                      ->atLeast(1)
                       ->getMock();
 
     }
@@ -48,7 +50,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
     {
         $params = array(
             'fontSize' => 4,
-            'fontColor' => 'green'
+            'fontName' => 'Arial'
         );
 
         $this->assertInstanceOf('\\Lavacharts\\Configs\TextStyle', $this->lc->TextStyle($params));
