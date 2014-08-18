@@ -133,31 +133,7 @@ class JavascriptFactory
 
         //Adding get method to lava object for fetching charts
         $out .= $this->addLavaGetFunc();
-
-        //Adding method for wrapping event callbacks to include reference to the chart.
-        $out .= <<<CALLBACKFUNC
-lava.event = function (callback) {
-    var chartTypes = Object.keys(lava.charts);
-    var retVal;
-
-    if (typeof chartLabel === 'string') {
-        if (Array.isArray(chartTypes)) {
-            chartTypes.forEach(function (e) {
-                if (typeof lava.charts[e][chartLabel] !== 'undefined') {
-                    retVal = lava.charts[e][chartLabel];
-                }
-            });
-        }
-
-        return retVal;
-    } else {
-        console.error('[Lavacharts] The input for lava.get() must be a string.');
-        retVal = false;
-    }
-
-    return callback();
-};
-CALLBACKFUNC;
+        $out .= PHP_EOL;
 
         //Creating new chart js object
         $out .= sprintf(
@@ -303,28 +279,26 @@ CALLBACKFUNC;
 
     private function addLavaGetFunc()
     {
-        return <<<GETFUNC
-            lava.get = function (chartLabel) {
-                var chartTypes = Object.keys(lava.charts);
-                var retVal;
+return <<<GETFUNC
+    lava.get = function (chartLabel) {
+        var chartTypes = Object.keys(lava.charts),
+            retVal;
 
-                if (typeof chartLabel === 'string') {
-                    if (Array.isArray(chartTypes)) {
-                        chartTypes.forEach(function (e) {
-                            if (typeof lava.charts[e][chartLabel] !== 'undefined') {
-                                retVal = lava.charts[e][chartLabel];
-                            }
-                        });
+        if (typeof chartLabel === 'string') {
+            if (Array.isArray(chartTypes)) {
+                chartTypes.forEach(function (e) {
+                    if (typeof lava.charts[e][chartLabel] !== 'undefined') {
+                        retVal = lava.charts[e][chartLabel].chart;
                     }
+                });
+            }
 
-                    return retVal;
-                } else {
-                    console.error('[Lavacharts] The input for lava.get() must be a string.');
-                    retVal = false;
-                }
-
-                return retVal;
-            };
+            return retVal;
+        } else {
+            console.error('[Lavacharts] The input for lava.get() must be a string.');
+            return false;
+        }
+    };
 GETFUNC;
     }
 }
