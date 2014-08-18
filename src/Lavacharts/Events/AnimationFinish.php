@@ -23,6 +23,7 @@ use Lavacharts\Exceptions\InvalidConfigProperty;
 
 class AnimationFinish extends Event
 {
+    const TYPE = 'animationfinish';
 
     /**
      * Builds the AnimationFinish Event object when passed an array of configuration options.
@@ -32,8 +33,8 @@ class AnimationFinish extends Event
      * @throws InvalidConfigProperty
      * @return AnimationFinish
      */
-    public function __construct($config = array())
+    public function __construct($c)
     {
-        parent::__construct($this, $config);
+        parent::__construct($c);
     }
 }

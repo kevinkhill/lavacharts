@@ -24,6 +24,8 @@ use Lavacharts\Exceptions\InvalidElementId;
 
 class JavascriptFactory
 {
+    const DEBUG = true;
+
     /**
      * Chart used to generate output.
      *
@@ -123,13 +125,95 @@ class JavascriptFactory
     private function buildChartJs()
     {
         $out  = $this->googleAPI.PHP_EOL;
-/*
-        if (is_array($this->chart->events) && count($this->chart->events) > 0) {
-            $out .= $this->_build_event_callbacks($this->chart->type, $this->chart->events);
-        }
-*/
+
         $out .= $this->jsO.PHP_EOL;
-        $out .= 'var lavacharts = {formatters:{}};'.PHP_EOL;
+
+        //Creating or reusing lavacharts object
+        $out .= 'var lava = lava || {get:null,charts:{}};'.PHP_EOL;
+
+        //Adding get method to lava object for fetching charts
+        $out .= $this->addLavaGetFunc();
+
+        //Adding method for wrapping event callbacks to include reference to the chart.
+        $out .= <<<CALLBACKFUNC
+lava.event = function (callback) {
+    var chartTypes = Object.keys(lava.charts);
+    var retVal;
+
+    if (typeof chartLabel === 'string') {
+        if (Array.isArray(chartTypes)) {
+            chartTypes.forEach(function (e) {
+                if (typeof lava.charts[e][chartLabel] !== 'undefined') {
+                    retVal = lava.charts[e][chartLabel];
+                }
+            });
+        }
+
+        return retVal;
+    } else {
+        console.error('[Lavacharts] The input for lava.get() must be a string.');
+        retVal = false;
+    }
+
+    return callback();
+};
+CALLBACKFUNC;
+
+        //Creating new chart js object
+        $out .= sprintf(
+            'lava.charts.%s = {"%s":{chart:null,draw:null,data:null,options:null,formats:{}}};',
+            $this->chart->type,
+            $this->chart->label
+        ).PHP_EOL.PHP_EOL;
+
+        //Checking if output div exists
+        $out .= sprintf(
+            "if (!document.getElementById('%s'))" .
+            "{console.error('[Lavaharts] No matching element was found with ID \"%s\"');}",
+            $this->elementId,
+            $this->elementId
+        ).PHP_EOL.PHP_EOL;
+
+        $out .= sprintf(
+            "lava.charts.%s.%s.draw = function() {",
+            $this->chart->type,
+            $this->chart->label
+        ).PHP_EOL;
+
+        $out .= sprintf(
+            'var $this = lava.charts.%s.%s;',
+            $this->chart->type,
+            $this->chart->label
+        ).PHP_EOL.PHP_EOL;
+
+        $out .= sprintf(
+            '$this.data = new google.visualization.DataTable(%s, %s);',
+            $this->chart->datatable->toJson(),
+            $this->googleDataTableVer
+        ).PHP_EOL.PHP_EOL;
+
+        $out .= sprintf(
+            '$this.options = %s;',
+            $this->chart->optionsToJson()
+        ).PHP_EOL.PHP_EOL;
+
+        $out .= sprintf(
+            '$this.chart = new google.visualization.%s',
+            $this->chart->type
+        );
+        $out .= sprintf("(document.getElementById('%s'));", $this->elementId).PHP_EOL.PHP_EOL;
+
+        if ($this->chart->datatable->hasFormats()) {
+            $out .= $this->buildFormatters();
+        }
+
+        $out .= '$this.chart.draw($this.data, $this.options);'.PHP_EOL;
+
+        if ($this->chart->hasEvents()) {
+            $out .= $this->buildEventCallbacks();
+        }
+
+        $out .= "};".PHP_EOL.PHP_EOL;
 
         switch ($this->chart->type) {
             case 'AnnotatedTimeLine':
@@ -145,39 +229,21 @@ class JavascriptFactory
                 break;
         }
 
-        //Checking if output div exists
-        $out .= sprintf("if (!document.getElementById('%s'))", $this->elementId);
-        $out .= sprintf("{console.error('[Lavacharts] No matching element was found with ID \"%s\"');}", $this->elementId).PHP_EOL;
-
-        $out .= sprintf("google.load('visualization', '1', {'packages':['%s']});", $vizType).PHP_EOL;
-        $out .= 'google.setOnLoadCallback(drawChart);'.PHP_EOL;
-        $out .= 'function drawChart() {'.PHP_EOL;
-
         $out .= sprintf(
-            'var data = new google.visualization.DataTable(%s, %s);',
-            $this->chart->datatable->toJson(),
-            $this->googleDataTableVer
+            "google.load('visualization', '1', {'packages':['%s']});",
+            $vizType
         ).PHP_EOL;
 
-        $out .= sprintf('var options = %s;', $this->chart->optionsToJson()).PHP_EOL;
-        $out .= sprintf('var chart = new google.visualization.%s', $this->chart->type);
-        $out .= sprintf("(document.getElementById('%s'));", $this->elementId).PHP_EOL;
+        $out .= sprintf(
+            "google.setOnLoadCallback(lava.charts.%s.%s.draw);",
+            $this->chart->type,
+            $this->chart->label
+        ).PHP_EOL;
 
-        if ($this->chart->datatable->hasFormats()) {
-            $out .= $this->buildFormatters().PHP_EOL;
+        if (self::DEBUG) {
+            $out .='console.debug(lava);';
         }
 
-        $out .= 'chart.draw(data, options);'.PHP_EOL;
-/*
-        if (is_array($this->chart->events) && count($this->chart->events) > 0) {
-            foreach ($this->chart->events as $event) {
-                $out .= sprintf('google.visualization.events.addListener(chart, "%s", ', $event);
-                $out .= sprintf('function (event) { %s.%s(event); });', $this->chart->type, $event).PHP_EOL;
-            }
-        }
-*/
-
-        $out .= "}".PHP_EOL;
         $out .= $this->jsC.PHP_EOL;
 
         return $out;
@@ -187,33 +253,20 @@ class JavascriptFactory
      * Builds the javascript object of event callbacks.
      *
      * @access private
-     * @param string $chartType.
-     * @param array  $chartEvents Array of events to apply to the chart.
      *
      * @return string Javascript code block.
      */
-    private function buildEventCallbacks($chartType, $chartEvents)
+    private function buildEventCallbacks()
     {
-        $script = sprintf('if (typeof %s !== "object") { %s = {}; }', $chartType, $chartType).PHP_EOL.PHP_EOL;
+        $out = '';
 
-        foreach ($chartEvents as $event) {
-             $script .= sprintf('%s.%s = function (event) {', $chartType, $event).PHP_EOL;
-
-             $callback = $this->callbackPath.$chartType.'.'.$event.'.js';
-             $callbackScript = file_get_contents($callback);
-
-            if ($callbackScript !== false) {
-                $script .= $callbackScript.PHP_EOL;
-            } else {
-                $this->setError(__METHOD__, 'Error loading javascript file, in '.$callback.'.js');
-            }
-
-             $script .= "};".PHP_EOL;
+        foreach ($this->chart->getEvents() as $event) {
+            $out .= sprintf(
+                'google.visualization.events.addListener($this.chart, "%s", %s);',
+                $event::TYPE,
+                $event->callback
+            ).PHP_EOL.PHP_EOL;
         }
-
-        $out  = $this->jsO.PHP_EOL;
-        $out .= $script;
-        $out .= $this->jsC.PHP_EOL;
 
         return $out;
     }
@@ -232,20 +285,47 @@ class JavascriptFactory
 
         foreach ($this->chart->datatable->getFormats() as $index => $format) {
             $out .= sprintf(
-                'lavacharts.formatters.col%s = new google.visualization.%s(%s);',
+                '$this.formats.col%s = new google.visualization.%s(%s);',
                 $index,
                 $format::TYPE,
                 $format->toJson()
             ).PHP_EOL;
 
             $out .= sprintf(
-                'lavacharts.formatters.col%s.format(data, %s);',
+                '$this.formats.col%s.format($this.data, %s);',
                 $index,
                 $index
-            ).PHP_EOL;
+            ).PHP_EOL.PHP_EOL;
         }
 
         return $out;
+    }
+
+    private function addLavaGetFunc()
+    {
+        return <<<GETFUNC
+            lava.get = function (chartLabel) {
+                var chartTypes = Object.keys(lava.charts);
+                var retVal;
+
+                if (typeof chartLabel === 'string') {
+                    if (Array.isArray(chartTypes)) {
+                        chartTypes.forEach(function (e) {
+                            if (typeof lava.charts[e][chartLabel] !== 'undefined') {
+                                retVal = lava.charts[e][chartLabel];
+                            }
+                        });
+                    }
+
+                    return retVal;
+                } else {
+                    console.error('[Lavacharts] The input for lava.get() must be a string.');
+                    retVal = false;
+                }
+
+                return retVal;
+            };
+GETFUNC;
     }
 }
 

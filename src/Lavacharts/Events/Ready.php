@@ -17,23 +17,19 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Helpers\Helpers;
-use Lavacharts\Exceptions\InvalidConfigValue;
-use Lavacharts\Exceptions\InvalidConfigProperty;
-
 class Ready extends Event
 {
+    const TYPE = 'ready';
 
     /**
-     * Builds the Ready Event object when passed an array of configuration options.
+     * Builds the Ready Event object.
      *
-     * @param  array                 $config Options for the Event
+     * @param  string              $c Callback function name.
      * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
      * @return Ready
      */
-    public function __construct($config = array())
+    public function __construct($c)
     {
-        parent::__construct($this, $config);
+        parent::__construct($c);
     }
 }

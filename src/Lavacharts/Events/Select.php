@@ -17,23 +17,19 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Helpers\Helpers;
-use Lavacharts\Exceptions\InvalidConfigValue;
-use Lavacharts\Exceptions\InvalidConfigProperty;
-
 class Select extends Event
 {
+    const TYPE = 'select';
 
     /**
-     * Builds the Select Event object when passed an array of configuration options.
+     * Builds the Select Event object.
      *
-     * @param  array                 $config Options for the Event
+     * @param  string              $c Callback function name.
      * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
      * @return Select
      */
-    public function __construct($config = array())
+    public function __construct($c)
     {
-        parent::__construct($this, $config);
+        parent::__construct($c);
     }
 }

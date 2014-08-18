@@ -17,12 +17,12 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Helpers\Helpers;
 use Lavacharts\Exceptions\InvalidConfigValue;
 use Lavacharts\Exceptions\InvalidConfigProperty;
 
 class MouseOut extends Event
 {
+    const TYPE = 'onmouseout';
 
     /**
      * Builds the MouseOut Event object when passed an array of configuration options.
@@ -32,8 +32,8 @@ class MouseOut extends Event
      * @throws InvalidConfigProperty
      * @return MouseOut
      */
-    public function __construct($config = array())
+    public function __construct($c)
     {
-        parent::__construct($this, $config);
+        parent::__construct($c);
     }
 }

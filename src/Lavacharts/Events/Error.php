@@ -17,23 +17,19 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Helpers\Helpers;
-use Lavacharts\Exceptions\InvalidConfigValue;
-use Lavacharts\Exceptions\InvalidConfigProperty;
-
 class Error extends Event
 {
+    const TYPE = 'error';
 
     /**
-     * Builds the Error Event object when passed an array of configuration options.
+     * Builds the Error Event object.
      *
-     * @param  array                 $config Options for the Event
+     * @param  string              $c Callback function name.
      * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
      * @return Error
      */
-    public function __construct($config = array())
+    public function __construct($c)
     {
-        parent::__construct($this, $config);
+        parent::__construct($c);
     }
 }

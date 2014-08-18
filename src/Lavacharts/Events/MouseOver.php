@@ -23,6 +23,7 @@ use Lavacharts\Exceptions\InvalidConfigProperty;
 
 class MouseOver extends Event
 {
+    const TYPE = 'onmouseover';
 
     /**
      * Builds the MouseOver Event object when passed an array of configuration options.
@@ -32,8 +33,8 @@ class MouseOver extends Event
      * @throws InvalidConfigProperty
      * @return MouseOut
      */
-    public function __construct($config = array())
+    public function __construct($c)
     {
-        parent::__construct($this, $config);
+        parent::__construct($c);
     }
 }

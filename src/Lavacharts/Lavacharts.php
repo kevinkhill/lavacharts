@@ -89,6 +89,14 @@ class Lavacharts
     );
 
     /**
+     * @var array Types of events.
+     */
+    private $eventClasses = array(
+        'Ready',
+        'Select'
+    );
+
+    /**
      * Acceptable global configuration options.
      *
      * @var array
@@ -161,6 +169,11 @@ class Lavacharts
             } else {
                 return $this->formatFactory($member);
             }
+        }
+
+        if (in_array($member, $this->eventClasses) && isset($arguments[0]))
+        {
+            return $this->eventFactory($member, $arguments[0]);
         }
 
         if (! method_exists($this, $member)) {
@@ -317,7 +330,7 @@ class Lavacharts
     }
 
     /**
-     * Creates ConfigObjects
+     * Creates Config Objects
      *
      * @access private
      * @since  v2.0.0
@@ -335,7 +348,7 @@ class Lavacharts
     }
 
     /**
-     * Creates Formatters
+     * Creates Format Objects
      *
      * @access private
      * @since  v2.0.0
@@ -350,6 +363,23 @@ class Lavacharts
         $formatter = __NAMESPACE__ . '\\Formats\\' . $type;
 
         return ! empty($options) ? new $formatter($options) : new $formatter;
+    }
+
+    /**
+     * Creates Event Objects
+     *
+     * @access private
+     * @since  v2.0.0
+     *
+     * @param string $type Type of event to create.
+     *
+     * @return Event
+     */
+    private function eventFactory($type, $callback)
+    {
+        $event = __NAMESPACE__ . '\\Events\\' . $type;
+
+        return new $event($callback);
     }
 
     /**

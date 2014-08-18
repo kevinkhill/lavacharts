@@ -19,77 +19,30 @@
 
 use Lavacharts\Helpers\Helpers as h;
 use Lavacharts\Exceptions\InvalidConfigValue;
-use Lavacharts\Exceptions\InvalidConfigProperty;
 
 class Event
 {
     /**
-     * Name of the Event Object
+     * Javascript callback function name.
      *
      * @var string
      */
-    protected $className;
-
-    /**
-     * Allowed keys for the Event child objects.
-     *
-     * @var array
-     */
-    protected $options = array();
+    public $callback;
 
     /**
      * Builds the Event object.
      *
-     * Passing an array of key value pairs will set the configuration for each
-     * child object created from this parent object.
-     *
-     * @param  array Array of options.
-     *
+     * @param  string             $c Name of Javascript callback function.
      * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
-     * @return object
+     * @return Event
      */
-    public function __construct($config)
+    public function __construct($c)
     {
-        $class = new \ReflectionClass($child);
-
-        $this->className = $class->getShortname();
-        $this->options = array_map(function ($prop) {
-            return $prop->name;
-        }, $class->getProperties(\ReflectionProperty::IS_PUBLIC));
-
-        if (is_array($config)) {
-            foreach ($config as $option => $value) {
-                if (in_array($option, $this->options)) {
-                    $this->$option($value);
-                } else {
-                    throw new InvalidConfigProperty(
-                        $this->className,
-                        __FUNCTION__,
-                        $option,
-                        $this->options
-                    );
-                }
-            }
-        } else {
-            throw new InvalidConfigValue(
-                $this->className,
-                __FUNCTION__,
-                'array',
-                'with valid keys as '.h::arrayToPipedString($this->options)
-            );
-        }
-    }
-
-    public function setCallback($c)
-    {
-        if (is_string($c) && ! empty($c))
-        {
+        if (h::nonEmptyString($c)) {
             $this->callback = $c;
         } else {
             throw new InvalidConfigValue(
-                $this->className,
-                __FUNCTION__,
+                'an Event',
                 'string'
             );
         }

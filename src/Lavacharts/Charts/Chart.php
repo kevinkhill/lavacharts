@@ -32,9 +32,9 @@ class Chart
     public $type      = null;
     public $label     = null;
     public $datatable = null;
-    public $events    = null;
 
     protected $defaults  = null;
+    protected $events    = array();
     protected $options   = array();
 
     /**
@@ -152,6 +152,25 @@ class Chart
     }
 
     /**
+     * Checks if any events have been assigned to the chart.
+     *
+     * @return bool
+     */
+    public function hasEvents()
+    {
+        return count($this->events) > 0 ? true : false;
+    }
+
+    /**
+     * Checks if any events have been assigned to the chart.
+     *
+     * @return bool
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+    /**
      * Assigns wich Datatable will be used for this Chart.
      *
      * If a label is provided then the defined Datatable will be used.
@@ -263,7 +282,7 @@ class Chart
      * @throws InvalidConfigValue
      *
      * @return Chart
-     *//*
+     */
     public function events($e)
     {
         $values = array(
@@ -277,21 +296,22 @@ class Chart
 
         if (is_array($e)) {
             foreach ($e as $event) {
-                if (in_array($event, $values)) {
+                if (is_subclass_of($event, 'Lavacharts\Events\Event')) {
                     $this->events[] = $event;
                 } else {
                     throw $this->invalidConfigValue(
-                        'Invalid events array key value, must be (string) with any key '.h::arrayToPipedString($values));
+                        __FUNCTION__,
+                        'Event'
+                    );
                 }
             }
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'array',
-                'containing any key '.h::arrayToPipedString($values)
+                'array'
             );
         }
-    }*/
+    }
 
     /**
      * The default font size, in pixels, of all text in the chart. You can
