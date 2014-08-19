@@ -323,7 +323,7 @@ GETFUNC;
     {
 return <<<GETFUNC
     lava.event = function (event, chart, callback) {
-        return callback(chart, event);
+        return callback(event, chart);
     };
 GETFUNC;
     }

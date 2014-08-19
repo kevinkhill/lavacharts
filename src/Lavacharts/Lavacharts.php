@@ -92,9 +92,9 @@ class Lavacharts
      * @var array Types of events.
      */
     private $eventClasses = array(
-        'Ready',
         'Select',
-        'MouseOver'
+        'MouseOver',
+        'MouseOut'
     );
 
     /**
