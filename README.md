@@ -5,7 +5,7 @@ LavaCharts is a graphing library for PHP5.3+ that wraps the Google Chart API
 
 Branches
 ========
-[![Build Status](https://travis-ci.org/kevinkhill/LavaCharts.png?branch=v2.0)](https://travis-ci.org/kevinkhill/LavaCharts) [![Coverage Status](https://coveralls.io/repos/kevinkhill/LavaCharts/badge.png?branch=v2.0)](https://coveralls.io/r/kevinkhill/LavaCharts?branch=v2.0) [![Total Downloads](https://poser.pugx.org/khill/lavacharts/downloads.svg)](https://packagist.org/packages/khill/lavacharts) [![License](https://poser.pugx.org/khill/lavacharts/license.svg)](https://packagist.org/packages/khill/lavacharts)
+[![Build Status](https://travis-ci.org/kevinkhill/Lavacharts.png?branch=v2.0)](https://travis-ci.org/kevinkhill/Lavacharts) [![Coverage Status](https://coveralls.io/repos/kevinkhill/Lavacharts/badge.png?branch=v2.0)](https://coveralls.io/r/kevinkhill/Lavacharts?branch=v2.0) [![Total Downloads](https://poser.pugx.org/khill/lavacharts/downloads.svg)](https://packagist.org/packages/khill/lavacharts) [![License](https://poser.pugx.org/khill/lavacharts/license.svg)](https://packagist.org/packages/khill/lavacharts)
 
 Installing
 ----------
@@ -15,7 +15,7 @@ In your project's main ```composer.json``` file, add this line to the requiremen
   "khill/lavacharts": "2.*"
   ```
 
-Run Composer to install LavaCharts:
+Run Composer to install Lavacharts:
 
   ```
   composer update
@@ -23,10 +23,10 @@ Run Composer to install LavaCharts:
 
 For Laravel
 -----------
-Register LavaCharts in your app by adding this line to the providers array in ```app/config/app.php```:
+Register Lavacharts in your app by adding this line to the providers array in ```app/config/app.php```:
 
   ```
-  "Lavacharts\LavachartsServiceProvider"
+  "Lavacharts\LaravelServiceProvider"
   ```
 
   Don't worry about the ```Lava``` alias, the service provider registers it automatically.
@@ -57,12 +57,12 @@ Controller
               ->addColumn('number', 'Projected', 'projected')
               ->addColumn('number', 'Closing', 'closing');
 
-  for($a = 1; $a < 30; $a++)
+  for($day = 1; $day < 30; $day++)
   {
       $data = array(
-          Carbon::create(2011, 5, $a), //Date
-          rand(9500,10000),            //Column 1's data
-          rand(9500,10000)             //Column 2's data
+          "5/$day/2014",     // DateString (or a Carbon Object)
+          rand(9500,10000),  // Column 1's data
+          rand(9500,10000)   // Column 2's data
       );
 
       $stocksTable->addRow($data);
