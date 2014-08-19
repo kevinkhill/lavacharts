@@ -93,7 +93,8 @@ class Lavacharts
      */
     private $eventClasses = array(
         'Ready',
-        'Select'
+        'Select',
+        'MouseOver'
     );
 
     /**

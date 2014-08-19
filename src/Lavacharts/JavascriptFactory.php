@@ -129,15 +129,19 @@ class JavascriptFactory
         $out .= $this->jsO.PHP_EOL;
 
         //Creating or reusing lavacharts object
-        $out .= 'var lava = lava || {get:null,charts:{}};'.PHP_EOL;
+        $out .= 'var lava = lava || {get:null,event:null,charts:{}};'.PHP_EOL;
 
         //Adding get method to lava object for fetching charts
         $out .= $this->addLavaGetFunc();
         $out .= PHP_EOL;
 
+        //Adding get method to lava object for fetching charts
+        $out .= $this->addLavaEventFunc();
+        $out .= PHP_EOL;
+
         //Creating new chart js object
         $out .= sprintf(
-            'lava.charts.%s = {"%s":{chart:null,draw:null,data:null,options:null,formats:{}}};',
+            'lava.charts.%s = {"%s":{chart:null,draw:null,data:null,options:null,formats:[]}};',
             $this->chart->type,
             $this->chart->label
         ).PHP_EOL.PHP_EOL;
@@ -237,11 +241,19 @@ class JavascriptFactory
         $out = '';
 
         foreach ($this->chart->getEvents() as $event) {
+
+            $cb = sprintf(
+                'function (event) { return lava.event(event, $this.chart, %s); }',
+                $event->callback
+            );
+
             $out .= sprintf(
                 'google.visualization.events.addListener($this.chart, "%s", %s);',
                 $event::TYPE,
-                $event->callback
+                $cb
             ).PHP_EOL.PHP_EOL;
+
+
         }
 
         return $out;
@@ -261,14 +273,14 @@ class JavascriptFactory
 
         foreach ($this->chart->datatable->getFormats() as $index => $format) {
             $out .= sprintf(
-                '$this.formats.col%s = new google.visualization.%s(%s);',
+                '$this.formats["col%s"] = new google.visualization.%s(%s);',
                 $index,
                 $format::TYPE,
                 $format->toJson()
             ).PHP_EOL;
 
             $out .= sprintf(
-                '$this.formats.col%s.format($this.data, %s);',
+                '$this.formats["col%s"].format($this.data, %s);',
                 $index,
                 $index
             ).PHP_EOL.PHP_EOL;
@@ -282,25 +294,40 @@ class JavascriptFactory
 return <<<GETFUNC
     lava.get = function (chartLabel) {
         var chartTypes = Object.keys(lava.charts),
-            retVal;
+            chart;
 
         if (typeof chartLabel === 'string') {
             if (Array.isArray(chartTypes)) {
-                chartTypes.forEach(function (e) {
+                chartTypes.some(function (e) {
                     if (typeof lava.charts[e][chartLabel] !== 'undefined') {
-                        retVal = lava.charts[e][chartLabel].chart;
+                        chart = lava.charts[e][chartLabel].chart;
+
+                        return true;
+                    } else {
+                        return false;
                     }
                 });
+            } else {
+                return false;
             }
-
-            return retVal;
         } else {
             console.error('[Lavacharts] The input for lava.get() must be a string.');
+
             return false;
         }
     };
 GETFUNC;
     }
+
+    private function addLavaEventFunc()
+    {
+return <<<GETFUNC
+    lava.event = function (event, chart, callback) {
+        return callback(chart, event);
+    };
+GETFUNC;
+    }
+
 }
 
 
