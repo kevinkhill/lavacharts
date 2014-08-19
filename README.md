@@ -1,7 +1,7 @@
-LavaCharts
+Lavacharts
 ==========
 
-LavaCharts is a graphing library for PHP5.3+ that wraps the Google Chart API
+Lavacharts is a graphing library for PHP5.3+ that wraps the Google Chart API
 
 Branches
 ========
@@ -12,7 +12,7 @@ Installing
 In your project's main ```composer.json``` file, add this line to the requirements:
 
   ```
-  "khill/lavacharts": "2.*"
+  "khill/lavacharts": "~2.0"
   ```
 
 Run Composer to install Lavacharts:
@@ -23,10 +23,14 @@ Run Composer to install Lavacharts:
 
 For Laravel
 -----------
-Register Lavacharts in your app by adding this line to the providers array in ```app/config/app.php```:
+Register Lavacharts in your app by adding this line to the end of the providers array in ```app/config/app.php```:
 
   ```
-  "Lavacharts\LaravelServiceProvider"
+  'providers' => array(
+      ...
+
+      "Lavacharts\LaravelServiceProvider"
+  ),
   ```
 
   Don't worry about the ```Lava``` alias, the service provider registers it automatically.
@@ -46,7 +50,7 @@ Second, within a view, you use one line and the library will output all the nece
 
 Basic Example
 -------------
-Here is an example of the simplest chart you can create: A line chart with one dataset and no customizations.
+Here is an example of the simplest chart you can create: A line chart with one dataset and a title, no configuration.
 
 Controller
 ==========
@@ -60,9 +64,9 @@ Controller
   for($day = 1; $day < 30; $day++)
   {
       $data = array(
-          "5/$day/2014",     // DateString (or a Carbon Object)
-          rand(9500,10000),  // Column 1's data
-          rand(9500,10000)   // Column 2's data
+          "5/$day/2014",     // Date string, DateTime Object, Carbon Object
+          rand(9500,10000),  // Column 1's data (int | float)
+          rand(9500,10000)   // Column 2's data (int | float)
       );
 
       $stocksTable->addRow($data);
@@ -92,11 +96,32 @@ This is all assuming you already have a div in your page with the id "stocks-div
 ```<div id="stocks-div"></div>```
 
 
+Notice
+======
+If you are using Lavacharts with Composer and not in Laravel, that's fine, just make sure to:
+```require 'vendor/autoload.php';``` within you project
+Create an instance of Lavacharts: ```$lava = new Lavacharts\Lavacharts;```
+Replace all of the ```Lava::``` class aliases in the examples, by chaining from the Lavacharts object you created.
+
+example: Use ```$dt = $lava->DataTable();``` instead of ```$dt = Lava::DataTable();```
+
+New Site & Docs
+===============
+I am working hard on creating the new site for Lavacharts with full documentation for all aspects of what the class can do for you :)
+
 Changelog
 ---------
+ - v2.0.0-alpha4
+   - Added Events
+     - select
+     - onmouseover
+     - onmouseout
+
  - v2.0.0-alpha3
    - Changed namespace
    - Added DataTable column formatters
+     - DateFormat
+     - NumberFormat
 
  - v2.0.0-alpha2
    - Added render method in favor of outputInto method
