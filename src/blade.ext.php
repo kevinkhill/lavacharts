@@ -3,6 +3,7 @@
 $charts = array(
     'LineChart',
     'AreaChart',
+    'ColumnChart',
     'ComboChart',
     'PieChart',
     'DonutChart',
