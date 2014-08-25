@@ -5,14 +5,14 @@ Lavacharts is a graphing library for PHP5.3+ that wraps the Google Chart API
 
 Branches
 ========
-[![Build Status](https://travis-ci.org/kevinkhill/Lavacharts.png?branch=v2.0)](https://travis-ci.org/kevinkhill/Lavacharts) [![Coverage Status](https://coveralls.io/repos/kevinkhill/Lavacharts/badge.png?branch=v2.0)](https://coveralls.io/r/kevinkhill/Lavacharts?branch=v2.0) [![Total Downloads](https://poser.pugx.org/khill/lavacharts/downloads.svg)](https://packagist.org/packages/khill/lavacharts) [![License](https://poser.pugx.org/khill/lavacharts/license.svg)](https://packagist.org/packages/khill/lavacharts)
+[![Build Status](https://travis-ci.org/kevinkhill/Lavacharts.png?branch=2.0)](https://travis-ci.org/kevinkhill/Lavacharts) [![Coverage Status](https://coveralls.io/repos/kevinkhill/Lavacharts/badge.png?branch=2.0)](https://coveralls.io/r/kevinkhill/Lavacharts?branch=2.0) [![Total Downloads](https://poser.pugx.org/khill/lavacharts/downloads.svg)](https://packagist.org/packages/khill/lavacharts) [![License](https://poser.pugx.org/khill/lavacharts/license.svg)](https://packagist.org/packages/khill/lavacharts)
 
 Installing
 ----------
 In your project's main ```composer.json``` file, add this line to the requirements:
 
   ```
-  "khill/lavacharts": "~2.0"
+  "khill/lavacharts": "2.0.*@dev"
   ```
 
 Run Composer to install Lavacharts:
@@ -111,24 +111,24 @@ I am working hard on creating the new site for Lavacharts with full documentatio
 
 Changelog
 ---------
- - v2.0.0-alpha4
+ - 2.0.0-alpha4
    - Added Events
      - select
      - onmouseover
      - onmouseout
 
- - v2.0.0-alpha3
+ - 2.0.0-alpha3
    - Changed namespace
    - Added DataTable column formatters
      - DateFormat
      - NumberFormat
 
- - v2.0.0-alpha2
+ - 2.0.0-alpha2
    - Added render method in favor of outputInto method
    - Added blade template extensions for seamless chart rendering
    - Moar tests!
 
- - v2.0.0-alpha1
+ - 2.0.0-alpha1
    - Refactored the main Lavacharts class to not be static anymore (yay!)
    - Moved the creation of the javascript into it's own class
    - Added a new class "Volcano" to store all the charts.
