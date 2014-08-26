@@ -36,11 +36,11 @@ class Series extends ConfigObject
     public $curveType;
 
     /**
-     * The type of marker for this series.
+     * Which axis is the target of the series definition.
      *
      * @var string
      */
-    public $type;
+    public $targetAxisIndex;
 
     /**
      * Text style of the series.
@@ -48,6 +48,13 @@ class Series extends ConfigObject
      * @var TextStyle
      */
     public $textStyle;
+
+    /**
+     * The type of marker for this series.
+     *
+     * @var string
+     */
+    public $type;
 
 
     /**
