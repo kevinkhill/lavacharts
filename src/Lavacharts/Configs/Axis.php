@@ -16,7 +16,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Helpers\Helpers;
+use Lavacharts\Helpers\Helpers as h;
 use Lavacharts\Exceptions\InvalidConfigValue;
 
 class Axis extends ConfigObject
@@ -135,9 +135,10 @@ class Axis extends ConfigObject
      * values for option => value, or by chaining together the functions once
      * an object has been created.
      *
-     * @param  array Associative array containing key => value pairs for the various configuration options.
+     * @param   array Associative array containing key => value pairs for the various configuration options.
      * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws InvalidConf
+     * @throws InvalidConfigValuerty
      * @return Axis
      */
     public function __construct($child, $config)
@@ -150,13 +151,13 @@ class Axis extends ConfigObject
      *
      * This option is only supported for a continuous axis.
      *
-     * @param mixed Must match type defined for the column, [ number | jsDate ].
-     *
+     * @param  mixed Must match type defined for the column, [ number | jsDate ].
+     * @throws InvalidConfigValue
      * @return Axis
      */
     public function baseline($baseline) //@TODO convert to carbon
     {
-        if (Helpers::isJsDate($baseline)) {
+        if (h::isJsDate($baseline)) {
             $this->baseline = $baseline->toString();
         } else {
             if (is_int($baseline)) {
@@ -180,8 +181,8 @@ class Axis extends ConfigObject
      *
      * This option is only supported for a continuous axis.
      *
-     * @param string Valid HTML color.
-     *
+     * @param  string Valid HTML color.
+     * @throws InvalidConfigValue
      * @return Axis
      */
     public function baselineColor($color)
@@ -204,8 +205,8 @@ class Axis extends ConfigObject
      *
      * Specify -1 to reverse the order of the values.
      *
-     * @param int $direction
-     *
+     * @param  int $direction
+     * @throws InvalidConfigValue
      * @return Axis
      */
     public function direction($direction)
@@ -234,8 +235,8 @@ class Axis extends ConfigObject
      *
      * This option is only supported for a continuous axis.
      *
-     * @param string $format format string for numeric or date axis labels.
-     *
+     * @param  string $format format string for numeric or date axis labels.
+     * @throws InvalidConfigValue
      * @return Axis
      */
     public function format($format)
@@ -263,8 +264,8 @@ class Axis extends ConfigObject
      *
      * This option is only supported for a continuous axis.
      *
-     * @param array $gridlines
-     *
+     * @param  array $gridlines
+     * @throws InvalidConfigValue
      * @return Axis
      */
     public function gridlines($gridlines)
@@ -309,8 +310,8 @@ class Axis extends ConfigObject
      *
      * This option is only supported for a continuous axis.
      *
-     * @param array $minorGridlines
-     *
+     * @param  array $minorGridlines
+     * @throws InvalidConfigValue
      * @return Axis
      */
     public function minorGridlines($minorGridlines)
@@ -353,8 +354,8 @@ class Axis extends ConfigObject
      *
      * This option is only supported for a continuous axis.
      *
-     * @param bool $logScale
-     *
+     * @param  bool $logScale
+     * @throws InvalidConfigValue
      * @return Axis
      */
     public function logScale($logScale)
@@ -372,84 +373,6 @@ class Axis extends ConfigObject
     }
 
     /**
-     * Position of the axis text, relative to the chart area.
-     * Supported values: 'out', 'in', 'none'.
-     *
-     * @param string $position Setting the position of the text.
-     *
-     * @return Axis
-     */
-    public function textPosition($position)
-    {
-        $values = array(
-            'out',
-            'in',
-            'none'
-        );
-
-        if (in_array($position, $values)) {
-            $this->textPosition = $position;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Helpers::arrayToPipedString($values)
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Sets the textstyle for the axis
-     *
-     * @param TextStyle $textStyle
-     *
-     * @return Axis
-     */
-    public function textStyle(TextStyle $textStyle)
-    {
-        $this->textStyle = $textStyle->getValues();
-
-        return $this;
-    }
-
-    /**
-     * Axis property that specifies the title of the axis.
-     *
-     * @param string $title
-     *
-     * @return Axis
-     */
-    public function title($title)
-    {
-        if (is_string($title)) {
-            $this->title = $title;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * An object that specifies the axis title text style.
-     *
-     * @param Lavacharts\Configs\TextStyle $titleTextStyle
-     *
-     * @return Axis
-     */
-    public function titleTextStyle(TextStyle $titleTextStyle)
-    {
-        $this->titleTextStyle = $titleTextStyle->getValues();
-
-        return $this;
-    }
-
-    /**
      * Maximum number of levels of axis text. If axis text labels
      * become too crowded, the server might shift neighboring labels up or down
      * in order to fit labels closer together. This value specifies the most
@@ -458,8 +381,8 @@ class Axis extends ConfigObject
      *
      * This option is only supported for a discrete axis.
      *
-     * @param int $alternation
-     *
+     * @param  int $alternation
+     * @throws InvalidConfigValue
      * @return Axis
      */
     public function maxAlternation($alternation)
@@ -483,8 +406,8 @@ class Axis extends ConfigObject
      *
      * This option is only supported for a discrete axis.
      *
-     * @param int $maxTextLines
-     *
+     * @param  int $maxTextLines
+     * @throws InvalidConfigValue
      * @return Axis
      */
     public function maxTextLines($maxTextLines)
@@ -510,8 +433,8 @@ class Axis extends ConfigObject
      *
      * This option is only supported for a discrete axis.
      *
-     * @param int $minTextSpacing
-     *
+     * @param  int $minTextSpacing
+     * @throws InvalidConfigValue
      * @return Axis
      */
     public function minTextSpacing($minTextSpacing)
@@ -539,8 +462,8 @@ class Axis extends ConfigObject
      *
      * This option is only supported for a discrete axis.
      *
-     * @param int $showTextEvery
-     *
+     * @param  int $showTextEvery
+     * @throws InvalidConfigValue
      * @return Axis
      */
     public function showTextEvery($showTextEvery)
@@ -564,8 +487,8 @@ class Axis extends ConfigObject
      *
      * This option is only supported for a continuous axis.
      *
-     * @param int $max
-     *
+     * @param  int $max
+     * @throws InvalidConfigValue
      * @return Axis
      */
     public function maxValue($max)
@@ -589,8 +512,8 @@ class Axis extends ConfigObject
      *
      * This option is only supported for a continuous axis.
      *
-     * @param int $min
-     *
+     * @param  int $min
+     * @throws InvalidConfigValue
      * @return Axis
      */
     public function minValue($min)
@@ -608,40 +531,79 @@ class Axis extends ConfigObject
     }
 
     /**
-     * Specifies how to scale the axis to render the values within
-     * the chart area. The following string values are supported:
+     * Position of the axis text, relative to the chart area.
+     * Supported values: 'out', 'in', 'none'.
      *
-     * 'pretty' - Scale the values so that the maximum and minimum
-     * data values are rendered a bit inside the left and right of the chart area.
-     * 'maximized' - Scale the values so that the maximum and minimum
-     * data values touch the left and right of the chart area.
-     * 'explicit' - Specify the left and right scale values of the chart area.
-     * Data values outside these values will be cropped. You must specify an
-     * axis.viewWindow array describing the maximum and minimum values to show.
-     *
-     * This option is only supported for a continuous axis.
-     *
-     * @param string $viewMode
-     *
+     * @param  string $position Setting the position of the text.
+     * @throws InvalidConfigValue
      * @return Axis
      */
-    public function viewWindowMode($viewMode)
+    public function textPosition($position)
     {
         $values = array(
-            'pretty',
-            'maximized',
-            'explicit',
+            'out',
+            'in',
+            'none'
         );
 
-        if (in_array($viewMode, $values)) {
-            $this->viewWindowMode = $viewMode;
+        if (h::nonEmptyString($position) && in_array($position, $values)) {
+            $this->textPosition = $position;
         } else {
-            if ($this->viewWindow == null) {
-                $this->viewWindowMode = 'pretty';
-            } else {
-                $this->viewWindowMode = 'explicit';
-            }
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string',
+                'with a value of '.h::arrayToPipedString($values)
+            );
         }
+
+        return $this;
+    }
+
+    /**
+     * Sets the textstyle for the axis
+     *
+     * @param  TextStyle $textStyle
+     * @throws InvalidConfigValue
+     * @return Axis
+     */
+    public function textStyle(TextStyle $textStyle)
+    {
+        $this->textStyle = $textStyle->getValues();
+
+        return $this;
+    }
+
+    /**
+     * Axis property that specifies the title of the axis.
+     *
+     * @param  string $title
+     * @throws InvalidConfigValue
+     * @return Axis
+     */
+    public function title($title)
+    {
+        if (h::nonEmptyString($title)) {
+            $this->title = $title;
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string'
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * An object that specifies the axis title text style.
+     *
+     * @param  TextStyle $titleTextStyle
+     * @throws InvalidConfigValue
+     * @return Axis
+     */
+    public function titleTextStyle(TextStyle $titleTextStyle)
+    {
+        $this->titleTextStyle = $titleTextStyle->getValues();
 
         return $this;
     }
@@ -666,8 +628,8 @@ class Axis extends ConfigObject
      * that denotes the element indices to display. In other words, every index
      * such that min <= index < max will be displayed.
      *
-     * @param array $viewWindow
-     *
+     * @param  array $viewWindow
+     * @throws InvalidConfigValue
      * @return Axis
      */
     public function viewWindow($viewWindow)
@@ -692,6 +654,45 @@ class Axis extends ConfigObject
                 'array',
                 'with keys min & max'
             );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Specifies how to scale the axis to render the values within
+     * the chart area. The following string values are supported:
+     *
+     * 'pretty' - Scale the values so that the maximum and minimum
+     * data values are rendered a bit inside the left and right of the chart area.
+     * 'maximized' - Scale the values so that the maximum and minimum
+     * data values touch the left and right of the chart area.
+     * 'explicit' - Specify the left and right scale values of the chart area.
+     * Data values outside these values will be cropped. You must specify an
+     * axis.viewWindow array describing the maximum and minimum values to show.
+     *
+     * This option is only supported for a continuous axis.
+     *
+     * @param  string $viewMode
+     * @throws InvalidConfigValue
+     * @return Axis
+     */
+    public function viewWindowMode($viewMode)
+    {
+        $values = array(
+            'pretty',
+            'maximized',
+            'explicit',
+        );
+
+        if (h::nonEmptyString($viewMode) && in_array($viewMode, $values)) {
+            $this->viewWindowMode = $viewMode;
+        } else {
+            if (is_null($this->viewWindow)) {
+                $this->viewWindowMode = 'pretty';
+            } else {
+                $this->viewWindowMode = 'explicit';
+            }
         }
 
         return $this;
