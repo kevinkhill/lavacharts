@@ -51,8 +51,8 @@ class VerticalAxisTest extends ProvidersTestCase
     }
 
     /**
+     * @dataProvider nonStringProvider
      * @expectedException Lavacharts\Exceptions\InvalidConfigValue
-     * @dataProvider badParamsProvider
      */
     public function testBaselineColorWithBadParams($badVals)
     {
@@ -61,18 +61,17 @@ class VerticalAxisTest extends ProvidersTestCase
 
     /**
      * @expectedException PHPUnit_Framework_Error
-     * @dataProvider badParamsProvider
      */
-    public function testTextStyleWithBadParams($badVals)
+    public function testTextStyleWithBadParams()
     {
-        $this->va->textStyle($badVals);
+        $this->va->textStyle('not a TextStyle object');
     }
 
     /**
+     * @dataProvider nonStringProvider
      * @expectedException Lavacharts\Exceptions\InvalidConfigValue
-     * @dataProvider badParamsProvider
      */
-    public function testTriggerWithBadParams($badVals)
+    public function testFormatWithBadParams($badVals)
     {
         $this->va->format($badVals);
     }

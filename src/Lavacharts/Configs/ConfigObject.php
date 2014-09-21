@@ -71,7 +71,7 @@ class ConfigObject
                 }
             }
         } else {
-            throw new InvalidConfigValue(
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'array',
                 'with valid keys as '.h::arrayToPipedString($this->options)
@@ -124,5 +124,24 @@ class ConfigObject
         }
 
         return $output;
+    }
+
+    /**
+     * function for easy creation of exceptions
+     */
+    protected function invalidConfigValue($func, $type, $extra = '')
+    {
+        if (! empty($extra)) {
+            return new InvalidConfigValue(
+                $this->className . '::' . $func,
+                $type,
+                $extra
+            );
+        } else {
+            return new InvalidConfigValue(
+                $this->className . '::' . $func,
+                $type
+            );
+        }
     }
 }

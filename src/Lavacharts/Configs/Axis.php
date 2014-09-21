@@ -162,7 +162,7 @@ class Axis extends ConfigObject
             if (is_int($baseline)) {
                 $this->baseline = $baseline;
             } else {
-                throw new InvalidConfigValue(
+                throw $this->invalidConfigValue(
                     __FUNCTION__,
                     'int | jsDate',
                     'int if column is "number", jsDate if column is "date"'
@@ -189,8 +189,7 @@ class Axis extends ConfigObject
         if (is_string($color)) {
             $this->baselineColor = $color;
         } else {
-            throw new InvalidConfigValue(
-                $this->className,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
                 'representing a valid HTML color'
@@ -214,8 +213,7 @@ class Axis extends ConfigObject
         if (is_int($direction) && ($direction == 1 || $direction == -1)) {
             $this->direction = $direction;
         } else {
-            throw new InvalidConfigValue(
-                $this->className,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int',
                 '1 || -1'
@@ -245,8 +243,7 @@ class Axis extends ConfigObject
         if (is_string($format)) {
             $this->format = $format;
         } else {
-            throw new InvalidConfigValue(
-                $this->className,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string'
             );
@@ -293,8 +290,7 @@ class Axis extends ConfigObject
 
             $this->gridlines = $tmp;
         } else {
-            throw new InvalidConfigValue(
-                $this->className,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'array',
                 'with keys for count & color'
@@ -328,7 +324,7 @@ class Axis extends ConfigObject
             ) {
                 $tmp['count'] = $minorGridlines['count'];
             } else {
-                throw new InvalidConfigValue(
+                throw $this->invalidConfigValue(
                     __FUNCTION__.'[count]',
                     'int',
                     '>= 2 or -1 for auto'
@@ -341,8 +337,7 @@ class Axis extends ConfigObject
 
             $this->minorGridlines = $tmp;
         } else {
-            throw new InvalidConfigValue(
-                $this->className,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'array',
                 'with keys count & color'
@@ -367,8 +362,7 @@ class Axis extends ConfigObject
         if (is_bool($logScale)) {
             $this->logScale = $logScale;
         } else {
-            throw new InvalidConfigValue(
-                $this->className,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'bool'
             );
@@ -396,8 +390,7 @@ class Axis extends ConfigObject
         if (in_array($position, $values)) {
             $this->textPosition = $position;
         } else {
-            throw new InvalidConfigValue(
-                $this->className,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
                 'with a value of '.Helpers::arrayToPipedString($values)
@@ -408,13 +401,13 @@ class Axis extends ConfigObject
     }
 
     /**
-     * This function takes a textStyle object, created via "new textStyle();"
+     * Sets the textstyle for the axis
      *
-     * @param Lavacharts\Configs\TextStyle $textStyle
+     * @param TextStyle $textStyle
      *
      * @return Axis
      */
-    public function textStyle($textStyle)
+    public function textStyle(TextStyle $textStyle)
     {
         $this->textStyle = $textStyle->getValues();
 
@@ -433,8 +426,7 @@ class Axis extends ConfigObject
         if (is_string($title)) {
             $this->title = $title;
         } else {
-            throw new InvalidConfigValue(
-                $this->className,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string'
             );
@@ -475,8 +467,7 @@ class Axis extends ConfigObject
         if (is_int($alternation)) {
             $this->maxAlternation = $alternation;
         } else {
-            throw new InvalidConfigValue(
-                $this->className,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
@@ -501,8 +492,7 @@ class Axis extends ConfigObject
         if (is_int($maxTextLines)) {
             $this->maxTextLines = $maxTextLines;
         } else {
-            throw new InvalidConfigValue(
-                $this->className,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
@@ -532,7 +522,7 @@ class Axis extends ConfigObject
             if (isset($this->textStyle['fontSize'])) {
                 $this->minTextSpacing = $this->textStyle['fontSize'];
             } else {
-                throw new InvalidConfigValue(
+                throw $this->invalidConfigValue(
                     __FUNCTION__,
                     'int'
                 );
@@ -558,8 +548,7 @@ class Axis extends ConfigObject
         if (is_int($showTextEvery)) {
             $this->showTextEvery = $showTextEvery;
         } else {
-            throw new InvalidConfigValue(
-                $this->className,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
@@ -584,8 +573,7 @@ class Axis extends ConfigObject
         if (is_int($max)) {
             $this->maxValue = $max;
         } else {
-            throw new InvalidConfigValue(
-                $this->className,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
@@ -610,8 +598,7 @@ class Axis extends ConfigObject
         if (is_int($min)) {
             $this->minValue = $min;
         } else {
-            throw new InvalidConfigValue(
-                $this->className,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
@@ -700,8 +687,7 @@ class Axis extends ConfigObject
 
             $this->viewWindow = $tmp;
         } else {
-            throw new InvalidConfigValue(
-                $this->className,
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'array',
                 'with keys min & max'
