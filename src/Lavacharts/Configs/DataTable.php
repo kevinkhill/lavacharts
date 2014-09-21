@@ -39,6 +39,14 @@ use Lavacharts\Exceptions\InvalidCellCount;
 
 class DataTable
 {
+
+    /**
+     * Timezone for dealing with datetime and Carbon objects
+     * 
+     * @var string
+     */
+    public $timezone = 'America/Los_Angeles';
+
     /**
      * Holds the information defining the columns.
      *
@@ -86,6 +94,24 @@ class DataTable
         'role',
         'pattern'
     );
+
+    public function __construct($timezone=null)
+    {
+        $this->setTimezone($timezone);
+
+        date_default_timezone_set($this->timezone);
+    }
+
+    public function setTimezone($timezone)
+    {
+        if (h::nonEmptyString($timezone)) {
+            $this->timezone = $timezone;
+        } else {
+            $this->timezone = 'America/Los_Angeles';
+        }
+
+        return $this;
+    }
 
     /**
      * Adds a column to the DataTable

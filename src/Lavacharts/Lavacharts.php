@@ -38,7 +38,9 @@ class Lavacharts
     public $jsFactory;
 
     /**
-     * @var array Lavachart configuration options.
+     * Lavachart configuration options.
+     * 
+     * @var array
      */
     public $config = array();
 
