@@ -72,7 +72,7 @@ class VerticalAxisTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider nonBooleanProvider
+     * @dataProvider nonBoolProvider
      * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testLogScaleWithBadParams($badVals)
@@ -164,7 +164,7 @@ class VerticalAxisTest extends ProvidersTestCase
 
         $this->assertEquals('explicit', $this->va->viewWindowMode);
     }
-    
+
     /**
      * @dataProvider nonStringProvider
      */
