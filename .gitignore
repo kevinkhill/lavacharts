@@ -1,4 +1,5 @@
 bootstrap/compiled.php
+docs/
 build/
 vendor/
 _site/
