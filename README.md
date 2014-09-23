@@ -118,7 +118,6 @@ Changelog
      - onmouseout
 
  - 2.0.0-alpha3
-   - Changed namespace
    - Added DataTable column formatters
      - DateFormat
      - NumberFormat
