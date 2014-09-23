@@ -2,7 +2,7 @@
     "name": "khill/lavacharts",
     "description": "PHP wrapper library for the Google Chart API",
     "keywords": ["composer", "packagist", "google", "charts", "graphs"],
-    "version": "2.0.0-alpha4",
+    "version": "2.0.0-beta1",
     "homepage": "http://kevinkhill.github.io/Lavacharts",
     "type": "library",
     "license": "MIT",

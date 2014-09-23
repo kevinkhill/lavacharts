@@ -111,6 +111,12 @@ I am working hard on creating the new site for Lavacharts with full documentatio
 
 Changelog
 ---------
+ - 2.0.0-beta1
+   - Passed 75% test coverage
+   - Added new options to TextStyle
+     - Bold
+     - Italic
+
  - 2.0.0-alpha4
    - Added Events
      - select
