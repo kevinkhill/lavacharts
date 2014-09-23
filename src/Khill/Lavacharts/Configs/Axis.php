@@ -73,7 +73,7 @@ class Axis extends ConfigObject
 
     /**
      * Maximum number of lines allowed for the text labels.
-     * 
+     *
      * @var int
      */
     public $maxTextLines;
@@ -105,6 +105,13 @@ class Axis extends ConfigObject
      * @var int
      */
     public $minValue;
+
+    /**
+     * How many axis labels to show.
+     *
+     * @var int
+     */
+    public $showTextEvery;
 
     /**
      * Position of the vertical axis text, relative to the chart area.
@@ -394,10 +401,10 @@ class Axis extends ConfigObject
 
     /**
      * Maximum number of levels of axis text.
-     * 
+     *
      * If axis text labels become too crowded, the server might
      * shift neighboring labels up or down in order to fit labels
-     * closer together. This value specifies the most number of 
+     * closer together. This value specifies the most number of
      * levels to use; the server can use fewer levels, if labels
      * can fit without overlapping.
      *
@@ -423,7 +430,7 @@ class Axis extends ConfigObject
 
     /**
      * Maximum number of lines allowed for the text labels.
-     * 
+     *
      * Labels can span multiple lines if they are too long,
      * and the nuber of lines is, by default, limited by
      * the height of the available space.
@@ -450,7 +457,7 @@ class Axis extends ConfigObject
 
     /**
      * Minimum spacing, in pixels, allowed between two adjacent text labels.
-     * 
+     *
      * If the labels are spaced too densely, or they are too long,
      * the spacing can drop below this threshold, and in this case one of the
      * label-unclutter measures will be applied (e.g, truncating the lables or
@@ -466,35 +473,6 @@ class Axis extends ConfigObject
     {
         if (is_int($minTextSpacing)) {
             $this->minTextSpacing = $minTextSpacing;
-        } else {
-            if (isset($this->textStyle['fontSize'])) {
-                $this->minTextSpacing = $this->textStyle['fontSize'];
-            } else {
-                throw $this->invalidConfigValue(
-                    __FUNCTION__,
-                    'int'
-                );
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * How many axis labels to show, where 1 means show every label,
-     * 2 means show every other label, and so on. Default is to try to show as
-     * many labels as possible without overlapping.
-     *
-     * This option is only supported for a discrete axis.
-     *
-     * @param  int $showTextEvery
-     * @throws InvalidConfigValue
-     * @return Axis
-     */
-    public function showTextEvery($showTextEvery)
-    {
-        if (is_int($showTextEvery)) {
-            $this->showTextEvery = $showTextEvery;
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -545,6 +523,33 @@ class Axis extends ConfigObject
     {
         if (is_int($min)) {
             $this->minValue = $min;
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'int'
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * How many axis labels to show
+     *
+     * 1 means show every label,
+     * 2 means show every other label, and so on.
+     * Default is to try to show as many labels as possible without overlapping.
+     *
+     * This option is only supported for a discrete axis.
+     *
+     * @param  int $showTextEvery
+     * @throws InvalidConfigValue
+     * @return Axis
+     */
+    public function showTextEvery($showTextEvery)
+    {
+        if (is_int($showTextEvery)) {
+            $this->showTextEvery = $showTextEvery;
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -661,23 +666,19 @@ class Axis extends ConfigObject
     {
         $tmp = array();
 
-        if (is_array($viewWindow)) {
-            if (array_key_exists('min', $viewWindow) && array_key_exists('max', $viewWindow)) {
-                $tmp['viewWindowMin'] = $viewWindow['min'];
-                $tmp['viewWindowMax'] = $viewWindow['max'];
+        if (is_array($viewWindow) &&
+            array_key_exists('min', $viewWindow) &&
+            array_key_exists('max', $viewWindow)
+        ) {
+            $this->viewWindow['viewWindowMin'] = $viewWindow['min'];
+            $this->viewWindow['viewWindowMax'] = $viewWindow['max'];
 
-                $this->viewWindowMode = 'explicit';
-            } else {
-                $tmp['viewWindowMin'] = null;
-                $tmp['viewWindowMax'] = null;
-            }
-
-            $this->viewWindow = $tmp;
+            $this->viewWindowMode('explicit');
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'array',
-                'with keys min & max'
+                'with the structure min => (int), max => (int)'
             );
         }
 
@@ -707,17 +708,17 @@ class Axis extends ConfigObject
         $values = array(
             'pretty',
             'maximized',
-            'explicit',
+            'explicit'
         );
 
         if (h::nonEmptyString($viewMode) && in_array($viewMode, $values)) {
             $this->viewWindowMode = $viewMode;
         } else {
-            if (is_null($this->viewWindow)) {
-                $this->viewWindowMode = 'pretty';
-            } else {
-                $this->viewWindowMode = 'explicit';
-            }
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string',
+                'with a value of '.h::arrayToPipedString($values)
+            );
         }
 
         return $this;

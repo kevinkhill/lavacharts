@@ -16,7 +16,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Helpers\Helpers;
+use Lavacharts\Helpers\Helpers as h;
 use Lavacharts\Exceptions\InvalidConfigValue;
 
 class Legend extends ConfigObject
@@ -85,7 +85,7 @@ class Legend extends ConfigObject
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.Helpers::arrayToPipedString($values)
+                'with a value of '.h::arrayToPipedString($values)
             );
         }
 
@@ -124,7 +124,7 @@ class Legend extends ConfigObject
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.Helpers::arrayToPipedString($values)
+                'with a value of '.h::arrayToPipedString($values)
             );
         }
 
