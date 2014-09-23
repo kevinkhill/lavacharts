@@ -28,13 +28,14 @@ class VerticalAxisTest extends ProvidersTestCase
                 'count' => 4
             ),
             'logScale'       => true,
+            'maxAlternation' => 2,
+            'maxTextLines'   => 3,
             'minorGridlines' => array(
                 'color' => '#456EFF',
                 'count' => 7
             ),
             'minTextSpacing' => 2,
-            'maxAlternation' => 2,
-            'maxTextLines'   => 3,
+            'minValue'       => 50,
             'textPosition'   => 'in',
             'title'          => 'Taco Graph',
             'titleTextStyle' => $this->mockTextStyle,
@@ -48,11 +49,12 @@ class VerticalAxisTest extends ProvidersTestCase
         $this->assertEquals('#123ABC', $va->gridlines['color']);
         $this->assertEquals(4, $va->gridlines['count']);
         $this->assertTrue($va->logScale);
+        $this->assertEquals(2, $va->maxAlternation);
+        $this->assertEquals(3, $va->maxTextLines);
         $this->assertEquals('#456EFF', $va->minorGridlines['color']);
         $this->assertEquals(7, $va->minorGridlines['count']);
         $this->assertEquals(2, $va->minTextSpacing);
-        $this->assertEquals(2, $va->maxAlternation);
-        $this->assertEquals(3, $va->maxTextLines);
+        $this->assertEquals(50, $va->minValue);
         $this->assertEquals('in', $va->textPosition);
         $this->assertTrue(is_array($va->textStyle));
         $this->assertEquals('Taco Graph', $va->title);
@@ -258,6 +260,15 @@ class VerticalAxisTest extends ProvidersTestCase
         $this->va->minTextSpacing($badVals);
     }
 
+    /**
+     * @dataProvider nonIntProvider
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testMinValueBadParams($badVals)
+    {
+        $this->va->minValue($badVals);
+    }
+
     public function testTextPositionWithValidValues()
     {
         $this->va->textPosition('out');
@@ -333,10 +344,10 @@ class VerticalAxisTest extends ProvidersTestCase
 
     public function testViewWindowModeWithBadValueAndViewWindowIsSet()
     {
-        $this->va->viewWindow([
+        $this->va->viewWindow(array(
             'min' => 10,
             'max' => 100
-        ]);
+        ));
 
         $this->va->viewWindowMode('samsung');
 
