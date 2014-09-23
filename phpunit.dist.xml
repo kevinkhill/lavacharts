@@ -17,11 +17,11 @@
 
   <filter>
     <whitelist processUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">./src/Lavacharts</directory>
+      <directory suffix=".php">./src/Khill/Lavacharts</directory>
       <exclude>
-        <directory suffix=".php">./src/Lavacharts/Facade</directory>
-        <directory suffix=".php">./src/Lavacharts/Traits</directory>
-        <file>./src/Lavacharts/LaravelServiceProvider.php</file>
+        <directory suffix=".php">./src/Khill/Lavacharts/Facade</directory>
+        <directory suffix=".php">./src/Khill/Lavacharts/Traits</directory>
+        <file>./src/Khill/Lavacharts/LaravelServiceProvider.php</file>
       </exclude>
     </whitelist>
   </filter>
