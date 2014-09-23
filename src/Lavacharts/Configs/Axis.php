@@ -58,6 +58,34 @@ class Axis extends ConfigObject
     public $gridlines;
 
     /**
+     * Linear or Logarithmic scaled axis.
+     *
+     * @var bool If true, axis will be scaled; If false, linear.
+     */
+    public $logScale;
+
+    /**
+     * Moves the max value of the axis to the specified value.
+     *
+     * @var int
+     */
+    public $maxAlternation;
+
+    /**
+     * Maximum number of lines allowed for the text labels.
+     * 
+     * @var int
+     */
+    public $maxTextLines;
+
+    /**
+     * Moves the max value of the axis to the specified value.
+     *
+     * @var int
+     */
+    public $maxValue;
+
+    /**
      * An array with key => value pairs to configure the minorGridlines.
      *
      * @var array Accepted array keys [ color | count ].
@@ -65,11 +93,18 @@ class Axis extends ConfigObject
     public $minorGridlines;
 
     /**
-     * Linear or Logarithmic scaled axis.
+     * Minimum spacing, in pixels, allowed between two adjacent text labels.
      *
-     * @var bool If true, axis will be scaled; If false, linear.
+     * @var int
      */
-    public $logScale;
+    public $minTextSpacing;
+
+    /**
+     * Moves the min value of the axis to the specified value.
+     *
+     * @var int
+     */
+    public $minValue;
 
     /**
      * Position of the vertical axis text, relative to the chart area.
@@ -98,20 +133,6 @@ class Axis extends ConfigObject
      * @var textStyle
      */
     public $titleTextStyle;
-
-    /**
-     * Moves the max value of the axis to the specified value.
-     *
-     * @var int
-     */
-    public $maxValue;
-
-    /**
-     * Moves the min value of the axis to the specified value.
-     *
-     * @var int
-     */
-    public $minValue;
 
     /**
      * Specifies how to scale the axis to render the values within the chart area.
@@ -203,7 +224,7 @@ class Axis extends ConfigObject
     /**
      * Sets the direction of the axis values.
      *
-     * Specify -1 to reverse the order of the values.
+     * specify 1 for normal, -1 to reverse the order of the values.
      *
      * @param  int $direction
      * @throws InvalidConfigValue
@@ -270,78 +291,31 @@ class Axis extends ConfigObject
      */
     public function gridlines($gridlines)
     {
-        $tmp = array();
-
-        if (is_array($gridlines)) {
-            if (array_key_exists('count', $gridlines)) {
-                if ($gridlines['count'] >= 2 || $gridlines['count'] == -1) {
-                    $tmp['count'] = $gridlines['count'];
-                } else {
-                    $tmp['count'] = 5;
-                }
+        if (is_array($gridlines) && array_key_exists('count', $gridlines) && array_key_exists('color', $gridlines)) {
+            if (h::nonEmptyString($gridlines['color'])) {
+                $this->gridlines['color'] = $gridlines['color'];
             } else {
-                $tmp['count'] = 5;
+                throw $this->invalidConfigValue(
+                    __FUNCTION__,
+                    'array',
+                    'with the value of the key "color" being a valid HTML color'
+                );
             }
 
-            if (array_key_exists('color', $gridlines)) {
-                $tmp['color'] = $gridlines['color'];
+            if (is_int($gridlines['count']) && $gridlines['count'] >= 2 || $gridlines['count'] == -1) {
+                $this->gridlines['count'] = $gridlines['count'];
             } else {
-                $tmp['color'] = '#CCC';
+                throw $this->invalidConfigValue(
+                    __FUNCTION__,
+                    'array',
+                    'with the value of the key "count" == -1 || >= 2'
+                );
             }
-
-            $this->gridlines = $tmp;
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'array',
                 'with keys for count & color'
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Sets the color and count of the minorGridlines
-     *
-     * 'color' - The color of the minor gridlines inside the chart area,
-     * specify a valid HTML color string.
-     * 'count' - The number of minor gridlines between two regular gridlines.
-     *
-     * This option is only supported for a continuous axis.
-     *
-     * @param  array $minorGridlines
-     * @throws InvalidConfigValue
-     * @return Axis
-     */
-    public function minorGridlines($minorGridlines)
-    {
-        $tmp = array();
-
-        if (is_array($minorGridlines)) {
-            if (array_key_exists('count', $minorGridlines) &&
-                    $minorGridlines['count'] >= 2 ||
-                    $minorGridlines['count'] == -1
-            ) {
-                $tmp['count'] = $minorGridlines['count'];
-            } else {
-                throw $this->invalidConfigValue(
-                    __FUNCTION__.'[count]',
-                    'int',
-                    '>= 2 or -1 for auto'
-                );
-            }
-
-            if (array_key_exists('color', $minorGridlines)) {
-                $tmp['color'] = $minorGridlines['color'];
-            }
-
-            $this->minorGridlines = $tmp;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'array',
-                'with keys count & color'
             );
         }
 
@@ -373,11 +347,59 @@ class Axis extends ConfigObject
     }
 
     /**
-     * Maximum number of levels of axis text. If axis text labels
-     * become too crowded, the server might shift neighboring labels up or down
-     * in order to fit labels closer together. This value specifies the most
-     * number of levels to use; the server can use fewer levels, if labels can
-     * fit without overlapping.
+     * Sets the color and count of the minorGridlines
+     *
+     * 'color' - The color of the minor gridlines inside the chart area,
+     * specify a valid HTML color string.
+     * 'count' - The number of minor gridlines between two regular gridlines.
+     *
+     * This option is only supported for a continuous axis.
+     *
+     * @param  array $minorGridlines
+     * @throws InvalidConfigValue
+     * @return Axis
+     */
+    public function minorGridlines($minorGridlines)
+    {
+        if (is_array($minorGridlines) && array_key_exists('count', $minorGridlines) && array_key_exists('color', $minorGridlines)) {
+            if (h::nonEmptyString($minorGridlines['color'])) {
+                $this->minorGridlines['color'] = $minorGridlines['color'];
+            } else {
+                throw $this->invalidConfigValue(
+                    __FUNCTION__,
+                    'array',
+                    'with the value of the key "color" being a valid HTML color'
+                );
+            }
+
+            if (is_int($minorGridlines['count']) && $minorGridlines['count'] >= 2 || $minorGridlines['count'] == -1) {
+                $this->minorGridlines['count'] = $minorGridlines['count'];
+            } else {
+                throw $this->invalidConfigValue(
+                    __FUNCTION__,
+                    'array',
+                    'with the value of the key "count" == -1 || >= 2'
+                );
+            }
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'array',
+                'with keys for count & color'
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Maximum number of levels of axis text.
+     * 
+     * If axis text labels become too crowded, the server might
+     * shift neighboring labels up or down in order to fit labels
+     * closer together. This value specifies the most number of 
+     * levels to use; the server can use fewer levels, if labels
+     * can fit without overlapping.
      *
      * This option is only supported for a discrete axis.
      *
@@ -400,9 +422,11 @@ class Axis extends ConfigObject
     }
 
     /**
-     * Maximum number of lines allowed for the text labels. Labels can span
-     * multiple lines if they are too long, and the nuber of lines is, by
-     * default, limited by the height of the available space.
+     * Maximum number of lines allowed for the text labels.
+     * 
+     * Labels can span multiple lines if they are too long,
+     * and the nuber of lines is, by default, limited by
+     * the height of the available space.
      *
      * This option is only supported for a discrete axis.
      *
@@ -425,8 +449,9 @@ class Axis extends ConfigObject
     }
 
     /**
-     * Minimum spacing, in pixels, allowed between two adjacent text
-     * labels. If the labels are spaced too densely, or they are too long,
+     * Minimum spacing, in pixels, allowed between two adjacent text labels.
+     * 
+     * If the labels are spaced too densely, or they are too long,
      * the spacing can drop below this threshold, and in this case one of the
      * label-unclutter measures will be applied (e.g, truncating the lables or
      * dropping some of them).
@@ -481,7 +506,7 @@ class Axis extends ConfigObject
     }
 
     /**
-     * axis property that specifies the highest axis grid line. The
+     * Axis property that specifies the highest axis grid line. The
      * actual grid line will be the greater of two values: the maxValue option
      * value, or the highest data value, rounded up to the next higher grid mark.
      *
