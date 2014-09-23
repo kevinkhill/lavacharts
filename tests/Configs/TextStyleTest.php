@@ -38,6 +38,15 @@ class TextStyleTest extends ProvidersTestCase
     }
 
     /**
+     * @dataProvider nonBoolProvider
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testBoldWithBadParams($badParams)
+    {
+        $this->ts->bold($badParams);
+    }
+
+    /**
      * @dataProvider nonStringProvider
      * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      */
@@ -65,16 +74,7 @@ class TextStyleTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider nonBooleanProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testBoldWithBadParams($badParams)
-    {
-        $this->ts->bold($badParams);
-    }
-
-    /**
-     * @dataProvider nonBooleanProvider
+     * @dataProvider nonBoolProvider
      * @expectedException Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testItalicWithBadParams($badParams)
