@@ -1,15 +1,15 @@
 <?php namespace Lavacharts\Tests\Configs;
 
 use \Lavacharts\Tests\ProvidersTestCase;
-use \Lavacharts\Configs\VerticalAxis;
+use \Lavacharts\Configs\HorizontalAxis;
 
-class VerticalAxisTest extends ProvidersTestCase
+class HorizontalAxisTest extends ProvidersTestCase
 {
     public function setUp()
     {
         parent::setUp();
 
-        $this->va = new VerticalAxis(array());
+        $this->ha = new HorizontalAxis(array());
 
         $this->mockTextStyle = $this->getMock(
             '\Lavacharts\Configs\TextStyle',
@@ -19,7 +19,7 @@ class VerticalAxisTest extends ProvidersTestCase
 
     public function testConstructorValuesAssignment()
     {
-        $va = new VerticalAxis(array(
+        $va = new HorizontalAxis(array(
             'baselineColor'  => '#F4D4E7',
             'direction'      => 1,
             'format'         => '999.99',
@@ -77,7 +77,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        new VerticalAxis(array('Jellybeans' => array()));
+        new HorizontalAxis(array('Jellybeans' => array()));
     }
 
     /**
@@ -86,13 +86,13 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testBaselineColorWithBadParams($badParams)
     {
-        $this->va->baselineColor($badParams);
+        $this->ha->baselineColor($badParams);
     }
 
     public function testDirectionWithNegativeOne()
     {
-        $this->va->direction(-1);
-        $this->assertEquals(-1, $this->va->direction);
+        $this->ha->direction(-1);
+        $this->assertEquals(-1, $this->ha->direction);
     }
 
     /**
@@ -100,7 +100,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testDirectionWithNonAcceptableInt()
     {
-        $this->va->direction(5);
+        $this->ha->direction(5);
     }
 
     /**
@@ -109,7 +109,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testDirectionWithBadParams($badParams)
     {
-        $this->va->direction($badParams);
+        $this->ha->direction($badParams);
     }
 
     /**
@@ -118,27 +118,27 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testFormatWithBadParams($badParams)
     {
-        $this->va->format($badParams);
+        $this->ha->format($badParams);
     }
 
     public function testGridlinesWithAcceptableKeys()
     {
-        $this->va->gridlines(array(
+        $this->ha->gridlines(array(
             'color' => '#123ABC',
             'count' => 7
         ));
 
-        $this->assertEquals('#123ABC', $this->va->gridlines['color']);
-        $this->assertEquals(7, $this->va->gridlines['count']);
+        $this->assertEquals('#123ABC', $this->ha->gridlines['color']);
+        $this->assertEquals(7, $this->ha->gridlines['count']);
     }
 
     public function testGridlinesWithAutoCount()
     {
-        $this->va->gridlines(array(
+        $this->ha->gridlines(array(
             'color' => '#123ABC',
             'count' => -1
         ));
-        $this->assertEquals(-1, $this->va->gridlines['count']);
+        $this->assertEquals(-1, $this->ha->gridlines['count']);
     }
 
     /**
@@ -146,7 +146,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testGridlinesWithBadKeys()
     {
-        $this->va->gridlines(array(
+        $this->ha->gridlines(array(
             'frank'     => '#123ABC',
             'and beans' => 7
         ));
@@ -157,7 +157,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testGridlinesWithBadValueForColor()
     {
-        $this->va->gridlines(array(
+        $this->ha->gridlines(array(
             'count' => 5,
             'color' => array()
         ));
@@ -168,7 +168,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testGridlinesWithBadValueForCount()
     {
-        $this->va->gridlines(array(
+        $this->ha->gridlines(array(
             'count' => 9.8,
             'color' => '#123ABC'
         ));
@@ -180,7 +180,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testGridlinesWithBadParams($badParams)
     {
-        $this->va->gridlines($badParams);
+        $this->ha->gridlines($badParams);
     }
 
     /**
@@ -189,7 +189,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testLogScaleWithBadParams($badParams)
     {
-        $this->va->logScale($badParams);
+        $this->ha->logScale($badParams);
     }
 
     /**
@@ -198,7 +198,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testMaxAlternationWithBadParams($badParams)
     {
-        $this->va->maxAlternation($badParams);
+        $this->ha->maxAlternation($badParams);
     }
 
     /**
@@ -207,7 +207,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testMaxTextLinesWithBadParams($badParams)
     {
-        $this->va->maxTextLines($badParams);
+        $this->ha->maxTextLines($badParams);
     }
 
     /**
@@ -216,16 +216,16 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testMaxValueWithBadParams($badParams)
     {
-        $this->va->maxValue($badParams);
+        $this->ha->maxValue($badParams);
     }
 
     public function testMinorGridlinesWithAutoCount()
     {
-        $this->va->minorGridlines(array(
+        $this->ha->minorGridlines(array(
             'color' => '#123ABC',
             'count' => -1
         ));
-        $this->assertEquals(-1, $this->va->minorGridlines['count']);
+        $this->assertEquals(-1, $this->ha->minorGridlines['count']);
     }
 
     /**
@@ -233,7 +233,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testMinorGridlinesWithBadKeys()
     {
-        $this->va->minorGridlines(array(
+        $this->ha->minorGridlines(array(
             'frank'     => '#123ABC',
             'and beans' => 7
         ));
@@ -244,7 +244,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testMinorGridlinesWithBadValueForColor()
     {
-        $this->va->minorGridlines(array(
+        $this->ha->minorGridlines(array(
             'count' => 5,
             'color' => array()
         ));
@@ -255,7 +255,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testMinorGridlinesWithBadValueForCount()
     {
-        $this->va->minorGridlines(array(
+        $this->ha->minorGridlines(array(
             'count' => 9.8,
             'color' => '#123ABC'
         ));
@@ -267,7 +267,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testMinorGridlinesWithBadParams($badParams)
     {
-        $this->va->minorGridlines($badParams);
+        $this->ha->minorGridlines($badParams);
     }
 
     /**
@@ -276,7 +276,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testMinTextSpacingWithBadParams($badParams)
     {
-        $this->va->minTextSpacing($badParams);
+        $this->ha->minTextSpacing($badParams);
     }
 
     /**
@@ -285,7 +285,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testMinValueWithBadParams($badParams)
     {
-        $this->va->minValue($badParams);
+        $this->ha->minValue($badParams);
     }
 
     /**
@@ -294,19 +294,19 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testShowTextEveryWithBadParams($badParams)
     {
-        $this->va->showTextEvery($badParams);
+        $this->ha->showTextEvery($badParams);
     }
 
     public function testTextPositionWithValidValues()
     {
-        $this->va->textPosition('out');
-        $this->assertEquals('out', $this->va->textPosition);
+        $this->ha->textPosition('out');
+        $this->assertEquals('out', $this->ha->textPosition);
 
-        $this->va->textPosition('in');
-        $this->assertEquals('in', $this->va->textPosition);
+        $this->ha->textPosition('in');
+        $this->assertEquals('in', $this->ha->textPosition);
 
-        $this->va->textPosition('none');
-        $this->assertEquals('none', $this->va->textPosition);
+        $this->ha->textPosition('none');
+        $this->assertEquals('none', $this->ha->textPosition);
     }
 
     /**
@@ -314,7 +314,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testTextPositionWithBadValue()
     {
-        $this->va->textPosition('underneath');
+        $this->ha->textPosition('underneath');
     }
 
     /**
@@ -323,7 +323,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testTextPositionWithBadParams($badParams)
     {
-        $this->va->textPosition($badParams);
+        $this->ha->textPosition($badParams);
     }
 
     /**
@@ -331,7 +331,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testTextStyleWithBadParams()
     {
-        $this->va->textStyle('not a TextStyle object');
+        $this->ha->textStyle('not a TextStyle object');
     }
 
     /**
@@ -340,7 +340,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testTitleWithBadParams($badParams)
     {
-        $this->va->title($badParams);
+        $this->ha->title($badParams);
     }
 
     /**
@@ -348,28 +348,19 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testTitleTextStyleWithBadParams()
     {
-        $this->va->titleTextStyle('not a TextStyle object');
+        $this->ha->titleTextStyle('not a TextStyle object');
     }
 
-    public function testViewWindowWithValidValues()
+    public function testViewWindowModeWithValidValues()
     {
-        $this->va->viewWindow(array(
-            'min' => 10,
-            'max' => 100
-        ));
+        $this->ha->viewWindowMode('pretty');
+        $this->assertEquals('pretty', $this->ha->viewWindowMode);
 
-        $this->assertEquals(10, $this->va->viewWindow['viewWindowMin']);
-        $this->assertEquals(100, $this->va->viewWindow['viewWindowMax']);
-    }
+        $this->ha->viewWindowMode('maximized');
+        $this->assertEquals('maximized', $this->ha->viewWindowMode);
 
-    /**
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testViewWindowWithInvalidArrayKeys()
-    {
-        $this->va->viewWindow(array(
-            'gunderfluffen' => 10
-        ));
+        $this->ha->viewWindowMode('explicit');
+        $this->assertEquals('explicit', $this->ha->viewWindowMode);
     }
 
     /**
@@ -378,19 +369,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testViewWindowWithBadParams($badParams)
     {
-        $this->va->viewWindow($badParams);
-    }
-
-    public function testViewWindowModeWithValidValues()
-    {
-        $this->va->viewWindowMode('pretty');
-        $this->assertEquals('pretty', $this->va->viewWindowMode);
-
-        $this->va->viewWindowMode('maximized');
-        $this->assertEquals('maximized', $this->va->viewWindowMode);
-
-        $this->va->viewWindowMode('explicit');
-        $this->assertEquals('explicit', $this->va->viewWindowMode);
+        $this->ha->viewWindow($badParams);
     }
 
     /**
@@ -398,12 +377,12 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testViewWindowModeWithViewWindowSet()
     {
-        $this->va->viewWindow(array(
+        $this->ha->viewWindow(array(
             'min' => 10,
             'max' => 100
         ));
 
-        $this->assertEquals('explicit', $this->va->viewWindowMode);
+        $this->assertEquals('explicit', $this->ha->viewWindowMode);
     }
 
     /**
@@ -412,15 +391,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testViewWindowModeWithBadParams($badParams)
     {
-        $this->va->viewWindowMode($badParams);
-    }
-
-    /**
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testViewWindowModeWithNonAcceptableParam()
-    {
-        $this->va->viewWindowMode('eggs');
+        $this->ha->viewWindowMode($badParams);
     }
 
 }

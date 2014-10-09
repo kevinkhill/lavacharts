@@ -20,6 +20,14 @@ use Lavacharts\Exceptions\InvalidConfigValue;
 
 class TextStyle extends ConfigObject
 {
+
+    /**
+     * Text is bold.
+     *
+     * @var bool
+     */
+    public $bold;
+
     /**
      * Color of the text.
      *
@@ -41,6 +49,13 @@ class TextStyle extends ConfigObject
      */
     public $fontSize;
 
+    /**
+     * Text is italic.
+     *
+     * @var bool
+     */
+    public $italic;
+
 
     /**
      * Builds the textStyle object when passed an array of configuration options.
@@ -53,6 +68,27 @@ class TextStyle extends ConfigObject
     public function __construct($config = array())
     {
         parent::__construct($this, $config);
+    }
+
+    /**
+     * Set bold on/off for the text element.
+     *
+     * @param  boolean  $bold
+     * @throws InvalidConfigValue
+     * @return TextStyle
+     */
+    public function bold($bold)
+    {
+        if (is_bool($bold)) {
+            $this->bold = $bold;
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string'
+            );
+        }
+
+        return $this;
     }
 
     /**
@@ -69,7 +105,7 @@ class TextStyle extends ConfigObject
         if (is_string($color)) {
             $this->color = $color;
         } else {
-            throw new InvalidConfigValue(
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
                 'representing a valid HTML color'
@@ -93,7 +129,7 @@ class TextStyle extends ConfigObject
         if (is_string($fontName)) {
             $this->fontName = $fontName;
         } else {
-            throw new InvalidConfigValue(
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string'
             );
@@ -114,9 +150,30 @@ class TextStyle extends ConfigObject
         if (is_int($fontSize)) {
             $this->fontSize = $fontSize;
         } else {
-            throw new InvalidConfigValue(
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set italic on/off for the text element.
+     *
+     * @param  boolean  $italic
+     * @throws InvalidConfigValue
+     * @return TextStyle
+     */
+    public function italic($italic)
+    {
+        if (is_bool($italic)) {
+            $this->italic = $italic;
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'bool'
             );
         }
 

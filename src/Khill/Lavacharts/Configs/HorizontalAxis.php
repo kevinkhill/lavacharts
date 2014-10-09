@@ -118,7 +118,7 @@ class HorizontalAxis extends Axis
         if (is_bool($cutoff)) {
             $this->allowContainerBoundaryTextCutoff = $cutoff;
         } else {
-            throw new InvalidConfigValue(
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'bool'
             );
@@ -147,7 +147,7 @@ class HorizontalAxis extends Axis
         if (is_bool($slant) && $this->textPosition == 'out') {
             $this->slantedText = $slant;
         } else {
-            throw new InvalidConfigValue(
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'bool',
                 'and textPosition must be "out"'
@@ -173,7 +173,7 @@ class HorizontalAxis extends Axis
         if (is_int($angle) && Helpers::between(1, $angle, 90)) {
             $this->slantedTextAngle = $angle;
         } else {
-            throw new InvalidConfigValue(
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int',
                 'between 1 - 90'
@@ -203,7 +203,7 @@ class HorizontalAxis extends Axis
         if (is_int($alternation)) {
             $this->maxAlternation = $alternation;
         } else {
-            throw new InvalidConfigValue(
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
@@ -229,7 +229,7 @@ class HorizontalAxis extends Axis
         if (is_int($maxTextLines)) {
             $this->maxTextLines = $maxTextLines;
         } else {
-            throw new InvalidConfigValue(
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
@@ -258,16 +258,10 @@ class HorizontalAxis extends Axis
         if (is_int($minTextSpacing)) {
             $this->minTextSpacing = $minTextSpacing;
         } else {
-            if (isset($this->textStyle['fontSize'])) {
-                $this->minTextSpacing = $this->textStyle['fontSize'];
-            } else {
-                throw new InvalidConfigValue(
-                    $this->className,
-                    __FUNCTION__,
-                    'int',
-                    'or set via TextStyle[\'fontSize\']'
-                );
-            }
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'int'
+            );
         }
 
         return $this;
@@ -290,7 +284,7 @@ class HorizontalAxis extends Axis
         if (is_int($showTextEvery)) {
             $this->showTextEvery = $showTextEvery;
         } else {
-            throw new InvalidConfigValue(
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
