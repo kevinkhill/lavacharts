@@ -135,18 +135,18 @@ class Axis extends ConfigObject
     public $titleTextStyle;
 
     /**
-     * Specifies how to scale the axis to render the values within the chart area.
-     *
-     * @var string Accepted values [ pretty | maximized | explicit ].
-     */
-    public $viewWindowMode;
-
-    /**
      * Specifies the cropping range of the vertical axis.
      *
      * @var array Accepted array keys [ min | max ].
      */
     public $viewWindow;
+
+    /**
+     * Specifies how to scale the axis to render the values within the chart area.
+     *
+     * @var string Accepted values [ pretty | maximized | explicit ].
+     */
+    public $viewWindowMode;
 
 
     /**
@@ -643,14 +643,14 @@ class Axis extends ConfigObject
      * For a discrete axis:
      * 'min' - The zero-based row index where the cropping window begins. Data
      * points at indices lower than this will be cropped out. In conjunction with
-     * vAxis->viewWindow['max'], it defines a half-opened range (min, max)
+     * VerticalAxis->viewWindow['max'], it defines a half-opened range (min, max)
      * that denotes the element indices to display. In other words, every index
      * such that min <= index < max will be displayed.
      *
      * 'max' - The zero-based row index where the cropping window ends. Data
      * points at this index and higher will be cropped out. In conjunction with
-     * vAxis->viewWindow['min'], it defines a half-opened range (min, max)
-     * that denotes the element indices to display. In other words, every index
+     * VerticalAxis->viewWindow['min'], it defines a half-opened range (min, max)
+     * that denotes the element i(ndices to display. In other words, every index
      * such that min <= index < max will be displayed.
      *
      * @param  array $viewWindow
@@ -659,25 +659,23 @@ class Axis extends ConfigObject
      */
     public function viewWindow($viewWindow)
     {
-        $tmp = array();
-
-        if (is_array($viewWindow)) {
-            if (array_key_exists('min', $viewWindow) && array_key_exists('max', $viewWindow)) {
-                $tmp['viewWindowMin'] = $viewWindow['min'];
-                $tmp['viewWindowMax'] = $viewWindow['max'];
-
-                $this->viewWindowMode = 'explicit';
-            } else {
-                $tmp['viewWindowMin'] = null;
-                $tmp['viewWindowMax'] = null;
-            }
-
-            $this->viewWindow = $tmp;
+        if (is_array($viewWindow) && 
+            array_key_exists('min', $viewWindow) && 
+            array_key_exists('max', $viewWindow) &&
+            is_int($viewWindow['min']) &&
+            is_int($viewWindow['max'])
+        ) {
+            $this->viewWindow = array(
+                'viewWindowMin' => $viewWindow['min'],
+                'viewWindowMax' => $viewWindow['max']
+            );
+          
+            $this->viewWindowMode = 'explicit';
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'array',
-                'with keys min & max'
+                'with the structure array(\'min\' => [int], \'max\' => [int])'
             );
         }
 

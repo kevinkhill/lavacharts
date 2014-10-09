@@ -40,6 +40,10 @@ class VerticalAxisTest extends ProvidersTestCase
             'title'          => 'Taco Graph',
             'titleTextStyle' => $this->mockTextStyle,
             'textStyle'      => $this->mockTextStyle,
+            'viewWindow' => array(
+                'min' => 12,
+                'max' => 65
+            ),
             'viewWindowMode' => 'explicit'
         ));
 
@@ -59,6 +63,8 @@ class VerticalAxisTest extends ProvidersTestCase
         $this->assertTrue(is_array($va->textStyle));
         $this->assertEquals('Taco Graph', $va->title);
         $this->assertTrue(is_array($va->titleTextStyle));
+        $this->assertEquals(12, $va->viewWindow['viewWindowMin']);
+        $this->assertEquals(65, $va->viewWindow['viewWindowMax']);
         $this->assertEquals('explicit', $va->viewWindowMode);
     }
 
@@ -323,6 +329,36 @@ class VerticalAxisTest extends ProvidersTestCase
         $this->va->titleTextStyle('not a TextStyle object');
     }
 
+    public function testViewWindowWithValidValues()
+    {
+        $this->va->viewWindow(array(
+            'min' => 10,
+            'max' => 100
+        ));
+
+        $this->assertEquals(10, $this->va->viewWindow['viewWindowMin']);
+        $this->assertEquals(100, $this->va->viewWindow['viewWindowMax']);
+    }
+
+    /**
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testViewWindowWithInvalidArrayKeys()
+    {
+        $this->va->viewWindow(array(
+            'gunderfluffen' => 10
+        ));
+    }
+
+    /**
+     * @dataProvider nonArrayProvider
+     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testViewWindowWithBadParams($badParams)
+    {
+        $this->va->viewWindow($badParams);
+    }
+
     public function testViewWindowModeWithValidValues()
     {
         $this->va->viewWindowMode('pretty');
@@ -342,6 +378,9 @@ class VerticalAxisTest extends ProvidersTestCase
         $this->assertEquals('pretty', $this->va->viewWindowMode);
     }
 
+    /**
+     * @depends testViewWindowWithValidValues 
+     */
     public function testViewWindowModeWithBadValueAndViewWindowIsSet()
     {
         $this->va->viewWindow(array(
