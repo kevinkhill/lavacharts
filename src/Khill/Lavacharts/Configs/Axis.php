@@ -663,7 +663,7 @@ class Axis extends ConfigObject
      * @return Axis
      */
     public function viewWindow($viewWindow)
-    {
+    {   
         if (is_array($viewWindow) && 
             array_key_exists('min', $viewWindow) && 
             array_key_exists('max', $viewWindow) &&
