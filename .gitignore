@@ -4,6 +4,7 @@ build/
 vendor/
 _site/
 tmp/
+.idea/
 
 composer.phar
 composer.lock
