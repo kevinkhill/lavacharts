@@ -45,7 +45,7 @@ class DataTable
      * 
      * @var string
      */
-    public $timezone = 'America/Los_Angeles';
+    public $timezone;
 
     /**
      * Holds the information defining the columns.
@@ -674,12 +674,12 @@ class DataTable
     {
         return sprintf(
             'Date(%d, %d, %d, %d, %d, %d)',
-            isset($c->year)   ? $c->year   : 'null',
-            isset($c->month)  ? $c->month  : 'null',
-            isset($c->day)    ? $c->day    : 'null',
-            isset($c->hour)   ? $c->hour   : 'null',
-            isset($c->minute) ? $c->minute : 'null',
-            isset($c->second) ? $c->second : 'null'
+            isset($c->year)   ? $c->year      : 'null',
+            isset($c->month)  ? $c->month - 1 : 'null', //silly javascript
+            isset($c->day)    ? $c->day       : 'null',
+            isset($c->hour)   ? $c->hour      : 'null',
+            isset($c->minute) ? $c->minute    : 'null',
+            isset($c->second) ? $c->second    : 'null'
         );
     }
 }
