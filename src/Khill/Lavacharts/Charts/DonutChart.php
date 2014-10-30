@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php namespace Khill\Lavacharts\Charts;
 /**
  * DonutChart Class
  *
