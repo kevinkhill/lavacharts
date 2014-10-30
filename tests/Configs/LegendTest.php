@@ -1,7 +1,7 @@
-<?php namespace Lavacharts\Tests\Configs;
+<?php namespace Khill\Lavacharts\Tests\Configs;
 
-use \Lavacharts\Tests\ProvidersTestCase;
-use \Lavacharts\Configs\Legend;
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
+use \Khill\Lavacharts\Configs\Legend;
 use \Mockery as m;
 
 class LegendTest extends ProvidersTestCase
@@ -13,7 +13,7 @@ class LegendTest extends ProvidersTestCase
         $this->l = new Legend();
 
         $this->mockTextStyle = $this->getMock(
-            '\Lavacharts\Configs\TextStyle',
+            '\Khill\Lavacharts\Configs\TextStyle',
             array('__construct')
         );
     }
@@ -37,7 +37,7 @@ class LegendTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testPositionWithBadValue()
     {
@@ -46,7 +46,7 @@ class LegendTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testPositionWithBadTypes($badTypes)
     {
@@ -66,7 +66,7 @@ class LegendTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testAlignmentWithBadValue()
     {
@@ -75,7 +75,7 @@ class LegendTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testAlignmentWithBadTypes($badTypes)
     {
@@ -85,7 +85,7 @@ class LegendTest extends ProvidersTestCase
     public function testTextStyleWithValidConfigObject()
     {/*
         $mockTextStyle = $this->getMock(
-            '\Lavacharts\Configs\TextStyle',
+            '\Khill\Lavacharts\Configs\TextStyle',
             array('__construct')
         );*/
         $textStyleVals = array(
@@ -94,7 +94,7 @@ class LegendTest extends ProvidersTestCase
             'fontSize' => 16
         );
 
-        $mockTextStyle = m::mock('Lavacharts\Configs\TextStyle');
+        $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
         $mockTextStyle->shouldReceive('getValues')->once()->andReturn($textStyleVals);
 
         $this->l->textStyle($mockTextStyle);

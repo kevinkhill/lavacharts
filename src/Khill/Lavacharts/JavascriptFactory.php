@@ -1,4 +1,4 @@
-<?php namespace Lavacharts;
+<?php namespace Khill\Lavacharts;
 
 /**
  * JavascriptFactory Object
@@ -16,11 +16,11 @@
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Helpers\Helpers as h;
-use Lavacharts\Charts\Chart;
-use Lavacharts\Events\Event;
-use Lavacharts\Exceptions\DataTableNotFound;
-use Lavacharts\Exceptions\InvalidElementId;
+use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Events\Event;
+use Khill\Lavacharts\Exceptions\DataTableNotFound;
+use Khill\Lavacharts\Exceptions\InvalidElementId;
 
 class JavascriptFactory
 {

@@ -1,6 +1,6 @@
-<?php namespace Lavacharts\Tests\Helpers;
+<?php namespace Khill\Lavacharts\Tests\Helpers;
 
-use \Lavacharts\Helpers\Helpers as h;
+use \Khill\Lavacharts\Helpers\Helpers as h;
 use \Mockery as m;
 
 class HelperTest extends \PHPUnit_Framework_TestCase
@@ -37,7 +37,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayValuesCheckWithConfigObjects()
     {
-        $mca = m::mock('Lavacharts\Configs\ColorAxis');
+        $mca = m::mock('Khill\Lavacharts\Configs\ColorAxis');
         //$mca->className = 'ColorAxis';
 
         $testArray = array($mca, $mca, $mca);
@@ -47,7 +47,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayValuesCheckWithConfigObjectsAndNulls()
     {
-        $mca = m::mock('Lavacharts\Configs\ColorAxis');
+        $mca = m::mock('Khill\Lavacharts\Configs\ColorAxis');
         //$mca->className = 'ColorAxis';
 
         $testArray = array(null, $mca, null);
@@ -66,7 +66,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     public function badParamsProvider()
     {
-        $mca = m::mock('Lavacharts\Configs\ColorAxis');
+        $mca = m::mock('Khill\Lavacharts\Configs\ColorAxis');
 
         return array(
             array('string', 'stringy'),

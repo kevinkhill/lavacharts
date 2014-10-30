@@ -1,4 +1,4 @@
-<?php namespace Lavacharts;
+<?php namespace Khill\Lavacharts;
 
 /**
  * Volcano Storage Class
@@ -15,9 +15,9 @@
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Charts\Chart;
-use Lavacharts\Exceptions\InvalidLabel;
-use Lavacharts\Exceptions\ChartNotFound;
+use Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Exceptions\InvalidLabel;
+use Khill\Lavacharts\Exceptions\ChartNotFound;
 
 class Volcano
 {

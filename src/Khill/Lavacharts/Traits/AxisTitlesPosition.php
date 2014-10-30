@@ -1,7 +1,7 @@
-<?php namespace Lavacharts\Traits;
+<?php namespace Khill\Lavacharts\Traits;
 
-use Lavacharts\Helpers\Helpers;
-use Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 trait AxisTitlesPosition
 {

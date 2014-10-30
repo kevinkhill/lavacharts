@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Charts;
+<?php namespace Khill\Lavacharts\Charts;
 
 /**
  * TreeMap Chart Class

@@ -1,6 +1,6 @@
-<?php namespace Lavacharts\Traits;
+<?php namespace Khill\Lavacharts\Traits;
 
-use Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Helpers\Helpers as h;
 
 trait Animation
 {

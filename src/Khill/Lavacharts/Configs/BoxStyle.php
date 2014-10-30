@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Configs;
+<?php namespace Khill\Lavacharts\Configs;
 
 /**
  * BoxStyle Object
@@ -16,8 +16,8 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Exceptions\InvalidConfigProperty;
-use Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class BoxStyle extends ConfigObject
 {

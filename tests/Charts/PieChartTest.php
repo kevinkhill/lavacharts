@@ -1,7 +1,7 @@
-<?php namespace Lavacharts\Tests\Charts;
+<?php namespace Khill\Lavacharts\Tests\Charts;
 
-use \Lavacharts\Tests\ProvidersTestCase;
-use \Lavacharts\Charts\PieChart;
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
+use \Khill\Lavacharts\Charts\PieChart;
 use \Mockery as m;
 
 class PieChartTest extends ProvidersTestCase
@@ -15,7 +15,7 @@ class PieChartTest extends ProvidersTestCase
 
     public function testInstanceOfPieChartWithType()
     {
-    	$this->assertInstanceOf('\Lavacharts\Charts\PieChart', $this->pc);
+    	$this->assertInstanceOf('\Khill\Lavacharts\Charts\PieChart', $this->pc);
     }
 
     public function testTypePieChart()
@@ -37,7 +37,7 @@ class PieChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonBoolProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testIs3DWithBadType($badTypes)
     {
@@ -52,7 +52,7 @@ class PieChartTest extends ProvidersTestCase
             'fontSize' => 16
         );
 
-        $mockTextStyle = m::mock('Lavacharts\Configs\TextStyle');
+        $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
         //$mockTextStyle->shouldReceive('getValues')->once()->andReturn($textStyleVals);
 
         $sliceVals = array(
@@ -61,10 +61,10 @@ class PieChartTest extends ProvidersTestCase
             'textStyle' => $mockTextStyle
         );
 
-        $mockSlice1 = m::mock('Lavacharts\Configs\Slice');
+        $mockSlice1 = m::mock('Khill\Lavacharts\Configs\Slice');
         $mockSlice1->shouldReceive('getValues')->once()->andReturn($sliceVals);
 
-        $mockSlice2 = m::mock('Lavacharts\Configs\Slice');
+        $mockSlice2 = m::mock('Khill\Lavacharts\Configs\Slice');
         $mockSlice2->shouldReceive('getValues')->once()->andReturn($sliceVals);
 
         $this->pc->slices(array($mockSlice1, $mockSlice2));
@@ -77,7 +77,7 @@ class PieChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonArrayProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testSlicesWithBadTypes($badTypes)
     {
@@ -93,7 +93,7 @@ class PieChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testPieSliceBorderColorWithBadTypes($badTypes)
     {
@@ -116,7 +116,7 @@ class PieChartTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testPieSliceTextWithBadValue()
     {
@@ -125,7 +125,7 @@ class PieChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testPieSliceTextWithBadTypes($badTypes)
     {
@@ -140,7 +140,7 @@ class PieChartTest extends ProvidersTestCase
             'fontSize' => 16
         );
 
-        $mockTextStyle = m::mock('Lavacharts\Configs\TextStyle');
+        $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
         $mockTextStyle->shouldReceive('getValues')->once()->andReturn($textStyleVals);
 
         $this->pc->pieSliceTextStyle($mockTextStyle);
@@ -157,7 +157,7 @@ class PieChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testPieStartAngleWithBadTypes($badTypes)
     {
@@ -173,7 +173,7 @@ class PieChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonBoolProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testReverseCategoriesWithBadType($badTypes)
     {
@@ -189,7 +189,7 @@ class PieChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonNumericProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testSliceVisibilityThresholdWithBadTypes($badTypes)
     {
@@ -205,7 +205,7 @@ class PieChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testPieResidueSliceColorWithBadTypes($badTypes)
     {
@@ -221,7 +221,7 @@ class PieChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testPieResidueSliceLabelWithBadTypes($badTypes)
     {

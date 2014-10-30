@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Helpers;
+<?php namespace Khill\Lavacharts\Helpers;
 
 class Helpers
 {

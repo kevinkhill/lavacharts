@@ -1,7 +1,7 @@
-<?php namespace Lavacharts\Tests;
+<?php namespace Khill\Lavacharts\Tests;
 
-use \Lavacharts\Volcano;
-use \Lavacharts\Charts\LineChart; //@TODO fix this to mockery
+use \Khill\Lavacharts\Volcano;
+use \Khill\Lavacharts\Charts\LineChart; //@TODO fix this to mockery
 
 class VolcanoTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,7 +25,7 @@ class VolcanoTest extends \PHPUnit_Framework_TestCase
 
         $v->storeChart($c);
 
-        $this->assertInstanceOf('\Lavacharts\Charts\LineChart', $v->getChart('LineChart', 'testchart'));
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $v->getChart('LineChart', 'testchart'));
     }
 
     public function testCheckChart()
@@ -42,7 +42,7 @@ class VolcanoTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Lavacharts\Exceptions\ChartNotFound
+     * @expectedException Khill\Lavacharts\Exceptions\ChartNotFound
      */
     public function testGetNonExistantTypeChart()
     {
@@ -54,7 +54,7 @@ class VolcanoTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Lavacharts\Exceptions\ChartNotFound
+     * @expectedException Khill\Lavacharts\Exceptions\ChartNotFound
      */
     public function testGetNonExistantLabelChart()
     {

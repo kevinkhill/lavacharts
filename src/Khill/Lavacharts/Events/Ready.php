@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Events;
+<?php namespace Khill\Lavacharts\Events;
 
 /**
  * Ready Event Object

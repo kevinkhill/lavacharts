@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Configs;
+<?php namespace Khill\Lavacharts\Configs;
 
 /**
  * Gradient Object
@@ -15,7 +15,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Gradient extends ConfigObject
 {

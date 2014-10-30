@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Configs;
+<?php namespace Khill\Lavacharts\Configs;
 
 /**
  * Axis Properties Parent Object
@@ -16,8 +16,8 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Helpers\Helpers as h;
-use Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Axis extends ConfigObject
 {

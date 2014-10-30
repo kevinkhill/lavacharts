@@ -1,6 +1,6 @@
-<?php namespace Lavacharts\Tests\Charts;
+<?php namespace Khill\Lavacharts\Tests\Charts;
 
-use \Lavacharts\Tests\ProvidersTestCase;
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Carbon\Carbon;
 use \Mockery as m;
 
@@ -10,7 +10,7 @@ class ChartTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->mlc = m::mock('Lavacharts\Charts\LineChart', array('TestChart'))->makePartial();
+        $this->mlc = m::mock('Khill\Lavacharts\Charts\LineChart', array('TestChart'))->makePartial();
     }
 
     public function testLabelAssignedViaConstructor()
@@ -20,7 +20,7 @@ class ChartTest extends ProvidersTestCase
 
     public function testDataTable()
     {
-        $mdt = m::mock(new \Lavacharts\Configs\DataTable);
+        $mdt = m::mock(new \Khill\Lavacharts\Configs\DataTable);
 
         $mdt->addColumn('date');
         $mdt->addColumn('number');
@@ -30,12 +30,12 @@ class ChartTest extends ProvidersTestCase
 
         $this->mlc->datatable($mdt);
 
-        $this->assertInstanceOf('\Lavacharts\Configs\DataTable', $this->mlc->datatable);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\DataTable', $this->mlc->datatable);
     }
 
     public function testBackgroundColorWithValidValues()
     {
-        $mbc = m::mock('Lavacharts\Configs\BackgroundColor');
+        $mbc = m::mock('Khill\Lavacharts\Configs\BackgroundColor');
         $mbc->shouldReceive('toArray')->once()->andReturn(array(
             'backgroundColor' => array()
         ));
@@ -55,7 +55,7 @@ class ChartTest extends ProvidersTestCase
 
     public function testChartAreaWithValidValues()
     {
-        $mca = m::mock('Lavacharts\Configs\ChartArea');
+        $mca = m::mock('Khill\Lavacharts\Configs\ChartArea');
         $mca->shouldReceive('toArray')->once()->andReturn(array(
             'chartArea' => array()
         ));
@@ -83,7 +83,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonArrayProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testColorsWithBadTypes($badTypes)
     {
@@ -98,7 +98,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testFontNameWithBadTypes($badTypes)
     {
@@ -113,7 +113,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testFontSizeWithBadTypes($badTypes)
     {
@@ -128,7 +128,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testHeightWithBadTypes($badTypes)
     {
@@ -137,7 +137,7 @@ class ChartTest extends ProvidersTestCase
 
     public function testLegendWithValidValues()
     {
-        $ml = m::mock('Lavacharts\Configs\Legend');
+        $ml = m::mock('Khill\Lavacharts\Configs\Legend');
         $ml->shouldReceive('toArray')->once()->andReturn(array(
             'legend' => array()
         ));
@@ -164,7 +164,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testTitleWithBadTypes($badTypes)
     {
@@ -184,7 +184,7 @@ class ChartTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testTitlePositionWithBadValue()
     {
@@ -193,7 +193,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testTitlePositionWithBadTypes($badTypes)
     {
@@ -202,7 +202,7 @@ class ChartTest extends ProvidersTestCase
 
     public function testTitleTextStyleWithValidValues()
     {
-        $mts = m::mock('Lavacharts\Configs\TextStyle');
+        $mts = m::mock('Khill\Lavacharts\Configs\TextStyle');
         $mts->shouldReceive('toArray')->once()->andReturn(array(
             'titleTextStyle' => array()
         ));
@@ -222,7 +222,7 @@ class ChartTest extends ProvidersTestCase
 
     public function testTooltipWithValidValues()
     {
-        $mtt = m::mock('Lavacharts\Configs\Tooltip');
+        $mtt = m::mock('Khill\Lavacharts\Configs\Tooltip');
         $mtt->shouldReceive('toArray')->once()->andReturn(array(
             'tooltip' => array()
         ));
@@ -248,7 +248,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testWidthWithBadTypes($badTypes)
     {
@@ -274,7 +274,7 @@ class ChartTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Lavacharts\Exceptions\InvalidConfigProperty
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testSetOptionsWithArrayOfBadOptions()
     {
@@ -287,7 +287,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonArrayProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testSetOptionsWithBadTypes($badTypes)
     {
@@ -295,7 +295,7 @@ class ChartTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testGetOptionsWithBadValue()
     {
@@ -304,7 +304,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testGetOptionsWithBadTypes($badTypes)
     {

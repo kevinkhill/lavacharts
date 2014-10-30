@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Charts;
+<?php namespace Khill\Lavacharts\Charts;
 
 /**
  * PieChart Class
@@ -17,9 +17,9 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Helpers\Helpers;
-use Lavacharts\Configs\Slice;
-use Lavacharts\Configs\TextStyle;
+use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Configs\Slice;
+use Khill\Lavacharts\Configs\TextStyle;
 
 class PieChart extends Chart
 {

@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Events;
+<?php namespace Khill\Lavacharts\Events;
 
 /**
  * AnimationFinish Event Object
@@ -17,9 +17,9 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Helpers\Helpers;
-use Lavacharts\Exceptions\InvalidConfigValue;
-use Lavacharts\Exceptions\InvalidConfigProperty;
+use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 class AnimationFinish extends Event
 {

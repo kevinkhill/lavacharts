@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Charts;
+<?php namespace Khill\Lavacharts\Charts;
 
 /**
  * Combo Chart Class
@@ -20,15 +20,15 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Helpers\Helpers;
-use Lavacharts\Configs\Annotation;
-use Lavacharts\Configs\HorizontalAxis;
-use Lavacharts\Configs\VerticalAxis;
-use Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Configs\Annotation;
+use Khill\Lavacharts\Configs\HorizontalAxis;
+use Khill\Lavacharts\Configs\VerticalAxis;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class ComboChart extends Chart
 {
-    //use Lavacharts\Traits\AxisTitlesPosition;
+    //use Khill\Lavacharts\Traits\AxisTitlesPosition;
 
     public $type = 'ComboChart';
 

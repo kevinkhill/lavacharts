@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Configs;
+<?php namespace Khill\Lavacharts\Configs;
 
 /**
  * DataTable Object
@@ -27,15 +27,15 @@
 //@TODO add method for setting timezone for Carbon;
 
 use Carbon\Carbon;
-use Lavacharts\Helpers\Helpers as h;
-use Lavacharts\Formats\Format;
-use Lavacharts\Exceptions\InvalidDate;
-use Lavacharts\Exceptions\InvalidConfigValue;
-use Lavacharts\Exceptions\InvalidConfigProperty;
-use Lavacharts\Exceptions\InvalidColumnDefinition;
-use Lavacharts\Exceptions\InvalidColumnIndex;
-use Lavacharts\Exceptions\InvalidRowDefinition;
-use Lavacharts\Exceptions\InvalidCellCount;
+use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Formats\Format;
+use Khill\Lavacharts\Exceptions\InvalidDate;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+use Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
+use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
+use Khill\Lavacharts\Exceptions\InvalidRowDefinition;
+use Khill\Lavacharts\Exceptions\InvalidCellCount;
 
 class DataTable
 {

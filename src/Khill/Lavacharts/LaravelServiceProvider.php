@@ -1,4 +1,4 @@
-<?php namespace Lavacharts;
+<?php namespace Khill\Lavacharts;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;

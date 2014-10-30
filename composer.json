@@ -25,10 +25,10 @@
         "satooshi/php-coveralls": "0.6.*"
     },
     "autoload": {
-        "psr-4": { "Lavacharts\\": "src/Khill/Lavacharts/" }
+        "psr-0": { "Khill\\Lavacharts": "src/" }
     },
     "autoload-dev": {
-        "psr-4": { "Lavacharts\\Tests\\": "tests/" }
+        "psr-4": { "Khill\\Lavacharts\\Tests\\": "tests/" }
     },
     "minimum-stability": "stable",
     "extra": {

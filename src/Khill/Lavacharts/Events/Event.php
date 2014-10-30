@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Events;
+<?php namespace Khill\Lavacharts\Events;
 
 /**
  * Event Parent Object
@@ -17,8 +17,8 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Helpers\Helpers as h;
-use Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Event
 {

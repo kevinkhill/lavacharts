@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Facade;
+<?php namespace Khill\Lavacharts\Facade;
 
 use \Illuminate\Support\Facades\Facade;
 
