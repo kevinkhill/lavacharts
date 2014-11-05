@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Events;
+<?php namespace Khill\Lavacharts\Events;
 
 /**
  * MouseOut Event Object
@@ -17,8 +17,8 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Exceptions\InvalidConfigValue;
-use Lavacharts\Exceptions\InvalidConfigProperty;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 class MouseOut extends Event
 {

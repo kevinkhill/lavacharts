@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Configs;
+<?php namespace Khill\Lavacharts\Configs;
 
 /**
  * Horizontal Axis Properties Object
@@ -16,9 +16,9 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Helpers\Helpers;
-use Lavacharts\Exceptions\InvalidConfigValue;
-use Lavacharts\Exceptions\InvalidConfigProperty;
+use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 class HorizontalAxis extends Axis
 {

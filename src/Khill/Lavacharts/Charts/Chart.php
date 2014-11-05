@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Charts;
+<?php namespace Khill\Lavacharts\Charts;
 
 /**
  * Chart Class, Parent to all charts.
@@ -15,17 +15,17 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Helpers\Helpers as h;
-use Lavacharts\JavascriptFactory;
-use Lavacharts\Configs\DataTable;
-use Lavacharts\Configs\Legend;
-use Lavacharts\Configs\Tooltip;
-use Lavacharts\Configs\TextStyle;
-use Lavacharts\Configs\ChartArea;
-use Lavacharts\Configs\BackgroundColor;
-use Lavacharts\Exceptions\InvalidElementId;
-use Lavacharts\Exceptions\InvalidConfigProperty;
-use Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\JavascriptFactory;
+use Khill\Lavacharts\Configs\DataTable;
+use Khill\Lavacharts\Configs\Legend;
+use Khill\Lavacharts\Configs\Tooltip;
+use Khill\Lavacharts\Configs\TextStyle;
+use Khill\Lavacharts\Configs\ChartArea;
+use Khill\Lavacharts\Configs\BackgroundColor;
+use Khill\Lavacharts\Exceptions\InvalidElementId;
+use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Chart
 {

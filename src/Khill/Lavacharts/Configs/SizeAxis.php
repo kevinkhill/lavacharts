@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Configs;
+<?php namespace Khill\Lavacharts\Configs;
 
 /**
  * SizeAxis Object
@@ -16,7 +16,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class SizeAxis extends ConfigObject
 {

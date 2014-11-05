@@ -1,6 +1,6 @@
-<?php namespace Lavacharts\Tests\Configs;
+<?php namespace Khill\Lavacharts\Tests\Configs;
 
-use \Lavacharts\Configs\Annotation;
+use \Khill\Lavacharts\Configs\Annotation;
 
 class AnnotationTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,7 +11,7 @@ class AnnotationTest extends \PHPUnit_Framework_TestCase
         $this->a = new Annotation;
 
         $this->mockTextStyle = $this->getMock(
-            '\Lavacharts\Configs\TextStyle',
+            '\Khill\Lavacharts\Configs\TextStyle',
             array('__construct')
         );
     }
@@ -30,11 +30,11 @@ class AnnotationTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->assertFalse($annotation->highContrast);
-        $this->assertInstanceOf('\Lavacharts\Configs\TextStyle', $annotation->textStyle);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $annotation->textStyle);
     }
 
     /**
-     * @expectedException Lavacharts\Exceptions\InvalidConfigProperty
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
@@ -42,7 +42,7 @@ class AnnotationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider1
      */
     public function testHighContrastWithBadParams($badVals)

@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Configs;
+<?php namespace Khill\Lavacharts\Configs;
 
 /**
  * ConfigObject Parent Class
@@ -16,9 +16,9 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Helpers\Helpers as h;
-use Lavacharts\Exceptions\InvalidConfigValue;
-use Lavacharts\Exceptions\InvalidConfigProperty;
+use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 class ConfigObject
 {

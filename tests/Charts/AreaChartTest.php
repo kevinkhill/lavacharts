@@ -1,7 +1,7 @@
-<?php namespace Lavacharts\Tests\Charts;
+<?php namespace Khill\Lavacharts\Tests\Charts;
 
-use \Lavacharts\Tests\ProvidersTestCase;
-use \Lavacharts\Charts\AreaChart;
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
+use \Khill\Lavacharts\Charts\AreaChart;
 use \Mockery as m;
 
 class AreaChartTest extends ProvidersTestCase
@@ -15,7 +15,7 @@ class AreaChartTest extends ProvidersTestCase
 
     public function testInstanceOfAreaChartWithType()
     {
-    	$this->assertInstanceOf('\Lavacharts\Charts\AreaChart', $this->ac);
+    	$this->assertInstanceOf('\Khill\Lavacharts\Charts\AreaChart', $this->ac);
     }
 
     public function testTypeAreaChart()
@@ -37,7 +37,7 @@ class AreaChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonNumericProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testAreaOpacityWithBadTypes($badTypes)
     {
@@ -57,7 +57,7 @@ class AreaChartTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testAxisTitlesPositionWithBadValue()
     {
@@ -66,7 +66,7 @@ class AreaChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testAxisTitlesPositionWithBadType($badTypes)
     {
@@ -75,7 +75,7 @@ class AreaChartTest extends ProvidersTestCase
 
     public function testHorizontalAxis()
     {
-        $mockHorizontalAxis = m::mock('Lavacharts\Configs\HorizontalAxis');
+        $mockHorizontalAxis = m::mock('Khill\Lavacharts\Configs\HorizontalAxis');
         $mockHorizontalAxis->shouldReceive('toArray')->once()->andReturn(array(
             'hAxis' => array()
         ));
@@ -94,7 +94,7 @@ class AreaChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonBoolProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testIsStackedWithBadType($badTypes)
     {
@@ -110,7 +110,7 @@ class AreaChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonBoolProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testInterpolateNullsWithBadType($badTypes)
     {
@@ -126,7 +126,7 @@ class AreaChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testLineWidthWithBadType($badTypes)
     {
@@ -142,7 +142,7 @@ class AreaChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testPointSizeWithBadType($badTypes)
     {
@@ -151,7 +151,7 @@ class AreaChartTest extends ProvidersTestCase
 
     public function testVerticalAxis()
     {
-        $mockVerticalAxis = m::mock('Lavacharts\Configs\VerticalAxis');
+        $mockVerticalAxis = m::mock('Khill\Lavacharts\Configs\VerticalAxis');
         $mockVerticalAxis->shouldReceive('toArray')->once()->andReturn(array(
             'vAxis' => array()
         ));

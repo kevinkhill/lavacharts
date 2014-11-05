@@ -1,6 +1,6 @@
-<?php namespace Lavacharts\Tests\Helpers;
+<?php namespace Khill\Lavacharts\Tests\Helpers;
 
-use \Lavacharts\Helpers\Helpers as h;
+use \Khill\Lavacharts\Helpers\Helpers as h;
 
 class HelperArrayIsMultiTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Configs;
+<?php namespace Khill\Lavacharts\Configs;
 
 /**
  * MagnifyingGlass Properties Object
@@ -19,7 +19,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class MagnifyingGlass extends ConfigObject
 {

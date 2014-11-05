@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Exceptions;
+<?php namespace Khill\Lavacharts\Exceptions;
 
 class InvalidConfigValue extends \Exception
 {

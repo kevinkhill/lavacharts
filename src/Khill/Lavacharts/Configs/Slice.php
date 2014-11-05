@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Configs;
+<?php namespace Khill\Lavacharts\Configs;
 
 /**
  * Slice Properties Object
@@ -16,8 +16,8 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Helpers\Helpers;
-use Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Slice extends ConfigObject
 {

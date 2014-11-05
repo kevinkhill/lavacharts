@@ -1,7 +1,7 @@
-<?php namespace Lavacharts\Tests\Charts;
+<?php namespace Khill\Lavacharts\Tests\Charts;
 
-use \Lavacharts\Tests\ProvidersTestCase;
-use \Lavacharts\Charts\GeoChart;
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
+use \Khill\Lavacharts\Charts\GeoChart;
 use \Mockery as m;
 
 class GeoChartTest extends ProvidersTestCase
@@ -15,7 +15,7 @@ class GeoChartTest extends ProvidersTestCase
 
     public function testInstanceOfGeoChartWithType()
     {
-    	$this->assertInstanceOf('\Lavacharts\Charts\GeoChart', $this->gc);
+    	$this->assertInstanceOf('\Khill\Lavacharts\Charts\GeoChart', $this->gc);
     }
 
     public function testTypeGeoChart()
@@ -30,7 +30,7 @@ class GeoChartTest extends ProvidersTestCase
 
     public function testColorAxis()
     {
-        $mockColorAxis = m::mock('Lavacharts\Configs\ColorAxis');
+        $mockColorAxis = m::mock('Khill\Lavacharts\Configs\ColorAxis');
         $mockColorAxis->shouldReceive('toArray')->once()->andReturn(array(
             'ColorAxis' => array()
         ));
@@ -48,7 +48,7 @@ class GeoChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testDatalessRegionColorWithBadType($badTypes)
     {
@@ -68,7 +68,7 @@ class GeoChartTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testDisplayModeWithBadValue()
     {
@@ -77,7 +77,7 @@ class GeoChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testDisplayModeWithBadType($badTypes)
     {
@@ -95,7 +95,7 @@ class GeoChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonBoolProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testEnableRegionInteractivityWithBadType($badTypes)
     {
@@ -113,7 +113,7 @@ class GeoChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonBoolProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testKeepAspectRatioWithBadType($badTypes)
     {
@@ -142,7 +142,7 @@ class GeoChartTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testmarkerOpacityWithUnderLimit()
     {
@@ -150,7 +150,7 @@ class GeoChartTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testmarkerOpacityWithOverLimit()
     {
@@ -159,7 +159,7 @@ class GeoChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testmarkerOpacityWithBadType($badTypes)
     {
@@ -174,7 +174,7 @@ class GeoChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testRegionWithBadType($badTypes)
     {
@@ -183,7 +183,7 @@ class GeoChartTest extends ProvidersTestCase
 
     public function testMagnifiyingGlass()
     {
-        $mockMagnifiyingGlass = m::mock('Lavacharts\Configs\MagnifiyingGlass');
+        $mockMagnifiyingGlass = m::mock('Khill\Lavacharts\Configs\MagnifiyingGlass');
         $mockMagnifiyingGlass->shouldReceive('toArray')->once()->andReturn(array(
             'MagnifiyingGlass' => array()
         ));
@@ -206,7 +206,7 @@ class GeoChartTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testResolutionWithBadValue()
     {
@@ -215,7 +215,7 @@ class GeoChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testResolutionWithBadType($badTypes)
     {
@@ -224,7 +224,7 @@ class GeoChartTest extends ProvidersTestCase
 
     public function testSizeAxis()
     {
-        $mockSizeAxis = m::mock('Lavacharts\Configs\SizeAxis');
+        $mockSizeAxis = m::mock('Khill\Lavacharts\Configs\SizeAxis');
         $mockSizeAxis->shouldReceive('toArray')->once()->andReturn(array(
             'SizeAxis' => array()
         ));

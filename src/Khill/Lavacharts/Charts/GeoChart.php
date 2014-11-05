@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Charts;
+<?php namespace Khill\Lavacharts\Charts;
 
 /**
  * GeoChart Class
@@ -20,10 +20,10 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Configs\ColorAxis;
-use Lavacharts\Configs\SizeAxis;
-use Lavacharts\Configs\MagnifyingGlass;
-use Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Configs\ColorAxis;
+use Khill\Lavacharts\Configs\SizeAxis;
+use Khill\Lavacharts\Configs\MagnifyingGlass;
+use Khill\Lavacharts\Helpers\Helpers as h;
 
 class GeoChart extends Chart
 {

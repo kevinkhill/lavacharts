@@ -1,7 +1,7 @@
-<?php namespace Lavacharts\Tests\Charts;
+<?php namespace Khill\Lavacharts\Tests\Charts;
 
-use \Lavacharts\Tests\ProvidersTestCase;
-use \Lavacharts\Charts\DonutChart;
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
+use \Khill\Lavacharts\Charts\DonutChart;
 use \Mockery as m;
 
 class DonutChartTest extends ProvidersTestCase
@@ -15,7 +15,7 @@ class DonutChartTest extends ProvidersTestCase
 
     public function testInstanceOfDonutChartWithType()
     {
-    	$this->assertInstanceOf('\Lavacharts\Charts\DonutChart', $this->dc);
+    	$this->assertInstanceOf('\Khill\Lavacharts\Charts\DonutChart', $this->dc);
     }
 
     public function testTypeDonutChart()
@@ -37,7 +37,7 @@ class DonutChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonFloatProvider
-     * @expectedException Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testPieHoleWithBadType($badTypes)
     {

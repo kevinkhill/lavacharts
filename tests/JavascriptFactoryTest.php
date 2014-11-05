@@ -1,7 +1,7 @@
-<?php namespace Lavacharts\Tests;
+<?php namespace Khill\Lavacharts\Tests;
 
-use \Lavacharts\Tests\ProvidersTestCase;
-use \Lavacharts\JavascriptFactory;
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
+use \Khill\Lavacharts\JavascriptFactory;
 use \Mockery as m;
 
 class JavascriptFactoryTest extends ProvidersTestCase
@@ -12,8 +12,8 @@ class JavascriptFactoryTest extends ProvidersTestCase
 
         $this->jsf = new JavascriptFactory;
 
-        $this->mlc = m::mock('Lavacharts\Charts\LineChart', array('TestChart'))->makePartial();
-        $this->mdt = m::mock('Lavacharts\Configs\DataTable')->makePartial();
+        $this->mlc = m::mock('Khill\Lavacharts\Charts\LineChart', array('TestChart'))->makePartial();
+        $this->mdt = m::mock('Khill\Lavacharts\Configs\DataTable')->makePartial();
 
         $this->mdt->addColumn('number')
                   ->addColumn('number')
@@ -31,7 +31,7 @@ class JavascriptFactoryTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Lavacharts\Exceptions\DataTableNotFound
+     * @expectedException Khill\Lavacharts\Exceptions\DataTableNotFound
      */
     public function testGetChartJsWithMissingDataTable()
     {
@@ -40,7 +40,7 @@ class JavascriptFactoryTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Lavacharts\Exceptions\InvalidElementId
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidElementId
      */
     public function testGetChartJsWithBadElementIdTypes($badTypes)
     {

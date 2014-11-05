@@ -1,6 +1,6 @@
-<?php namespace Lavacharts\Tests\Configs;
+<?php namespace Khill\Lavacharts\Tests\Configs;
 
-use \Lavacharts\Configs\DataTable;
+use \Khill\Lavacharts\Configs\DataTable;
 use \Carbon\Carbon;
 
 class DataTableTest extends \PHPUnit_Framework_TestCase
@@ -217,7 +217,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
      * @depends testGetColumns
      * @depends testGetRows
      * @depends testAddColumnWithTypeAndDescription
-     * @expectedException Lavacharts\Exceptions\InvalidRowDefinition
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidRowDefinition
      */
     public function testAddBadMultipleRowsWithMultipleColumnsWithDateAndNumbers()
     {
@@ -247,7 +247,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testAddColumnWithTypeAndDescription
-     * @expectedException Lavacharts\Exceptions\InvalidCellCount
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidCellCount
      */
     public function testAddMoreCellsThanColumns()
     {

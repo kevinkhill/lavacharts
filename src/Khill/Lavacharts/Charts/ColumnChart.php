@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Charts;
+<?php namespace Khill\Lavacharts\Charts;
 
 /**
  * Column Chart Class
@@ -18,9 +18,9 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Helpers\Helpers;
-use Lavacharts\Configs\HorizontalAxis;
-use Lavacharts\Configs\VerticalAxis;
+use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Configs\HorizontalAxis;
+use Khill\Lavacharts\Configs\VerticalAxis;
 
 class ColumnChart extends Chart
 {

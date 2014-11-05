@@ -1,4 +1,4 @@
-<?php namespace Lavacharts;
+<?php namespace Khill\Lavacharts;
 
 /**
  * Lavacharts - A PHP wrapper library for the Google Chart API
@@ -13,13 +13,13 @@
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Volcano;
-use Lavacharts\JavascriptFactory;
-use Lavacharts\Exceptions\InvalidChartLabel;
-use Lavacharts\Exceptions\InvalidLavaObject;
-use Lavacharts\Exceptions\InvalidConfigValue;
-use Lavacharts\Exceptions\InvalidDivDimensions;
-use Lavacharts\Exceptions\InvalidConfigProperty;
+use Khill\Lavacharts\Volcano;
+use Khill\Lavacharts\JavascriptFactory;
+use Khill\Lavacharts\Exceptions\InvalidChartLabel;
+use Khill\Lavacharts\Exceptions\InvalidLavaObject;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidDivDimensions;
+use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 class Lavacharts
 {

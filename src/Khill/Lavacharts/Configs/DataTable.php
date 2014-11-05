@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Configs;
+<?php namespace Khill\Lavacharts\Configs;
 
 /**
  * DataTable Object
@@ -27,15 +27,15 @@
 //@TODO add method for setting timezone for Carbon;
 
 use Carbon\Carbon;
-use Lavacharts\Helpers\Helpers as h;
-use Lavacharts\Formats\Format;
-use Lavacharts\Exceptions\InvalidDate;
-use Lavacharts\Exceptions\InvalidConfigValue;
-use Lavacharts\Exceptions\InvalidConfigProperty;
-use Lavacharts\Exceptions\InvalidColumnDefinition;
-use Lavacharts\Exceptions\InvalidColumnIndex;
-use Lavacharts\Exceptions\InvalidRowDefinition;
-use Lavacharts\Exceptions\InvalidCellCount;
+use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Formats\Format;
+use Khill\Lavacharts\Exceptions\InvalidDate;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+use Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
+use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
+use Khill\Lavacharts\Exceptions\InvalidRowDefinition;
+use Khill\Lavacharts\Exceptions\InvalidCellCount;
 
 class DataTable
 {
@@ -177,6 +177,51 @@ class DataTable
     }
 
     /**
+     * Supplemental function to add a string column with less params.
+     *
+     * @param  string                A label for the column. (Optional)
+     * @param  string                An ID for the column. (Optional)
+     * @param  Format                A column formatter object. (Optional)
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
+     * @return DataTable
+     */
+    public function addStringCol($optLabel = '', $optId = '', Format $formatter = null)
+    {
+        return $this->addColumn('string', $optLabel, $optId, $formatter);
+    }
+
+    /**
+     * Supplemental function to add a date column with less params.
+     *
+     * @param  string                A label for the column. (Optional)
+     * @param  string                An ID for the column. (Optional)
+     * @param  Format                A column formatter object. (Optional)
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
+     * @return DataTable
+     */
+    public function addDateCol($optLabel = '', $optId = '', Format $formatter = null)
+    {
+        return $this->addColumn('date', $optLabel, $optId, $formatter);
+    }
+
+    /**
+     * Supplemental function to add a number column with less params.
+     *
+     * @param  string                A label for the column. (Optional)
+     * @param  string                An ID for the column. (Optional)
+     * @param  Format                A column formatter object. (Optional)
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
+     * @return DataTable
+     */
+    public function addNumCol($optLabel = '', $optId = '', Format $formatter = null)
+    {
+        return $this->addColumn('number', $optLabel, $optId, $formatter);
+    }
+
+    /**
      * Supplemental function to add columns from an array.
      *
      * @param  array                   $colDefArray
@@ -243,7 +288,7 @@ class DataTable
     /**
      * Sets the format of the column.
      *
-     * @param Formatter $formatter
+     * @param  Format             $formatter
      * @throws InvalidColumnIndex
      * @return DataTable
      */
@@ -261,7 +306,7 @@ class DataTable
     /**
      * Sets the format of the column.
      *
-     * @param Formatter $formatter
+     * @param Format     $formatter
      *
      * @return DataTable
      */
@@ -304,7 +349,7 @@ class DataTable
      * a cell in an array, or omit trailing array members. So, to indicate a row
      * with null for the first two cells, you would specify [null, null, {cell_val}].
      *
-     * @param mixed $opt_cell Array of values or DataCells.
+     * @param  mixed $opt_cell Array of values or DataCells.
      *
      * @throws Lavacharts\Exceptions\InvalidCellCount
      *

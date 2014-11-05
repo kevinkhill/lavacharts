@@ -1,4 +1,4 @@
-<?php namespace Lavacharts\Formats;
+<?php namespace Khill\Lavacharts\Formats;
 
 /**
  * NumberFormat Object
@@ -17,8 +17,8 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Lavacharts\Helpers\Helpers as h;
-use Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class NumberFormat extends Format
 {
