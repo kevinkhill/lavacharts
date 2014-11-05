@@ -11,7 +11,34 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
         $this->dt = new DataTable;
     }
+    
+    public function testGetColumns()
+    {
+        $this->dt->addColumn('date', 'Test1');
+        $this->dt->addColumn('number', 'Test2');
 
+        $cols = $this->dt->getColumns();
+
+        $this->assertEquals($cols[0]['type'], 'date');
+        $this->assertEquals($cols[1]['type'], 'number');
+    }
+
+    public function testGetRows()
+    {
+        $this->dt->addColumn('date');
+
+        $this->dt->addRow(array(Carbon::parse('March 24th, 1988')));
+        $this->dt->addRow(array(Carbon::parse('March 25th, 1988')));
+
+        $rows = $this->dt->getRows();
+
+        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988, 2, 24, 0, 0, 0)');
+        $this->assertEquals($rows[1]['c'][0]['v'], 'Date(1988, 2, 25, 0, 0, 0)');
+    }
+
+    /**
+     * @depends testGetColumns
+     */
     public function testAddColumnWithTypeOnly()
     {
         $this->dt->addColumn('date');
@@ -21,6 +48,9 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($cols[0]['type'], 'date');
     }
 
+    /**
+     * @depends testGetColumns
+     */
     public function testAddColumnWithArrayOfTypeOnly()
     {
         $this->dt->addColumn(array('date'));
@@ -30,6 +60,9 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($cols[0]['type'], 'date');
     }
 
+    /**
+     * @depends testGetColumns
+     */
     public function testAddColumnWithTypeAndDescription()
     {
         $this->dt->addColumn('date', 'Days in March');
@@ -40,6 +73,9 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($cols[0]['label'], 'Days in March');
     }
 
+    /**
+     * @depends testGetColumns
+     */
     public function testAddColumnWithArrafOfTypeAndDescription()
     {
         $this->dt->addColumn(array('date', 'Days in March'));
@@ -50,6 +86,9 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($cols[0]['label'], 'Days in March');
     }
 
+    /**
+     * @depends testGetColumns
+     */
     public function testAddColumnWithTypeAndDescriptionAndId()
     {
         $this->dt->addColumn('date', 'Days in March', 'march-dates');
@@ -61,6 +100,9 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($cols[0]['id'],    'march-dates');
     }
 
+    /**
+     * @depends testGetColumns
+     */
     public function testAddColumnWithArrayOfTypeAndDescriptionAndId()
     {
         $this->dt->addColumn(array('date', 'Days in March', 'march-dates'));
@@ -73,6 +115,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @depends testGetColumns
      * @depends testAddColumnWithArrayOfTypeAndDescriptionAndId
      */
     public function testAddMultipleColumnsWithArrayOfTypeAndDescriptionAndId()
@@ -99,6 +142,8 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @depends testGetColumns
+     * @depends testGetRows
      * @depends testAddColumnWithTypeOnly
      */
     public function testAddRowWithTypeDateOnly()
@@ -115,6 +160,8 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @depends testGetColumns
+     * @depends testGetRows
      * @depends testAddColumnWithTypeAndDescription
      */
     public function testAddRowWithMultipleColumnsWithDateAndNumbers()
@@ -136,6 +183,8 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @depends testGetColumns
+     * @depends testGetRows
      * @depends testAddColumnWithTypeAndDescription
      */
     public function testAddMultipleRowsWithMultipleColumnsWithDateAndNumbers()
@@ -165,6 +214,8 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @depends testGetColumns
+     * @depends testGetRows
      * @depends testAddColumnWithTypeAndDescription
      * @expectedException Lavacharts\Exceptions\InvalidRowDefinition
      */
@@ -204,6 +255,16 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->dt->addColumn('number');
         $this->dt->addRow(array(Carbon::parse('March 24th, 1988'), 12345, 67890));
     }
+
+    /*
+     * @depends testAddColumnWithTypeAndDescription
+     *
+    public function testAddDateColumnWithShortSyntax()
+    {
+        $this->dt->addDateCol();
+        $this->dt->addColumn('number');
+        $this->dt->addRow(array(Carbon::parse('March 24th, 1988'), 12345, 67890));
+    }*/
 }
 
 //dataProvider
