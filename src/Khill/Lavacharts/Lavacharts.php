@@ -15,6 +15,7 @@
 
 use Khill\Lavacharts\Volcano;
 use Khill\Lavacharts\JavascriptFactory;
+use Khill\Lavacharts\Exceptions\ChartNotFound;
 use Khill\Lavacharts\Exceptions\InvalidChartLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -200,7 +201,11 @@ class Lavacharts
      */
     public function render($chartType, $chartLabel, $elementId, $divDimensions = false)
     {
-        $chart = $this->volcano->getChart($chartType, $chartLabel);
+        try {
+            $chart = $this->volcano->getChart($chartType, $chartLabel);
+        catch (ChartNotFound $e) {
+            return "$chartType '$chartLabel' was not found.";
+        }
 
         if ($divDimensions === false) {
             return $this->jsFactory->getChartJs($chart, $elementId);
