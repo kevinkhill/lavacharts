@@ -201,11 +201,7 @@ class Lavacharts
      */
     public function render($chartType, $chartLabel, $elementId, $divDimensions = false)
     {
-        try {
-            $chart = $this->volcano->getChart($chartType, $chartLabel);
-        } catch (ChartNotFound $e) {
-            return "$chartType '$chartLabel' was not found.";
-        }
+        $chart = $this->volcano->getChart($chartType, $chartLabel);
 
         if ($divDimensions === false) {
             return $this->jsFactory->getChartJs($chart, $elementId);

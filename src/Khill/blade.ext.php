@@ -22,5 +22,4 @@ foreach ($charts as $chart)
 
 // OLDEST: Lava::LineChart('Stocks')->outputInto('sales_div')
 // OLDER:  Lava::render('LineChart', 'Stocks', 'sales_div')
-// OLD:    Lava::renderLineChart('Stocks', 'sales_div')
 // NEW:    @linechart('Stocks', 'sales_div')
