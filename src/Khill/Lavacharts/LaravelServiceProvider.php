@@ -26,7 +26,7 @@ class LaravelServiceProvider extends ServiceProvider
         $this->app->booting(
             function () {
                 $loader = AliasLoader::getInstance();
-                $loader->alias('Lava', 'Lavacharts\Facade\Lavacharts');
+                $loader->alias('Lava', 'Khill\Lavacharts\Facade\Lavacharts');
             }
         );
     }
