@@ -203,7 +203,7 @@ class Lavacharts
     {
         try {
             $chart = $this->volcano->getChart($chartType, $chartLabel);
-        catch (ChartNotFound $e) {
+        } catch (ChartNotFound $e) {
             return "$chartType '$chartLabel' was not found.";
         }
 
