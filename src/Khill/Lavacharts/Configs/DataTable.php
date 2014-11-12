@@ -21,6 +21,7 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
+use Khill\Lavacharts\Facades\Lavacharts;
 use Khill\Lavacharts\Helpers\Helpers;
 
 class DataTable
