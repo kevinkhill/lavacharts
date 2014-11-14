@@ -23,7 +23,7 @@ class Annotation extends ConfigObject
     /**
      * The highContrast state.
      *
-     * @var $highContrast
+     * @var bool
      */
     public $highContrast = true;
 

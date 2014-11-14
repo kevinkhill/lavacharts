@@ -17,11 +17,11 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Helpers\Helpers as h;
 
 class DonutChart extends PieChart
 {
-    public $type = 'DonutChart';
+    public $type = 'PieChart'; //Google still calls Donut charts PieCharts
 
     public function __construct($chartLabel)
     {
@@ -31,6 +31,8 @@ class DonutChart extends PieChart
             $this->defaults,
             array('pieHole')
         );
+
+        $this->pieHole(0.5);
     }
 
     /**
@@ -43,7 +45,7 @@ class DonutChart extends PieChart
      */
     public function pieHole($pieHole)
     {
-        if (Helpers::between(0.0, $pieHole, 1.0)) {
+        if (h::between(0.0, $pieHole, 1.0)) {
             $this->addOption(array('pieHole' => $pieHole));
         } else {
             throw $this->invalidConfigValue(
