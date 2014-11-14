@@ -179,7 +179,7 @@ class JavascriptFactory
 
         $out .= sprintf(
             '$this.chart = new google.visualization.%s',
-            $this->chart->type
+            ($this->chart->type == 'DonutChart' ? 'PieChart' : $this->chart->type)
         );
         $out .= sprintf("(document.getElementById('%s'));", $this->elementId).PHP_EOL.PHP_EOL;
 

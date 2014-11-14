@@ -21,7 +21,7 @@ use Khill\Lavacharts\Helpers\Helpers as h;
 
 class DonutChart extends PieChart
 {
-    public $type = 'PieChart'; //Google still calls Donut charts PieCharts
+    public $type = 'DonutChart';
 
     public function __construct($chartLabel)
     {
