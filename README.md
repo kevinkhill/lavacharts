@@ -1,11 +1,24 @@
 Lavacharts
 ==========
 
-Lavacharts is a graphing library for PHP5.3+ that wraps the Google Chart API
+Lavacharts is a graphing / chart library for PHP5.3+ that wraps the Google Chart API
 
-Branches
-========
+
 [![Build Status](https://travis-ci.org/kevinkhill/Lavacharts.png?branch=2.0)](https://travis-ci.org/kevinkhill/Lavacharts) [![Coverage Status](https://coveralls.io/repos/kevinkhill/Lavacharts/badge.png?branch=2.0)](https://coveralls.io/r/kevinkhill/Lavacharts?branch=2.0) [![Total Downloads](https://poser.pugx.org/khill/lavacharts/downloads.svg)](https://packagist.org/packages/khill/lavacharts) [![License](https://poser.pugx.org/khill/lavacharts/license.svg)](https://packagist.org/packages/khill/lavacharts)
+
+
+COMING SOON!
+============
+Version 2 is very near completion! :)
+Included are:
+- blade template extensions for laravel
+- new "lava" javascript api
+- js events
+- datatable column formatters
+- Carbon support in favor of homebrewed jsDate class
+
+I am finishing up the documentation and new site, but the V2 API is feature complete and won't be changing if you want to start digging under the hood.
+
 
 Installing
 ----------
@@ -29,17 +42,11 @@ Register Lavacharts in your app by adding this line to the end of the providers 
   'providers' => array(
       ...
 
-      "Lavacharts\LaravelServiceProvider"
+      "Khill\Lavacharts\LavachartsServiceProvider"
   ),
   ```
 
   Don't worry about the ```Lava``` alias, the service provider registers it automatically.
-
-If you want to view the demos, publish the assets with:
-
-  ```
-  php artisan asset:publish khill/lavacharts
-  ```
 
 Usage
 -----
@@ -76,6 +83,23 @@ Controller
       ->dataTable($stocksTable)
       ->title('Stock Market Trends');
   ```
+
+Arrays work for datatables as well...
+```
+  $stocksTable->addColumns(array(
+    array('date', 'Date', 'date'),
+    array('number', 'Projected', 'projected'),
+    array('number', 'Closing', 'closing')
+  );
+```
+
+And setting chart options!
+```
+  Lava::LineChart('Stocks')->setOptions(array(
+    'datatable' => $stocksTable,
+    'title' => 'Stock Market Trends'
+  ));
+```
 
 View
 ====
