@@ -119,15 +119,28 @@ Or you can use the new render method, passing in the chart type, label, and elem
 This is all assuming you already have a div in your page with the id "stocks-div":
 ```<div id="stocks-div"></div>```
 
+If you don't have a div ready to accept the charts, add one more parameter to ```@linechart()``` or ```render()``` and it will be created for you.
+
+Add ```true``` to toss in a plain div, or an array with ```array('width'=>1024, 'height'=>768)```
+
+Example:
+```
+  
+  echo Lava::render('LineChart', 'Stocks', 'stocks-div');
+```
+
 
 Notice
 ======
 If you are using Lavacharts with Composer and not in Laravel, that's fine, just make sure to:
-```require 'vendor/autoload.php';``` within you project
-Create an instance of Lavacharts: ```$lava = new Lavacharts\Lavacharts;```
-Replace all of the ```Lava::``` class aliases in the examples, by chaining from the Lavacharts object you created.
+```require 'vendor/autoload.php';``` within you project.
+
+Create an instance of Lavacharts: ```$lava = new Khill\Lavacharts\Lavacharts;```
+
+Replace all of the ```Lava::``` aliases in the examples, by chaining from the Lavacharts object you created.
 
 example: Use ```$dt = $lava->DataTable();``` instead of ```$dt = Lava::DataTable();```
+
 
 New Site & Docs
 ===============
