@@ -39,13 +39,19 @@ use Khill\Lavacharts\Exceptions\InvalidCellCount;
 
 class DataTable
 {
-
     /**
      * Timezone for dealing with datetime and Carbon objects
      * 
      * @var string
      */
     public $timezone;
+
+    /**
+     * Timezone for dealing with datetime and Carbon objects
+     * 
+     * @var string
+     */
+    public $dateTimeFormat;
 
     /**
      * Holds the information defining the columns.
@@ -108,6 +114,26 @@ class DataTable
             $this->timezone = $timezone;
         } else {
             $this->timezone = 'America/Los_Angeles';
+        }
+
+        return $this;
+    }
+
+    /**
+     * Sets the format to be used by Carbon::createFromFormat()
+     *
+     * This method is used to set the format to be used to parse a string
+     * passed to a cell in a date column, that was parsed incorrectly by Carbon::parse()
+     */
+    public function setDateTimeFormat($dateTimeFormat)
+    {
+        if (h::nonEmptyString($dateTimeFormat)) {
+            $this->dateTimeFormat = $dateTimeFormat;
+        } else {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'string'
+            );
         }
 
         return $this;
@@ -668,7 +694,6 @@ class DataTable
         return $this->formats;
     }
 
-
     /**
      * Boolean value if there are defined formatters
      *
@@ -686,10 +711,14 @@ class DataTable
      */
     public function toJson()
     {
-        return json_encode(array(
+        $json = json_encode(array(
             'cols' => $this->cols,
             'rows' => $this->rows,
         ));
+
+        // Removes the "" from Date() so it is treated
+        // as a JS new Date() instead of a string.
+        return preg_replace('/"(Date\([0-9,]+\))"/', 'new $1', $json);
     }
 
     /**
@@ -702,12 +731,17 @@ class DataTable
         if (is_a($date, 'Carbon\Carbon')) {
             $carbonDate = $date;
         } elseif (is_string($date)) {
-            $carbonDate = Carbon::parse($date);
+            if (! is_null($this->dateTimeFormat)) {
+                $carbonDate = Carbon::createFromFormat($this->dateTimeFormat, $date);
+            } else {
+                $carbonDate = Carbon::parse($date);
+            }
         } else {
             throw new InvalidDate($date);
         }
 
         return $this->carbonToJsString($carbonDate);
+        //return $carbonDate->toIso8601String();
     }
 
     /**
@@ -718,7 +752,7 @@ class DataTable
     private function carbonToJsString(Carbon $c)
     {
         return sprintf(
-            'Date(%d, %d, %d, %d, %d, %d)',
+            'Date(%d,%d,%d,%d,%d,%d)',
             isset($c->year)   ? $c->year      : 'null',
             isset($c->month)  ? $c->month - 1 : 'null', //silly javascript
             isset($c->day)    ? $c->day       : 'null',

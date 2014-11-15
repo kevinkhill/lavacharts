@@ -32,8 +32,8 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
         $rows = $this->dt->getRows();
 
-        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988, 2, 24, 0, 0, 0)');
-        $this->assertEquals($rows[1]['c'][0]['v'], 'Date(1988, 2, 25, 0, 0, 0)');
+        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988,2,24,0,0,0)');
+        $this->assertEquals($rows[1]['c'][0]['v'], 'Date(1988,2,25,0,0,0)');
     }
 
     /**
@@ -156,7 +156,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $rows = $this->dt->getRows();
 
         $this->assertEquals($cols[0]['type'], 'date');
-        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988, 2, 24, 0, 0, 0)');
+        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988,2,24,0,0,0)');
     }
 
     /**
@@ -177,7 +177,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($cols[0]['type'], 'date');
         $this->assertEquals($cols[1]['type'], 'number');
-        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988, 2, 24, 0, 0, 0)');
+        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988,2,24,0,0,0)');
         $this->assertEquals($rows[0]['c'][1]['v'], 12345);
         $this->assertEquals($rows[0]['c'][2]['v'], 67890);
     }
@@ -205,10 +205,10 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($cols[0]['type'], 'date');
         $this->assertEquals($cols[1]['type'], 'number');
-        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988, 2, 24, 0, 0, 0)');
+        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988,2,24,0,0,0)');
         $this->assertEquals($rows[0]['c'][1]['v'], 12345);
         $this->assertEquals($rows[0]['c'][2]['v'], 67890);
-        $this->assertEquals($rows[1]['c'][0]['v'], 'Date(1988, 2, 25, 0, 0, 0)');
+        $this->assertEquals($rows[1]['c'][0]['v'], 'Date(1988,2,25,0,0,0)');
         $this->assertEquals($rows[1]['c'][1]['v'], 1122);
         $this->assertEquals($rows[1]['c'][2]['v'], 3344);
     }
