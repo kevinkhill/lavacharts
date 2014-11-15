@@ -121,12 +121,13 @@ This is all assuming you already have a div in your page with the id "stocks-div
 
 If you don't have a div ready to accept the charts, add one more parameter to ```@linechart()``` or ```render()``` and it will be created for you.
 
-Add ```true``` to toss in a plain div, or an array with ```array('width'=>1024, 'height'=>768)```
+Add ```true``` to for the library to create a plain div, or an array with keys ```width & height```
 
 Example:
 ```
-  
-  echo Lava::render('LineChart', 'Stocks', 'stocks-div');
+  @linechart('Stocks', 'stocks-div', true)
+  // Or
+  echo Lava::render('LineChart', 'Stocks', 'stocks-div', array('width'=>1024, 'height'=>768));
 ```
 
 
