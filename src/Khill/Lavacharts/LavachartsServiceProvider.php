@@ -3,7 +3,7 @@
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 
-class LaravelServiceProvider extends ServiceProvider
+class LavachartsServiceProvider extends ServiceProvider
 {
     protected $defer = false;
 
