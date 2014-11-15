@@ -90,7 +90,7 @@ Arrays work for datatables as well...
     array('date', 'Date', 'date'),
     array('number', 'Projected', 'projected'),
     array('number', 'Closing', 'closing')
-  );
+  ));
 ```
 
 And setting chart options!
