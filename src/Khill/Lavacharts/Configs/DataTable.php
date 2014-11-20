@@ -205,46 +205,43 @@ class DataTable
     /**
      * Supplemental function to add a string column with less params.
      *
-     * @param  string                A label for the column. (Optional)
-     * @param  string                An ID for the column. (Optional)
+     * @param  string                A label for the column.
      * @param  Format                A column formatter object. (Optional)
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
      * @return DataTable
      */
-    public function addStringCol($optLabel = '', $optId = '', Format $formatter = null)
+    public function addStringColumn($optLabel, Format $formatter = null)
     {
-        return $this->addColumn('string', $optLabel, $optId, $formatter);
+        return $this->addColumn('string', $optLabel, 'col_' . count($this->cols) + 1, $formatter);
     }
 
     /**
      * Supplemental function to add a date column with less params.
      *
-     * @param  string                A label for the column. (Optional)
-     * @param  string                An ID for the column. (Optional)
+     * @param  string                A label for the column.
      * @param  Format                A column formatter object. (Optional)
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
      * @return DataTable
      */
-    public function addDateCol($optLabel = '', $optId = '', Format $formatter = null)
+    public function addDateColumn($optLabel, Format $formatter = null)
     {
-        return $this->addColumn('date', $optLabel, $optId, $formatter);
+        return $this->addColumn('date', $optLabel, 'col_' . count($this->cols) + 1, $formatter);
     }
 
     /**
      * Supplemental function to add a number column with less params.
      *
-     * @param  string                A label for the column. (Optional)
-     * @param  string                An ID for the column. (Optional)
+     * @param  string                A label for the column.
      * @param  Format                A column formatter object. (Optional)
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
      * @return DataTable
      */
-    public function addNumCol($optLabel = '', $optId = '', Format $formatter = null)
+    public function addNumColumn($optLabel, Format $formatter = null)
     {
-        return $this->addColumn('number', $optLabel, $optId, $formatter);
+        return $this->addColumn('number', $optLabel, 'col_' . count($this->cols) + 1, $formatter);
     }
 
     /**
