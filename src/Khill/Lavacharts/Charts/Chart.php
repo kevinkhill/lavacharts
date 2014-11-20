@@ -230,7 +230,7 @@ class Chart
      */
     public function backgroundColor(BackgroundColor $bc)
     {
-        return $this->addOption($bc->toArray());
+        return $this->addOption($bc->toArray(__FUNCTION__));
     }
 
     /**
@@ -246,7 +246,7 @@ class Chart
      */
     public function chartArea(ChartArea $ca)
     {
-        return $this->addOption($ca->toArray());
+        return $this->addOption($ca->toArray(__FUNCTION__));
     }
 
     /**
@@ -469,7 +469,7 @@ class Chart
      */
     public function tooltip(Tooltip $t)
     {
-        return $this->addOption($t->toArray());
+        return $this->addOption($t->toArray(__FUNCTION__));
     }
 
     /**

@@ -205,7 +205,7 @@ class GeoChart extends Chart
      * @param  MagnifyingGlass $magnifyingGlass
      * @return GeoChart
      */
-    public function magnifyingGlass($mg)
+    public function magnifyingGlass(MagnifyingGlass $mg)
     {
         $this->addOption($mg->toArray(__FUNCTION__));
 
@@ -216,23 +216,21 @@ class GeoChart extends Chart
      * The opacity of the markers, where 0.0 is fully transparent and 1.0
      * is fully opaque.
      *
-     * @param  int|float          $mo
+     * @param  float|int          $mo
      * @throws InvalidConfigValue
      * @return GeoChart
      */
     public function markerOpacity($mo)
     {
-        if ($mo === 0) {
-            $this->addOption(array(__FUNCTION__ => 0));
-        } elseif ($mo === 1) {
-            $this->addOption(array(__FUNCTION__ => 1));
+        if ($mo === 0 || $mo === 1) {
+            $this->addOption(array(__FUNCTION__ => $mo));
         } elseif (is_float($mo) && h::between(0.0, $mo, 1.0, true)) {
             $this->addOption(array(__FUNCTION__ => $mo));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'float',
-                'between 0.0 - 1.0'
+                'float|int',
+                'between 0 - 1'
             );
         }
 

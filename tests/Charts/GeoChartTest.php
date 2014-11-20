@@ -32,12 +32,12 @@ class GeoChartTest extends ProvidersTestCase
     {
         $mockColorAxis = m::mock('Khill\Lavacharts\Configs\ColorAxis');
         $mockColorAxis->shouldReceive('toArray')->once()->andReturn(array(
-            'ColorAxis' => array()
+            'colorAxis' => array()
         ));
 
         $this->gc->colorAxis($mockColorAxis);
 
-        $this->assertTrue(is_array($this->gc->getOption('ColorAxis')));
+        $this->assertTrue(is_array($this->gc->getOption('colorAxis')));
     }
 
     public function testDatalessRegionColorWithValidValue()
@@ -144,7 +144,7 @@ class GeoChartTest extends ProvidersTestCase
     /**
      * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function testmarkerOpacityWithUnderLimit()
+    public function testMarkerOpacityWithUnderLimit()
     {
         $this->gc->markerOpacity(-1);
     }
@@ -152,7 +152,7 @@ class GeoChartTest extends ProvidersTestCase
     /**
      * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function testmarkerOpacityWithOverLimit()
+    public function testMarkerOpacityWithOverLimit()
     {
         $this->gc->markerOpacity(1.1);
     }
@@ -161,7 +161,7 @@ class GeoChartTest extends ProvidersTestCase
      * @dataProvider nonStringProvider
      * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function testmarkerOpacityWithBadType($badTypes)
+    public function testMarkerOpacityWithBadType($badTypes)
     {
         $this->gc->markerOpacity($badTypes);
     }
@@ -183,14 +183,14 @@ class GeoChartTest extends ProvidersTestCase
 
     public function testMagnifiyingGlass()
     {
-        $mockMagnifiyingGlass = m::mock('Khill\Lavacharts\Configs\MagnifiyingGlass');
-        $mockMagnifiyingGlass->shouldReceive('toArray')->once()->andReturn(array(
-            'MagnifiyingGlass' => array()
+        $mockMagnifyingGlass = m::mock('Khill\Lavacharts\Configs\MagnifyingGlass');
+        $mockMagnifyingGlass->shouldReceive('toArray')->once()->andReturn(array(
+            'magnifyingGlass' => array()
         ));
 
-        $this->gc->magnifyingGlass($mockMagnifiyingGlass);
+        $this->gc->magnifyingGlass($mockMagnifyingGlass);
 
-        $this->assertTrue(is_array($this->gc->getOption('MagnifiyingGlass')));
+        $this->assertTrue(is_array($this->gc->getOption('magnifyingGlass')));
     }
 
     public function testResolutionValidValues()
@@ -226,12 +226,12 @@ class GeoChartTest extends ProvidersTestCase
     {
         $mockSizeAxis = m::mock('Khill\Lavacharts\Configs\SizeAxis');
         $mockSizeAxis->shouldReceive('toArray')->once()->andReturn(array(
-            'SizeAxis' => array()
+            'sizeAxis' => array()
         ));
 
         $this->gc->sizeAxis($mockSizeAxis);
 
-        $this->assertTrue(is_array($this->gc->getOption('SizeAxis')));
+        $this->assertTrue(is_array($this->gc->getOption('sizeAxis')));
     }
 
     public function nonIntOrPercentProvider()
