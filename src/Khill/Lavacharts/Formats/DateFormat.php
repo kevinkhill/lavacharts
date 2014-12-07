@@ -27,7 +27,7 @@ class DateFormat extends Format
     /**
      * A quick formatting option for the date.
      *
-     * @var int
+     * @var string
      */
     public $formatType;
 
@@ -71,11 +71,11 @@ class DateFormat extends Format
      *
      * You cannot specify both formatType and pattern.
      *
-     * @param  string             $formatType
+     * @param  string             $ft
      * @throws InvalidConfigValue
      * @return DateFormat
      */
-    public function formatType($formatType)
+    public function formatType($ft)
     {
         $values = array(
             'short',
@@ -83,8 +83,8 @@ class DateFormat extends Format
             'long'
         );
 
-        if (is_string($formatType) && in_array($formatType, $values)) {
-            $this->formatType = $formatType;
+        if (is_string($ft) && in_array($ft, $values)) {
+            $this->formatType = $ft;
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
@@ -102,14 +102,14 @@ class DateFormat extends Format
      * You cannot specify both formatType and pattern.
      *
      * @see    http://userguide.icu-project.org/formatparse/datetime#TOC-Date-Field-Symbol-Table
-     * @param  string              $pattern
+     * @param  string              $p
      * @throws InvalidConfigValue
      * @return DateFormat
      */
-    public function pattern($pattern)
+    public function pattern($p)
     {
-        if (h::nonEmptyString($pattern)) {
-            $this->pattern = $pattern;
+        if (h::nonEmptyString($p)) {
+            $this->pattern = $p;
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
@@ -132,14 +132,14 @@ class DateFormat extends Format
      * the value displayed would be 12 noon.
      *
      *
-     * @param  array              $timeZone
+     * @param  array              $tz
      * @throws InvalidConfigValue
      * @return DateFormat
      */
-    public function timeZone($timeZone)
+    public function timeZone($tz)
     {
-        if (h::nonEmptyString($timeZone)) {
-            $this->timeZone = $timeZone;
+        if (h::nonEmptyString($tz)) {
+            $this->timeZone = $tz;
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,

@@ -27,7 +27,7 @@ class NumberFormat extends Format
     /**
      * Character to use as the decimal marker.
      *
-     * @var int
+     * @var string
      */
     public $decimalSymbol;
 
@@ -48,14 +48,14 @@ class NumberFormat extends Format
     /**
      * Text color for negative values.
      *
-     * @var array
+     * @var string
      */
     public $negativeColor;
 
     /**
      * Indicates that negative values should be surrounded by parentheses
      *
-     * @var array
+     * @var boolean
      */
     public $negativeParens;
 
@@ -96,14 +96,14 @@ class NumberFormat extends Format
     /**
      * Sets the character to use as the decimal marker. The default is a dot (.)
      *
-     * @param  string             $decimalSymbol
+     * @param  string             $ds
      * @throws InvalidConfigValue
      * @return NumberFormat
      */
-    public function decimalSymbol($decimalSymbol)
+    public function decimalSymbol($ds)
     {
-        if (h::nonEmptyString($decimalSymbol)) {
-            $this->decimalSymbol = $decimalSymbol;
+        if (h::nonEmptyString($ds)) {
+            $this->decimalSymbol = $ds;
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
@@ -120,14 +120,14 @@ class NumberFormat extends Format
      * it will display zeros for the smaller values.
      * Truncated values will be rounded (5 rounded up).
      *
-     * @param  numeric            $fractionDigits
+     * @param  int            $fd
      * @throws InvalidConfigValue
      * @return NumberFormat
      */
-    public function fractionDigits($fractionDigits)
+    public function fractionDigits($fd)
     {
-        if (is_numeric($fractionDigits)) {
-            $this->fractionDigits = (int) $fractionDigits;
+        if (is_numeric($fd)) {
+            $this->fractionDigits = (int) $fd;
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
@@ -142,14 +142,14 @@ class NumberFormat extends Format
      * A character to be used to group digits to the left of the decimal into sets of three.
      * Default is a comma (,)
      *
-     * @param  string              $groupingSymbol
+     * @param  string              $gs
      * @throws InvalidConfigValue
      * @return NumberFormat
      */
-    public function groupingSymbol($groupingSymbol)
+    public function groupingSymbol($gs)
     {
-        if (h::nonEmptyString($groupingSymbol)) {
-            $this->groupingSymbol = $groupingSymbol;
+        if (h::nonEmptyString($gs)) {
+            $this->groupingSymbol = $gs;
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
@@ -164,14 +164,14 @@ class NumberFormat extends Format
      * The text color for negative values. No default value.
      * Values can be any acceptable HTML color value, such as "red" or "#FF0000".
      *
-     * @param  string              $negativeColor Valid HTML color
+     * @param  string              $nc Valid HTML color
      * @throws InvalidConfigValue
      * @return NumberFormat
      */
-    public function negativeColor($negativeColor)
+    public function negativeColor($nc)
     {
-        if (h::nonEmptyString($negativeColor)) {
-            $this->negativeColor = $negativeColor;
+        if (h::nonEmptyString($nc)) {
+            $this->negativeColor = $nc;
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
@@ -186,14 +186,14 @@ class NumberFormat extends Format
      * Sets whether negative values should be surrounded by parentheses.
      * Default is true.
      *
-     * @param  bool              $negativeParens
+     * @param  boolean            $np
      * @throws InvalidConfigValue
      * @return NumberFormat
      */
-    public function negativeParens($negativeParens)
+    public function negativeParens($np)
     {
-        if (is_bool($negativeParens)) {
-            $this->negativeParens = $negativeParens;
+        if (is_bool($np)) {
+            $this->negativeParens = $np;
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
@@ -212,14 +212,14 @@ class NumberFormat extends Format
      * "1,000%", "750%", and "50%" for values 10, 7.5, and 0.5.
      *
      * @see    http://icu-project.org/apiref/icu4c/classDecimalFormat.html#_details
-     * @param  array              $pattern
+     * @param  string              $p
      * @throws InvalidConfigValue
      * @return NumberFormat
      */
-    public function pattern($pattern)
+    public function pattern($p)
     {
-        if (h::nonEmptyString($pattern)) {
-            $this->pattern = $pattern;
+        if (h::nonEmptyString($p)) {
+            $this->pattern = $p;
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
@@ -233,14 +233,14 @@ class NumberFormat extends Format
     /**
      * Sets the string prefix for the value.
      *
-     * @param  array              $prefix
+     * @param  string              $p
      * @throws InvalidConfigValue
      * @return NumberFormat
      */
-    public function prefix($prefix)
+    public function prefix($p)
     {
-        if (h::nonEmptyString($prefix)) {
-            $this->prefix = $prefix;
+        if (h::nonEmptyString($p)) {
+            $this->prefix = $p;
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
@@ -254,14 +254,14 @@ class NumberFormat extends Format
     /**
      * Sets the string suffix for the value.
      *
-     * @param  array              $suffix
+     * @param  string              $s
      * @throws InvalidConfigValue
      * @return NumberFormat
      */
-    public function suffix($suffix)
+    public function suffix($s)
     {
-        if (h::nonEmptyString($suffix)) {
-            $this->suffix = $suffix;
+        if (h::nonEmptyString($s)) {
+            $this->suffix = $s;
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
