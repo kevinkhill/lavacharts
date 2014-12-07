@@ -22,17 +22,17 @@ use Khill\Lavacharts\Exceptions\ChartNotFound;
 class Volcano
 {
     /**
-     * @var array Holds all of the defined Charts.
+     * Holds all of the defined Charts.
+     *
+     * @var array
      */
     private $charts = array();
 
     /**
      * Stores a chart in the volcano datastore.
      *
-     * @param Lavacharts\Charts\Chart $chart Chart to store in the volcano.
-     * @param string                        $label Identifying label for the chart.
-     *
-     * @throws Lavacharts\Exceptions\InvalidLabel
+     * @param  Chart        $chart Chart to store in the volcano.
+     * @throws InvalidLabel
      */
     public function storeChart(Chart $chart)
     {
@@ -44,10 +44,11 @@ class Volcano
     /**
      * Retrieves a chart from the volcano datastore.
      *
-     * @param  string                                    $label Identifying label for the chart.
-     * @throws Lavacharts\Exceptions\ChartNotFound
+     * @param  string $type  Type of chart to store.
+     * @param  string $label Identifying label for the chart.
+     * @throws ChartNotFound
      *
-     * @return Lavacharts\Charts\Chart
+     * @return Chart
      */
     public function getChart($type, $label)
     {
@@ -61,8 +62,8 @@ class Volcano
     /**
      * Simple true/false test if a chart exists.
      *
+     * @param string $type  Type of chart to store.
      * @param string $label Identifying label of a chart to check.
-     *
      * @return bool
      */
     public function checkChart($type, $label)

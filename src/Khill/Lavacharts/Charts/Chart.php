@@ -197,7 +197,7 @@ class Chart
      * rendered into.
      *
      * @since  v2.0.0
-     * @param  string           $elementId The id of an HTML element to render the chart into.
+     * @param  string           $ei The id of an HTML element to render the chart into.
      * @throws InvalidElementId
      *
      * @return string Javscript code blocks

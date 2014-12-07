@@ -202,7 +202,7 @@ class GeoChart extends Chart
      * marker, a magnifiying glass will be opened.
      *
      * @uses   MagnifyingGlass
-     * @param  MagnifyingGlass $magnifyingGlass
+     * @param  MagnifyingGlass $mg
      * @return GeoChart
      */
     public function magnifyingGlass(MagnifyingGlass $mg)

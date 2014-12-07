@@ -17,7 +17,6 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
@@ -28,7 +27,7 @@ class MouseOver extends Event
     /**
      * Builds the MouseOver Event object when passed an array of configuration options.
      *
-     * @param  array                 $config Options for the Event
+     * @param  array                 $c Options for the Event
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
      * @return MouseOut

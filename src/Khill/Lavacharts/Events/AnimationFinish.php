@@ -28,7 +28,7 @@ class AnimationFinish extends Event
     /**
      * Builds the AnimationFinish Event object when passed an array of configuration options.
      *
-     * @param  array                 $config Options for the Event
+     * @param  array                 $c Options for the Event
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
      * @return AnimationFinish

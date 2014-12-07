@@ -41,14 +41,14 @@ class DataTable
 {
     /**
      * Timezone for dealing with datetime and Carbon objects
-     * 
+     *
      * @var string
      */
     public $timezone;
 
     /**
      * Timezone for dealing with datetime and Carbon objects
-     * 
+     *
      * @var string
      */
     public $dateTimeFormat;
@@ -311,6 +311,7 @@ class DataTable
     /**
      * Sets the format of the column.
      *
+     * @param  int                $colIndex
      * @param  Format             $formatter
      * @throws InvalidColumnIndex
      * @return DataTable
@@ -327,10 +328,9 @@ class DataTable
     }
 
     /**
-     * Sets the format of the column.
+     * Sets the format of multiple columns.
      *
-     * @param Format     $formatter
-     *
+     * @param  array     $colFormatArr
      * @return DataTable
      */
     public function formatColumns($colFormatArr)
@@ -372,9 +372,9 @@ class DataTable
      * a cell in an array, or omit trailing array members. So, to indicate a row
      * with null for the first two cells, you would specify [null, null, {cell_val}].
      *
-     * @param  mixed $opt_cell Array of values or DataCells.
+     * @param  mixed $optCellArray Array of values or DataCells.
      *
-     * @throws Lavacharts\Exceptions\InvalidCellCount
+     * @throws InvalidCellCount
      *
      * @return DataTable
      */

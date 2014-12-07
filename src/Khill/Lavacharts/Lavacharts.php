@@ -41,7 +41,7 @@ class Lavacharts
 
     /**
      * Lavachart configuration options.
-     * 
+     *
      * @var array
      */
     public $config = array();
@@ -195,8 +195,10 @@ class Lavacharts
      * @access public
      * @since  v2.0.0
      *
-     * @param string $label     Label of a saved chart.
-     * @param string $elementId HTML element id to render the chart into.
+     * @param string $chartType     Type of chart to render.
+     * @param string $chartLabel    Label of a saved chart.
+     * @param string $elementId     HTML element id to render the chart into.
+     * @param mixed  $divDimensions Set true for div creation, or pass an array with height & width
      *
      * @return string
      */

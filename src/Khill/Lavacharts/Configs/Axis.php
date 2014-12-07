@@ -163,7 +163,8 @@ class Axis extends ConfigObject
      * values for option => value, or by chaining together the functions once
      * an object has been created.
      *
-     * @param   array Associative array containing key => value pairs for the various configuration options.
+     * @param  VerticalAxis|HorizontalAxis $child  The axis object
+     * @param  array                       $config Associative array containing key => value pairs for the various configuration options.
      * @throws InvalidConfigValue
      * @throws InvalidConf
      * @throws InvalidConfigValuerty
@@ -663,9 +664,9 @@ class Axis extends ConfigObject
      * @return Axis
      */
     public function viewWindow($viewWindow)
-    {   
-        if (is_array($viewWindow) && 
-            array_key_exists('min', $viewWindow) && 
+    {
+        if (is_array($viewWindow) &&
+            array_key_exists('min', $viewWindow) &&
             array_key_exists('max', $viewWindow) &&
             is_int($viewWindow['min']) &&
             is_int($viewWindow['max'])

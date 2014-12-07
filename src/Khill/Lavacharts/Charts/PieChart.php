@@ -241,7 +241,7 @@ class PieChart extends Chart
      * single slice, whose size is the sum of all their sizes. Default is not
      * to show individually any slice which is smaller than half a degree.
      *
-     * @param  int|float          $sliceVisibilityThreshold
+     * @param  int|float          $sliceVizThreshold
      * @throws InvalidConfigValue
      * @return PieChart
      */

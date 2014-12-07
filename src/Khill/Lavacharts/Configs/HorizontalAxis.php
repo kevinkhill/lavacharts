@@ -78,7 +78,7 @@ class HorizontalAxis extends Axis
      * value, or by chaining together the functions once an object has been
      * created.
      *
-     * @param  array                 $options
+     * @param  array                 $config
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
      * @return HorizontalAxis

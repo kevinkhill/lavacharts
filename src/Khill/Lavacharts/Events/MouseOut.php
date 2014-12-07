@@ -27,7 +27,7 @@ class MouseOut extends Event
     /**
      * Builds the MouseOut Event object when passed an array of configuration options.
      *
-     * @param  array                 $config Options for the Event
+     * @param  array                 $c Options for the Event
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
      * @return MouseOut

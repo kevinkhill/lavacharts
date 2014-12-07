@@ -110,7 +110,6 @@ class ConfigObject
     /**
      * Same as toArray, but without the class name as a key to being multi-dimension.
      *
-     * @param  void
      * @return array Array of the options of the object.
      */
     public function getValues()
