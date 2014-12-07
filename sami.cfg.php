@@ -9,21 +9,21 @@ $iterator = Finder::create()
     ->name('*.php')
     ->exclude('Facade')
     ->exclude('Traits')
-    ->exclude('LaravelServiceProvider.php')
+    ->exclude('LavachartsServiceProvider.php')
     ->in(__DIR__.'/src/Khill/Lavacharts')
 ;
-/*
+
 $versions = GitVersionCollection::create(__DIR__)
     ->addFromTags('v1.0.0')
     ->add('2.0', '2.0 branch')
     ->add('master', 'master branch')
 ;
-*/
+
 return new Sami($iterator, array(
     'theme'                => 'enhanced',
-    //'versions'             => $versions,
+    'versions'             => $versions,
     'title'                => 'Lavacharts API',
-    'build_dir'            => __DIR__.'/build/lavacharts/',//%version%',
-    'cache_dir'            => __DIR__.'/cache/lavacharts/',//%version%',
+    'build_dir'            => __DIR__.'/build/%version%',
+    'cache_dir'            => __DIR__.'/cache/%version%',
     'default_opened_level' => 2,
 ));
