@@ -18,7 +18,7 @@ class LavachartsServiceProvider extends ServiceProvider
     {
         $this->app['lavacharts'] = $this->app->share(
             function ($app) {
-                return new Khill\Lavacharts\Lavacharts;
+                return new \Khill\Lavacharts\Lavacharts;
             }
         );
 
