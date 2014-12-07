@@ -2,7 +2,7 @@
 
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
-         bootstrap="./vendor/autoload.php"
+         bootstrap="../vendor/autoload.php"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
@@ -13,17 +13,17 @@
 >
   <testsuites>
     <testsuite name="Package Test Suite">
-      <directory suffix=".php">./tests/</directory>
+      <directory suffix=".php">../tests/</directory>
     </testsuite>
   </testsuites>
 
   <filter>
     <whitelist processUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">./src/Khill/Lavacharts</directory>
+      <directory suffix=".php">../src/Khill/Lavacharts</directory>
       <exclude>
-        <directory suffix=".php">./src/Khill/Lavacharts/Facade</directory>
-        <directory suffix=".php">./src/Khill/Lavacharts/Traits</directory>
-        <directory suffix=".php">./src/Khill/Lavacharts/Laravel</directory>
+        <directory suffix=".php">../src/Khill/Lavacharts/Facade</directory>
+        <directory suffix=".php">../src/Khill/Lavacharts/Traits</directory>
+        <directory suffix=".php">../src/Khill/Lavacharts/Laravel</directory>
       </exclude>
     </whitelist>
   </filter>
