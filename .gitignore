@@ -1,5 +1,6 @@
 bootstrap/compiled.php
 docs/
+cache/
 build/
 vendor/
 _site/

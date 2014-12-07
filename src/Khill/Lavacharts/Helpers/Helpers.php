@@ -71,7 +71,9 @@ class Helpers
     /**
      * Simple test to see if array values are of specified type.
      *
-     * @param array Array of values.
+     * @param  array  $arr   Array of values.
+     * @param  string $type  Type of value to check for
+     * @param  string $extra Class name to check for, if $type is class
      * @return boolean Returns TRUE is all values match type, otherwise FALSE.
      */
     public static function array_values_check(&$arr, $type, $extra = NULL)

@@ -179,7 +179,7 @@ class DataTable
      * with null for the first two cells, you would specify [null, null, {cell_val}].
      *
      * @see \DataCell
-     * @param mixed $opt_cell Array of values or DataCells.
+     * @param mixed $opt_cellArray Array of values or DataCells.
      * @return \DataTable
      */
     public function addRow($opt_cellArray = NULL)

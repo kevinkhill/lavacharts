@@ -73,7 +73,7 @@ class hAxis extends Axis
      * value, or by chaining together the functions once an object has been
      * created.
      *
-     * @param array $options
+     * @param array $config
      * @return \hAxis
      */
     public function __construct($config = array())
