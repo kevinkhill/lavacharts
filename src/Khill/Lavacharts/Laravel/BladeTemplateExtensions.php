@@ -1,4 +1,4 @@
-<?php
+<?php namespace Khill\Lavacharts\Laravel;
 
 $charts = array(
     'LineChart',
