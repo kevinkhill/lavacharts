@@ -6,10 +6,6 @@ Lavacharts is a graphing / chart library for PHP5.3+ that wraps the Google Chart
 
 [![Build Status](https://travis-ci.org/kevinkhill/lavacharts.png?branch=2.0)](https://travis-ci.org/kevinkhill/lavacharts) [![Coverage Status](https://coveralls.io/repos/kevinkhill/lavacharts/badge.png?branch=2.0)](https://coveralls.io/r/kevinkhill/lavacharts?branch=2.0) [![Total Downloads](https://poser.pugx.org/khill/lavacharts/downloads.svg)](https://packagist.org/packages/khill/lavacharts) [![License](https://poser.pugx.org/khill/lavacharts/license.svg)](https://packagist.org/packages/khill/lavacharts)
 
-I'm sorry
-=========
-But the documentation site is refusing to build with github pages. It builds and loads fine on my side, using jekyll, but when I push it to my gh-pages branch, I just get build errors. As soon as I figure this out, I will update here. Please bear with me.
-
 
 Version 2 is Here!
 ==================
