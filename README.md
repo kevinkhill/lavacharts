@@ -17,7 +17,7 @@ Some new features include:
 - Datatable column formatters
 - Carbon support in favor of my old homebrewed jsDate class
 
-I am finishing up the documentation and new site, but the V2 API is feature complete and won't be changing if you want to start digging under the hood.
+Checkout the brand new documentation here at [Lavacharts 2.0](http://kevinkhill.github.io/lavacharts/)
 
 
 Installing
