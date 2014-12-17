@@ -7,15 +7,15 @@ Lavacharts is a graphing / chart library for PHP5.3+ that wraps the Google Chart
 [![Build Status](https://travis-ci.org/kevinkhill/lavacharts.png?branch=2.0)](https://travis-ci.org/kevinkhill/lavacharts) [![Coverage Status](https://coveralls.io/repos/kevinkhill/lavacharts/badge.png?branch=2.0)](https://coveralls.io/r/kevinkhill/lavacharts?branch=2.0) [![Total Downloads](https://poser.pugx.org/khill/lavacharts/downloads.svg)](https://packagist.org/packages/khill/lavacharts) [![License](https://poser.pugx.org/khill/lavacharts/license.svg)](https://packagist.org/packages/khill/lavacharts)
 
 
-COMING SOON!
-============
-Version 2 is very near completion! :)
-Included are:
-- blade template extensions for laravel
-- new "lava" javascript api
-- js events
-- datatable column formatters
-- Carbon support in favor of homebrewed jsDate class
+Version 2 is Here!
+==================
+Some new features include:
+- Blade template extensions for laravel
+- A new "lava" javascript api
+- Javascript event integration
+- Datatable addColumn aliases
+- Datatable column formatters
+- Carbon support in favor of my old homebrewed jsDate class
 
 I am finishing up the documentation and new site, but the V2 API is feature complete and won't be changing if you want to start digging under the hood.
 
@@ -25,7 +25,7 @@ Installing
 In your project's main ```composer.json``` file, add this line to the requirements:
 
   ```
-  "khill/lavacharts": "2.0.*@dev"
+  "khill/lavacharts": "2.0.*"
   ```
 
 Run Composer to install Lavacharts:
@@ -42,7 +42,7 @@ Register Lavacharts in your app by adding this line to the end of the providers 
   'providers' => array(
       ...
 
-      "Khill\Lavacharts\LavachartsServiceProvider"
+      "Khill\Lavacharts\Laravel\LavachartsServiceProvider"
   ),
   ```
 
@@ -61,44 +61,40 @@ Here is an example of the simplest chart you can create: A line chart with one d
 
 Controller
 ==========
-  ```
-  $stocksTable = Lava::DataTable();
+```
+    $stocksTable = $lava->DataTable();  // Lava::DataTable() if using Laravel
 
-  $stocksTable->addColumn('date', 'Date', 'date')
-              ->addColumn('number', 'Projected', 'projected')
-              ->addColumn('number', 'Closing', 'closing');
+    $stocksTable->addDateColumn('Day of Month')
+                ->addNumberColumn('Projected')
+                ->addNumberColumn('Official');
 
-  for($day = 1; $day < 30; $day++)
-  {
-      $data = array(
-          "5/$day/2014",     // Date string, DateTime Object, Carbon Object
-          rand(9500,10000),  // Column 1's data (int | float)
-          rand(9500,10000)   // Column 2's data (int | float)
-      );
+    // Random Data For Example
+    for ($a = 1; $a < 30; $a++)
+    {
+        $rowData = array(
+          "2014-8-$a", rand(800,1000), rand(800,1000)
+        );
 
-      $stocksTable->addRow($data);
-  }
-
-  Lava::LineChart('Stocks')
-      ->dataTable($stocksTable)
-      ->title('Stock Market Trends');
-  ```
+        $stocksTable->addRow($rowData);
+    }
+```
 
 Arrays work for datatables as well...
 ```
   $stocksTable->addColumns(array(
-    array('date', 'Date', 'date'),
-    array('number', 'Projected', 'projected'),
-    array('number', 'Closing', 'closing')
+    array('date', 'Day of Month'),
+    array('number', 'Projected'),
+    array('number', 'Official')
   ));
 ```
 
-And setting chart options!
+...and for setting chart options!
 ```
-  Lava::LineChart('Stocks')->setOptions(array(
-    'datatable' => $stocksTable,
-    'title' => 'Stock Market Trends'
-  ));
+  $lineChart = $lava->LineChart('Stocks')
+                    ->setOptions(array(
+                        'datatable' => $stocksTable,
+                        'title' => 'Stock Market Trends'
+                      ));
 ```
 
 View
@@ -107,7 +103,7 @@ If you are using Laravel and the Blade templating engine, there are some nifty e
 
   ```
   @linechart('Stocks', 'stocks-div');
-  // Behind the scenes this just calls Lava::render('LineChart', 'Stocks', 'stocks-div')
+  // Behind the scenes this just calls Lava::renderLineChart('Stocks', 'stocks-div')
   ```
 
 Or you can use the new render method, passing in the chart type, label, and element id.
@@ -130,6 +126,7 @@ Example:
   echo Lava::render('LineChart', 'Stocks', 'stocks-div', array('width'=>1024, 'height'=>768));
 ```
 
+Charts can be rendered from the ```$lava``` master object you created, as shown above, or you can pass the chart object to your view, and call the ```render()``` method with the element id of your div. This will bypass needing to specify the type and title of the chart.
 
 Notice
 ======
@@ -140,7 +137,7 @@ Create an instance of Lavacharts: ```$lava = new Khill\Lavacharts\Lavacharts;```
 
 Replace all of the ```Lava::``` aliases in the examples, by chaining from the Lavacharts object you created.
 
-example: Use ```$dt = $lava->DataTable();``` instead of ```$dt = Lava::DataTable();```
+Use ```$dt = $lava->DataTable();``` instead of ```$dt = Lava::DataTable();```
 
 
 New Site & Docs
@@ -149,6 +146,9 @@ I am working hard on creating the new site for Lavacharts with full documentatio
 
 Changelog
 ---------
+ - 2.0.0
+   - Its Here!
+
  - 2.0.0-beta1
    - Passed 75% test coverage
    - Added new options to TextStyle
