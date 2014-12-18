@@ -17,7 +17,7 @@ Some new features include:
 - Datatable column formatters
 - Carbon support in favor of my old homebrewed jsDate class
 
-#Checkout the brand new documentation here at [Lavacharts.com](http://lavacharts.com/)
+###Complete documentation with examples, and the api can be found at [Lavacharts.com](http://lavacharts.com/)
 
 
 Installing
@@ -25,7 +25,7 @@ Installing
 In your project's main ```composer.json``` file, add this line to the requirements:
 
   ```
-  "khill/lavacharts": "2.0.*"
+  "khill/lavacharts": "dev-master"
   ```
 
 Run Composer to install Lavacharts:
