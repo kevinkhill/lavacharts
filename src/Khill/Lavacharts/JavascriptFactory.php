@@ -24,7 +24,7 @@ use Khill\Lavacharts\Exceptions\InvalidElementId;
 
 class JavascriptFactory
 {
-    const DEBUG = true;
+    const DEBUG = false;
 
     /**
      * Chart used to generate output.
