@@ -239,7 +239,7 @@ class DataTable
      * @throws InvalidConfigProperty
      * @return DataTable
      */
-    public function addNumColumn($optLabel, Format $formatter = null)
+    public function addNumberColumn($optLabel, Format $formatter = null)
     {
         return $this->addColumn('number', $optLabel, 'col_' . count($this->cols) + 1, $formatter);
     }
