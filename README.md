@@ -140,9 +140,10 @@ Replace all of the ```Lava::``` aliases in the examples, by chaining from the La
 Use ```$dt = $lava->DataTable();``` instead of ```$dt = Lava::DataTable();```
 
 
-New Site & Docs
-===============
-I am working hard on creating the new site for Lavacharts with full documentation for all aspects of what the class can do for you :)
+Like My Work?
+=============
+Feel like buying me a coffee? [Any amount donated to is greatly apprecieated :)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ)
+
 
 Changelog
 ---------
