@@ -33,13 +33,6 @@ class Lavacharts
     public $volcano;
 
     /**
-     * Generates all the javascript blocks from charts.
-     *
-     * @var JavascriptFactory
-     */
-    public $jsFactory;
-
-    /**
      * Lavachart configuration options.
      *
      * @var array
@@ -206,11 +199,21 @@ class Lavacharts
     {
         $chart = $this->volcano->getChart($chartType, $chartLabel);
 
-        if ($divDimensions === false) {
-            return $this->jsFactory->getChartJs($chart, $elementId);
+        if ($this->jsFactory->coreJsRendered()) {
+            $jsOutput = '';
         } else {
-            return $this->div($elementId, $divDimensions) . $this->jsFactory->getChartJs($chart, $elementId);
+            $jsOutput = $this->jsFactory->getCoreJs();
+            $this->jsFactory->coreJsRendered(true);
         }
+
+        if ($divDimensions === false) {
+            $jsOutput .= $this->jsFactory->getChartJs($chart, $elementId);
+        } else {
+            $jsOutput .= $this->div($elementId, $divDimensions);
+            $jsOutput .= $this->jsFactory->getChartJs($chart, $elementId);
+        }
+
+        return $jsOutput;
     }
 
     /**

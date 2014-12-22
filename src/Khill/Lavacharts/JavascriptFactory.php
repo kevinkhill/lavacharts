@@ -48,6 +48,13 @@ class JavascriptFactory
     private $event;
 
     /**
+     * Tracks if the lava js core and jsapi have been rendered.
+     *
+     * @var bool
+     */
+    private $coreJsRendered = false;
+
+    /**
      * Opening javascript tag.
      *
      * @var string
@@ -66,7 +73,7 @@ class JavascriptFactory
      *
      * @var string
      */
-    private $googleAPI = '<script type="text/javascript" src="//google.com/jsapi"></script>';
+    private $jsAPI = '<script type="text/javascript" src="//google.com/jsapi"></script>';
 
     /**
      * Google's DataTable Version
@@ -77,7 +84,7 @@ class JavascriptFactory
 
 
     /**
-     * Checks the Chart for DataTable and uilds the Javascript code block
+     * Checks the Chart for DataTable and builds the Javascript code block
      *
      * Build the script block for the actual chart and passes it back to
      * output function of the calling chart object. If there are any
@@ -124,20 +131,7 @@ class JavascriptFactory
      */
     private function buildChartJs()
     {
-        $out  = $this->googleAPI.PHP_EOL;
-
-        $out .= $this->jsO.PHP_EOL;
-
-        //Creating or reusing lavacharts object
-        $out .= 'var lava = lava || {get:null,event:null,charts:{}};'.PHP_EOL;
-
-        //Adding get method to lava object for fetching charts
-        $out .= $this->addLavaGetFunc();
-        $out .= PHP_EOL;
-
-        //Adding get method to lava object for fetching charts
-        $out .= $this->addLavaEventFunc();
-        $out .= PHP_EOL;
+        $out = $this->jsO.PHP_EOL;
 
         //Creating new chart js object
         $out .= sprintf(
@@ -253,7 +247,6 @@ class JavascriptFactory
                 $cb
             ).PHP_EOL.PHP_EOL;
 
-
         }
 
         return $out;
@@ -289,9 +282,36 @@ class JavascriptFactory
         return $out;
     }
 
-    private function addLavaGetFunc()
+    /**
+     * True if the lava object and jsapi have been added to the page.
+     *
+     * @access private
+     *
+     * @return bool
+     */
+    public function coreJsRendered($stat = false) {
+        if ($stat === false) {
+            return $this->coreJsRendered;
+        } else {
+            return $this->coreJsRendered = $stat;
+        }
+    }
+
+    /**
+     * Builds the javascript lava object for chart interation.
+     *
+     * @access public
+     *
+     * @return string Javascript code block.
+     */
+    public function getCoreJs()
     {
-return <<<GETFUNC
+        $out  = $this->jsAPI;
+        $out .= $this->jsO;
+        $out .=
+<<<JSCORE
+    var lava = lava || { get:null, event:null, charts:{} };
+
     lava.get = function (chartLabel) {
         var chartTypes = Object.keys(lava.charts),
             chart;
@@ -316,16 +336,14 @@ return <<<GETFUNC
             return false;
         }
     };
-GETFUNC;
-    }
 
-    private function addLavaEventFunc()
-    {
-return <<<GETFUNC
     lava.event = function (event, chart, callback) {
         return callback(event, chart);
     };
-GETFUNC;
+JSCORE;
+        $out .= $this->jsC;
+
+        return $out;
     }
 
 }
