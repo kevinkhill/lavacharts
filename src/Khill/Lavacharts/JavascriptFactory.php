@@ -214,6 +214,12 @@ class JavascriptFactory
             $this->chart->label
         ).PHP_EOL;
 
+        $out .= sprintf(
+            "onResize(function(){lava.charts.%s.%s.draw()});",
+            $this->chart->type,
+            $this->chart->label
+        ).PHP_EOL;
+
         if (self::DEBUG) {
             $out .='console.debug(lava);';
         }
@@ -310,6 +316,8 @@ class JavascriptFactory
         $out .= $this->jsO;
         $out .=
 <<<JSCORE
+    function onResize(c,t){onresize=function(){clearTimeout(t);t=setTimeout(c,100)};return c};
+
     var lava = lava || { get:null, event:null, charts:{} };
 
     lava.get = function (chartLabel) {
