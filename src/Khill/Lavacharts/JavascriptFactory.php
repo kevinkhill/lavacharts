@@ -215,7 +215,7 @@ class JavascriptFactory
         ).PHP_EOL;
 
         $out .= sprintf(
-            "onResize(function(){lava.charts.%s.%s.draw()});",
+            "lava.register('%s', '%s');",
             $this->chart->type,
             $this->chart->label
         ).PHP_EOL;
@@ -316,9 +316,9 @@ class JavascriptFactory
         $out .= $this->jsO;
         $out .=
 <<<JSCORE
-    function onResize(c,t){onresize=function(){clearTimeout(t);t=setTimeout(c,100)};return c};
+    function onResize(c,t){window.onresize=function(){clearTimeout(t);t=setTimeout(c,100)};return c};
 
-    var lava = lava || { get:null, event:null, charts:{} };
+    var lava = lava || { get:null, event:null, charts:{}, registeredCharts:[] };
 
     lava.get = function (chartLabel) {
         var chartTypes = Object.keys(lava.charts),
@@ -347,6 +347,19 @@ class JavascriptFactory
 
     lava.event = function (event, chart, callback) {
         return callback(event, chart);
+    };
+
+    lava.register = function(type, label) {
+        this.registeredCharts.push(type+':'+label);
+    };
+
+    window.onload = function() {
+        onResize(function() {
+            for(var c = 0; c < lava.registeredCharts.length; c++) {
+                var parts = lava.registeredCharts[c].split(':');
+                lava.charts[parts[0]][parts[1]].draw();
+            }
+        });
     };
 JSCORE;
         $out .= $this->jsC;
