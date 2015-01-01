@@ -71,7 +71,7 @@ class Lavacharts
         'MagnifyingGlass',
         'TextStyle',
         'Tooltip',
-        'Series', // @TODO WIP
+        'Series',
         'SizeAxis',
         'Slice',
         'VerticalAxis'
@@ -89,6 +89,7 @@ class Lavacharts
      * @var array Types of events.
      */
     private $eventClasses = array(
+        'Ready',
         'Select',
         'MouseOver',
         'MouseOut'
