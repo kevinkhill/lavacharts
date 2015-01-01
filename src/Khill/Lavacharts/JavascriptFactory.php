@@ -181,11 +181,12 @@ class JavascriptFactory
             $out .= $this->buildFormatters();
         }
 
-        $out .= '$this.chart.draw($this.data, $this.options);'.PHP_EOL;
-
         if ($this->chart->hasEvents()) {
             $out .= $this->buildEventCallbacks();
         }
+
+        $out .= '$this.chart.draw($this.data, $this.options);'.PHP_EOL;
+
 
         $out .= "};".PHP_EOL.PHP_EOL;
 

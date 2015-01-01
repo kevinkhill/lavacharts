@@ -296,7 +296,7 @@ class Chart
 
         if (is_array($e)) {
             foreach ($e as $event) {
-                if (is_subclass_of($event, 'Lavacharts\Events\Event')) {
+                if (is_subclass_of($event, 'Khill\Lavacharts\Events\Event')) {
                     $this->events[] = $event;
                 } else {
                     throw $this->invalidConfigValue(
