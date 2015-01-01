@@ -142,20 +142,20 @@ class JavascriptFactory
 
         //Checking if output div exists
         $out .= sprintf(
-            "if (!document.getElementById('%s'))" .
-            "{console.error('[Lavaharts] No matching element was found with ID \"%s\"');}",
+            'if (!document.getElementById("%s"))' .
+            '{console.error("[Lavaharts] No matching element was found with ID \"%s\"");}',
             $this->elementId,
             $this->elementId
         ).PHP_EOL.PHP_EOL;
 
         $out .= sprintf(
-            "lava.charts.%s.%s.draw = function() {",
+            'lava.charts.%s["%s"].draw = function() {',
             $this->chart->type,
             $this->chart->label
         ).PHP_EOL;
 
         $out .= sprintf(
-            'var $this = lava.charts.%s.%s;',
+            'var $this = lava.charts.%s["%s"];',
             $this->chart->type,
             $this->chart->label
         ).PHP_EOL.PHP_EOL;
@@ -172,10 +172,10 @@ class JavascriptFactory
         ).PHP_EOL.PHP_EOL;
 
         $out .= sprintf(
-            '$this.chart = new google.visualization.%s',
-            ($this->chart->type == 'DonutChart' ? 'PieChart' : $this->chart->type)
-        );
-        $out .= sprintf("(document.getElementById('%s'));", $this->elementId).PHP_EOL.PHP_EOL;
+            '$this.chart = new google.visualization.%s(document.getElementById("%s"));',
+            ($this->chart->type == 'DonutChart' ? 'PieChart' : $this->chart->type),
+            $this->elementId
+        ).PHP_EOL.PHP_EOL;
 
         if ($this->chart->datatable->hasFormats()) {
             $out .= $this->buildFormatters();
@@ -209,19 +209,19 @@ class JavascriptFactory
         ).PHP_EOL;
 
         $out .= sprintf(
-            "google.setOnLoadCallback(lava.charts.%s.%s.draw);",
+            'google.setOnLoadCallback(lava.charts.%s["%s"].draw);',
             $this->chart->type,
             $this->chart->label
         ).PHP_EOL;
 
         $out .= sprintf(
-            "lava.register('%s', '%s');",
+            'lava.register("%s", "%s");',
             $this->chart->type,
             $this->chart->label
         ).PHP_EOL;
 
         if (self::DEBUG) {
-            $out .='console.debug(lava);';
+            $out .= 'console.debug(lava);';
         }
 
         $out .= $this->jsC.PHP_EOL;
@@ -243,7 +243,7 @@ class JavascriptFactory
         foreach ($this->chart->getEvents() as $event) {
 
             $cb = sprintf(
-                'function (event) { return lava.event(event, $this.chart, %s); }',
+                'function (event) {return lava.event(event, $this.chart, %s);}',
                 $event->callback
             );
 
@@ -362,7 +362,7 @@ class JavascriptFactory
         });
     };
 JSCORE;
-        $out .= $this->jsC;
+        $out .= $this->jsC.PHP_EOL;
 
         return $out;
     }
