@@ -73,7 +73,7 @@ class JavascriptFactory
      *
      * @var string
      */
-    private $jsAPI = '<script type="text/javascript" src="//google.com/jsapi"></script>';
+    private $jsAPI = '<script type="text/javascript" src="//www.google.com/jsapi"></script>';
 
     /**
      * Google's DataTable Version
