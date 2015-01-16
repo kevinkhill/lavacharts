@@ -136,7 +136,7 @@ class JavascriptFactory
         /*
          *  If the object does not exist for a given chart type, initialise it.
          *  This will prevent overriding keys when multiple charts of the same
-         *  type are being rendered on the same page
+         *  type are being rendered on the same page.
          */
         $out .= sprintf(
             'if ( typeof lava.charts.%1$s == "undefined" ) { lava.charts.%1$s = {}; }',
