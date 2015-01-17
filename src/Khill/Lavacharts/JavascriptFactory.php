@@ -133,9 +133,19 @@ class JavascriptFactory
     {
         $out = $this->jsO.PHP_EOL;
 
+        /*
+         *  If the object does not exist for a given chart type, initialise it.
+         *  This will prevent overriding keys when multiple charts of the same
+         *  type are being rendered on the same page.
+         */
+        $out .= sprintf(
+            'if ( typeof lava.charts.%1$s == "undefined" ) { lava.charts.%1$s = {}; }',
+            $this->chart->type
+        ).PHP_EOL.PHP_EOL;
+
         //Creating new chart js object
         $out .= sprintf(
-            'lava.charts.%s = {"%s":{chart:null,draw:null,data:null,options:null,formats:[]}};',
+            'lava.charts.%s["%s"] = {chart:null,draw:null,data:null,options:null,formats:[]};',
             $this->chart->type,
             $this->chart->label
         ).PHP_EOL.PHP_EOL;
@@ -143,7 +153,7 @@ class JavascriptFactory
         //Checking if output div exists
         $out .= sprintf(
             'if (!document.getElementById("%s"))' .
-            '{console.error("[Lavaharts] No matching element was found with ID \"%s\"");}',
+            '{console.error("[Lavacharts] No matching element was found with ID \"%s\"");}',
             $this->elementId,
             $this->elementId
         ).PHP_EOL.PHP_EOL;
