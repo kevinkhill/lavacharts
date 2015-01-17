@@ -145,7 +145,7 @@ class JavascriptFactory
 
         //Creating new chart js object
         $out .= sprintf(
-            'lava.charts.%s.%s = {chart:null,draw:null,data:null,options:null,formats:[]};',
+            'lava.charts.%s["%s"] = {chart:null,draw:null,data:null,options:null,formats:[]};',
             $this->chart->type,
             $this->chart->label
         ).PHP_EOL.PHP_EOL;
