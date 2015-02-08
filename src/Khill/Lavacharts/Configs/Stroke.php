@@ -1,0 +1,120 @@
+<?php namespace Khill\Lavacharts\Configs;
+
+/**
+ * Stroke Object
+ *
+ * An object that specifies a the color, thickness and opacity of borders in charts.
+ *
+ *
+ * @package    Lavacharts
+ * @subpackage Configs
+ * @since      v2.1.0
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2014, KHill Designs
+ * @link       http://github.com/kevinkhill/Lavacharts GitHub Repository Page
+ * @link       http://kevinkhill.github.io/Lavacharts  GitHub Project Page
+ * @license    http://opensource.org/licenses/MIT MIT
+ */
+
+use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+
+class Stroke extends ConfigObject
+{
+    /**
+     * Color to assign the stroke.
+     *
+     * @var array
+     */
+    public $stroke;
+
+    /**
+     * Minimum value for chart color data.
+     *
+     * @var int
+     */
+    public $strokeOpacity;
+
+    /**
+     * Maximum value for chart color data.
+     *
+     * @var int
+     */
+    public $strokeWidth;
+
+    /**
+     * Builds the Stroke object with specified options
+     *
+     * @param  array                 $config
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
+     * @return Stroke
+     */
+    public function __construct($config = array())
+    {
+        parent::__construct($this, $config);
+    }
+
+    /**
+     * Sets the color of the stroke.
+     *
+     * @param  string            $stroke A valid html color string
+     * @throws InvalidConfigValue
+     * @return Stroke
+     */
+    public function stroke($s)
+    {
+        if (is_string($s)) {
+            $this->stroke = $s;
+        } else {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'string'
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Sets the opacity of the stroke.
+     *
+     * @param  float             $strokeOpacity
+     * @throws InvalidConfigValue
+     * @return Stroke
+     */
+    public function strokeOpacity($so)
+    {
+        if (Helpers::between(0.0, $so, 1.0, true)) {
+            $this->strokeOpacity = (int) $so;
+        } else {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'float'
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Sets the width of the stroke, in pixels.
+     *
+     * @param  int                $sw
+     * @throws InvalidConfigValue
+     * @return Stroke
+     */
+    public function strokeWidth($sw)
+    {
+        if (is_int($sw)) {
+            $this->strokeWidth = $sw;
+        } else {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'int'
+            );
+        }
+
+        return $this;
+    }
+}

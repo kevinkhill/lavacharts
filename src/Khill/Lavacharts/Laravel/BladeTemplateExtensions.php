@@ -12,7 +12,8 @@ $charts = array(
     'ComboChart',
     'PieChart',
     'DonutChart',
-    'GeoChart'
+    'GeoChart',
+    'CalendarChart'
 );
 
 foreach ($charts as $chart)

@@ -131,6 +131,38 @@ class JavascriptFactory
      */
     private function buildChartJs()
     {
+        switch ($this->chart->type) {
+            case 'AnnotatedTimeLine':
+                $vizType = 'annotatedtimeline';
+                $vizFunc = $this->chart->type;
+                $version = '1';
+                break;
+
+            case 'GeoChart':
+                $vizType = 'geochart';
+                $vizFunc = $this->chart->type;
+                $version = '1';
+                break;
+
+            case 'DonutChart':
+                $vizType = 'corechart';
+                $vizFunc = 'PieChart';
+                $version = '1';
+                break;
+
+            case 'CalendarChart':
+                $vizType = 'calendar';
+                $vizFunc = 'Calendar';
+                $version = '1.1';
+                break;
+
+            default:
+                $vizType = 'corechart';
+                $vizFunc = $this->chart->type;
+                $version = '1';
+                break;
+        }
+
         $out = $this->jsO.PHP_EOL;
 
         //Creating new chart js object
@@ -173,7 +205,7 @@ class JavascriptFactory
 
         $out .= sprintf(
             '$this.chart = new google.visualization.%s(document.getElementById("%s"));',
-            ($this->chart->type == 'DonutChart' ? 'PieChart' : $this->chart->type),
+            $vizFunc,
             $this->elementId
         ).PHP_EOL.PHP_EOL;
 
@@ -190,22 +222,9 @@ class JavascriptFactory
 
         $out .= "};".PHP_EOL.PHP_EOL;
 
-        switch ($this->chart->type) {
-            case 'AnnotatedTimeLine':
-                $vizType = 'annotatedtimeline';
-                break;
-
-            case 'GeoChart':
-                $vizType = 'geochart';
-                break;
-
-            default:
-                $vizType = 'corechart';
-                break;
-        }
-
         $out .= sprintf(
-            "google.load('visualization', '1', {'packages':['%s']});",
+            "google.load('visualization', '%s', {'packages':['%s']});",
+            $version,
             $vizType
         ).PHP_EOL;
 

@@ -45,11 +45,12 @@ class Lavacharts
     private $chartClasses = array(
         'AreaChart',
         'ColumnChart',
-        'ComboChart', // @TODO WIP
+        'ComboChart',
         'DonutChart',
         'GeoChart',
         'LineChart',
-        'PieChart'
+        'PieChart',
+        'CalendarChart'
     );
 
     /**
