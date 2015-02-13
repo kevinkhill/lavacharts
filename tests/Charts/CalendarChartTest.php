@@ -68,4 +68,36 @@ class CalendarChartTest extends ProvidersTestCase
         $this->assertTrue(is_array($this->cc->getOption('dayOfWeekLabel')));
     }
 
+    public function testDayOfWeekRightSpace()
+    {
+        $this->cc->dayOfWeekRightSpace(5);
+
+        $this->assertEquals(5, $this->cc->getOption('dayOfWeekRightSpace'));
+    }
+
+    /**
+     * @dataProvider nonIntProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testDayOfWeekRightSpaceWithBadType($badTypes)
+    {
+        $this->cc->dayOfWeekRightSpace($badTypes);
+    }
+
+    public function testDaysOfWeek()
+    {
+        $this->cc->daysOfWeek('MAWEFWA');
+
+        $this->assertEquals('MAWEFWA', $this->cc->getOption('daysOfWeek'));
+    }
+
+    /**
+     * @dataProvider nonStringProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testDaysOfWeekWithBadType($badTypes)
+    {
+        $this->cc->daysOfWeek($badTypes);
+    }
+
 }

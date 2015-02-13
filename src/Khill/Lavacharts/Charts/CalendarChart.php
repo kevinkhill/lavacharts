@@ -165,7 +165,7 @@ class CalendarChart extends Chart
      */
     public function daysOfWeek($days)
     {
-        if (is_int($days)) {
+        if (is_string($days)) {
             $this->addOption(array(__FUNCTION__ => $days));
         } else {
             throw $this->invalidConfigValue(
