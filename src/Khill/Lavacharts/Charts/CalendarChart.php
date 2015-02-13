@@ -34,7 +34,13 @@ class CalendarChart extends Chart
             array(
                 'cellColor',
                 'cellSize',
-                'dayOfWeekLabel'
+                'dayOfWeekLabel',
+                'dayOfWeekRightSpace',
+                'daysOfWeek',
+                'focusedCellColor',
+                'monthLabel',
+                'monthOutlineColor',
+                'underMonthSpace'
             )
         );
     }
@@ -97,6 +103,112 @@ class CalendarChart extends Chart
     public function dayOfWeekLabel(TextStyle $label)
     {
         $this->addCalendarOption($label->toArray(__FUNCTION__));
+    }
+
+    /**
+     * Sets The distance between the right edge of the week labels and
+     * the left edge of the chart day squares.
+     *
+     * @param  int $space
+     *
+     * @return CalendarChart
+     */
+    public function dayOfWeekRightSpace($space)
+    {
+        if (is_int($space)) {
+            $this->addCalendarOption(array(__FUNCTION__ => $space));
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'int'
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * The single-letter labels to use for Sunday through Saturday.
+     *
+     * @param  string $days
+     *
+     * @return CalendarChart
+     */
+    public function daysOfWeek($days)
+    {
+        if (is_int($days)) {
+            $this->addCalendarOption(array(__FUNCTION__ => $days));
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'int'
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * When the user focuses (say, by hovering) over a day square,
+     * calendar charts will highlight the square.
+     *
+     * @param Stroke $stroke
+     *
+     * @return CalendarChart
+     */
+    public function focusedCellColor(Stroke $stroke)
+    {
+        $this->addCalendarOption($stroke->toArray(__FUNCTION__));
+
+        return $this;
+    }
+
+    /**
+     * Sets the style for the month labels.
+     *
+     * @param  TextStyle $label
+     *
+     * @return CalendarChart
+     */
+    public function monthLabel(TextStyle $label)
+    {
+        $this->addCalendarOption($label->toArray(__FUNCTION__));
+    }
+
+    /**
+     * Months with data values are delineated from others using a border in this style.
+     *
+     * @param Stroke $stroke
+     *
+     * @return CalendarChart
+     */
+    public function monthOutlineColor(Stroke $stroke)
+    {
+        $this->addCalendarOption($stroke->toArray(__FUNCTION__));
+
+        return $this;
+    }
+
+    /**
+     * The number of pixels between the bottom of the month labels and
+     * the top of the day squares.
+     *
+     * @param int $space
+     *
+     * @return CalendarChart
+     */
+    public function underMonthSpace($space)
+    {
+        if (is_int($space)) {
+            $this->addCalendarOption(array(__FUNCTION__ => $space));
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'int'
+            );
+        }
+
+        return $this;
     }
 
 }
