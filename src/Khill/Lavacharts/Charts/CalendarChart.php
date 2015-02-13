@@ -31,9 +31,23 @@ class CalendarChart extends Chart
         $this->defaults = array_merge(
             $this->defaults,
             array(
-                'cellColor'
+                'cellColor',
+                'cellSize'
             )
         );
+    }
+
+    /**
+     * Suplemental function for wrapping all options into the calendar option
+     * (Thanks google)
+     *
+     * @param array $option Array of config options
+     */
+    public function addCalendarOption(Array $option)
+    {
+        $this->addOption(array('calendar' => $option));
+
+        return $this;
     }
 
     /**
@@ -43,10 +57,33 @@ class CalendarChart extends Chart
      *
      * @return CalendarChart
      */
-    public function cellColor(Stroke $s)
+    public function cellColor(Stroke $stroke)
     {
-        $this->addOption($s->toArray(__FUNCTION__));
+        $this->addCalendarOption($stroke->toArray(__FUNCTION__));
 
         return $this;
     }
+
+    /**
+     * Sets the size of the calendar day squares
+     *
+     * @param int $cellSize
+     *
+     * @return CalendarChart
+     */
+    public function cellSize($cellSize)
+    {
+        if (is_int($cellSize)) {
+            $this->addCalendarOption(array(__FUNCTION__ => $cellSize));
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'int'
+            );
+        }
+
+        return $this;
+    }
+
+
 }
