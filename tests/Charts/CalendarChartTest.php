@@ -100,4 +100,72 @@ class CalendarChartTest extends ProvidersTestCase
         $this->cc->daysOfWeek($badTypes);
     }
 
+    public function testFocusedCellColor()
+    {
+        $mockStroke = m::mock('Khill\Lavacharts\Configs\Stroke');
+        $mockStroke->shouldReceive('toArray')->once()->andReturn(array(
+            'focusedCellColor' => array()
+        ));
+
+        $this->cc->focusedCellColor($mockStroke);
+
+        $this->assertTrue(is_array($this->cc->getOption('focusedCellColor')));
+    }
+
+    public function testMonthLabel()
+    {
+        $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
+        $mockTextStyle->shouldReceive('toArray')->once()->andReturn(array(
+            'monthLabel' => array()
+        ));
+
+        $this->cc->monthLabel($mockTextStyle);
+
+        $this->assertTrue(is_array($this->cc->getOption('monthLabel')));
+    }
+
+    public function testMonthOutlineColor()
+    {
+        $mockStroke = m::mock('Khill\Lavacharts\Configs\Stroke');
+        $mockStroke->shouldReceive('toArray')->once()->andReturn(array(
+            'monthOutlineColor' => array()
+        ));
+
+        $this->cc->monthOutlineColor($mockStroke);
+
+        $this->assertTrue(is_array($this->cc->getOption('monthOutlineColor')));
+    }
+
+    public function testUnderMonthSpace()
+    {
+        $this->cc->underMonthSpace(5);
+
+        $this->assertEquals(5, $this->cc->getOption('underMonthSpace'));
+    }
+
+    /**
+     * @dataProvider nonIntProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testUnderMonthSpaceWithBadType($badTypes)
+    {
+        $this->cc->underMonthSpace($badTypes);
+    }
+
+    public function testUnderYearSpace()
+    {
+        $this->cc->underYearSpace(5);
+
+        $this->assertEquals(5, $this->cc->getOption('underYearSpace'));
+    }
+
+    /**
+     * @dataProvider nonIntProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testUnderYearSpaceWithBadType($badTypes)
+    {
+        $this->cc->underYearSpace($badTypes);
+    }
+
 }

@@ -52,7 +52,7 @@ class CalendarChart extends Chart
      *
      * @param array $option Array of config options
      */
-    public function addOption($o)
+    protected function addOption($o)
     {
         if (is_array($o)) {
             $this->options['calendar'] = array_merge($this->options, $o);
