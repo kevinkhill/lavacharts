@@ -19,6 +19,7 @@
 
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Configs\Stroke;
+use Khill\Lavacharts\Configs\TextStyle;
 
 class CalendarChart extends Chart
 {
@@ -32,7 +33,8 @@ class CalendarChart extends Chart
             $this->defaults,
             array(
                 'cellColor',
-                'cellSize'
+                'cellSize',
+                'dayOfWeekLabel'
             )
         );
     }
@@ -43,7 +45,7 @@ class CalendarChart extends Chart
      *
      * @param array $option Array of config options
      */
-    public function addCalendarOption(Array $option)
+    private function addCalendarOption($option)
     {
         $this->addOption(array('calendar' => $option));
 
@@ -85,5 +87,16 @@ class CalendarChart extends Chart
         return $this;
     }
 
+    /**
+     * Controls the font style of the week labels at the top of the chart.
+     *
+     * @param  TextStyle $label
+     *
+     * @return CalendarChart
+     */
+    public function dayOfWeekLabel(TextStyle $label)
+    {
+        $this->addCalendarOption($label->toArray(__FUNCTION__));
+    }
 
 }
