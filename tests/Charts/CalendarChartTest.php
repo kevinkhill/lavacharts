@@ -168,4 +168,16 @@ class CalendarChartTest extends ProvidersTestCase
         $this->cc->underYearSpace($badTypes);
     }
 
+    public function testUnusedMonthOutlineColor()
+    {
+        $mockStroke = m::mock('Khill\Lavacharts\Configs\Stroke');
+        $mockStroke->shouldReceive('toArray')->once()->andReturn(array(
+            'unusedMonthOutlineColor' => array()
+        ));
+
+        $this->cc->unusedMonthOutlineColor($mockStroke);
+
+        $this->assertTrue(is_array($this->cc->getOption('unusedMonthOutlineColor')));
+    }
+
 }

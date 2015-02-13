@@ -262,4 +262,18 @@ class CalendarChart extends Chart
         return $this;
     }
 
+    /**
+     * Months without data values are delineated from others using a border in this style.
+     *
+     * @param Stroke $stroke
+     *
+     * @return CalendarChart
+     */
+    public function unusedMonthOutlineColor(Stroke $stroke)
+    {
+        $this->addOption($stroke->toArray(__FUNCTION__));
+
+        return $this;
+    }
+
 }
