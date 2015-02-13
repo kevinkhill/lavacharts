@@ -29,14 +29,14 @@ class Stroke extends ConfigObject
     public $stroke;
 
     /**
-     * Minimum value for chart color data.
+     * Opacity of the stroke.
      *
      * @var int
      */
     public $strokeOpacity;
 
     /**
-     * Maximum value for chart color data.
+     * Width of the stroke, in pixels.
      *
      * @var int
      */
@@ -86,7 +86,7 @@ class Stroke extends ConfigObject
     public function strokeOpacity($so)
     {
         if (Helpers::between(0.0, $so, 1.0, true)) {
-            $this->strokeOpacity = (int) $so;
+            $this->strokeOpacity = (float) $so;
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
@@ -98,7 +98,7 @@ class Stroke extends ConfigObject
     }
 
     /**
-     * Sets the width of the stroke, in pixels.
+     * Sets the width of the stroke.
      *
      * @param  int                $sw
      * @throws InvalidConfigValue

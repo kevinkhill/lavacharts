@@ -75,6 +75,7 @@ class Lavacharts
         'Series',
         'SizeAxis',
         'Slice',
+        'Stroke',
         'VerticalAxis'
     );
 
