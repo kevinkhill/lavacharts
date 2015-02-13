@@ -40,22 +40,51 @@ class CalendarChart extends Chart
                 'focusedCellColor',
                 'monthLabel',
                 'monthOutlineColor',
-                'underMonthSpace'
+                'underMonthSpace',
+                'underYearSpace'
             )
         );
     }
 
     /**
-     * Suplemental function for wrapping all options into the calendar option
+     * Overriding addOption function for wrapping all options into the calendar config option.
      * (Thanks google)
      *
      * @param array $option Array of config options
      */
-    private function addCalendarOption($option)
+    public function addOption($o)
     {
-        $this->addOption(array('calendar' => $option));
+        if (is_array($o)) {
+            $this->options['calendar'] = array_merge($this->options, $o);
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'array'
+            );
+        }
 
         return $this;
+    }
+
+    /**
+     * Overriding getOption function to pull config options from calendar array.
+     * (Thanks google)
+     *
+     * @param  string             $o Which option to fetch
+     * @throws InvalidConfigValue
+     * @return mixed
+     */
+    public function getOption($o)
+    {
+        if (is_string($o) && array_key_exists($o, $this->options['calendar'])) {
+            return $this->options['calendar'][$o];
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string',
+                'must be one of '.Helpers::arrayToPipedString(array_keys($this->options['calendar']))
+            );
+        }
     }
 
     /**
@@ -67,7 +96,7 @@ class CalendarChart extends Chart
      */
     public function cellColor(Stroke $stroke)
     {
-        $this->addCalendarOption($stroke->toArray(__FUNCTION__));
+        $this->addOption($stroke->toArray(__FUNCTION__));
 
         return $this;
     }
@@ -82,7 +111,7 @@ class CalendarChart extends Chart
     public function cellSize($cellSize)
     {
         if (is_int($cellSize)) {
-            $this->addCalendarOption(array(__FUNCTION__ => $cellSize));
+            $this->addOption(array(__FUNCTION__ => $cellSize));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -102,7 +131,7 @@ class CalendarChart extends Chart
      */
     public function dayOfWeekLabel(TextStyle $label)
     {
-        $this->addCalendarOption($label->toArray(__FUNCTION__));
+        $this->addOption($label->toArray(__FUNCTION__));
     }
 
     /**
@@ -116,7 +145,7 @@ class CalendarChart extends Chart
     public function dayOfWeekRightSpace($space)
     {
         if (is_int($space)) {
-            $this->addCalendarOption(array(__FUNCTION__ => $space));
+            $this->addOption(array(__FUNCTION__ => $space));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -137,7 +166,7 @@ class CalendarChart extends Chart
     public function daysOfWeek($days)
     {
         if (is_int($days)) {
-            $this->addCalendarOption(array(__FUNCTION__ => $days));
+            $this->addOption(array(__FUNCTION__ => $days));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -158,7 +187,7 @@ class CalendarChart extends Chart
      */
     public function focusedCellColor(Stroke $stroke)
     {
-        $this->addCalendarOption($stroke->toArray(__FUNCTION__));
+        $this->addOption($stroke->toArray(__FUNCTION__));
 
         return $this;
     }
@@ -172,7 +201,7 @@ class CalendarChart extends Chart
      */
     public function monthLabel(TextStyle $label)
     {
-        $this->addCalendarOption($label->toArray(__FUNCTION__));
+        $this->addOption($label->toArray(__FUNCTION__));
     }
 
     /**
@@ -184,7 +213,7 @@ class CalendarChart extends Chart
      */
     public function monthOutlineColor(Stroke $stroke)
     {
-        $this->addCalendarOption($stroke->toArray(__FUNCTION__));
+        $this->addOption($stroke->toArray(__FUNCTION__));
 
         return $this;
     }
@@ -200,7 +229,29 @@ class CalendarChart extends Chart
     public function underMonthSpace($space)
     {
         if (is_int($space)) {
-            $this->addCalendarOption(array(__FUNCTION__ => $space));
+            $this->addOption(array(__FUNCTION__ => $space));
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'int'
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * The number of pixels between the bottom-most year label and
+     * the bottom of the chart.
+     *
+     * @param int $space
+     *
+     * @return CalendarChart
+     */
+    public function underYearSpace($space)
+    {
+        if (is_int($space)) {
+            $this->addOption(array(__FUNCTION__ => $space));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
