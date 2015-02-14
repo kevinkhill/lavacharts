@@ -11,13 +11,13 @@
  * @package    Lavacharts
  * @subpackage Formatters
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2014, KHill Designs
- * @link       http://github.com/kevinkhill/Lavacharts GitHub Repository Page
- * @link       http://kevinkhill.github.io/Lavacharts  GitHub Project Page
+ * @copyright  (c) 2015, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class DateFormat extends Format
@@ -108,7 +108,7 @@ class DateFormat extends Format
      */
     public function pattern($p)
     {
-        if (h::nonEmptyString($p)) {
+        if (Utils::nonEmptyString($p)) {
             $this->pattern = $p;
         } else {
             throw new InvalidConfigValue(
@@ -138,7 +138,7 @@ class DateFormat extends Format
      */
     public function timeZone($tz)
     {
-        if (h::nonEmptyString($tz)) {
+        if (Utils::nonEmptyString($tz)) {
             $this->timeZone = $tz;
         } else {
             throw new InvalidConfigValue(

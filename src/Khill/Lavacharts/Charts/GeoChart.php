@@ -14,16 +14,16 @@
  * @subpackage Charts
  * @since      v1.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2014, KHill Designs
- * @link       http://github.com/kevinkhill/Lavacharts GitHub Repository Page
- * @link       http://kevinkhill.github.io/Lavacharts  GitHub Project Page
+ * @copyright  (c) 2015, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
 use Khill\Lavacharts\Configs\ColorAxis;
 use Khill\Lavacharts\Configs\SizeAxis;
 use Khill\Lavacharts\Configs\MagnifyingGlass;
-use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Utils;
 
 class GeoChart extends Chart
 {
@@ -111,7 +111,7 @@ class GeoChart extends Chart
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.h::arrayToPipedString($v)
+                'with a value of '.Utils::arrayToPipedString($v)
             );
         }
 
@@ -224,7 +224,7 @@ class GeoChart extends Chart
     {
         if ($mo === 0 || $mo === 1) {
             $this->addOption(array(__FUNCTION__ => $mo));
-        } elseif (is_float($mo) && h::between(0.0, $mo, 1.0, true)) {
+        } elseif (is_float($mo) && Utils::between(0.0, $mo, 1.0, true)) {
             $this->addOption(array(__FUNCTION__ => $mo));
         } else {
             throw $this->invalidConfigValue(
@@ -264,7 +264,7 @@ class GeoChart extends Chart
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.h::arrayToPipedString($v)
+                'with a value of '.Utils::arrayToPipedString($v)
             );
         }
 

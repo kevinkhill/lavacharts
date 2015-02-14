@@ -1,6 +1,6 @@
 <?php namespace Khill\Lavacharts\Traits;
 
-use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Utils;
 
 trait Animation
 {
@@ -29,7 +29,7 @@ trait Animation
         if (in_array($easing, $values)) {
             $this->easing = $easing;
         } else {
-            $this->error('Invalid animationEasing value, must be (string) '.h::arrayToPipedString($values));
+            $this->error('Invalid animationEasing value, must be (string) '.Utils::arrayToPipedString($values));
         }
 
         return $this;

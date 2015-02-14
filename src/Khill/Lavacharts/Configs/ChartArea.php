@@ -10,13 +10,13 @@
  * @package    Lavacharts
  * @subpackage Configs
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2014, KHill Designs
- * @link       http://github.com/kevinkhill/Lavacharts GitHub Repository Page
- * @link       http://kevinkhill.github.io/Lavacharts  GitHub Project Page
+ * @copyright  (c) 2015, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers as H;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class ChartArea extends ConfigObject
@@ -70,7 +70,7 @@ class ChartArea extends ConfigObject
      */
     public function left($left)
     {
-        if (H::isIntOrPercent($left)) {
+        if (Utils::isIntOrPercent($left)) {
             $this->left = $left;
         } else {
             throw new InvalidConfigValue(
@@ -92,7 +92,7 @@ class ChartArea extends ConfigObject
      */
     public function top($top)
     {
-        if (H::isIntOrPercent($top)) {
+        if (Utils::isIntOrPercent($top)) {
             $this->top = $top;
         } else {
             throw new InvalidConfigValue(
@@ -114,7 +114,7 @@ class ChartArea extends ConfigObject
      */
     public function width($width)
     {
-        if (H::isIntOrPercent($width)) {
+        if (Utils::isIntOrPercent($width)) {
             $this->width = $width;
         } else {
             throw new InvalidConfigValue(
@@ -136,7 +136,7 @@ class ChartArea extends ConfigObject
      */
     public function height($height)
     {
-        if (H::isIntOrPercent($height)) {
+        if (Utils::isIntOrPercent($height)) {
             $this->height = $height;
         } else {
             throw new InvalidConfigValue(

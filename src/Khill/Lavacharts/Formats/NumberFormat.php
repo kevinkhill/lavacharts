@@ -11,13 +11,13 @@
  * @package    Lavacharts
  * @subpackage Formatters
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2014, KHill Designs
- * @link       http://github.com/kevinkhill/Lavacharts GitHub Repository Page
- * @link       http://kevinkhill.github.io/Lavacharts  GitHub Project Page
+ * @copyright  (c) 2015, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class NumberFormat extends Format
@@ -102,7 +102,7 @@ class NumberFormat extends Format
      */
     public function decimalSymbol($ds)
     {
-        if (h::nonEmptyString($ds)) {
+        if (Utils::nonEmptyString($ds)) {
             $this->decimalSymbol = $ds;
         } else {
             throw new InvalidConfigValue(
@@ -148,7 +148,7 @@ class NumberFormat extends Format
      */
     public function groupingSymbol($gs)
     {
-        if (h::nonEmptyString($gs)) {
+        if (Utils::nonEmptyString($gs)) {
             $this->groupingSymbol = $gs;
         } else {
             throw new InvalidConfigValue(
@@ -170,7 +170,7 @@ class NumberFormat extends Format
      */
     public function negativeColor($nc)
     {
-        if (h::nonEmptyString($nc)) {
+        if (Utils::nonEmptyString($nc)) {
             $this->negativeColor = $nc;
         } else {
             throw new InvalidConfigValue(
@@ -218,7 +218,7 @@ class NumberFormat extends Format
      */
     public function pattern($p)
     {
-        if (h::nonEmptyString($p)) {
+        if (Utils::nonEmptyString($p)) {
             $this->pattern = $p;
         } else {
             throw new InvalidConfigValue(
@@ -239,7 +239,7 @@ class NumberFormat extends Format
      */
     public function prefix($p)
     {
-        if (h::nonEmptyString($p)) {
+        if (Utils::nonEmptyString($p)) {
             $this->prefix = $p;
         } else {
             throw new InvalidConfigValue(
@@ -260,7 +260,7 @@ class NumberFormat extends Format
      */
     public function suffix($s)
     {
-        if (h::nonEmptyString($s)) {
+        if (Utils::nonEmptyString($s)) {
             $this->suffix = $s;
         } else {
             throw new InvalidConfigValue(

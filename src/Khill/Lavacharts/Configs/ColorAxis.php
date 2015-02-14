@@ -10,13 +10,13 @@
  * @package    Lavacharts
  * @subpackage Configs
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2014, KHill Designs
- * @link       http://github.com/kevinkhill/Lavacharts GitHub Repository Page
- * @link       http://kevinkhill.github.io/Lavacharts  GitHub Project Page
+ * @copyright  (c) 2015, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers as H;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class ColorAxis extends ConfigObject
@@ -123,7 +123,7 @@ class ColorAxis extends ConfigObject
      */
     public function values($values)
     {
-        if (is_array($values) && H::arrayValuesCheck($values, 'numeric')) {
+        if (is_array($values) && Utils::arrayValuesCheck($values, 'numeric')) {
             $this->values = $values;
         } else {
             throw new InvalidConfigValue(
@@ -151,7 +151,7 @@ class ColorAxis extends ConfigObject
      */
     public function colors($colors)
     {
-        if (is_array($colors) && H::arrayValuesCheck($colors, 'string') && count($colors) > 1) {
+        if (is_array($colors) && Utils::arrayValuesCheck($colors, 'string') && count($colors) > 1) {
             $this->colors = $colors;
         } else {
             throw new InvalidConfigValue(

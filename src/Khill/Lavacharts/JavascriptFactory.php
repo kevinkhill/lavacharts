@@ -16,7 +16,7 @@
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Events\Event;
 use Khill\Lavacharts\Exceptions\DataTableNotFound;
@@ -103,13 +103,13 @@ class JavascriptFactory
      */
     public function getChartJs(Chart $chart, $elementId = null)
     {
-        if (isset($chart->datatable) && h::isDataTable($chart->datatable)) {
+        if (isset($chart->datatable) && Utils::isDataTable($chart->datatable)) {
             $this->chart = $chart;
         } else {
             throw new DataTableNotFound($chart);
         }
 
-        if (h::nonEmptyString($elementId)) {
+        if (Utils::nonEmptyString($elementId)) {
             $this->elementId = $elementId;
         } else {
             throw new InvalidElementId($elementId);
@@ -131,6 +131,38 @@ class JavascriptFactory
      */
     private function buildChartJs()
     {
+        switch ($this->chart->type) {
+            case 'AnnotatedTimeLine':
+                $vizType = 'annotatedtimeline';
+                $vizFunc = $this->chart->type;
+                $version = '1';
+                break;
+
+            case 'GeoChart':
+                $vizType = 'geochart';
+                $vizFunc = $this->chart->type;
+                $version = '1';
+                break;
+
+            case 'DonutChart':
+                $vizType = 'corechart';
+                $vizFunc = 'PieChart';
+                $version = '1';
+                break;
+
+            case 'CalendarChart':
+                $vizType = 'calendar';
+                $vizFunc = 'Calendar';
+                $version = '1.1';
+                break;
+
+            default:
+                $vizType = 'corechart';
+                $vizFunc = $this->chart->type;
+                $version = '1';
+                break;
+        }
+
         $out = $this->jsO.PHP_EOL;
 
         /*
@@ -183,7 +215,7 @@ class JavascriptFactory
 
         $out .= sprintf(
             '$this.chart = new google.visualization.%s(document.getElementById("%s"));',
-            ($this->chart->type == 'DonutChart' ? 'PieChart' : $this->chart->type),
+            $vizFunc,
             $this->elementId
         ).PHP_EOL.PHP_EOL;
 
@@ -200,22 +232,9 @@ class JavascriptFactory
 
         $out .= "};".PHP_EOL.PHP_EOL;
 
-        switch ($this->chart->type) {
-            case 'AnnotatedTimeLine':
-                $vizType = 'annotatedtimeline';
-                break;
-
-            case 'GeoChart':
-                $vizType = 'geochart';
-                break;
-
-            default:
-                $vizType = 'corechart';
-                break;
-        }
-
         $out .= sprintf(
-            "google.load('visualization', '1', {'packages':['%s']});",
+            "google.load('visualization', '%s', {'packages':['%s']});",
+            $version,
             $vizType
         ).PHP_EOL;
 

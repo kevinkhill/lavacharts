@@ -10,13 +10,13 @@
  * @package    Lavacharts
  * @subpackage Configs
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2014, KHill Designs
- * @link       http://github.com/kevinkhill/Lavacharts GitHub Repository Page
- * @link       http://kevinkhill.github.io/Lavacharts  GitHub Project Page
+ * @copyright  (c) 2015, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Slice extends ConfigObject
@@ -88,7 +88,7 @@ class Slice extends ConfigObject
      */
     public function offset($offset)
     {
-        if (Helpers::between(0.0, $offset, 1.0)) {
+        if (Utils::between(0.0, $offset, 1.0)) {
             $this->offset = $offset;
         } else {
             throw new InvalidConfigValue(

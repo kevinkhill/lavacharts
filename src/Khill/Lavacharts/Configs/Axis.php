@@ -10,13 +10,13 @@
  * @package    Lavacharts
  * @subpackage Configs
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2014, KHill Designs
- * @link       http://github.com/kevinkhill/Lavacharts GitHub Repository Page
- * @link       http://kevinkhill.github.io/Lavacharts  GitHub Project Page
+ * @copyright  (c) 2015, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Axis extends ConfigObject
@@ -186,7 +186,7 @@ class Axis extends ConfigObject
      */
     public function baseline($baseline) //@TODO convert to carbon
     {
-        if (h::isJsDate($baseline)) {
+        if (Utils::isJsDate($baseline)) {
             $this->baseline = $baseline->toString();
         } else {
             if (is_int($baseline)) {
@@ -300,7 +300,7 @@ class Axis extends ConfigObject
     public function gridlines($gridlines)
     {
         if (is_array($gridlines) && array_key_exists('count', $gridlines) && array_key_exists('color', $gridlines)) {
-            if (h::nonEmptyString($gridlines['color'])) {
+            if (Utils::nonEmptyString($gridlines['color'])) {
                 $this->gridlines['color'] = $gridlines['color'];
             } else {
                 throw $this->invalidConfigValue(
@@ -370,7 +370,7 @@ class Axis extends ConfigObject
     public function minorGridlines($minorGridlines)
     {
         if (is_array($minorGridlines) && array_key_exists('count', $minorGridlines) && array_key_exists('color', $minorGridlines)) {
-            if (h::nonEmptyString($minorGridlines['color'])) {
+            if (Utils::nonEmptyString($minorGridlines['color'])) {
                 $this->minorGridlines['color'] = $minorGridlines['color'];
             } else {
                 throw $this->invalidConfigValue(
@@ -577,13 +577,13 @@ class Axis extends ConfigObject
             'none'
         );
 
-        if (h::nonEmptyString($position) && in_array($position, $values)) {
+        if (Utils::nonEmptyString($position) && in_array($position, $values)) {
             $this->textPosition = $position;
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.h::arrayToPipedString($values)
+                'with a value of '.Utils::arrayToPipedString($values)
             );
         }
 
@@ -613,7 +613,7 @@ class Axis extends ConfigObject
      */
     public function title($title)
     {
-        if (h::nonEmptyString($title)) {
+        if (Utils::nonEmptyString($title)) {
             $this->title = $title;
         } else {
             throw $this->invalidConfigValue(
@@ -712,13 +712,13 @@ class Axis extends ConfigObject
             'explicit'
         );
 
-        if (h::nonEmptyString($viewMode) && in_array($viewMode, $values)) {
+        if (Utils::nonEmptyString($viewMode) && in_array($viewMode, $values)) {
             $this->viewWindowMode = $viewMode;
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.h::arrayToPipedString($values)
+                'with a value of '.Utils::arrayToPipedString($values)
             );
         }
 

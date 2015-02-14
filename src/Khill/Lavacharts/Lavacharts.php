@@ -45,11 +45,12 @@ class Lavacharts
     private $chartClasses = array(
         'AreaChart',
         'ColumnChart',
-        'ComboChart', // @TODO WIP
+        'ComboChart',
         'DonutChart',
         'GeoChart',
         'LineChart',
-        'PieChart'
+        'PieChart',
+        'CalendarChart'
     );
 
     /**
@@ -74,6 +75,7 @@ class Lavacharts
         'Series',
         'SizeAxis',
         'Slice',
+        'Stroke',
         'VerticalAxis'
     );
 
@@ -240,7 +242,7 @@ class Lavacharts
                     throw new InvalidConfigProperty(
                         __METHOD__,
                         $option,
-                        Helpers::arrayToPipedString($this->validGlobals)
+                        Utils::arrayToPipedString($this->validGlobals)
                     );
                 }
             }

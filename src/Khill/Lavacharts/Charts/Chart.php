@@ -9,13 +9,13 @@
  * @package    Lavacharts
  * @subpackage Charts
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2014, KHill Designs
- * @link       http://github.com/kevinkhill/Lavacharts GitHub Repository Page
- * @link       http://kevinkhill.github.io/Lavacharts  GitHub Project Page
+ * @copyright  (c) 2015, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\JavascriptFactory;
 use Khill\Lavacharts\Configs\DataTable;
 use Khill\Lavacharts\Configs\Legend;
@@ -146,7 +146,7 @@ class Chart
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                "must be one of ".h::arrayToPipedString(array_keys($this->options))
+                "must be one of ".Utils::arrayToPipedString(array_keys($this->options))
             );
         }
     }
@@ -260,7 +260,7 @@ class Chart
      */
     public function colors($cArr)
     {
-        if (h::arrayValuesCheck($cArr, 'string')) {
+        if (Utils::arrayValuesCheck($cArr, 'string')) {
             return $this->addOption(array(__FUNCTION__ => $cArr));
         } else {
             throw $this->invalidConfigValue(
@@ -436,7 +436,7 @@ class Chart
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.h::arrayToPipedString($values)
+                'with a value of '.Utils::arrayToPipedString($values)
             );
         }
     }

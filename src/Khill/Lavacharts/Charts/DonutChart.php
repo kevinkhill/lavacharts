@@ -11,13 +11,13 @@
  * @subpackage Charts
  * @since      v1.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2014, KHill Designs
- * @link       http://github.com/kevinkhill/Lavacharts GitHub Repository Page
- * @link       http://kevinkhill.github.io/Lavacharts  GitHub Project Page
+ * @copyright  (c) 2015, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Utils;
 
 class DonutChart extends PieChart
 {
@@ -45,7 +45,7 @@ class DonutChart extends PieChart
      */
     public function pieHole($pieHole)
     {
-        if (h::between(0.0, $pieHole, 1.0)) {
+        if (Utils::between(0.0, $pieHole, 1.0)) {
             $this->addOption(array('pieHole' => $pieHole));
         } else {
             throw $this->invalidConfigValue(

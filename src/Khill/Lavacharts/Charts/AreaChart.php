@@ -11,13 +11,13 @@
  * @subpackage Charts
  * @since      v1.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2014, KHill Designs
- * @link       http://github.com/kevinkhill/Lavacharts GitHub Repository Page
- * @link       http://kevinkhill.github.io/Lavacharts  GitHub Project Page
+ * @copyright  (c) 2015, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Configs\HorizontalAxis;
 use Khill\Lavacharts\Configs\VerticalAxis;
 
@@ -58,7 +58,7 @@ class AreaChart extends Chart
      */
     public function areaOpacity($opacity)
     {
-        if (Helpers::between(0.0, $opacity, 1.0, true)) {
+        if (Utils::between(0.0, $opacity, 1.0, true)) {
             $this->addOption(array('areaOpacity' => $opacity));
         } else {
             throw $this->invalidConfigValue(
@@ -96,7 +96,7 @@ class AreaChart extends Chart
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.Helpers::arrayToPipedString($values)
+                'with a value of '.Utils::arrayToPipedString($values)
             );
         }
 
