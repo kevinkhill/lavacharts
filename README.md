@@ -4,7 +4,11 @@ Lavacharts
 Lavacharts is a graphing / chart library for PHP5.3+ that wraps the Google Chart API
 
 
-[![Build Status](https://travis-ci.org/kevinkhill/lavacharts.png?branch=2.0)](https://travis-ci.org/kevinkhill/lavacharts) [![Coverage Status](https://coveralls.io/repos/kevinkhill/lavacharts/badge.png?branch=2.0)](https://coveralls.io/r/kevinkhill/lavacharts?branch=2.0) [![Total Downloads](https://poser.pugx.org/khill/lavacharts/downloads.svg)](https://packagist.org/packages/khill/lavacharts) [![License](https://poser.pugx.org/khill/lavacharts/license.svg)](https://packagist.org/packages/khill/lavacharts)
+[![Build Status](https://travis-ci.org/kevinkhill/lavacharts.png?branch=2.0)](https://travis-ci.org/kevinkhill/lavacharts)
+[![Coverage Status](https://coveralls.io/repos/kevinkhill/lavacharts/badge.png?branch=2.0)](https://coveralls.io/r/kevinkhill/lavacharts?branch=2.0)
+[![Total Downloads](https://poser.pugx.org/khill/lavacharts/downloads.svg)](https://packagist.org/packages/khill/lavacharts)
+[![License](https://poser.pugx.org/khill/lavacharts/license.svg)](https://packagist.org/packages/khill/lavacharts)
+[![PayPayl](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ)
 
 
 Version 2 is Here!
