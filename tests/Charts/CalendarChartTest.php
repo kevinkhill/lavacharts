@@ -192,4 +192,20 @@ class CalendarChartTest extends ProvidersTestCase
         $this->assertTrue(is_array($this->cc->getOption('colorAxis')));
     }
 
+    public function testForceIFrame()
+    {
+        $this->cc->forceIFrame(true);
+
+        $this->assertTrue($this->cc->getOption('forceIFrame'));
+    }
+
+    /**
+     * @dataProvider nonBoolProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testtestForceIFrame($badTypes)
+    {
+        $this->cc->forceIFrame($badTypes);
+    }
+
 }

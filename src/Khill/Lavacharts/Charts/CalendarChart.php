@@ -282,4 +282,24 @@ class CalendarChart extends Chart
         return $this;
     }
 
+    /**
+     * Draws the chart inside an inline frame.
+     * Note that on IE8, this option is ignored; all IE8 charts are drawn in i-frames.
+     *
+     * @param bool $iframe
+     *
+     * @return CalendarChart
+     */
+    public function forceIFrame($iframe)
+    {
+        if (is_bool($iframe)) {
+            $this->addOption(array(__FUNCTION__ => $iframe));
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'bool'
+            );
+        }
+    }
+
 }
