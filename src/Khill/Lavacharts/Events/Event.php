@@ -17,7 +17,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Event
@@ -38,7 +38,7 @@ class Event
      */
     public function __construct($c)
     {
-        if (h::nonEmptyString($c)) {
+        if (Utils::nonEmptyString($c)) {
             $this->callback = $c;
         } else {
             throw new InvalidConfigValue(

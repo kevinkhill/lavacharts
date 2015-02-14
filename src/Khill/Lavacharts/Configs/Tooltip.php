@@ -16,7 +16,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers as H;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Tooltip extends ConfigObject
@@ -113,7 +113,7 @@ class Tooltip extends ConfigObject
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.H::arrayToPipedString($values)
+                'with a value of '.Utils::arrayToPipedString($values)
             );
         }
 

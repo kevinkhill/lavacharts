@@ -17,7 +17,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class DateFormat extends Format
@@ -108,7 +108,7 @@ class DateFormat extends Format
      */
     public function pattern($p)
     {
-        if (h::nonEmptyString($p)) {
+        if (Utils::nonEmptyString($p)) {
             $this->pattern = $p;
         } else {
             throw new InvalidConfigValue(
@@ -138,7 +138,7 @@ class DateFormat extends Format
      */
     public function timeZone($tz)
     {
-        if (h::nonEmptyString($tz)) {
+        if (Utils::nonEmptyString($tz)) {
             $this->timeZone = $tz;
         } else {
             throw new InvalidConfigValue(

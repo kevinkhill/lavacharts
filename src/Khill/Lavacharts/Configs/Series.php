@@ -16,7 +16,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers as H;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Series extends ConfigObject
@@ -78,7 +78,7 @@ class Series extends ConfigObject
      */
     public function annotation(Annotation $annotation)
     {
-        if (H::isAnnotation($annotation)) {
+        if (Utils::isAnnotation($annotation)) {
             $this->annotation = $annotation;
         } else {
             throw new InvalidConfigValue(
@@ -115,7 +115,7 @@ class Series extends ConfigObject
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.H::arrayToPipedString($values)
+                'with a value of '.Utils::arrayToPipedString($values)
             );
         }
 
@@ -176,7 +176,7 @@ class Series extends ConfigObject
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.H::arrayToPipedString($values)
+                'with a value of '.Utils::arrayToPipedString($values)
             );
         }
 

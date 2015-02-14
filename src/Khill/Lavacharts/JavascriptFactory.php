@@ -16,7 +16,7 @@
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Events\Event;
 use Khill\Lavacharts\Exceptions\DataTableNotFound;
@@ -103,13 +103,13 @@ class JavascriptFactory
      */
     public function getChartJs(Chart $chart, $elementId = null)
     {
-        if (isset($chart->datatable) && h::isDataTable($chart->datatable)) {
+        if (isset($chart->datatable) && Utils::isDataTable($chart->datatable)) {
             $this->chart = $chart;
         } else {
             throw new DataTableNotFound($chart);
         }
 
-        if (h::nonEmptyString($elementId)) {
+        if (Utils::nonEmptyString($elementId)) {
             $this->elementId = $elementId;
         } else {
             throw new InvalidElementId($elementId);

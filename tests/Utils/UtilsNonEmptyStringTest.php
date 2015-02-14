@@ -1,18 +1,18 @@
 <?php namespace Khill\Lavacharts\Tests\Helpers;
 
+use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Helpers\Helpers as h;
 
 class HelperNonEmptyStringTest extends ProvidersTestCase
 {
     public function testWithValidString()
     {
-        $this->assertTrue(h::nonEmptyString('Im not empty!'));
+        $this->assertTrue(Utils::nonEmptyString('Im not empty!'));
     }
 
     public function testWithEmptyString()
     {
-        $this->assertFalse(h::nonEmptyString(''));
+        $this->assertFalse(Utils::nonEmptyString(''));
     }
 
     /**
@@ -20,6 +20,6 @@ class HelperNonEmptyStringTest extends ProvidersTestCase
      */
     public function testWithBadTypes($badTypes)
     {
-        $this->assertFalse(h::nonEmptyString($badTypes));
+        $this->assertFalse(Utils::nonEmptyString($badTypes));
     }
 }

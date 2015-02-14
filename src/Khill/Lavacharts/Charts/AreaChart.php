@@ -17,7 +17,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Configs\HorizontalAxis;
 use Khill\Lavacharts\Configs\VerticalAxis;
 
@@ -58,7 +58,7 @@ class AreaChart extends Chart
      */
     public function areaOpacity($opacity)
     {
-        if (Helpers::between(0.0, $opacity, 1.0, true)) {
+        if (Utils::between(0.0, $opacity, 1.0, true)) {
             $this->addOption(array('areaOpacity' => $opacity));
         } else {
             throw $this->invalidConfigValue(
@@ -96,7 +96,7 @@ class AreaChart extends Chart
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.Helpers::arrayToPipedString($values)
+                'with a value of '.Utils::arrayToPipedString($values)
             );
         }
 

@@ -16,7 +16,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers as H;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class ColorAxis extends ConfigObject
@@ -123,7 +123,7 @@ class ColorAxis extends ConfigObject
      */
     public function values($values)
     {
-        if (is_array($values) && H::arrayValuesCheck($values, 'numeric')) {
+        if (is_array($values) && Utils::arrayValuesCheck($values, 'numeric')) {
             $this->values = $values;
         } else {
             throw new InvalidConfigValue(
@@ -151,7 +151,7 @@ class ColorAxis extends ConfigObject
      */
     public function colors($colors)
     {
-        if (is_array($colors) && H::arrayValuesCheck($colors, 'string') && count($colors) > 1) {
+        if (is_array($colors) && Utils::arrayValuesCheck($colors, 'string') && count($colors) > 1) {
             $this->colors = $colors;
         } else {
             throw new InvalidConfigValue(

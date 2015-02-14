@@ -17,7 +17,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Configs\HorizontalAxis;
 use Khill\Lavacharts\Configs\VerticalAxis;
 
@@ -72,7 +72,7 @@ class LineChart extends Chart
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.Helpers::arrayToPipedString($values)
+                'with a value of '.Utils::arrayToPipedString($values)
             );
         }
 
@@ -103,7 +103,7 @@ class LineChart extends Chart
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.Helpers::arrayToPipedString($values)
+                'with a value of '.Utils::arrayToPipedString($values)
             );
         }
 

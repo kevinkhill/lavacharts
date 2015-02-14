@@ -16,7 +16,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Legend extends ConfigObject
@@ -85,7 +85,7 @@ class Legend extends ConfigObject
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.h::arrayToPipedString($values)
+                'with a value of '.Utils::arrayToPipedString($values)
             );
         }
 
@@ -124,7 +124,7 @@ class Legend extends ConfigObject
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.h::arrayToPipedString($values)
+                'with a value of '.Utils::arrayToPipedString($values)
             );
         }
 

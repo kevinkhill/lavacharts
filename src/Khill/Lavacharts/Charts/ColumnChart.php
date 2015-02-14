@@ -18,7 +18,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Configs\HorizontalAxis;
 use Khill\Lavacharts\Configs\VerticalAxis;
 
@@ -68,7 +68,7 @@ class ColumnChart extends Chart
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.Helpers::arrayToPipedString($values)
+                'with a value of '.Utils::arrayToPipedString($values)
             );
         }
 
@@ -86,7 +86,7 @@ class ColumnChart extends Chart
      */
     public function barGroupWidth($barGroupWidth)
     {
-        if (Helpers::isIntOrPercent($barGroupWidth)) {
+        if (Utils::isIntOrPercent($barGroupWidth)) {
             $this->addOption(array('bar' => array('groupWidth' => $barGroupWidth)));
         } else {
             throw $this->invalidConfigValue(

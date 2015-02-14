@@ -1,38 +1,38 @@
 <?php namespace Khill\Lavacharts\Tests\Helpers;
 
-use \Khill\Lavacharts\Helpers\Helpers as h;
 use \Mockery as m;
+use \Khill\Lavacharts\Utils;
 
 class HelperTest extends \PHPUnit_Framework_TestCase
 {
     public function testArrayValuesCheckWithStrings()
     {
         $testArray = array('test1', 'test2', 'test3');
-        $this->assertTrue(h::arrayValuesCheck($testArray, 'string'));
+        $this->assertTrue(Utils::arrayValuesCheck($testArray, 'string'));
     }
 
     public function testArrayValuesCheckWithInts()
     {
         $testArray = array(1, 2, 3, 4, 5);
-        $this->assertTrue(h::arrayValuesCheck($testArray, 'int'));
+        $this->assertTrue(Utils::arrayValuesCheck($testArray, 'int'));
     }
 
     public function testArrayValuesCheckWithFloats()
     {
         $testArray = array(1.1, 2.2, 3.3, 4.4, 5.5);
-        $this->assertTrue(h::arrayValuesCheck($testArray, 'float'));
+        $this->assertTrue(Utils::arrayValuesCheck($testArray, 'float'));
     }
 
     public function testArrayValuesCheckWithBools()
     {
         $testArray = array(TRUE, FALSE, TRUE, FALSE);
-        $this->assertTrue(h::arrayValuesCheck($testArray, 'bool'));
+        $this->assertTrue(Utils::arrayValuesCheck($testArray, 'bool'));
     }
 
     public function testArrayValuesCheckWithObjects()
     {
         $testArray = array(new \stdClass, new \stdClass, new \stdClass);
-        $this->assertTrue(h::arrayValuesCheck($testArray, 'object'));
+        $this->assertTrue(Utils::arrayValuesCheck($testArray, 'object'));
     }
 
     public function testArrayValuesCheckWithConfigObjects()
@@ -42,7 +42,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
         $testArray = array($mca, $mca, $mca);
 
-        $this->assertTrue(h::arrayValuesCheck($testArray, 'class', 'ColorAxis'));
+        $this->assertTrue(Utils::arrayValuesCheck($testArray, 'class', 'ColorAxis'));
     }
 
     public function testArrayValuesCheckWithConfigObjectsAndNulls()
@@ -52,7 +52,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
         $testArray = array(null, $mca, null);
 
-        $this->assertTrue(h::arrayValuesCheck($testArray, 'class', 'ColorAxis'));
+        $this->assertTrue(Utils::arrayValuesCheck($testArray, 'class', 'ColorAxis'));
     }
 
     /**
@@ -60,7 +60,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
      */
     public function testArrayValuesCheckWithBadParams($badData, $testType, $extra = '')
     {
-        $this->assertFalse(h::arrayValuesCheck($badData, $testType, $extra));
+        $this->assertFalse(Utils::arrayValuesCheck($badData, $testType, $extra));
     }
 
 

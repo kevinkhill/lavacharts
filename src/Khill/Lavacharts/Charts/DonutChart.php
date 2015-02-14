@@ -17,7 +17,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Utils;
 
 class DonutChart extends PieChart
 {
@@ -45,7 +45,7 @@ class DonutChart extends PieChart
      */
     public function pieHole($pieHole)
     {
-        if (h::between(0.0, $pieHole, 1.0)) {
+        if (Utils::between(0.0, $pieHole, 1.0)) {
             $this->addOption(array('pieHole' => $pieHole));
         } else {
             throw $this->invalidConfigValue(

@@ -17,7 +17,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Configs\Stroke;
 use Khill\Lavacharts\Configs\TextStyle;
 use Khill\Lavacharts\Configs\ColorAxis;
@@ -78,7 +78,7 @@ class CalendarChart extends Chart
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'must be one of '.Helpers::arrayToPipedString(array_keys($this->options['calendar']))
+                'must be one of '.Utils::arrayToPipedString(array_keys($this->options['calendar']))
             );
         }
     }

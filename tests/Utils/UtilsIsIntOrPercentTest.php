@@ -1,22 +1,22 @@
 <?php namespace Khill\Lavacharts\Tests\Helpers;
 
-use \Khill\Lavacharts\Helpers\Helpers as h;
+use \Khill\Lavacharts\Utils;
 
 class HelperIsIntOrPercentTest extends \PHPUnit_Framework_TestCase
 {
     public function testIntOrPercentWithInt()
     {
-        $this->assertTrue(h::isIntOrPercent(72) );
+        $this->assertTrue(Utils::isIntOrPercent(72) );
     }
 
     public function testIntOrPercentWithIntAsString()
     {
-        $this->assertTrue(h::isIntOrPercent('26') );
+        $this->assertTrue(Utils::isIntOrPercent('26') );
     }
 
     public function testIntOrPercentWithPercentAsString()
     {
-        $this->assertTrue(h::isIntOrPercent('45%') );
+        $this->assertTrue(Utils::isIntOrPercent('45%') );
     }
 
     /**
@@ -24,7 +24,7 @@ class HelperIsIntOrPercentTest extends \PHPUnit_Framework_TestCase
      */
     public function testIntOrPercentWithBadParams($value)
     {
-        $this->assertFalse(h::isIntOrPercent($value) );
+        $this->assertFalse(Utils::isIntOrPercent($value) );
     }
 
 

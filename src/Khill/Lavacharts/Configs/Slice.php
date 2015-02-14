@@ -16,7 +16,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Slice extends ConfigObject
@@ -88,7 +88,7 @@ class Slice extends ConfigObject
      */
     public function offset($offset)
     {
-        if (Helpers::between(0.0, $offset, 1.0)) {
+        if (Utils::between(0.0, $offset, 1.0)) {
             $this->offset = $offset;
         } else {
             throw new InvalidConfigValue(

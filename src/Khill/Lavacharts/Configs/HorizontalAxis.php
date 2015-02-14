@@ -16,7 +16,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
@@ -170,7 +170,7 @@ class HorizontalAxis extends Axis
      */
     public function slantedTextAngle($angle)
     {
-        if (is_int($angle) && Helpers::between(1, $angle, 90)) {
+        if (is_int($angle) && Utils::between(1, $angle, 90)) {
             $this->slantedTextAngle = $angle;
         } else {
             throw $this->invalidConfigValue(

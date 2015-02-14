@@ -27,7 +27,7 @@
 //@TODO add method for setting timezone for Carbon;
 
 use Carbon\Carbon;
-use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Formats\Format;
 use Khill\Lavacharts\Exceptions\InvalidDate;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -110,7 +110,7 @@ class DataTable
 
     public function setTimezone($timezone)
     {
-        if (h::nonEmptyString($timezone)) {
+        if (Utils::nonEmptyString($timezone)) {
             $this->timezone = $timezone;
         } else {
             $this->timezone = 'America/Los_Angeles';
@@ -127,7 +127,7 @@ class DataTable
      */
     public function setDateTimeFormat($dateTimeFormat)
     {
-        if (h::nonEmptyString($dateTimeFormat)) {
+        if (Utils::nonEmptyString($dateTimeFormat)) {
             $this->dateTimeFormat = $dateTimeFormat;
         } else {
             throw new InvalidConfigValue(
@@ -188,7 +188,7 @@ class DataTable
      */
     public function addColumns($arrOfCols)
     {
-        if (h::arrayIsMulti($arrOfCols)) {
+        if (Utils::arrayIsMulti($arrOfCols)) {
             foreach ($arrOfCols as $col) {
                 $this->addColumnFromArray($col);
             }
@@ -253,7 +253,7 @@ class DataTable
      */
     private function addColumnFromArray($colDefArray)
     {
-        if (h::arrayValuesCheck($colDefArray, 'string') && h::between(1, count($colDefArray), 4, true)) {
+        if (Utils::arrayValuesCheck($colDefArray, 'string') && Utils::between(1, count($colDefArray), 4, true)) {
             call_user_func_array(array($this, 'addColumnFromStrings'), $colDefArray);
         } else {
             throw new InvalidColumnDefinition($colDefArray);
@@ -277,7 +277,7 @@ class DataTable
         $colIndex = $this->getNumberOfColumns();
 
         if (in_array($type, $this->colCellTypes)) {
-            if (h::nonEmptyString($type)) {
+            if (Utils::nonEmptyString($type)) {
                 $descArray['type'] = $type;
             } else {
                 throw new InvalidConfigValue(
@@ -286,11 +286,11 @@ class DataTable
                 );
             }
 
-            if (h::nonEmptyString($label)) {
+            if (Utils::nonEmptyString($label)) {
                 $descArray['label'] = $label;
             }
 
-            if (h::nonEmptyString($id)) {
+            if (Utils::nonEmptyString($id)) {
                 $descArray['id'] = $id;
             }
 
@@ -301,7 +301,7 @@ class DataTable
             throw new InvalidConfigProperty(
                 __FUNCTION__,
                 'string',
-                h::arrayToPipedString($this->colCellTypes)
+                Utils::arrayToPipedString($this->colCellTypes)
             );
         }
 
@@ -394,7 +394,7 @@ class DataTable
             $this->rows[] = array('c' => $tmp);
         } else {
             if (is_array($optCellArray)) {
-                if (h::arrayIsMulti($optCellArray)) {
+                if (Utils::arrayIsMulti($optCellArray)) {
                     foreach ($optCellArray as $prop => $value) {
                         if (in_array($prop, $props)) {
                             $rowVals[] = array($prop => $value);
@@ -440,7 +440,7 @@ class DataTable
      */
     public function addRows($arrayOfRows)
     {
-        if (h::arrayIsMulti($arrayOfRows)) {
+        if (Utils::arrayIsMulti($arrayOfRows)) {
             foreach ($arrayOfRows as $row) {
                 $this->addRow($row);
             }

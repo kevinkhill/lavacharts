@@ -1,6 +1,6 @@
 <?php namespace Khill\Lavacharts\Traits;
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 trait AxisTitlesPosition
@@ -30,7 +30,7 @@ trait AxisTitlesPosition
                 $this->className,
                 __FUNCTION__,
                 'string',
-                'with a value of '.Helpers::arrayToPipedString($values)
+                'with a value of '.Utils::arrayToPipedString($values)
             );
         }
 

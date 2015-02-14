@@ -16,7 +16,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Stroke extends ConfigObject
@@ -85,7 +85,7 @@ class Stroke extends ConfigObject
      */
     public function strokeOpacity($so)
     {
-        if (Helpers::between(0.0, $so, 1.0, true)) {
+        if (Utils::between(0.0, $so, 1.0, true)) {
             $this->strokeOpacity = (float) $so;
         } else {
             throw new InvalidConfigValue(

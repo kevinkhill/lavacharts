@@ -242,7 +242,7 @@ class Lavacharts
                     throw new InvalidConfigProperty(
                         __METHOD__,
                         $option,
-                        Helpers::arrayToPipedString($this->validGlobals)
+                        Utils::arrayToPipedString($this->validGlobals)
                     );
                 }
             }

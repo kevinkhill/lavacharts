@@ -16,7 +16,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers as h;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
@@ -74,7 +74,7 @@ class ConfigObject
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'array',
-                'with valid keys as '.h::arrayToPipedString($this->options)
+                'with valid keys as '.Utils::arrayToPipedString($this->options)
             );
         }
     }

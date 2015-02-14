@@ -20,7 +20,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers;
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Configs\Annotation;
 use Khill\Lavacharts\Configs\HorizontalAxis;
 use Khill\Lavacharts\Configs\VerticalAxis;
@@ -78,7 +78,7 @@ class ComboChart extends Chart
      */
     public function areaOpacity($o)
     {
-        if (Helpers::between(0.0, $o, 1.0)) {
+        if (Utils::between(0.0, $o, 1.0)) {
             return $this->addOption(array(__FUNCTION__ => $o));
         } else {
             throw $this->invalidConfigValue(
@@ -113,7 +113,7 @@ class ComboChart extends Chart
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.Helpers::arrayToPipedString($v)
+                'with a value of '.Utils::arrayToPipedString($v)
             );
         }
     }
@@ -130,7 +130,7 @@ class ComboChart extends Chart
      */
     public function barGroupWidth($b)
     {
-        if (Helpers::isIntOrPercent($b)) {
+        if (Utils::isIntOrPercent($b)) {
             return $this->addOption(array(__FUNCTION__ => array('groupWidth' => $b)));
         } else {
             throw $this->invalidConfigValue(
@@ -186,7 +186,7 @@ class ComboChart extends Chart
      */
     public function series($a)
     {
-        if (Helpers::arrayValuesCheck($a, 'class', 'Series')) {
+        if (Utils::arrayValuesCheck($a, 'class', 'Series')) {
             return $this->addOption(array(__FUNCTION__ => $a));
         } else {
             throw $this->invalidConfigValue(
@@ -222,7 +222,7 @@ class ComboChart extends Chart
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.Helpers::arrayToPipedString($v)
+                'with a value of '.Utils::arrayToPipedString($v)
             );
         }
     }
@@ -244,7 +244,7 @@ class ComboChart extends Chart
      */
     public function vAxes($a)
     {
-        if (Helpers::arrayValuesCheck($a, 'class', 'VerticalAxis')) {
+        if (Utils::arrayValuesCheck($a, 'class', 'VerticalAxis')) {
             return $this->addOption(array(__FUNCTION__ => $a));
         } else {
             throw $this->invalidConfigValue(
