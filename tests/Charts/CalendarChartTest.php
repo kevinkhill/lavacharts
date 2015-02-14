@@ -208,4 +208,15 @@ class CalendarChartTest extends ProvidersTestCase
         $this->cc->forceIFrame($badTypes);
     }
 
+    public function testNoDataPattern()
+    {
+        $mockColor = m::mock('Khill\Lavacharts\Configs\Color');
+        $mockColor->shouldReceive('toArray')->once()->andReturn(array(
+            'color' => array()
+        ));
+
+        $this->cc->color($mockColor);
+
+        $this->assertTrue(is_array($this->cc->getOption('color')));
+    }
 }
