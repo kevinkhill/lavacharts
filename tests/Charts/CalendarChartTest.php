@@ -180,4 +180,16 @@ class CalendarChartTest extends ProvidersTestCase
         $this->assertTrue(is_array($this->cc->getOption('unusedMonthOutlineColor')));
     }
 
+    public function testColorAxis()
+    {
+        $mockColorAxis = m::mock('Khill\Lavacharts\Configs\ColorAxis');
+        $mockColorAxis->shouldReceive('toArray')->once()->andReturn(array(
+            'colorAxis' => array()
+        ));
+
+        $this->cc->colorAxis($mockColorAxis);
+
+        $this->assertTrue(is_array($this->cc->getOption('colorAxis')));
+    }
+
 }

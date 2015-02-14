@@ -20,6 +20,7 @@
 use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Configs\Stroke;
 use Khill\Lavacharts\Configs\TextStyle;
+use Khill\Lavacharts\Configs\ColorAxis;
 
 class CalendarChart extends Chart
 {
@@ -272,6 +273,20 @@ class CalendarChart extends Chart
     public function unusedMonthOutlineColor(Stroke $stroke)
     {
         $this->addOption($stroke->toArray(__FUNCTION__));
+
+        return $this;
+    }
+
+    /**
+     * An object that specifies a mapping between color column values and colors or a gradient scale.
+     *
+     * @param ColorAxis $colorAxis
+     *
+     * @return CalendarChart
+     */
+    public function colorAxis(ColorAxis $colorAxis)
+    {
+        $this->addOption($colorAxis->toArray(__FUNCTION__));
 
         return $this;
     }
