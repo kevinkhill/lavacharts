@@ -1,7 +1,7 @@
 <?php namespace Khill\Lavacharts\Configs;
 
 /**
- * ColorAxis Object
+ * Color Object
  *
  * Calendar charts use a striped diagonal pattern to indicate that there is no data for a particular day.
  * Use this object with backgroundColor and color options to override the grayscale defaults.
@@ -17,10 +17,9 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Helpers\Helpers as H;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class ColorAxis extends ConfigObject
+class Color extends ConfigObject
 {
     /**
      * Minimum value for chart color data.
@@ -37,12 +36,12 @@ class ColorAxis extends ConfigObject
     public $backgroundColor;
 
     /**
-     * Builds the ColorAxis object with specified options
+     * Builds the Color object with specified options
      *
      * @param  array                 $config
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
-     * @return ColorAxis
+     * @return Color
      */
     public function __construct($config = array())
     {
@@ -50,22 +49,21 @@ class ColorAxis extends ConfigObject
     }
 
     /**
-     * If present, specifies a minimum value for chart color data. Color data
-     * values of this value and lower will be rendered as the first color in
-     * the $this->colors range.
+     * Specifies the foreground color.
      *
-     * @param  numeric            $minValue
+     * @param  string             $fgColor
      * @throws InvalidConfigValue
-     * @return ColorAxis
+     *
+     * @return Color
      */
-    public function minValue($minValue)
+    public function color($fgColor)
     {
-        if (is_numeric($minValue)) {
-            $this->minValue = (int) $minValue;
+        if (is_string($fgColor)) {
+            $this->color = $fgColor;
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
-                'numeric'
+                'string'
             );
         }
 
@@ -73,78 +71,21 @@ class ColorAxis extends ConfigObject
     }
 
     /**
-     * If present, specifies a maximum value for chart color data. Color data
-     * values of this value and higher will be rendered as the last color in
-     * the $this->colors range.
+     * Specifies the background color.
      *
-     * @param  numeric            $maxValue
+     * @param  string             $bgColor
      * @throws InvalidConfigValue
-     * @return ColorAxis
+     *
+     * @return Color
      */
-    public function maxValue($maxValue)
+    public function backgroundColor($bgColor)
     {
-        if (is_numeric($maxValue)) {
-            $this->maxValue = (int) $maxValue;
+        if (is_string($bgColor)) {
+            $this->color = $bgColor;
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
-                'numeric'
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * If present, controls how values are associated with colors. Each value
-     * is associated with the corresponding color in the $this->colors array.
-     * These values apply to the chart color data.
-     *
-     * Coloring is done according to a gradient of the values specified here.
-     * Not specifying a value for this option is equivalent to specifying
-     * [minValue, maxValue].
-     *
-     * @param  array              $values
-     * @throws InvalidConfigValue
-     * @return ColorAxis
-     */
-    public function values($values)
-    {
-        if (is_array($values) && H::arrayValuesCheck($values, 'numeric')) {
-            $this->values = $values;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'array',
-                'with values as [ int | float ]'
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Colors to assign to values in the visualization. An array of strings,
-     * where each element is an HTML color string.
-     *
-     * For example: $this->colors = array('red', '#004411')
-     * You must have at least two values; the gradient will include all your
-     * values, plus calculated intermediary values, with the first color as the
-     * smallest value, and the last color as the highest.
-     *
-     * @param  array              $colors
-     * @throws InvalidConfigValue
-     * @return ColorAxis
-     */
-    public function colors($colors)
-    {
-        if (is_array($colors) && H::arrayValuesCheck($colors, 'string') && count($colors) > 1) {
-            $this->colors = $colors;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'array',
-                'minimum of two, with values as html color strings'
+                'string'
             );
         }
 

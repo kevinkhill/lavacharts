@@ -21,6 +21,7 @@ use Khill\Lavacharts\Helpers\Helpers;
 use Khill\Lavacharts\Configs\Stroke;
 use Khill\Lavacharts\Configs\TextStyle;
 use Khill\Lavacharts\Configs\ColorAxis;
+use Khill\Lavacharts\Configs\Color;
 
 class CalendarChart extends Chart
 {
@@ -42,7 +43,10 @@ class CalendarChart extends Chart
                 'monthLabel',
                 'monthOutlineColor',
                 'underMonthSpace',
-                'underYearSpace'
+                'underYearSpace',
+                'colorAxis',
+                'forceIFrame',
+                'noDataPattern'
             )
         );
     }
@@ -300,6 +304,20 @@ class CalendarChart extends Chart
                 'bool'
             );
         }
+    }
+
+    /**
+     * An object that specifies a mapping between color column values and colors or a gradient scale.
+     *
+     * @param Color $color
+     *
+     * @return CalendarChart
+     */
+    public function noDataPattern(Color $color)
+    {
+        $this->addOption(array(__FUNCTION__ => $color->getValues()));
+
+        return $this;
     }
 
 }

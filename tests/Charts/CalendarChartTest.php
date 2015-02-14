@@ -203,7 +203,7 @@ class CalendarChartTest extends ProvidersTestCase
      * @dataProvider nonBoolProvider
      * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function testtestForceIFrame($badTypes)
+    public function testForceIFrameWithBadType($badTypes)
     {
         $this->cc->forceIFrame($badTypes);
     }
@@ -211,12 +211,10 @@ class CalendarChartTest extends ProvidersTestCase
     public function testNoDataPattern()
     {
         $mockColor = m::mock('Khill\Lavacharts\Configs\Color');
-        $mockColor->shouldReceive('toArray')->once()->andReturn(array(
-            'color' => array()
-        ));
+        $mockColor->shouldReceive('getValues')->once()->andReturn(array());
 
-        $this->cc->color($mockColor);
+        $this->cc->noDataPattern($mockColor);
 
-        $this->assertTrue(is_array($this->cc->getOption('color')));
+        $this->assertTrue(is_array($this->cc->getOption('noDataPattern')));
     }
 }
