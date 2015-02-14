@@ -17,9 +17,6 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
-
 class MouseOver extends Event
 {
     const TYPE = 'onmouseover';
