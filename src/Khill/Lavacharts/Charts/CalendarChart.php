@@ -55,6 +55,8 @@ class CalendarChart extends Chart
      */
     protected function addOption($o)
     {
+        parent::addOption(array('calendar' => $o));
+        /*
         if (is_array($o)) {
             $this->options['calendar'] = array_merge($this->options, $o);
         } else {
@@ -65,6 +67,7 @@ class CalendarChart extends Chart
         }
 
         return $this;
+        */
     }
 
     /**
