@@ -1,8 +1,10 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Configs\Annotation;
+use \Mockery as m;
 
-class AnnotationTest extends \PHPUnit_Framework_TestCase
+class AnnotationTest extends ProvidersTestCase
 {
     public function setUp()
     {
@@ -42,23 +44,13 @@ class AnnotationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider nonBoolProvider
      * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @dataProvider badParamsProvider1
      */
     public function testHighContrastWithBadParams($badVals)
     {
         $this->a->highContrast($badVals);
     }
-
-    /**
-     * @expectedException \PHPUnit_Framework_Error
-     * @dataProvider badParamsProvider2
-     */
-    public function testTextStyleWithBadParams($badVals)
-    {
-        $this->a->textStyle($badVals);
-    }
-
 
     public function badParamsProvider1()
     {
