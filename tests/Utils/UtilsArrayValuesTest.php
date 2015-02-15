@@ -1,9 +1,9 @@
-<?php namespace Khill\Lavacharts\Tests\Helpers;
+<?php namespace Khill\Lavacharts\Tests\Utilss;
 
 use \Mockery as m;
 use \Khill\Lavacharts\Utils;
 
-class HelperTest extends \PHPUnit_Framework_TestCase
+class UtilsTest extends \PHPUnit_Framework_TestCase
 {
     public function testArrayValuesCheckWithStrings()
     {

@@ -1,9 +1,9 @@
-<?php namespace Khill\Lavacharts\Tests\Helpers;
+<?php namespace Khill\Lavacharts\Tests\Utilss;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Configs as c;
 
-class HelperAliasTest extends \PHPUnit_Framework_TestCase
+class UtilsAliasTest extends \PHPUnit_Framework_TestCase
 {
     public function testAliasedIsDataTable()
     {
@@ -101,18 +101,8 @@ class HelperAliasTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(Utils::isVerticalAxis(new \stdClass));
     }
 
-    public function testBadAliasWithObject()
+    public function testBadAliasCall()
     {
-        $this->assertFalse(Utils::isTacos(new \stdClass));
-    }
-
-    public function testBadAliasWithNonObject()
-    {
-        $this->assertFalse(Utils::isTacos( array() ));
-    }
-
-    public function testNonExistentAliasWithNonObject()
-    {
-        $this->assertFalse(Utils::isTacos( 'hi' ));
+        $this->assertFalse(Utils::canHasTacos(new \stdClass));
     }
 }

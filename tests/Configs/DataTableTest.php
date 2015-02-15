@@ -1,9 +1,10 @@
 <?php namespace Khill\Lavacharts\Tests\Configs;
 
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Configs\DataTable;
 use \Carbon\Carbon;
 
-class DataTableTest extends \PHPUnit_Framework_TestCase
+class DataTableTest extends ProvidersTestCase
 {
     public function setUp()
     {
@@ -11,7 +12,7 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
 
         $this->dt = new DataTable;
     }
-    
+
     public function testGetColumns()
     {
         $this->dt->addColumn('date', 'Test1');
@@ -254,6 +255,27 @@ class DataTableTest extends \PHPUnit_Framework_TestCase
         $this->dt->addColumn('date');
         $this->dt->addColumn('number');
         $this->dt->addRow(array(Carbon::parse('March 24th, 1988'), 12345, 67890));
+    }
+
+    /**
+     * @depends testAddColumnWithTypeAndDescription
+     * @dataProvider nonCarbonOrDateOrEmptyArrayProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidDate
+     */
+    public function testAddingRowWithBadDateType($badDate)
+    {
+        $this->dt->addColumn('date');
+        $this->dt->addRow(array($badDate));
+    }
+
+    /**
+     * @depends testAddColumnWithTypeAndDescription
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidRowProperty
+     */
+    public function testAddingRowWithEmptyArray()
+    {
+        $this->dt->addColumn('date');
+        $this->dt->addRow(array(array()));
     }
 
     /*

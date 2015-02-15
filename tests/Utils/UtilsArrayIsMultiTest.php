@@ -1,23 +1,27 @@
-<?php namespace Khill\Lavacharts\Tests\Helpers;
+<?php namespace Khill\Lavacharts\Tests\Utilss;
 
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Utils;
 
-class HelperArrayIsMultiTest extends \PHPUnit_Framework_TestCase
+class UtilsArrayIsMultiTest extends ProvidersTestCase
 {
     public function testArrayIsMultiWithMultiArray()
     {
-        $multiArray = array( array('test1'), array('test2') );
+        $multiArray = array(array('test1'), array('test2'));
 
-        $this->assertTrue(Utils::arrayIsMulti( $multiArray ) );
+        $this->assertTrue(Utils::arrayIsMulti($multiArray));
     }
 
     public function testArrayIsMultiWithNonMultiArray()
     {
-        $this->assertFalse(Utils::arrayIsMulti( array('test1') ) );
+        $this->assertFalse(Utils::arrayIsMulti(array('test1')));
     }
 
-    public function testArrayIsMultiWithNonArray()
+    /**
+     * @dataProvider nonArrayProvider
+     */
+    public function testArrayIsMultiWithNonArray($notArray)
     {
-        $this->assertFalse(Utils::arrayIsMulti( 'test1' ) );
+        $this->assertFalse(Utils::arrayIsMulti($notArray));
     }
 }

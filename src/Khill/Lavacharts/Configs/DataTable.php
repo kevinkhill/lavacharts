@@ -24,18 +24,17 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-//@TODO add method for setting timezone for Carbon;
-
 use Carbon\Carbon;
 use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Formats\Format;
 use Khill\Lavacharts\Exceptions\InvalidDate;
+use Khill\Lavacharts\Exceptions\InvalidCellCount;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 use Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
 use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use Khill\Lavacharts\Exceptions\InvalidRowDefinition;
-use Khill\Lavacharts\Exceptions\InvalidCellCount;
+use Khill\Lavacharts\Exceptions\InvalidRowProperty;
 
 class DataTable
 {
@@ -399,7 +398,7 @@ class DataTable
                         if (in_array($prop, $props)) {
                             $rowVals[] = array($prop => $value);
                         } else {
-                            throw new \Exception('Invalid row property, array with keys type (string) with values [ v | f | p ] ');
+                            throw new InvalidRowProperty;
                         }
                     }
 
@@ -453,57 +452,6 @@ class DataTable
 
         return $this;
     }
-/*
-    public function getColumnId($columnIndex)
-    {
-
-    }
-
-    public function getColumnLabel($columnIndex)
-    {
-
-    }
-
-    public function getColumnPattern($columnIndex)
-    {
-
-    }
-
-    public function getColumnProperty($columnIndex, $name)
-    {
-
-    }
-
-    public function getColumnRange($columnIndex)
-    {
-
-    }
-
-    public function getColumnRole($columnIndex)
-    {
-
-    }
-
-    public function getColumnType($columnIndex)
-    {
-
-    }
-
-    public function getDistinctValues($columnIndex)
-    {
-
-    }
-
-    public function getFilteredRows($filters)
-    {
-
-    }
-
-    public function getFormattedValue($rowIndex, $columnIndex)
-    {
-
-    }
-*/
 
     /**
      * Returns the number of columns in the DataTable
@@ -524,142 +472,6 @@ class DataTable
     {
         return count($this->rows);
     }
-/*
-    public function getProperties($rowIndex, $columnIndex)
-    {
-
-    }
-
-    public function getProperty($rowIndex, $columnIndex, $name)
-    {
-
-    }
-
-    public function getRowProperties($rowIndex)
-    {
-
-    }
-
-    public function getRowProperty($rowIndex, $name)
-    {
-
-    }
-
-    public function getSortedRows($sortColumns)
-    {
-
-    }
-
-    public function getTableProperties()
-    {
-
-    }
-
-    public function getTableProperty($name)
-    {
-
-    }
-
-    public function getValue($rowIndex, $columnIndex)
-    {
-
-    }
-
-    public function insertColumn($columnIndex, $type, $label='', $id='')
-    {
-
-    }
-
-    public function insertRows($rowIndex, $numberOrArray)
-    {
-
-    }
-
-    public function removeColumn($columnIndex)
-    {
-
-    }
-
-    public function removeColumns($columnIndex, $numberOfColumns)
-    {
-
-    }
-
-    public function removeRow($rowIndex)
-    {
-
-    }
-
-    public function removeRows($rowIndex, $numberOfRows)
-    {
-
-    }
-
-    public function setCell($rowIndex, $columnIndex, $value='', $formattedValue='', $properties='')
-    {
-
-    }
-
-    public function setColumnLabel($columnIndex, $label)
-    {
-
-    }
-
-    public function setColumnProperty($columnIndex, $name, $value)
-    {
-
-    }
-
-    public function setColumnProperties($columnIndex, $properties)
-    {
-
-    }
-
-    public function setFormattedValue($rowIndex, $columnIndex, $formattedValue)
-    {
-
-    }
-
-    public function setProperty($rowIndex, $columnIndex, $name, $value)
-    {
-
-    }
-
-    public function setProperties($rowIndex, $columnIndex, $properties)
-    {
-
-    }
-
-    public function setRowProperty($rowIndex, $name, $value)
-    {
-
-    }
-
-    public function setRowProperties($rowIndex, $properties)
-    {
-
-    }
-
-    public function setTableProperty($name, $value)
-    {
-
-    }
-
-    public function setTableProperties($properties)
-    {
-
-    }
-
-    public function setValue($rowIndex, $columnIndex, $value)
-    {
-
-    }
-
-    public function sort($sortColumns)
-    {
-
-    }
-*/
 
     /**
      * Returns the column array from the DataTable
@@ -721,20 +533,25 @@ class DataTable
     /**
      * Either passes the Carbon instance or parses a datetime string.
      *
+     * @param  Carbon|string $date
      * @return string Javscript date declaration
      */
     private function parseDate($date)
     {
         if (is_a($date, 'Carbon\Carbon')) {
             $carbonDate = $date;
-        } elseif (is_string($date)) {
-            if (! is_null($this->dateTimeFormat)) {
-                $carbonDate = Carbon::createFromFormat($this->dateTimeFormat, $date);
-            } else {
-                $carbonDate = Carbon::parse($date);
+        } elseif (Utils::nonEmptyString($date)) {
+            try {
+                if (Utils::nonEmptyString($this->dateTimeFormat)) {
+                    $carbonDate = Carbon::createFromFormat($this->dateTimeFormat, $date);
+                } else {
+                    $carbonDate = Carbon::parse($date);
+                }
+            } catch (\Exception $e) {
+                throw new InvalidDate;
             }
         } else {
-            throw new InvalidDate($date);
+            throw new InvalidDate;
         }
 
         return $this->carbonToJsString($carbonDate);

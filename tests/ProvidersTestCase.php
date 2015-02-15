@@ -7,6 +7,18 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         parent::setUp();
     }
 
+    public function nonCarbonOrDateOrEmptyArrayProvider()
+    {
+        return array(
+            array('cheese'),
+            array(9),
+            array(1.2),
+            array(true),
+            array(false),
+            array(new \stdClass())
+        );
+    }
+
     public function nonConfigObjectProvider()
     {
         return array(

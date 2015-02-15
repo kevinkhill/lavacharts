@@ -1,8 +1,8 @@
-<?php namespace Khill\Lavacharts\Tests\Helpers;
+<?php namespace Khill\Lavacharts\Tests\Utilss;
 
 use \Khill\Lavacharts\Utils;
 
-class HelperIsIntOrPercentTest extends \PHPUnit_Framework_TestCase
+class UtilsIsIntOrPercentTest extends \PHPUnit_Framework_TestCase
 {
     public function testIntOrPercentWithInt()
     {

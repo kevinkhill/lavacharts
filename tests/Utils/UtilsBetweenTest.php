@@ -1,8 +1,8 @@
-<?php namespace Khill\Lavacharts\Tests\Helpers;
+<?php namespace Khill\Lavacharts\Tests\Utilss;
 
 use \Khill\Lavacharts\Utils;
 
-class HelperBetweenTest extends \PHPUnit_Framework_TestCase
+class UtilsBetweenTest extends \PHPUnit_Framework_TestCase
 {
     public function testBetweenWithIntsInRange()
     {
