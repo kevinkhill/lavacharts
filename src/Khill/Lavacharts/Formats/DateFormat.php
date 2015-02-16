@@ -9,7 +9,7 @@
  * @see        https://developers.google.com/chart/interactive/docs/reference#dateformatter
  *
  * @package    Lavacharts
- * @subpackage Formatters
+ * @subpackage Formats
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
@@ -83,7 +83,7 @@ class DateFormat extends Format
             'long'
         );
 
-        if (is_string($ft) && in_array($ft, $values)) {
+        if (Utils::nonEmptyStringInArray($ft, $values)) {
             $this->formatType = $ft;
         } else {
             throw new InvalidConfigValue(
@@ -132,7 +132,7 @@ class DateFormat extends Format
      * the value displayed would be 12 noon.
      *
      *
-     * @param  array              $tz
+     * @param  string              $tz
      * @throws InvalidConfigValue
      * @return DateFormat
      */

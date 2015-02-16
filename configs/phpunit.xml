@@ -29,6 +29,7 @@
   </filter>
 
   <listeners>
-      <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
+    <listener class="\MyBuilder\PhpunitAccelerator\TestListener"/>
+    <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
   </listeners>
 </phpunit>

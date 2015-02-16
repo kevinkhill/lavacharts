@@ -190,13 +190,30 @@ class Utils
     /**
      * Checks if variable is a non-empty string
      *
-     * @param  $var
+     * @param  string $var
      *
      * @return bool
      */
     public static function nonEmptyString($var)
     {
         if (is_string($var) && ! empty($var)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if variable is a non-empty string within an array of values
+     *
+     * @param  string $var
+     * @param  array  $arr
+     *
+     * @return bool
+     */
+    public static function nonEmptyStringInArray($var, $arr)
+    {
+        if ( (is_string($var) && ! empty($var)) && in_array($var, $arr)) {
             return true;
         } else {
             return false;

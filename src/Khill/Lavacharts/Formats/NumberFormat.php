@@ -9,7 +9,7 @@
  * @see https://developers.google.com/chart/interactive/docs/reference#numberformatter
  *
  * @package    Lavacharts
- * @subpackage Formatters
+ * @subpackage Formats
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page

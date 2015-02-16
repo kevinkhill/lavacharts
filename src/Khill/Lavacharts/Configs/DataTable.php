@@ -395,7 +395,7 @@ class DataTable
             if (is_array($optCellArray)) {
                 if (Utils::arrayIsMulti($optCellArray)) {
                     foreach ($optCellArray as $prop => $value) {
-                        if (in_array($prop, $props)) {
+                        if (in_array($value, $props)) {
                             $rowVals[] = array($prop => $value);
                         } else {
                             throw new InvalidRowProperty;
