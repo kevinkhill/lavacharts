@@ -2,7 +2,9 @@
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Configs\DataTable;
+use \Khill\Lavacharts\Format\DateFormat;
 use \Carbon\Carbon;
+use \Mockery as m;
 
 class DataTableTest extends ProvidersTestCase
 {
@@ -278,15 +280,28 @@ class DataTableTest extends ProvidersTestCase
         $this->dt->addRow(array(array()));
     }
 
-    /*
-     * @depends testAddColumnWithTypeAndDescription
-     *
-    public function testAddDateColumnWithShortSyntax()
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidColumnDefinition
+     */
+    public function testAddBadColumnsFromArray()
     {
-        $this->dt->addDateCol();
-        $this->dt->addColumn('number');
-        $this->dt->addRow(array(Carbon::parse('March 24th, 1988'), 12345, 67890));
-    }*/
+        $this->dt->addColumn(array(
+            array(5, 'falcons'),
+            array(false, 'tacos')
+        ));
+    }
+
+    /**
+     * @depends testAddColumnWithTypeAndDescription
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidColumnIndex
+     */
+    public function testAddBadColumnFromat()
+    {
+        $mockDateFormat = m::mock('Khill\Lavacharts\Formats\DateFormat');
+
+        $this->dt->addColumn('date');
+        $this->dt->formatColumn('grizzly', $mockDateFormat);
+    }
 }
 
 //dataProvider
