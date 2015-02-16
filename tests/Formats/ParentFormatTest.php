@@ -19,6 +19,23 @@ class ParentFormatTest extends ProvidersTestCase
         $this->dateFormat = new DateFormat($this->options);
     }
 
+    /**
+     * @dataProvider nonArrayProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testConstructorWithBadTypes($badTypes)
+    {
+        new DateFormat($badTypes);
+    }
+
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     */
+    public function testConstructorWithBadOption()
+    {
+        new DateFormat(array('baked'=>'beans'));
+    }
+
     public function testGetValues()
     {
         $this->assertEquals($this->options, $this->dateFormat->getValues());
