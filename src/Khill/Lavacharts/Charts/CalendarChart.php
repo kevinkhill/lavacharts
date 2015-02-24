@@ -166,7 +166,7 @@ class CalendarChart extends Chart
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'int'
+                'string'
             );
         }
 
