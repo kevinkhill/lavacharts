@@ -22,16 +22,16 @@ use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class Color extends ConfigObject
 {
     /**
-     * Minimum value for chart color data.
+     * Foreground color.
      *
-     * @var int
+     * @var string
      */
     public $color;
 
     /**
-     * Maximum value for chart color data.
+     * Background color.
      *
-     * @var int
+     * @var string
      */
     public $backgroundColor;
 
