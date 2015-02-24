@@ -24,7 +24,7 @@ class Stroke extends ConfigObject
     /**
      * Color to assign the stroke.
      *
-     * @var array
+     * @var string
      */
     public $stroke;
 
