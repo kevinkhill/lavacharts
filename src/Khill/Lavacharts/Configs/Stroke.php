@@ -31,7 +31,7 @@ class Stroke extends ConfigObject
     /**
      * Opacity of the stroke.
      *
-     * @var int
+     * @var float
      */
     public $strokeOpacity;
 
