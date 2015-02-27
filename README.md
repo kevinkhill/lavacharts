@@ -11,15 +11,15 @@ Lavacharts is a graphing / chart library for PHP5.3+ that wraps the Google Chart
 [![PayPayl](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ)
 
 
-Version 2 is Here!
+Version 2 Features
 ==================
-Some new features include:
 - Blade template extensions for laravel
 - A new "lava" javascript api
 - Javascript event integration
 - Datatable addColumn aliases
 - Datatable column formatters
-- Carbon support in favor of my old homebrewed jsDate class
+- Carbon support for date columns
+- Supported Charts: Area, Calendar, Column, Combo, Donut, Geo, Line, Pie
 
 ###Complete documentation with examples, and the api can be found at [Lavacharts.com](http://lavacharts.com/)
 
@@ -29,7 +29,7 @@ Installing
 In your project's main ```composer.json``` file, add this line to the requirements:
 
   ```
-  "khill/lavacharts": "2.0.*"
+  "khill/lavacharts": "2.1.*"
   ```
 
 Run Composer to install Lavacharts:
