@@ -1,14 +1,18 @@
-Lavacharts
-==========
+# Lavacharts [![Total Downloads](https://poser.pugx.org/khill/lavacharts/downloads.svg)](https://packagist.org/packages/khill/lavacharts) [![License](https://img.shields.io/packagist/l/khill/lavacharts.svg?style=plastic)](https://packagist.org/packages/khill/lavacharts) [![PayPayl](https://img.shields.io/badge/paypal-donate-yellow.svg?style=plastic)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ)
 
-Lavacharts is a graphing / chart library for PHP5.3+ that wraps the Google Chart API
+Lavacharts is a graphing / chart library for PHP5.3+ that wraps the Google Chart API  
 
 
-[![Build Status](https://travis-ci.org/kevinkhill/lavacharts.png?branch=2.0)](https://travis-ci.org/kevinkhill/lavacharts)
-[![Coverage Status](https://coveralls.io/repos/kevinkhill/lavacharts/badge.png?branch=2.0)](https://coveralls.io/r/kevinkhill/lavacharts?branch=2.0)
-[![Total Downloads](https://poser.pugx.org/khill/lavacharts/downloads.svg)](https://packagist.org/packages/khill/lavacharts)
-[![License](https://poser.pugx.org/khill/lavacharts/license.svg)](https://packagist.org/packages/khill/lavacharts)
-[![PayPayl](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ)
+Stable:  
+[![Current Release](https://img.shields.io/github/release/kevinkhill/lavacharts.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/releases)
+[![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/2.1.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
+[![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/2.1.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=2.1)
+
+
+Dev:  
+![Masater Branch](https://img.shields.io/badge/branch-dev--master-brightgreen.svg?style=plastic)
+[![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/master.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
+[![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/master.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=master)
 
 
 Version 2 Features
@@ -144,13 +148,27 @@ Replace all of the ```Lava::``` aliases in the examples, by chaining from the La
 Use ```$dt = $lava->DataTable();``` instead of ```$dt = Lava::DataTable();```
 
 
-Like My Work?
-=============
-Feel like buying me a coffee? [Any amount donated to is greatly apprecieated :)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ)
-
-
 Changelog
 ---------
+ - 2.1
+   - Calendar Chart support
+
+ - 2.0.5
+   - Updated Carbon
+   - Laravel 5 compatability
+
+ - 2.0.4
+   - Multiple chart bug fixes
+
+ - 2.0.3
+   - Fixing event bugs
+
+ - 2.0.2
+   - Responsive charts
+
+ - 2.0.1
+   - Multiple chart support
+
  - 2.0.0
    - Its Here!
 
