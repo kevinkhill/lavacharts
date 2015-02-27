@@ -293,7 +293,7 @@ class CalendarChart extends Chart
      */
     public function colorAxis(ColorAxis $colorAxis)
     {
-        $this->addCalendarOption($colorAxis->toArray(__FUNCTION__));
+        $this->addOption($colorAxis->toArray(__FUNCTION__));
 
         return $this;
     }
@@ -327,7 +327,7 @@ class CalendarChart extends Chart
      */
     public function noDataPattern(Color $color)
     {
-        $this->addCalendarOption(array(__FUNCTION__ => $color->getValues()));
+        $this->addOption(array(__FUNCTION__ => $color->getValues()));
 
         return $this;
     }

@@ -65,6 +65,7 @@ class Lavacharts
         'BoxStyle',
         'BackgroundColor',
         'ChartArea',
+        'Color',
         'ColorAxis',
         'HorizontalAxis',
         'Gradient',

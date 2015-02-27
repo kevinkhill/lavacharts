@@ -81,7 +81,7 @@ class Color extends ConfigObject
     public function backgroundColor($bgColor)
     {
         if (is_string($bgColor)) {
-            $this->color = $bgColor;
+            $this->backgroundColor = $bgColor;
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
