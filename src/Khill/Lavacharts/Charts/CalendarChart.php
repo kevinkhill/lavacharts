@@ -86,11 +86,17 @@ class CalendarChart extends Chart
     {
         if (is_string($o) && array_key_exists($o, $this->options['calendar'])) {
             return $this->options['calendar'][$o];
+        } else if (is_string($o) && array_key_exists($o, $this->options)) {
+            return $this->options[$o];
         } else {
+            $calendarOptions = $this->options['calendar'];
+            $nonCalendarOptions = array_diff($this->options, $calendarOptions);
+            $options = array_merge($calendarOptions, $nonCalendarOptions);
+
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'must be one of '.Utils::arrayToPipedString(array_keys($this->options['calendar']))
+                'must be one of '.Utils::arrayToPipedString(array_keys($options))
             );
         }
     }
