@@ -56,12 +56,11 @@ class CalendarChart extends Chart
     }
 
     /**
-     * Overriding addOption function for wrapping all options into the calendar config option.
-     * (Thanks google)
+     * Tweaking addOption function for wrapping all options into the calendar config option.
      *
      * @param array $option Array of config options
      */
-    protected function addOption($o)
+    protected function addCalendarOption($o)
     {
         if (is_array($o)) {
             $this->options['calendar'] = array_merge($this->options['calendar'], $o);
@@ -105,7 +104,7 @@ class CalendarChart extends Chart
      */
     public function cellColor(Stroke $stroke)
     {
-        $this->addOption($stroke->toArray(__FUNCTION__));
+        $this->addCalendarOption($stroke->toArray(__FUNCTION__));
 
         return $this;
     }
@@ -120,7 +119,7 @@ class CalendarChart extends Chart
     public function cellSize($cellSize)
     {
         if (is_int($cellSize)) {
-            $this->addOption(array(__FUNCTION__ => $cellSize));
+            $this->addCalendarOption(array(__FUNCTION__ => $cellSize));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -140,7 +139,7 @@ class CalendarChart extends Chart
      */
     public function dayOfWeekLabel(TextStyle $label)
     {
-        $this->addOption($label->toArray(__FUNCTION__));
+        $this->addCalendarOption($label->toArray(__FUNCTION__));
     }
 
     /**
@@ -154,7 +153,7 @@ class CalendarChart extends Chart
     public function dayOfWeekRightSpace($space)
     {
         if (is_int($space)) {
-            $this->addOption(array(__FUNCTION__ => $space));
+            $this->addCalendarOption(array(__FUNCTION__ => $space));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -175,7 +174,7 @@ class CalendarChart extends Chart
     public function daysOfWeek($days)
     {
         if (is_string($days)) {
-            $this->addOption(array(__FUNCTION__ => $days));
+            $this->addCalendarOption(array(__FUNCTION__ => $days));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -196,7 +195,7 @@ class CalendarChart extends Chart
      */
     public function focusedCellColor(Stroke $stroke)
     {
-        $this->addOption($stroke->toArray(__FUNCTION__));
+        $this->addCalendarOption($stroke->toArray(__FUNCTION__));
 
         return $this;
     }
@@ -210,7 +209,7 @@ class CalendarChart extends Chart
      */
     public function monthLabel(TextStyle $label)
     {
-        $this->addOption($label->toArray(__FUNCTION__));
+        $this->addCalendarOption($label->toArray(__FUNCTION__));
     }
 
     /**
@@ -222,7 +221,7 @@ class CalendarChart extends Chart
      */
     public function monthOutlineColor(Stroke $stroke)
     {
-        $this->addOption($stroke->toArray(__FUNCTION__));
+        $this->addCalendarOption($stroke->toArray(__FUNCTION__));
 
         return $this;
     }
@@ -238,7 +237,7 @@ class CalendarChart extends Chart
     public function underMonthSpace($space)
     {
         if (is_int($space)) {
-            $this->addOption(array(__FUNCTION__ => $space));
+            $this->addCalendarOption(array(__FUNCTION__ => $space));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -260,7 +259,7 @@ class CalendarChart extends Chart
     public function underYearSpace($space)
     {
         if (is_int($space)) {
-            $this->addOption(array(__FUNCTION__ => $space));
+            $this->addCalendarOption(array(__FUNCTION__ => $space));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -280,7 +279,7 @@ class CalendarChart extends Chart
      */
     public function unusedMonthOutlineColor(Stroke $stroke)
     {
-        $this->addOption($stroke->toArray(__FUNCTION__));
+        $this->addCalendarOption($stroke->toArray(__FUNCTION__));
 
         return $this;
     }
@@ -294,7 +293,7 @@ class CalendarChart extends Chart
      */
     public function colorAxis(ColorAxis $colorAxis)
     {
-        $this->addOption($colorAxis->toArray(__FUNCTION__));
+        $this->addCalendarOption($colorAxis->toArray(__FUNCTION__));
 
         return $this;
     }
@@ -310,7 +309,7 @@ class CalendarChart extends Chart
     public function forceIFrame($iframe)
     {
         if (is_bool($iframe)) {
-            $this->addOption(array(__FUNCTION__ => $iframe));
+            $this->addCalendarOption(array(__FUNCTION__ => $iframe));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -328,7 +327,7 @@ class CalendarChart extends Chart
      */
     public function noDataPattern(Color $color)
     {
-        $this->addOption(array(__FUNCTION__ => $color->getValues()));
+        $this->addCalendarOption(array(__FUNCTION__ => $color->getValues()));
 
         return $this;
     }
