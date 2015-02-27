@@ -30,5 +30,10 @@
     "autoload-dev": {
         "psr-4": { "Khill\\Lavacharts\\Tests\\": "tests/" }
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.2-dev"
+        }
+    },
     "minimum-stability": "stable"
 }
