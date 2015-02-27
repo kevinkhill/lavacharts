@@ -3,8 +3,9 @@
 /**
  * CalendarChart Class
  *
- * Alias for a pie chart with pieHolethat is rendered within the browser using SVG or VML. Displays
- * tooltips when hovering over slices.
+ * A calendar chart is a visualization used to show activity over the course of a long span of time,
+ * such as months or years. They're best used when you want to illustrate how some quantity varies
+ * depending on the day of the week, or how it trends over time.
  *
  *
  * @package    Lavacharts
