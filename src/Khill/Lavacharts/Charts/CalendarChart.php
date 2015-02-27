@@ -32,6 +32,8 @@ class CalendarChart extends Chart
     {
         parent::__construct($chartLabel);
 
+        $this->options = array('calendar' => array());
+
         $this->defaults = array_merge(
             $this->defaults,
             array(
@@ -61,7 +63,16 @@ class CalendarChart extends Chart
      */
     protected function addOption($o)
     {
-        parent::addOption(array('calendar' => $o));
+        if (is_array($o)) {
+            $this->options['calendar'] = array_merge($this->options['calendar'], $o);
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'array'
+            );
+        }
+
+        return $this;
     }
 
     /**
