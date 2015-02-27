@@ -44,6 +44,7 @@ class CalendarChart extends Chart
                 'monthOutlineColor',
                 'underMonthSpace',
                 'underYearSpace',
+                'unusedMonthOutlineColor',
                 'colorAxis',
                 'forceIFrame',
                 'noDataPattern'
