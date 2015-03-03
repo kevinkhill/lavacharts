@@ -264,9 +264,9 @@ class JavascriptFactory
                 $package['version'] = '1.1';
                 break;
 
-            case 'GuageChart':
-                $package['type']    = 'guage';
-                $package['jsObj']   = $this->chart->type;
+            case 'GaugeChart':
+                $package['type']    = 'gauge';
+                $package['jsObj']   = 'Gauge';
                 $package['version'] = '1';
                 break;
 

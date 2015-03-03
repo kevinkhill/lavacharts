@@ -14,7 +14,7 @@ $charts = array(
     'DonutChart',
     'GeoChart',
     'CalendarChart',
-    'GuageChart'
+    'GaugeChart'
 );
 
 foreach ($charts as $chart)

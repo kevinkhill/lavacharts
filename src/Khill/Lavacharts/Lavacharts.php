@@ -51,7 +51,7 @@ class Lavacharts
         'LineChart',
         'PieChart',
         'CalendarChart',
-        'GuageChart'
+        'GaugeChart'
     );
 
     /**

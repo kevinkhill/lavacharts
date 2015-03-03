@@ -1,16 +1,14 @@
 <?php namespace Khill\Lavacharts\Charts;
 
 /**
- * GuageChart Class
+ * GaugeChart Class
  *
- * A calendar chart is a visualization used to show activity over the course of a long span of time,
- * such as months or years. They're best used when you want to illustrate how some quantity varies
- * depending on the day of the week, or how it trends over time.
+ * A gauge with a dial, rendered within the browser using SVG or VML.
  *
  *
  * @package    Lavacharts
  * @subpackage Charts
- * @since      v2.1.0
+ * @since      v2.2.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
@@ -20,9 +18,9 @@
 
 use Khill\Lavacharts\Utils;
 
-class GuageChart extends Chart
+class GaugeChart extends Chart
 {
-    public $type = 'GuageChart';
+    public $type = 'GaugeChart';
 
     public function __construct($chartLabel)
     {
@@ -56,7 +54,7 @@ class GuageChart extends Chart
      *
      * @param bool $iframe
      *
-     * @return GuageChart
+     * @return GaugeChart
      */
     public function forceIFrame($iframe)
     {
@@ -71,11 +69,11 @@ class GuageChart extends Chart
     }
 
     /**
-     *
+     * The color to use for the green section, in HTML color notation.
      *
      * @param  string $c
      *
-     * @return GuageChart
+     * @return GaugeChart
      */
     public function greenColor($c)
     {
@@ -90,11 +88,11 @@ class GuageChart extends Chart
     }
 
     /**
-     *
+     * The lowest value for a range marked by a green color.
      *
      * @param  int $
      *
-     * @return GuageChart
+     * @return GaugeChart
      */
     public function greenFrom($gf)
     {
@@ -109,11 +107,11 @@ class GuageChart extends Chart
     }
 
     /**
-     *
+     * The highest value for a range marked by a green color.
      *
      * @param  int $gt
      *
-     * @return GuageChart
+     * @return GaugeChart
      */
     public function greenTo($gt)
     {
@@ -128,11 +126,12 @@ class GuageChart extends Chart
     }
 
     /**
-     *
+     * Labels for major tick marks. The number of labels define the number of major ticks in all gauges.
+     * The default is five major ticks, with the labels of the minimal and maximal gauge value.
      *
      * @param  array $mt
      *
-     * @return GuageChart
+     * @return GaugeChart
      */
     public function majorTicks($mt)
     {
@@ -147,30 +146,11 @@ class GuageChart extends Chart
     }
 
     /**
-     *
-     *
-     * @param  int $m
-     *
-     * @return GuageChart
-     */
-    public function min($m)
-    {
-        if (is_int($m)) {
-            return $this->addOption(array(__FUNCTION__ => $m));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-    }
-
-    /**
-     *
+     * The maximal value of a gauge.
      *
      * @param  int $m
      *
-     * @return GuageChart
+     * @return GaugeChart
      */
     public function max($m)
     {
@@ -185,11 +165,30 @@ class GuageChart extends Chart
     }
 
     /**
+     * The minimal value of a gauge.
      *
+     * @param  int $m
+     *
+     * @return GaugeChart
+     */
+    public function min($m)
+    {
+        if (is_int($m)) {
+            return $this->addOption(array(__FUNCTION__ => $m));
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'int'
+            );
+        }
+    }
+
+    /**
+     * The number of minor tick section in each major tick section.
      *
      * @param  int $mt
      *
-     * @return GuageChart
+     * @return GaugeChart
      */
     public function minorTicks($mt)
     {
@@ -204,11 +203,11 @@ class GuageChart extends Chart
     }
 
     /**
-     *
+     * The color to use for the red section, in HTML color notation.
      *
      * @param  string $c
      *
-     * @return GuageChart
+     * @return GaugeChart
      */
     public function redColor($c)
     {
@@ -223,11 +222,11 @@ class GuageChart extends Chart
     }
 
     /**
-     *
+     * The lowest value for a range marked by a red color.
      *
      * @param  int $rf
      *
-     * @return GuageChart
+     * @return GaugeChart
      */
     public function redFrom($rf)
     {
@@ -242,11 +241,11 @@ class GuageChart extends Chart
     }
 
     /**
-     *
+     * The highest value for a range marked by a red color.
      *
      * @param  int $rt
      *
-     * @return GuageChart
+     * @return GaugeChart
      */
     public function redTo($rt)
     {
@@ -261,11 +260,11 @@ class GuageChart extends Chart
     }
 
     /**
-     *
+     * The color to use for the yellow section, in HTML color notation.
      *
      * @param  string $c
      *
-     * @return GuageChart
+     * @return GaugeChart
      */
     public function yellowColor($c)
     {
@@ -280,11 +279,11 @@ class GuageChart extends Chart
     }
 
     /**
-     *
+     * The lowest value for a range marked by a yellow color.
      *
      * @param  int $yf
      *
-     * @return GuageChart
+     * @return GaugeChart
      */
     public function yellowFrom($yf)
     {
@@ -299,11 +298,11 @@ class GuageChart extends Chart
     }
 
     /**
-     *
+     * The highest value for a range marked by a yellow color.
      *
      * @param  int $yt
      *
-     * @return GuageChart
+     * @return GaugeChart
      */
     public function yellowTo($yt)
     {
