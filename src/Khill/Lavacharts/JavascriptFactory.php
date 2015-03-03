@@ -131,38 +131,6 @@ class JavascriptFactory
      */
     private function buildChartJs()
     {
-        switch ($this->chart->type) {
-            case 'AnnotatedTimeLine':
-                $vizType = 'annotatedtimeline';
-                $vizFunc = $this->chart->type;
-                $version = '1';
-                break;
-
-            case 'GeoChart':
-                $vizType = 'geochart';
-                $vizFunc = $this->chart->type;
-                $version = '1';
-                break;
-
-            case 'DonutChart':
-                $vizType = 'corechart';
-                $vizFunc = 'PieChart';
-                $version = '1';
-                break;
-
-            case 'CalendarChart':
-                $vizType = 'calendar';
-                $vizFunc = 'Calendar';
-                $version = '1.1';
-                break;
-
-            default:
-                $vizType = 'corechart';
-                $vizFunc = $this->chart->type;
-                $version = '1';
-                break;
-        }
-
         $out = $this->jsO.PHP_EOL;
 
         /*
@@ -215,7 +183,7 @@ class JavascriptFactory
 
         $out .= sprintf(
             '$this.chart = new google.visualization.%s(document.getElementById("%s"));',
-            $vizFunc,
+            $this->getChartPackageData('jsObj'),
             $this->elementId
         ).PHP_EOL.PHP_EOL;
 
@@ -234,8 +202,8 @@ class JavascriptFactory
 
         $out .= sprintf(
             "google.load('visualization', '%s', {'packages':['%s']});",
-            $version,
-            $vizType
+            $this->getChartPackageData('version'),
+            $this->getChartPackageData('type')
         ).PHP_EOL;
 
         $out .= sprintf(
@@ -257,6 +225,59 @@ class JavascriptFactory
         $out .= $this->jsC.PHP_EOL;
 
         return $out;
+    }
+
+    /**
+     * Returns the Google chart package data.
+     *
+     * @access private
+     * @param  string $which
+     *
+     * @return stdClass chart package, version, and type
+     */
+    private function getChartPackageData($which)
+    {
+        $package = array();
+
+        switch ($this->chart->type) {
+            case 'AnnotatedTimeLine':
+                $package['type']    = 'annotatedtimeline';
+                $package['jsObj']   = $this->chart->type;
+                $package['version'] = '1';
+                break;
+
+            case 'GeoChart':
+                $package['type']    = 'geochart';
+                $package['jsObj']   = $this->chart->type;
+                $package['version'] = '1';
+                break;
+
+            case 'DonutChart':
+                $package['type']    = 'corechart';
+                $package['jsObj']   = 'PieChart';
+                $package['version'] = '1';
+                break;
+
+            case 'CalendarChart':
+                $package['type']    = 'calendar';
+                $package['jsObj']   = 'Calendar';
+                $package['version'] = '1.1';
+                break;
+
+            case 'GuageChart':
+                $package['type']    = 'guage';
+                $package['jsObj']   = $this->chart->type;
+                $package['version'] = '1';
+                break;
+
+            default:
+                $package['type']    = 'corechart';
+                $package['jsObj']   = $this->chart->type;
+                $package['version'] = '1';
+                break;
+        }
+
+        return $package[$which];
     }
 
     /**
