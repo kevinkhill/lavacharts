@@ -77,7 +77,7 @@ class GaugeChart extends Chart
      */
     public function greenColor($c)
     {
-        if (is_int($c)) {
+        if (Utils::nonEmptyString($c)) {
             return $this->addOption(array(__FUNCTION__ => $c));
         } else {
             throw $this->invalidConfigValue(
@@ -90,7 +90,7 @@ class GaugeChart extends Chart
     /**
      * The lowest value for a range marked by a green color.
      *
-     * @param  int $
+     * @param  int $gf
      *
      * @return GaugeChart
      */
@@ -211,7 +211,7 @@ class GaugeChart extends Chart
      */
     public function redColor($c)
     {
-        if (is_int($c)) {
+        if (Utils::nonEmptyString($c)) {
             return $this->addOption(array(__FUNCTION__ => $c));
         } else {
             throw $this->invalidConfigValue(
@@ -268,7 +268,7 @@ class GaugeChart extends Chart
      */
     public function yellowColor($c)
     {
-        if (is_int($c)) {
+        if (Utils::nonEmptyString($c)) {
             return $this->addOption(array(__FUNCTION__ => $c));
         } else {
             throw $this->invalidConfigValue(
