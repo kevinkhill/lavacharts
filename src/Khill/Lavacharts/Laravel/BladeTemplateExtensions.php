@@ -13,7 +13,8 @@ $charts = array(
     'PieChart',
     'DonutChart',
     'GeoChart',
-    'CalendarChart'
+    'CalendarChart',
+    'GuageChart'
 );
 
 foreach ($charts as $chart)

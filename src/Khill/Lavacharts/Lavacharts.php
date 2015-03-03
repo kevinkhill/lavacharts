@@ -50,7 +50,8 @@ class Lavacharts
         'GeoChart',
         'LineChart',
         'PieChart',
-        'CalendarChart'
+        'CalendarChart',
+        'GuageChart'
     );
 
     /**
