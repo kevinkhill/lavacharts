@@ -152,9 +152,8 @@ class JavascriptFactory
 
         //Checking if output div exists
         $out .= sprintf(
-            'if (!document.getElementById("%s"))' .
-            '{console.error("[Lavacharts] No matching element was found with ID \"%s\"");}',
-            $this->elementId,
+            'if (!document.getElementById("%1$s"))' .
+            '{console.error("[Lavacharts] No matching element was found with ID \"%1$s\"");}',
             $this->elementId
         ).PHP_EOL.PHP_EOL;
 
