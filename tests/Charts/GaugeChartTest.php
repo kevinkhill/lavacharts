@@ -91,6 +91,80 @@ class GaugeChartTest extends ProvidersTestCase
         $this->g->greenTo($badTypes);
     }
 
+    public function testMajorTicks()
+    {
+        $this->g->majorTicks(array(
+            'Safe',
+            'Ok',
+            'Danger',
+            'Critical'
+        ));
+
+        $this->assertEquals(array(
+            'Safe',
+            'Ok',
+            'Danger',
+            'Critical'
+        ), $this->g->getOption('majorTicks'));
+    }
+
+    /**
+     * @dataProvider nonArrayProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testMajorTicksWithBadTypes($badTypes)
+    {
+        $this->g->majorTicks($badTypes);
+    }
+
+    public function testMax()
+    {
+        $this->g->max(100);
+
+        $this->assertEquals(100, $this->g->getOption('max'));
+    }
+
+    /**
+     * @dataProvider nonIntProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testMaxWithBadTypes($badTypes)
+    {
+        $this->g->max($badTypes);
+    }
+
+    public function testMin()
+    {
+        $this->g->min(1);
+
+        $this->assertEquals(1, $this->g->getOption('min'));
+    }
+
+    /**
+     * @dataProvider nonIntProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testMinWithBadTypes($badTypes)
+    {
+        $this->g->min($badTypes);
+    }
+
+    public function testMinorTicks()
+    {
+        $this->g->minorTicks(5);
+
+        $this->assertEquals(5, $this->g->getOption('minorTicks'));
+    }
+
+    /**
+     * @dataProvider nonIntProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testMinorTicksWithBadTypes($badTypes)
+    {
+        $this->g->minorTicks($badTypes);
+    }
+
     public function testRedColor()
     {
         $this->g->redColor('#43F9C1');
