@@ -1,15 +1,15 @@
 # Lavacharts [![Total Downloads](https://poser.pugx.org/khill/lavacharts/downloads.svg)](https://packagist.org/packages/khill/lavacharts) [![License](https://img.shields.io/packagist/l/khill/lavacharts.svg?style=plastic)](https://packagist.org/packages/khill/lavacharts) [![PayPayl](https://img.shields.io/badge/paypal-donate-yellow.svg?style=plastic)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ)
 
-Lavacharts is a graphing / chart library for PHP5.3+ that wraps the Google Chart API  
+Lavacharts is a graphing / chart library for PHP5.3+ that wraps the Google Chart API
 
 
-Stable:  
+Stable:
 [![Current Release](https://img.shields.io/github/release/kevinkhill/lavacharts.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/releases)
 [![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/2.1.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/2.1.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=2.1)
 
 
-Dev:  
+Dev:
 ![Masater Branch](https://img.shields.io/badge/branch-dev--master-brightgreen.svg?style=plastic)
 [![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/master.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/master.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=master)
@@ -23,7 +23,16 @@ Version 2 Features
 - Datatable addColumn aliases
 - Datatable column formatters
 - Carbon support for date columns
-- Supported Charts: Area, Calendar, Column, Combo, Donut, Geo, Line, Pie
+- Now supporting 9 Charts!
+  - Area
+  - Calendar
+  - Column
+  - Combo
+  - Donut
+  - Gauge
+  - Geo
+  - Line
+  - Pie
 
 ###Complete documentation with examples, and the api can be found at [Lavacharts.com](http://lavacharts.com/)
 
