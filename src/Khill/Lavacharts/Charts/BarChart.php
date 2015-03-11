@@ -31,14 +31,49 @@ class BarChart extends Chart
         $this->defaults = array_merge(
             $this->defaults,
             array(
+                //'animation'
+                'annotations',
                 'axisTitlesPosition',
-                'barGroupWidth',
+                'bar.groupWidth',
+                'bars',
+                'chart.subtitle',
+                'chart.title',
+                'dataOpacity',
+                'enableInteractivity',
                 'focusTarget',
+                'forceIFrame',
+                'hAxes',
                 'hAxis',
-                'isHtml',
+                'isStacked',
+                'reverseCategories',
+                'orientation',
+                'series',
+                'theme',
+                'trendlines',
+                'trendlines.n.color',
+                'trendlines.n.degree',
+                'trendlines.n.labelInLegend',
+                'trendlines.n.lineWidth',
+                'trendlines.n.opacity',
+                'trendlines.n.pointSize',
+                'trendlines.n.showR2',
+                'trendlines.n.type',
+                'trendlines.n.visibleInLegend',
+                'vAxis',
                 'vAxis'
             )
         );
+    }
+
+    /**
+     * Defines how chart annotations will be displayed.
+     *
+     * @param  Annotation $a
+     * @return BarChart
+     */
+    public function annotations(Annotation $a)
+    {
+        return $this->addOption($a->toArray());
     }
 
     /**
@@ -47,7 +82,7 @@ class BarChart extends Chart
      * out - Draw the axis titles outside the chart area.
      * none - Omit the axis titles.
      *
-     * @param  string      $position
+     * @param  string   $position
      * @return BarChart
      */
     public function axisTitlesPosition($position)
@@ -58,7 +93,7 @@ class BarChart extends Chart
             'none'
         );
 
-        if (is_string($position) && in_array($position, $values)) {
+        if (Utils::nonEmptyStringInArray($position, $values)) {
             $this->addOption(array('axisTitlesPosition' => $position));
         } else {
             throw $this->invalidConfigValue(
