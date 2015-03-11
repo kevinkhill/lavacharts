@@ -44,14 +44,15 @@ class Lavacharts
      */
     private $chartClasses = array(
         'AreaChart',
+        'BarChart',
+        'CalendarChart',
         'ColumnChart',
         'ComboChart',
         'DonutChart',
+        'GaugeChart',
         'GeoChart',
         'LineChart',
-        'PieChart',
-        'CalendarChart',
-        'GaugeChart'
+        'PieChart'
     );
 
     /**

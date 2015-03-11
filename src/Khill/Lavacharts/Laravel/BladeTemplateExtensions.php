@@ -6,15 +6,16 @@ $app   = App::getFacadeApplication();
 $blade = $app['view']->getEngineResolver()->resolve('blade')->getCompiler();
 
 $charts = array(
-    'LineChart',
     'AreaChart',
+    'BarChart',
+    'CalendarChart',
     'ColumnChart',
     'ComboChart',
-    'PieChart',
     'DonutChart',
+    'GaugeChart',
     'GeoChart',
-    'CalendarChart',
-    'GaugeChart'
+    'LineChart',
+    'PieChart',
 );
 
 foreach ($charts as $chart)
