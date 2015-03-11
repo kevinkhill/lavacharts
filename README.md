@@ -6,7 +6,7 @@ Lavacharts is a graphing / chart library for PHP5.3+ that wraps the Google Chart
 Stable:
 [![Current Release](https://img.shields.io/github/release/kevinkhill/lavacharts.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/releases)
 [![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/2.2.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
-[![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/2.2.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=2.1)
+[![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/2.2.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=2.2)
 
 
 Dev:
