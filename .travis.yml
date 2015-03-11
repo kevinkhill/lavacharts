@@ -14,8 +14,7 @@ matrix:
 branches:
   only:
     - "master"
-    - "2.1"
-    - "2.0"
+    - "2.2"
 
 before_script:
   #- composer selfupdate (errors with travis)
