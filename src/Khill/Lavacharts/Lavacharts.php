@@ -144,7 +144,7 @@ class Lavacharts
         }
 
         if ($member == 'DataTable') {
-            return new Configs\DataTable;
+            return new Configs\DataTable($arguments[0]);
         }
 
         if (in_array($member, $this->chartClasses)) {
