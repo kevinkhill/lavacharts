@@ -34,10 +34,10 @@ class BarChart extends Chart
                 //'animation'
                 'annotations',
                 'axisTitlesPosition',
-                'bar.groupWidth',
-                'bars',
-                'chart.subtitle',
-                'chart.title',
+                'barGroupWidth',
+                //'bars',
+                //'chart.subtitle',
+                //'chart.title',
                 'dataOpacity',
                 'enableInteractivity',
                 'focusTarget',
@@ -94,7 +94,7 @@ class BarChart extends Chart
         );
 
         if (Utils::nonEmptyStringInArray($position, $values)) {
-            $this->addOption(array('axisTitlesPosition' => $position));
+            $this->addOption(array(__FUNCTION__ => $position));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -131,6 +131,25 @@ class BarChart extends Chart
     }
 
     /**
+     * The transparency of data points, with 1.0 being completely opaque and 0.0 fully transparent.
+     * In scatter, histogram, bar, and column charts, this refers to the visible data: dots in the scatter chart and rectangles in the others. In charts where selecting data creates a dot, such as the line and area charts, this refers to the circles that appear upon hover or selection.
+     * @param  [type] $do [description]
+     * @return [type]     [description]
+     */
+    public function dataOpacity($do)
+    {
+        if (Utils::between(0.0, $do, 1.0)) {
+            $this->addOption(array(__FUNCTION__, $do));
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'float',
+                'between 0.0 - 1.0'
+            );
+        }
+    }
+
+    /**
      * An object with members to configure various horizontal axis elements. To
      * specify properties of this property, create a new hAxis() object, set
      * the values then pass it to this function or to the constructor.
@@ -141,7 +160,7 @@ class BarChart extends Chart
      */
     public function hAxis(HorizontalAxis $hAxis)
     {
-        $this->addOption($hAxis->toArray('hAxis'));
+        $this->addOption($hAxis->toArray(__FUNCTION__));
 
         return $this;
     }
@@ -155,7 +174,7 @@ class BarChart extends Chart
     public function isStacked($isStacked)
     {
         if (is_bool($isStacked)) {
-            $this->addOption(array('isStacked' => $isStacked));
+            $this->addOption(array(__FUNCTION__ => $isStacked));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -177,7 +196,7 @@ class BarChart extends Chart
      */
     public function vAxis(VerticalAxis $vAxis)
     {
-        $this->addOption($vAxis->toArray('vAxis'));
+        $this->addOption($vAxis->toArray(__FUNCTION__));
 
         return $this;
     }
