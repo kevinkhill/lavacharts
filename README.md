@@ -34,8 +34,9 @@ Version 2 Features
   - Line
   - Pie
 
-###Complete documentation with examples, and the api can be found at [Lavacharts.com](http://lavacharts.com/)
+## For complete documentation, please visit [lavacharts.com](http://lavacharts.com/)
 
+### If you would like to contribute, please commit against the most recent tag/branch
 
 Installing
 ----------
