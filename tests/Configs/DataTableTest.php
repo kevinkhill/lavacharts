@@ -19,7 +19,8 @@ class DataTableTest extends ProvidersTestCase
     {
         $dt = new DataTable;
 
-        $this->assertEquals($dt->timezone, 'America/Los_Angeles');
+        $this->assertEquals($dt->timezone, 'UTC'); //For TravisCI
+
     }
 
     public function testSetTimezoneWithConstructor()
