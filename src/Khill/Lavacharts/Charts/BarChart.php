@@ -172,6 +172,38 @@ class BarChart extends Chart
     }
 
     /**
+     * The type of the entity that receives focus on mouse hover.
+     *
+     * Also affects which entity is selected by mouse click, and which data table
+     * element is associated with events. Can be one of the following:
+     *  'datum'    - Focus on a single data point. Correlates to a cell in the data table.
+     *  'category' - Focus on a grouping of all data points along the major axis.
+     *               Correlates to a row in the data table.
+     *
+     * In focusTarget 'category' the tooltip displays all the category values.
+     * This may be useful for comparing values of different series.
+     *
+     * @param  bool     $ft
+     * @return BarChart
+     */
+    public function focusTarget($ft)
+    {
+        $values = array(
+            'datum',
+            'category'
+        );
+
+        if (Utils::nonEmptyStringInArray($ft, $values)) {
+            $this->addOption(array(__FUNCTION__, $ft));
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'bool'
+            );
+        }
+    }
+
+    /**
      * An object with members to configure various horizontal axis elements. To
      * specify properties of this property, create a new hAxis() object, set
      * the values then pass it to this function or to the constructor.
