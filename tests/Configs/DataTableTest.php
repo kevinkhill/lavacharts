@@ -19,8 +19,11 @@ class DataTableTest extends ProvidersTestCase
     {
         $dt = new DataTable;
 
-        $this->assertEquals($dt->timezone, 'UTC'); //For TravisCI
-
+        if (gethostname() == 'macbook.local') {
+            $this->assertEquals($dt->timezone, 'America/Los_Angeles'); //For Local
+        } else {
+            $this->assertEquals($dt->timezone, 'UTC'); //For TravisCI
+        }
     }
 
     public function testSetTimezoneWithConstructor()
@@ -337,6 +340,3 @@ class DataTableTest extends ProvidersTestCase
         $this->dt->formatColumn('grizzly', $mockDateFormat);
     }
 }
-
-//dataProvider
-//expectedException
