@@ -1,1 +1,0 @@
-php ../../../artisan serve

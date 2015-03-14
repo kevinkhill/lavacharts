@@ -2,18 +2,34 @@
   "name": "lavacharts",
   "version": "2.2.1",
   "description": "Wrapper library for the Google Chart API",
+<<<<<<< HEAD
   "homepage": "http://lavacharts.com",
+=======
+>>>>>>> 4f55e57... Started tinkering with gulp.js to run some common tasks
   "main": "gulpfile.js",
   "directories": {
     "test": "tests"
   },
+<<<<<<< HEAD
+=======
+  "dependencies": {
+    "gulp": "^3.8.11",
+    "gulp-exec": "^2.1.1"
+  },
+>>>>>>> 4f55e57... Started tinkering with gulp.js to run some common tasks
   "devDependencies": {
     "gulp": "^3.8.11",
     "gulp-exec": "^2.1.1",
     "gulp-notify": "^2.2.0",
     "gulp-phpunit": "^0.7.0",
     "lodash": "^3.5.0",
+<<<<<<< HEAD
     "map-stream": "0.0.5"
+=======
+    "map-stream": "0.0.5",
+    "node-notifier": "^4.1.2",
+    "progress": "^1.1.8"
+>>>>>>> 4f55e57... Started tinkering with gulp.js to run some common tasks
   },
   "scripts": {
     "test": "gulp test"
@@ -31,5 +47,10 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kevinkhill/lavacharts/issues"
+<<<<<<< HEAD
   }
+=======
+  },
+  "homepage": "https://github.com/kevinkhill/lavacharts"
+>>>>>>> 4f55e57... Started tinkering with gulp.js to run some common tasks
 }
