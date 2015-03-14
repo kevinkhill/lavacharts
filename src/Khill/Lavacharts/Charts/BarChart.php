@@ -132,9 +132,9 @@ class BarChart extends Chart
 
     /**
      * The transparency of data points, with 1.0 being completely opaque and 0.0 fully transparent.
-     * In scatter, histogram, bar, and column charts, this refers to the visible data: dots in the scatter chart and rectangles in the others. In charts where selecting data creates a dot, such as the line and area charts, this refers to the circles that appear upon hover or selection.
-     * @param  [type] $do [description]
-     * @return [type]     [description]
+     *
+     * @param  float    $do
+     * @return BarChart
      */
     public function dataOpacity($do)
     {
@@ -145,6 +145,28 @@ class BarChart extends Chart
                 __FUNCTION__,
                 'float',
                 'between 0.0 - 1.0'
+            );
+        }
+    }
+
+    /**
+     * Whether the chart throws user-based events or reacts to user interaction.
+     *
+     * If false, the chart will not throw 'select' or other interaction-based events
+     * (but will throw ready or error events), and will not display hovertext or
+     * otherwise change depending on user input.
+     *
+     * @param  bool     $ei
+     * @return BarChart
+     */
+    public function enableInteractivity($ei)
+    {
+        if (is_bool($ei)) {
+            $this->addOption(array(__FUNCTION__, $ei));
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'boolean'
             );
         }
     }
