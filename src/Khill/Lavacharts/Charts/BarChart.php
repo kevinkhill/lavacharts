@@ -183,7 +183,7 @@ class BarChart extends Chart
      * In focusTarget 'category' the tooltip displays all the category values.
      * This may be useful for comparing values of different series.
      *
-     * @param  bool     $ft
+     * @param  string     $ft
      * @return BarChart
      */
     public function focusTarget($ft)
@@ -198,7 +198,7 @@ class BarChart extends Chart
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'bool',
+                'string',
                 'must be one of '.Utils::arrayToPipedString($values)
             );
         }
@@ -215,7 +215,7 @@ class BarChart extends Chart
     public function forceIFrame($iframe)
     {
         if (is_bool($iframe)) {
-            $this->addCalendarOption(array(__FUNCTION__ => $iframe));
+            $this->addOption(array(__FUNCTION__ => $iframe));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -326,6 +326,37 @@ class BarChart extends Chart
                 __FUNCTION__,
                 'array',
                 'Series Objects'
+            );
+        }
+    }
+
+    /**
+     * A theme is a set of predefined option values that work together to achieve a specific chart
+     * behavior or visual effect. Currently only one theme is available:
+     *  'maximized' - Maximizes the area of the chart, and draws the legend and all of the
+     *                labels inside the chart area. Sets the following options:
+     *
+     * chartArea: {width: '100%', height: '100%'},
+     * legend: {position: 'in'},
+     * titlePosition: 'in', axisTitlesPosition: 'in',
+     * hAxis: {textPosition: 'in'}, vAxis: {textPosition: 'in'}
+     *
+     * @param  string     $t
+     * @return BarChart
+     */
+    public function theme($t)
+    {
+        $values = array(
+            'maximized'
+        );
+
+        if (Utils::nonEmptyStringInArray($t, $values)) {
+            $this->addOption(array(__FUNCTION__, $t));
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string',
+                'must be one of '.Utils::arrayToPipedString($values)
             );
         }
     }
