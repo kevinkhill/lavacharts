@@ -17,7 +17,7 @@ branches:
     - "2.2"
 
 before_script:
-  - sphp -r "ini_set('date.timezone', 'America/Los_Angeles');"
+  - php -r "ini_set('date.timezone', 'America/Los_Angeles');"
   - composer selfupdate
   - composer install
 
