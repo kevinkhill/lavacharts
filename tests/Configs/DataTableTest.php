@@ -15,6 +15,39 @@ class DataTableTest extends ProvidersTestCase
         $this->dt = new DataTable;
     }
 
+    public function testDefaultTimezoneUponCreation()
+    {
+        $dt = new DataTable;
+
+        $this->assertEquals($dt->timezone, 'America/Los_Angeles');
+    }
+
+    public function testSetTimezoneWithConstructor()
+    {
+        $dt = new DataTable('America/New_York');
+
+        $this->assertEquals($dt->timezone, 'America/New_York');
+    }
+
+    public function testSetTimezoneWithMethod()
+    {
+        $this->dt->setTimezone('America/New_York');
+
+        $this->assertEquals($this->dt->timezone, 'America/New_York');
+    }
+
+    /**
+     * @dataProvider nonStringProvider
+     */
+    public function testIniDefaultTimezoneWithBadValues($badValues)
+    {
+        date_default_timezone_set('America/Los_Angeles');
+
+        $dt = new DataTable($badValues);
+
+        $this->assertEquals($dt->timezone, 'America/Los_Angeles');
+    }
+
     public function testGetColumns()
     {
         $this->dt->addColumn('date', 'Test1');

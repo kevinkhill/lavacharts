@@ -143,6 +143,11 @@ class Lavacharts
         }
 
         if ($member == 'DataTable') {
+            if (isset($arguments[0])) {
+                return new Configs\DataTable($arguments[0]);
+            } else {
+                return new Configs\DataTable;
+            }
             return new Configs\DataTable;
         }
 
