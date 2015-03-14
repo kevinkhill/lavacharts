@@ -198,23 +198,71 @@ class BarChart extends Chart
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
+                'bool',
+                'must be one of '.Utils::arrayToPipedString($values)
+            );
+        }
+    }
+
+    /**
+     * Draws the chart inside an inline frame.
+     * Note that on IE8, this option is ignored; all IE8 charts are drawn in i-frames.
+     *
+     * @param bool $iframe
+     *
+     * @return BarChart
+     */
+    public function forceIFrame($iframe)
+    {
+        if (is_bool($iframe)) {
+            $this->addCalendarOption(array(__FUNCTION__ => $iframe));
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
                 'bool'
             );
         }
     }
 
     /**
+     * Specifies properties for individual horizontal axes, if the chart has multiple horizontal axes.
+     *
+     * Each child object is a hAxis object, and can contain all the properties supported by hAxis.
+     * These property values override any global settings for the same property.
+     *
+     * To specify a chart with multiple horizontal axes, first define a new axis using series.targetAxisIndex,
+     * then configure the axis using hAxes.
+     *
+     * @param  array              $arr Array of HorizontalAxis objects
+     * @throws InvalidConfigValue
+     *
+     * @return ComboChart
+     */
+    public function hAxes($arr)
+    {
+        if (Utils::arrayValuesCheck($arr, 'class', 'HorizontalAxis')) {
+            return $this->addOption(array(__FUNCTION__ => $arr));
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'array',
+                'of HorizontalAxis Objects'
+            );
+        }
+    }
+
+    /**
      * An object with members to configure various horizontal axis elements. To
-     * specify properties of this property, create a new hAxis() object, set
+     * specify properties of this property, create a new HorizontalAxis object, set
      * the values then pass it to this function or to the constructor.
      *
-     * @param  Lavacharts\Configs\HorizontalAxis $hAxis
+     * @param  HorizontalAxis     $ha
      * @throws InvalidConfigValue
      * @return BarChart
      */
-    public function hAxis(HorizontalAxis $hAxis)
+    public function hAxis(HorizontalAxis $ha)
     {
-        $this->addOption($hAxis->toArray(__FUNCTION__));
+        $this->addOption($ha->toArray(__FUNCTION__));
 
         return $this;
     }
@@ -222,13 +270,13 @@ class BarChart extends Chart
     /**
      * If set to true, series elements are stacked.
      *
-     * @param  bool        $isStacked
+     * @param  bool        $is
      * @return BarChart
      */
-    public function isStacked($isStacked)
+    public function isStacked($is)
     {
-        if (is_bool($isStacked)) {
-            $this->addOption(array(__FUNCTION__ => $isStacked));
+        if (is_bool($is)) {
+            $this->addOption(array(__FUNCTION__ => $is));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -240,17 +288,60 @@ class BarChart extends Chart
     }
 
     /**
-     * An object with members to configure various vertical axis elements. To
-     * specify properties of this property, create a new vAxis() object, set
-     * the values then pass it to this function or to the constructor.
+     * If set to true, will draw series from bottom to top. The default is to draw top-to-bottom.
      *
-     * @param  Lavacharts\Configs\VerticalAxis $vAxis
+     * @param  bool               $rc
      * @throws InvalidConfigValue
      * @return BarChart
      */
-    public function vAxis(VerticalAxis $vAxis)
+    public function reverseCategories($rc)
     {
-        $this->addOption($vAxis->toArray(__FUNCTION__));
+        if (is_bool($rc)) {
+            $this->addOption(array(__FUNCTION__ => $rc));
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'bool'
+            );
+        }
+
+        return $this;
+    }
+
+   /**
+     * An array of objects, each describing the format of the corresponding series
+     * in the chart. To use default values for a series, specify an null in the array.
+     * If a series or a value is not specified, the global value will be used.
+     *
+     * @param  array              $arr
+     * @throws InvalidConfigValue
+     * @return BarChart
+     */
+    public function series($arr)
+    {
+        if (Utils::arrayValuesCheck($arr, 'class', 'Series')) {
+            return $this->addOption(array(__FUNCTION__ => $arr));
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'array',
+                'Series Objects'
+            );
+        }
+    }
+
+    /**
+     * An object with members to configure various vertical axis elements. To
+     * specify properties of this property, create a new VerticalAxis object, set
+     * the values then pass it to this function or to the constructor.
+     *
+     * @param  VerticalAxis       $va
+     * @throws InvalidConfigValue
+     * @return BarChart
+     */
+    public function vAxis(VerticalAxis $va)
+    {
+        $this->addOption($va->toArray(__FUNCTION__));
 
         return $this;
     }
