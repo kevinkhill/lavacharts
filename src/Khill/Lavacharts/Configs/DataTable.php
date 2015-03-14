@@ -103,8 +103,6 @@ class DataTable
     public function __construct($timezone=null)
     {
         $this->setTimezone($timezone);
-
-        date_default_timezone_set($this->timezone);
     }
 
     public function setTimezone($timezone)
