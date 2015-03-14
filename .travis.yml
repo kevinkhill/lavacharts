@@ -17,8 +17,9 @@ branches:
     - "2.2"
 
 before_script:
-  #- composer selfupdate (errors with travis)
-  - composer update --prefer-dist
+  - php -r "ini_set('date.timezone', 'America/Los_Angeles');"
+  - composer selfupdate
+  - composer install
 
 email: kevinkhill@gmail.com
 
