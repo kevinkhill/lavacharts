@@ -109,11 +109,18 @@ class DataTable
 
     public function setTimezone($timezone)
     {
+        // get PHP.ini setting
+        $default_timezone = date_default_timezone_get();
+
         if (Utils::nonEmptyString($timezone)) {
             $this->timezone = $timezone;
+        } elseif (Utils::nonEmptyString($default_timezone)) {
+            $this->timezone = $default_timezone;
         } else {
             $this->timezone = 'America/Los_Angeles';
         }
+
+        date_default_timezone_set($this->timezone);
 
         return $this;
     }
