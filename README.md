@@ -5,14 +5,14 @@ Lavacharts is a graphing / chart library for PHP5.3+ that wraps the Google Chart
 
 Stable:
 [![Current Release](https://img.shields.io/github/release/kevinkhill/lavacharts.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/releases)
-[![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/2.2.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
-[![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/2.2.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=2.2)
+[![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/master.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
+[![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/master.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=master)
 
 
 Dev:
-![Masater Branch](https://img.shields.io/badge/branch-dev--master-brightgreen.svg?style=plastic)
-[![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/master.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
-[![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/master.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=master)
+![Dev Branch](https://img.shields.io/packagist/vpre/kevinkhill/lavacharts.svg?style=plastic)
+[![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/2.3.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
+[![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/2.3.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=2.3)
 
 
 Version 2 Features
@@ -28,7 +28,6 @@ Version 2 Features
 
 ## For complete documentation, please visit [lavacharts.com](http://lavacharts.com/)
 
-### If you would like to contribute, please commit against the most recent tag/branch
 
 Installing
 ----------
