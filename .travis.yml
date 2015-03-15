@@ -15,10 +15,10 @@ branches:
   only:
     - "master"
     - "2.2"
+    - "2.3"
 
 before_script:
-  - php -r "ini_set('date.timezone', 'America/Los_Angeles');"
-  - composer selfupdate
+  - phpenv config-add configs/timezone.ini
   - composer install
 
 email: kevinkhill@gmail.com
