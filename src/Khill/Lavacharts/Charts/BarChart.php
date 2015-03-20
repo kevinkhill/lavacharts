@@ -19,6 +19,9 @@
  */
 
 use Khill\Lavacharts\Utils;
+use Khill\Lavacharts\Configs\Annotation;
+use Khill\Lavacharts\Configs\HorizontalAxis;
+use Khill\Lavacharts\Configs\VerticalAxis;
 
 class BarChart extends Chart
 {
@@ -73,7 +76,7 @@ class BarChart extends Chart
      */
     public function annotations(Annotation $a)
     {
-        return $this->addOption($a->toArray());
+        return $this->addOption($a->toArray(__FUNCTION__));
     }
 
     /**
@@ -166,7 +169,7 @@ class BarChart extends Chart
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'boolean'
+                'bool'
             );
         }
     }
