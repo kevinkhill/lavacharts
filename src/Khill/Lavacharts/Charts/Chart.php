@@ -146,7 +146,7 @@ class Chart
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                "must be one of ".Utils::arrayToPipedString(array_keys($this->options))
+                "must be one of ".Utils::arrayToPipedString($this->defaults)
             );
         }
     }
