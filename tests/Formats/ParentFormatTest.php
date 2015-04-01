@@ -48,4 +48,3 @@ class ParentFormatTest extends ProvidersTestCase
         $this->assertEquals($json, $this->dateFormat->toJson());
     }
 }
-

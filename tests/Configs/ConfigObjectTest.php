@@ -18,9 +18,9 @@ class ConfigObjectTest extends \PHPUnit_Framework_TestCase
             'fontSize' => 16
         ));
 
-        $this->assertEquals('blue',  $textStyle->color);
+        $this->assertEquals('blue', $textStyle->color);
         $this->assertEquals('Arial', $textStyle->fontName);
-        $this->assertEquals(16,      $textStyle->fontSize);
+        $this->assertEquals(16, $textStyle->fontSize);
     }
 
     /**
@@ -41,9 +41,9 @@ class ConfigObjectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('textStyle', $textStyleArrKeys[0]);
         $this->assertTrue(is_array($textStyleArr['textStyle']));
 
-        $this->assertEquals('blue',  $textStyleArr['textStyle']['color']);
+        $this->assertEquals('blue', $textStyleArr['textStyle']['color']);
         $this->assertEquals('Arial', $textStyleArr['textStyle']['fontName']);
-        $this->assertEquals(16,      $textStyleArr['textStyle']['fontSize']);
+        $this->assertEquals(16, $textStyleArr['textStyle']['fontSize']);
     }
 
     /**
@@ -61,8 +61,8 @@ class ConfigObjectTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue(is_array($textStyleArr));
 
-        $this->assertEquals('blue',  $textStyleArr['color']);
+        $this->assertEquals('blue', $textStyleArr['color']);
         $this->assertEquals('Arial', $textStyleArr['fontName']);
-        $this->assertEquals(16,      $textStyleArr['fontSize']);
+        $this->assertEquals(16, $textStyleArr['fontSize']);
     }
 }

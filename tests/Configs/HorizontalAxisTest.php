@@ -393,5 +393,4 @@ class HorizontalAxisTest extends ProvidersTestCase
     {
         $this->ha->viewWindowMode($badParams);
     }
-
 }

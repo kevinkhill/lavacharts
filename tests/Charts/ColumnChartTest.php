@@ -15,17 +15,17 @@ class ColumnChartTest extends ProvidersTestCase
 
     public function testInstanceOfColumnChartWithType()
     {
-    	$this->assertInstanceOf('\Khill\Lavacharts\Charts\ColumnChart', $this->cc);
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\ColumnChart', $this->cc);
     }
 
     public function testTypeColumnChart()
     {
-    	$this->assertEquals('ColumnChart', $this->cc->type);
+        $this->assertEquals('ColumnChart', $this->cc->type);
     }
 
     public function testLabelAssignedViaConstructor()
     {
-    	$this->assertEquals('MyTestChart', $this->cc->label);
+        $this->assertEquals('MyTestChart', $this->cc->label);
     }
 
     public function testAxisTitlesPositionValidValues()

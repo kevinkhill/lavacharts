@@ -38,4 +38,3 @@ class SelectTest extends ProvidersTestCase
         new Select($badVals);
     }
 }
-

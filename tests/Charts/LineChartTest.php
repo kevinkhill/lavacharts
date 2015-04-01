@@ -15,17 +15,17 @@ class LineChartTest extends ProvidersTestCase
 
     public function testInstanceOfLineChartWithType()
     {
-    	$this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $this->lc);
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $this->lc);
     }
 
     public function testTypeLineChart()
     {
-    	$this->assertEquals('LineChart', $this->lc->type);
+        $this->assertEquals('LineChart', $this->lc->type);
     }
 
     public function testLabelAssignedViaConstructor()
     {
-    	$this->assertEquals('MyTestChart', $this->lc->label);
+        $this->assertEquals('MyTestChart', $this->lc->label);
     }
 
     public function testAxisTitlesPositionWithValidValues()

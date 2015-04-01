@@ -15,7 +15,7 @@ class ChartTest extends ProvidersTestCase
 
     public function testLabelAssignedViaConstructor()
     {
-    	$this->assertEquals('TestChart', $this->mlc->label);
+        $this->assertEquals('TestChart', $this->mlc->label);
     }
 
     public function testDataTable()
@@ -326,5 +326,4 @@ class ChartTest extends ProvidersTestCase
 
         $this->assertEquals($expected, $this->mlc->optionsToJson());
     }
-
 }

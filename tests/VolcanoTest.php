@@ -1,7 +1,9 @@
 <?php namespace Khill\Lavacharts\Tests;
 
 use \Khill\Lavacharts\Volcano;
-use \Khill\Lavacharts\Charts\LineChart; //@TODO fix this to mockery
+use \Khill\Lavacharts\Charts\LineChart;
+
+ //@TODO fix this to mockery
 
 class VolcanoTest extends \PHPUnit_Framework_TestCase
 {
@@ -64,6 +66,4 @@ class VolcanoTest extends \PHPUnit_Framework_TestCase
         $v->storeChart($c);
         $v->getChart('LineChart', 'superduperchart');
     }
-
 }
-

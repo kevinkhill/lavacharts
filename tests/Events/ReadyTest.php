@@ -38,4 +38,3 @@ class ReadyTest extends ProvidersTestCase
         new Ready($badVals);
     }
 }
-

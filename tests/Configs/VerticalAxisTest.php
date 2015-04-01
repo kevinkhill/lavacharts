@@ -422,5 +422,4 @@ class VerticalAxisTest extends ProvidersTestCase
     {
         $this->va->viewWindowMode('eggs');
     }
-
 }

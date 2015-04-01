@@ -81,4 +81,3 @@ class DateFormatTest extends ProvidersTestCase
         $this->dateFormat->timeZone($badTypes);
     }
 }
-

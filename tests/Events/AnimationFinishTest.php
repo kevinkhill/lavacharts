@@ -38,4 +38,3 @@ class AnimationFinishTest extends ProvidersTestCase
         new AnimationFinish($badVals);
     }
 }
-

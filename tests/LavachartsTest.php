@@ -158,28 +158,32 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      * @expectedException Khill\Lavacharts\Exceptions\InvalidLavaObject
      */
     public function testInvalidLavaObject()
-    {        $this->lc->PizzaChart();
+    {
+        $this->lc->PizzaChart();
     }
 
     /**
      * @expectedException Khill\Lavacharts\Exceptions\InvalidLavaObject
      */
     public function testRenderAliasWithInvalidLavaObject()
-    {        $this->lc->renderTacoChart();
+    {
+        $this->lc->renderTacoChart();
     }
 
     /**
      * @expectedException Khill\Lavacharts\Exceptions\InvalidChartLabel
      */
     public function testCreateChartWithMissingLabel()
-    {        $this->lc->LineChart();
+    {
+        $this->lc->LineChart();
     }
 
     /**
      * @expectedException Khill\Lavacharts\Exceptions\InvalidChartLabel
      */
     public function testCreateChartWithInvalidLabel()
-    {        $this->lc->LineChart(5);
+    {
+        $this->lc->LineChart(5);
     }
 
     public function chartTypeProvider()
@@ -216,5 +220,4 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
             //array('VerticalAxis')
         );
     }
-
 }

@@ -38,4 +38,3 @@ class ErrorTest extends ProvidersTestCase
         new Error($badVals);
     }
 }
-

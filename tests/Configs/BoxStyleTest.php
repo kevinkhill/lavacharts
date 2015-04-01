@@ -37,9 +37,9 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->assertEquals('#5B5B5B', $boxStyle->stroke);
-        $this->assertEquals('5',       $boxStyle->strokeWidth);
-        $this->assertEquals('10',      $boxStyle->rx);
-        $this->assertEquals('10',      $boxStyle->ry);
+        $this->assertEquals('5', $boxStyle->strokeWidth);
+        $this->assertEquals('10', $boxStyle->rx);
+        $this->assertEquals('10', $boxStyle->ry);
         $this->assertInstanceOf('\Khill\Lavacharts\Configs\Gradient', $boxStyle->gradient);
     }
 
@@ -142,5 +142,4 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
             array('123')
         );
     }
-
 }

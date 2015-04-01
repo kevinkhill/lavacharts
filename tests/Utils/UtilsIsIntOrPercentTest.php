@@ -6,17 +6,17 @@ class UtilsIsIntOrPercentTest extends \PHPUnit_Framework_TestCase
 {
     public function testIntOrPercentWithInt()
     {
-        $this->assertTrue(Utils::isIntOrPercent(72) );
+        $this->assertTrue(Utils::isIntOrPercent(72));
     }
 
     public function testIntOrPercentWithIntAsString()
     {
-        $this->assertTrue(Utils::isIntOrPercent('26') );
+        $this->assertTrue(Utils::isIntOrPercent('26'));
     }
 
     public function testIntOrPercentWithPercentAsString()
     {
-        $this->assertTrue(Utils::isIntOrPercent('45%') );
+        $this->assertTrue(Utils::isIntOrPercent('45%'));
     }
 
     /**
@@ -24,7 +24,7 @@ class UtilsIsIntOrPercentTest extends \PHPUnit_Framework_TestCase
      */
     public function testIntOrPercentWithBadParams($value)
     {
-        $this->assertFalse(Utils::isIntOrPercent($value) );
+        $this->assertFalse(Utils::isIntOrPercent($value));
     }
 
 
@@ -36,9 +36,9 @@ class UtilsIsIntOrPercentTest extends \PHPUnit_Framework_TestCase
             array(123.456),
             array(array('test1')),
             array(new \stdClass),
-            array(TRUE),
-            array(FALSE),
-            array(NULL)
+            array(true),
+            array(false),
+            array(null)
         );
     }
 }

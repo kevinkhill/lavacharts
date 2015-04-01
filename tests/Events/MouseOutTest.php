@@ -38,4 +38,3 @@ class MouseOutTest extends ProvidersTestCase
         new MouseOut($badVals);
     }
 }
-

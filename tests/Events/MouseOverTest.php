@@ -38,4 +38,3 @@ class MouseOverTest extends ProvidersTestCase
         new MouseOver($badVals);
     }
 }
-

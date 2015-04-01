@@ -15,17 +15,17 @@ class DonutChartTest extends ProvidersTestCase
 
     public function testInstanceOfDonutChartWithType()
     {
-    	$this->assertInstanceOf('\Khill\Lavacharts\Charts\DonutChart', $this->dc);
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\DonutChart', $this->dc);
     }
 
     public function testTypeDonutChart()
     {
-    	$this->assertEquals('DonutChart', $this->dc->type);
+        $this->assertEquals('DonutChart', $this->dc->type);
     }
 
     public function testLabelAssignedViaConstructor()
     {
-    	$this->assertEquals('MyTestChart', $this->dc->label);
+        $this->assertEquals('MyTestChart', $this->dc->label);
     }
 
     public function testPieHole()

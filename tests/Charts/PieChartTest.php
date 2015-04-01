@@ -15,17 +15,17 @@ class PieChartTest extends ProvidersTestCase
 
     public function testInstanceOfPieChartWithType()
     {
-    	$this->assertInstanceOf('\Khill\Lavacharts\Charts\PieChart', $this->pc);
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\PieChart', $this->pc);
     }
 
     public function testTypePieChart()
     {
-    	$this->assertEquals('PieChart', $this->pc->type);
+        $this->assertEquals('PieChart', $this->pc->type);
     }
 
     public function testLabelAssignedViaConstructor()
     {
-    	$this->assertEquals('MyTestChart', $this->pc->label);
+        $this->assertEquals('MyTestChart', $this->pc->label);
     }
 
     public function testIs3D()
@@ -50,29 +50,29 @@ class PieChartTest extends ProvidersTestCase
             'color'    => 'blue',
             'fontName' => 'Arial',
             'fontSize' => 16
-        );
+         );
 
-        $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
+         $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
         //$mockTextStyle->shouldReceive('getValues')->once()->andReturn($textStyleVals);
 
-        $sliceVals = array(
+         $sliceVals = array(
             'color'     => 'blue',
             'offset'    => 'Arial',
             'textStyle' => $mockTextStyle
-        );
+         );
 
-        $mockSlice1 = m::mock('Khill\Lavacharts\Configs\Slice');
-        $mockSlice1->shouldReceive('getValues')->once()->andReturn($sliceVals);
+         $mockSlice1 = m::mock('Khill\Lavacharts\Configs\Slice');
+         $mockSlice1->shouldReceive('getValues')->once()->andReturn($sliceVals);
 
-        $mockSlice2 = m::mock('Khill\Lavacharts\Configs\Slice');
-        $mockSlice2->shouldReceive('getValues')->once()->andReturn($sliceVals);
+         $mockSlice2 = m::mock('Khill\Lavacharts\Configs\Slice');
+         $mockSlice2->shouldReceive('getValues')->once()->andReturn($sliceVals);
 
-        $this->pc->slices(array($mockSlice1, $mockSlice2));
+         $this->pc->slices(array($mockSlice1, $mockSlice2));
 
-        $slices = $this->pc->getOption('slices');
+         $slices = $this->pc->getOption('slices');
 
-        $this->assertEquals($sliceVals, $slices[0]);
-        $this->assertEquals($sliceVals, $slices[1]);
+         $this->assertEquals($sliceVals, $slices[0]);
+         $this->assertEquals($sliceVals, $slices[1]);
     }
 
     /**

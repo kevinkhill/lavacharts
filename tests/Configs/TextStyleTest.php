@@ -22,9 +22,9 @@ class TextStyleTest extends ProvidersTestCase
             'italic'   => true
         ));
 
-        $this->assertEquals('blue',  $textStyle->color);
+        $this->assertEquals('blue', $textStyle->color);
         $this->assertEquals('Arial', $textStyle->fontName);
-        $this->assertEquals(16,      $textStyle->fontSize);
+        $this->assertEquals(16, $textStyle->fontSize);
         $this->assertTrue($textStyle->bold);
         $this->assertTrue($textStyle->italic);
     }
@@ -81,6 +81,4 @@ class TextStyleTest extends ProvidersTestCase
     {
         $this->ts->italic($badParams);
     }
-
 }
-

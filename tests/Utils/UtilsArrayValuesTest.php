@@ -25,7 +25,7 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayValuesCheckWithBools()
     {
-        $testArray = array(TRUE, FALSE, TRUE, FALSE);
+        $testArray = array(true, false, true, false);
         $this->assertTrue(Utils::arrayValuesCheck($testArray, 'bool'));
     }
 
@@ -74,9 +74,9 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
             array(array(1, 2, 'blahblah', 3), 'int'),
             array(array('taco', new \stdClass, 1), 'class', 'burrito'),
             array(array($mca, $mca), 'class', 'helicopters'),
-            array(array(TRUE, TRUE), 4),
-            array(array(FALSE, FALSE), 'boolean'),
-            array(array(NULL, NULL), 'tacos')
+            array(array(true, true), 4),
+            array(array(false, false), 'boolean'),
+            array(array(null, null), 'tacos')
         );
     }
 }

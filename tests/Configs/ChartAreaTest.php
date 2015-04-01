@@ -28,8 +28,8 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
             'height' => 300
         ));
 
-        $this->assertEquals(25,  $chartArea->left);
-        $this->assertEquals(10,  $chartArea->top);
+        $this->assertEquals(25, $chartArea->left);
+        $this->assertEquals(10, $chartArea->top);
         $this->assertEquals(900, $chartArea->width);
         $this->assertEquals(300, $chartArea->height);
     }
@@ -43,7 +43,7 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
             'height' => '40%'
         ));
 
-        $this->assertEquals('5%',  $chartArea->left);
+        $this->assertEquals('5%', $chartArea->left);
         $this->assertEquals('10%', $chartArea->top);
         $this->assertEquals('90%', $chartArea->width);
         $this->assertEquals('40%', $chartArea->height);
@@ -104,5 +104,4 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
             array(null)
         );
     }
-
 }

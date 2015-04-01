@@ -15,17 +15,17 @@ class BarChartTest extends ProvidersTestCase
 
     public function testInstanceOfBarChartWithType()
     {
-    	$this->assertInstanceOf('\Khill\Lavacharts\Charts\BarChart', $this->bc);
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\BarChart', $this->bc);
     }
 
     public function testTypeBarChart()
     {
-    	$this->assertEquals('BarChart', $this->bc->type);
+        $this->assertEquals('BarChart', $this->bc->type);
     }
 
     public function testLabelAssignedViaConstructor()
     {
-    	$this->assertEquals('MyTestChart', $this->bc->label);
+        $this->assertEquals('MyTestChart', $this->bc->label);
     }
 
     public function testAnnotations()
@@ -182,7 +182,7 @@ class BarChartTest extends ProvidersTestCase
     {
         $mockHorizontalAxis = m::mock('Khill\Lavacharts\Configs\HorizontalAxis');
 
-        $this->bc->hAxes([$mockHorizontalAxis, $mockHorizontalAxis]);
+        $this->bc->hAxes(array($mockHorizontalAxis, $mockHorizontalAxis));
 
         $this->assertTrue(is_array($this->bc->getOption('hAxes')));
     }
@@ -252,7 +252,7 @@ class BarChartTest extends ProvidersTestCase
     {
         $mockSeries = m::mock('Khill\Lavacharts\Configs\Series');
 
-        $this->bc->series([$mockSeries, $mockSeries]);
+        $this->bc->series(array($mockSeries, $mockSeries));
 
         $this->assertTrue(is_array($this->bc->getOption('series')));
     }
@@ -302,7 +302,7 @@ class BarChartTest extends ProvidersTestCase
     {
         $mockVerticalAxis = m::mock('Khill\Lavacharts\Configs\VerticalAxis');
 
-        $this->bc->vAxes([$mockVerticalAxis, $mockVerticalAxis]);
+        $this->bc->vAxes(array($mockVerticalAxis, $mockVerticalAxis));
 
         $this->assertTrue(is_array($this->bc->getOption('vAxes')));
     }

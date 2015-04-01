@@ -88,6 +88,4 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
             array(null)
         );
     }
-
 }
-

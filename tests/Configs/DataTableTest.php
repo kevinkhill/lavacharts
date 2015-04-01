@@ -109,7 +109,7 @@ class DataTableTest extends ProvidersTestCase
 
         $cols = $this->dt->getColumns();
 
-        $this->assertEquals($cols[0]['type'],  'date');
+        $this->assertEquals($cols[0]['type'], 'date');
         $this->assertEquals($cols[0]['label'], 'Days in March');
     }
 
@@ -122,7 +122,7 @@ class DataTableTest extends ProvidersTestCase
 
         $cols = $this->dt->getColumns();
 
-        $this->assertEquals($cols[0]['type'],  'date');
+        $this->assertEquals($cols[0]['type'], 'date');
         $this->assertEquals($cols[0]['label'], 'Days in March');
     }
 
@@ -135,9 +135,9 @@ class DataTableTest extends ProvidersTestCase
 
         $cols = $this->dt->getColumns();
 
-        $this->assertEquals($cols[0]['type'],  'date');
+        $this->assertEquals($cols[0]['type'], 'date');
         $this->assertEquals($cols[0]['label'], 'Days in March');
-        $this->assertEquals($cols[0]['id'],    'march-dates');
+        $this->assertEquals($cols[0]['id'], 'march-dates');
     }
 
     /**
@@ -149,9 +149,9 @@ class DataTableTest extends ProvidersTestCase
 
         $cols = $this->dt->getColumns();
 
-        $this->assertEquals($cols[0]['type'],  'date');
+        $this->assertEquals($cols[0]['type'], 'date');
         $this->assertEquals($cols[0]['label'], 'Days in March');
-        $this->assertEquals($cols[0]['id'],    'march-dates');
+        $this->assertEquals($cols[0]['id'], 'march-dates');
     }
 
     /**
@@ -168,17 +168,17 @@ class DataTableTest extends ProvidersTestCase
 
         $cols = $this->dt->getColumns();
 
-        $this->assertEquals($cols[0]['type'],  'date');
+        $this->assertEquals($cols[0]['type'], 'date');
         $this->assertEquals($cols[0]['label'], 'Days in March');
-        $this->assertEquals($cols[0]['id'],    'march-dates');
+        $this->assertEquals($cols[0]['id'], 'march-dates');
 
-        $this->assertEquals($cols[1]['type'],  'number');
+        $this->assertEquals($cols[1]['type'], 'number');
         $this->assertEquals($cols[1]['label'], 'Day of the Week');
-        $this->assertEquals($cols[1]['id'],    'dotw');
+        $this->assertEquals($cols[1]['id'], 'dotw');
 
-        $this->assertEquals($cols[2]['type'],  'number');
+        $this->assertEquals($cols[2]['type'], 'number');
         $this->assertEquals($cols[2]['label'], 'Temperature');
-        $this->assertEquals($cols[2]['id'],    'temp');
+        $this->assertEquals($cols[2]['id'], 'temp');
     }
 
     /**

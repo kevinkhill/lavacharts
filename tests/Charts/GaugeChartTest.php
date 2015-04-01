@@ -14,17 +14,17 @@ class GaugeChartTest extends ProvidersTestCase
 
     public function testInstanceOfGaugeChartWithType()
     {
-    	$this->assertInstanceOf('\Khill\Lavacharts\Charts\GaugeChart', $this->g);
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\GaugeChart', $this->g);
     }
 
     public function testTypeGaugeChart()
     {
-    	$this->assertEquals('GaugeChart', $this->g->type);
+        $this->assertEquals('GaugeChart', $this->g->type);
     }
 
     public function testLabelAssignedViaConstructor()
     {
-    	$this->assertEquals('Temps', $this->g->label);
+        $this->assertEquals('Temps', $this->g->label);
     }
 
     public function testForceIFrame()

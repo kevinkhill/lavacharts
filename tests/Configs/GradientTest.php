@@ -34,10 +34,10 @@ class GradientTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('#F0F0F0', $gradient->color1);
         $this->assertEquals('#3D3D3D', $gradient->color2);
-        $this->assertEquals('0%',      $gradient->x1);
-        $this->assertEquals('0%',      $gradient->y1);
-        $this->assertEquals('100%',    $gradient->x2);
-        $this->assertEquals('100%',    $gradient->y2);
+        $this->assertEquals('0%', $gradient->x1);
+        $this->assertEquals('0%', $gradient->y1);
+        $this->assertEquals('100%', $gradient->x2);
+        $this->assertEquals('100%', $gradient->y2);
     }
 
     /**
@@ -114,6 +114,4 @@ class GradientTest extends \PHPUnit_Framework_TestCase
             array(null)
         );
     }
-
 }
-

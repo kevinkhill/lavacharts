@@ -15,17 +15,17 @@ class GeoChartTest extends ProvidersTestCase
 
     public function testInstanceOfGeoChartWithType()
     {
-    	$this->assertInstanceOf('\Khill\Lavacharts\Charts\GeoChart', $this->gc);
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\GeoChart', $this->gc);
     }
 
     public function testTypeGeoChart()
     {
-    	$this->assertEquals('GeoChart', $this->gc->type);
+        $this->assertEquals('GeoChart', $this->gc->type);
     }
 
     public function testLabelAssignedViaConstructor()
     {
-    	$this->assertEquals('MyTestChart', $this->gc->label);
+        $this->assertEquals('MyTestChart', $this->gc->label);
     }
 
     public function testColorAxis()

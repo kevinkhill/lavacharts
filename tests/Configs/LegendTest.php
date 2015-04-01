@@ -83,7 +83,8 @@ class LegendTest extends ProvidersTestCase
     }
 
     public function testTextStyleWithValidConfigObject()
-    {/*
+    {
+/*
         $mockTextStyle = $this->getMock(
             '\Khill\Lavacharts\Configs\TextStyle',
             array('__construct')
@@ -102,4 +103,3 @@ class LegendTest extends ProvidersTestCase
         $this->assertEquals($textStyleVals, $this->l->textStyle);
     }
 }
-

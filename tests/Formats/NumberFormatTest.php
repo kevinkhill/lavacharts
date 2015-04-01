@@ -142,4 +142,3 @@ class NumberFormatTest extends ProvidersTestCase
         $this->numberFormat->suffix($badTypes);
     }
 }
-

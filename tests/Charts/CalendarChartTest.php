@@ -15,17 +15,17 @@ class CalendarChartTest extends ProvidersTestCase
 
     public function testInstanceOfLineChartWithType()
     {
-    	$this->assertInstanceOf('\Khill\Lavacharts\Charts\CalendarChart', $this->cc);
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\CalendarChart', $this->cc);
     }
 
     public function testTypeLineChart()
     {
-    	$this->assertEquals('CalendarChart', $this->cc->type);
+        $this->assertEquals('CalendarChart', $this->cc->type);
     }
 
     public function testLabelAssignedViaConstructor()
     {
-    	$this->assertEquals('MyTestChart', $this->cc->label);
+        $this->assertEquals('MyTestChart', $this->cc->label);
     }
 
     public function testCellColor()

@@ -26,7 +26,7 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->assertEquals('#E3D5F2', $backgroundColor->stroke);
-        $this->assertEquals(6,         $backgroundColor->strokeWidth);
+        $this->assertEquals(6, $backgroundColor->strokeWidth);
         $this->assertEquals('#B0C9E3', $backgroundColor->fill);
     }
 
@@ -90,6 +90,4 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
             array(null)
         );
     }
-
 }
-

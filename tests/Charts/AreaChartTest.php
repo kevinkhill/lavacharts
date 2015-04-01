@@ -15,17 +15,17 @@ class AreaChartTest extends ProvidersTestCase
 
     public function testInstanceOfAreaChartWithType()
     {
-    	$this->assertInstanceOf('\Khill\Lavacharts\Charts\AreaChart', $this->ac);
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\AreaChart', $this->ac);
     }
 
     public function testTypeAreaChart()
     {
-    	$this->assertEquals('AreaChart', $this->ac->type);
+        $this->assertEquals('AreaChart', $this->ac->type);
     }
 
     public function testLabelAssignedViaConstructor()
     {
-    	$this->assertEquals('MyTestChart', $this->ac->label);
+        $this->assertEquals('MyTestChart', $this->ac->label);
     }
 
     public function testAreaOpacity()

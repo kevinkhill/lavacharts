@@ -15,7 +15,6 @@ class UtilsArrayToPipedStringTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayStringWithNonArray()
     {
-        $this->assertFalse(Utils::arrayToPipedString( 'test1' ) );
+        $this->assertFalse(Utils::arrayToPipedString('test1'));
     }
-
 }

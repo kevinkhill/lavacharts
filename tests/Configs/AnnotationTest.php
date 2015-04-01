@@ -76,6 +76,4 @@ class AnnotationTest extends ProvidersTestCase
             array(null)
         );
     }
-
 }
-
