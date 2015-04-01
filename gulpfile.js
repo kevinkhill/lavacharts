@@ -1,13 +1,11 @@
 var gulp = require('gulp'),
       sh = require('sh'),
     argv = require('yargs').argv,
-    bump = require('gulp-bump')
- replace = require('gulp-replace'),
- phpunit = require('gulp-phpunit');
+    bump = require('gulp-bump'),
+ replace = require('gulp-replace');
 
 gulp.task('test', function (cb) {
-  gulp.src('./configs/phpunit.xml')
-      .pipe(phpunit('', {colors:true}));
+  sh('./vendor/bin/phpunit -c configs/phpunit.xml');
 });
 
 gulp.task('serve', function (cb) {
