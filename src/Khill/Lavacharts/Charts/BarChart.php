@@ -76,7 +76,9 @@ class BarChart extends Chart
      */
     public function annotations(Annotation $a)
     {
-        return $this->addOption($a->toArray(__FUNCTION__));
+        $this->addOption($a->toArray(__FUNCTION__));
+
+        return $this;
     }
 
     /**
@@ -150,6 +152,8 @@ class BarChart extends Chart
                 'between 0.0 - 1.0'
             );
         }
+
+        return $this;
     }
 
     /**
@@ -172,6 +176,8 @@ class BarChart extends Chart
                 'bool'
             );
         }
+
+        return $this;
     }
 
     /**
@@ -205,6 +211,8 @@ class BarChart extends Chart
                 'must be one of '.Utils::arrayToPipedString($values)
             );
         }
+
+        return $this;
     }
 
     /**
@@ -225,6 +233,8 @@ class BarChart extends Chart
                 'bool'
             );
         }
+
+        return $this;
     }
 
     /**
@@ -252,6 +262,8 @@ class BarChart extends Chart
                 'of HorizontalAxis Objects'
             );
         }
+
+        return $this;
     }
 
     /**
@@ -323,7 +335,7 @@ class BarChart extends Chart
     public function series($arr)
     {
         if (Utils::arrayValuesCheck($arr, 'class', 'Series')) {
-            return $this->addOption(array(__FUNCTION__ => $arr));
+            $this->addOption(array(__FUNCTION__ => $arr));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -331,6 +343,8 @@ class BarChart extends Chart
                 'Series Objects'
             );
         }
+
+        return $this;
     }
 
     /**
@@ -362,6 +376,8 @@ class BarChart extends Chart
                 'must be one of '.Utils::arrayToPipedString($values)
             );
         }
+
+        return $this;
     }
 
     /**
@@ -382,7 +398,7 @@ class BarChart extends Chart
     public function vAxes($arr)
     {
         if (Utils::arrayValuesCheck($arr, 'class', 'VerticalAxis')) {
-            return $this->addOption(array(__FUNCTION__ => $arr));
+            $this->addOption(array(__FUNCTION__ => $arr));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -390,6 +406,8 @@ class BarChart extends Chart
                 'of VerticalAxis Objects'
             );
         }
+
+        return $this;
     }
 
     /**
