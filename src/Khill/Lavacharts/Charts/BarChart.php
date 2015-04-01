@@ -368,7 +368,7 @@ class BarChart extends Chart
         );
 
         if (Utils::nonEmptyStringInArray($t, $values)) {
-            $this->addOption(array(__FUNCTION__, $t));
+            $this->addOption(array(__FUNCTION__ => $t));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
