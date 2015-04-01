@@ -8,6 +8,7 @@
          convertWarningsToExceptions="true"
          strict="true"
          syntaxCheck="true"
+         colors="true"
 >
   <testsuites>
     <testsuite name="Package Test Suite">
