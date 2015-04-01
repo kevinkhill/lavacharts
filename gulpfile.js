@@ -2,7 +2,11 @@ var gulp = require('gulp'),
       sh = require('sh'),
     argv = require('yargs').argv,
     bump = require('gulp-bump'),
+  uglify = require('gulp-uglify'),
+  rename = require('gulp-rename'),
  replace = require('gulp-replace');
+
+var scriptSrc = './src/Khill/Lavacharts/Javascript';
 
 gulp.task('test', function (cb) {
   sh('./vendor/bin/phpunit -c configs/phpunit.xml');
@@ -18,6 +22,13 @@ gulp.task('check', function (cb) {
 
 gulp.task('fix', function (cb) {
   sh('./vendor/bin/phpcbf -n --standard=PSR2 ./src ./tests');
+});
+
+gulp.task('uglify', function (cb) {
+  gulp.src(scriptSrc + '/lava.js')
+      .pipe(uglify())
+      .pipe(rename({suffix:'.min'}))
+      .pipe(gulp.dest(scriptSrc));
 });
 
 gulp.task('bump', function (cb) {
