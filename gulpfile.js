@@ -13,11 +13,11 @@ gulp.task('serve', function (cb) {
 });
 
 gulp.task('check', function (cb) {
-  sh('./vendor/bin/phpcs -n --standard=PSR2 ./src');
+  sh('./vendor/bin/phpcs -n --standard=PSR2 ./src ./tests');
 });
 
 gulp.task('fix', function (cb) {
-  sh('./vendor/bin/phpcbf -n --standard=PSR2 ./src');
+  sh('./vendor/bin/phpcbf -n --standard=PSR2 ./src ./tests');
 });
 
 gulp.task('bump', function (cb) {
