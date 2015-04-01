@@ -34,7 +34,7 @@ Installing
 In your project's main ```composer.json``` file, add this line to the requirements:
 
   ```
-  "khill/lavacharts": "2.3.*"
+  "khill/lavacharts": "2.4.*"
   ```
 
 Run Composer to install Lavacharts:
@@ -43,8 +43,8 @@ Run Composer to install Lavacharts:
   composer update
   ```
 
-For Laravel
------------
+Laravel
+-------
 Register Lavacharts in your app by adding this line to the end of the providers array in ```app/config/app.php```:
 
   ```
@@ -56,6 +56,18 @@ Register Lavacharts in your app by adding this line to the end of the providers 
   ```
 
   Don't worry about the ```Lava``` alias, the service provider registers it automatically.
+
+Non-Laravel
+-----------
+If you are using Lavacharts with Composer and not in Laravel, that's fine, just make sure to:
+```require 'vendor/autoload.php';``` within you project.
+
+Create an instance of Lavacharts: ```$lava = new Khill\Lavacharts\Lavacharts;```
+
+Replace all of the ```Lava::``` aliases in the examples, by chaining from the Lavacharts object you created.
+
+Use ```$dt = $lava->DataTable();``` instead of ```$dt = Lava::DataTable();```
+
 
 Usage
 -----
@@ -136,72 +148,3 @@ Example:
 ```
 
 Charts can be rendered from the ```$lava``` master object you created, as shown above, or you can pass the chart object to your view, and call the ```render()``` method with the element id of your div. This will bypass needing to specify the type and title of the chart.
-
-Notice
-======
-If you are using Lavacharts with Composer and not in Laravel, that's fine, just make sure to:
-```require 'vendor/autoload.php';``` within you project.
-
-Create an instance of Lavacharts: ```$lava = new Khill\Lavacharts\Lavacharts;```
-
-Replace all of the ```Lava::``` aliases in the examples, by chaining from the Lavacharts object you created.
-
-Use ```$dt = $lava->DataTable();``` instead of ```$dt = Lava::DataTable();```
-
-
-Changelog
----------
- - 2.1
-   - Calendar Chart support
-
- - 2.0.5
-   - Updated Carbon
-   - Laravel 5 compatability
-
- - 2.0.4
-   - Multiple chart bug fixes
-
- - 2.0.3
-   - Fixing event bugs
-
- - 2.0.2
-   - Responsive charts
-
- - 2.0.1
-   - Multiple chart support
-
- - 2.0.0
-   - Its Here!
-
- - 2.0.0-beta1
-   - Passed 75% test coverage
-   - Added new options to TextStyle
-     - Bold
-     - Italic
-
- - 2.0.0-alpha4
-   - Added Events
-     - select
-     - onmouseover
-     - onmouseout
-
- - 2.0.0-alpha3
-   - Added DataTable column formatters
-     - DateFormat
-     - NumberFormat
-
- - 2.0.0-alpha2
-   - Added render method in favor of outputInto method
-   - Added blade template extensions for seamless chart rendering
-   - Moar tests!
-
- - 2.0.0-alpha1
-   - Refactored the main Lavacharts class to not be static anymore (yay!)
-   - Moved the creation of the javascript into it's own class
-   - Added a new class "Volcano" to store all the charts.
-   - Modfied the charts to not staticly call the Lavacharts functions
-   - DataTables are no longer magic, but applied via method chaining
-   - Added render method in favor of outputInto method
-   - Added blade template extensions as aliases to the render method
-   - Tests tests tests!
-   - Using phpcs to bring all the code up to PSR2 standards

@@ -1,29 +1,32 @@
 var gulp = require('gulp'),
-       _ = require('lodash'),
-  notify = require('gulp-notify'),
-    exec = require('child_process').exec,
-     map = require('map-stream'),
- phpunit = require('/Users/kevin/projects/gulp-phpunit');
-
+      sh = require('sh'),
+    argv = require('yargs').argv,
+    bump = require('gulp-bump')
+ replace = require('gulp-replace'),
+ phpunit = require('gulp-phpunit');
 
 gulp.task('test', function (cb) {
-    gulp.src('./configs/phpunit.xml')
-        .pipe(phpunit('', {colors:true}));
+  gulp.src('./configs/phpunit.xml')
+      .pipe(phpunit('', {colors:true}));
 });
 
 gulp.task('serve', function (cb) {
-    runCmd('php ../../../artisan serve', cb);
+  sh('php ../../../artisan serve');
 });
 
 gulp.task('check', function (cb) {
-    runCmd('./vendor/bin/phpcs --standard=PSR2 ./src', cb);
+  sh('./vendor/bin/phpcs --standard=PSR2 ./src');
 });
 
+gulp.task('bump', function (cb) {
+  var version = argv.v;
+  var minorVersion = version.slice(0, -2);
 
-function runCmd (cmd, cb) {
-    exec(cmd, function (err, stdout, stderr) {
-        console.log(stdout);
-        console.log(stderr);
-        //cb(err);
-    });
-}
+  gulp.src('./package.json')
+      .pipe(bump({version:argv.v}))
+      .pipe(gulp.dest('./'));
+
+  gulp.src('./README.md')
+      .pipe(replace(/("|=|\/|-)[0-9]+\.[0-9]+/g, '$1'+minorVersion))
+      .pipe(gulp.dest('./'));
+});
