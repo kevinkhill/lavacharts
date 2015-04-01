@@ -337,5 +337,4 @@ class CalendarChart extends Chart
 
         return $this;
     }
-
 }

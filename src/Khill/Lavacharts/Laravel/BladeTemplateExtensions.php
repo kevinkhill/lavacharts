@@ -18,9 +18,8 @@ $charts = array(
     'PieChart'
 );
 
-foreach ($charts as $chart)
-{
-    $blade->extend(function($view, $compiler) use ($chart) {
+foreach ($charts as $chart) {
+    $blade->extend(function ($view, $compiler) use ($chart) {
         $pattern = $compiler->createMatcher(strtolower($chart));
         $output  = '$1<?php echo Lava::render'.$chart.'$2; ?>';
 

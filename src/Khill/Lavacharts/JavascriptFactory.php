@@ -290,7 +290,6 @@ class JavascriptFactory
         $out = '';
 
         foreach ($this->chart->getEvents() as $event) {
-
             $callback = sprintf(
                 'function (event) {return lava.event(event, $this.chart, %s);}',
                 $event->callback
@@ -343,7 +342,8 @@ class JavascriptFactory
      *
      * @return bool
      */
-    public function coreJsRendered($stat = false) {
+    public function coreJsRendered($stat = false)
+    {
         if ($stat !== false) {
             $this->coreJsRendered = $stat;
         }
@@ -363,7 +363,7 @@ class JavascriptFactory
         $out  = $this->jsAPI;
         $out .= $this->jsO;
         $out .=
-<<<JSCORE
+        <<<JSCORE
     function onResize(c,t){window.onresize=function(){clearTimeout(t);t=setTimeout(c,100)};return c};
 
     var lava = lava || { get:null, event:null, charts:{}, registeredCharts:[] };
@@ -414,7 +414,6 @@ JSCORE;
 
         return $out;
     }
-
 }
 
 

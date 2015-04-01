@@ -315,5 +315,4 @@ class GaugeChart extends Chart
             );
         }
     }
-
 }

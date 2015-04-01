@@ -134,5 +134,4 @@ class Animation extends ConfigObject
 
         return $this;
     }
-
 }

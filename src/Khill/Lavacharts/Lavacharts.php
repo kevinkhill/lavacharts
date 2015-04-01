@@ -179,8 +179,7 @@ class Lavacharts
             }
         }
 
-        if (in_array($member, $this->eventClasses) && isset($arguments[0]))
-        {
+        if (in_array($member, $this->eventClasses) && isset($arguments[0])) {
             return $this->eventFactory($member, $arguments[0]);
         }
 

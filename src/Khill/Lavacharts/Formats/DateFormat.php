@@ -149,5 +149,4 @@ class DateFormat extends Format
 
         return $this;
     }
-
 }

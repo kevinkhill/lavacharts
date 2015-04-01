@@ -213,7 +213,7 @@ class Utils
      */
     public static function nonEmptyStringInArray($var, $arr)
     {
-        if ( (is_string($var) && ! empty($var)) && in_array($var, $arr)) {
+        if ((is_string($var) && ! empty($var)) && in_array($var, $arr)) {
             return true;
         } else {
             return false;

@@ -100,7 +100,7 @@ class DataTable
         'pattern'
     );
 
-    public function __construct($timezone=null)
+    public function __construct($timezone = null)
     {
         $this->setTimezone($timezone);
     }
@@ -276,7 +276,7 @@ class DataTable
      * @throws InvalidConfigValue
      * @return DataTable
      */
-    private function addColumnFromStrings($type, $label='', $id='', $format=null)
+    private function addColumnFromStrings($type, $label = '', $id = '', $format = null)
     {
         $colIndex = $this->getNumberOfColumns();
 
@@ -339,7 +339,7 @@ class DataTable
      */
     public function formatColumns($colFormatArr)
     {
-        if (is_array($colFormatArr) && ! empty($colFormatArr)){
+        if (is_array($colFormatArr) && ! empty($colFormatArr)) {
             foreach ($colFormatArr as $index => $format) {
                 if (is_subclass_of($format, 'Format')) {
                     $this->formats[$colIndex] = $format->toArray();
