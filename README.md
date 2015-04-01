@@ -10,7 +10,7 @@ Stable:
 
 
 Dev:
-[![Dev Branch](https://img.shields.io/packagist/vpre/kevinkhill/lavacharts.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/2.4)
+[![Dev Branch](https://img.shields.io/badge/dev-2.4.x--dev-blue.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/2.4)
 [![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/2.4.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/2.4.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=2.4)
 
@@ -24,15 +24,7 @@ Version 2 Features
 - Datatable column formatters
 - Carbon support for date columns
 - Now supporting 9 Charts!
-  - Area
-  - Calendar
-  - Column
-  - Combo
-  - Donut
-  - Gauge
-  - Geo
-  - Line
-  - Pie
+  - Area, Calendar, Column, Combo, Donut, Gauge, Geo, Line, Pie
 
 ## For complete documentation, please visit [lavacharts.com](http://lavacharts.com/)
 
