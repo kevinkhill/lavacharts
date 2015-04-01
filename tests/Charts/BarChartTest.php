@@ -166,7 +166,7 @@ class BarChartTest extends ProvidersTestCase
     {
         $this->bc->forceIFrame(true);
 
-        $this->assertTrue($this->cc->getOption('forceIFrame'));
+        $this->assertTrue($this->bc->getOption('forceIFrame'));
     }
 
     /**
@@ -175,7 +175,33 @@ class BarChartTest extends ProvidersTestCase
      */
     public function testForceIFrameWithBadType($badTypes)
     {
-        $this->cc->forceIFrame($badTypes);
+        $this->bc->forceIFrame($badTypes);
+    }
+
+    public function testHorizontalAxes()
+    {
+        $mockHorizontalAxis = m::mock('Khill\Lavacharts\Configs\HorizontalAxis');
+
+        $this->bc->hAxes([$mockHorizontalAxis, $mockHorizontalAxis]);
+
+        $this->assertTrue(is_array($this->bc->getOption('hAxes')));
+    }
+
+    /**
+     * @dataProvider nonArrayProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testHorizontalAxesWithBadTypes($badTypes)
+    {
+        $this->bc->hAxes($badTypes);
+    }
+
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testHorizontalAxesWithArrayOfBadTypes()
+    {
+        $this->bc->hAxes([1, 4.5, 'salmon']);
     }
 
     public function testHorizontalAxis()
@@ -190,6 +216,113 @@ class BarChartTest extends ProvidersTestCase
         $this->assertTrue(is_array($this->bc->getOption('hAxis')));
     }
 
+    public function testIsStacked()
+    {
+        $this->bc->isStacked(true);
+
+        $this->assertTrue($this->bc->getOption('isStacked'));
+    }
+
+    /**
+     * @dataProvider nonBoolProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testIsStackedWithBadTypes($badTypes)
+    {
+        $this->bc->isStacked($badTypes);
+    }
+
+    public function testReverseCategories()
+    {
+        $this->bc->reverseCategories(true);
+
+        $this->assertTrue($this->bc->getOption('reverseCategories'));
+    }
+
+    /**
+     * @dataProvider nonBoolProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testReverseCategoriesWithBadTypes($badTypes)
+    {
+        $this->bc->reverseCategories($badTypes);
+    }
+
+    public function testSeries()
+    {
+        $mockSeries = m::mock('Khill\Lavacharts\Configs\Series');
+
+        $this->bc->series([$mockSeries, $mockSeries]);
+
+        $this->assertTrue(is_array($this->bc->getOption('series')));
+    }
+
+    /**
+     * @dataProvider nonArrayProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testSeriesWithBadTypes($badTypes)
+    {
+        $this->bc->series($badTypes);
+    }
+
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testSeriesWithArrayOfBadTypes()
+    {
+        $this->bc->series([array(), 4, 8.7]);
+    }
+
+    public function testTheme()
+    {
+        $this->bc->theme('maximized');
+
+        $this->assertEquals('maximized', $this->bc->getOption('theme'));
+    }
+
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testThemeWithBadValue()
+    {
+        $this->bc->theme('spaceTheme');
+    }
+
+    /**
+     * @dataProvider nonStringProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testThemeWithBadTypes($badTypes)
+    {
+        $this->bc->theme($badTypes);
+    }
+
+    public function testVerticalAxes()
+    {
+        $mockVerticalAxis = m::mock('Khill\Lavacharts\Configs\VerticalAxis');
+
+        $this->bc->vAxes([$mockVerticalAxis, $mockVerticalAxis]);
+
+        $this->assertTrue(is_array($this->bc->getOption('vAxes')));
+    }
+
+    /**
+     * @dataProvider nonArrayProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testVerticalAxesWithBadTypes($badTypes)
+    {
+        $this->bc->vAxes($badTypes);
+    }
+
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testVerticalAxesWithArrayOfBadTypes()
+    {
+        $this->bc->vAxes([false, 'truth']);
+    }
 
     public function testVerticalAxis()
     {
@@ -201,16 +334,5 @@ class BarChartTest extends ProvidersTestCase
         $this->bc->vAxis($mockVerticalAxis);
 
         $this->assertTrue(is_array($this->bc->getOption('vAxis')));
-    }
-
-    public function nonIntOrPercentProvider()
-    {
-        return array(
-            array(3.2),
-            array(true),
-            array(false),
-            array(array()),
-            array(new \stdClass)
-        );
     }
 }

@@ -7,6 +7,17 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         parent::setUp();
     }
 
+    public function nonIntOrPercentProvider()
+    {
+        return array(
+            array(3.2),
+            array(true),
+            array(false),
+            array(array()),
+            array(new \stdClass)
+        );
+    }
+
     public function nonCarbonOrDateOrEmptyArrayProvider()
     {
         return array(
