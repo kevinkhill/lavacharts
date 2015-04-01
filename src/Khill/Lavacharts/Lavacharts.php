@@ -13,9 +13,9 @@
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Volcano;
 use Khill\Lavacharts\JavascriptFactory;
-use Khill\Lavacharts\Helpers;
 use Khill\Lavacharts\Exceptions\ChartNotFound;
 use Khill\Lavacharts\Exceptions\InvalidChartLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
@@ -149,7 +149,6 @@ class Lavacharts
             } else {
                 return new Configs\DataTable;
             }
-            return new Configs\DataTable;
         }
 
         if (in_array($member, $this->chartClasses)) {
@@ -160,7 +159,7 @@ class Lavacharts
                     throw new InvalidChartLabel($arguments[0]);
                 }
             } else {
-                throw new InvalidChartLabel();
+                throw new InvalidChartLabel;
             }
         }
 
@@ -208,23 +207,37 @@ class Lavacharts
      */
     public function render($chartType, $chartLabel, $elementId, $divDimensions = false)
     {
+        $jsOutput = '';
+
         $chart = $this->volcano->getChart($chartType, $chartLabel);
 
-        if ($this->jsFactory->coreJsRendered()) {
-            $jsOutput = '';
-        } else {
+        if ($this->jsFactory->coreJsRendered() === false) {
             $jsOutput = $this->jsFactory->getCoreJs();
             $this->jsFactory->coreJsRendered(true);
         }
 
-        if ($divDimensions === false) {
-            $jsOutput .= $this->jsFactory->getChartJs($chart, $elementId);
-        } else {
+        if ($divDimensions !== false) {
             $jsOutput .= $this->div($elementId, $divDimensions);
-            $jsOutput .= $this->jsFactory->getChartJs($chart, $elementId);
         }
 
+        $jsOutput .= $this->jsFactory->getChartJs($chart, $elementId);
+
         return $jsOutput;
+    }
+
+    /**
+     * Outputs the link to the Google JSAPI
+     *
+     * @access public
+     * @since  v2.3
+     *
+     * @return string
+     */
+    public function jsapi()
+    {
+        $this->jsFactory->coreJsRendered(true);
+
+        return $this->jsFactory->getCoreJs();
     }
 
     /**

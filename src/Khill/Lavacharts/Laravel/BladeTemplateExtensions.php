@@ -15,14 +15,14 @@ $charts = array(
     'GaugeChart',
     'GeoChart',
     'LineChart',
-    'PieChart',
+    'PieChart'
 );
 
 foreach ($charts as $chart)
 {
     $blade->extend(function($view, $compiler) use ($chart) {
         $pattern = $compiler->createMatcher(strtolower($chart));
-        $output  = '<?php echo Lava::render'.$chart.'$2; ?>';
+        $output  = '$1<?php echo Lava::render'.$chart.'$2; ?>';
 
         return preg_replace($pattern, $output, $view);
     });
