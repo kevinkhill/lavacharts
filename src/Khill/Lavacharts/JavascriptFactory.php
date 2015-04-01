@@ -196,7 +196,6 @@ class JavascriptFactory
 
         $out .= '$this.chart.draw($this.data, $this.options);'.PHP_EOL;
 
-
         $out .= "};".PHP_EOL.PHP_EOL;
 
         $out .= sprintf(
@@ -292,7 +291,7 @@ class JavascriptFactory
 
         foreach ($this->chart->getEvents() as $event) {
 
-            $cb = sprintf(
+            $callback = sprintf(
                 'function (event) {return lava.event(event, $this.chart, %s);}',
                 $event->callback
             );
@@ -300,7 +299,7 @@ class JavascriptFactory
             $out .= sprintf(
                 'google.visualization.events.addListener($this.chart, "%s", %s);',
                 $event::TYPE,
-                $cb
+                $callback
             ).PHP_EOL.PHP_EOL;
 
         }
@@ -329,8 +328,7 @@ class JavascriptFactory
             ).PHP_EOL;
 
             $out .= sprintf(
-                '$this.formats["col%s"].format($this.data, %s);',
-                $index,
+                '$this.formats["col%1$s"].format($this.data, %1$s);',
                 $index
             ).PHP_EOL.PHP_EOL;
         }
@@ -346,11 +344,11 @@ class JavascriptFactory
      * @return bool
      */
     public function coreJsRendered($stat = false) {
-        if ($stat === false) {
-            return $this->coreJsRendered;
-        } else {
-            return $this->coreJsRendered = $stat;
+        if ($stat !== false) {
+            $this->coreJsRendered = $stat;
         }
+
+        return $this->coreJsRendered;
     }
 
     /**
