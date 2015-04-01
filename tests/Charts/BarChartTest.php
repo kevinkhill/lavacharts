@@ -201,7 +201,7 @@ class BarChartTest extends ProvidersTestCase
      */
     public function testHorizontalAxesWithArrayOfBadTypes()
     {
-        $this->bc->hAxes([1, 4.5, 'salmon']);
+        $this->bc->hAxes(array(1, 4.5, 'salmon'));
     }
 
     public function testHorizontalAxis()
@@ -271,7 +271,7 @@ class BarChartTest extends ProvidersTestCase
      */
     public function testSeriesWithArrayOfBadTypes()
     {
-        $this->bc->series([array(), 4, 8.7]);
+        $this->bc->series(array(4, array(), 8.7));
     }
 
     public function testTheme()
@@ -321,7 +321,7 @@ class BarChartTest extends ProvidersTestCase
      */
     public function testVerticalAxesWithArrayOfBadTypes()
     {
-        $this->bc->vAxes([false, 'truth']);
+        $this->bc->vAxes(array(false, 'truth'));
     }
 
     public function testVerticalAxis()
