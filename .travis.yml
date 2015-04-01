@@ -14,8 +14,7 @@ matrix:
 branches:
   only:
     - "master"
-    - "2.2"
-    - "2.3"
+    - "2.4"
 
 before_script:
   - phpenv config-add configs/timezone.ini
