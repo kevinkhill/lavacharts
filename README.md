@@ -23,8 +23,8 @@ Version 2 Features
 - Datatable addColumn aliases
 - Datatable column formatters
 - Carbon support for date columns
-- Now supporting 9 Charts!
-  - Area, Calendar, Column, Combo, Donut, Gauge, Geo, Line, Pie
+- Now supporting 10 Charts!
+  - Area, Bar, Calendar, Column, Combo, Donut, Gauge, Geo, Line, Pie
 
 ## For complete documentation, please visit [lavacharts.com](http://lavacharts.com/)
 
