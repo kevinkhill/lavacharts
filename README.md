@@ -1,4 +1,6 @@
-# Lavacharts [![Total Downloads](https://poser.pugx.org/khill/lavacharts/downloads.svg)](https://packagist.org/packages/khill/lavacharts) [![License](https://img.shields.io/packagist/l/khill/lavacharts.svg?style=plastic)](https://packagist.org/packages/khill/lavacharts) [![PayPayl](https://img.shields.io/badge/paypal-donate-yellow.svg?style=plastic)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ)
+# Lavacharts [![Total Downloads](https://poser.pugx.org/khill/lavacharts/downloads.svg)](https://packagist.org/packages/khill/lavacharts)
+[![License](https://img.shields.io/packagist/l/khill/lavacharts.svg?style=plastic)](https://packagist.org/packages/khill/lavacharts)
+[![PayPayl](https://img.shields.io/badge/paypal-donate-yellow.svg?style=plastic)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ)
 
 Lavacharts is a graphing / chart library for PHP5.3+ that wraps the Google Chart API
 
@@ -10,7 +12,7 @@ Stable:
 
 
 Dev:
-[![Dev Branch](https://img.shields.io/packagist/vpre/kevinkhill/lavacharts.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/2.4)
+[![Dev Branch](https://img.shields.io/badge/dev-2.4.x--dev-blue.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/2.4)
 [![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/2.4.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/2.4.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=2.4)
 
