@@ -144,7 +144,7 @@ class BarChart extends Chart
     public function dataOpacity($do)
     {
         if (Utils::between(0.0, $do, 1.0)) {
-            $this->addOption(array(__FUNCTION__, $do));
+            $this->addOption(array(__FUNCTION__ => $do));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -169,7 +169,7 @@ class BarChart extends Chart
     public function enableInteractivity($ei)
     {
         if (is_bool($ei)) {
-            $this->addOption(array(__FUNCTION__, $ei));
+            $this->addOption(array(__FUNCTION__ => $ei));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -203,7 +203,7 @@ class BarChart extends Chart
         );
 
         if (Utils::nonEmptyStringInArray($ft, $values)) {
-            $this->addOption(array(__FUNCTION__, $ft));
+            $this->addOption(array(__FUNCTION__ => $ft));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
