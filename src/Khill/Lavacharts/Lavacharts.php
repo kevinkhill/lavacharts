@@ -33,6 +33,13 @@ class Lavacharts
     public $volcano;
 
     /**
+     * Javascript factory class for lava.js and chart js
+     *
+     * @var JavascriptFactory
+     */
+    public $jsFactory;
+
+    /**
      * Lavachart configuration options.
      *
      * @var array
@@ -42,7 +49,7 @@ class Lavacharts
     /**
      * @var array Types of charts that can be created.
      */
-    private $chartClasses = array(
+    const chartClasses = array(
         'AreaChart',
         'BarChart',
         'CalendarChart',
@@ -60,32 +67,31 @@ class Lavacharts
      *
      * @var array
      */
-    private $configClasses = array(
-        'ConfigObject',
+    const configClasses = array(
+        'Animation',
         'Annotation',
-        'Axis',
-        'BoxStyle',
         'BackgroundColor',
+        'BoxStyle',
         'ChartArea',
         'Color',
         'ColorAxis',
-        'HorizontalAxis',
         'Gradient',
+        'HorizontalAxis',
         'Legend',
         'MagnifyingGlass',
-        'TextStyle',
-        'Tooltip',
         'Series',
         'SizeAxis',
         'Slice',
         'Stroke',
+        'TextStyle',
+        'Tooltip',
         'VerticalAxis'
     );
 
     /**
      * @var array Types of column formatters.
      */
-    private $formatterClasses = array(
+    const formatterClasses = array(
         'DateFormat',
         'NumberFormat'
     );
@@ -93,7 +99,7 @@ class Lavacharts
     /**
      * @var array Types of events.
      */
-    private $eventClasses = array(
+    const eventClasses = array(
         'Ready',
         'Select',
         'MouseOver',
@@ -136,7 +142,7 @@ class Lavacharts
         if ($this->strStartsWith($member, 'render')) {
             $chartType = str_replace('render', '', $member);
 
-            if (in_array($chartType, $this->chartClasses)) {
+            if (in_array($chartType, self::chartClasses)) {
                 return $this->render($chartType, $arguments[0], $arguments[1]);
             } else {
                 throw new InvalidLavaObject($chartType);
@@ -151,7 +157,7 @@ class Lavacharts
             }
         }
 
-        if (in_array($member, $this->chartClasses)) {
+        if (in_array($member, self::chartClasses)) {
             if (isset($arguments[0])) {
                 if (is_string($arguments[0])) {
                     return $this->chartFactory($member, $arguments[0]);
@@ -163,7 +169,7 @@ class Lavacharts
             }
         }
 
-        if (in_array($member, $this->configClasses)) {
+        if (in_array($member, self::configClasses)) {
             if (isset($arguments[0]) && is_array($arguments[0])) {
                 return $this->configFactory($member, $arguments[0]);
             } else {
@@ -171,7 +177,7 @@ class Lavacharts
             }
         }
 
-        if (in_array($member, $this->formatterClasses)) {
+        if (in_array($member, self::formatterClasses)) {
             if (isset($arguments[0]) && is_array($arguments[0])) {
                 return $this->formatFactory($member, $arguments[0]);
             } else {
@@ -179,7 +185,7 @@ class Lavacharts
             }
         }
 
-        if (in_array($member, $this->eventClasses) && isset($arguments[0])) {
+        if (in_array($member, self::eventClasses) && isset($arguments[0])) {
             return $this->eventFactory($member, $arguments[0]);
         }
 
@@ -228,7 +234,7 @@ class Lavacharts
      * Outputs the link to the Google JSAPI
      *
      * @access public
-     * @since  v2.3
+     * @since  v2.3.0
      *
      * @return string
      */
