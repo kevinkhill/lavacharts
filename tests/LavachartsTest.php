@@ -6,11 +6,33 @@ use \Mockery as m;
 
 class LavachartsTest extends ProvidersTestCase
 {
+    public $lava;
+    public $chartClasses  = array();
+    public $configClasses = array();
+    public $eventClasses  = array();
+    public $formatClasses = array();
+
     public function setUp()
     {
         parent::setUp();
 
         $this->lava = new Lavacharts;
+
+        foreach ($this->lava->getChartClasses() as $chart) {
+            $this->chartClasses[] = array($chart);
+        }
+
+        foreach ($this->lava->getConfigClasses() as $config) {
+            $this->configClasses[] = array($config);
+        }
+
+        foreach ($this->lava->getEventClasses() as $event) {
+            $this->eventClasses[] = array($event);
+        }
+
+        foreach ($this->lava->getFormatClasses() as $format) {
+            $this->formatClasses[] = array($format);
+        }
 
         $this->mdt = m::mock('\Khill\Lavacharts\Configs\DataTable')
                       ->shouldReceive('toJson')
@@ -42,10 +64,11 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider chartTypeProvider
+     * @dataProvider chartTypesProvider
      */
     public function testCreateChartsViaAlias($chartType)
     {
+        var_dump($chartType);
         $this->assertInstanceOf('\Khill\Lavacharts\Charts\\'.$chartType, $this->lava->$chartType('testchart'));
     }
 
@@ -102,7 +125,7 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider chartTypeProvider
+     * @dataProvider chartTypesProvider
      * @depends testCreateDataTableViaAlias
      */
     public function testRenderChartAliases($chartType)
@@ -270,4 +293,23 @@ class LavachartsTest extends ProvidersTestCase
         $this->assertTrue($this->lava->jsFactory->coreJsRendered());
     }
 
+    public function chartTypesProvider()
+    {
+        return $this->chartClasses;
+    }
+
+    public function configObjectProvider()
+    {
+        return $this->configClasses;
+    }
+
+    public function eventObjectProvider()
+    {
+        return $this->eventClasses;
+    }
+
+    public function formatObjectProvider()
+    {
+        return $this->formatClasses;
+    }
 }

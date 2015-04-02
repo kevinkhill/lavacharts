@@ -50,7 +50,7 @@ class Lavacharts
     /**
      * @var array Types of charts that can be created.
      */
-    const chartClasses = array(
+    private $chartClasses = array(
         'AreaChart',
         'BarChart',
         'CalendarChart',
@@ -68,7 +68,7 @@ class Lavacharts
      *
      * @var array
      */
-    const configClasses = array(
+    private $configClasses = array(
         'Animation',
         'Annotation',
         'BackgroundColor',
@@ -92,7 +92,7 @@ class Lavacharts
     /**
      * @var array Types of column formatters.
      */
-    const formatClasses = array(
+    private $formatClasses = array(
         'DateFormat',
         'NumberFormat'
     );
@@ -100,7 +100,7 @@ class Lavacharts
     /**
      * @var array Types of events.
      */
-    const eventClasses = array(
+    private $eventClasses = array(
         'AnimationFinish',
         'Error',
         'MouseOut',
@@ -136,7 +136,7 @@ class Lavacharts
         if ($this->strStartsWith($member, 'render')) {
             $chartType = str_replace('render', '', $member);
 
-            if (in_array($chartType, self::chartClasses)) {
+            if (in_array($chartType, $this->chartClasses)) {
                 return $this->render($chartType, $arguments[0], $arguments[1]);
             } else {
                 throw new InvalidLavaObject($chartType);
@@ -151,7 +151,7 @@ class Lavacharts
             }
         }
 
-        if (in_array($member, self::chartClasses)) {
+        if (in_array($member, $this->chartClasses)) {
             if (isset($arguments[0])) {
                 if (Utils::nonEmptyString($arguments[0])) {
                     return $this->chartFactory($member, $arguments[0]);
@@ -163,7 +163,7 @@ class Lavacharts
             }
         }
 
-        if (in_array($member, self::configClasses)) {
+        if (in_array($member, $this->configClasses)) {
             if (isset($arguments[0]) && is_array($arguments[0])) {
                 return $this->configFactory($member, $arguments[0]);
             } else {
@@ -171,7 +171,7 @@ class Lavacharts
             }
         }
 
-        if (in_array($member, self::formatClasses)) {
+        if (in_array($member, $this->formatClasses)) {
             if (isset($arguments[0]) && is_array($arguments[0])) {
                 return $this->formatFactory($member, $arguments[0]);
             } else {
@@ -179,7 +179,7 @@ class Lavacharts
             }
         }
 
-        if (in_array($member, self::eventClasses)) {
+        if (in_array($member, $this->eventClasses)) {
             if (isset($arguments[0])) {
                 if (Utils::nonEmptyString($arguments[0])) {
                     return $this->eventFactory($member, $arguments[0]);
@@ -245,6 +245,58 @@ class Lavacharts
         $this->jsFactory->coreJsRendered(true);
 
         return $this->jsFactory->getCoreJs();
+    }
+
+    /**
+     * Return chart classes
+     *
+     * @access public
+     * @since  v2.4.0
+     *
+     * @return array
+     */
+    public function getChartClasses()
+    {
+        return $this->chartClasses;
+    }
+
+    /**
+     * Return config classes
+     *
+     * @access public
+     * @since  v2.4.0
+     *
+     * @return array
+     */
+    public function getConfigClasses()
+    {
+        return $this->configClasses;
+    }
+
+    /**
+     * Return event classes
+     *
+     * @access public
+     * @since  v2.4.0
+     *
+     * @return array
+     */
+    public function getEventClasses()
+    {
+        return $this->eventClasses;
+    }
+
+    /**
+     * Return format classes
+     *
+     * @access public
+     * @since  v2.4.0
+     *
+     * @return array
+     */
+    public function getFormatClasses()
+    {
+        return $this->formatClasses;
     }
 
     /**

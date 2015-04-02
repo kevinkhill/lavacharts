@@ -21,7 +21,7 @@ gulp.task('check', function (cb) {
 });
 
 gulp.task('fix', function (cb) {
-  sh('./vendor/bin/phpcbf -n --standard=PSR2 ./src ./tests');
+  sh('./vendor/bin/phpcbf -n --standard=PSR2 --ignore=' + scriptSrc + ' ./src ./tests');
 });
 
 gulp.task('uglify', function (cb) {
