@@ -24,7 +24,7 @@ email: kevinkhill@gmail.com
 
 script:
   - mkdir -p build/logs
-  - vendor/bin/phpunit -c configs/phpunit.dist.xml
+  - vendor/bin/phpunit -c configs/phpunit.xml.dist
 
 after_script:
   - php vendor/bin/coveralls

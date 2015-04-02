@@ -6,33 +6,9 @@ use \Mockery as m;
 
 class LavachartsTest extends ProvidersTestCase
 {
-    public $lava;
-    public $chartClasses  = array();
-    public $configClasses = array();
-    public $eventClasses  = array();
-    public $formatClasses = array();
-
     public function setUp()
     {
-        parent::setUp();
-
         $this->lava = new Lavacharts;
-
-        foreach ($this->lava->getChartClasses() as $chart) {
-            $this->chartClasses[] = array($chart);
-        }
-
-        foreach ($this->lava->getConfigClasses() as $config) {
-            $this->configClasses[] = array($config);
-        }
-
-        foreach ($this->lava->getEventClasses() as $event) {
-            $this->eventClasses[] = array($event);
-        }
-
-        foreach ($this->lava->getFormatClasses() as $format) {
-            $this->formatClasses[] = array($format);
-        }
 
         $this->mdt = m::mock('\Khill\Lavacharts\Configs\DataTable')
                       ->shouldReceive('toJson')
@@ -40,7 +16,11 @@ class LavachartsTest extends ProvidersTestCase
                       ->shouldReceive('hasFormats')
                       ->atLeast(1)
                       ->getMock();
+    }
 
+    protected function assertPreConditions()
+    {
+        $this->assertInstanceOf('\Khill\Lavacharts\Volcano', $this->lava->volcano);
     }
 
     public function testIfInstanceOfVolcano()
@@ -68,7 +48,6 @@ class LavachartsTest extends ProvidersTestCase
      */
     public function testCreateChartsViaAlias($chartType)
     {
-        var_dump($chartType);
         $this->assertInstanceOf('\Khill\Lavacharts\Charts\\'.$chartType, $this->lava->$chartType('testchart'));
     }
 
@@ -295,21 +274,61 @@ class LavachartsTest extends ProvidersTestCase
 
     public function chartTypesProvider()
     {
-        return $this->chartClasses;
+        return array(
+            array('AreaChart'),
+            array('BarChart'),
+            array('CalendarChart'),
+            array('ColumnChart'),
+            array('ComboChart'),
+            array('DonutChart'),
+            array('GaugeChart'),
+            array('GeoChart'),
+            array('LineChart'),
+            array('PieChart')
+        );
     }
 
     public function configObjectProvider()
     {
-        return $this->configClasses;
+        return array(
+            array('Animation'),
+            array('Annotation'),
+            array('BackgroundColor'),
+            array('BoxStyle'),
+            array('ChartArea'),
+            array('Color'),
+            array('ColorAxis'),
+            array('Gradient'),
+            array('HorizontalAxis'),
+            array('Legend'),
+            array('MagnifyingGlass'),
+            array('Series'),
+            array('SizeAxis'),
+            array('Slice'),
+            array('Stroke'),
+            array('TextStyle'),
+            array('Tooltip'),
+            array('VerticalAxis')
+        );
     }
 
     public function eventObjectProvider()
     {
-        return $this->eventClasses;
+        return array(
+            'AnimationFinish',
+            'Error',
+            'MouseOut',
+            'MouseOver',
+            'Ready',
+            'Select'
+        );
     }
 
     public function formatObjectProvider()
     {
-        return $this->formatClasses;
+        return array(
+            array('DateFormat'),
+            array('NumberFormat')
+        );
     }
 }

@@ -41,13 +41,6 @@ class Lavacharts
     public $jsFactory;
 
     /**
-     * Lavachart configuration options.
-     *
-     * @var array
-     */
-    public $config = array();
-
-    /**
      * @var array Types of charts that can be created.
      */
     private $chartClasses = array(
@@ -106,7 +99,7 @@ class Lavacharts
         'MouseOut',
         'MouseOver',
         'Ready',
-        'Select',
+        'Select'
     );
 
     /**
@@ -245,58 +238,6 @@ class Lavacharts
         $this->jsFactory->coreJsRendered(true);
 
         return $this->jsFactory->getCoreJs();
-    }
-
-    /**
-     * Return chart classes
-     *
-     * @access public
-     * @since  v2.4.0
-     *
-     * @return array
-     */
-    public function getChartClasses()
-    {
-        return $this->chartClasses;
-    }
-
-    /**
-     * Return config classes
-     *
-     * @access public
-     * @since  v2.4.0
-     *
-     * @return array
-     */
-    public function getConfigClasses()
-    {
-        return $this->configClasses;
-    }
-
-    /**
-     * Return event classes
-     *
-     * @access public
-     * @since  v2.4.0
-     *
-     * @return array
-     */
-    public function getEventClasses()
-    {
-        return $this->eventClasses;
-    }
-
-    /**
-     * Return format classes
-     *
-     * @access public
-     * @since  v2.4.0
-     *
-     * @return array
-     */
-    public function getFormatClasses()
-    {
-        return $this->formatClasses;
     }
 
     /**
