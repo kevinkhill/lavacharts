@@ -45,7 +45,6 @@ class Format
     {
         $class = new \ReflectionClass($child);
 
-        $this->type = $class->getShortname();
         $this->options = array_map(function ($prop) {
             return $prop->name;
         }, $class->getProperties(\ReflectionProperty::IS_PUBLIC));
@@ -56,7 +55,7 @@ class Format
                     $this->{$option}($value);
                 } else {
                     throw new InvalidConfigProperty(
-                        $this->type,
+                        $child::TYPE,
                         __FUNCTION__,
                         $option,
                         $this->options

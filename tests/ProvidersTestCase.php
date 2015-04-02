@@ -1,5 +1,7 @@
 <?php namespace Khill\Lavacharts\Tests;
 
+use Khill\Lavacharts\Lavacharts;
+
 abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
@@ -111,5 +113,41 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
             array(false),
             array(new \stdClass())
         );
+    }
+
+    public function chartTypeProvider()
+    {
+        foreach (Lavacharts::chartClasses as $chart) {
+            $charts[] = array($chart);
+        }
+
+        return $charts;
+    }
+
+    public function configObjectProvider()
+    {
+        foreach (Lavacharts::configClasses as $config) {
+            $configs[] = array($config);
+        }
+
+        return $configs;
+    }
+
+    public function eventObjectProvider()
+    {
+        foreach (Lavacharts::eventClasses as $event) {
+            $events[] = array($event);
+        }
+
+        return $events;
+    }
+
+    public function formatObjectProvider()
+    {
+        foreach (Lavacharts::formatClasses as $format) {
+            $formats[] = array($format);
+        }
+
+        return $formats;
     }
 }

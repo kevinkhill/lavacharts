@@ -6,7 +6,7 @@
  * Formats number values in the datatable for display.
  * Added to columns during column definition.
  *
- * @see https://developers.google.com/chart/interactive/docs/reference#numberformatter
+ * @see        https://developers.google.com/chart/interactive/docs/reference#numberformatter
  *
  * @package    Lavacharts
  * @subpackage Formats

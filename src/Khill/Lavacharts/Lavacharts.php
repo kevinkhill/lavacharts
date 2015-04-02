@@ -20,6 +20,7 @@ use Khill\Lavacharts\Exceptions\ChartNotFound;
 use Khill\Lavacharts\Exceptions\InvalidChartLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidEventCallback;
 use Khill\Lavacharts\Exceptions\InvalidDivDimensions;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
@@ -91,7 +92,7 @@ class Lavacharts
     /**
      * @var array Types of column formatters.
      */
-    const formatterClasses = array(
+    const formatClasses = array(
         'DateFormat',
         'NumberFormat'
     );
@@ -100,19 +101,12 @@ class Lavacharts
      * @var array Types of events.
      */
     const eventClasses = array(
+        'AnimationFinish',
+        'Error',
+        'MouseOut',
+        'MouseOver',
         'Ready',
         'Select',
-        'MouseOver',
-        'MouseOut'
-    );
-
-    /**
-     * Acceptable global configuration options.
-     *
-     * @var array
-     */
-    private $globalConfigs = array(
-        'textStyle'
     );
 
     /**
@@ -159,7 +153,7 @@ class Lavacharts
 
         if (in_array($member, self::chartClasses)) {
             if (isset($arguments[0])) {
-                if (is_string($arguments[0])) {
+                if (Utils::nonEmptyString($arguments[0])) {
                     return $this->chartFactory($member, $arguments[0]);
                 } else {
                     throw new InvalidChartLabel($arguments[0]);
@@ -177,7 +171,7 @@ class Lavacharts
             }
         }
 
-        if (in_array($member, self::formatterClasses)) {
+        if (in_array($member, self::formatClasses)) {
             if (isset($arguments[0]) && is_array($arguments[0])) {
                 return $this->formatFactory($member, $arguments[0]);
             } else {
@@ -185,8 +179,16 @@ class Lavacharts
             }
         }
 
-        if (in_array($member, self::eventClasses) && isset($arguments[0])) {
-            return $this->eventFactory($member, $arguments[0]);
+        if (in_array($member, self::eventClasses)) {
+            if (isset($arguments[0])) {
+                if (Utils::nonEmptyString($arguments[0])) {
+                    return $this->eventFactory($member, $arguments[0]);
+                } else {
+                    throw new InvalidEventCallback($arguments[0]);
+                }
+            } else {
+                throw new InvalidEventCallback;
+            }
         }
 
         if (! method_exists($this, $member)) {
@@ -243,41 +245,6 @@ class Lavacharts
         $this->jsFactory->coreJsRendered(true);
 
         return $this->jsFactory->getCoreJs();
-    }
-
-    /**
-     * Sets global configuration options for the whole Lavachart library.
-     *
-     * Accepted config options include:
-     * errorPrepend: An html string
-     *
-     * @access public
-     * @since  v2.0.0
-     *
-     * @param  array                 $config Array of configurations options
-     * @throws InvalidConfigProperty
-     * @return void
-     */
-    public function setOptions($config)
-    {
-        if (is_array($config)) {
-            foreach ($config as $option => $value) {
-                if (in_array($option, $this->validGlobals)) {
-                    $this->config[$option] = $value;
-                } else {
-                    throw new InvalidConfigProperty(
-                        __METHOD__,
-                        $option,
-                        Utils::arrayToPipedString($this->validGlobals)
-                    );
-                }
-            }
-        } else {
-            throw new InvalidConfigValue(
-                __METHOD__,
-                'array'
-            );
-        }
     }
 
     /**

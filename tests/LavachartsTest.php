@@ -1,15 +1,16 @@
 <?php namespace Khill\Lavacharts\Tests;
 
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Lavacharts;
 use \Mockery as m;
 
-class LavachartsTest extends \PHPUnit_Framework_TestCase
+class LavachartsTest extends ProvidersTestCase
 {
     public function setUp()
     {
         parent::setUp();
 
-        $this->lc = new Lavacharts;
+        $this->lava = new Lavacharts;
 
         $this->mdt = m::mock('\Khill\Lavacharts\Configs\DataTable')
                       ->shouldReceive('toJson')
@@ -22,12 +23,22 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
 
     public function testIfInstanceOfVolcano()
     {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Volcano', $this->lc->volcano);
+        $this->assertInstanceOf('\Khill\Lavacharts\Volcano', $this->lava->volcano);
+    }
+
+    public function testIfInstanceOfJavascriptFactory()
+    {
+        $this->assertInstanceOf('\Khill\Lavacharts\JavascriptFactory', $this->lava->jsFactory);
     }
 
     public function testCreateDataTableViaAlias()
     {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Configs\\DataTable', $this->lc->DataTable());
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\DataTable', $this->lava->DataTable());
+    }
+
+    public function testCreateDataTableViaAliasWithTimezone()
+    {
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\DataTable', $this->lava->DataTable('America/Los_Angeles'));
     }
 
     /**
@@ -35,15 +46,49 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateChartsViaAlias($chartType)
     {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Charts\\'.$chartType, $this->lc->$chartType('testchart'));
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\\'.$chartType, $this->lava->$chartType('testchart'));
     }
 
     /**
      * @dataProvider configObjectProvider
      */
-    public function testCreateConfigObjectsViaAliasNoParams($configType)
+    public function testCreateConfigObjectsViaAlias($configType)
     {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Configs\\'.$configType, $this->lc->$configType());
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\\'.$configType, $this->lava->$configType());
+    }
+
+    /**
+     * @dataProvider eventObjectProvider
+     */
+    public function testCreateEventObjectsViaAliasWithCallback($eventType)
+    {
+        $this->assertInstanceOf('\Khill\Lavacharts\Events\\'.$eventType, $this->lava->$eventType('jsCallback'));
+    }
+
+    /**
+     * @dataProvider eventObjectProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidEventCallback
+     */
+    public function testCreateEventObjectsViaAliasWithMissingCallback($eventType)
+    {
+        $this->lava->$eventType();
+    }
+
+    /**
+     * @dataProvider eventObjectProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidEventCallback
+     */
+    public function testCreateEventObjectsViaAliasWithBadTypeCallback($eventType)
+    {
+        $this->lava->$eventType(2372);
+    }
+
+    /**
+     * @dataProvider formatObjectProvider
+     */
+    public function testCreateFormatObjectsViaAlias($formatType)
+    {
+        $this->assertInstanceOf('\Khill\Lavacharts\Formats\\'.$formatType, $this->lava->$formatType());
     }
 
     public function testCreateConfigObjectViaAliasWithParam()
@@ -53,7 +98,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
             'fontName' => 'Arial'
         );
 
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Configs\TextStyle', $this->lc->TextStyle($params));
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $this->lava->TextStyle($params));
     }
 
     /**
@@ -62,12 +107,12 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testRenderChartAliases($chartType)
     {
-        $chart = $this->lc->$chartType('test');
+        $chart = $this->lava->$chartType('test');
         $chart->datatable($this->mdt);
 
         $render = 'render'.$chartType;
 
-        $this->assertTrue(is_string($this->lc->$render('test', 'test-div')));
+        $this->assertTrue(is_string($this->lava->$render('test', 'test-div')));
     }
 
     /**
@@ -75,10 +120,10 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testDirectRenderChart()
     {
-        $chart = $this->lc->LineChart('test');
+        $chart = $this->lava->LineChart('test');
         $chart->datatable($this->mdt);
 
-        $this->assertTrue(is_string($this->lc->render('LineChart', 'test', 'test-div')));
+        $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div')));
     }
 
     /**
@@ -86,10 +131,10 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testDirectRenderChartWithDivNoDimensions()
     {
-        $chart = $this->lc->LineChart('test');
+        $chart = $this->lava->LineChart('test');
         $chart->datatable($this->mdt);
 
-        $this->assertTrue(is_string($this->lc->render('LineChart', 'test', 'test-div', true)));
+        $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div', true)));
     }
 
     /**
@@ -97,7 +142,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testDirectRenderChartWithDivAndDimensions()
     {
-        $chart = $this->lc->LineChart('test');
+        $chart = $this->lava->LineChart('test');
         $chart->datatable($this->mdt);
 
         $dims = array(
@@ -105,7 +150,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
             'width' => 200
         );
 
-        $this->assertTrue(is_string($this->lc->render('LineChart', 'test', 'test-div', $dims)));
+        $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div', $dims)));
     }
 
     /**
@@ -114,7 +159,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testDirectRenderChartWithDivAndBadDimensionKeys()
     {
-        $chart = $this->lc->LineChart('test');
+        $chart = $this->lava->LineChart('test');
         $chart->datatable($this->mdt);
 
         $dims = array(
@@ -122,7 +167,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
             'wZidth' => 200
         );
 
-        $this->assertTrue(is_string($this->lc->render('LineChart', 'test', 'test-div', $dims)));
+        $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div', $dims)));
     }
 
     /**
@@ -131,10 +176,10 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testDirectRenderChartWithDivAndBadDimensionType()
     {
-        $chart = $this->lc->LineChart('test');
+        $chart = $this->lava->LineChart('test');
         $chart->datatable($this->mdt);
 
-        $this->assertTrue(is_string($this->lc->render('LineChart', 'test', 'test-div', 'TacosTacosTacos')));
+        $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div', 'TacosTacosTacos')));
     }
 
     /**
@@ -143,7 +188,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testDirectRenderChartWithDivAndDimensionsWithBadValues()
     {
-        $chart = $this->lc->LineChart('test');
+        $chart = $this->lava->LineChart('test');
         $chart->datatable($this->mdt);
 
         $dims = array(
@@ -151,7 +196,27 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
             'width' => 'hotdogs'
         );
 
-        $this->assertTrue(is_string($this->lc->render('LineChart', 'test', 'test-div', $dims)));
+        $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div', $dims)));
+    }
+
+    /**
+     * @depends testCreateDataTableViaAlias
+     * @depends testCreateConfigObjectViaAliasWithParam
+     */
+    public function testCreateFormatObjectViaAliasWithConsructorConfig()
+    {
+        $dt = $this->lava->DataTable();
+
+        $df = $this->lava->DateFormat(array(
+            'formatType' => 'medium'
+        ));
+
+        $dt->addDateColumn('dates', $df);
+
+        $chart = $this->lava->LineChart('test');
+        $chart->datatable($dt);
+
+        $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div')));
     }
 
     /**
@@ -159,7 +224,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidLavaObject()
     {
-        $this->lc->PizzaChart();
+        $this->lava->PizzaChart();
     }
 
     /**
@@ -167,7 +232,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testRenderAliasWithInvalidLavaObject()
     {
-        $this->lc->renderTacoChart();
+        $this->lava->renderTacoChart();
     }
 
     /**
@@ -175,7 +240,7 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateChartWithMissingLabel()
     {
-        $this->lc->LineChart();
+        $this->lava->LineChart();
     }
 
     /**
@@ -183,7 +248,14 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateChartWithInvalidLabel()
     {
-        $this->lc->LineChart(5);
+        $this->lava->LineChart(5);
+    }
+
+    public function testCreatingChartAndRetrievingFromVolcano()
+    {
+        $this->lava->PieChart('volcanoTest');
+
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\PieChart', $this->lava->PieChart('volcanoTest'));
     }
 
     public function testJsapiMethodWithCoreJsTracking()
@@ -193,26 +265,9 @@ class LavachartsTest extends \PHPUnit_Framework_TestCase
         $javascript .= 'function onResize(a,e){return window.onresize=function(){clearTimeout(e),e=setTimeout(a,100)},a}var lava=lava||{get:null,event:null,charts:{},registeredCharts:[]};lava.get=function(a){var e,r=Object.keys(lava.charts);return"string"!=typeof a?(console.error("[Lavacharts] The input for lava.get() must be a string."),!1):Array.isArray(r)?void r.some(function(r){return"undefined"!=typeof lava.charts[r][a]?(e=lava.charts[r][a].chart,!0):!1}):!1},lava.event=function(a,e,r){return r(a,e)},lava.register=function(a,e){this.registeredCharts.push(a+":"+e)},window.onload=function(){onResize(function(){for(var a=0;a<lava.registeredCharts.length;a++){var e=lava.registeredCharts[a].split(":");lava.charts[e[0]][e[1]].draw()}})};';
         $javascript .= '</script>';
 
-        $this->assertEquals($javascript, $this->lc->jsapi());
+        $this->assertEquals($javascript, $this->lava->jsapi());
 
-        $this->assertTrue($this->lc->jsFactory->coreJsRendered());
+        $this->assertTrue($this->lava->jsFactory->coreJsRendered());
     }
 
-    public function chartTypeProvider()
-    {
-        foreach (Lavacharts::chartClasses as $chart) {
-            $charts[] = array($chart);
-        }
-
-        return $charts;
-    }
-
-    public function configObjectProvider()
-    {
-        foreach (Lavacharts::configClasses as $config) {
-            $configs[] = array($config);
-        }
-
-        return $configs;
-    }
 }
