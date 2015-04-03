@@ -51,11 +51,11 @@ class Lavacharts
         'CalendarChart',
         'ColumnChart',
         'ComboChart',
+        'PieChart',
         'DonutChart',
         'GaugeChart',
         'GeoChart',
-        'LineChart',
-        'PieChart'
+        'LineChart'
     );
 
     /**
@@ -114,7 +114,11 @@ class Lavacharts
     public function __construct()
     {
         if (!$this->usingComposer()) {
-            $this->loadLavaClasses();
+            require_once(__DIR__.'/Psr4Autoloader.php');
+
+            $loader = new Psr4Autoloader;
+            $loader->register();
+            $loader->addNamespace('Khill\Lavacharts', __DIR__);
         }
 
         $this->volcano   = new Volcano;
@@ -403,49 +407,6 @@ class Lavacharts
     private function strStartsWith($haystack, $needle)
     {
         return $needle === "" || strpos($haystack, $needle) === 0;
-    }
-
-    /**
-     * Loads all relevant Lavacharts classes
-     *
-     * This is to remove the dependency of composer's autoloading and
-     * enable the use of Lavacharts in projects that don't use composer.
-     *
-     * @access private
-     * @since  v2.4.0
-     */
-    private function loadLavaClasses()
-    {
-        require_once(__DIR__.'/Utils.php');
-        require_once(__DIR__.'/Volcano.php');
-        require_once(__DIR__.'/Javascript/JavascriptFactory.php');
-
-        $lavaClassTypes = array(
-            'Charts',
-            'Configs',
-            'Events',
-            'Exceptions',
-            'Formats'
-        );
-
-        foreach ($lavaClassTypes as $classType)
-        {
-            foreach (new \DirectoryIterator(__DIR__.'/'.$classType) as $fileInfo)
-            {
-                if (!$fileInfo->isDot()) {
-                    require_once(__DIR__ . '/' . $classType . '/' . $fileInfo->getFilename());
-                }
-            }
-        }
-
-        if (defined('LARAVEL_START')) {
-            foreach (new \DirectoryIterator(__DIR__.'/Laravel') as $fileInfo)
-            {
-                if (!$fileInfo->isDot()) {
-                    require_once(__DIR__ . '/Laravel/' . $fileInfo->getFilename());
-                }
-            }
-        }
     }
 
     /**
