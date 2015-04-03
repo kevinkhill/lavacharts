@@ -315,12 +315,12 @@ class LavachartsTest extends ProvidersTestCase
     public function eventObjectProvider()
     {
         return array(
-            'AnimationFinish',
-            'Error',
-            'MouseOut',
-            'MouseOver',
-            'Ready',
-            'Select'
+            array('AnimationFinish'),
+            array('Error'),
+            array('MouseOut'),
+            array('MouseOver'),
+            array('Ready'),
+            array('Select')
         );
     }
 
