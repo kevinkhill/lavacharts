@@ -17,13 +17,7 @@ class DataTableTest extends ProvidersTestCase
 
     public function testDefaultTimezoneUponCreation()
     {
-        $dt = new DataTable;
-
-        if (gethostname() == 'macbook.local') {
-            $this->assertEquals($dt->timezone, 'America/Los_Angeles'); //For Local
-        } else {
-            $this->assertEquals($dt->timezone, 'UTC'); //For TravisCI
-        }
+        $this->assertEquals($this->dt->timezone, 'America/Los_Angeles');
     }
 
     public function testSetTimezoneWithConstructor()
