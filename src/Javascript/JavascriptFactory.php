@@ -362,7 +362,7 @@ class JavascriptFactory
     {
         $out  = $this->jsAPI;
         $out .= $this->jsO;
-        $out .= file_get_contents(__DIR__.'/lava.min.js');
+        $out .= file_get_contents(__DIR__.'/dist/lava.min.js');
         $out .= $this->jsC;
 
         return $out;

@@ -6,7 +6,6 @@ var gulp = require('gulp'),
   rename = require('gulp-rename'),
  replace = require('gulp-replace');
 
-var scriptSrc = './src/Khill/Lavacharts/Javascript';
 
 gulp.task('test', function (cb) {
   sh('./vendor/bin/phpunit -c configs/phpunit.xml');
@@ -25,10 +24,10 @@ gulp.task('fix', function (cb) {
 });
 
 gulp.task('uglify', function (cb) {
-  gulp.src(scriptSrc + '/lava.js')
+  gulp.src('./src/Javascript/src/lava.js')
       .pipe(uglify())
       .pipe(rename({suffix:'.min'}))
-      .pipe(gulp.dest(scriptSrc));
+      .pipe(gulp.dest('./src/Javascript/dist'));
 });
 
 gulp.task('bump', function (cb) {
