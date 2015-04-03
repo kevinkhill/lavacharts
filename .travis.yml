@@ -16,17 +16,15 @@ branches:
     - "master"
     - "2.4"
 
-before_script:
-  - echo 'America/Los_Angeles' | sudo tee /etc/timezone
-  - sudo dpkg-reconfigure --frontend noninteractive tzdata
-  - echo 'date.timezone = "America/Los_Angeles"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  - date
-  - composer install --prefer-dist --no-progress --no-dev
-
 email: kevinkhill@gmail.com
 
-script:
+before_script:
+  - echo 'date.timezone = "America/Los_Angeles"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - mkdir -p build/logs
+  - composer install --no-progress
+
+script:
+  - php -i | grep timezone
   - phpunit -c configs/phpunit.xml.dist
 
 after_script:
