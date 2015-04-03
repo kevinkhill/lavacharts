@@ -17,14 +17,17 @@ branches:
     - "2.4"
 
 before_script:
-  - phpenv config-add configs/timezone.ini
-  - composer install
+  - echo 'America/Los_Angeles' | sudo tee /etc/timezone
+  - sudo dpkg-reconfigure --frontend noninteractive tzdata
+  - echo 'date.timezone = "America/Los_Angeles"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  - date
+  - composer install --prefer-dist --no-progress --no-dev
 
 email: kevinkhill@gmail.com
 
 script:
   - mkdir -p build/logs
-  - vendor/bin/phpunit -c configs/phpunit.xml.dist
+  - phpunit -c configs/phpunit.xml.dist
 
 after_script:
   - php vendor/bin/coveralls
