@@ -416,9 +416,9 @@ class Lavacharts
      */
     private function loadLavaClasses()
     {
-        require_once('./Utils.php');
-        require_once('./Volcano.php');
-        require_once('./Javascript/JavascriptFactory.php');
+        require_once(__DIR__.'/Utils.php');
+        require_once(__DIR__.'/Volcano.php');
+        require_once(__DIR__.'/Javascript/JavascriptFactory.php');
 
         $lavaClassTypes = array(
             'Charts',
