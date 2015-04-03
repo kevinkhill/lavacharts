@@ -41,7 +41,9 @@ class Lavacharts
     public $jsFactory;
 
     /**
-     * @var array Types of charts that can be created.
+     * Types of charts that can be created.
+     *
+     * @var array
      */
     private $chartClasses = array(
         'AreaChart',
@@ -83,7 +85,9 @@ class Lavacharts
     );
 
     /**
-     * @var array Types of column formatters.
+     * Types of column formatters.
+     *
+     * @var array
      */
     private $formatClasses = array(
         'DateFormat',
@@ -91,7 +95,9 @@ class Lavacharts
     );
 
     /**
-     * @var array Types of events.
+     * Types of events.
+     *
+     * @var array
      */
     private $eventClasses = array(
         'AnimationFinish',
@@ -107,7 +113,7 @@ class Lavacharts
      */
     public function __construct()
     {
-        if (!$this->checkIfComposer()) {
+        if (!$this->usingComposer()) {
             $this->loadLavaClasses();
         }
 
@@ -410,6 +416,10 @@ class Lavacharts
      */
     private function loadLavaClasses()
     {
+        require_once('./Utils.php');
+        require_once('./Volcano.php');
+        require_once('./Javascript/JavascriptFactory.php');
+
         $lavaClassTypes = array(
             'Charts',
             'Configs',
@@ -427,6 +437,15 @@ class Lavacharts
                 }
             }
         }
+
+        if (defined('LARAVEL_START')) {
+            foreach (new \DirectoryIterator(__DIR__.'/Laravel') as $fileInfo)
+            {
+                if (!$fileInfo->isDot()) {
+                    require_once(__DIR__ . '/Laravel/' . $fileInfo->getFilename());
+                }
+            }
+        }
     }
 
     /**
@@ -439,7 +458,7 @@ class Lavacharts
      *
      * @return bool
      */
-    private function checkIfComposer()
+    private function usingComposer()
     {
         if (strpos(realpath(__FILE__), 'composer') !== false) {
             return true;
