@@ -107,6 +107,10 @@ class Lavacharts
      */
     public function __construct()
     {
+        if (!$this->checkIfComposer()) {
+            $this->loadLavaClasses();
+        }
+
         $this->volcano   = new Volcano;
         $this->jsFactory = new JavascriptFactory;
     }
@@ -394,4 +398,54 @@ class Lavacharts
     {
         return $needle === "" || strpos($haystack, $needle) === 0;
     }
+
+    /**
+     * Loads all relevant Lavacharts classes
+     *
+     * This is to remove the dependency of composer's autoloading and
+     * enable the use of Lavacharts in projects that don't use composer.
+     *
+     * @access private
+     * @since  v2.4.0
+     */
+    private function loadLavaClasses()
+    {
+        $lavaClassTypes = array(
+            'Charts',
+            'Configs',
+            'Events',
+            'Exceptions',
+            'Formats'
+        );
+
+        foreach ($lavaClassTypes as $classType)
+        {
+            foreach (new \DirectoryIterator(__DIR__.'/'.$classType) as $fileInfo)
+            {
+                if (!$fileInfo->isDot()) {
+                    require_once(__DIR__ . '/' . $classType . '/' . $fileInfo->getFilename());
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks if running in comopser environment
+     *
+     * This will check if the folder 'composer' is within the path to Lavacharts.
+     *
+     * @access private
+     * @since  v2.4.0
+     *
+     * @return bool
+     */
+    private function checkIfComposer()
+    {
+        if (strpos(realpath(__FILE__), 'composer') !== false) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
