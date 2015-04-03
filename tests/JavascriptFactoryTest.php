@@ -1,7 +1,7 @@
 <?php namespace Khill\Lavacharts\Tests;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\JavascriptFactory;
+use \Khill\Lavacharts\Javascript\JavascriptFactory;
 use \Mockery as m;
 
 class JavascriptFactoryTest extends ProvidersTestCase

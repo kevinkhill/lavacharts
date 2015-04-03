@@ -16,7 +16,7 @@
  */
 
 use Khill\Lavacharts\Utils;
-use Khill\Lavacharts\JavascriptFactory;
+use Khill\Lavacharts\Javascript\JavascriptFactory;
 use Khill\Lavacharts\Configs\DataTable;
 use Khill\Lavacharts\Configs\Legend;
 use Khill\Lavacharts\Configs\Tooltip;
