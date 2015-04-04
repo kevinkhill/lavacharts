@@ -14,7 +14,7 @@ matrix:
 branches:
   only:
     - "master"
-    - "2.4"
+    - "2.5"
 
 email: kevinkhill@gmail.com
 

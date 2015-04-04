@@ -38,7 +38,7 @@ gulp.task('bump', function (cb) {
       .pipe(bump({version:argv.v}))
       .pipe(gulp.dest('./'));
 
-  gulp.src('./README.md')
+  gulp.src(['./README.md', './.travis.yml'])
       .pipe(replace(/("|=|\/|-)[0-9]+\.[0-9]+/g, '$1'+minorVersion))
       .pipe(gulp.dest('./'));
 });

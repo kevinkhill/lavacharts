@@ -10,9 +10,9 @@ Stable:
 
 
 Dev:
-[![Dev Branch](https://img.shields.io/badge/dev-2.4.x--dev-blue.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/2.4)
-[![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/2.4.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
-[![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/2.4.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=2.4)
+[![Dev Branch](https://img.shields.io/badge/dev-2.5.x--dev-blue.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/2.5)
+[![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/2.5.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
+[![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/2.5.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=2.5)
 
 
 Version 2 Features
@@ -34,7 +34,7 @@ Installing
 In your project's main ```composer.json``` file, add this line to the requirements:
 
   ```
-  "khill/lavacharts": "2.4.*"
+  "khill/lavacharts": "2.5.*"
   ```
 
 Run Composer to install Lavacharts:
