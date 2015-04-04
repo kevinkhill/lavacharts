@@ -216,6 +216,32 @@ class BarChartTest extends ProvidersTestCase
         $this->assertTrue(is_array($this->bc->getOption('hAxis')));
     }
 
+    public function testOrientationWithValidInput()
+    {
+        $this->bc->orientation('horizontal');
+        $this->assertEquals('horizontal', $this->bc->getOption('orientation'));
+
+        $this->bc->orientation('vertical');
+        $this->assertEquals('vertical', $this->bc->getOption('orientation'));
+    }
+
+    /**
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testOrientationWithBadValue()
+    {
+        $this->bc->orientation('circles');
+    }
+
+    /**
+     * @dataProvider nonStringProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testOrientationWithBadTypes($badTypes)
+    {
+        $this->bc->orientation($badTypes);
+    }
+
     public function testIsStacked()
     {
         $this->bc->isStacked(true);
