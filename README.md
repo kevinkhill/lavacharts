@@ -34,7 +34,7 @@ Installing
 In your project's main ```composer.json``` file, add this line to the requirements:
 
   ```
-  "khill/lavacharts": "2.5.*"
+  "khill/lavacharts": "2.4.*"
   ```
 
 Run Composer to install Lavacharts:
