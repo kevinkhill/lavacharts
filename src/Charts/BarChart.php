@@ -282,6 +282,26 @@ class BarChart extends Chart
         return $this;
     }
 
+    public function orientation($o)
+    {
+        $values = array(
+            'horizontal',
+            'vertical'
+        );
+
+        if (Utils::nonEmptyStringInArray($o, $values)) {
+            $this->addOption(array(__FUNCTION__ => $o));
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string',
+                'must be one of '.Utils::arrayToPipedString($values)
+            );
+        }
+
+        return $this;
+    }
+
     /**
      * If set to true, series elements are stacked.
      *
