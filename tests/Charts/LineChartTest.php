@@ -83,6 +83,24 @@ class LineChartTest extends ProvidersTestCase
         $this->lc->curveType($badTypes);
     }
 
+    public function testFocusTarget()
+    {
+        $this->lc->focusTarget('datum');
+        $this->assertEquals('datum', $this->lc->getOption('focusTarget'));
+
+        $this->lc->focusTarget('category');
+        $this->assertEquals('category', $this->lc->getOption('focusTarget'));
+    }
+
+    /**
+     * @dataProvider nonStringProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testFocusTargetWithBadType($badTypes)
+    {
+        $this->lc->focusTarget($badTypes);
+    }
+
     public function testHorizontalAxis()
     {
         $mockHorizontalAxis = m::mock('Khill\Lavacharts\Configs\HorizontalAxis');

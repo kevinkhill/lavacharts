@@ -73,6 +73,24 @@ class AreaChartTest extends ProvidersTestCase
         $this->ac->axisTitlesPosition($badTypes);
     }
 
+    public function testFocusTarget()
+    {
+        $this->ac->focusTarget('datum');
+        $this->assertEquals('datum', $this->ac->getOption('focusTarget'));
+
+        $this->ac->focusTarget('category');
+        $this->assertEquals('category', $this->ac->getOption('focusTarget'));
+    }
+
+    /**
+     * @dataProvider nonStringProvider
+     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testFocusTargetWithBadType($badTypes)
+    {
+        $this->ac->focusTarget($badTypes);
+    }
+
     public function testHorizontalAxis()
     {
         $mockHorizontalAxis = m::mock('Khill\Lavacharts\Configs\HorizontalAxis');
