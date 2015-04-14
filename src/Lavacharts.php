@@ -255,6 +255,19 @@ class Lavacharts
     }
 
     /**
+     * Checks to see if the given chart type and title exists in the volcano storage.
+     *
+     * @access public
+     * @since  v2.4.2
+     *
+     * @return string
+     */
+    public function exists($type, $label)
+    {
+        return $this->volcano->checkChart($type, $label);
+    }
+
+    /**
      * Builds a div html element for the chart to be rendered into.
      *
      * Calling with no arguments will return a div with the ID set to what was

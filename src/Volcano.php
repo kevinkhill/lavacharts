@@ -15,6 +15,7 @@
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
+use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Exceptions\InvalidLabel;
 use Khill\Lavacharts\Exceptions\ChartNotFound;
@@ -64,13 +65,18 @@ class Volcano
      *
      * @param string $type  Type of chart to store.
      * @param string $label Identifying label of a chart to check.
+     *
      * @return bool
      */
     public function checkChart($type, $label)
     {
-        if (array_key_exists($type, $this->charts)) {
-            if (array_key_exists($label, $this->charts[$type])) {
-                return true;
+        if (Utils::nonEmptyString($type) && Utils::nonEmptyString($label)) {
+            if (array_key_exists($type, $this->charts)) {
+                if (array_key_exists($label, $this->charts[$type])) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }

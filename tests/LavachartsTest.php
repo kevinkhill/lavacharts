@@ -38,6 +38,47 @@ class LavachartsTest extends ProvidersTestCase
         $this->assertInstanceOf('\Khill\Lavacharts\Configs\DataTable', $this->lava->DataTable('America/Los_Angeles'));
     }
 
+    public function testExistsWithExistingChartInVolcano()
+    {
+        $this->lava->LineChart('TestChart');
+
+        $this->assertTrue($this->lava->exists('LineChart', 'TestChart'));
+    }
+
+    public function testExistsWithNonExistantChartTypeInVolcano()
+    {
+        $this->lava->LineChart('TestChart');
+
+        $this->assertFalse($this->lava->exists('SheepChart', 'TestChart'));
+    }
+
+    public function testExistsWithNonExistantChartLabelInVolcano()
+    {
+        $this->lava->LineChart('WhaaaaatChart?');
+
+        $this->assertFalse($this->lava->exists('LineChart', 'TestChart'));
+    }
+
+    /**
+     * @dataProvider nonStringProvider
+     */
+    public function testExistsWithNonStringInputForType($badTypes)
+    {
+        $this->lava->LineChart('TestChart');
+
+        $this->assertFalse($this->lava->exists($badTypes, 'TestChart'));
+    }
+
+    /**
+     * @dataProvider nonStringProvider
+     */
+    public function testExistsWithNonStringInputForLabel($badTypes)
+    {
+        $this->lava->LineChart('TestChart');
+
+        $this->assertFalse($this->lava->exists('LineChart', $badTypes));
+    }
+
     /**
      * @dataProvider chartTypesProvider
      */
