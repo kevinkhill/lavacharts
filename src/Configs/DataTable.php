@@ -532,7 +532,8 @@ class DataTable
 
         // Removes the "" from Date() so it is treated
         // as a JS new Date() instead of a string.
-        return preg_replace('/"(Date\([0-9,]+\))"/', 'new $1', $json);
+        //return preg_replace('/"(Date\([0-9,]+\))"/', 'new $1', $json);
+        return $json;
     }
 
     /**
@@ -568,6 +569,24 @@ class DataTable
      *
      * @return string Javscript date declaration
      */
+    private function _carbonToJsString(Carbon $c)
+    {
+        // Javascript
+        //Wed Apr 15 2015 16:01:22 GMT-0700 (PDT)
+        //Sun Oct 19 2014  0:00:00 UTC+0000
+
+        // Carbon
+        //"Wed, 01 Oct 2014 00:00:00 +0000"
+
+        return $c->format('D M j Y G:i:s TO');
+        //return $c->toRfc2822String();
+    }
+
+    /**
+     * Outputs the Carbon object as a valid javascript Date string.
+     *
+     * @return string Javscript date declaration
+     */
     private function carbonToJsString(Carbon $c)
     {
         return sprintf(
@@ -580,4 +599,5 @@ class DataTable
             isset($c->second) ? $c->second    : 'null'
         );
     }
+
 }

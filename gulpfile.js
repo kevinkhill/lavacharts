@@ -4,7 +4,10 @@ var gulp = require('gulp'),
     bump = require('gulp-bump'),
   uglify = require('gulp-uglify'),
   rename = require('gulp-rename'),
- replace = require('gulp-replace');
+   watch = require('gulp-watch'),
+  jshint = require('gulp-jshint'),
+ replace = require('gulp-replace'),
+ stylish = require('jshint-stylish');
 
 
 gulp.task('test', function (cb) {
@@ -23,8 +26,14 @@ gulp.task('fix', function (cb) {
   sh('./vendor/bin/phpcbf -n --standard=PSR2 --ignore=' + scriptSrc + ' ./src ./tests');
 });
 
-gulp.task('uglify', function (cb) {
-  gulp.src('./src/Javascript/src/lava.js')
+gulp.task('build', function (cb) {
+  var lavaSrc = './src/Javascript/src/lava.js';
+
+  gulp.src(lavaSrc)
+      //.pipe(watch(lavaSrc))
+      .pipe(jshint())
+      .pipe(jshint.reporter(stylish))
+      .pipe(jshint.reporter('fail'))
       .pipe(uglify())
       .pipe(rename({suffix:'.min'}))
       .pipe(gulp.dest('./src/Javascript/dist'));

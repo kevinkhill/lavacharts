@@ -344,15 +344,13 @@ class Lavacharts
     {
         $chartObject = __NAMESPACE__ . '\\Charts\\' . $type;
 
-        if ($this->volcano->checkChart($type, $label)) {
-            $chart = $this->volcano->getChart($type, $label);
-        } else {
+        if (! $this->volcano->checkChart($type, $label)) {
             $chart = new $chartObject($label);
 
             $this->volcano->storeChart($chart);
         }
 
-        return $chart;
+        return $this->volcano->getChart($type, $label);
     }
 
     /**

@@ -103,17 +103,16 @@ class JavascriptFactory
      */
     public function getChartJs(Chart $chart, $elementId = null)
     {
-        if (isset($chart->datatable) && Utils::isDataTable($chart->datatable)) {
-            $this->chart = $chart;
-        } else {
+        if (isset($chart->datatable) === false) {
             throw new DataTableNotFound($chart);
         }
 
-        if (Utils::nonEmptyString($elementId)) {
-            $this->elementId = $elementId;
-        } else {
+        if (Utils::nonEmptyString($elementId) === false) {
             throw new InvalidElementId($elementId);
         }
+
+        $this->chart     = $chart;
+        $this->elementId = $elementId;
 
         return $this->buildChartJs();
     }
@@ -362,7 +361,7 @@ class JavascriptFactory
     {
         $out  = $this->jsAPI;
         $out .= $this->jsO;
-        $out .= file_get_contents(__DIR__.'/dist/lava.min.js');
+        $out .= file_get_contents(__DIR__.'/lava.js');
         $out .= $this->jsC;
 
         return $out;

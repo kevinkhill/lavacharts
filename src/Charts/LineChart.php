@@ -23,11 +23,11 @@ use Khill\Lavacharts\Configs\VerticalAxis;
 
 class LineChart extends Chart
 {
-    public $type = 'LineChart';
-
     public function __construct($chartLabel)
     {
         parent::__construct($chartLabel);
+
+        $this->type = 'LineChart';
 
         $this->defaults = array_merge(
             $this->defaults,

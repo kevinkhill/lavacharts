@@ -29,9 +29,10 @@ use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Chart
 {
-    public $type      = null;
-    public $label     = null;
-    public $datatable = null;
+    public $type          = null;
+    public $label         = null;
+    public $datatable     = null;
+    public $deferedRender = false;
 
     protected $defaults  = null;
     protected $events    = array();
@@ -170,53 +171,16 @@ class Chart
     {
         return $this->events;
     }
-    /**
-     * Assigns wich Datatable will be used for this Chart.
-     *
-     * If a label is provided then the defined Datatable will be used.
-     * If called with no argument, or the chart is attempted to be generated
-     * without calling this function, the chart will search for a Datatable with
-     * the same label as the Chart.
-     *
-     * @uses  Datatable
-     * @param Datatable
-     *
-     * @return Chart
-     */
-    public function datatable(Datatable $d)
-    {
-        $this->datatable = $d;
-
-        return $this;
-    }
 
     /**
-     * Outputs the chart javascript into the page
+     * Returns a JSON string representation of the datatable.
      *
-     * Pass in a string of the html elementID that you want the chart to be
-     * rendered into.
-     *
-     * @since  v2.0.0
-     * @param  string           $ei The id of an HTML element to render the chart into.
-     * @throws InvalidElementId
-     *
-     * @return string Javscript code blocks
-     */
-    public function render($ei)
-    {
-        $jsf = new JavascriptFactory;
-
-        return $jsf->getChartJs($this, $ei);
-    }
-
-    /**
-     * Returns a JSON string representation of the object's properties.
-     *
+     * @since  v2.5.0
      * @return string
      */
-    public function optionsToJson()
+    public function getDataTableJson()
     {
-        return json_encode($this->options);
+        return $this->datatable->toJson();
     }
 
     /**
@@ -272,6 +236,49 @@ class Chart
     }
 
     /**
+     * Assigns wich Datatable will be used for this Chart.
+     *
+     * If a label is provided then the defined Datatable will be used.
+     * If called with no argument, or the chart is attempted to be generated
+     * without calling this function, the chart will search for a Datatable with
+     * the same label as the Chart.
+     *
+     * @uses  Datatable
+     * @param Datatable
+     *
+     * @return Chart
+     */
+    public function datatable(Datatable $d)
+    {
+        $this->datatable = $d;
+
+        return $this;
+    }
+
+    /**
+     * Set up the chart with no datatable to defer rendering via AJAX
+     *
+     * @since  v2.5.0
+     * @param  bool             $dr
+     * @throws InvalidElementId
+     *
+     * @return void
+     */
+    public function deferedRender($dr)
+    {
+        if (is_bool($dr)) {
+            $this->deferedRender = $dr;
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'bool'
+            );
+        }
+
+        return $this;
+    }
+
+    /**
      * Register javascript callbacks for specific events.
      *
      * Valid values include:
@@ -311,6 +318,8 @@ class Chart
                 'array'
             );
         }
+
+        return $this;
     }
 
     /**
@@ -389,6 +398,35 @@ class Chart
     public function legend(Legend $l)
     {
         return $this->addOption($l->toArray());
+    }
+
+    /**
+     * Returns a JSON string representation of the chart's properties.
+     *
+     * @return string
+     */
+    public function optionsToJson()
+    {
+        return json_encode($this->options);
+    }
+
+    /**
+     * Outputs the chart javascript into the page
+     *
+     * Pass in a string of the html elementID that you want the chart to be
+     * rendered into.
+     *
+     * @since  v2.0.0
+     * @param  string           $ei The id of an HTML element to render the chart into.
+     * @throws InvalidElementId
+     *
+     * @return string Javscript code blocks
+     */
+    public function render($ei)
+    {
+        $jsf = new JavascriptFactory;
+
+        return $jsf->getChartJs($this, $ei);
     }
 
     /**

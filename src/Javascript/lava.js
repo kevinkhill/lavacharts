@@ -15,17 +15,14 @@ var lava = lava || {
   registeredCharts : []
 };
 
-lava.get = function (chartLabel) {
-  var chartTypes = Object.keys(lava.charts),
-      chart;
+lava.get = function (chartLabel, callback) {
+  var chartTypes = Object.keys(lava.charts);
 
   if (typeof chartLabel === 'string') {
     if (Array.isArray(chartTypes)) {
       chartTypes.some(function (e) {
         if (typeof lava.charts[e][chartLabel] !== 'undefined') {
-          chart = lava.charts[e][chartLabel].chart;
-
-          return true;
+          callback(lava.charts[e][chartLabel].chart);
         } else {
           return false;
         }
@@ -38,6 +35,14 @@ lava.get = function (chartLabel) {
 
     return false;
   }
+};
+
+lava.loadData = function (chartLabel, dataTableJson, callback) {
+  lava.get(chartLabel, function (chart) {
+    var newDataTable = new google.visualization.DataTable(dataTableJson, '0.6');
+
+    chart.draw(newDataTable, chart.options);
+  });
 };
 
 lava.event = function (event, chart, callback) {

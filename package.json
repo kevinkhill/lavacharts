@@ -9,10 +9,12 @@
   "devDependencies": {
     "gulp": "^3.8.11",
     "gulp-bump": "^0.3.0",
+    "gulp-jshint": "^1.10.0",
     "gulp-phpunit": "^0.7.0",
     "gulp-rename": "^1.2.0",
     "gulp-replace": "^0.5.3",
     "gulp-uglify": "^1.1.0",
+    "jshint-stylish": "^1.0.1",
     "sh": "0.0.3",
     "yargs": "^3.6.0"
   },
@@ -22,5 +24,9 @@
   },
   "bugs": {
     "url": "https://github.com/kevinkhill/lavacharts/issues"
+  },
+  "dependencies": {
+    "gulp-batch": "^1.0.5",
+    "gulp-watch": "^4.2.4"
   }
 }
