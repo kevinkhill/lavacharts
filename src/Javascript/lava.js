@@ -13,22 +13,14 @@ lava.get = function (chartLabel, callback) {
     chartTypes.some(function (e) {
       if (typeof lava.charts[e][chartLabel] !== 'undefined') {
         if (callback.length == 1) {
-          lavachart = lava.charts[e][chartLabel];
+          callback(lava.charts[e][chartLabel]);
         }
       } else {
-        error = 'Chart "' + chartLabel + '" was not found.';
+        throw new Error('[Lavacharts] Chart "' + chartLabel + '" was not found');
       }
     });
   } else {
-    error = 'The arguments for lava.get must be (str chartLabel [, func Callback ]).';
-  }
-
-  if (callback.length == 1) {
-    callback(lavachart);
-  }
-
-  if (callback.length == 2) {
-    callback(error, lavachart);
+    throw new Error('[Lavacharts] The arguments for lava.get must be (str chartLabel [, func Callback ])');
   }
 };
 
@@ -38,7 +30,7 @@ lava.loadData = function (chartLabel, dataTableJson, callback) {
 
     lava.chart.draw(lava.data, lava.options);
 
-    callback(lava.chart);
+    callback(lava);
   });
 };
 
