@@ -42,6 +42,8 @@ lava.loadData = function (chartLabel, dataTableJson, callback) {
     var newDataTable = new google.visualization.DataTable(dataTableJson, '0.6');
 
     chart.draw(newDataTable, chart.options);
+
+    callback(chart);
   });
 };
 
