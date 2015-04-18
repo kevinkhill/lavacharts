@@ -1,49 +1,44 @@
-function onResize (c, t) {
-  window.onresize = function() {
-    clearTimeout(t);
-
-    t = setTimeout(c, 100);
-  };
-
-  return c;
-}
-
 var lava = lava || {
   get              : null,
   event            : null,
+  loadData         : null,
   charts           : {},
   registeredCharts : []
 };
 
 lava.get = function (chartLabel, callback) {
-  var chartTypes = Object.keys(lava.charts);
+  var error, lavachart, chartTypes = Object.keys(lava.charts);
 
   if (typeof chartLabel === 'string') {
-    if (Array.isArray(chartTypes)) {
-      chartTypes.some(function (e) {
-        if (typeof lava.charts[e][chartLabel] !== 'undefined') {
-          callback(lava.charts[e][chartLabel].chart);
-        } else {
-          return false;
+    chartTypes.some(function (e) {
+      if (typeof lava.charts[e][chartLabel] !== 'undefined') {
+        if (callback.length == 1) {
+          lavachart = lava.charts[e][chartLabel];
         }
-      });
-    } else {
-      return false;
-    }
+      } else {
+        error = 'Chart "' + chartLabel + '" was not found.';
+      }
+    });
   } else {
-    console.error('[Lavacharts] The input for lava.get() must be a string.');
+    error = 'The arguments for lava.get must be (str chartLabel [, func Callback ]).';
+  }
 
-    return false;
+  if (callback.length == 1) {
+    callback(lavachart);
+  }
+
+  if (callback.length == 2) {
+    callback(error, lavachart);
   }
 };
 
 lava.loadData = function (chartLabel, dataTableJson, callback) {
-  lava.get(chartLabel, function (chart) {
-    var newDataTable = new google.visualization.DataTable(dataTableJson, '0.6');
+  lava.get(chartLabel, function (lava) {
+    lava.data = new google.visualization.DataTable(dataTableJson, '0.6');
 
-    chart.draw(newDataTable, chart.options);
+    lava.chart.draw(lava.data, lava.options);
 
-    callback(chart);
+    callback(lava.chart);
   });
 };
 
@@ -56,11 +51,21 @@ lava.register = function(type, label) {
 };
 
 window.onload = function() {
-  onResize(function() {
-    for(var c = 0; c < lava.registeredCharts.length; c++) {
-      var parts = lava.registeredCharts[c].split(':');
+  var timer, delay = 500;
 
-      lava.charts[parts[0]][parts[1]].draw();
-    }
-  });
+  window.onresize = function() {
+    clearTimeout(timer);
+
+    timer = setTimeout(function() {
+      for(var c = 0; c < lava.registeredCharts.length; c++) {
+        var parts = lava.registeredCharts[c].split(':');
+
+        console.log('redrawing...');
+        lava.charts[parts[0]][parts[1]].chart.draw(
+          lava.charts[parts[0]][parts[1]].data,
+          lava.charts[parts[0]][parts[1]].options
+        );
+      }
+    }, delay);
+  };
 };
