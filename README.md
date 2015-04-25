@@ -15,18 +15,18 @@ Dev:
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/2.5.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=2.5)
 
 
-Version 2 Features
-==================
+Package Features
+================
 - Blade template extensions for laravel
-- A new "lava" javascript api
-- Javascript event integration
+- A javascript api for interacting with charts
+- Javascript chart event integration
 - Datatable addColumn aliases
 - Datatable column formatters
 - Carbon support for date columns
 - Now supporting 10 Charts!
   - Area, Bar, Calendar, Column, Combo, Donut, Gauge, Geo, Line, Pie
 
-## For complete documentation, please visit [lavacharts.com](http://lavacharts.com/)
+### For complete documentation, please visit [lavacharts.com](http://lavacharts.com/)
 
 
 Installing
