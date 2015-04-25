@@ -19,24 +19,20 @@ gulp.task('serve', function (cb) {
 });
 
 gulp.task('check', function (cb) {
-  sh('./vendor/bin/phpcs -n --standard=PSR2 ./src ./tests');
+  sh('./vendor/bin/phpcs -n --standard=PSR2 --ignore=./src/Javascript/lava.js ./src ./tests');
 });
 
 gulp.task('fix', function (cb) {
-  sh('./vendor/bin/phpcbf -n --standard=PSR2 --ignore=' + scriptSrc + ' ./src ./tests');
+  sh('./vendor/bin/phpcbf -n --standard=PSR2 --ignore=./src/Javascript/lava.js ./src ./tests');
 });
 
-gulp.task('build', function (cb) {
-  var lavaSrc = './src/Javascript/src/lava.js';
+gulp.task('lint', function (cb) {
+  var lavaSrc = './src/Javascript/lava.js';
 
   gulp.src(lavaSrc)
-      //.pipe(watch(lavaSrc))
       .pipe(jshint())
       .pipe(jshint.reporter(stylish))
-      .pipe(jshint.reporter('fail'))
-      .pipe(uglify())
-      .pipe(rename({suffix:'.min'}))
-      .pipe(gulp.dest('./src/Javascript/dist'));
+      .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('bump', function (cb) {
