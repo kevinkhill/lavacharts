@@ -9,11 +9,6 @@ Stable:
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/master.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=master)
 
 
-Dev:
-[![Dev Branch](https://img.shields.io/badge/dev-2.5.x--dev-blue.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/2.5)
-[![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/2.5.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
-[![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/2.5.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=2.5)
-
 
 Package Features
 ================
