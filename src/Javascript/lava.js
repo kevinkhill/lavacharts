@@ -6,7 +6,7 @@ var lava = lava || {
   registeredCharts : []
 };
 
-lava.get = function (chartLabel, callback) {
+lava._getLavachart = function (chartLabel, callback) {
   var error, lavachart, chartTypes = Object.keys(lava.charts);
 
   if (typeof chartLabel === 'string') {
@@ -24,13 +24,19 @@ lava.get = function (chartLabel, callback) {
   }
 };
 
+lava.get = function (chartLabel, callback) {
+  lava._getLavachart(chartLabel, function(lavachart) {
+    callback(lavachart.chart);
+  });
+};
+
 lava.loadData = function (chartLabel, dataTableJson, callback) {
-  lava.get(chartLabel, function (lava) {
-    lava.data = new google.visualization.DataTable(dataTableJson, '0.6');
+  lava._getLavachart(chartLabel, function (lavachart) {
+    lavachart.data = new google.visualization.DataTable(dataTableJson, '0.6');
 
-    lava.chart.draw(lava.data, lava.options);
+    lavachart.chart.draw(lavachart.data, lavachart.options);
 
-    callback(lava);
+    callback(lavachart.chart);
   });
 };
 
@@ -52,7 +58,6 @@ window.onload = function() {
       for(var c = 0; c < lava.registeredCharts.length; c++) {
         var parts = lava.registeredCharts[c].split(':');
 
-        console.log('redrawing...');
         lava.charts[parts[0]][parts[1]].chart.draw(
           lava.charts[parts[0]][parts[1]].data,
           lava.charts[parts[0]][parts[1]].options
