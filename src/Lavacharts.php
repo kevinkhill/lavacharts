@@ -438,5 +438,4 @@ class Lavacharts
             return false;
         }
     }
-
 }
