@@ -2,14 +2,11 @@ var gulp = require('gulp'),
       sh = require('sh'),
     argv = require('yargs').argv,
     bump = require('gulp-bump'),
-  uglify = require('gulp-uglify'),
-  rename = require('gulp-rename'),
    watch = require('gulp-watch'),
   jshint = require('gulp-jshint'),
  replace = require('gulp-replace'),
- jasmine = require('gulp-jasmine'),
- stylish = require('jshint-stylish'),
-   karma = require('karma').server;
+ jasmine = require('gulp-jasmine-phantom'),
+ stylish = require('jshint-stylish');
 
 /*
 gulp.task('test', function (cb) {
@@ -39,10 +36,11 @@ gulp.task('lint', function (cb) {
 });
 
 gulp.task('test', function() {
-  karma.start({
-    configFile: __dirname + '/karma.conf.js',
-    singleRun: true
-  }, done);
+  gulp.src('tests/Javascript/spec/lava.spec.js')
+      .pipe(jasmine({
+        integration: true,
+        specHtml: 'tests/Javascript/SpecRunner.html'
+      }));
 });
 
 gulp.task('bump', function (cb) { //-v=1.2.3
