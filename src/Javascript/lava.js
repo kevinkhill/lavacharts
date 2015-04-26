@@ -9,7 +9,11 @@ var lava = lava || {
 };
 
 lava.get = function (chartLabel, callback) {
-  lava.getLavachart(chartLabel, function(lavachart) {
+  if (arguments.length < 2 || typeof chartLabel !== 'string' || typeof callback !== 'function') {
+    throw new Error('[Lavacharts] The syntax for lava.get must be (str ChartLabel, fn Callback)');
+  }
+
+  lava.getLavachart(chartLabel, function (lavachart) {
     callback(lavachart.chart);
   });
 };
@@ -35,39 +39,30 @@ lava.register = function(type, label) {
 lava.getLavachart = function (chartLabel, callback) {
   var chartTypes = Object.keys(lava.charts);
 
-  if (typeof chartLabel === 'string' && typeof callback === 'function') {
-    chartTypes.some(function (e) {
-      if (typeof lava.charts[e][chartLabel] !== 'undefined') {
-        if (callback.length == 1) {
-          callback(lava.charts[e][chartLabel]);
-        }
-      } else {
-        throw new Error('[Lavacharts] Chart "' + chartLabel + '" was not found');
+  chartTypes.some(function (e) {
+    if (typeof lava.charts[e][chartLabel] !== 'undefined') {
+      if (callback.length == 1) {
+        callback(lava.charts[e][chartLabel]);
       }
-    });
-  } else {
-    throw new Error('[Lavacharts] The arguments for lava.get must be (str chartLabel, func Callback)');
-  }
+    } else {
+      throw new Error('[Lavacharts] Chart "' + chartLabel + '" was not found');
+    }
+  });
 };
 
-/*
-window.onload = function() {
-  var timer, delay = 500;
-*/
-  window.onresize = function() {
-    var timer, delay = 300;
+window.onresize = function() {
+  var timer, delay = 300;
 
-    clearTimeout(timer);
+  clearTimeout(timer);
 
-    timer = setTimeout(function() {
-      for(var c = 0; c < lava.registeredCharts.length; c++) {
-        var parts = lava.registeredCharts[c].split(':');
+  timer = setTimeout(function() {
+    for(var c = 0; c < lava.registeredCharts.length; c++) {
+      var parts = lava.registeredCharts[c].split(':');
 
-        lava.charts[parts[0]][parts[1]].chart.draw(
-          lava.charts[parts[0]][parts[1]].data,
-          lava.charts[parts[0]][parts[1]].options
-        );
-      }
-    }, delay);
-  };
-//};
+      lava.charts[parts[0]][parts[1]].chart.draw(
+        lava.charts[parts[0]][parts[1]].data,
+        lava.charts[parts[0]][parts[1]].options
+      );
+    }
+  }, delay);
+};
