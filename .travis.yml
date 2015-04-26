@@ -14,6 +14,7 @@ matrix:
 branches:
   only:
     - "master"
+    - "js-tests"
 
 email: kevinkhill@gmail.com
 
@@ -21,10 +22,12 @@ before_script:
   - echo 'date.timezone = "America/Los_Angeles"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - mkdir -p build/logs
   - composer install --no-progress
+  - npm install
 
 script:
   - php -i | grep timezone
   - phpunit -c configs/phpunit.xml.dist
+  - gulp test
 
 after_script:
   - php vendor/bin/coveralls
