@@ -37,10 +37,7 @@ gulp.task('lint', function (cb) {
 
 gulp.task('test', function() {
   gulp.src('tests/Javascript/spec/lava.spec.js')
-      .pipe(jasmine({
-        integration: true,
-        specHtml: 'tests/Javascript/SpecRunner.html'
-      }));
+      .pipe(jasmine());
 });
 
 gulp.task('bump', function (cb) { //-v=1.2.3
