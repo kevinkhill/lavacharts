@@ -15,7 +15,7 @@
 
 use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Volcano;
-use Khill\Lavacharts\Javascript\JavascriptFactory;
+use Khill\Lavacharts\JavascriptFactory;
 use Khill\Lavacharts\Exceptions\ChartNotFound;
 use Khill\Lavacharts\Exceptions\InvalidChartLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;

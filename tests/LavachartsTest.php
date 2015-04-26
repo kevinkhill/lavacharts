@@ -25,7 +25,7 @@ class LavachartsTest extends ProvidersTestCase
 
     public function testIfInstanceOfJavascriptFactory()
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Javascript\JavascriptFactory', $this->lava->jsFactory);
+        $this->assertInstanceOf('\Khill\Lavacharts\JavascriptFactory', $this->lava->jsFactory);
     }
 
     public function testCreateDataTableViaAlias()

@@ -1,4 +1,4 @@
-<?php namespace Khill\Lavacharts\Javascript;
+<?php namespace Khill\Lavacharts;
 
 /**
  * JavascriptFactory Object
@@ -361,7 +361,7 @@ class JavascriptFactory
     {
         $out  = $this->jsAPI;
         $out .= $this->jsO;
-        $out .= file_get_contents(__DIR__.'/lava.js');
+        $out .= file_get_contents(__DIR__.'/Javascript/lava.js');
         $out .= $this->jsC;
 
         return $out;
