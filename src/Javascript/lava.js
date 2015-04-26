@@ -2,36 +2,20 @@ var lava = lava || {
   get              : null,
   event            : null,
   loadData         : null,
+  register         : null,
+  getLavachart     : null,
   charts           : {},
   registeredCharts : []
 };
 
-lava._getLavachart = function (chartLabel, callback) {
-  var error, lavachart, chartTypes = Object.keys(lava.charts);
-
-  if (typeof chartLabel === 'string') {
-    chartTypes.some(function (e) {
-      if (typeof lava.charts[e][chartLabel] !== 'undefined') {
-        if (callback.length == 1) {
-          callback(lava.charts[e][chartLabel]);
-        }
-      } else {
-        throw new Error('[Lavacharts] Chart "' + chartLabel + '" was not found');
-      }
-    });
-  } else {
-    throw new Error('[Lavacharts] The arguments for lava.get must be (str chartLabel [, func Callback ])');
-  }
-};
-
 lava.get = function (chartLabel, callback) {
-  lava._getLavachart(chartLabel, function(lavachart) {
+  lava.getLavachart(chartLabel, function(lavachart) {
     callback(lavachart.chart);
   });
 };
 
 lava.loadData = function (chartLabel, dataTableJson, callback) {
-  lava._getLavachart(chartLabel, function (lavachart) {
+  lava.getLavachart(chartLabel, function (lavachart) {
     lavachart.data = new google.visualization.DataTable(dataTableJson, '0.6');
 
     lavachart.chart.draw(lavachart.data, lavachart.options);
@@ -48,10 +32,31 @@ lava.register = function(type, label) {
   this.registeredCharts.push(type + ':' + label);
 };
 
+lava.getLavachart = function (chartLabel, callback) {
+  var chartTypes = Object.keys(lava.charts);
+
+  if (typeof chartLabel === 'string' && typeof callback === 'function') {
+    chartTypes.some(function (e) {
+      if (typeof lava.charts[e][chartLabel] !== 'undefined') {
+        if (callback.length == 1) {
+          callback(lava.charts[e][chartLabel]);
+        }
+      } else {
+        throw new Error('[Lavacharts] Chart "' + chartLabel + '" was not found');
+      }
+    });
+  } else {
+    throw new Error('[Lavacharts] The arguments for lava.get must be (str chartLabel, func Callback)');
+  }
+};
+
+/*
 window.onload = function() {
   var timer, delay = 500;
-
+*/
   window.onresize = function() {
+    var timer, delay = 300;
+
     clearTimeout(timer);
 
     timer = setTimeout(function() {
@@ -65,4 +70,4 @@ window.onload = function() {
       }
     }, delay);
   };
-};
+//};

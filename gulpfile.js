@@ -7,12 +7,15 @@ var gulp = require('gulp'),
    watch = require('gulp-watch'),
   jshint = require('gulp-jshint'),
  replace = require('gulp-replace'),
- stylish = require('jshint-stylish');
+ jasmine = require('gulp-jasmine'),
+ stylish = require('jshint-stylish'),
+   karma = require('karma').server;
 
-
+/*
 gulp.task('test', function (cb) {
   sh('./vendor/bin/phpunit -c configs/phpunit.xml');
 });
+*/
 
 gulp.task('serve', function (cb) {
   sh('php ../../../artisan serve');
@@ -35,7 +38,14 @@ gulp.task('lint', function (cb) {
       .pipe(jshint.reporter('fail'));
 });
 
-gulp.task('bump', function (cb) {
+gulp.task('test', function() {
+  karma.start({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done);
+});
+
+gulp.task('bump', function (cb) { //-v=1.2.3
   var version = argv.v;
   var minorVersion = version.slice(0, -2);
 
