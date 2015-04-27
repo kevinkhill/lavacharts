@@ -13,9 +13,11 @@ gulp.task('serve', function (done) {
   sh('php ../../../artisan serve');
 });
 
-gulp.task('test', function (done) {
+gulp.task('phpunit', function (done) {
   sh('./vendor/bin/phpunit -c configs/phpunit.xml');
+});
 
+gulp.task('karma', function (done) {
   karma.start({
     configFile: karmaConf,
     singleRun: true
