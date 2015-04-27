@@ -61,13 +61,16 @@
   };
 
 
+
   if (typeof exports !== 'undefined' ) {
+    //Node Context
     if (typeof module !== 'undefined' && module.exports) {
       exports = module.exports = lava;
     }
 
     exports.lava = lava;
   } else {
+    //Browser Context
     root.lava = lava;
 
     window.onresize = function() {

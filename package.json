@@ -8,13 +8,14 @@
   "private": true,
   "devDependencies": {
     "gulp": "^3.8.11",
-    "gulp-batch": "^1.0.5",
     "gulp-bump": "^0.3.0",
     "gulp-jshint": "^1.10.0",
-    "gulp-phpunit": "^0.7.0",
     "gulp-replace": "^0.5.3",
     "gulp-watch": "^4.2.4",
-    "jshint-stylish": "^1.0.1",
+    "jasmine-core": "^2.2.0",
+    "karma": "^0.12.31",
+    "karma-chrome-launcher": "^0.1.8",
+    "karma-jasmine": "^0.3.5",
     "sh": "0.0.3",
     "yargs": "^3.6.0"
   },

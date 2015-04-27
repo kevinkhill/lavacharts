@@ -1,46 +1,47 @@
 var gulp = require('gulp'),
       sh = require('sh'),
-    argv = require('yargs').argv,
     bump = require('gulp-bump'),
-   watch = require('gulp-watch'),
   jshint = require('gulp-jshint'),
  replace = require('gulp-replace'),
- jasmine = require('gulp-jasmine-phantom'),
- stylish = require('jshint-stylish');
+    argv = require('yargs').argv,
+   karma = require('karma').server;
 
-/*
-gulp.task('test', function (cb) {
-  sh('./vendor/bin/phpunit -c configs/phpunit.xml');
-});
-*/
+var karmaConf = __dirname + '/configs/karma.conf.js';
 
-gulp.task('serve', function (cb) {
+
+gulp.task('serve', function (done) {
   sh('php ../../../artisan serve');
 });
 
-gulp.task('check', function (cb) {
-  sh('./vendor/bin/phpcs -n --standard=PSR2 --ignore=./src/Javascript/lava.js ./src ./tests');
+gulp.task('test', function (done) {
+  sh('./vendor/bin/phpunit -c configs/phpunit.xml');
+
+  karma.start({
+    configFile: karmaConf,
+    singleRun: true
+  }, done);
 });
 
-gulp.task('fix', function (cb) {
-  sh('./vendor/bin/phpcbf -n --standard=PSR2 --ignore=./src/Javascript/lava.js ./src ./tests');
+gulp.task('tdd', function (done) {
+  karma.start({
+    configFile: karmaConf
+  }, done);
 });
 
-gulp.task('lint', function (cb) {
-  var lavaSrc = './src/Javascript/lava.js';
-
-  gulp.src(lavaSrc)
-      .pipe(jshint())
-      .pipe(jshint.reporter(stylish))
-      .pipe(jshint.reporter('fail'));
+gulp.task('check', function (done) {
+  sh('./vendor/bin/phpcs -n --standard=PSR2 --ignore=./src/Javascript/lava.js --ignore=./tests/Javascript/* ./src ./tests');
 });
 
-gulp.task('test', function() {
-  gulp.src('tests/Javascript/spec/lava.spec.js')
-      .pipe(jasmine());
+gulp.task('fix', function (done) {
+  sh('./vendor/bin/phpcbf -n --standard=PSR2 --ignore=./src/Javascript/lava.js --ignore=./tests/Javascript/* ./src ./tests');
 });
 
-gulp.task('bump', function (cb) { //-v=1.2.3
+gulp.task('lint', function (done) {
+  gulp.src('./src/Javascript/lava.js')
+      .pipe(jshint());
+});
+
+gulp.task('bump', function (done) { //-v=1.2.3
   var version = argv.v;
   var minorVersion = version.slice(0, -2);
 
