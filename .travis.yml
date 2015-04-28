@@ -21,6 +21,7 @@ cache:
     - node_modules
 
 before_install:
+  - nvm use 0.10
   - npm config set spin false
 
 install:
