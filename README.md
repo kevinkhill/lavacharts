@@ -13,8 +13,10 @@ Stable:
 Package Features
 ================
 - Blade template extensions for laravel
-- A javascript api for interacting with charts
-- Javascript chart event integration
+- Lava.js module for interacting with charts
+  - AJAX data reloading
+  - Fetching charts
+  - Events integration
 - Datatable addColumn aliases
 - Datatable column formatters
 - Carbon support for date columns
