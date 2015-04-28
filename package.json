@@ -6,6 +6,9 @@
   "author": "Kevin Hill",
   "license": "MIT",
   "private": true,
+  "engines":{
+    "node": "10.*"
+  },
   "devDependencies": {
     "gulp": "^3.8.11",
     "gulp-bump": "^0.3.0",
@@ -17,7 +20,6 @@
     "karma-chrome-launcher": "^0.1.8",
     "karma-firefox-launcher": "^0.1.4",
     "karma-jasmine": "^0.3.5",
-    "karma-phantomjs-launcher": "^0.1.4",
     "sh": "0.0.3",
     "yargs": "^3.6.0"
   },

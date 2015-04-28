@@ -13,10 +13,8 @@ matrix:
 
 branches:
   only:
-    - "master"
-    - "js-tests"
-
-email: kevinkhill@gmail.com
+    - master
+    - js-tests
 
 cache:
   directories:
