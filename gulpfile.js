@@ -3,7 +3,7 @@ var gulp = require('gulp'),
     bump = require('gulp-bump'),
   jshint = require('gulp-jshint'),
  replace = require('gulp-replace'),
-    argv = require('yargs').argv,
+    argv = require('yargs').array('browsers').argv,
    karma = require('karma').server;
 
 var karmaConf = __dirname + '/configs/karma.conf.js';
@@ -18,16 +18,19 @@ gulp.task('phpunit', function (done) {
 });
 
 gulp.task('karma', function (done) {
-  karma.start({
-    configFile: karmaConf,
-    singleRun: true
-  }, done);
-});
-
-gulp.task('tdd', function (done) {
-  karma.start({
+  var conf = {
     configFile: karmaConf
-  }, done);
+  };
+
+  if (typeof argv.browsers !== 'undefined') {
+    conf.browsers = argv.browsers;
+  }
+
+  if (argv.dev) {
+    conf.singleRun = false;
+  }
+
+  karma.start(conf, done);
 });
 
 gulp.task('check', function (done) {
