@@ -25,15 +25,12 @@ before_install:
   - npm config set spin false
 
 install:
-  - npm install
+  - npm install karma karma-jasmine karma-phantomjs-launcher jasmine-core
+  - composer install --no-progress
 
 before_script:
   - echo 'date.timezone = "America/Los_Angeles"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - mkdir -p build/logs
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - composer install --no-progress
-  - npm install
 
 script:
   #- php -i | grep timezone

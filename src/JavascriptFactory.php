@@ -361,7 +361,7 @@ class JavascriptFactory
     {
         $out  = $this->jsAPI;
         $out .= $this->jsO;
-        $out .= file_get_contents(__DIR__.'/Javascript/lava.js');
+        $out .= file_get_contents(__DIR__.'/../javascript/lava.js');
         $out .= $this->jsC;
 
         return $out;

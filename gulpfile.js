@@ -6,8 +6,6 @@ var gulp = require('gulp'),
     argv = require('yargs').array('browsers').argv,
    karma = require('karma').server;
 
-var karmaConf = __dirname + '/configs/karma.conf.js';
-
 
 gulp.task('serve', function (done) {
   sh('php ../../../artisan serve');
@@ -19,7 +17,7 @@ gulp.task('phpunit', function (done) {
 
 gulp.task('karma', function (done) {
   var conf = {
-    configFile: karmaConf
+    configFile: __dirname + '/configs/karma.conf.js'
   };
 
   if (typeof argv.browsers !== 'undefined') {
@@ -34,15 +32,15 @@ gulp.task('karma', function (done) {
 });
 
 gulp.task('check', function (done) {
-  sh('./vendor/bin/phpcs -n --standard=PSR2 --ignore=./src/Javascript/lava.js --ignore=./tests/Javascript/* ./src ./tests');
+  sh('./vendor/bin/phpcs -n --standard=PSR2 ./src ./tests');
 });
 
 gulp.task('fix', function (done) {
-  sh('./vendor/bin/phpcbf -n --standard=PSR2 --ignore=./src/Javascript/lava.js --ignore=./tests/Javascript/* ./src ./tests');
+  sh('./vendor/bin/phpcbf -n --standard=PSR2 ./src ./tests');
 });
 
 gulp.task('lint', function (done) {
-  gulp.src('./src/Javascript/lava.js')
+  gulp.src('./javascript/lava.js')
       .pipe(jshint());
 });
 
