@@ -14,7 +14,6 @@ matrix:
 branches:
   only:
     - master
-    - js-tests
 
 cache:
   directories:

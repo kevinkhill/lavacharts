@@ -1,6 +1,6 @@
 {
   "name": "lavacharts",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "Wrapper library for the Google Chart API",
   "homepage": "http://lavacharts.com",
   "author": "Kevin Hill",
