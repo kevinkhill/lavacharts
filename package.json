@@ -29,6 +29,6 @@
     "url": "https://github.com/kevinkhill/lavacharts/issues"
   },
   "scripts": {
-    "test": "./node_modules/.bin/karma start --browsers Firefox --single-run"
+    "test": "./node_modules/karma/bin/karma start configs/karma.conf.js --browsers Firefox --single-run"
   }
 }
