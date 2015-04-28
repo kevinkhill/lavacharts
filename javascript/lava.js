@@ -1,17 +1,13 @@
-(function() {
-  var root = this;
+window.lava = (function() {
+  this.get              = null;
+  this.event            = null;
+  this.loadData         = null;
+  this.register         = null;
+  this.getLavachart     = null;
+  this.charts           = {};
+  this.registeredCharts = [];
 
-  var lava = {
-    get              : null,
-    event            : null,
-    loadData         : null,
-    register         : null,
-    getLavachart     : null,
-    charts           : {},
-    registeredCharts : []
-  };
-
-  lava.get = function (chartLabel, callback) {
+  this.get = function (chartLabel, callback) {
     if (arguments.length < 2 || typeof chartLabel !== 'string' || typeof callback !== 'function') {
       throw new Error('[Lavacharts] The syntax for lava.get must be (str ChartLabel, fn Callback)');
     }
@@ -21,7 +17,7 @@
     });
   };
 
-  lava.loadData = function (chartLabel, dataTableJson, callback) {
+  this.loadData = function (chartLabel, dataTableJson, callback) {
     lava.getLavachart(chartLabel, function (lavachart) {
       lavachart.data = new google.visualization.DataTable(dataTableJson, '0.6');
 
@@ -31,15 +27,15 @@
     });
   };
 
-  lava.event = function (event, chart, callback) {
+  this.event = function (event, chart, callback) {
     return callback(event, chart);
   };
 
-  lava.register = function(type, label) {
+  this.register = function(type, label) {
     this.registeredCharts.push(type + ':' + label);
   };
 
-  lava.getLavachart = function (chartLabel, callback) {
+  this.getLavachart = function (chartLabel, callback) {
     var chartTypes = Object.keys(lava.charts);
     var chart;
 
@@ -60,34 +56,24 @@
     }
   };
 
+  this.redrawCharts = function() {
+    var timer, delay = 300;
 
+    clearTimeout(timer);
 
-  if (typeof exports !== 'undefined' ) {
-    //Node Context
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = lava;
-    }
+    timer = setTimeout(function() {
+      for(var c = 0; c < lava.registeredCharts.length; c++) {
+        var parts = lava.registeredCharts[c].split(':');
 
-    exports.lava = lava;
-  } else {
-    //Browser Context
-    root.lava = lava;
+        lava.charts[parts[0]][parts[1]].chart.draw(
+          lava.charts[parts[0]][parts[1]].data,
+          lava.charts[parts[0]][parts[1]].options
+        );
+      }
+    }, delay);
+  };
 
-    window.onresize = function() {
-      var timer, delay = 300;
+  return this;
+})();
 
-      clearTimeout(timer);
-
-      timer = setTimeout(function() {
-        for(var c = 0; c < lava.registeredCharts.length; c++) {
-          var parts = lava.registeredCharts[c].split(':');
-
-          lava.charts[parts[0]][parts[1]].chart.draw(
-            lava.charts[parts[0]][parts[1]].data,
-            lava.charts[parts[0]][parts[1]].options
-          );
-        }
-      }, delay);
-    };
-  }
-}.call(this));
+window.addEventListener("resize", window.lava.redrawCharts);

@@ -1,11 +1,3 @@
-if (typeof lava === 'undefined' && typeof module !== 'undefined') {
-    // Node.js context
-    var lava = require('../../../src/Javascript/lava.js');
-} else {
-    // Browser context
-    var lava = window.lava;
-}
-
 function MockChart() {
   this.chart = {
     prop : 1
