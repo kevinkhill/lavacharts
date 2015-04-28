@@ -18,16 +18,29 @@ branches:
 
 email: kevinkhill@gmail.com
 
+cache:
+  directories:
+    - vendor
+    - node_modules
+
+before_install:
+  - npm config set spin false
+
+install:
+  - npm install
+
 before_script:
   - echo 'date.timezone = "America/Los_Angeles"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - mkdir -p build/logs
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
   - composer install --no-progress
   - npm install
 
 script:
-  - php -i | grep timezone
+  #- php -i | grep timezone
   - phpunit -c configs/phpunit.xml.dist
-  - gulp test
+  - npm test
 
 after_script:
   - php vendor/bin/coveralls
