@@ -3,7 +3,7 @@
 use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-trait AxisTitlesPosition
+trait AxisTitlesPositionTrait
 {
     /**
      * Where to place the axis titles, compared to the chart area. Supported values:
