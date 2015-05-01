@@ -8,12 +8,11 @@ trait AnimationTrait
     /**
      * Set the animation options for a chart
      *
-     * @param  Animation $a Animation config object
-     *
+     * @param  Animation $animation Animation config object
      * @return Chart
      */
-    public function animation(Animation $a)
+    public function animation(Animation $animation)
     {
-        return $this->addOption($a);
+        return $this->addOption($animation);
     }
 }
