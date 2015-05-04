@@ -25,25 +25,22 @@ class PieChart extends Chart
 {
     public $type = 'PieChart';
 
+    private $extraOptions = [
+        'is3D',
+        'slices',
+        'pieSliceBorderColor',
+        'pieSliceText',
+        'pieSliceTextStyle',
+        'pieStartAngle',
+        'reverseCategories',
+        'sliceVisibilityThreshold',
+        'pieResidueSliceColor',
+        'pieResidueSliceLabel'
+    ];
+
     public function __construct($chartLabel)
     {
-        parent::__construct($chartLabel);
-
-        $this->defaults = array_merge(
-            $this->defaults,
-            array(
-                'is3D',
-                'slices',
-                'pieSliceBorderColor',
-                'pieSliceText',
-                'pieSliceTextStyle',
-                'pieStartAngle',
-                'reverseCategories',
-                'sliceVisibilityThreshold',
-                'pieResidueSliceColor',
-                'pieResidueSliceLabel',
-            )
-        );
+        parent::__construct($chartLabel, $this->extraOptions);
     }
 
     /**
@@ -55,16 +52,14 @@ class PieChart extends Chart
      */
     public function is3D($is3D)
     {
-        if (is_bool($is3D)) {
-            $this->addOption(array('is3D' => $is3D));
-        } else {
+        if (is_bool($is3D) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'bool'
             );
         }
 
-        return $this;
+        return $this->addOption(array(__FUNCTION__ => $is3D));
     }
 
     /**
@@ -90,15 +85,7 @@ class PieChart extends Chart
      */
     public function slices($slices)
     {
-        if (is_array($slices) && ! empty($slices)) {
-            $pie = array();
-
-            foreach ($slices as $key => $slice) {
-                $pie[$key] = $this->addSlice($slice);
-            }
-
-            $this->addOption(array('slices' => $pie));
-        } else {
+        if (is_array($slices) === false || empty($slices) === true) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'array',
@@ -106,7 +93,13 @@ class PieChart extends Chart
             );
         }
 
-        return $this;
+        $pie = [];
+
+        foreach ($slices as $key => $slice) {
+            $pie[$key] = $this->addSlice($slice);
+        }
+
+        return $this->addOption([__FUNCTION__ => $pie]);
     }
 
     /**
@@ -130,16 +123,14 @@ class PieChart extends Chart
      */
     public function pieSliceBorderColor($pieSliceBorderColor)
     {
-        if (is_string($pieSliceBorderColor)) {
-            $this->addOption(array('pieSliceBorderColor' => $pieSliceBorderColor));
-        } else {
+        if (Utils::nonEmptyString($pieSliceBorderColor) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string'
             );
         }
 
-        return $this;
+        return $this->addOption([__FUNCTION__ => $pieSliceBorderColor]);
     }
 
     /**
@@ -163,9 +154,7 @@ class PieChart extends Chart
             'none'
         );
 
-        if (is_string($pieSliceText) && in_array($pieSliceText, $values)) {
-            $this->addOption(array('pieSliceText' => $pieSliceText));
-        } else {
+        if (in_array($pieSliceText, $values, true) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
@@ -173,7 +162,7 @@ class PieChart extends Chart
             );
         }
 
-        return $this;
+        return $this->addOption([__FUNCTION__ => $pieSliceText]);
     }
 
     /**
@@ -186,9 +175,7 @@ class PieChart extends Chart
      */
     public function pieSliceTextStyle(TextStyle $textStyle)
     {
-        $this->addOption(array('pieSliceTextStyle' => $textStyle->getValues()));
-
-        return $this;
+        return $this->addOption($textStyle->toArray(__FUNCTION__));
     }
 
     /**
@@ -201,16 +188,14 @@ class PieChart extends Chart
      */
     public function pieStartAngle($pieStartAngle)
     {
-        if (is_int($pieStartAngle)) {
-            $this->addOption(array('pieStartAngle' => $pieStartAngle));
-        } else {
+        if (is_int($pieStartAngle) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
         }
 
-        return $this;
+        return $this->addOption([__FUNCTION__ => $pieStartAngle]);
     }
 
     /**
@@ -223,16 +208,14 @@ class PieChart extends Chart
      */
     public function reverseCategories($reverseCategories)
     {
-        if (is_bool($reverseCategories)) {
-            $this->addOption(array('reverseCategories' => $reverseCategories));
-        } else {
+        if (is_bool($reverseCategories) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'bool'
             );
         }
 
-        return $this;
+        return $this->addOption([__FUNCTION__ => $reverseCategories]);
     }
 
     /**
@@ -247,16 +230,14 @@ class PieChart extends Chart
      */
     public function sliceVisibilityThreshold($sliceVizThreshold)
     {
-        if (is_numeric($sliceVizThreshold)) {
-            $this->addOption(array('sliceVisibilityThreshold' => $sliceVizThreshold));
-        } else {
+        if (is_numeric($sliceVizThreshold) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'numeric'
             );
         }
 
-        return $this;
+        return $this->addOption([__FUNCTION__ => $sliceVizThreshold]);
     }
 
     /**
@@ -269,9 +250,7 @@ class PieChart extends Chart
      */
     public function pieResidueSliceColor($pieResidueSliceColor)
     {
-        if (is_string($pieResidueSliceColor)) {
-            $this->addOption(array('pieResidueSliceColor' => $pieResidueSliceColor));
-        } else {
+        if (Utils::nonEmptyString($pieResidueSliceColor) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
@@ -279,7 +258,7 @@ class PieChart extends Chart
             );
         }
 
-        return $this;
+        return $this->addOption([__FUNCTION__ => $pieResidueSliceColor]);
     }
 
     /**
@@ -292,15 +271,13 @@ class PieChart extends Chart
      */
     public function pieResidueSliceLabel($pieResidueSliceLabel)
     {
-        if (is_string($pieResidueSliceLabel)) {
-            $this->addOption(array('pieResidueSliceLabel' => $pieResidueSliceLabel));
-        } else {
+        if (Utils::nonEmptyString($pieResidueSliceLabel) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string'
             );
         }
 
-        return $this;
+        return $this->addOption([__FUNCTION__ => $pieResidueSliceLabel]);
     }
 }

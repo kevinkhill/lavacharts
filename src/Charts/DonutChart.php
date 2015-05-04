@@ -23,14 +23,13 @@ class DonutChart extends PieChart
 {
     public $type = 'DonutChart';
 
+    private $extraOptions = [
+        'pieHole'
+    ];
+
     public function __construct($chartLabel)
     {
-        parent::__construct($chartLabel);
-
-        $this->defaults = array_merge(
-            $this->defaults,
-            array('pieHole')
-        );
+        parent::__construct($chartLabel, $this->extraOptions);
 
         $this->pieHole(0.5);
     }
@@ -39,15 +38,12 @@ class DonutChart extends PieChart
      * If between 0 and 1, displays a donut chart. The hole with have a radius
      * equal to $pieHole times the radius of the chart.
      *
-     * @param int|float $pieHole
-     *
+     * @param  int|float  $pieHole Size of the pie hole.
      * @return DonutChart
      */
     public function pieHole($pieHole)
     {
-        if (Utils::between(0.0, $pieHole, 1.0)) {
-            $this->addOption(array('pieHole' => $pieHole));
-        } else {
+        if (Utils::between(0.0, $pieHole, 1.0) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'float',
@@ -55,6 +51,6 @@ class DonutChart extends PieChart
             );
         }
 
-        return $this;
+        return $this->addOption([__FUNCTION__ => $pieHole]);
     }
 }

@@ -46,33 +46,33 @@ class PieChartTest extends ProvidersTestCase
 
     public function testSlices()
     {
-         $textStyleVals = array(
-            'color'    => 'blue',
-            'fontName' => 'Arial',
-            'fontSize' => 16
-         );
+        $textStyleVals = array(
+           'color'    => 'blue',
+           'fontName' => 'Arial',
+           'fontSize' => 16
+        );
 
-         $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
+        $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
         //$mockTextStyle->shouldReceive('getValues')->once()->andReturn($textStyleVals);
 
-         $sliceVals = array(
-            'color'     => 'blue',
-            'offset'    => 'Arial',
-            'textStyle' => $mockTextStyle
-         );
+        $sliceVals = array(
+           'color'     => 'blue',
+           'offset'    => 'Arial',
+           'textStyle' => $mockTextStyle
+        );
 
-         $mockSlice1 = m::mock('Khill\Lavacharts\Configs\Slice');
-         $mockSlice1->shouldReceive('getValues')->once()->andReturn($sliceVals);
+        $mockSlice1 = m::mock('Khill\Lavacharts\Configs\Slice');
+        $mockSlice1->shouldReceive('getValues')->once()->andReturn($sliceVals);
 
-         $mockSlice2 = m::mock('Khill\Lavacharts\Configs\Slice');
-         $mockSlice2->shouldReceive('getValues')->once()->andReturn($sliceVals);
+        $mockSlice2 = m::mock('Khill\Lavacharts\Configs\Slice');
+        $mockSlice2->shouldReceive('getValues')->once()->andReturn($sliceVals);
 
-         $this->pc->slices(array($mockSlice1, $mockSlice2));
+        $this->pc->slices(array($mockSlice1, $mockSlice2));
 
-         $slices = $this->pc->getOption('slices');
+        $slices = $this->pc->getOption('slices');
 
-         $this->assertEquals($sliceVals, $slices[0]);
-         $this->assertEquals($sliceVals, $slices[1]);
+        $this->assertEquals($sliceVals, $slices[0]);
+        $this->assertEquals($sliceVals, $slices[1]);
     }
 
     /**
@@ -141,7 +141,7 @@ class PieChartTest extends ProvidersTestCase
         );
 
         $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
-        $mockTextStyle->shouldReceive('getValues')->once()->andReturn($textStyleVals);
+        $mockTextStyle->shouldReceive('toArray')->once()->andReturn($textStyleVals);
 
         $this->pc->pieSliceTextStyle($mockTextStyle);
 
