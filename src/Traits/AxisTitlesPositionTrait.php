@@ -1,7 +1,6 @@
 <?php namespace Khill\Lavacharts\Traits;
 
 use Khill\Lavacharts\Utils;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 trait AxisTitlesPositionTrait
 {
@@ -24,9 +23,8 @@ trait AxisTitlesPositionTrait
             'none'
         );
 
-        if (in_array($position, $values) === false) {
-            throw new InvalidConfigValue(
-                $this->className,
+        if (in_array($position, $values, true) === false) {
+            throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
                 'with a value of '.Utils::arrayToPipedString($values)

@@ -43,10 +43,10 @@ class Chart
      *
      * @param string $chartLabel Label for the chart accessed via the Volcano.
      */
-    public function __construct($chartLabel)
+    public function __construct($chartLabel, $chartDefaults = [])
     {
         $this->label = $chartLabel;
-        $this->defaults = array(
+        $this->defaults = array_merge([
             'datatable',
             'backgroundColor',
             'chartArea',
@@ -61,7 +61,7 @@ class Chart
             'titleTextStyle',
             'tooltip',
             'width'
-        );
+        ], $chartDefaults);
     }
 
     /**

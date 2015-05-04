@@ -18,89 +18,35 @@
  */
 
 use Khill\Lavacharts\Utils;
-use Khill\Lavacharts\Configs\HorizontalAxis;
-use Khill\Lavacharts\Configs\VerticalAxis;
 
 class AreaChart extends Chart
 {
+    use \Khill\Lavacharts\Traits\AnimationTrait;
+    use \Khill\Lavacharts\Traits\AreaOpacityTrait;
+    use \Khill\Lavacharts\Traits\AxisTitlesPositionTrait;
+    use \Khill\Lavacharts\Traits\HorizontalAxisTrait;
+    use \Khill\Lavacharts\Traits\VerticalAxisTrait;
+
+    //const TYPE = 'AreaChart';
     public $type = 'AreaChart';
+
+    private $extraOptions = [
+        'animation',
+        'areaOpacity',
+        'axisTitlesPosition',
+        'focusTarget',
+        'hAxis',
+        'isHtml',
+        'interpolateNulls',
+        'lineWidth',
+        'pointSize',
+        //'vAxes',
+        'vAxis'
+    ];
 
     public function __construct($chartLabel)
     {
-        parent::__construct($chartLabel);
-
-        $this->defaults = array_merge(
-            $this->defaults,
-            array(
-                //'animation',
-                'areaOpacity',
-                'axisTitlesPosition',
-                'focusTarget',
-                'hAxis',
-                'isHtml',
-                'interpolateNulls',
-                'lineWidth',
-                'pointSize',
-                //'vAxes',
-                'vAxis'
-            )
-        );
-    }
-
-    /**
-     * The default opacity of the colored area under an area chart series, where
-     * 0.0 is fully transparent and 1.0 is fully opaque. To specify opacity for
-     * an individual series, set the areaOpacity value in the series property.
-     *
-     * @param  float              $opacity
-     * @throws InvalidConfigValue
-     * @return AreaChart
-     */
-    public function areaOpacity($opacity)
-    {
-        if (Utils::between(0.0, $opacity, 1.0, true)) {
-            $this->addOption(array('areaOpacity' => $opacity));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'float',
-                'where 0 < opacity < 1'
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Where to place the axis titles, compared to the chart area. Supported values:
-     *
-     * in - Draw the axis titles inside the the chart area.
-     * out - Draw the axis titles outside the chart area.
-     * none - Omit the axis titles.
-     *
-     * @param  string             $position
-     * @throws InvalidConfigValue
-     * @return AreaChart
-     */
-    public function axisTitlesPosition($position)
-    {
-        $values = array(
-            'in',
-            'out',
-            'none'
-        );
-
-        if (is_string($position) && in_array($position, $values)) {
-            $this->addOption(array('axisTitlesPosition' => $position));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this;
+        parent::__construct($chartLabel, $this->extraOptions);
     }
 
     /**
@@ -135,22 +81,6 @@ class AreaChart extends Chart
                 'must be one of '.Utils::arrayToPipedString($values)
             );
         }
-
-        return $this;
-    }
-
-    /**
-     * An object with members to configure various horizontal axis elements. To
-     * specify properties of this property, create a new hAxis() object, set
-     * the values then pass it to this function or to the constructor.
-     *
-     * @param  Lavacharts\Configs\HorizontalAxis $hAxis
-     * @throws InvalidConfigValue
-     * @return AreaChart
-     */
-    public function hAxis(HorizontalAxis $hAxis)
-    {
-        $this->addOption($hAxis->toArray('hAxis'));
 
         return $this;
     }
@@ -240,22 +170,6 @@ class AreaChart extends Chart
                 'int'
             );
         }
-
-        return $this;
-    }
-
-    /**
-     * An object with members to configure various vertical axis elements. To
-     * specify properties of this property, create a new vAxis() object, set
-     * the values then pass it to this function or to the constructor.
-     *
-     * @param  VerticalAxis       $vAxis
-     * @throws InvalidConfigValue
-     * @return AreaChart
-     */
-    public function vAxis(VerticalAxis $vAxis)
-    {
-        $this->addOption($vAxis->toArray('vAxis'));
 
         return $this;
     }

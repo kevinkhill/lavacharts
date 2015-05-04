@@ -1,9 +1,8 @@
 <?php namespace Khill\Lavacharts\Traits;
 
 use Khill\Lavacharts\Utils;
-use Khill\Lavacharts\Configs\Animation;
 
-trait AnimationTrait
+trait AreaOpacityTrait
 {
     /**
      * The default opacity of the colored area under an area chart series, where

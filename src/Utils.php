@@ -163,24 +163,24 @@ class Utils
      * Defaults to including the limits with <= & >=, set to false to exclude
      * the limits with < & >
      *
-     * @param mixed number to test
-     * @param mixed lower limit
-     * @param mixed upper limit
-     * @param bool whether to include limits
+     * @param int|float $lower         The lower limit
+     * @param int|float $test          The number to test
+     * @param int|float $upper         The upper limit
+     * @param bool      $includeLimits Set whether to include limits
      *
      * @return bool
      */
     public static function between($lower, $test, $upper, $includeLimits = true)
     {
-        $lowerCheck = (is_int($lower) || is_float($lower) ? true : false);
-        $testCheck  = (is_int($test)  || is_float($test)  ? true : false);
-        $upperCheck = (is_int($upper) || is_float($upper) ? true : false);
+        $lowerCheck = is_numeric($lower) ? true : false;
+        $testCheck  = is_numeric($test)  ? true : false;
+        $upperCheck = is_numeric($upper) ? true : false;
 
         if ($lowerCheck && $testCheck && $upperCheck && is_bool($includeLimits)) {
             if ($includeLimits === true) {
                 return ($test >= $lower && $test <= $upper) ? true : false;
             } else {
-                return ($test > $lower && $test < $upper) ? true : false;
+                return ($test >  $lower && $test <  $upper) ? true : false;
             }
         } else {
             return false;
