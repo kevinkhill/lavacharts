@@ -5,7 +5,8 @@ use Khill\Lavacharts\Utils;
 trait AreaOpacityTrait
 {
     /**
-     * The default opacity of the colored area under an area chart series, where
+     * Set the default opacity of the colored area under an area chart series.
+     *
      * 0.0 is fully transparent and 1.0 is fully opaque. To specify opacity for
      * an individual series, set the areaOpacity value in the series property.
      *

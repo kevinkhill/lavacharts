@@ -12,16 +12,17 @@ trait AxisTitlesPositionTrait
      * out  - Draw the axis titles outside the chart area.
      * none - Omit the axis titles.
      *
-     * @param  string $position The position of the axis titles
+     * @param  string             $position The position of the axis titles
+     * @throws InvalidConfigValue
      * @return Chart
      */
     public function axisTitlesPosition($position)
     {
-        $values = array(
+        $values = [
             'in',
             'out',
             'none'
-        );
+        ];
 
         if (in_array($position, $values, true) === false) {
             throw $this->invalidConfigValue(

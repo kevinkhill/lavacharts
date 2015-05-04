@@ -24,7 +24,12 @@ class AreaChart extends Chart
     use \Khill\Lavacharts\Traits\AnimationTrait;
     use \Khill\Lavacharts\Traits\AreaOpacityTrait;
     use \Khill\Lavacharts\Traits\AxisTitlesPositionTrait;
+    use \Khill\Lavacharts\Traits\FocusTargetTrait;
     use \Khill\Lavacharts\Traits\HorizontalAxisTrait;
+    use \Khill\Lavacharts\Traits\IsStackedTrait;
+    use \Khill\Lavacharts\Traits\InterpolateNullsTrait;
+    use \Khill\Lavacharts\Traits\LineWidthTrait;
+    use \Khill\Lavacharts\Traits\PointSizeTrait;
     use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
     //const TYPE = 'AreaChart';
@@ -49,128 +54,4 @@ class AreaChart extends Chart
         parent::__construct($chartLabel, $this->extraOptions);
     }
 
-    /**
-     * The type of the entity that receives focus on mouse hover.
-     *
-     * Also affects which entity is selected by mouse click, and which data table
-     * element is associated with events. Can be one of the following:
-     *  'datum'    - Focus on a single data point. Correlates to a cell in the data table.
-     *  'category' - Focus on a grouping of all data points along the major axis.
-     *               Correlates to a row in the data table.
-     *
-     * In focusTarget 'category' the tooltip displays all the category values.
-     * This may be useful for comparing values of different series.
-     *
-     * @since  v2.4.1
-     * @param  string     $ft
-     * @return AreaChart
-     */
-    public function focusTarget($ft)
-    {
-        $values = array(
-            'datum',
-            'category'
-        );
-
-        if (Utils::nonEmptyStringInArray($ft, $values)) {
-            $this->addOption(array(__FUNCTION__ => $ft));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'must be one of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * If set to true, series elements are stacked.
-     *
-     * @param  bool               $isStacked
-     * @throws InvalidConfigValue
-     * @return AreaChart
-     */
-    public function isStacked($isStacked)
-    {
-        if (is_bool($isStacked)) {
-            $this->addOption(array('isStacked' => $isStacked));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Whether to guess the value of missing points. If true, it will guess the
-     * value of any missing data based on neighboring points. If false, it will
-     * leave a break in the line at the unknown point.
-     *
-     * @param  bool               $interpolateNulls
-     * @throws InvalidConfigValue
-     * @return AreaChart
-     */
-    public function interpolateNulls($interpolateNulls)
-    {
-        if (is_bool($interpolateNulls)) {
-            $this->addOption(array('interpolateNulls' => $interpolateNulls));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Data line width in pixels. Use zero to hide all lines and show only the
-     * points. You can override values for individual series using the series
-     * property.
-     *
-     * @param  int                $width
-     * @throws InvalidConfigValue
-     * @return AreaChart
-     */
-    public function lineWidth($width)
-    {
-        if (is_int($width)) {
-            $this->addOption(array('lineWidth' => $width));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Diameter of displayed points in pixels. Use zero to hide all points. You
-     * can override values for individual series using the series property.
-     *
-     * @param  int                $size
-     * @throws InvalidConfigValue
-     * @return AreaChart
-     */
-    public function pointSize($size)
-    {
-        if (is_int($size)) {
-            $this->addOption(array('pointSize' => $size));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this;
-    }
 }
