@@ -17,6 +17,7 @@
 
 use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Javascript\JavascriptFactory;
+use Khill\Lavacharts\Configs\Animation;
 use Khill\Lavacharts\Configs\DataTable;
 use Khill\Lavacharts\Configs\Legend;
 use Khill\Lavacharts\Configs\Tooltip;
@@ -35,22 +36,25 @@ class Chart
     public $deferedRender = false;
 
     protected $defaults  = null;
-    protected $events    = array();
-    protected $options   = array();
+    protected $events    = [];
+    protected $options   = [];
 
     /**
      * Builds a new chart with a label.
      *
-     * @param string $chartLabel Label for the chart accessed via the Volcano.
+     * @param  string $chartLabel Label for the chart accessed via the Volcano.
+     * @param  string $chartLabel Label for the chart accessed via the Volcano.
+     * @return void
      */
     public function __construct($chartLabel, $chartDefaults = [])
     {
         $this->label = $chartLabel;
         $this->defaults = array_merge([
-            'datatable',
+            'animation',
             'backgroundColor',
             'chartArea',
             'colors',
+            'datatable',
             'events',
             'fontSize',
             'fontName',
@@ -147,7 +151,7 @@ class Chart
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                "must be one of ".Utils::arrayToPipedString($this->defaults)
+                'must be one of '.Utils::arrayToPipedString($this->defaults)
             );
         }
     }
@@ -184,17 +188,76 @@ class Chart
     }
 
     /**
+     * Assigns wich Datatable will be used for this Chart.
+     *
+     * @uses  Datatable
+     * @param Datatable $datatable
+     *
+     * @return Chart
+     */
+    public function datatable(Datatable $datatable)
+    {
+        $this->datatable = $datatable;
+
+        return $this;
+    }
+
+    /**
+     * Returns a JSON string representation of the chart's properties.
+     *
+     * @return string
+     */
+    public function optionsToJson()
+    {
+        return json_encode($this->options);
+    }
+
+    /**
+     * Set up the chart with no datatable to defer rendering via AJAX
+     *
+     * @since  v2.5.0
+     * @param  bool             $dr
+     * @throws InvalidElementId
+     *
+     * @return void
+     */
+    public function deferedRender($dr)
+    {
+        if (is_bool($dr)) {
+            $this->deferedRender = $dr;
+        } else {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'bool'
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set the animation options for a chart
+     *
+     * @param  Animation $animation Animation config object
+     * @return Chart
+     */
+    public function animation(Animation $animation)
+    {
+        return $this->addOption($animation->toArray());
+    }
+
+    /**
      * The background color for the main area of the chart. Can be either a simple
      * HTML color string, for example: 'red' or '#00cc00', or a backgroundColor object
      *
      * @uses  BackgroundColor
-     * @param BackgroundColor $bc
+     * @param BackgroundColor $backgroundColor
      *
      * @return Chart
      */
-    public function backgroundColor(BackgroundColor $bc)
+    public function backgroundColor(BackgroundColor $backgroundColor)
     {
-        return $this->addOption($bc->toArray());
+        return $this->addOption($backgroundColor->toArray());
     }
 
     /**
@@ -225,7 +288,7 @@ class Chart
     public function colors($cArr)
     {
         if (Utils::arrayValuesCheck($cArr, 'string')) {
-            return $this->addOption(array(__FUNCTION__ => $cArr));
+            return $this->addOption([__FUNCTION__ => $cArr]);
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -233,49 +296,6 @@ class Chart
                 'with valid HTML colors'
             );
         }
-    }
-
-    /**
-     * Assigns wich Datatable will be used for this Chart.
-     *
-     * If a label is provided then the defined Datatable will be used.
-     * If called with no argument, or the chart is attempted to be generated
-     * without calling this function, the chart will search for a Datatable with
-     * the same label as the Chart.
-     *
-     * @uses  Datatable
-     * @param Datatable
-     *
-     * @return Chart
-     */
-    public function datatable(Datatable $d)
-    {
-        $this->datatable = $d;
-
-        return $this;
-    }
-
-    /**
-     * Set up the chart with no datatable to defer rendering via AJAX
-     *
-     * @since  v2.5.0
-     * @param  bool             $dr
-     * @throws InvalidElementId
-     *
-     * @return void
-     */
-    public function deferedRender($dr)
-    {
-        if (is_bool($dr)) {
-            $this->deferedRender = $dr;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this;
     }
 
     /**
@@ -292,14 +312,14 @@ class Chart
      */
     public function events($e)
     {
-        $values = array(
+        $values = [
             'animationfinish',
             'error',
             'onmouseover',
             'onmouseout',
             'ready',
             'select'
-        );
+        ];
 
         if (is_array($e)) {
             foreach ($e as $event) {
@@ -326,42 +346,42 @@ class Chart
      * The default font size, in pixels, of all text in the chart. You can
      * override this using properties for specific chart elements.
      *
-     * @param  int                $fs
+     * @param  int                $fontSize
      * @throws InvalidConfigValue
      *
      * @return Chart
      */
-    public function fontSize($fs)
+    public function fontSize($fontSize)
     {
-        if (is_int($fs)) {
-            return $this->addOption(array(__FUNCTION__ => $fs));
-        } else {
+        if (is_int($fontSize) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
         }
+
+        return $this->addOption([__FUNCTION__ => $fontSize]);
     }
 
     /**
      * The default font face for all text in the chart. You can override this
      * using properties for specific chart elements.
      *
-     * @param  string             $fn
+     * @param  string             $fontName
      * @throws InvalidConfigValue
      *
      * @return Chart
      */
-    public function fontName($fn)
+    public function fontName($fontName)
     {
-        if (is_string($fn)) {
-            return $this->addOption(array(__FUNCTION__ => $fn));
-        } else {
+        if (Utils::nonEmptyString($fontName) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string'
             );
         }
+
+        return $this->addOption([__FUNCTION__ => $fontName]);
     }
 
     /**
@@ -374,14 +394,14 @@ class Chart
      */
     public function height($h)
     {
-        if (is_int($h)) {
-            return $this->addOption(array(__FUNCTION__ => $h));
-        } else {
+        if (is_int($h) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
         }
+
+        return $this->addOption([__FUNCTION__ => $h]);
     }
 
     /**
@@ -401,52 +421,42 @@ class Chart
     }
 
     /**
-     * Returns a JSON string representation of the chart's properties.
-     *
-     * @return string
-     */
-    public function optionsToJson()
-    {
-        return json_encode($this->options);
-    }
-
-    /**
      * Outputs the chart javascript into the page
      *
      * Pass in a string of the html elementID that you want the chart to be
      * rendered into.
      *
      * @since  v2.0.0
-     * @param  string           $ei The id of an HTML element to render the chart into.
+     * @param  string           $elemId The id of an HTML element to render the chart into.
      * @throws InvalidElementId
      *
      * @return string Javscript code blocks
      */
-    public function render($ei)
+    public function render($elemId)
     {
         $jsf = new JavascriptFactory;
 
-        return $jsf->getChartJs($this, $ei);
+        return $jsf->getChartJs($this, $elemId);
     }
 
     /**
      * Text to display above the chart.
      *
-     * @param  string             $t
+     * @param  string             $title
      * @throws InvalidConfigValue
      *
      * @return Chart
      */
-    public function title($t)
+    public function title($title)
     {
-        if (is_string($t)) {
-            return $this->addOption(array(__FUNCTION__ => $t));
-        } else {
+        if (Utils::nonEmptyString($title) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string'
             );
         }
+
+        return $this->addOption([__FUNCTION__ => $title]);
     }
 
     /**
@@ -455,12 +465,12 @@ class Chart
      * 'out' - Draw the title outside the chart area.
      * 'none' - Omit the title.
      *
-     * @param  string             $tp
+     * @param  string             $titlePosition
      * @throws InvalidConfigValue
      *
      * @return Chart
      */
-    public function titlePosition($tp)
+    public function titlePosition($titlePosition)
     {
         $values = array(
             'in',
@@ -468,15 +478,15 @@ class Chart
             'none'
         );
 
-        if (is_string($tp) && in_array($tp, $values)) {
-            return $this->addOption(array(__FUNCTION__ => $tp));
-        } else {
+        if (in_array($titlePosition, $values, true) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
                 'with a value of '.Utils::arrayToPipedString($values)
             );
         }
+
+        return $this->addOption([__FUNCTION__ => $titlePosition]);
     }
 
     /**
@@ -484,14 +494,14 @@ class Chart
      * object, set the values then pass it to this function or to the constructor.
      *
      * @uses   TextStyle
-     * @param  TextStyle          $ts
+     * @param  TextStyle          $textStyle
      * @throws InvalidConfigValue
      *
      * @return Chart
      */
-    public function titleTextStyle(TextStyle $ts)
+    public function titleTextStyle(TextStyle $textStyle)
     {
-        return $this->addOption($ts->toArray(__FUNCTION__));
+        return $this->addOption($textStyle->toArray(__FUNCTION__));
     }
 
     /**
@@ -500,34 +510,34 @@ class Chart
      * then pass it to this function or to the constructor.
      *
      * @uses   Tooltip
-     * @param  Tooltip            $t
+     * @param  Tooltip            $tooltip
      * @throws InvalidConfigValue
      *
      * @return Chart
      */
-    public function tooltip(Tooltip $t)
+    public function tooltip(Tooltip $tooltip)
     {
-        return $this->addOption($t->toArray());
+        return $this->addOption($tooltip->toArray());
     }
 
     /**
      * Width of the chart, in pixels.
      *
-     * @param  int                $w
+     * @param  int                $width
      * @throws InvalidConfigValue
      *
      * @return Chart
      */
-    public function width($w)
+    public function width($width)
     {
-        if (is_int($w)) {
-            return $this->addOption(array(__FUNCTION__ => $w));
-        } else {
+        if (is_int($width) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
         }
+
+        return $this->addOption([__FUNCTION__ => $width]);
     }
 
     /**

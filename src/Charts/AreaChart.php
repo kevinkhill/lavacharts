@@ -21,12 +21,9 @@ use Khill\Lavacharts\Utils;
 
 class AreaChart extends Chart
 {
-    use \Khill\Lavacharts\Traits\AnimationTrait;
-    use \Khill\Lavacharts\Traits\AreaOpacityTrait;
     use \Khill\Lavacharts\Traits\AxisTitlesPositionTrait;
     use \Khill\Lavacharts\Traits\FocusTargetTrait;
     use \Khill\Lavacharts\Traits\HorizontalAxisTrait;
-    use \Khill\Lavacharts\Traits\IsStackedTrait;
     use \Khill\Lavacharts\Traits\InterpolateNullsTrait;
     use \Khill\Lavacharts\Traits\LineWidthTrait;
     use \Khill\Lavacharts\Traits\PointSizeTrait;
@@ -36,12 +33,11 @@ class AreaChart extends Chart
     public $type = 'AreaChart';
 
     private $extraOptions = [
-        'animation',
         'areaOpacity',
         'axisTitlesPosition',
         'focusTarget',
         'hAxis',
-        'isHtml',
+        'isStacked',
         'interpolateNulls',
         'lineWidth',
         'pointSize',
@@ -52,6 +48,48 @@ class AreaChart extends Chart
     public function __construct($chartLabel)
     {
         parent::__construct($chartLabel, $this->extraOptions);
+    }
+
+    /**
+     * Set the default opacity of the colored area under an area chart series.
+     *
+     * 0.0 is fully transparent and 1.0 is fully opaque. To specify opacity for
+     * an individual series, set the areaOpacity value in the series property.
+     *
+     * @param  float              $opacity
+     * @throws InvalidConfigValue
+     * @return AreaChart
+     */
+    public function areaOpacity($opacity)
+    {
+        if (Utils::between(0.0, $opacity, 1.0, true) === false) {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'float',
+                'where 0 < opacity < 1'
+            );
+        }
+
+        return $this->addOption([__FUNCTION__ => $opacity]);
+    }
+
+    /**
+     * If set to true, series elements are stacked.
+     *
+     * @param  bool               $isStacked
+     * @throws InvalidConfigValue
+     * @return Chart
+     */
+    public function isStacked($isStacked)
+    {
+        if (is_bool($isStacked) === false) {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'bool'
+            );
+        }
+
+        return $this->addOption([__FUNCTION__ => $isStacked]);
     }
 
 }
