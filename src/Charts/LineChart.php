@@ -22,6 +22,7 @@ use \Khill\Lavacharts\Utils;
 class LineChart extends Chart
 {
     use \Khill\Lavacharts\Traits\AxisTitlesPositionTrait;
+    use \Khill\Lavacharts\Traits\CurveTypeTrait;
     use \Khill\Lavacharts\Traits\FocusTargetTrait;
     use \Khill\Lavacharts\Traits\HorizontalAxisTrait;
     use \Khill\Lavacharts\Traits\InterpolateNullsTrait;
@@ -47,34 +48,4 @@ class LineChart extends Chart
     {
         parent::__construct($chartLabel, $this->extraOptions);
     }
-
-    /**
-     * Controls the curve of the lines when the line width is not zero.
-     *
-     * Can be one of the following:
-     * 'none' - Straight lines without curve.
-     * 'function' - The angles of the line will be smoothed.
-     *
-     * @param  string             $curveType
-     * @throws InvalidConfigValue
-     * @return LineChart
-     */
-    public function curveType($curveType)
-    {
-        $values = [
-            'none',
-            'function'
-        ];
-
-        if (in_array($curveType, $values, true) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $curveType]);
-    }
-
 }
