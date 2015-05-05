@@ -4,7 +4,7 @@ trait PointShapeTrait
 {
     /**
      * The shape of individual data elements:
-     * 
+     *
      * 'circle', 'triangle', 'square', 'diamond', 'star', or 'polygon'.
      *
      * @see    https://developers.google.com/chart/interactive/docs/points

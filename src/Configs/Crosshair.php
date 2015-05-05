@@ -66,7 +66,7 @@ class Crosshair extends ConfigObject
 
     /**
      * Stores all the information about the crosshair.
-     * 
+     *
      * All options can be set either by passing an array with associative
      * values for option => value, or by chaining together the functions
      * once an object has been created.

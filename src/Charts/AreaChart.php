@@ -69,5 +69,4 @@ class AreaChart extends Chart
 
         return $this->addOption([__FUNCTION__ => $isStacked]);
     }
-
 }

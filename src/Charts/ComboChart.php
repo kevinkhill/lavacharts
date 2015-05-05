@@ -80,7 +80,7 @@ class ComboChart extends Chart
     public function __construct($chartLabel)
     {
         parent::__construct($chartLabel, $this->extraOptions);
-    }    
+    }
 
     /**
      * The default line type for any series not specified in the series property.
