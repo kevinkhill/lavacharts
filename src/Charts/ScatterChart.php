@@ -42,30 +42,39 @@ class ScatterChart extends Chart
     use \Khill\Lavacharts\Traits\ThemeTrait;
     use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
-    public $type = 'ScatterChart';
-
-    private $extraOptions = [
-        'annotations',
-        'axisTitlesPosition',
-        'crosshair',
-        'curveType',
-        'dataOpacity',
-        'enableInteractivity',
-        'forceIFrame',
-        'hAxis',
-        'lineWidth',
-        'orientation',
-        'pointShape',
-        'pointSize',
-        'reverseCategories',
-        'selectionMode',
-        'series',
-        'theme',
-        'vAxis'
-    ];
-
+    /**
+     * Builds a new chart with the given label.
+     *
+     * @param  string $chartLabel Identifying label for the chart.
+     * @return Chart
+     */
     public function __construct($chartLabel)
     {
-        parent::__construct($chartLabel, $this->extraOptions);
+        $this->label        = $chartLabel;
+        $this->type         = (new \ReflectionClass($this))->getShortName();
+        $this->version      = '1';
+        $this->jsPackage    = 'corechart';
+        $this->jsClass      = 'google.visualization.' . $this->type;
+        $this->extraOptions = [
+            'annotations',
+            'axisTitlesPosition',
+            'crosshair',
+            'curveType',
+            'dataOpacity',
+            'enableInteractivity',
+            'forceIFrame',
+            'hAxis',
+            'lineWidth',
+            'orientation',
+            'pointShape',
+            'pointSize',
+            'reverseCategories',
+            'selectionMode',
+            'series',
+            'theme',
+            'vAxis'
+        ];
+
+        parent::__construct();
     }
 }

@@ -15,7 +15,8 @@ $charts = array(
     'GaugeChart',
     'GeoChart',
     'LineChart',
-    'PieChart'
+    'PieChart',
+    'ScatterChart'
 );
 
 foreach ($charts as $chart) {

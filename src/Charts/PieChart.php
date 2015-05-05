@@ -23,24 +23,33 @@ use \Khill\Lavacharts\Configs\TextStyle;
 
 class PieChart extends Chart
 {
-    public $type = 'PieChart';
-
-    private $extraOptions = [
-        'is3D',
-        'slices',
-        'pieSliceBorderColor',
-        'pieSliceText',
-        'pieSliceTextStyle',
-        'pieStartAngle',
-        'reverseCategories',
-        'sliceVisibilityThreshold',
-        'pieResidueSliceColor',
-        'pieResidueSliceLabel'
-    ];
-
+    /**
+     * Builds a new chart with the given label.
+     *
+     * @param  string $chartLabel Identifying label for the chart.
+     * @return Chart
+     */
     public function __construct($chartLabel)
     {
-        parent::__construct($chartLabel, $this->extraOptions);
+        $this->label        = $chartLabel;
+        $this->type         = (new \ReflectionClass($this))->getShortName();
+        $this->version      = '1';
+        $this->jsPackage    = 'corechart';
+        $this->jsClass      = 'google.visualization.' . $this->type;
+        $this->extraOptions = [
+            'is3D',
+            'slices',
+            'pieSliceBorderColor',
+            'pieSliceText',
+            'pieSliceTextStyle',
+            'pieStartAngle',
+            'reverseCategories',
+            'sliceVisibilityThreshold',
+            'pieResidueSliceColor',
+            'pieResidueSliceLabel'
+        ];
+
+        parent::__construct();
     }
 
     /**

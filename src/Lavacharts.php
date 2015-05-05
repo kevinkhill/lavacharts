@@ -45,7 +45,7 @@ class Lavacharts
      *
      * @var array
      */
-    private $chartClasses = array(
+    private $chartClasses = [
         'AreaChart',
         'BarChart',
         'CalendarChart',
@@ -55,15 +55,16 @@ class Lavacharts
         'DonutChart',
         'GaugeChart',
         'GeoChart',
-        'LineChart'
-    );
+        'LineChart',
+        'ScatterChart'
+    ];
 
     /**
      * Holds all of the defined configuration class names.
      *
      * @var array
      */
-    private $configClasses = array(
+    private $configClasses = [
         'Animation',
         'Annotation',
         'BackgroundColor',
@@ -71,6 +72,7 @@ class Lavacharts
         'ChartArea',
         'Color',
         'ColorAxis',
+        'Crosshair',
         'Gradient',
         'HorizontalAxis',
         'Legend',
@@ -82,34 +84,36 @@ class Lavacharts
         'TextStyle',
         'Tooltip',
         'VerticalAxis'
-    );
+    ];
 
     /**
      * Types of column formatters.
      *
      * @var array
      */
-    private $formatClasses = array(
+    private $formatClasses = [
         'DateFormat',
         'NumberFormat'
-    );
+    ];
 
     /**
      * Types of events.
      *
      * @var array
      */
-    private $eventClasses = array(
+    private $eventClasses = [
         'AnimationFinish',
         'Error',
         'MouseOut',
         'MouseOver',
         'Ready',
         'Select'
-    );
+    ];
 
     /**
      * Creates Volcano & Javascript Factory
+     *
+     * @return Lavacharts
      */
     public function __construct()
     {
@@ -364,7 +368,7 @@ class Lavacharts
      *
      * @return ConfigObject
      */
-    private function configFactory($type, $options = array())
+    private function configFactory($type, $options = [])
     {
         $configObj = __NAMESPACE__ . '\\Configs\\' . $type;
 
@@ -382,7 +386,7 @@ class Lavacharts
      *
      * @return Formatter
      */
-    private function formatFactory($type, $options = array())
+    private function formatFactory($type, $options = [])
     {
         $formatter = __NAMESPACE__ . '\\Formats\\' . $type;
 

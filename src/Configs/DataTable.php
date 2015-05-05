@@ -24,7 +24,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Carbon\Carbon;
+use \Carbon\Carbon;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Formats\Format;
 use \Khill\Lavacharts\Exceptions\InvalidDate;
@@ -38,6 +38,13 @@ use \Khill\Lavacharts\Exceptions\InvalidRowProperty;
 
 class DataTable
 {
+    /**
+     * Google's datatable version
+     *
+     * @var string
+     */
+    const VERSION = '0.6';
+
     /**
      * Timezone for dealing with datetime and Carbon objects
      *
@@ -57,48 +64,48 @@ class DataTable
      *
      * @var array
      */
-    private $cols = array();
+    private $cols = [];
 
     /**
      * Holds the information defining each row.
      *
      * @var array
      */
-    private $rows = array();
+    private $rows = [];
 
     /**
      * Holds the formatting information for each column.
      *
      * @var array
      */
-    private $formats = array();
+    private $formats = [];
 
     /**
      * Valid column types.
      *
      * @var array
      */
-    private $colCellTypes = array(
+    private $colCellTypes = [
         'string',
         'number',
         'bool',
         'date',
         'datetime',
         'timeofday'
-    );
+    ];
 
     /**
      * Valid column descriptions
      *
      * @var array
      */
-    private $colCellDesc = array(
+    private $colCellDesc = [
         'type',
         'label',
         'id',
         'role',
         'pattern'
-    );
+    ];
 
     public function __construct($timezone = null)
     {

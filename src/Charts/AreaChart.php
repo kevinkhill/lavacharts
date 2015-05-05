@@ -21,52 +21,46 @@ use \Khill\Lavacharts\Utils;
 
 class AreaChart extends Chart
 {
+    /**
+     * Common methods
+     */
     use \Khill\Lavacharts\Traits\AreaOpacityTrait;
     use \Khill\Lavacharts\Traits\AxisTitlesPositionTrait;
     use \Khill\Lavacharts\Traits\FocusTargetTrait;
     use \Khill\Lavacharts\Traits\HorizontalAxisTrait;
     use \Khill\Lavacharts\Traits\InterpolateNullsTrait;
+    use \Khill\Lavacharts\Traits\IsStackedTrait;
     use \Khill\Lavacharts\Traits\LineWidthTrait;
     use \Khill\Lavacharts\Traits\PointSizeTrait;
     use \Khill\Lavacharts\Traits\VerticalAxesTrait;
     use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
-    public $type = 'AreaChart';
-
-    private $extraOptions = [
-        'areaOpacity',
-        'axisTitlesPosition',
-        'focusTarget',
-        'hAxis',
-        'isStacked',
-        'interpolateNulls',
-        'lineWidth',
-        'pointSize',
-        'vAxes',
-        'vAxis'
-    ];
-
-    public function __construct($chartLabel)
-    {
-        parent::__construct($chartLabel, $this->extraOptions);
-    }
-
     /**
-     * If set to true, series elements are stacked.
+     * Builds a new chart with the given label.
      *
-     * @param  bool               $isStacked
-     * @throws InvalidConfigValue
+     * @param  string $chartLabel Identifying label for the chart.
      * @return Chart
      */
-    public function isStacked($isStacked)
+    public function __construct($chartLabel)
     {
-        if (is_bool($isStacked) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
+        $this->label        = $chartLabel;
+        $this->type         = (new \ReflectionClass($this))->getShortName();
+        $this->version      = '1';
+        $this->jsPackage    = 'corechart';
+        $this->jsClass      = 'google.visualization.' . $this->type;
+        $this->extraOptions = [
+            'areaOpacity',
+            'axisTitlesPosition',
+            'focusTarget',
+            'hAxis',
+            'isStacked',
+            'interpolateNulls',
+            'lineWidth',
+            'pointSize',
+            'vAxes',
+            'vAxis'
+        ];
 
-        return $this->addOption([__FUNCTION__ => $isStacked]);
+        parent::__construct();
     }
 }

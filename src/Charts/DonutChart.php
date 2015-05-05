@@ -21,15 +21,20 @@ use \Khill\Lavacharts\Utils;
 
 class DonutChart extends PieChart
 {
-    public $type = 'DonutChart';
-
-    private $extraOptions = [
-        'pieHole'
-    ];
-
+    /**
+     * Builds a new chart with the given label.
+     *
+     * @param  string $chartLabel Identifying label for the chart.
+     * @return Chart
+     */
     public function __construct($chartLabel)
     {
-        parent::__construct($chartLabel, $this->extraOptions);
+        $this->jsClass      = 'google.visualization.PieChart';
+        $this->extraOptions = [
+            'pieHole'
+        ];
+
+        parent::__construct($chartLabel);
 
         $this->pieHole(0.5);
     }

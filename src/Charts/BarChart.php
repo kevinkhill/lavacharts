@@ -25,6 +25,9 @@ use \Khill\Lavacharts\Configs\VerticalAxis;
 
 class BarChart extends Chart
 {
+    /**
+     * Common methods
+     */
     use \Khill\Lavacharts\Traits\AnnotationsTrait;
     use \Khill\Lavacharts\Traits\AxisTitlesPositionTrait;
     use \Khill\Lavacharts\Traits\BarGroupWidthTrait;
@@ -42,33 +45,40 @@ class BarChart extends Chart
     use \Khill\Lavacharts\Traits\VerticalAxesTrait;
     use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
-    public $type = 'BarChart';
-
-    private $extraOptions = [
-        'annotations',
-        'axisTitlesPosition',
-        'barGroupWidth',
-        //'bars',
-        //'chart.subtitle',
-        //'chart.title',
-        'dataOpacity',
-        'enableInteractivity',
-        'focusTarget',
-        'forceIFrame',
-        'hAxes',
-        'hAxis',
-        'isStacked',
-        'orientation',
-        'reverseCategories',
-        'series',
-        'theme',
-        //'trendlines',
-        'vAxes',
-        'vAxis'
-    ];
-
+    /**
+     * Builds a new chart with the given label.
+     *
+     * @param  string $chartLabel Identifying label for the chart.
+     * @return Chart
+     */
     public function __construct($chartLabel)
     {
-        parent::__construct($chartLabel, $this->extraOptions);
+        $this->label        = $chartLabel;
+        $this->type         = (new \ReflectionClass($this))->getShortName();
+        $this->version      = '1';
+        $this->jsPackage    = 'corechart';
+        $this->jsClass      = 'google.visualization.' . $this->type;
+        $this->extraOptions = [
+            'annotations',
+            'axisTitlesPosition',
+            'barGroupWidth',
+            //'bars',
+            //'chart.subtitle',
+            //'chart.title',
+            'dataOpacity',
+            'enableInteractivity',
+            'focusTarget',
+            'forceIFrame',
+            'hAxes',
+            'hAxis',
+            'isStacked',
+            'orientation',
+            'reverseCategories',
+            'series',
+            'theme',
+            //'trendlines',
+            'vAxes',
+            'vAxis'
+        ];
     }
 }

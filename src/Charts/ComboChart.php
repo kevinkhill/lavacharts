@@ -1,7 +1,7 @@
 <?php namespace Khill\Lavacharts\Charts;
 
 /**
- * Combo Chart Class
+ * ComboChart Class
  *
  * A chart that lets you render each series as a different marker type from the following list:
  * line, area, bars, candlesticks and stepped area.
@@ -24,6 +24,9 @@ use \Khill\Lavacharts\Utils;
 
 class ComboChart extends Chart
 {
+    /**
+     * Common methods
+     */
     use \Khill\Lavacharts\Traits\AnnotationsTrait;
     use \Khill\Lavacharts\Traits\AreaOpacityTrait;
     use \Khill\Lavacharts\Traits\AxisTitlesPositionTrait;
@@ -48,38 +51,47 @@ class ComboChart extends Chart
     use \Khill\Lavacharts\Traits\VerticalAxesTrait;
     use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
-    public $type = 'ComboChart';
-
-    private $extraOptions = [
-        'annotations',
-        'areaOpacity',
-        'axisTitlesPosition',
-        'barGroupWidth',
-        'crosshair',
-        'curveType',
-        'dataOpacity',
-        'enableInteractivity',
-        'focusTarget',
-        'forceIFrame',
-        'hAxis',
-        'interpolateNulls',
-        'isStacked',
-        'lineWidth',
-        'orientation',
-        'pointShape',
-        'pointSize',
-        'reverseCategories',
-        'selectionMode',
-        'series',
-        'seriesType',
-        'theme',
-        'vAxes',
-        'vAxis'
-    ];
-
+    /**
+     * Builds a new chart with the given label.
+     *
+     * @param  string $chartLabel Identifying label for the chart.
+     * @return Chart
+     */
     public function __construct($chartLabel)
     {
-        parent::__construct($chartLabel, $this->extraOptions);
+        $this->label        = $chartLabel;
+        $this->type         = (new \ReflectionClass($this))->getShortName();
+        $this->version      = '1';
+        $this->jsPackage    = 'corechart';
+        $this->jsClass      = 'google.visualization.' . $this->type;
+        $this->extraOptions = [
+            'annotations',
+            'areaOpacity',
+            'axisTitlesPosition',
+            'barGroupWidth',
+            'crosshair',
+            'curveType',
+            'dataOpacity',
+            'enableInteractivity',
+            'focusTarget',
+            'forceIFrame',
+            'hAxis',
+            'interpolateNulls',
+            'isStacked',
+            'lineWidth',
+            'orientation',
+            'pointShape',
+            'pointSize',
+            'reverseCategories',
+            'selectionMode',
+            'series',
+            'seriesType',
+            'theme',
+            'vAxes',
+            'vAxis'
+        ];
+
+        parent::__construct();
     }
 
     /**
@@ -108,7 +120,7 @@ class ComboChart extends Chart
                 'with a value of '.Utils::arrayToPipedString($values)
             );
         }
-        
+
         return $this->addOption([__FUNCTION__ => $type]);
     }
 }

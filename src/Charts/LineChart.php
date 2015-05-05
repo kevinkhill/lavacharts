@@ -30,22 +30,31 @@ class LineChart extends Chart
     use \Khill\Lavacharts\Traits\PointSizeTrait;
     use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
-    public $type = 'LineChart';
-
-    private $extraOptions = [
-        'axisTitlesPosition',
-        'curveType',
-        'focusTarget',
-        'hAxis',
-        'interpolateNulls',
-        'lineWidth',
-        'pointSize',
-        //'vAxes',
-        'vAxis'
-    ];
-
+    /**
+     * Builds a new chart with the given label.
+     *
+     * @param  string $chartLabel Identifying label for the chart.
+     * @return Chart
+     */
     public function __construct($chartLabel)
     {
-        parent::__construct($chartLabel, $this->extraOptions);
+        $this->label        = $chartLabel;
+        $this->type         = (new \ReflectionClass($this))->getShortName();
+        $this->version      = '1';
+        $this->jsPackage    = 'corechart';
+        $this->jsClass      = 'google.visualization.' . $this->type;
+        $this->extraOptions = [
+            'axisTitlesPosition',
+            'curveType',
+            'focusTarget',
+            'hAxis',
+            'interpolateNulls',
+            'lineWidth',
+            'pointSize',
+            //'vAxes',
+            'vAxis'
+        ];
+
+        parent::__construct();
     }
 }

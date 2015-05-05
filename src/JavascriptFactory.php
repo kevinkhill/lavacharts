@@ -1,7 +1,7 @@
 <?php namespace Khill\Lavacharts;
 
 /**
- * JavascriptFactory Object
+ * JavascriptFactory Class
  *
  * This class takes charts and uses all the info to build the complete
  * javascript blocks for outputing into the page.
@@ -19,7 +19,7 @@
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Charts\Chart;
 use \Khill\Lavacharts\Events\Event;
-use \Khill\Lavacharts\Exceptions\DataTableNotFound;
+use \Khill\Lavacharts\Configs\DataTable;
 use \Khill\Lavacharts\Exceptions\InvalidElementId;
 
 class JavascriptFactory
@@ -39,13 +39,6 @@ class JavascriptFactory
      * @var string
      */
     private $elementId;
-
-    /**
-     * Event used to generate output.
-     *
-     * @var Event
-     */
-    private $event;
 
     /**
      * Tracks if the lava js core and jsapi have been rendered.
@@ -76,14 +69,6 @@ class JavascriptFactory
     private $jsAPI = '<script type="text/javascript" src="//www.google.com/jsapi"></script>';
 
     /**
-     * Google's DataTable Version
-     *
-     * @var string
-     */
-    private $googleDataTableVer = '0.6';
-
-
-    /**
      * Checks the Chart for DataTable and builds the Javascript code block
      *
      * Build the script block for the actual chart and passes it back to
@@ -96,17 +81,12 @@ class JavascriptFactory
      * @uses   Chart
      * @param  Chart             $chart     Chart object to render.
      * @param  string            $elementId HTML element id to output the chart into.
-     * @throws DataTableNotFound
      * @throws InvalidElementId
      *
      * @return string Javascript code block.
      */
     public function getChartJs(Chart $chart, $elementId = null)
     {
-        if (isset($chart->datatable) === false) {
-            throw new DataTableNotFound($chart);
-        }
-
         if (Utils::nonEmptyString($elementId) === false) {
             throw new InvalidElementId($elementId);
         }
@@ -130,7 +110,8 @@ class JavascriptFactory
      */
     private function buildChartJs()
     {
-        $out = $this->jsO.PHP_EOL;
+        $chart = $this->chart;
+        $out   = $this->jsO.PHP_EOL;
 
         /*
          *  If the object does not exist for a given chart type, initialise it.
@@ -170,8 +151,8 @@ class JavascriptFactory
 
         $out .= sprintf(
             '$this.data = new google.visualization.DataTable(%s, %s);',
-            $this->chart->datatable->toJson(),
-            $this->googleDataTableVer
+            $this->chart->getDataTableJson(),
+            DataTable::VERSION
         ).PHP_EOL.PHP_EOL;
 
         $out .= sprintf(
@@ -180,12 +161,12 @@ class JavascriptFactory
         ).PHP_EOL.PHP_EOL;
 
         $out .= sprintf(
-            '$this.chart = new google.visualization.%s(document.getElementById("%s"));',
-            $this->getChartPackageData('jsObj'),
+            '$this.chart = new %s(document.getElementById("%s"));',
+            $this->chart->jsClass,
             $this->elementId
         ).PHP_EOL.PHP_EOL;
 
-        if ($this->chart->datatable->hasFormats()) {
+        if ($this->chart->getDataTable()->hasFormats()) {
             $out .= $this->buildFormatters();
         }
 
@@ -199,8 +180,8 @@ class JavascriptFactory
 
         $out .= sprintf(
             "google.load('visualization', '%s', {'packages':['%s']});",
-            $this->getChartPackageData('version'),
-            $this->getChartPackageData('type')
+            $this->chart->version,
+            $this->chart->jsPackage
         ).PHP_EOL;
 
         $out .= sprintf(
@@ -317,7 +298,7 @@ class JavascriptFactory
     {
         $out = '';
 
-        foreach ($this->chart->datatable->getFormats() as $index => $format) {
+        foreach ($this->chart->getDataTable()->getFormats() as $index => $format) {
             $out .= sprintf(
                 '$this.formats["col%s"] = new google.visualization.%s(%s);',
                 $index,

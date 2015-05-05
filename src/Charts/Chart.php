@@ -24,31 +24,90 @@ use \Khill\Lavacharts\Configs\Tooltip;
 use \Khill\Lavacharts\Configs\TextStyle;
 use \Khill\Lavacharts\Configs\ChartArea;
 use \Khill\Lavacharts\Configs\BackgroundColor;
+use \Khill\Lavacharts\Exceptions\DataTableNotFound;
 use \Khill\Lavacharts\Exceptions\InvalidElementId;
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Chart
 {
-    public $type          = null;
-    public $label         = null;
-    public $datatable     = null;
-    public $deferedRender = false;
-
-    protected $defaults  = null;
-    protected $events    = [];
-    protected $options   = [];
+    /**
+     * The chart's unique label.
+     *
+     * @var string
+     */
+    public $label = null;
 
     /**
-     * Builds a new chart with a label.
+     * The javascript chart type.
      *
-     * @param  string $chartLabel    Label for the chart accessed via the Volcano.
-     * @param  string $chartDefaults Extended options for child charts.
-     * @return void
+     * @var string
      */
-    public function __construct($chartLabel, $chartDefaults = [])
+    public $type = '';
+
+    /**
+     * The javascript chart version.
+     *
+     * @var string
+     */
+    public $version = '';
+
+    /**
+     * The javascript chart package.
+     *
+     * @var string
+     */
+    public $jsPackage = '';
+
+    /**
+     * The javascript chart class.
+     *
+     * @var string
+     */
+    public $jsClass = '';
+
+    /**
+     * Additional chart specific options.
+     *
+     * @var array
+     */
+    protected $extraOptions = [];
+
+    /**
+     * The chart's datatable.
+     *
+     * @var DataTable
+     */
+    protected $datatable = null;
+
+    /**
+     * The chart's defined default options.
+     *
+     * @var array
+     */
+    protected $defaults = [];
+
+    /**
+     * The chart's defined events.
+     *
+     * @var array
+     */
+    protected $events = [];
+
+    /**
+     * The chart's user set options.
+     *
+     * @var array
+     */
+    protected $options = [];
+
+    /**
+     * Merges the extra options with the chart defaults.
+     *
+     * @return Chart
+     */
+    public function __construct()
     {
-        $this->label = $chartLabel;
         $this->defaults = array_merge([
             'animation',
             'backgroundColor',
@@ -65,7 +124,7 @@ class Chart
             'titleTextStyle',
             'tooltip',
             'width'
-        ], $chartDefaults);
+        ], $this->extraOptions);
     }
 
     /**
@@ -177,14 +236,31 @@ class Chart
     }
 
     /**
+     * Returns the DataTable if set, false if not set.
+     *
+     * @since  v3.0.0
+     * @throws DataTableNotFound
+     * @return bool|DataTable
+     */
+    public function getDataTable()
+    {
+        if (is_null($this->datatable)) {
+            throw new DataTableNotFound($this);
+        }
+
+        return $this->datatable;
+    }
+
+    /**
      * Returns a JSON string representation of the datatable.
      *
      * @since  v2.5.0
+     * @throws DataTableNotFound
      * @return string
      */
     public function getDataTableJson()
     {
-        return $this->datatable->toJson();
+        return $this->getDataTable()->toJson();
     }
 
     /**
@@ -210,29 +286,6 @@ class Chart
     public function optionsToJson()
     {
         return json_encode($this->options);
-    }
-
-    /**
-     * Set up the chart with no datatable to defer rendering via AJAX
-     *
-     * @since  v2.5.0
-     * @param  bool             $dr
-     * @throws InvalidElementId
-     *
-     * @return void
-     */
-    public function deferedRender($dr)
-    {
-        if (is_bool($dr)) {
-            $this->deferedRender = $dr;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this;
     }
 
     /**

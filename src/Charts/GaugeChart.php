@@ -20,28 +20,37 @@ use \Khill\Lavacharts\Utils;
 
 class GaugeChart extends Chart
 {
-    public $type = 'GaugeChart';
-
-    private $extraOptions = [
-        'forceIFrame',
-        'greenColor',
-        'greenFrom',
-        'greenTo',
-        'majorTicks',
-        'max',
-        'min',
-        'minorTicks',
-        'redColor',
-        'redFrom',
-        'redTo',
-        'yellowColor',
-        'yellowFrom',
-        'yellowTo'
-    ];
-
+    /**
+     * Builds a new chart with the given label.
+     *
+     * @param  string $chartLabel Identifying label for the chart.
+     * @return Chart
+     */
     public function __construct($chartLabel)
     {
-        parent::__construct($chartLabel, $this->extraOptions);
+        $this->label        = $chartLabel;
+        $this->type         = (new \ReflectionClass($this))->getShortName();
+        $this->version      = '1';
+        $this->jsPackage    = 'gauge';
+        $this->jsClass      = 'google.visualization.Gauge';
+        $this->extraOptions = [
+            'forceIFrame',
+            'greenColor',
+            'greenFrom',
+            'greenTo',
+            'majorTicks',
+            'max',
+            'min',
+            'minorTicks',
+            'redColor',
+            'redFrom',
+            'redTo',
+            'yellowColor',
+            'yellowFrom',
+            'yellowTo'
+        ];
+
+        parent::__construct();
     }
 
     /**

@@ -30,7 +30,7 @@ class ChartTest extends ProvidersTestCase
 
         $this->mlc->datatable($mdt);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\DataTable', $this->mlc->datatable);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\DataTable', $this->mlc->getDatatable());
     }
 
     public function testBackgroundColorWithValidValues()

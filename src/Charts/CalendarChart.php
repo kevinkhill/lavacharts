@@ -26,32 +26,41 @@ use \Khill\Lavacharts\Configs\ColorAxis;
 
 class CalendarChart extends Chart
 {
-    public $type = 'CalendarChart';
-
-    private $extraOptions = [
-        'cellColor',
-        'cellSize',
-        'dayOfWeekLabel',
-        'dayOfWeekRightSpace',
-        'daysOfWeek',
-        'focusedCellColor',
-        'monthLabel',
-        'monthOutlineColor',
-        'underMonthSpace',
-        'underYearSpace',
-        'unusedMonthOutlineColor',
-        'colorAxis',
-        'forceIFrame',
-        'noDataPattern'
-    ];
-
+    /**
+     * Builds a new chart with the given label.
+     *
+     * @param  string $chartLabel Identifying label for the chart.
+     * @return Chart
+     */
     public function __construct($chartLabel)
     {
-        parent::__construct($chartLabel, $this->extraOptions);
-
+        $this->label     = $chartLabel;
+        $this->type      = (new \ReflectionClass($this))->getShortName();
+        $this->version   = '1.1';
+        $this->jsPackage = 'calendar';
+        $this->jsClass   = 'google.visualization.Calendar';
         $this->options = [
             'calendar' => []
         ];
+        $this->extraOptions = [
+            'cellColor',
+            'cellSize',
+            'dayOfWeekLabel',
+            'dayOfWeekRightSpace',
+            'daysOfWeek',
+            'focusedCellColor',
+            'monthLabel',
+            'monthOutlineColor',
+            'underMonthSpace',
+            'underYearSpace',
+            'unusedMonthOutlineColor',
+            'colorAxis',
+            'forceIFrame',
+            'noDataPattern'
+        ];
+
+        parent::__construct();
+
     }
 
     /**
