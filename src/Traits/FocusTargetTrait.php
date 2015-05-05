@@ -1,6 +1,6 @@
 <?php namespace Khill\Lavacharts\Traits;
 
-use Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Utils;
 
 trait FocusTargetTrait
 {

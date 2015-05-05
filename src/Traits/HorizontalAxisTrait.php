@@ -1,6 +1,6 @@
 <?php namespace Khill\Lavacharts\Traits;
 
-use Khill\Lavacharts\Configs\HorizontalAxis;
+use \Khill\Lavacharts\Configs\HorizontalAxis;
 
 trait HorizontalAxisTrait
 {
