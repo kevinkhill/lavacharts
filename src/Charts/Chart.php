@@ -42,8 +42,8 @@ class Chart
     /**
      * Builds a new chart with a label.
      *
-     * @param  string $chartLabel Label for the chart accessed via the Volcano.
-     * @param  string $chartLabel Label for the chart accessed via the Volcano.
+     * @param  string $chartLabel    Label for the chart accessed via the Volcano.
+     * @param  string $chartDefaults Extended options for child charts.
      * @return void
      */
     public function __construct($chartLabel, $chartDefaults = [])
