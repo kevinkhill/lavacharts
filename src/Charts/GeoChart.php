@@ -20,34 +20,31 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Configs\ColorAxis;
-use Khill\Lavacharts\Configs\SizeAxis;
-use Khill\Lavacharts\Configs\MagnifyingGlass;
-use Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Configs\ColorAxis;
+use \Khill\Lavacharts\Configs\SizeAxis;
+use \Khill\Lavacharts\Configs\MagnifyingGlass;
+use \Khill\Lavacharts\Utils;
 
 class GeoChart extends Chart
 {
     public $type = 'GeoChart';
 
+    private $extraOptions = [
+        'colorAxis',
+        'datalessRegionColor',
+        'displayMode',
+        'enableRegionInteractivity',
+        'keepAspectRatio',
+        'region',
+        'magnifyingGlass',
+        'markerOpacity',
+        'resolution',
+        'sizeAxis'
+    ];
+
     public function __construct($chartLabel)
     {
-        parent::__construct($chartLabel);
-
-        $this->defaults = array_merge(
-            $this->defaults,
-            array(
-                'colorAxis',
-                'datalessRegionColor',
-                'displayMode',
-                'enableRegionInteractivity',
-                'keepAspectRatio',
-                'region',
-                'magnifyingGlass',
-                'markerOpacity',
-                'resolution',
-                'sizeAxis'
-            )
-        );
+        parent::__construct($chartLabel, $this->extraOptions);
     }
 
     /**

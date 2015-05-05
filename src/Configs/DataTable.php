@@ -25,16 +25,16 @@
  */
 
 use Carbon\Carbon;
-use Khill\Lavacharts\Utils;
-use Khill\Lavacharts\Formats\Format;
-use Khill\Lavacharts\Exceptions\InvalidDate;
-use Khill\Lavacharts\Exceptions\InvalidCellCount;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
-use Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
-use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
-use Khill\Lavacharts\Exceptions\InvalidRowDefinition;
-use Khill\Lavacharts\Exceptions\InvalidRowProperty;
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Formats\Format;
+use \Khill\Lavacharts\Exceptions\InvalidDate;
+use \Khill\Lavacharts\Exceptions\InvalidCellCount;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+use \Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
+use \Khill\Lavacharts\Exceptions\InvalidColumnIndex;
+use \Khill\Lavacharts\Exceptions\InvalidRowDefinition;
+use \Khill\Lavacharts\Exceptions\InvalidRowProperty;
 
 class DataTable
 {

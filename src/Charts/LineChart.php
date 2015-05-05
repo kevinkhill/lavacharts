@@ -17,7 +17,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Utils;
 
 class LineChart extends Chart
 {

@@ -18,9 +18,9 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Utils;
-use Khill\Lavacharts\Configs\HorizontalAxis;
-use Khill\Lavacharts\Configs\VerticalAxis;
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Configs\HorizontalAxis;
+use \Khill\Lavacharts\Configs\VerticalAxis;
 
 class ColumnChart extends Chart
 {

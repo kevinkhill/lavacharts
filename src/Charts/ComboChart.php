@@ -20,15 +20,15 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Utils;
-use Khill\Lavacharts\Configs\Annotation;
-use Khill\Lavacharts\Configs\HorizontalAxis;
-use Khill\Lavacharts\Configs\VerticalAxis;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Configs\Annotation;
+use \Khill\Lavacharts\Configs\HorizontalAxis;
+use \Khill\Lavacharts\Configs\VerticalAxis;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class ComboChart extends Chart
 {
-    //use Khill\Lavacharts\Traits\AxisTitlesPosition;
+    //use \Khill\Lavacharts\Traits\AxisTitlesPosition;
 
     public $type = 'ComboChart';
 

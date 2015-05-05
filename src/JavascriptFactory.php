@@ -16,11 +16,11 @@
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Utils;
-use Khill\Lavacharts\Charts\Chart;
-use Khill\Lavacharts\Events\Event;
-use Khill\Lavacharts\Exceptions\DataTableNotFound;
-use Khill\Lavacharts\Exceptions\InvalidElementId;
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Charts\Chart;
+use \Khill\Lavacharts\Events\Event;
+use \Khill\Lavacharts\Exceptions\DataTableNotFound;
+use \Khill\Lavacharts\Exceptions\InvalidElementId;
 
 class JavascriptFactory
 {

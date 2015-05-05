@@ -15,18 +15,18 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Utils;
-use Khill\Lavacharts\Javascript\JavascriptFactory;
-use Khill\Lavacharts\Configs\Animation;
-use Khill\Lavacharts\Configs\DataTable;
-use Khill\Lavacharts\Configs\Legend;
-use Khill\Lavacharts\Configs\Tooltip;
-use Khill\Lavacharts\Configs\TextStyle;
-use Khill\Lavacharts\Configs\ChartArea;
-use Khill\Lavacharts\Configs\BackgroundColor;
-use Khill\Lavacharts\Exceptions\InvalidElementId;
-use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Javascript\JavascriptFactory;
+use \Khill\Lavacharts\Configs\Animation;
+use \Khill\Lavacharts\Configs\DataTable;
+use \Khill\Lavacharts\Configs\Legend;
+use \Khill\Lavacharts\Configs\Tooltip;
+use \Khill\Lavacharts\Configs\TextStyle;
+use \Khill\Lavacharts\Configs\ChartArea;
+use \Khill\Lavacharts\Configs\BackgroundColor;
+use \Khill\Lavacharts\Exceptions\InvalidElementId;
+use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Chart
 {

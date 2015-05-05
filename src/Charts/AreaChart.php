@@ -17,7 +17,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Utils;
 
 class AreaChart extends Chart
 {
@@ -27,9 +27,9 @@ class AreaChart extends Chart
     use \Khill\Lavacharts\Traits\InterpolateNullsTrait;
     use \Khill\Lavacharts\Traits\LineWidthTrait;
     use \Khill\Lavacharts\Traits\PointSizeTrait;
+    use \Khill\Lavacharts\Traits\VerticalAxesTrait;
     use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
-    //const TYPE = 'AreaChart';
     public $type = 'AreaChart';
 
     private $extraOptions = [
@@ -41,7 +41,7 @@ class AreaChart extends Chart
         'interpolateNulls',
         'lineWidth',
         'pointSize',
-        //'vAxes',
+        'vAxes',
         'vAxis'
     ];
 

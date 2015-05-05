@@ -15,10 +15,10 @@
  * @license   http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Utils;
-use Khill\Lavacharts\Charts\Chart;
-use Khill\Lavacharts\Exceptions\InvalidLabel;
-use Khill\Lavacharts\Exceptions\ChartNotFound;
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Charts\Chart;
+use \Khill\Lavacharts\Exceptions\InvalidLabel;
+use \Khill\Lavacharts\Exceptions\ChartNotFound;
 
 class Volcano
 {

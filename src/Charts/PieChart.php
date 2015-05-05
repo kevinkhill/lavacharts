@@ -17,9 +17,9 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Utils;
-use Khill\Lavacharts\Configs\Slice;
-use Khill\Lavacharts\Configs\TextStyle;
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Configs\Slice;
+use \Khill\Lavacharts\Configs\TextStyle;
 
 class PieChart extends Chart
 {
@@ -59,7 +59,7 @@ class PieChart extends Chart
             );
         }
 
-        return $this->addOption(array(__FUNCTION__ => $is3D));
+        return $this->addOption([__FUNCTION__ => $is3D]);
     }
 
     /**

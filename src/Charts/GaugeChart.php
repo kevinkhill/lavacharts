@@ -16,7 +16,7 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Utils;
 
 class GaugeChart extends Chart
 {
