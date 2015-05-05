@@ -36,6 +36,13 @@ class Color extends ConfigObject
     public $backgroundColor;
 
     /**
+     * Opacity.
+     *
+     * @var float
+     */
+    public $opacity;
+
+    /**
      * Builds the Color object with specified options
      *
      * @param  array                 $config
@@ -86,6 +93,27 @@ class Color extends ConfigObject
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'string'
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Opacity, with 0.0 being fully transparent and 1.0 fully opaque.
+     *
+     * @param  float $opacity
+     * @return Color
+     */
+    public function opacity($opacity)
+    {
+        if (Utils::between(0.0, $opacity, 1.0, true)) {
+            $this->opacity = $opacity;
+        } else {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'float',
+                'between 0.0 - 1.0'
             );
         }
 
