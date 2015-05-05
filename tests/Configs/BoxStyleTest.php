@@ -44,7 +44,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
@@ -89,7 +89,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testStrokeWithBadParams($badVals)
@@ -98,7 +98,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testStokeWidthWithBadParams($badVals)
@@ -107,7 +107,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testRxWithBadParams($badVals)
@@ -116,7 +116,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testRyWithBadParams($badVals)

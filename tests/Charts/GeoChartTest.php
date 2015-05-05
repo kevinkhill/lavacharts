@@ -48,7 +48,7 @@ class GeoChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testDatalessRegionColorWithBadType($badTypes)
     {
@@ -68,7 +68,7 @@ class GeoChartTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testDisplayModeWithBadValue()
     {
@@ -77,7 +77,7 @@ class GeoChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testDisplayModeWithBadType($badTypes)
     {
@@ -95,7 +95,7 @@ class GeoChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonBoolProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testEnableRegionInteractivityWithBadType($badTypes)
     {
@@ -113,7 +113,7 @@ class GeoChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonBoolProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testKeepAspectRatioWithBadType($badTypes)
     {
@@ -142,7 +142,7 @@ class GeoChartTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMarkerOpacityWithUnderLimit()
     {
@@ -150,7 +150,7 @@ class GeoChartTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMarkerOpacityWithOverLimit()
     {
@@ -159,7 +159,7 @@ class GeoChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMarkerOpacityWithBadType($badTypes)
     {
@@ -174,7 +174,7 @@ class GeoChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testRegionWithBadType($badTypes)
     {
@@ -206,7 +206,7 @@ class GeoChartTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testResolutionWithBadValue()
     {
@@ -215,7 +215,7 @@ class GeoChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testResolutionWithBadType($badTypes)
     {

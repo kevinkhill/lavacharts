@@ -31,7 +31,7 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
@@ -39,7 +39,7 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider1
      */
     public function testStrokeWithBadParams($badVals)
@@ -49,7 +49,7 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider2
      */
     public function testStrokeWidthWithBadParams($badVals)
@@ -58,7 +58,7 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider1
      */
     public function testFillWithBadParams($badVals)

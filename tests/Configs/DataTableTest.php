@@ -251,7 +251,7 @@ class DataTableTest extends ProvidersTestCase
      * @depends testGetColumns
      * @depends testGetRows
      * @depends testAddColumnWithTypeAndDescription
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidRowDefinition
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidRowDefinition
      */
     public function testAddBadMultipleRowsWithMultipleColumnsWithDateAndNumbers()
     {
@@ -281,7 +281,7 @@ class DataTableTest extends ProvidersTestCase
 
     /**
      * @depends testAddColumnWithTypeAndDescription
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidCellCount
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidCellCount
      */
     public function testAddMoreCellsThanColumns()
     {
@@ -293,7 +293,7 @@ class DataTableTest extends ProvidersTestCase
     /**
      * @depends testAddColumnWithTypeAndDescription
      * @dataProvider nonCarbonOrDateOrEmptyArrayProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidDate
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidDate
      */
     public function testAddingRowWithBadDateType($badDate)
     {
@@ -303,7 +303,7 @@ class DataTableTest extends ProvidersTestCase
 
     /**
      * @depends testAddColumnWithTypeAndDescription
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidRowProperty
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidRowProperty
      */
     public function testAddingRowWithEmptyArray()
     {
@@ -312,7 +312,7 @@ class DataTableTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidColumnDefinition
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnDefinition
      */
     public function testAddBadColumnsFromArray()
     {
@@ -324,7 +324,7 @@ class DataTableTest extends ProvidersTestCase
 
     /**
      * @depends testAddColumnWithTypeAndDescription
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidColumnIndex
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
     public function testAddBadColumnFromat()
     {

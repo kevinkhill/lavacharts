@@ -30,7 +30,7 @@ class NumberFormatTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testDecimalSymbolWithBadTypes($badTypes)
     {
@@ -45,7 +45,7 @@ class NumberFormatTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonNumericProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testFractionDigitsWithBadTypes($badTypes)
     {
@@ -60,7 +60,7 @@ class NumberFormatTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testGroupingSymbolWithBadTypes($badTypes)
     {
@@ -75,7 +75,7 @@ class NumberFormatTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testNegativeColorWithBadTypes($badTypes)
     {
@@ -90,7 +90,7 @@ class NumberFormatTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonBoolProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testNegativeParensWithBadTypes($badTypes)
     {
@@ -105,7 +105,7 @@ class NumberFormatTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testPatternWithBadTypes($badTypes)
     {
@@ -120,7 +120,7 @@ class NumberFormatTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testPrefixWithBadTypes($badTypes)
     {
@@ -135,7 +135,7 @@ class NumberFormatTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testSuffixWithBadTypes($badTypes)
     {

@@ -41,7 +41,7 @@ class ColumnChartTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testAxisTitlesPositionWithBadValue()
     {
@@ -50,7 +50,7 @@ class ColumnChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testAxisTitlesPositionWithBadType($badTypes)
     {
@@ -77,7 +77,7 @@ class ColumnChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntOrPercentProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testBarGroupWidthWithBadTypes($badTypes)
     {
@@ -105,7 +105,7 @@ class ColumnChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonBoolProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testIsStackedWithBadType($badTypes)
     {

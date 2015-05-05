@@ -31,7 +31,7 @@ class MouseOverTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testConstructorValueAssignmentWithBadType($badVals)
     {

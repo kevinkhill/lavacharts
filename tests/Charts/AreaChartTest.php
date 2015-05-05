@@ -37,7 +37,7 @@ class AreaChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonNumericProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testAreaOpacityWithBadTypes($badTypes)
     {
@@ -57,7 +57,7 @@ class AreaChartTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testAxisTitlesPositionWithBadValue()
     {
@@ -66,7 +66,7 @@ class AreaChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testAxisTitlesPositionWithBadType($badTypes)
     {
@@ -84,7 +84,7 @@ class AreaChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testFocusTargetWithBadType($badTypes)
     {
@@ -112,7 +112,7 @@ class AreaChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonBoolProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testIsStackedWithBadType($badTypes)
     {
@@ -128,7 +128,7 @@ class AreaChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonBoolProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testInterpolateNullsWithBadType($badTypes)
     {
@@ -144,7 +144,7 @@ class AreaChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testLineWidthWithBadType($badTypes)
     {
@@ -160,7 +160,7 @@ class AreaChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testPointSizeWithBadType($badTypes)
     {

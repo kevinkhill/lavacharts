@@ -36,7 +36,7 @@ class GaugeChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonBoolProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testForceIFrameWithBadType($badTypes)
     {
@@ -52,7 +52,7 @@ class GaugeChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testGreenColorWithBadTypes($badTypes)
     {
@@ -68,7 +68,7 @@ class GaugeChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testGreenFromWithBadTypes($badTypes)
     {
@@ -84,7 +84,7 @@ class GaugeChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testGreenToWithBadTypes($badTypes)
     {
@@ -110,7 +110,7 @@ class GaugeChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonArrayProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMajorTicksWithBadTypes($badTypes)
     {
@@ -126,7 +126,7 @@ class GaugeChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMaxWithBadTypes($badTypes)
     {
@@ -142,7 +142,7 @@ class GaugeChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMinWithBadTypes($badTypes)
     {
@@ -158,7 +158,7 @@ class GaugeChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMinorTicksWithBadTypes($badTypes)
     {
@@ -174,7 +174,7 @@ class GaugeChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testRedColorWithBadTypes($badTypes)
     {
@@ -190,7 +190,7 @@ class GaugeChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testRedFromWithBadTypes($badTypes)
     {
@@ -206,7 +206,7 @@ class GaugeChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testRedToWithBadTypes($badTypes)
     {
@@ -222,7 +222,7 @@ class GaugeChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testYellowColorWithBadTypes($badTypes)
     {
@@ -238,7 +238,7 @@ class GaugeChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testYellowFromWithBadTypes($badTypes)
     {
@@ -254,7 +254,7 @@ class GaugeChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testYellowToWithBadTypes($badTypes)
     {

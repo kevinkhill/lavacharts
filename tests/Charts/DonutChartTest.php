@@ -37,7 +37,7 @@ class DonutChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonFloatProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testPieHoleWithBadType($badTypes)
     {

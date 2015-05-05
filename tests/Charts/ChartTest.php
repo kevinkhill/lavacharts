@@ -83,7 +83,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonArrayProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testColorsWithBadTypes($badTypes)
     {
@@ -98,7 +98,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testFontNameWithBadTypes($badTypes)
     {
@@ -113,7 +113,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testFontSizeWithBadTypes($badTypes)
     {
@@ -128,7 +128,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testHeightWithBadTypes($badTypes)
     {
@@ -164,7 +164,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testTitleWithBadTypes($badTypes)
     {
@@ -184,7 +184,7 @@ class ChartTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testTitlePositionWithBadValue()
     {
@@ -193,7 +193,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testTitlePositionWithBadTypes($badTypes)
     {
@@ -248,7 +248,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testWidthWithBadTypes($badTypes)
     {
@@ -274,7 +274,7 @@ class ChartTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testSetOptionsWithArrayOfBadOptions()
     {
@@ -287,7 +287,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonArrayProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testSetOptionsWithBadTypes($badTypes)
     {
@@ -295,7 +295,7 @@ class ChartTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testGetOptionsWithBadValue()
     {
@@ -304,7 +304,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testGetOptionsWithBadTypes($badTypes)
     {

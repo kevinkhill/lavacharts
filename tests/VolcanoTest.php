@@ -44,7 +44,7 @@ class VolcanoTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\ChartNotFound
+     * @expectedException \Khill\Lavacharts\Exceptions\ChartNotFound
      */
     public function testGetNonExistantTypeChart()
     {
@@ -56,7 +56,7 @@ class VolcanoTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\ChartNotFound
+     * @expectedException \Khill\Lavacharts\Exceptions\ChartNotFound
      */
     public function testGetNonExistantLabelChart()
     {

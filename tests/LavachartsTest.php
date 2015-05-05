@@ -105,7 +105,7 @@ class LavachartsTest extends ProvidersTestCase
 
     /**
      * @dataProvider eventObjectProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidEventCallback
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidEventCallback
      */
     public function testCreateEventObjectsViaAliasWithMissingCallback($eventType)
     {
@@ -114,7 +114,7 @@ class LavachartsTest extends ProvidersTestCase
 
     /**
      * @dataProvider eventObjectProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidEventCallback
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidEventCallback
      */
     public function testCreateEventObjectsViaAliasWithBadTypeCallback($eventType)
     {
@@ -193,7 +193,7 @@ class LavachartsTest extends ProvidersTestCase
 
     /**
      * @depends testCreateDataTableViaAlias
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidDivDimensions
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidDivDimensions
      */
     public function testDirectRenderChartWithDivAndBadDimensionKeys()
     {
@@ -210,7 +210,7 @@ class LavachartsTest extends ProvidersTestCase
 
     /**
      * @depends testCreateDataTableViaAlias
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidDivDimensions
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidDivDimensions
      */
     public function testDirectRenderChartWithDivAndBadDimensionType()
     {
@@ -222,7 +222,7 @@ class LavachartsTest extends ProvidersTestCase
 
     /**
      * @depends testCreateDataTableViaAlias
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testDirectRenderChartWithDivAndDimensionsWithBadValues()
     {
@@ -258,7 +258,7 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidLavaObject
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidLavaObject
      */
     public function testInvalidLavaObject()
     {
@@ -266,7 +266,7 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidLavaObject
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidLavaObject
      */
     public function testRenderAliasWithInvalidLavaObject()
     {
@@ -274,7 +274,7 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidChartLabel
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidChartLabel
      */
     public function testCreateChartWithMissingLabel()
     {
@@ -282,7 +282,7 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidChartLabel
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidChartLabel
      */
     public function testCreateChartWithInvalidLabel()
     {
