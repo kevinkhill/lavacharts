@@ -134,14 +134,16 @@ class PieChartTest extends ProvidersTestCase
 
     public function testPieSliceTextStyle()
     {
-        $textStyleVals = array(
+        $textStyleVals = [
             'color'    => 'blue',
             'fontName' => 'Arial',
             'fontSize' => 16
-        );
+        ];
 
         $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
-        $mockTextStyle->shouldReceive('toArray')->once()->andReturn($textStyleVals);
+        $mockTextStyle->shouldReceive('toArray')->once()->andReturn([
+            'pieSliceTextStyle' => $textStyleVals
+        ]);
 
         $this->pc->pieSliceTextStyle($mockTextStyle);
 

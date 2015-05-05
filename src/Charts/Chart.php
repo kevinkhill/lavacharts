@@ -139,21 +139,21 @@ class Chart
     /**
      * Gets a specific option from the array.
      *
-     * @param  string             $o Which option to fetch
+     * @param  string             $option Which option to fetch
      * @throws InvalidConfigValue
      * @return mixed
      */
-    public function getOption($o)
+    public function getOption($option)
     {
-        if (is_string($o) && array_key_exists($o, $this->options)) {
-            return $this->options[$o];
-        } else {
+        if (array_key_exists($option, $this->options) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
                 'must be one of '.Utils::arrayToPipedString($this->defaults)
             );
         }
+
+        return $this->options[$option];
     }
 
     /**
@@ -267,13 +267,13 @@ class Chart
      * A simple number is a value in pixels; a number followed by % is a percentage.
      *
      * @uses  ChartArea
-     * @param ChartArea $ca
+     * @param ChartArea $chartArea
      *
      * @return Chart
      */
-    public function chartArea(ChartArea $ca)
+    public function chartArea(ChartArea $chartArea)
     {
-        return $this->addOption($ca->toArray());
+        return $this->addOption($chartArea->toArray());
     }
 
     /**
@@ -287,15 +287,15 @@ class Chart
      */
     public function colors($cArr)
     {
-        if (Utils::arrayValuesCheck($cArr, 'string')) {
-            return $this->addOption([__FUNCTION__ => $cArr]);
-        } else {
+        if (Utils::arrayValuesCheck($cArr, 'string') === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'array',
                 'with valid HTML colors'
             );
         }
+
+        return $this->addOption([__FUNCTION__ => $cArr]);
     }
 
     /**
@@ -312,15 +312,6 @@ class Chart
      */
     public function events($e)
     {
-        $values = [
-            'animationfinish',
-            'error',
-            'onmouseover',
-            'onmouseout',
-            'ready',
-            'select'
-        ];
-
         if (is_array($e)) {
             foreach ($e as $event) {
                 if (is_subclass_of($event, 'Khill\Lavacharts\Events\Event')) {
@@ -410,14 +401,14 @@ class Chart
      * values then pass it to this function or to the constructor.
      *
      * @uses   Legend
-     * @param  Legend             $l
+     * @param  Legend             $legend
      * @throws InvalidConfigValue
      *
      * @return Chart
      */
-    public function legend(Legend $l)
+    public function legend(Legend $legend)
     {
-        return $this->addOption($l->toArray());
+        return $this->addOption($legend->toArray());
     }
 
     /**

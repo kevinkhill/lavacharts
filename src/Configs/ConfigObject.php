@@ -34,7 +34,7 @@ class ConfigObject
      *
      * @var array
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * Builds the ConfigOptions object.
@@ -92,7 +92,7 @@ class ConfigObject
      */
     public function toArray($keyName = null)
     {
-        $output = array();
+        $output = [];
 
         foreach ($this->options as $option) {
             if (isset($this->{$option})) {
@@ -101,9 +101,9 @@ class ConfigObject
         }
 
         if (is_null($keyName)) {
-            return array(lcfirst($this->className) => $output);
+            return [lcfirst($this->className) => $output];
         } else {
-            return array($keyName => $output);
+            return [$keyName => $output];
         }
     }
 
@@ -114,7 +114,7 @@ class ConfigObject
      */
     public function getValues()
     {
-        $output = array();
+        $output = [];
 
         foreach ($this->options as $option) {
             if (isset($this->{$option})) {
