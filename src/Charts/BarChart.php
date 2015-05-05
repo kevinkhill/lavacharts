@@ -64,7 +64,7 @@ class BarChart extends Chart
         'trendlines.n.showR2',
         'trendlines.n.type',
         'trendlines.n.visibleInLegend',
-        'vAxis',
+        'vAxes',
         'vAxis'
     ];
 
@@ -147,7 +147,7 @@ class BarChart extends Chart
      */
     public function forceIFrame($iframe)
     {
-        if (is_bool($iframe)) {
+        if (is_bool($iframe) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'bool'
@@ -190,8 +190,6 @@ class BarChart extends Chart
     public function isStacked($isStacked)
     {
         if (is_bool($isStacked) === false) {
-            
-        } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'bool'

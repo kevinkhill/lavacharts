@@ -145,7 +145,7 @@ class Chart
      */
     public function getOption($option)
     {
-        if (array_key_exists($option, $this->options) === false) {
+        if (is_string($option) === false || array_key_exists($option, $this->options) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
