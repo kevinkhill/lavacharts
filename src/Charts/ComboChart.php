@@ -28,6 +28,7 @@ class ComboChart extends Chart
     use \Khill\Lavacharts\Traits\AreaOpacityTrait;
     use \Khill\Lavacharts\Traits\AxisTitlesPositionTrait;
     use \Khill\Lavacharts\Traits\BarGroupWidthTrait;
+    use \Khill\Lavacharts\Traits\CrosshairTrait;
     use \Khill\Lavacharts\Traits\CurveTypeTrait;
     use \Khill\Lavacharts\Traits\DataOpacityTrait;
     use \Khill\Lavacharts\Traits\EnableInteractivityTrait;
@@ -38,7 +39,10 @@ class ComboChart extends Chart
     use \Khill\Lavacharts\Traits\IsStackedTrait;
     use \Khill\Lavacharts\Traits\LineWidthTrait;
     use \Khill\Lavacharts\Traits\OrientationTrait;
+    use \Khill\Lavacharts\Traits\PointShapeTrait;
+    use \Khill\Lavacharts\Traits\PointSizeTrait;
     use \Khill\Lavacharts\Traits\ReverseCategoriesTrait;
+    use \Khill\Lavacharts\Traits\SelectionModeTrait;
     use \Khill\Lavacharts\Traits\SeriesTrait;
     use \Khill\Lavacharts\Traits\ThemeTrait;
     use \Khill\Lavacharts\Traits\VerticalAxesTrait;
@@ -62,6 +66,8 @@ class ComboChart extends Chart
         'isStacked',
         'lineWidth',
         'orientation',
+        'pointShape',
+        'pointSize',
         'reverseCategories',
         'selectionMode',
         'series',
@@ -75,45 +81,6 @@ class ComboChart extends Chart
     {
         parent::__construct($chartLabel, $this->extraOptions);
     }    
-
-    /**
-     * An object containing the crosshair properties for the chart..
-     *
-     * To specify properties of this property, create a new HorizontalAxis object,
-     * set the values then pass it to this function or to the constructor.
-     *
-     * @param  Crosshair          $crosshair
-     * @throws InvalidConfigValue
-     * @return ComboChart
-     */
-    public function crosshair(Crosshair $crosshair)
-    {
-        return $this->addOption($crosshair->toArray(__FUNCTION__));
-    }
-
-    /**
-     * When selectionMode is 'multiple', users may select multiple data points.
-     *
-     * @param  string $selectionMode
-     * @return ComboChart
-     */
-    public function selectionMode($selectionMode)
-    {
-        $values = [
-            'multiple',
-            'single'
-        ];
-
-        if (in_array($selectionMode, $values, true) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'must be one of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $selectionMode]);
-    }
 
     /**
      * The default line type for any series not specified in the series property.
@@ -154,11 +121,4 @@ candlestick.fallingColor.strokeWidth - number - 2 - [[The stroke width of fallin
 candlestick.risingColor.fill - string - auto (white or the series color, depending on hollowIsRising) - [[The fill color of rising candles, as an HTML color string.]]
 candlestick.risingColor.stroke - string - auto (the series color or white, depending on hollowIsRising) - [[The stroke color of rising candles, as an HTML color string.]]
 candlestick.risingColor.strokeWidth - number - 2 - [[The stroke width of rising candles, as an HTML color string.]]
-
-pointShape - string - 'circle' - [[The shape of individual data elements: 'circle', 'triangle', 'square', 'diamond', 'star', or 'polygon'. See the points documentation for examples.]]
-pointSize - number - 0 - [[Diameter of displayed points in pixels. Use zero to hide all points.
-     You can override values for individual series using the
-    series property.]]
-
-
 */
