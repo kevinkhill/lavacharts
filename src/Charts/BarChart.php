@@ -63,6 +63,7 @@ class BarChart extends Chart
         'series',
         'theme',
         //'trendlines',
+        'vAxes',
         'vAxis'
     ];
 
