@@ -100,7 +100,7 @@ class Animation extends ConfigObject
             'inAndOut'
         );
 
-        if (Utils::nonEmptyStringInArray($e, $values)) {
+        if (in_array($e, $values, true)) {
             $this->easing = $e;
         } else {
             throw new InvalidConfigValue(

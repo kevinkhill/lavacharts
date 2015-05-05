@@ -21,6 +21,13 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class Annotation extends ConfigObject
 {
     /**
+     * Where to draw annotations.
+     *
+     * @var bool
+     */
+    public $alwaysOutside;
+
+    /**
      * The highContrast state.
      *
      * @var bool
@@ -48,6 +55,26 @@ class Annotation extends ConfigObject
     }
 
     /**
+     * In Bar and Column charts, if set to true, draws all annotations outside of the Bar/Column.
+     *
+     * @param  bool       $alwaysOutside
+     * @return Annotation
+     */
+    public function alwaysOutside($alwaysOutside)
+    {
+        if (is_bool($alwaysOutside)) {
+            $this->alwaysOutside = $alwaysOutside;
+        } else {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'bool'
+            );
+        }
+
+        return $this;
+    }
+
+    /**
      * For charts that support annotations, the highContrast bool lets you override Google Charts'
      * choice of the annotation color. By default, highContrast is true, which causes Charts to select
      * an annotation color with good contrast: light colors on dark backgrounds, and dark on light.
@@ -55,7 +82,7 @@ class Annotation extends ConfigObject
      * If you set highContrast to false and don't specify your own annotation color, Google Charts
      * will use the default series color for the annotation
      *
-     * @param  bool Annotation color
+     * @param  bool       $highContrast
      * @return Annotation
      */
     public function highContrast($highContrast)
