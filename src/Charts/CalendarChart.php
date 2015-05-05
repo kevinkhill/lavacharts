@@ -21,44 +21,44 @@
 use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\Configs\Stroke;
 use Khill\Lavacharts\Configs\TextStyle;
-use Khill\Lavacharts\Configs\ColorAxis;
 use Khill\Lavacharts\Configs\Color;
+use Khill\Lavacharts\Configs\ColorAxis;
 
 class CalendarChart extends Chart
 {
     public $type = 'CalendarChart';
 
+    private $extraOptions = [
+        'cellColor',
+        'cellSize',
+        'dayOfWeekLabel',
+        'dayOfWeekRightSpace',
+        'daysOfWeek',
+        'focusedCellColor',
+        'monthLabel',
+        'monthOutlineColor',
+        'underMonthSpace',
+        'underYearSpace',
+        'unusedMonthOutlineColor',
+        'colorAxis',
+        'forceIFrame',
+        'noDataPattern'
+    ];
+
     public function __construct($chartLabel)
     {
-        parent::__construct($chartLabel);
+        parent::__construct($chartLabel, $this->extraOptions);
 
-        $this->options = array('calendar' => array());
-
-        $this->defaults = array_merge(
-            $this->defaults,
-            array(
-                'cellColor',
-                'cellSize',
-                'dayOfWeekLabel',
-                'dayOfWeekRightSpace',
-                'daysOfWeek',
-                'focusedCellColor',
-                'monthLabel',
-                'monthOutlineColor',
-                'underMonthSpace',
-                'underYearSpace',
-                'unusedMonthOutlineColor',
-                'colorAxis',
-                'forceIFrame',
-                'noDataPattern'
-            )
-        );
+        $this->options = [
+            'calendar' => []
+        ];
     }
 
     /**
      * Tweaking addOption function for wrapping all options into the calendar config option.
      *
-     * @param array $option Array of config options
+     * @param  array         $option Array of config options
+     * @return CalendarChart
      */
     protected function addCalendarOption($o)
     {
@@ -104,43 +104,36 @@ class CalendarChart extends Chart
     /**
      * The cellColor option lets you customize the border of the calendar day squares
      *
-     * @param Stroke $stroke
-     *
+     * @param  Stroke        $stroke
      * @return CalendarChart
      */
     public function cellColor(Stroke $stroke)
     {
-        $this->addCalendarOption($stroke->toArray(__FUNCTION__));
-
-        return $this;
+        return $this->addCalendarOption($stroke->toArray(__FUNCTION__));
     }
 
     /**
      * Sets the size of the calendar day squares
      *
-     * @param int $cellSize
-     *
+     * @param  int           $cellSize
      * @return CalendarChart
      */
     public function cellSize($cellSize)
     {
-        if (is_int($cellSize)) {
-            $this->addCalendarOption(array(__FUNCTION__ => $cellSize));
-        } else {
+        if (is_int($cellSize) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
         }
 
-        return $this;
+        return $this->addCalendarOption([__FUNCTION__ => $cellSize]);
     }
 
     /**
      * Controls the font style of the week labels at the top of the chart.
      *
-     * @param  TextStyle $label
-     *
+     * @param  TextStyle     $label
      * @return CalendarChart
      */
     public function dayOfWeekLabel(TextStyle $label)
@@ -152,189 +145,161 @@ class CalendarChart extends Chart
      * Sets The distance between the right edge of the week labels and
      * the left edge of the chart day squares.
      *
-     * @param  int $space
-     *
+     * @param  int           $space
      * @return CalendarChart
      */
     public function dayOfWeekRightSpace($space)
     {
-        if (is_int($space)) {
-            $this->addCalendarOption(array(__FUNCTION__ => $space));
-        } else {
+        if (is_int($space) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
         }
 
-        return $this;
+        return $this->addCalendarOption([__FUNCTION__ => $space]);
     }
 
     /**
      * The single-letter labels to use for Sunday through Saturday.
      *
-     * @param  string $days
-     *
+     * @param  string        $days
      * @return CalendarChart
      */
     public function daysOfWeek($days)
     {
-        if (is_string($days)) {
-            $this->addCalendarOption(array(__FUNCTION__ => $days));
-        } else {
+        if (is_string($days) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string'
             );
         }
 
-        return $this;
+        return $this->addCalendarOption([__FUNCTION__ => $days]);
     }
 
     /**
      * When the user focuses (say, by hovering) over a day square,
      * calendar charts will highlight the square.
      *
-     * @param Stroke $stroke
-     *
+     * @param  Stroke        $stroke
      * @return CalendarChart
      */
     public function focusedCellColor(Stroke $stroke)
     {
-        $this->addCalendarOption($stroke->toArray(__FUNCTION__));
-
-        return $this;
+        return $this->addCalendarOption($stroke->toArray(__FUNCTION__));
     }
 
     /**
      * Sets the style for the month labels.
      *
-     * @param  TextStyle $label
-     *
+     * @param  TextStyle     $label
      * @return CalendarChart
      */
     public function monthLabel(TextStyle $label)
     {
-        $this->addCalendarOption($label->toArray(__FUNCTION__));
+        return $this->addCalendarOption($label->toArray(__FUNCTION__));
     }
 
     /**
      * Months with data values are delineated from others using a border in this style.
      *
-     * @param Stroke $stroke
-     *
+     * @param  Stroke        $stroke
      * @return CalendarChart
      */
     public function monthOutlineColor(Stroke $stroke)
     {
-        $this->addCalendarOption($stroke->toArray(__FUNCTION__));
-
-        return $this;
+        return $this->addCalendarOption($stroke->toArray(__FUNCTION__));
     }
 
     /**
      * The number of pixels between the bottom of the month labels and
      * the top of the day squares.
      *
-     * @param int $space
-     *
+     * @param  int           $space
      * @return CalendarChart
      */
     public function underMonthSpace($space)
     {
-        if (is_int($space)) {
-            $this->addCalendarOption(array(__FUNCTION__ => $space));
-        } else {
+        if (is_int($space) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
         }
 
-        return $this;
+        return $this->addCalendarOption([__FUNCTION__ => $space]);
     }
 
     /**
      * The number of pixels between the bottom-most year label and
      * the bottom of the chart.
      *
-     * @param int $space
-     *
+     * @param  int           $space
      * @return CalendarChart
      */
     public function underYearSpace($space)
     {
-        if (is_int($space)) {
-            $this->addCalendarOption(array(__FUNCTION__ => $space));
-        } else {
+        if (is_int($space) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
         }
 
-        return $this;
+        return $this->addCalendarOption([__FUNCTION__ => $space]);
     }
 
     /**
      * Months without data values are delineated from others using a border in this style.
      *
-     * @param Stroke $stroke
-     *
+     * @param  Stroke        $stroke
      * @return CalendarChart
      */
     public function unusedMonthOutlineColor(Stroke $stroke)
     {
-        $this->addCalendarOption($stroke->toArray(__FUNCTION__));
-
-        return $this;
+        return $this->addCalendarOption($stroke->toArray(__FUNCTION__));
     }
 
     /**
-     * An object that specifies a mapping between color column values and colors or a gradient scale.
+     * An object that specifies a mapping between color column values
+     * and colors or a gradient scale.
      *
-     * @param ColorAxis $colorAxis
-     *
+     * @param  ColorAxis     $colorAxis
      * @return CalendarChart
      */
     public function colorAxis(ColorAxis $colorAxis)
     {
-        $this->addOption($colorAxis->toArray(__FUNCTION__));
-
-        return $this;
+        return $this->addOption($colorAxis->toArray(__FUNCTION__));
     }
 
     /**
      * Draws the chart inside an inline frame.
      * Note that on IE8, this option is ignored; all IE8 charts are drawn in i-frames.
      *
-     * @param bool $iframe
-     *
+     * @param  bool          $iframe
      * @return CalendarChart
      */
     public function forceIFrame($iframe)
     {
-        if (is_bool($iframe)) {
-            $this->addCalendarOption(array(__FUNCTION__ => $iframe));
-        } else {
+        if (is_bool($iframe) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'bool'
             );
         }
+
+        return $this->addCalendarOption([__FUNCTION__ => $iframe]);
     }
 
     /**
      * An object that specifies a mapping between color column values and colors or a gradient scale.
      *
-     * @param Color $color
-     *
+     * @param  Color         $color
      * @return CalendarChart
      */
     public function noDataPattern(Color $color)
     {
-        $this->addOption(array(__FUNCTION__ => $color->getValues()));
-
-        return $this;
+        return $this->addOption($color->toArray(__FUNCTION__));
     }
 }

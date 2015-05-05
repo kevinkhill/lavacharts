@@ -28,6 +28,7 @@ class BarChart extends Chart
     use \Khill\Lavacharts\Traits\AnnotationsTrait;
     use \Khill\Lavacharts\Traits\AxisTitlesPositionTrait;
     use \Khill\Lavacharts\Traits\FocusTargetTrait;
+    use \Khill\Lavacharts\Traits\IsStackedTrait;
     use \Khill\Lavacharts\Traits\HorizontalAxesTrait;
     use \Khill\Lavacharts\Traits\HorizontalAxisTrait;
     use \Khill\Lavacharts\Traits\SeriesTrait;
@@ -179,24 +180,6 @@ class BarChart extends Chart
         }
 
         return $this->addOption([__FUNCTION__ => $orientation]);
-    }
-
-    /**
-     * If set to true, series elements are stacked.
-     *
-     * @param  bool     $isStacked
-     * @return BarChart
-     */
-    public function isStacked($isStacked)
-    {
-        if (is_bool($isStacked) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $isStacked]);
     }
 
     /**

@@ -211,7 +211,9 @@ class CalendarChartTest extends ProvidersTestCase
     public function testNoDataPattern()
     {
         $mockColor = m::mock('Khill\Lavacharts\Configs\Color');
-        $mockColor->shouldReceive('getValues')->once()->andReturn(array());
+        $mockColor->shouldReceive('toArray')->once()->andReturn([
+            'noDataPattern' => []
+        ]);
 
         $this->cc->noDataPattern($mockColor);
 
