@@ -39,6 +39,7 @@ class BarChart extends Chart
     use \Khill\Lavacharts\Traits\ReverseCategoriesTrait;
     use \Khill\Lavacharts\Traits\SeriesTrait;
     use \Khill\Lavacharts\Traits\ThemeTrait;
+    use \Khill\Lavacharts\Traits\VerticalAxesTrait;
     use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
     public $type = 'BarChart';

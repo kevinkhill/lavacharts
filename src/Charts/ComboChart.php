@@ -147,10 +147,6 @@ crosshair.selected - object - default - [[An object containing the crosshair pro
 crosshair.trigger - string - 'both' - [[When to display crosshairs: on 'focus', 'selection', or 'both'.]]
 
 
-dataOpacity - number - 1.0 - [[The transparency of data points, with 1.0 being completely opaque and 0.0 fully transparent. In scatter, histogram, bar, and column charts, this refers to the visible data: dots in the scatter chart and rectangles in the others. In charts where selecting data creates a dot, such as the line and area charts, this refers to the circles that appear upon hover or selection. The combo chart exhibits both behaviors, and this option has no effect on other charts. (To change the opacity of a trendline, see trendline opacity.)]]
-enableInteractivity - bool - true - [[Whether the chart throws user-based events or reacts to user interaction. If false, the chart will not throw 'select' or other interaction-based events (but will throw ready or error events), and will not display hovertext or otherwise change depending on user input.]]
-
-
 pointShape - string - 'circle' - [[The shape of individual data elements: 'circle', 'triangle', 'square', 'diamond', 'star', or 'polygon'. See the points documentation for examples.]]
 pointSize - number - 0 - [[Diameter of displayed points in pixels. Use zero to hide all points.
      You can override values for individual series using the
