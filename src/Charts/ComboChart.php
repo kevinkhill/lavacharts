@@ -51,6 +51,7 @@ class ComboChart extends Chart
         'areaOpacity',
         'axisTitlesPosition',
         'barGroupWidth',
+        'crosshair',
         'curveType',
         'dataOpacity',
         'enableInteractivity',
@@ -76,10 +77,25 @@ class ComboChart extends Chart
     }    
 
     /**
+     * An object containing the crosshair properties for the chart..
+     *
+     * To specify properties of this property, create a new HorizontalAxis object,
+     * set the values then pass it to this function or to the constructor.
+     *
+     * @param  Crosshair          $crosshair
+     * @throws InvalidConfigValue
+     * @return ComboChart
+     */
+    public function crosshair(Crosshair $crosshair)
+    {
+        return $this->addOption($crosshair->toArray(__FUNCTION__));
+    }
+
+    /**
      * When selectionMode is 'multiple', users may select multiple data points.
      *
      * @param  string $selectionMode
-     * @return Chart
+     * @return ComboChart
      */
     public function selectionMode($selectionMode)
     {
@@ -138,14 +154,6 @@ candlestick.fallingColor.strokeWidth - number - 2 - [[The stroke width of fallin
 candlestick.risingColor.fill - string - auto (white or the series color, depending on hollowIsRising) - [[The fill color of rising candles, as an HTML color string.]]
 candlestick.risingColor.stroke - string - auto (the series color or white, depending on hollowIsRising) - [[The stroke color of rising candles, as an HTML color string.]]
 candlestick.risingColor.strokeWidth - number - 2 - [[The stroke width of rising candles, as an HTML color string.]]
-crosshair - object - null - [[An object containing the crosshair properties for the chart.]]
-crosshair.color - string - default - [[The crosshair color, expressed as either a color name (e.g., "blue") or an RGB value (e.g., "#adf").]]
-crosshair.focused - object - default - [[An object containing the crosshair properties upon focus.Example: crosshair: { focused: { color: '#3bc', opacity: 0.8 } }]]
-crosshair.opacity - number - 1.0 - [[The crosshair opacity, with 0.0 being fully transparent and 1.0 fully opaque.]]
-crosshair.orientation - string - 'both' - [[The crosshair orientation, which can be 'vertical' for vertical hairs only, 'horizontal' for horizontal hairs only, or 'both' for traditional crosshairs.]]
-crosshair.selected - object - default - [[An object containing the crosshair properties upon selection.Example: crosshair: { selected: { color: '#3bc', opacity: 0.8 } }]]
-crosshair.trigger - string - 'both' - [[When to display crosshairs: on 'focus', 'selection', or 'both'.]]
-
 
 pointShape - string - 'circle' - [[The shape of individual data elements: 'circle', 'triangle', 'square', 'diamond', 'star', or 'polygon'. See the points documentation for examples.]]
 pointSize - number - 0 - [[Diameter of displayed points in pixels. Use zero to hide all points.
