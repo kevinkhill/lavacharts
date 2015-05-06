@@ -33,13 +33,45 @@
  */
 class TreeMap extends Chart
 {
-    public $type = 'TreeMap';
+    /**
+     * Javascript chart type.
+     *
+     * @var string
+     */
+    const TYPE = 'TreeMap';
 
+    /**
+     * Javascript chart version.
+     *
+     * @var string
+     */
+    const VERSION = '';
+
+    /**
+     * Javascript chart package.
+     *
+     * @var string
+     */
+    const VIZ_PACKAGE = '';
+
+    /**
+     * Javascript chart class.
+     *
+     * @var string
+     */
+    const VIZ_CLASS = 'google.visualization.';
+
+    /**
+     * Builds a new chart with the given label.
+     *
+     * @param  string $chartLabel Identifying label for the chart.
+     * @return Chart
+     */
     public function __construct($chartLabel)
     {
         parent::__construct($chartLabel);
 
-        $this->defaults = array(
+        $this->defaults = array_merge([
             'headerColor',
             'headerHeight',
             'headerHighlightColor',
@@ -58,16 +90,14 @@ class TreeMap extends Chart
             'showScale',
             'showTooltips',
             'fontColor',
-            'fontFamily',
-            'fontSize'
-        );
+            'fontFamily'
+        ], $this->defaults);
     }
 
     /**
      * The color of the header section for each node. Specify an HTML color value.
      *
-     * @param string $headerColor
-     *
+     * @param  string $headerColor
      * @return TreeMap
      */
     public function headerColor($headerColor)
@@ -78,8 +108,7 @@ class TreeMap extends Chart
     /**
      * The height of the header section for each node, in pixels (can be zero).
      *
-     * @param int $headerHeight
-     *
+     * @param  int $headerHeight
      * @return TreeMap
      */
     public function headerHeight($headerHeight)
@@ -92,8 +121,7 @@ class TreeMap extends Chart
      * color value or null; if null this value will be headerColor lightened
      * by 35%
      *
-     * @param string $headerHighlightColor
-     *
+     * @param  string $headerHighlightColor
      * @return TreeMap
      */
     public function headerHighlightColor($headerHighlightColor)
@@ -105,8 +133,7 @@ class TreeMap extends Chart
      * The color for a rectangle with a column 3 value of maxColorValue.
      * Specify an HTML color value.
      *
-     * @param string $maxColor
-     *
+     * @param  string $maxColor
      * @return TreeMap
      */
     public function maxColor($maxColor)
@@ -121,8 +148,7 @@ class TreeMap extends Chart
      * additionally see maxPostDepth levels below this as shaded rectangles
      * within these nodes.
      *
-     * @param int $maxDepth
-     *
+     * @param  int $maxDepth
      * @return TreeMap
      */
     public function maxDepth($maxDepth)
@@ -135,8 +161,7 @@ class TreeMap extends Chart
      * column 3. Specify an HTML color value or null; If null, this value
      * will be the value of maxColor lightened by 35%.
      *
-     * @param string $maxHighlightColor
-     *
+     * @param  string $maxHighlightColor
      * @return TreeMap
      */
     public function maxHighlightColor($maxHighlightColor)
@@ -149,8 +174,7 @@ class TreeMap extends Chart
      * Hinted nodes are shown as shaded rectangles within a node that is within
      * the maxDepth limit.
      *
-     * @param int $maxPostDepth
-     *
+     * @param  int $maxPostDepth
      * @return TreeMap
      */
     public function maxPostDepth($maxPostDepth)
@@ -163,8 +187,7 @@ class TreeMap extends Chart
      * be trimmed to this value. If set to null, it will be set to the max value
      * in the column.
      *
-     * @param int $maxColorValue
-     *
+     * @param  int $maxColorValue
      * @return TreeMap
      */
     public function maxColorValue($maxColorValue)
@@ -176,8 +199,7 @@ class TreeMap extends Chart
      * The color for a rectangle with a column 3 value midway between
      * maxColorValue and minColorValue. Specify an HTML color value.
      *
-     * @param string $midColor
-     *
+     * @param  string $midColor
      * @return TreeMap
      */
     public function midColor($midColor)
@@ -191,8 +213,7 @@ class TreeMap extends Chart
      * or null; if null, this value will be the value of midColor lightened
      * by 35%.
      *
-     * @param string $midHighlightColor
-     *
+     * @param  string $midHighlightColor
      * @return TreeMap
      */
     public function midHighlightColor($midHighlightColor)
@@ -204,8 +225,7 @@ class TreeMap extends Chart
      * The color for a rectangle with the column 3 value of minColorValue.
      * Specify an HTML color value.
      *
-     * @param string $minColor
-     *
+     * @param  string $minColor
      * @return TreeMap
      */
     public function minColor($minColor)
@@ -218,8 +238,7 @@ class TreeMap extends Chart
      * minColorValue. Specify an HTML color value or null; if null, this value
      * will be the value of minColor lightened by 35%.
      *
-     * @param string $minHighlightColor
-     *
+     * @param  string $minHighlightColor
      * @return TreeMap
      */
     public function minHighlightColor($minHighlightColor)
@@ -232,8 +251,7 @@ class TreeMap extends Chart
      * trimmed to this value. If set to null, it will be calculated as the
      * minimum value in the column.
      *
-     * @param int $minColorValue
-     *
+     * @param  int $minColorValue
      * @return TreeMap
      */
     public function minColorValue($minColorValue)
@@ -246,8 +264,7 @@ class TreeMap extends Chart
      * and that node is a leaf (or contains only leaves). Specify an HTML
      * color value.
      *
-     * @param string $noColor
-     *
+     * @param  string $noColor
      * @return TreeMap
      */
     public function noColor($noColor)
@@ -260,8 +277,7 @@ class TreeMap extends Chart
      * an HTML color value or null; if null, this will be the value of noColor
      * lightened by 35%.
      *
-     * @param string $noHighlightColor
-     *
+     * @param  string $noHighlightColor
      * @return TreeMap
      */
     public function noHighlightColor($noHighlightColor)
@@ -273,8 +289,7 @@ class TreeMap extends Chart
      * Whether or not to show a color gradient scale from minColor to maxColor
      * along the top of the chart. Specify true to show the scale.
      *
-     * @param bool $showScale
-     *
+     * @param  bool $showScale
      * @return TreeMap
      */
     public function showScale($showScale)
@@ -285,8 +300,7 @@ class TreeMap extends Chart
     /**
      * Whether or not to show tooltips.
      *
-     * @param bool $showTooltips
-     *
+     * @param  bool $showTooltips
      * @return TreeMap
      */
     public function showTooltips($showTooltips)
@@ -297,8 +311,7 @@ class TreeMap extends Chart
     /**
      * The text color. Specify an HTML color value.
      *
-     * @param string $fontColor
-     *
+     * @param  string $fontColor
      * @return TreeMap
      */
     public function fontColor($fontColor)
@@ -309,8 +322,7 @@ class TreeMap extends Chart
     /**
      * The font family to use for all text.
      *
-     * @param string $fontFamily
-     *
+     * @param  string $fontFamily
      * @return TreeMap
      */
     public function fontFamily($fontFamily)
@@ -321,8 +333,7 @@ class TreeMap extends Chart
     /**
      * The font size for all text, in points.
      *
-     * @param int $fontSize
-     *
+     * @param  int $fontSize
      * @return TreeMap
      */
     public function fontSize($fontSize)

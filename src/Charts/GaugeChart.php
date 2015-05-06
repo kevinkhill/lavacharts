@@ -21,6 +21,34 @@ use \Khill\Lavacharts\Utils;
 class GaugeChart extends Chart
 {
     /**
+     * Javascript chart type.
+     *
+     * @var string
+     */
+    const TYPE = 'AreaChart';
+
+    /**
+     * Javascript chart version.
+     *
+     * @var string
+     */
+    const VERSION = '1';
+
+    /**
+     * Javascript chart package.
+     *
+     * @var string
+     */
+    const VIZ_PACKAGE = 'gauge';
+
+    /**
+     * Javascript chart class.
+     *
+     * @var string
+     */
+    const VIZ_CLASS = 'google.visualization.Gauge';
+
+    /**
      * Builds a new chart with the given label.
      *
      * @param  string $chartLabel Identifying label for the chart.
@@ -28,12 +56,9 @@ class GaugeChart extends Chart
      */
     public function __construct($chartLabel)
     {
-        $this->label        = $chartLabel;
-        $this->type         = (new \ReflectionClass($this))->getShortName();
-        $this->version      = '1';
-        $this->jsPackage    = 'gauge';
-        $this->jsClass      = 'google.visualization.Gauge';
-        $this->extraOptions = [
+        parent::__construct($chartLabel);
+
+        $this->defaults = array_merge([
             'forceIFrame',
             'greenColor',
             'greenFrom',
@@ -48,9 +73,7 @@ class GaugeChart extends Chart
             'yellowColor',
             'yellowFrom',
             'yellowTo'
-        ];
-
-        parent::__construct();
+        ], $this->defaults);
     }
 
     /**

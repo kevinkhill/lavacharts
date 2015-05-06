@@ -34,6 +34,34 @@ class ColumnChart extends Chart
     use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
     /**
+     * Javascript chart type.
+     *
+     * @var string
+     */
+    const TYPE = 'ColumnChart';
+
+    /**
+     * Javascript chart version.
+     *
+     * @var string
+     */
+    const VERSION = '1';
+
+    /**
+     * Javascript chart package.
+     *
+     * @var string
+     */
+    const VIZ_PACKAGE = 'corechart';
+
+    /**
+     * Javascript chart class.
+     *
+     * @var string
+     */
+    const VIZ_CLASS = 'google.visualization.ColumnChart';
+
+    /**
      * Builds a new chart with the given label.
      *
      * @param  string $chartLabel Identifying label for the chart.
@@ -41,12 +69,9 @@ class ColumnChart extends Chart
      */
     public function __construct($chartLabel)
     {
-        $this->label        = $chartLabel;
-        $this->type         = (new \ReflectionClass($this))->getShortName();
-        $this->version      = '1';
-        $this->jsPackage    = 'corechart';
-        $this->jsClass      = 'google.visualization.' . $this->type;
-        $this->extraOptions = [
+        parent::__construct($chartLabel);
+
+        $this->defaults = array_merge([
             'axisTitlesPosition',
             'barGroupWidth',
             'focusTarget',
@@ -54,8 +79,6 @@ class ColumnChart extends Chart
             'isHtml',
             //'vAxes',
             'vAxis'
-        ];
-
-        parent::__construct();
+        ], $this->defaults);
     }
 }

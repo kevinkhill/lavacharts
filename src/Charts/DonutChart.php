@@ -22,6 +22,34 @@ use \Khill\Lavacharts\Utils;
 class DonutChart extends PieChart
 {
     /**
+     * Javascript chart type.
+     *
+     * @var string
+     */
+    const TYPE = 'DonutChart';
+
+    /**
+     * Javascript chart version.
+     *
+     * @var string
+     */
+    const VERSION = '1';
+
+    /**
+     * Javascript chart package.
+     *
+     * @var string
+     */
+    const VIZ_PACKAGE = 'corechart';
+
+    /**
+     * Javascript chart class.
+     *
+     * @var string
+     */
+    const VIZ_CLASS = 'google.visualization.PieChart';
+
+    /**
      * Builds a new chart with the given label.
      *
      * @param  string $chartLabel Identifying label for the chart.
@@ -29,12 +57,11 @@ class DonutChart extends PieChart
      */
     public function __construct($chartLabel)
     {
-        $this->jsClass      = 'google.visualization.PieChart';
-        $this->extraOptions = [
-            'pieHole'
-        ];
-
         parent::__construct($chartLabel);
+
+        $this->defaults = array_merge($this->defaults, [
+            'pieHole'
+        ]);
 
         $this->pieHole(0.5);
     }

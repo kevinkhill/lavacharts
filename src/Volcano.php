@@ -27,7 +27,7 @@ class Volcano
      *
      * @var array
      */
-    private $charts = array();
+    private $charts = [];
 
     /**
      * Stores a chart in the volcano datastore.
@@ -37,7 +37,7 @@ class Volcano
      */
     public function storeChart(Chart $chart)
     {
-        $this->charts[$chart->type][$chart->label] = $chart;
+        $this->charts[$chart::TYPE][$chart->label] = $chart;
 
         return true;
     }

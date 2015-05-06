@@ -21,6 +21,9 @@ use \Khill\Lavacharts\Utils;
 
 class LineChart extends Chart
 {
+    /**
+     * Common Methods
+     */
     use \Khill\Lavacharts\Traits\AxisTitlesPositionTrait;
     use \Khill\Lavacharts\Traits\CurveTypeTrait;
     use \Khill\Lavacharts\Traits\FocusTargetTrait;
@@ -31,6 +34,34 @@ class LineChart extends Chart
     use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
     /**
+     * Javascript chart type.
+     *
+     * @var string
+     */
+    const TYPE = 'LineChart';
+
+    /**
+     * Javascript chart version.
+     *
+     * @var string
+     */
+    const VERSION = '1';
+
+    /**
+     * Javascript chart package.
+     *
+     * @var string
+     */
+    const VIZ_PACKAGE = 'corechart';
+
+    /**
+     * Javascript chart class.
+     *
+     * @var string
+     */
+    const VIZ_CLASS = 'google.visualization.LineChart';
+
+    /**
      * Builds a new chart with the given label.
      *
      * @param  string $chartLabel Identifying label for the chart.
@@ -38,12 +69,9 @@ class LineChart extends Chart
      */
     public function __construct($chartLabel)
     {
-        $this->label        = $chartLabel;
-        $this->type         = (new \ReflectionClass($this))->getShortName();
-        $this->version      = '1';
-        $this->jsPackage    = 'corechart';
-        $this->jsClass      = 'google.visualization.' . $this->type;
-        $this->extraOptions = [
+        parent::__construct($chartLabel);
+
+        $this->defaults = array_merge([
             'axisTitlesPosition',
             'curveType',
             'focusTarget',
@@ -53,8 +81,6 @@ class LineChart extends Chart
             'pointSize',
             //'vAxes',
             'vAxis'
-        ];
-
-        parent::__construct();
+        ], $this->defaults);
     }
 }

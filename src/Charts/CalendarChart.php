@@ -27,6 +27,39 @@ use \Khill\Lavacharts\Configs\ColorAxis;
 class CalendarChart extends Chart
 {
     /**
+     * Common methods
+     */
+    use \Khill\Lavacharts\Traits\ColorAxisTrait;
+
+    /**
+     * Javascript chart type.
+     *
+     * @var string
+     */
+    const TYPE = 'CalendarChart';
+
+    /**
+     * Javascript chart version.
+     *
+     * @var string
+     */
+    const VERSION = '1.1';
+
+    /**
+     * Javascript chart package.
+     *
+     * @var string
+     */
+    const VIZ_PACKAGE = 'calendar';
+
+    /**
+     * Javascript chart class.
+     *
+     * @var string
+     */
+    const VIZ_CLASS = 'google.visualization.Calendar';
+
+    /**
      * Builds a new chart with the given label.
      *
      * @param  string $chartLabel Identifying label for the chart.
@@ -34,15 +67,13 @@ class CalendarChart extends Chart
      */
     public function __construct($chartLabel)
     {
-        $this->label     = $chartLabel;
-        $this->type      = (new \ReflectionClass($this))->getShortName();
-        $this->version   = '1.1';
-        $this->jsPackage = 'calendar';
-        $this->jsClass   = 'google.visualization.Calendar';
+        parent::__construct($chartLabel);
+
         $this->options = [
             'calendar' => []
         ];
-        $this->extraOptions = [
+
+        $this->defaults = array_merge([
             'cellColor',
             'cellSize',
             'dayOfWeekLabel',
@@ -57,10 +88,7 @@ class CalendarChart extends Chart
             'colorAxis',
             'forceIFrame',
             'noDataPattern'
-        ];
-
-        parent::__construct();
-
+        ], $this->defaults);
     }
 
     /**
@@ -268,18 +296,6 @@ class CalendarChart extends Chart
     public function unusedMonthOutlineColor(Stroke $stroke)
     {
         return $this->addCalendarOption($stroke->toArray(__FUNCTION__));
-    }
-
-    /**
-     * An object that specifies a mapping between color column values
-     * and colors or a gradient scale.
-     *
-     * @param  ColorAxis     $colorAxis
-     * @return CalendarChart
-     */
-    public function colorAxis(ColorAxis $colorAxis)
-    {
-        return $this->addOption($colorAxis->toArray(__FUNCTION__));
     }
 
     /**

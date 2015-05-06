@@ -36,6 +36,34 @@ class AreaChart extends Chart
     use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
     /**
+     * Javascript chart type.
+     *
+     * @var string
+     */
+    const TYPE = 'AreaChart';
+
+    /**
+     * Javascript chart version.
+     *
+     * @var string
+     */
+    const VERSION = '1';
+
+    /**
+     * Javascript chart package.
+     *
+     * @var string
+     */
+    const VIZ_PACKAGE = 'corechart';
+
+    /**
+     * Javascript chart class.
+     *
+     * @var string
+     */
+    const VIZ_CLASS = 'google.visualization.AreaChart';
+
+    /**
      * Builds a new chart with the given label.
      *
      * @param  string $chartLabel Identifying label for the chart.
@@ -43,12 +71,9 @@ class AreaChart extends Chart
      */
     public function __construct($chartLabel)
     {
-        $this->label        = $chartLabel;
-        $this->type         = (new \ReflectionClass($this))->getShortName();
-        $this->version      = '1';
-        $this->jsPackage    = 'corechart';
-        $this->jsClass      = 'google.visualization.' . $this->type;
-        $this->extraOptions = [
+        parent::__construct($chartLabel);
+
+        $this->defaults = array_merge([
             'areaOpacity',
             'axisTitlesPosition',
             'focusTarget',
@@ -59,8 +84,6 @@ class AreaChart extends Chart
             'pointSize',
             'vAxes',
             'vAxis'
-        ];
-
-        parent::__construct();
+        ], $this->defaults);
     }
 }

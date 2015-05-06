@@ -52,6 +52,34 @@ class ComboChart extends Chart
     use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
     /**
+     * Javascript chart type.
+     *
+     * @var string
+     */
+    const TYPE = 'ComboChart';
+
+    /**
+     * Javascript chart version.
+     *
+     * @var string
+     */
+    const VERSION = '1';
+
+    /**
+     * Javascript chart package.
+     *
+     * @var string
+     */
+    const VIZ_PACKAGE = 'corechart';
+
+    /**
+     * Javascript chart class.
+     *
+     * @var string
+     */
+    const VIZ_CLASS = 'google.visualization.ComboChart';
+
+    /**
      * Builds a new chart with the given label.
      *
      * @param  string $chartLabel Identifying label for the chart.
@@ -59,12 +87,9 @@ class ComboChart extends Chart
      */
     public function __construct($chartLabel)
     {
-        $this->label        = $chartLabel;
-        $this->type         = (new \ReflectionClass($this))->getShortName();
-        $this->version      = '1';
-        $this->jsPackage    = 'corechart';
-        $this->jsClass      = 'google.visualization.' . $this->type;
-        $this->extraOptions = [
+        parent::__construct($chartLabel);
+
+        $this->defaults = array_merge([
             'annotations',
             'areaOpacity',
             'axisTitlesPosition',
@@ -89,9 +114,7 @@ class ComboChart extends Chart
             'theme',
             'vAxes',
             'vAxis'
-        ];
-
-        parent::__construct();
+        ], $this->defaults);
     }
 
     /**

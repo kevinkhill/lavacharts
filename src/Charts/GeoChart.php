@@ -28,6 +28,39 @@ use \Khill\Lavacharts\Configs\MagnifyingGlass;
 class GeoChart extends Chart
 {
     /**
+     * Common methods
+     */
+    use \Khill\Lavacharts\Traits\ColorAxisTrait;
+
+    /**
+     * Javascript chart type.
+     *
+     * @var string
+     */
+    const TYPE = 'GeoChart';
+
+    /**
+     * Javascript chart version.
+     *
+     * @var string
+     */
+    const VERSION = '1';
+
+    /**
+     * Javascript chart package.
+     *
+     * @var string
+     */
+    const VIZ_PACKAGE = 'geochart';
+
+    /**
+     * Javascript chart class.
+     *
+     * @var string
+     */
+    const VIZ_CLASS = 'google.visualization.GeoChart';
+
+    /**
      * Builds a new chart with the given label.
      *
      * @param  string $chartLabel Identifying label for the chart.
@@ -35,12 +68,9 @@ class GeoChart extends Chart
      */
     public function __construct($chartLabel)
     {
-        $this->label        = $chartLabel;
-        $this->type         = (new \ReflectionClass($this))->getShortName();
-        $this->version      = '1';
-        $this->jsPackage    = 'geochart';
-        $this->jsClass      = 'google.visualization.GeoChart';
-        $this->extraOptions = [
+        parent::__construct($chartLabel);
+
+        $this->defaults = array_merge([
             'colorAxis',
             'datalessRegionColor',
             'displayMode',
@@ -51,24 +81,7 @@ class GeoChart extends Chart
             'markerOpacity',
             'resolution',
             'sizeAxis'
-        ];
-
-        parent::__construct();
-    }
-
-    /**
-     * An object that specifies a mapping between color column values and colors
-     * or a gradient scale.
-     *
-     * @uses   ColorAxis
-     * @param  ColorAxis $ca
-     * @return GeoChart
-     */
-    public function colorAxis(ColorAxis $ca)
-    {
-        $this->addOption($ca->toArray(__FUNCTION__));
-
-        return $this;
+        ], $this->defaults);
     }
 
     /**

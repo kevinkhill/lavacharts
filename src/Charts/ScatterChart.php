@@ -24,6 +24,9 @@ use \Khill\Lavacharts\Utils;
 
 class ScatterChart extends Chart
 {
+    /**
+     * Common Methods
+     */
     use \Khill\Lavacharts\Traits\AnnotationsTrait;
     use \Khill\Lavacharts\Traits\AxisTitlesPositionTrait;
     use \Khill\Lavacharts\Traits\CrosshairTrait;
@@ -43,6 +46,34 @@ class ScatterChart extends Chart
     use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
     /**
+     * Javascript chart type.
+     *
+     * @var string
+     */
+    const TYPE = 'ScatterChart';
+
+    /**
+     * Javascript chart version.
+     *
+     * @var string
+     */
+    const VERSION = '1';
+
+    /**
+     * Javascript chart package.
+     *
+     * @var string
+     */
+    const VIZ_PACKAGE = 'corechart';
+
+    /**
+     * Javascript chart class.
+     *
+     * @var string
+     */
+    const VIZ_CLASS = 'google.visualization.ScatterChart';
+
+    /**
      * Builds a new chart with the given label.
      *
      * @param  string $chartLabel Identifying label for the chart.
@@ -50,11 +81,8 @@ class ScatterChart extends Chart
      */
     public function __construct($chartLabel)
     {
-        $this->label        = $chartLabel;
-        $this->type         = (new \ReflectionClass($this))->getShortName();
-        $this->version      = '1';
-        $this->jsPackage    = 'corechart';
-        $this->jsClass      = 'google.visualization.' . $this->type;
+        parent::__construct($chartLabel);
+
         $this->extraOptions = [
             'annotations',
             'axisTitlesPosition',
@@ -74,7 +102,5 @@ class ScatterChart extends Chart
             'theme',
             'vAxis'
         ];
-
-        parent::__construct();
     }
 }

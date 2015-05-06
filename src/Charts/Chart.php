@@ -39,53 +39,11 @@ class Chart
     public $label = null;
 
     /**
-     * The javascript chart type.
-     *
-     * @var string
-     */
-    public $type = '';
-
-    /**
-     * The javascript chart version.
-     *
-     * @var string
-     */
-    public $version = '';
-
-    /**
-     * The javascript chart package.
-     *
-     * @var string
-     */
-    public $jsPackage = '';
-
-    /**
-     * The javascript chart class.
-     *
-     * @var string
-     */
-    public $jsClass = '';
-
-    /**
-     * Additional chart specific options.
-     *
-     * @var array
-     */
-    protected $extraOptions = [];
-
-    /**
      * The chart's datatable.
      *
      * @var DataTable
      */
     protected $datatable = null;
-
-    /**
-     * The chart's defined default options.
-     *
-     * @var array
-     */
-    protected $defaults = [];
 
     /**
      * The chart's defined events.
@@ -102,29 +60,38 @@ class Chart
     protected $options = [];
 
     /**
-     * Merges the extra options with the chart defaults.
+     * The chart's default options.
      *
+     * @var array
+     */
+    protected $defaults = [
+        'animation',
+        'backgroundColor',
+        'chartArea',
+        'colors',
+        'datatable',
+        'events',
+        'fontSize',
+        'fontName',
+        'height',
+        'legend',
+        'title',
+        'titlePosition',
+        'titleTextStyle',
+        'tooltip',
+        'width'
+    ];
+
+
+    /**
+     * Builds a new chart with the given label.
+     *
+     * @param  string $chartLabel Identifying label for the chart.
      * @return Chart
      */
-    public function __construct()
+    public function __construct($chartLabel)
     {
-        $this->defaults = array_merge([
-            'animation',
-            'backgroundColor',
-            'chartArea',
-            'colors',
-            'datatable',
-            'events',
-            'fontSize',
-            'fontName',
-            'height',
-            'legend',
-            'title',
-            'titlePosition',
-            'titleTextStyle',
-            'tooltip',
-            'width'
-        ], $this->extraOptions);
+        $this->label = $chartLabel;
     }
 
     /**
