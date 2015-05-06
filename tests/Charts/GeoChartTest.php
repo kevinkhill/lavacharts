@@ -20,7 +20,9 @@ class GeoChartTest extends ProvidersTestCase
 
     public function testTypeGeoChart()
     {
-        $this->assertEquals('GeoChart', $this->gc->type);
+        $chart = $this->gc;
+
+        $this->assertEquals('GeoChart', $chart::TYPE);
     }
 
     public function testLabelAssignedViaConstructor()

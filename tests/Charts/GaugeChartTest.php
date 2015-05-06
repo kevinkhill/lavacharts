@@ -19,7 +19,9 @@ class GaugeChartTest extends ProvidersTestCase
 
     public function testTypeGaugeChart()
     {
-        $this->assertEquals('GaugeChart', $this->g->type);
+        $chart = $this->g;
+
+        $this->assertEquals('GaugeChart', $chart::TYPE);
     }
 
     public function testLabelAssignedViaConstructor()

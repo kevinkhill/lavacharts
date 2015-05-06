@@ -20,7 +20,9 @@ class DonutChartTest extends ProvidersTestCase
 
     public function testTypeDonutChart()
     {
-        $this->assertEquals('DonutChart', $this->dc->type);
+        $chart = $this->dc;
+
+        $this->assertEquals('DonutChart', $chart::TYPE);
     }
 
     public function testLabelAssignedViaConstructor()

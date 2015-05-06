@@ -20,7 +20,9 @@ class ColumnChartTest extends ProvidersTestCase
 
     public function testTypeColumnChart()
     {
-        $this->assertEquals('ColumnChart', $this->cc->type);
+        $chart = $this->cc;
+
+        $this->assertEquals('ColumnChart', $chart::TYPE);
     }
 
     public function testLabelAssignedViaConstructor()

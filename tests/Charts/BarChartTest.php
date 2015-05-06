@@ -20,7 +20,9 @@ class BarChartTest extends ProvidersTestCase
 
     public function testTypeBarChart()
     {
-        $this->assertEquals('BarChart', $this->bc->type);
+        $chart = $this->bc;
+
+        $this->assertEquals('BarChart', $chart::TYPE);
     }
 
     public function testLabelAssignedViaConstructor()

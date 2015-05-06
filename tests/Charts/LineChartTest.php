@@ -20,7 +20,9 @@ class LineChartTest extends ProvidersTestCase
 
     public function testTypeLineChart()
     {
-        $this->assertEquals('LineChart', $this->lc->type);
+        $chart = $this->lc;
+
+        $this->assertEquals('LineChart', $chart::TYPE);
     }
 
     public function testLabelAssignedViaConstructor()

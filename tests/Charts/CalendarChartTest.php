@@ -20,7 +20,9 @@ class CalendarChartTest extends ProvidersTestCase
 
     public function testTypeLineChart()
     {
-        $this->assertEquals('CalendarChart', $this->cc->type);
+        $chart = $this->cc;
+
+        $this->assertEquals('CalendarChart', $chart::TYPE);
     }
 
     public function testLabelAssignedViaConstructor()

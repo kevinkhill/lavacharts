@@ -20,7 +20,9 @@ class AreaChartTest extends ProvidersTestCase
 
     public function testTypeAreaChart()
     {
-        $this->assertEquals('AreaChart', $this->ac->type);
+        $chart = $this->ac;
+
+        $this->assertEquals('AreaChart', $chart::TYPE);
     }
 
     public function testLabelAssignedViaConstructor()

@@ -20,7 +20,9 @@ class PieChartTest extends ProvidersTestCase
 
     public function testTypePieChart()
     {
-        $this->assertEquals('PieChart', $this->pc->type);
+        $chart = $this->pc;
+
+        $this->assertEquals('PieChart', $chart::TYPE);
     }
 
     public function testLabelAssignedViaConstructor()

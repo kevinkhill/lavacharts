@@ -137,7 +137,7 @@ class Chart
                     $this->$option($value);
                 } else {
                     throw new InvalidConfigProperty(
-                        $this->type,
+                        static::TYPE,
                         __FUNCTION__,
                         $option,
                         $this->defaults
@@ -553,18 +553,20 @@ class Chart
 
     /**
      * function for easy creation of exceptions
+     *
+     * @return InvalidConfigValue
      */
     protected function invalidConfigValue($func, $type, $extra = '')
     {
         if (! empty($extra)) {
             return new InvalidConfigValue(
-                $this->type . '::' . $func,
+                static::TYPE . '::' . $func,
                 $type,
                 $extra
             );
         } else {
             return new InvalidConfigValue(
-                $this->type . '::' . $func,
+                static::TYPE . '::' . $func,
                 $type
             );
         }

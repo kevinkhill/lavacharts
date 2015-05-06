@@ -25,7 +25,7 @@ class GaugeChart extends Chart
      *
      * @var string
      */
-    const TYPE = 'AreaChart';
+    const TYPE = 'GaugeChart';
 
     /**
      * Javascript chart version.
