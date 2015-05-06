@@ -1,22 +1,19 @@
-window.lava = (function() {
-  this.get              = null;
-  this.event            = null;
-  this.loadData         = null;
-  this.register         = null;
-  this.getLavachart     = null;
-  this.charts           = {};
-  this.registeredCharts = [];
-
-
-  this.emptyChart = function() {
+var lava = {
+  get              : null,
+  event            : null,
+  loadData         : null,
+  register         : null,
+  getLavachart     : null,
+  charts           : {},
+  registeredCharts : [],
+  emptyChart: function() {
     this.chart   = null;
     this.draw    = null;
     this.data    = null;
     this.options = null;
     this.formats = [];
-  };
-
-  this.get = function (chartLabel, callback) {
+  },
+  get: function (chartLabel, callback) {
     if (arguments.length < 2 || typeof chartLabel !== 'string' || typeof callback !== 'function') {
       throw new Error('[Lavacharts] The syntax for lava.get must be (str ChartLabel, fn Callback)');
     }
@@ -24,9 +21,8 @@ window.lava = (function() {
     lava.getLavachart(chartLabel, function (lavachart) {
       return callback(lavachart.chart);
     });
-  };
-
-  this.loadData = function (chartLabel, dataTableJson, callback) {
+  },
+  loadData: function (chartLabel, dataTableJson, callback) {
     lava.getLavachart(chartLabel, function (lavachart) {
       lavachart.data = new google.visualization.DataTable(dataTableJson, '0.6');
 
@@ -34,17 +30,14 @@ window.lava = (function() {
 
       return callback(lavachart.chart);
     });
-  };
-
-  this.event = function (event, chart, callback) {
+  },
+  event: function (event, chart, callback) {
     return callback(event, chart);
-  };
-
-  this.register = function(type, label) {
+  },
+  register: function(type, label) {
     this.registeredCharts.push(type + ':' + label);
-  };
-
-  this.getLavachart = function (chartLabel, callback) {
+  },
+  getLavachart: function (chartLabel, callback) {
     var chartTypes = Object.keys(lava.charts);
     var chart;
 
@@ -63,9 +56,8 @@ window.lava = (function() {
     } else {
       callback(chart);
     }
-  };
-
-  this.redrawCharts = function() {
+  },
+  redrawCharts: function() {
     var timer, delay = 300;
 
     clearTimeout(timer);
@@ -80,9 +72,7 @@ window.lava = (function() {
         );
       }
     }, delay);
-  };
-
-  return this;
-})();
+  }
+};
 
 window.addEventListener("resize", window.lava.redrawCharts);

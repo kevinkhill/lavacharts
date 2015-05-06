@@ -133,19 +133,29 @@ class JavascriptFactory
     {
         $mappedValues = [
             'type'    => $chart::TYPE,
-            'label'   => $chart->label,
             'version' => $chart::VERSION,
-            'data'    => $chart->getDataTableJson(),
-            'options' => $chart->optionsToJson(),
             'class'   => $chart::VIZ_CLASS,
             'package' => $chart::VIZ_PACKAGE,
+            'label'   => $chart->label,
+            'data'    => $chart->getDataTableJson(),
+            'options' => $chart->optionsToJson(),
             'elemId'  => $this->elementId,
-            'dataVer' => DataTable::VERSION
+            'dataVer' => DataTable::VERSION,
+            'formats' => '',
+            'events'  => ''
         ];
-        //preg_replace(['/type/', '/version/', '/chart/'], ['Lava', '1.1', 'LineChart'], $a);
+
+        if ($chart->getDataTable()->hasFormats()) {
+            $mappedValues['formats'] = $this->buildFormatters($chart);
+        }
+
+        if ($chart->hasEvents()) {
+            $mappedValues['events'] = $this->buildEventCallbacks($chart);
+        }
+
         $this->out = self::JS_OPEN.PHP_EOL;
         $this->out .=
-<<<JS1
+<<<JS
         /**
          * If the object does not exist for a given chart type, initialise it.
          * This will prevent overriding keys when multiple charts of the same
@@ -164,36 +174,31 @@ class JavascriptFactory
         }
 
         lava.charts.<type>["<label>"].draw = function() {
+            var lavachart = lava.charts.<type>["<label>"];
 
-            var $this = lava.charts.<type>["<label>"];
+            lavachart.data = new google.visualization.DataTable(<data>, <dataVer>);
 
-            $this.data = new google.visualization.DataTable(<data>, <dataVer>);
+            lavachart.options = <options>;
 
-            $this.options = <options>;
+            lavachart.chart = new <class>(document.getElementById("<elemId>"));
 
-            $this.chart = new <class>(document.getElementById("<elemId>"));
-JS1;
+            <formats>
 
-        if ($chart->getDataTable()->hasFormats()) {
-            $this->buildFormatters($chart);
-        }
+            <events>
 
-        if ($chart->hasEvents()) {
-            $this->buildEventCallbacks($chart);
-        }
-
-        $this->out .=
-<<<JS2
-            $this.chart.draw($this.data, $this.options);
+            lavachart.chart.draw(lavachart.data, lavachart.options);
         };
 
         google.load('visualization', '<version>', {'packages':['<package>']});
         google.setOnLoadCallback(lava.charts.<type>["<label>"].draw);
 
         lava.register("<type>", "<label>");
-JS2;
+JS;
+        $this->out .= PHP_EOL.self::JS_CLOSE;
 
-        $this->out .= self::JS_CLOSE.PHP_EOL;
+        foreach ($mappedValues as $key => $value) {
+            $this->out = preg_replace("/<$key>/", $value, $this->out);
+        }
 
         return $this->out;
     }
@@ -207,18 +212,21 @@ JS2;
      */
     private function buildEventCallbacks(Chart $chart)
     {
+        $output = '';
+
         foreach ($chart->getEvents() as $event) {
             $callback = sprintf(
-                'function (event) {return lava.event(event, $this.chart, %s);}',
+                'function (event) {return lava.event(event, lavachart.chart, %s);}',
                 $event->callback
             );
 
-            $this->out .= sprintf(
-                'google.visualization.events.addListener($this.chart, "%s", %s);',
+            $output .= sprintf(
+                'google.visualization.events.addListener(lavachart.chart, "%s", %s);',
                 $event::TYPE,
                 $callback
             ).PHP_EOL.PHP_EOL;
 
+            return $output;
         }
     }
 
@@ -231,18 +239,22 @@ JS2;
      */
     private function buildFormatters(Chart $chart)
     {
+        $output = '';
+
         foreach ($chart->getDataTable()->getFormats() as $index => $format) {
-            $this->out .= sprintf(
-                '$this.formats["col%s"] = new google.visualization.%s(%s);',
+            $output .= sprintf(
+                'lavachart.formats["col%s"] = new google.visualization.%s(%s);',
                 $index,
                 $format::TYPE,
                 $format->toJson()
             ).PHP_EOL;
 
-            $this->out .= sprintf(
-                '$this.formats["col%1$s"].format($this.data, %1$s);',
+            $output .= sprintf(
+                'lavachart.formats["col%1$s"].format(lavachart.data, %1$s);',
                 $index
             ).PHP_EOL.PHP_EOL;
+
+            return $output;
         }
     }
 }
