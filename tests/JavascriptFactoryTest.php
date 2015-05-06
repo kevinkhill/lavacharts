@@ -31,9 +31,9 @@ class JavascriptFactoryTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\DataTableNotFound
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidElementId
      */
-    public function testGetChartJsWithMissingDataTable()
+    public function testGetChartJsWithNoElementId()
     {
         $this->jsf->getChartJs($this->mlc);
     }

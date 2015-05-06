@@ -27,11 +27,32 @@ class JavascriptFactory
     const DEBUG = false;
 
     /**
-     * Chart used to generate output.
+     * Opening javascript tag.
      *
-     * @var Chart
+     * @var string
      */
-    private $chart;
+    const JS_OPEN = '<script type="text/javascript">';
+
+    /**
+     * Closing javascript tag.
+     *
+     * @var string
+     */
+    const JS_CLOSE = '</script>';
+
+    /**
+     * Script block for the Google's Chart API.
+     *
+     * @var string
+     */
+    const JSAPI = '<script type="text/javascript" src="//www.google.com/jsapi"></script>';
+
+    /**
+     * Javascript output.
+     *
+     * @var string
+     */
+    private $out;
 
     /**
      * HTML element id to output the chart into.
@@ -48,278 +69,9 @@ class JavascriptFactory
     private $coreJsRendered = false;
 
     /**
-     * Opening javascript tag.
-     *
-     * @var string
-     */
-    private $jsO = '<script type="text/javascript">';
-
-    /**
-     * Closing javascript tag.
-     *
-     * @var string
-     */
-    private $jsC = '</script>';
-
-    /**
-     * Javscript block with a link to Google's Chart API.
-     *
-     * @var string
-     */
-    private $jsAPI = '<script type="text/javascript" src="//www.google.com/jsapi"></script>';
-
-    /**
-     * Checks the Chart for DataTable and builds the Javascript code block
-     *
-     * Build the script block for the actual chart and passes it back to
-     * output function of the calling chart object. If there are any
-     * events defined, they will be automatically be attached to the chart and
-     * pulled from the callbacks folder.
-     *
-     * @access public
-     *
-     * @uses   Chart
-     * @param  Chart             $chart     Chart object to render.
-     * @param  string            $elementId HTML element id to output the chart into.
-     * @throws InvalidElementId
-     *
-     * @return string Javascript code block.
-     */
-    public function getChartJs(Chart $chart, $elementId = null)
-    {
-        if (Utils::nonEmptyString($elementId) === false) {
-            throw new InvalidElementId($elementId);
-        }
-
-        $this->chart     = $chart;
-        $this->elementId = $elementId;
-
-        return $this->buildChartJs();
-    }
-
-    /**
-     * Builds the Javascript code block
-     *
-     * Build the script block for the chart. If there are any events defined,
-     * they will be automatically be attached to the chart and
-     * pulled from the callbacks folder.
-     *
-     * @access private
-     *
-     * @return string Javascript code block.
-     */
-    private function buildChartJs()
-    {
-        $chart = $this->chart;
-        $out   = $this->jsO.PHP_EOL;
-
-        /*
-         *  If the object does not exist for a given chart type, initialise it.
-         *  This will prevent overriding keys when multiple charts of the same
-         *  type are being rendered on the same page.
-         */
-        $out .= sprintf(
-            'if ( typeof lava.charts.%1$s == "undefined" ) { lava.charts.%1$s = {}; }',
-            $this->chart->type
-        ).PHP_EOL.PHP_EOL;
-
-        //Creating new chart js object
-        $out .= sprintf(
-            'lava.charts.%s["%s"] = {chart:null,draw:null,data:null,options:null,formats:[]};',
-            $this->chart->type,
-            $this->chart->label
-        ).PHP_EOL.PHP_EOL;
-
-        //Checking if output div exists
-        $out .= sprintf(
-            'if (!document.getElementById("%1$s"))' .
-            '{console.error("[Lavacharts] No matching element was found with ID \"%1$s\"");}',
-            $this->elementId
-        ).PHP_EOL.PHP_EOL;
-
-        $out .= sprintf(
-            'lava.charts.%s["%s"].draw = function() {',
-            $this->chart->type,
-            $this->chart->label
-        ).PHP_EOL;
-
-        $out .= sprintf(
-            'var $this = lava.charts.%s["%s"];',
-            $this->chart->type,
-            $this->chart->label
-        ).PHP_EOL.PHP_EOL;
-
-        $out .= sprintf(
-            '$this.data = new google.visualization.DataTable(%s, %s);',
-            $this->chart->getDataTableJson(),
-            DataTable::VERSION
-        ).PHP_EOL.PHP_EOL;
-
-        $out .= sprintf(
-            '$this.options = %s;',
-            $this->chart->optionsToJson()
-        ).PHP_EOL.PHP_EOL;
-
-        $out .= sprintf(
-            '$this.chart = new %s(document.getElementById("%s"));',
-            $this->chart->jsClass,
-            $this->elementId
-        ).PHP_EOL.PHP_EOL;
-
-        if ($this->chart->getDataTable()->hasFormats()) {
-            $out .= $this->buildFormatters();
-        }
-
-        if ($this->chart->hasEvents()) {
-            $out .= $this->buildEventCallbacks();
-        }
-
-        $out .= '$this.chart.draw($this.data, $this.options);'.PHP_EOL;
-
-        $out .= "};".PHP_EOL.PHP_EOL;
-
-        $out .= sprintf(
-            "google.load('visualization', '%s', {'packages':['%s']});",
-            $this->chart->version,
-            $this->chart->jsPackage
-        ).PHP_EOL;
-
-        $out .= sprintf(
-            'google.setOnLoadCallback(lava.charts.%s["%s"].draw);',
-            $this->chart->type,
-            $this->chart->label
-        ).PHP_EOL;
-
-        $out .= sprintf(
-            'lava.register("%s", "%s");',
-            $this->chart->type,
-            $this->chart->label
-        ).PHP_EOL;
-
-        if (self::DEBUG) {
-            $out .= 'console.debug(lava);';
-        }
-
-        $out .= $this->jsC.PHP_EOL;
-
-        return $out;
-    }
-
-    /**
-     * Returns the Google chart package data.
-     *
-     * @access private
-     * @param  string $which
-     *
-     * @return stdClass chart package, version, and type
-     */
-    private function getChartPackageData($which)
-    {
-        $package = array();
-
-        switch ($this->chart->type) {
-            case 'AnnotatedTimeLine':
-                $package['type']    = 'annotatedtimeline';
-                $package['jsObj']   = $this->chart->type;
-                $package['version'] = '1';
-                break;
-
-            case 'GeoChart':
-                $package['type']    = 'geochart';
-                $package['jsObj']   = $this->chart->type;
-                $package['version'] = '1';
-                break;
-
-            case 'DonutChart':
-                $package['type']    = 'corechart';
-                $package['jsObj']   = 'PieChart';
-                $package['version'] = '1';
-                break;
-
-            case 'CalendarChart':
-                $package['type']    = 'calendar';
-                $package['jsObj']   = 'Calendar';
-                $package['version'] = '1.1';
-                break;
-
-            case 'GaugeChart':
-                $package['type']    = 'gauge';
-                $package['jsObj']   = 'Gauge';
-                $package['version'] = '1';
-                break;
-
-            default:
-                $package['type']    = 'corechart';
-                $package['jsObj']   = $this->chart->type;
-                $package['version'] = '1';
-                break;
-        }
-
-        return $package[$which];
-    }
-
-    /**
-     * Builds the javascript object of event callbacks.
-     *
-     * @access private
-     *
-     * @return string Javascript code block.
-     */
-    private function buildEventCallbacks()
-    {
-        $out = '';
-
-        foreach ($this->chart->getEvents() as $event) {
-            $callback = sprintf(
-                'function (event) {return lava.event(event, $this.chart, %s);}',
-                $event->callback
-            );
-
-            $out .= sprintf(
-                'google.visualization.events.addListener($this.chart, "%s", %s);',
-                $event::TYPE,
-                $callback
-            ).PHP_EOL.PHP_EOL;
-
-        }
-
-        return $out;
-    }
-
-
-    /**
-     * Builds the javascript for the datatable column formatters.
-     *
-     * @access private
-     *
-     * @return string Javascript code block.
-     */
-    private function buildFormatters()
-    {
-        $out = '';
-
-        foreach ($this->chart->getDataTable()->getFormats() as $index => $format) {
-            $out .= sprintf(
-                '$this.formats["col%s"] = new google.visualization.%s(%s);',
-                $index,
-                $format::TYPE,
-                $format->toJson()
-            ).PHP_EOL;
-
-            $out .= sprintf(
-                '$this.formats["col%1$s"].format($this.data, %1$s);',
-                $index
-            ).PHP_EOL.PHP_EOL;
-        }
-
-        return $out;
-    }
-
-    /**
      * True if the lava object and jsapi have been added to the page.
      *
      * @access private
-     *
      * @return bool
      */
     public function coreJsRendered($stat = false)
@@ -335,16 +87,191 @@ class JavascriptFactory
      * Builds the javascript lava object for chart interation.
      *
      * @access public
-     *
      * @return string Javascript code blocks.
      */
     public function getCoreJs()
     {
-        $out  = $this->jsAPI;
-        $out .= $this->jsO;
-        $out .= file_get_contents(__DIR__.'/../javascript/lava.js');
-        $out .= $this->jsC;
+        $coreJs  = self::JSAPI;
+        $coreJs .= self::JS_OPEN;
+        $coreJs .= file_get_contents(__DIR__.'/../javascript/lava.js');
+        $coreJs .= self::JS_CLOSE;
 
-        return $out;
+        return $coreJs;
+    }
+
+    /**
+     * Checks for an element id to output the chart into and builds the Javascript.
+     *
+     * @access public
+     * @uses   Chart
+     * @param  Chart             $chart     Chart object to render.
+     * @param  string            $elementId HTML element id to output the chart into.
+     * @throws InvalidElementId
+     * @return string Javascript code block.
+     */
+    public function getChartJs(Chart $chart, $elementId = null)
+    {
+        if (Utils::nonEmptyString($elementId) === false) {
+            throw new InvalidElementId($elementId);
+        }
+
+        $this->elementId = $elementId;
+
+        return $this->buildChartJs($chart);
+    }
+
+    /**
+     * Builds the Javascript code block
+     *
+     * Build the script block for the chart. If there are any events defined,
+     * they will be automatically be attached to the chart and
+     * pulled from the callbacks folder.
+     *
+     * @access private
+     * @param  Chart  $chart
+     * @return string Javascript code block.
+     */
+    private function buildChartJs(Chart $chart)
+    {
+        $this->out = self::JS_OPEN.PHP_EOL;
+
+        /*
+         *  If the object does not exist for a given chart type, initialise it.
+         *  This will prevent overriding keys when multiple charts of the same
+         *  type are being rendered on the same page.
+         */
+        $this->out .= sprintf(
+            'if ( typeof lava.charts.%1$s == "undefined" ) { lava.charts.%1$s = {}; }',
+            $chart::TYPE
+        ).PHP_EOL.PHP_EOL;
+
+        //Creating new chart js object
+        $this->out .= sprintf(
+            'lava.charts.%s["%s"] = {chart:null,draw:null,data:null,options:null,formats:[]};',
+            $chart::TYPE,
+            $chart->label
+        ).PHP_EOL.PHP_EOL;
+
+        //Checking if output div exists
+        $this->out .= sprintf(
+            'if (!document.getElementById("%1$s"))' .
+            '{console.error("[Lavacharts] No matching element was found with ID \"%1$s\"");}',
+            $this->elementId
+        ).PHP_EOL.PHP_EOL;
+
+        $this->out .= sprintf(
+            'lava.charts.%s["%s"].draw = function() {',
+            $chart::TYPE,
+            $chart->label
+        ).PHP_EOL;
+
+        $this->out .= sprintf(
+            'var $this = lava.charts.%s["%s"];',
+            $chart::TYPE,
+            $chart->label
+        ).PHP_EOL.PHP_EOL;
+
+        $this->out .= sprintf(
+            '$this.data = new google.visualization.DataTable(%s, %s);',
+            $chart->getDataTableJson(),
+            DataTable::VERSION
+        ).PHP_EOL.PHP_EOL;
+
+        $this->out .= sprintf(
+            '$this.options = %s;',
+            $chart->optionsToJson()
+        ).PHP_EOL.PHP_EOL;
+
+        $this->out .= sprintf(
+            '$this.chart = new %s(document.getElementById("%s"));',
+            $chart::VIZ_CLASS,
+            $this->elementId
+        ).PHP_EOL.PHP_EOL;
+
+        if ($chart->getDataTable()->hasFormats()) {
+            $this->buildFormatters($chart);
+        }
+
+        if ($chart->hasEvents()) {
+            $this->buildEventCallbacks($chart);
+        }
+
+        $this->out .= '$this.chart.draw($this.data, $this.options);'.PHP_EOL;
+
+        $this->out .= "};".PHP_EOL.PHP_EOL;
+
+        $this->out .= sprintf(
+            "google.load('visualization', '%s', {'packages':['%s']});",
+            $chart::VERSION,
+            $chart::VIZ_PACKAGE
+        ).PHP_EOL;
+
+        $this->out .= sprintf(
+            'google.setOnLoadCallback(lava.charts.%s["%s"].draw);',
+            $chart::TYPE,
+            $chart->label
+        ).PHP_EOL;
+
+        $this->out .= sprintf(
+            'lava.register("%s", "%s");',
+            $chart::TYPE,
+            $chart->label
+        ).PHP_EOL;
+
+        if (self::DEBUG) {
+            $this->out .= 'console.debug(lava);';
+        }
+
+        $this->out .= self::JS_CLOSE.PHP_EOL;
+
+        return $this->out;
+    }
+
+    /**
+     * Builds the javascript object of event callbacks.
+     *
+     * @access private
+     * @param  Chart  $chart
+     * @return string Javascript code block.
+     */
+    private function buildEventCallbacks(Chart $chart)
+    {
+        foreach ($chart->getEvents() as $event) {
+            $callback = sprintf(
+                'function (event) {return lava.event(event, $this.chart, %s);}',
+                $event->callback
+            );
+
+            $this->out .= sprintf(
+                'google.visualization.events.addListener($this.chart, "%s", %s);',
+                $event::TYPE,
+                $callback
+            ).PHP_EOL.PHP_EOL;
+
+        }
+    }
+
+    /**
+     * Builds the javascript for the datatable column formatters.
+     *
+     * @access private
+     * @param  Chart  $chart
+     * @return string Javascript code block.
+     */
+    private function buildFormatters(Chart $chart)
+    {
+        foreach ($chart->getDataTable()->getFormats() as $index => $format) {
+            $this->out .= sprintf(
+                '$this.formats["col%s"] = new google.visualization.%s(%s);',
+                $index,
+                $format::TYPE,
+                $format->toJson()
+            ).PHP_EOL;
+
+            $this->out .= sprintf(
+                '$this.formats["col%1$s"].format($this.data, %1$s);',
+                $index
+            ).PHP_EOL.PHP_EOL;
+        }
     }
 }
