@@ -7,6 +7,15 @@ window.lava = (function() {
   this.charts           = {};
   this.registeredCharts = [];
 
+
+  this.emptyChart = function() {
+    this.chart   = null;
+    this.draw    = null;
+    this.data    = null;
+    this.options = null;
+    this.formats = [];
+  };
+
   this.get = function (chartLabel, callback) {
     if (arguments.length < 2 || typeof chartLabel !== 'string' || typeof callback !== 'function') {
       throw new Error('[Lavacharts] The syntax for lava.get must be (str ChartLabel, fn Callback)');

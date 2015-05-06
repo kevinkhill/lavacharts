@@ -24,8 +24,6 @@ use \Khill\Lavacharts\Exceptions\InvalidElementId;
 
 class JavascriptFactory
 {
-    const DEBUG = false;
-
     /**
      * Opening javascript tag.
      *
@@ -133,60 +131,48 @@ class JavascriptFactory
      */
     private function buildChartJs(Chart $chart)
     {
+        $mappedValues = [
+            'type'    => $chart::TYPE,
+            'label'   => $chart->label,
+            'version' => $chart::VERSION,
+            'data'    => $chart->getDataTableJson(),
+            'options' => $chart->optionsToJson(),
+            'class'   => $chart::VIZ_CLASS,
+            'package' => $chart::VIZ_PACKAGE,
+            'elemId'  => $this->elementId,
+            'dataVer' => DataTable::VERSION
+        ];
+        //preg_replace(['/type/', '/version/', '/chart/'], ['Lava', '1.1', 'LineChart'], $a);
         $this->out = self::JS_OPEN.PHP_EOL;
-
-        /*
-         *  If the object does not exist for a given chart type, initialise it.
-         *  This will prevent overriding keys when multiple charts of the same
-         *  type are being rendered on the same page.
+        $this->out .=
+<<<JS1
+        /**
+         * If the object does not exist for a given chart type, initialise it.
+         * This will prevent overriding keys when multiple charts of the same
+         * type are being rendered on the same page.
          */
-        $this->out .= sprintf(
-            'if ( typeof lava.charts.%1$s == "undefined" ) { lava.charts.%1$s = {}; }',
-            $chart::TYPE
-        ).PHP_EOL.PHP_EOL;
+        if ( typeof lava.charts.<type> == "undefined" ) {
+            lava.charts.<type> = {};
+        }
 
-        //Creating new chart js object
-        $this->out .= sprintf(
-            'lava.charts.%s["%s"] = {chart:null,draw:null,data:null,options:null,formats:[]};',
-            $chart::TYPE,
-            $chart->label
-        ).PHP_EOL.PHP_EOL;
+        //Creating a new lavachart object
+        lava.charts.<type>["<label>"] = new lava.emptyChart();
 
         //Checking if output div exists
-        $this->out .= sprintf(
-            'if (!document.getElementById("%1$s"))' .
-            '{console.error("[Lavacharts] No matching element was found with ID \"%1$s\"");}',
-            $this->elementId
-        ).PHP_EOL.PHP_EOL;
+        if (! document.getElementById("<elemId>")) {
+            throw new Error('[Lavacharts] No matching element was found with ID "<elemId>"');
+        }
 
-        $this->out .= sprintf(
-            'lava.charts.%s["%s"].draw = function() {',
-            $chart::TYPE,
-            $chart->label
-        ).PHP_EOL;
+        lava.charts.<type>["<label>"].draw = function() {
 
-        $this->out .= sprintf(
-            'var $this = lava.charts.%s["%s"];',
-            $chart::TYPE,
-            $chart->label
-        ).PHP_EOL.PHP_EOL;
+            var $this = lava.charts.<type>["<label>"];
 
-        $this->out .= sprintf(
-            '$this.data = new google.visualization.DataTable(%s, %s);',
-            $chart->getDataTableJson(),
-            DataTable::VERSION
-        ).PHP_EOL.PHP_EOL;
+            $this.data = new google.visualization.DataTable(<data>, <dataVer>);
 
-        $this->out .= sprintf(
-            '$this.options = %s;',
-            $chart->optionsToJson()
-        ).PHP_EOL.PHP_EOL;
+            $this.options = <options>;
 
-        $this->out .= sprintf(
-            '$this.chart = new %s(document.getElementById("%s"));',
-            $chart::VIZ_CLASS,
-            $this->elementId
-        ).PHP_EOL.PHP_EOL;
+            $this.chart = new <class>(document.getElementById("<elemId>"));
+JS1;
 
         if ($chart->getDataTable()->hasFormats()) {
             $this->buildFormatters($chart);
@@ -196,31 +182,16 @@ class JavascriptFactory
             $this->buildEventCallbacks($chart);
         }
 
-        $this->out .= '$this.chart.draw($this.data, $this.options);'.PHP_EOL;
+        $this->out .=
+<<<JS2
+            $this.chart.draw($this.data, $this.options);
+        };
 
-        $this->out .= "};".PHP_EOL.PHP_EOL;
+        google.load('visualization', '<version>', {'packages':['<package>']});
+        google.setOnLoadCallback(lava.charts.<type>["<label>"].draw);
 
-        $this->out .= sprintf(
-            "google.load('visualization', '%s', {'packages':['%s']});",
-            $chart::VERSION,
-            $chart::VIZ_PACKAGE
-        ).PHP_EOL;
-
-        $this->out .= sprintf(
-            'google.setOnLoadCallback(lava.charts.%s["%s"].draw);',
-            $chart::TYPE,
-            $chart->label
-        ).PHP_EOL;
-
-        $this->out .= sprintf(
-            'lava.register("%s", "%s");',
-            $chart::TYPE,
-            $chart->label
-        ).PHP_EOL;
-
-        if (self::DEBUG) {
-            $this->out .= 'console.debug(lava);';
-        }
+        lava.register("<type>", "<label>");
+JS2;
 
         $this->out .= self::JS_CLOSE.PHP_EOL;
 
