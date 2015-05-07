@@ -11,24 +11,40 @@
          colors="true"
 >
   <testsuites>
-    <testsuite name="Package Test Suite">
-      <directory suffix=".php">../tests/</directory>
+    <testsuite name="core">
+      <file>../tests/JavascriptFactoryTest.php</file>
+      <file>../tests/LavachartsTest.php</file>
+      <file>../tests/VolcanoTest.php</file>
+    </testsuite>
+    <testsuite name="charts">
+      <directory>../tests/Charts/</directory>
+    </testsuite>
+    <testsuite name="configs">
+      <directory>../tests/Configs/</directory>
+    </testsuite>
+    <testsuite name="events">
+      <directory>../tests/Events/</directory>
+    </testsuite>
+    <testsuite name="formats">
+      <directory>../tests/Formats/</directory>
+    </testsuite>
+    <testsuite name="utils">
+      <directory>../tests/Utils/</directory>
     </testsuite>
   </testsuites>
 
   <filter>
     <whitelist processUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">../src/Khill/Lavacharts</directory>
+      <directory>../src/Khill/Lavacharts</directory>
       <exclude>
-        <directory suffix=".php">../src/Khill/Lavacharts/Facade</directory>
-        <directory suffix=".php">../src/Khill/Lavacharts/Traits</directory>
-        <directory suffix=".php">../src/Khill/Lavacharts/Laravel</directory>
+        <directory>../src/Khill/Lavacharts/Facade</directory>
+        <directory>../src/Khill/Lavacharts/Laravel</directory>
       </exclude>
     </whitelist>
   </filter>
 
   <listeners>
-    <listener class="\MyBuilder\PhpunitAccelerator\TestListener"/>
-    <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
+    <listener class="\MyBuilder\PhpunitAccelerator\TestListener" />
+    <listener class="\Mockery\Adapter\Phpunit\TestListener" />
   </listeners>
 </phpunit>

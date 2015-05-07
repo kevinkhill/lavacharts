@@ -7,15 +7,13 @@ use Symfony\Component\Finder\Finder;
 $iterator = Finder::create()
     ->files()
     ->name('*.php')
-    ->exclude('Facade')
-    ->exclude('Traits')
-    ->exclude('LavachartsServiceProvider.php')
-    ->in(__DIR__.'/src/Khill/Lavacharts')
+    ->exclude('Laravel')
+    ->in(__DIR__.'/../src')
 ;
 
 $versions = GitVersionCollection::create(__DIR__)
-    ->addFromTags('v1.0.0')
-    ->add('2.0', '2.0 branch')
+    ->addFromTags('v2.5.1')
+    ->add('traits', 'traits branch')
     ->add('master', 'master branch')
 ;
 
