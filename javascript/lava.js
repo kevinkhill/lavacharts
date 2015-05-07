@@ -6,7 +6,8 @@ var lava = {
   getLavachart     : null,
   charts           : {},
   registeredCharts : [],
-  emptyChart: function() {
+
+  Chart: function() {
     this.chart   = null;
     this.draw    = null;
     this.data    = null;

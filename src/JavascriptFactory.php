@@ -166,7 +166,7 @@ class JavascriptFactory
         }
 
         //Creating a new lavachart object
-        lava.charts.<type>["<label>"] = new lava.emptyChart();
+        lava.charts.<type>["<label>"] = new lava.Chart();
 
         //Checking if output div exists
         if (! document.getElementById("<elemId>")) {
@@ -174,19 +174,18 @@ class JavascriptFactory
         }
 
         lava.charts.<type>["<label>"].draw = function() {
-            var lavachart = lava.charts.<type>["<label>"];
+            var Chart = lava.charts.<type>["<label>"];
 
-            lavachart.data = new google.visualization.DataTable(<data>, <dataVer>);
+            Chart.data = new google.visualization.DataTable(<data>, <dataVer>);
 
-            lavachart.options = <options>;
+            Chart.options = <options>;
 
-            lavachart.chart = new <class>(document.getElementById("<elemId>"));
+            Chart.chart = new <class>(document.getElementById("<elemId>"));
 
             <formats>
-
             <events>
 
-            lavachart.chart.draw(lavachart.data, lavachart.options);
+            Chart.chart.draw(Chart.data, Chart.options);
         };
 
         google.load('visualization', '<version>', {'packages':['<package>']});
