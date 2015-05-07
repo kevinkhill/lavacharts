@@ -315,7 +315,8 @@ class LavachartsTest extends ProvidersTestCase
             array('GaugeChart'),
             array('GeoChart'),
             array('LineChart'),
-            array('PieChart')
+            array('PieChart'),
+            array('ScatterChart')
         );
     }
 
@@ -329,6 +330,7 @@ class LavachartsTest extends ProvidersTestCase
             array('ChartArea'),
             array('Color'),
             array('ColorAxis'),
+            array('Crosshair'),
             array('Gradient'),
             array('HorizontalAxis'),
             array('Legend'),

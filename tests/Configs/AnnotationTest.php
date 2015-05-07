@@ -20,17 +20,20 @@ class AnnotationTest extends ProvidersTestCase
 
     public function testConstructorDefaults()
     {
-        $this->assertTrue($this->a->highContrast);
+        $this->assertNull($this->a->alwaysOutside);
+        $this->assertNull($this->a->highContrast);
         $this->assertNull($this->a->textStyle);
     }
 
     public function testConstructorValuesAssignment()
     {
         $annotation = new Annotation(array(
-            'highContrast' => false,
-            'textStyle'    => $this->mockTextStyle
+            'alwaysOutside' => true,
+            'highContrast'  => false,
+            'textStyle'     => $this->mockTextStyle
         ));
 
+        $this->assertTrue($annotation->alwaysOutside);
         $this->assertFalse($annotation->highContrast);
         $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $annotation->textStyle);
     }
@@ -47,33 +50,25 @@ class AnnotationTest extends ProvidersTestCase
      * @dataProvider nonBoolProvider
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
+    public function testAlwaysOutsideWithBadParams($badVals)
+    {
+        $this->a->alwaysOutside($badVals);
+    }
+
+    /**
+     * @dataProvider nonBoolProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
     public function testHighContrastWithBadParams($badVals)
     {
         $this->a->highContrast($badVals);
     }
 
-    public function badParamsProvider1()
+    /**
+     * @expectedException PHPUnit_Framework_Error
+     */
+    public function testTextStyleWithNonTextStyle()
     {
-        return array(
-            array('fruitsAndVeggies'),
-            array(123),
-            array(123.456),
-            array(array()),
-            array(new \stdClass()),
-            array(null)
-        );
-    }
-
-    public function badParamsProvider2()
-    {
-        return array(
-            array('fruitsAndVeggies'),
-            array(123),
-            array(123.456),
-            array(array()),
-            array(new \stdClass()),
-            array(true),
-            array(null)
-        );
+        $this->a->textStyle('This is not a TextStyle Object');
     }
 }

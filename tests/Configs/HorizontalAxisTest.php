@@ -19,7 +19,7 @@ class HorizontalAxisTest extends ProvidersTestCase
 
     public function testConstructorValuesAssignment()
     {
-        $va = new HorizontalAxis(array(
+        $ha = new HorizontalAxis(array(
             'baselineColor'  => '#F4D4E7',
             'direction'      => 1,
             'format'         => '999.99',
@@ -49,27 +49,27 @@ class HorizontalAxisTest extends ProvidersTestCase
             'viewWindowMode' => 'explicit'
         ));
 
-        $this->assertEquals('#F4D4E7', $va->baselineColor);
-        $this->assertEquals(1, $va->direction);
-        $this->assertEquals('999.99', $va->format);
-        $this->assertEquals('#123ABC', $va->gridlines['color']);
-        $this->assertEquals(4, $va->gridlines['count']);
-        $this->assertTrue($va->logScale);
-        $this->assertEquals(2, $va->maxAlternation);
-        $this->assertEquals(3, $va->maxTextLines);
-        $this->assertEquals(5000, $va->maxValue);
-        $this->assertEquals('#456EFF', $va->minorGridlines['color']);
-        $this->assertEquals(7, $va->minorGridlines['count']);
-        $this->assertEquals(2, $va->minTextSpacing);
-        $this->assertEquals(50, $va->minValue);
-        $this->assertEquals(3, $va->showTextEvery);
-        $this->assertEquals('in', $va->textPosition);
-        $this->assertTrue(is_array($va->textStyle));
-        $this->assertEquals('Taco Graph', $va->title);
-        $this->assertTrue(is_array($va->titleTextStyle));
-        $this->assertEquals(100, $va->viewWindow['viewWindowMin']);
-        $this->assertEquals(400, $va->viewWindow['viewWindowMax']);
-        $this->assertEquals('explicit', $va->viewWindowMode);
+        $this->assertEquals('#F4D4E7', $ha->baselineColor);
+        $this->assertEquals(1, $ha->direction);
+        $this->assertEquals('999.99', $ha->format);
+        $this->assertEquals('#123ABC', $ha->gridlines['color']);
+        $this->assertEquals(4, $ha->gridlines['count']);
+        $this->assertTrue($ha->logScale);
+        $this->assertEquals(2, $ha->maxAlternation);
+        $this->assertEquals(3, $ha->maxTextLines);
+        $this->assertEquals(5000, $ha->maxValue);
+        $this->assertEquals('#456EFF', $ha->minorGridlines['color']);
+        $this->assertEquals(7, $ha->minorGridlines['count']);
+        $this->assertEquals(2, $ha->minTextSpacing);
+        $this->assertEquals(50, $ha->minValue);
+        $this->assertEquals(3, $ha->showTextEvery);
+        $this->assertEquals('in', $ha->textPosition);
+        $this->assertTrue(is_array($ha->textStyle));
+        $this->assertEquals('Taco Graph', $ha->title);
+        $this->assertTrue(is_array($ha->titleTextStyle));
+        $this->assertEquals(100, $ha->viewWindow['viewWindowMin']);
+        $this->assertEquals(400, $ha->viewWindow['viewWindowMax']);
+        $this->assertEquals('explicit', $ha->viewWindowMode);
     }
 
     /**
@@ -78,6 +78,21 @@ class HorizontalAxisTest extends ProvidersTestCase
     public function testConstructorWithInvalidPropertiesKey()
     {
         new HorizontalAxis(array('Jellybeans' => array()));
+    }
+
+    public function testAllowContainerBoundaryTextCutoff()
+    {
+        $this->ha->allowContainerBoundaryTextCutoff(true);
+        $this->assertTrue($this->ha->allowContainerBoundaryTextCutoff);
+    }
+
+    /**
+     * @dataProvider nonBoolProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testAllowContainerBoundaryTextCutoffWithBadParams($badParams)
+    {
+        $this->ha->allowContainerBoundaryTextCutoff($badParams);
     }
 
     /**
@@ -307,6 +322,73 @@ class HorizontalAxisTest extends ProvidersTestCase
 
         $this->ha->textPosition('none');
         $this->assertEquals('none', $this->ha->textPosition);
+    }
+
+    /**
+     * @depends testTextPositionWithValidValues
+     */
+    public function testSlantedText()
+    {
+        $this->ha->textPosition('out');
+
+        $this->ha->slantedText(true);
+        $this->assertTrue($this->ha->slantedText);
+    }
+
+    /**
+     * @depends testTextPositionWithValidValues
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testSlantedTextWithTextPositionNotOut()
+    {
+        $this->ha->textPosition('in');
+
+        $this->ha->slantedText(true);
+        $this->assertTrue($this->ha->slantedText);
+    }
+
+    /**
+     * @depends testTextPositionWithValidValues
+     * @dataProvider nonBoolProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testSlantedTextWithBadParams($badParams)
+    {
+        $this->ha->textPosition('out');
+
+        $this->ha->slantedText($badParams);
+        $this->assertTrue($this->ha->slantedText);
+    }
+
+    public function testSlantedTextAngle()
+    {
+        $this->ha->slantedTextAngle(30);
+        $this->assertEquals(30, $this->ha->slantedTextAngle);
+    }
+
+    /**
+     * @dataProvider nonIntProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testSlantedTextAngleWithBadParams($badParams)
+    {
+        $this->ha->slantedTextAngle($badParams);
+    }
+
+    /**
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testSlantedTextAngleOutOfLowerLimit()
+    {
+        $this->ha->slantedTextAngle(0);
+    }
+
+    /**
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testSlantedTextAngleOutOfUpperLimit()
+    {
+        $this->ha->slantedTextAngle(95);
     }
 
     /**
