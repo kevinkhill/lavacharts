@@ -32,7 +32,7 @@ class Annotation extends ConfigObject
      *
      * @var bool
      */
-    public $highContrast = true;
+    public $highContrast;
 
     /**
      * Style of the annotation.

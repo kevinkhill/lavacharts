@@ -51,7 +51,7 @@ class Animation extends ConfigObject
      * @throws InvalidConfigProperty
      * @return Animation
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         parent::__construct($this, $config);
     }
@@ -68,7 +68,7 @@ class Animation extends ConfigObject
     public function duration($d)
     {
         if (is_int($d)) {
-            $this->highContrast = $d;
+            $this->duration = $d;
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
