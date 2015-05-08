@@ -20,6 +20,7 @@ Package Features
 - Datatable addColumn aliases
 - Datatable column formatters
 - Carbon support for date columns
+- Supports string, number, date, and timeofday columns
 - Now supporting 10 Charts!
   - Area, Bar, Calendar, Column, Combo, Donut, Gauge, Geo, Line, Pie
 
