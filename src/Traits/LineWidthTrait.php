@@ -8,9 +8,9 @@ trait LineWidthTrait
      * Use zero to hide all lines and show only the points.
      * You can override values for individual series using the series property.
      *
-     * @param  int                $width
-     * @throws InvalidConfigValue
-     * @return AreaChart
+     * @param  integer $width
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function lineWidth($width)
     {

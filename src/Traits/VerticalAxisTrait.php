@@ -10,9 +10,8 @@ trait VerticalAxisTrait
      * To specify properties of this property, create a new VerticalAxis object,
      * set the values then pass it to this function or to the constructor.
      *
-     * @param  VerticalAxis       $vAxis
-     * @throws InvalidConfigValue
-     * @return Chart
+     * @param  \Khill\Lavacharts\Configs\VerticalAxis $vAxis
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function vAxis(VerticalAxis $vAxis)
     {

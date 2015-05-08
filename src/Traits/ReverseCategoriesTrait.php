@@ -3,11 +3,13 @@
 trait ReverseCategoriesTrait
 {
     /**
-     * If set to true, will draw series from bottom to top. The default is to draw top-to-bottom.
+     * If set to true, will draw series from bottom to top.
      *
-     * @param  bool               $reverseCategories
-     * @throws InvalidConfigValue
-     * @return BarChart
+     * The default is to draw top-to-bottom.
+     *
+     * @param  boolean $reverseCategories
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function reverseCategories($reverseCategories)
     {

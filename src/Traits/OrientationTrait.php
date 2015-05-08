@@ -10,8 +10,9 @@ trait OrientationTrait
      * When set to 'vertical', rotates the axes of the chart so that (for instance)
      * a column chart becomes a bar chart, and an area chart grows rightward instead of up
      *
-     * @param  bool  $orientation
-     * @return Chart
+     * @param  boolean $orientation
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function orientation($orientation)
     {

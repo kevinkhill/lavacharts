@@ -14,9 +14,9 @@ trait VerticalAxesTrait
      * To specify a chart with multiple vertical axes, first define a new axis using
      * series.targetAxisIndex, then configure the axis using vAxes.
      *
-     * @param  array              $axes Array of VerticalAxis objects
-     * @throws InvalidConfigValue
-     * @return Chart
+     * @param  array $axes Array of VerticalAxis objects
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function vAxes($axes)
     {

@@ -8,9 +8,9 @@ trait PointSizeTrait
      * Use zero to hide all points. You can override values for individual
      * series using the series property.
      *
-     * @param  int                $size
-     * @throws InvalidConfigValue
-     * @return AreaChart
+     * @param  integer $size
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function pointSize($size)
     {

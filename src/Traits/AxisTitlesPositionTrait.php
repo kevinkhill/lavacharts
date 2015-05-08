@@ -12,9 +12,9 @@ trait AxisTitlesPositionTrait
      * out  - Draw the axis titles outside the chart area.
      * none - Omit the axis titles.
      *
-     * @param  string             $position The position of the axis titles
-     * @throws InvalidConfigValue
-     * @return Chart
+     * @param  string $position Accepted values [in|out|none]
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function axisTitlesPosition($position)
     {

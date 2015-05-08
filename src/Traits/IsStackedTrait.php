@@ -5,8 +5,9 @@ trait IsStackedTrait
     /**
      * If set to true, series elements are stacked.
      *
-     * @param  bool  $isStacked
-     * @return Chart
+     * @param  boolean $isStacked
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function isStacked($isStacked)
     {

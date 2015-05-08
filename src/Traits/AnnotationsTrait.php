@@ -7,8 +7,8 @@ trait AnnotationsTrait
     /**
      * Defines how chart annotations will be displayed.
      *
-     * @param  Annotation $annotation
-     * @return Chart
+     * @param  \Khill\Lavacharts\Configs\Annotation $annotation
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function annotations(Annotation $annotation)
     {

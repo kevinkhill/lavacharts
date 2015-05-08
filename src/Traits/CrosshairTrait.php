@@ -10,9 +10,8 @@ trait CrosshairTrait
      * To specify properties of this property, create a new HorizontalAxis object,
      * set the values then pass it to this function or to the constructor.
      *
-     * @param  Crosshair          $crosshair
-     * @throws InvalidConfigValue
-     * @return Chart
+     * @param  \Khill\Lavacharts\Configs\Crosshair $crosshair
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function crosshair(Crosshair $crosshair)
     {

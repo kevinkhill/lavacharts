@@ -11,9 +11,9 @@ trait BarGroupWidthTrait
      * - Percentage of the available width for each group (e.g. '20%'),
      *   where '100%' means that groups have no space between them.
      *
-     * @param  int|string         $barGroupWidth
-     * @throws InvalidConfigValue
-     * @return ComboChart
+     * @param  int|string $barGroupWidth
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function barGroupWidth($barGroupWidth)
     {

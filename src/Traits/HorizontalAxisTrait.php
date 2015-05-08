@@ -10,9 +10,8 @@ trait HorizontalAxisTrait
      * To specify properties of this property, create a new HorizontalAxis object,
      * set the values then pass it to this function or to the constructor.
      *
-     * @param  HorizontalAxis     $hAxis
-     * @throws InvalidConfigValue
-     * @return Chart
+     * @param  \Khill\Lavacharts\Configs\HorizontalAxis $hAxis
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function hAxis(HorizontalAxis $hAxis)
     {

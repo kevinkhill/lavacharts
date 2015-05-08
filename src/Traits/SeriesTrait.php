@@ -6,12 +6,14 @@ trait SeriesTrait
 {
    /**
      * An array of objects, each describing the format of the corresponding series
-     * in the chart. To use default values for a series, specify an null in the array.
+     * in the chart.
+     *
+     * To use default values for a series, specify an null in the array.
      * If a series or a value is not specified, the global value will be used.
      *
-     * @param  array              $arr
-     * @throws InvalidConfigValue
-     * @return Chart
+     * @param  array $arr Array of Series objects
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function series($arr)
     {

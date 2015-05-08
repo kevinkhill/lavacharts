@@ -11,9 +11,9 @@ trait CurveTypeTrait
      * 'none' - Straight lines without curve.
      * 'function' - The angles of the line will be smoothed.
      *
-     * @param  string             $curveType
-     * @throws InvalidConfigValue
-     * @return Chart
+     * @param  string $curveType Accepted values [none|function]
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function curveType($curveType)
     {

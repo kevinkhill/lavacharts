@@ -7,8 +7,9 @@ trait SelectionModeTrait
     /**
      * When selectionMode is 'multiple', users may select multiple data points.
      *
-     * @param  string $selectionMode
-     * @return Chart
+     * @param  string $selectionMode Accepted values [single|multiple]
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function selectionMode($selectionMode)
     {

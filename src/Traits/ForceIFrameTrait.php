@@ -7,8 +7,9 @@ trait ForceIFrameTrait
      *
      * Note that on IE8, this option is ignored; all IE8 charts are drawn in i-frames.
      *
-     * @param  bool  $iframe
-     * @return Chart
+     * @param  boolean $iframe
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function forceIFrame($iframe)
     {

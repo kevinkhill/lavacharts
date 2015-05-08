@@ -9,9 +9,9 @@ trait InterpolateNullsTrait
      * value of any missing data based on neighboring points. If false, it will
      * leave a break in the line at the unknown point.
      *
-     * @param  bool               $interpolateNulls
-     * @throws InvalidConfigValue
-     * @return AreaChart
+     * @param  boolean $interpolateNulls
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function interpolateNulls($interpolateNulls)
     {

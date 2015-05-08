@@ -10,9 +10,9 @@ trait AreaOpacityTrait
      * 0.0 is fully transparent and 1.0 is fully opaque. To specify opacity for
      * an individual series, set the areaOpacity value in the series property.
      *
-     * @param  float              $areaOpacity
-     * @throws InvalidConfigValue
-     * @return Chart
+     * @param  float $areaOpacity
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function areaOpacity($areaOpacity)
     {

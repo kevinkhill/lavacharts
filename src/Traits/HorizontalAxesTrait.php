@@ -13,9 +13,9 @@ trait HorizontalAxesTrait
      * To specify a chart with multiple horizontal axes, first define a new axis using series.targetAxisIndex,
      * then configure the axis using hAxes.
      *
-     * @param  array              $arr Array of HorizontalAxis objects
-     * @throws InvalidConfigValue
-     * @return Chart
+     * @param  array $arr Array of HorizontalAxis objects
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function hAxes($arr)
     {

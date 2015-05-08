@@ -11,8 +11,9 @@ trait EnableInteractivityTrait
      * (but will throw ready or error events), and will not display hovertext or
      * otherwise change depending on user input.
      *
-     * @param  bool  $enableInteractivity
-     * @return Chart
+     * @param  boolean $enableInteractivity
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function enableInteractivity($enableInteractivity)
     {

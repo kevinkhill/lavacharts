@@ -5,10 +5,13 @@ use \Khill\Lavacharts\Utils;
 trait DataOpacityTrait
 {
     /**
-     * The transparency of data points, with 1.0 being completely opaque and 0.0 fully transparent.
+     * The transparency of data points
      *
-     * @param  float    $dataOpacity
-     * @return Chart
+     * 1.0 being completely opaque and 0.0 fully transparent.
+     *
+     * @param  float $dataOpacity
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function dataOpacity($dataOpacity)
     {

@@ -17,8 +17,9 @@ trait FocusTargetTrait
      * This may be useful for comparing values of different series.
      *
      * @since  2.4.1
-     * @param  string     $focusTarget
-     * @return AreaChart
+     * @param  string $focusTarget Accepted values [datum|category]
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function focusTarget($focusTarget)
     {

@@ -32,14 +32,14 @@ class Volcano
     /**
      * Stores a chart in the volcano datastore.
      *
-     * @param  Chart        $chart Chart to store in the volcano.
-     * @throws InvalidLabel
+     * @param  Chart $chart Chart to store in the volcano.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
+     *
+     * @return void
      */
     public function storeChart(Chart $chart)
     {
         $this->charts[$chart::TYPE][$chart->label] = $chart;
-
-        return true;
     }
 
     /**
@@ -47,9 +47,9 @@ class Volcano
      *
      * @param  string $type  Type of chart to store.
      * @param  string $label Identifying label for the chart.
-     * @throws ChartNotFound
+     * @throws \Khill\Lavacharts\Exceptions\ChartNotFound
      *
-     * @return Chart
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function getChart($type, $label)
     {
@@ -63,8 +63,8 @@ class Volcano
     /**
      * Simple true/false test if a chart exists.
      *
-     * @param string $type  Type of chart to store.
-     * @param string $label Identifying label of a chart to check.
+     * @param  string $type  Type of chart to store.
+     * @param  string $label Identifying label of a chart to check.
      *
      * @return bool
      */
