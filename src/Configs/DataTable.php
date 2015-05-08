@@ -358,9 +358,7 @@ class DataTable
                 $timeOfDayIndex = $this->getColumnIndexByType('timeofday');
 
                 if ($timeOfDayIndex !== false) {
-                    $rowVals = $this->parseTimeOfDayRow($optCellArray);//, $timeOfDayIndex);
-
-                    //$rowVals[] = array('v' => $optCellArray[$timeOfDayIndex]);
+                    $rowVals = $this->parseTimeOfDayRow($optCellArray);
                 } else {
                     $rowVals = $this->parseExtendedCellArray($optCellArray);
                 }
