@@ -81,9 +81,9 @@ class DataTable
     private $colCellTypes = array(
         'string',
         'number',
-        'bool',
+        //'bool',
         'date',
-        'datetime',
+        //'datetime',
         'timeofday'
     );
 
@@ -100,11 +100,28 @@ class DataTable
         'pattern'
     );
 
+    /**
+     * Creates a new DataTable
+     *
+     * @access public
+     * @param  string    $timezone
+     * @return DataTable
+     */
     public function __construct($timezone = null)
     {
         $this->setTimezone($timezone);
     }
 
+    /**
+     * Sets the Timezone that Carbon will use when parsing dates
+     *
+     * This will use the passed timezone, falling back to the default from php.ini,
+     * and falling back from that to America/Los_Angeles
+     *
+     * @access public
+     * @param  string    $timezone
+     * @return DataTable
+     */
     public function setTimezone($timezone)
     {
         // get PHP.ini setting
@@ -128,6 +145,10 @@ class DataTable
      *
      * This method is used to set the format to be used to parse a string
      * passed to a cell in a date column, that was parsed incorrectly by Carbon::parse()
+     *
+     * @access public
+     * @param  string    $dateTimeFormat
+     * @return DataTable
      */
     public function setDateTimeFormat($dateTimeFormat)
     {
@@ -159,6 +180,7 @@ class DataTable
      * not value is specified, an empty string is assigned.
      *
      *
+     * @access public
      * @param  string|array          Column type or an array describing the column.
      * @param  string                A label for the column. (Optional)
      * @param  string                An ID for the column. (Optional)
@@ -186,6 +208,7 @@ class DataTable
     /**
      * Adds multiple columns to the DataTable
      *
+     * @access public
      * @param  array              $arrOfCols Array of columns to batch add to the DataTable.
      * @throws InvalidConfigValue
      * @return DataTable
@@ -209,6 +232,7 @@ class DataTable
     /**
      * Supplemental function to add a string column with less params.
      *
+     * @access public
      * @param  string                A label for the column.
      * @param  Format                A column formatter object. (Optional)
      * @throws InvalidConfigValue
@@ -223,6 +247,7 @@ class DataTable
     /**
      * Supplemental function to add a date column with less params.
      *
+     * @access public
      * @param  string                A label for the column.
      * @param  Format                A column formatter object. (Optional)
      * @throws InvalidConfigValue
@@ -237,6 +262,7 @@ class DataTable
     /**
      * Supplemental function to add a number column with less params.
      *
+     * @access public
      * @param  string                A label for the column.
      * @param  Format                A column formatter object. (Optional)
      * @throws InvalidConfigValue
@@ -249,72 +275,9 @@ class DataTable
     }
 
     /**
-     * Supplemental function to add columns from an array.
-     *
-     * @param  array                   $colDefArray
-     * @throws InvalidColumnDefinition
-     * @return DataTable
-     */
-    private function addColumnFromArray($colDefArray)
-    {
-        if (Utils::arrayValuesCheck($colDefArray, 'string') && Utils::between(1, count($colDefArray), 4, true)) {
-            call_user_func_array(array($this, 'addColumnFromStrings'), $colDefArray);
-        } else {
-            throw new InvalidColumnDefinition($colDefArray);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Supplemental function to add columns from strings.
-     *
-     * @param  array               $type
-     * @param  array               $label
-     * @param  array               $id
-     * @param  array               $format
-     * @throws InvalidConfigValue
-     * @return DataTable
-     */
-    private function addColumnFromStrings($type, $label = '', $id = '', $format = null)
-    {
-        $colIndex = $this->getNumberOfColumns();
-
-        if (in_array($type, $this->colCellTypes)) {
-            if (Utils::nonEmptyString($type)) {
-                $descArray['type'] = $type;
-            } else {
-                throw new InvalidConfigValue(
-                    __FUNCTION__,
-                    'string'
-                );
-            }
-
-            if (Utils::nonEmptyString($label)) {
-                $descArray['label'] = $label;
-            }
-
-            if (Utils::nonEmptyString($id)) {
-                $descArray['id'] = $id;
-            }
-
-            if (! is_null($format)) {
-                $this->formats[$colIndex] = $format;
-            }
-        } else {
-            throw new InvalidConfigProperty(
-                __FUNCTION__,
-                'string',
-                Utils::arrayToPipedString($this->colCellTypes)
-            );
-        }
-
-        $this->cols[$colIndex] = $descArray;
-    }
-
-    /**
      * Sets the format of the column.
      *
+     * @access public
      * @param  int                $colIndex
      * @param  Format             $formatter
      * @throws InvalidColumnIndex
@@ -334,6 +297,7 @@ class DataTable
     /**
      * Sets the format of multiple columns.
      *
+     * @access public
      * @param  array     $colFormatArr
      * @return DataTable
      */
@@ -376,58 +340,48 @@ class DataTable
      * a cell in an array, or omit trailing array members. So, to indicate a row
      * with null for the first two cells, you would specify [null, null, {cell_val}].
      *
+     * @access public
      * @param  mixed $optCellArray Array of values or DataCells.
-     *
      * @throws InvalidCellCount
-     *
      * @return DataTable
      */
     public function addRow($optCellArray = null)
     {
-        $props = array(
-            'v',
-            'f',
-            'p'
-        );
-
         if (is_null($optCellArray)) {
-            for ($a = 0; $a < count($this->cols); $a++) {
-                $tmp[] = array('v' => null);
+            $this->rows[] = $this->addNullColumn();
+        } else {
+            if (is_array($optCellArray) === false) {
+                throw new InvalidRowDefinition($optCellArray);
             }
 
-            $this->rows[] = array('c' => $tmp);
-        } else {
-            if (is_array($optCellArray)) {
-                if (Utils::arrayIsMulti($optCellArray)) {
-                    foreach ($optCellArray as $prop => $value) {
-                        if (in_array($value, $props)) {
-                            $rowVals[] = array($prop => $value);
-                        } else {
-                            throw new InvalidRowProperty;
-                        }
-                    }
+            if (Utils::arrayIsMulti($optCellArray)) {
+                $timeOfDayIndex = $this->getColumnIndexByType('timeofday');
 
-                    $this->rows[] = array('c' => $rowVals);
+                if ($timeOfDayIndex !== false) {
+                    $rowVals[] = array('c' => $optCellArray[$timeOfDayIndex]);
                 } else {
-                    if (count($optCellArray) <= count($this->cols)) {
-                        for ($b = 0; $b < count($this->cols); $b++) {
-                            if (isset($optCellArray[$b])) {
-                                if ($this->cols[$b]['type'] == 'date') {
-                                    $rowVals[] = array('v' => $this->parseDate($optCellArray[$b]));
-                                } else {
-                                    $rowVals[] = array('v' => $optCellArray[$b]);
-                                }
-                            } else {
-                                $rowVals[] = array('v' => null);
-                            }
+                    $rowVals = $this->parseExtendedCellArray($optCellArray);
+                }
+
+                $this->rows[] = array('c' => $rowVals);
+            } else {
+                if (count($optCellArray) > count($this->cols)) {
+                    throw new InvalidCellCount(count($optCellArray), count($this->cols));
+                }
+
+                for ($index = 0; $index < count($this->cols); $index++) {
+                    if (isset($optCellArray[$index])) {
+                        if ($this->cols[$index]['type'] == 'date') {
+                            $rowVals[] = array('v' => $this->parseDate($optCellArray[$index]));
+                        } else {
+                            $rowVals[] = array('v' => $optCellArray[$index]);
                         }
-                        $this->rows[] = array('c' => $rowVals);
                     } else {
-                        throw new InvalidCellCount(count($optCellArray), count($this->cols));
+                        $rowVals[] = array('v' => null);
                     }
                 }
-            } else {
-                throw new InvalidRowDefinition($optCellArray);
+
+                $this->rows[] = array('c' => $rowVals);
             }
         }
 
@@ -438,8 +392,8 @@ class DataTable
      * Adds multiple rows to the DataTable.
      *
      * @see   addRow()
+     * @access public
      * @param array Multi-dimensional array of rows.
-     *
      * @return DataTable
      */
     public function addRows($arrayOfRows)
@@ -461,6 +415,7 @@ class DataTable
     /**
      * Returns the number of columns in the DataTable
      *
+     * @access public
      * @return int
      */
     public function getNumberOfColumns()
@@ -471,6 +426,7 @@ class DataTable
     /**
      * Returns the number of rows in the DataTable
      *
+     * @access public
      * @return int
      */
     public function getNumberOfRows()
@@ -481,6 +437,7 @@ class DataTable
     /**
      * Returns the column array from the DataTable
      *
+     * @access public
      * @return array
      */
     public function getColumns()
@@ -491,6 +448,7 @@ class DataTable
     /**
      * Returns the rows array from the DataTable
      *
+     * @access public
      * @return array
      */
     public function getRows()
@@ -499,8 +457,33 @@ class DataTable
     }
 
     /**
+     * Returns the types of columns currently defined.
+     *
+     * @since  2.5.2
+     * @access public
+     * @return array
+     */
+    public function getColumnTypes()
+    {
+        return array_column($this->getColumns(), 'type');
+    }
+
+    /**
+     * Returns the column number of the ypes of columns currently defined.
+     *
+     * @since  2.5.2
+     * @access public
+     * @return int|bool Column index on success, false on failure.
+     */
+    public function getColumnIndexByType($type)
+    {
+        return array_search($type, $this->getColumnTypes());
+    }
+
+    /**
      * Returns the formats array from the DataTable
      *
+     * @access public
      * @return array
      */
     public function getFormats()
@@ -511,6 +494,7 @@ class DataTable
     /**
      * Boolean value if there are defined formatters
      *
+     * @access public
      * @return bool
      */
     public function hasFormats()
@@ -521,6 +505,7 @@ class DataTable
     /**
      * Convert the DataTable to JSON
      *
+     * @access public
      * @return string JSON representation of the DataTable.
      */
     public function toJson()
@@ -532,8 +517,112 @@ class DataTable
     }
 
     /**
+     * Supplemental function to add columns from an array.
+     *
+     * @access private
+     * @param  array                   $colDefArray
+     * @throws InvalidColumnDefinition
+     * @return DataTable
+     */
+    private function addColumnFromArray($colDefArray)
+    {
+        if (Utils::arrayValuesCheck($colDefArray, 'string') && Utils::between(1, count($colDefArray), 4, true)) {
+            call_user_func_array(array($this, 'addColumnFromStrings'), $colDefArray);
+        } else {
+            throw new InvalidColumnDefinition($colDefArray);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Supplemental function to add columns from strings.
+     *
+     * @access private
+     * @param  array               $type
+     * @param  array               $label
+     * @param  array               $id
+     * @param  array               $format
+     * @throws InvalidConfigValue
+     * @return DataTable
+     */
+    private function addColumnFromStrings($type, $label = '', $id = '', $format = null)
+    {
+        $colIndex = $this->getNumberOfColumns();
+
+        if (in_array($type, $this->colCellTypes) === false) {
+            throw new InvalidConfigProperty(
+                __FUNCTION__,
+                'string',
+                Utils::arrayToPipedString($this->colCellTypes)
+            );
+        }
+
+        if (Utils::nonEmptyString($type) !== true) {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'string'
+            );
+        }
+
+        $descArray['type'] = $type;
+
+        if (Utils::nonEmptyString($label)) {
+            $descArray['label'] = $label;
+        }
+
+        if (Utils::nonEmptyString($id)) {
+            $descArray['id'] = $id;
+        }
+
+        if (! is_null($format)) {
+            $this->formats[$colIndex] = $format;
+        }
+
+        $this->cols[$colIndex] = $descArray;
+    }
+
+    /**
+     * Returns an array of array wrapped null values equal to the
+     * number of columns defined.
+     *
+     * @access private
+     * @return array
+     */
+    private function addNullColumn()
+    {
+        for ($a = 0; $a < count($this->cols); $a++) {
+            $tmp[] = array('v' => null);
+        }
+
+        return array('c' => $tmp);
+    }
+
+    /**
+     * Parses an extended cell definition, as and array defined with v,f,p
+     *
+     * @access private
+     * @param  array              $cellArray
+     * @throws InvalidRowProperty
+     * @return array
+     */
+    private function parseExtendedCellArray($cellArray)
+    {
+        foreach ($cellArray as $prop => $value) {
+            if (in_array($value, array('v', 'f', 'p')) === false) {
+                throw new InvalidRowProperty;
+            }
+
+            $rowVals[] = array($prop => $value);
+        }
+
+        return $rowVals;
+    }
+
+    /**
      * Either passes the Carbon instance or parses a datetime string.
      *
+     * @access private
      * @param  Carbon|string $date
      * @return string Javscript date declaration
      */
@@ -561,6 +650,7 @@ class DataTable
     /**
      * Outputs the Carbon object as a valid javascript Date string.
      *
+     * @access private
      * @return string Javscript date declaration
      */
     private function carbonToJsString(Carbon $c)
