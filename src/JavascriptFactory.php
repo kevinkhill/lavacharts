@@ -8,7 +8,7 @@
  *
  * @category  Class
  * @package   Lavacharts
- * @since     v2.0.0
+ * @since     2.0.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2014, KHill Designs
  * @link      http://github.com/kevinkhill/Lavacharts GitHub Repository Page
@@ -224,9 +224,9 @@ JS;
                 $event::TYPE,
                 $callback
             ).PHP_EOL.PHP_EOL;
-
-            return $output;
         }
+
+        return $output;
     }
 
     /**
@@ -252,8 +252,8 @@ JS;
                 'lavachart.formats["col%1$s"].format(lavachart.data, %1$s);',
                 $index
             ).PHP_EOL.PHP_EOL;
-
-            return $output;
         }
+
+        return $output;
     }
 }

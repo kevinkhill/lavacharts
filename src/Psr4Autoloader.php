@@ -8,7 +8,7 @@
  * @category Class
  * @package  Lavacharts
  * @author   PHP-FIG
- * @since    v2.4.0
+ * @since    2.4.0
  * @link     http://www.php-fig.org/psr/psr-4/examples/
  * @license  http://opensource.org/licenses/MIT MIT
  * @codeCoverageIgnore

@@ -205,7 +205,7 @@ class Chart
     /**
      * Returns the DataTable if set, false if not set.
      *
-     * @since  v3.0.0
+     * @since  3.0.0
      * @throws DataTableNotFound
      * @return bool|DataTable
      */
@@ -221,7 +221,7 @@ class Chart
     /**
      * Returns a JSON string representation of the datatable.
      *
-     * @since  v2.5.0
+     * @since  2.5.0
      * @throws DataTableNotFound
      * @return string
      */
@@ -437,7 +437,7 @@ class Chart
      * Pass in a string of the html elementID that you want the chart to be
      * rendered into.
      *
-     * @since  v2.0.0
+     * @since  2.0.0
      * @param  string           $elemId The id of an HTML element to render the chart into.
      * @throws InvalidElementId
      *

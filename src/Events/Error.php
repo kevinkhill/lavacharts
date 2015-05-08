@@ -9,7 +9,7 @@
  *
  * @package    Lavacharts
  * @subpackage Events
- * @since      v2.0.0
+ * @since      2.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page

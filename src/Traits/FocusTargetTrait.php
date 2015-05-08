@@ -16,7 +16,7 @@ trait FocusTargetTrait
      * In focusTarget 'category' the tooltip displays all the category values.
      * This may be useful for comparing values of different series.
      *
-     * @since  v2.4.1
+     * @since  2.4.1
      * @param  string     $focusTarget
      * @return AreaChart
      */

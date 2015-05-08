@@ -9,7 +9,7 @@
  *
  * @package    Lavacharts
  * @subpackage Configs
- * @since      v2.1.0
+ * @since      2.1.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page

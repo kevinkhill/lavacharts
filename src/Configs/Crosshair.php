@@ -8,7 +8,7 @@
  *
  * @package    Lavacharts
  * @subpackage Configs
- * @since      v3.0.0
+ * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
@@ -173,7 +173,7 @@ class Crosshair extends ConfigObject
                 'with a value of '.Utils::arrayToPipedString($values)
             );
         }
-        
+
         return $this;
     }
 
@@ -214,7 +214,7 @@ class Crosshair extends ConfigObject
                 'with a value of '.Utils::arrayToPipedString($values)
             );
         }
-        
+
         return $this;
     }
 }

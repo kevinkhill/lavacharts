@@ -133,13 +133,11 @@ class Lavacharts
      * Magic function to reduce repetitive coding and create aliases.
      *
      * @access public
-     * @since  v1.0.0
-     *
+     * @since  1.0.0
      * @param  string            $member    Name of method
      * @param  array             $arguments Passed arguments
      * @throws InvalidLavaObject
      * @throws InvalidChartLabel
-     *
      * @return mixed Returns Charts, DataTables, and Config Objects
      */
     public function __call($member, $arguments)
@@ -214,13 +212,11 @@ class Lavacharts
      * all of the necessary javascript to generate the chart.
      *
      * @access public
-     * @since  v2.0.0
-     *
+     * @since  2.0.0
      * @param string $chartType     Type of chart to render.
      * @param string $chartLabel    Label of a saved chart.
      * @param string $elementId     HTML element id to render the chart into.
      * @param mixed  $divDimensions Set true for div creation, or pass an array with height & width
-     *
      * @return string
      */
     public function render($chartType, $chartLabel, $elementId, $divDimensions = false)
@@ -247,8 +243,7 @@ class Lavacharts
      * Outputs the link to the Google JSAPI
      *
      * @access public
-     * @since  v2.3.0
-     *
+     * @since  2.3.0
      * @return string
      */
     public function jsapi()
@@ -262,9 +257,8 @@ class Lavacharts
      * Checks to see if the given chart type and title exists in the volcano storage.
      *
      * @access public
-     * @since  v2.4.2
-     *
-     * @return string
+     * @since  2.4.2
+     * @return bool
      */
     public function exists($type, $label)
     {
@@ -288,12 +282,10 @@ class Lavacharts
      * the div that will be receiving the chart.
      *
      * @access private
-     * @since  v1.0.0
-     *
+     * @since  1.0.0
      * @param  string               $elementId  Element id to apply to the div.
      * @param  array                $dimensions Height & width of the div.
      * @throws InvalidDivDimensions
-     * @throws InvalidConfigValue
      * @return string               HTML div element.
      */
     private function div($elementId, $dimensions = true)
@@ -336,12 +328,11 @@ class Lavacharts
      * Otherwise, a new chart is created and stored in the Volcano.
      *
      * @access private
-     * @since  v2.0.0
+     * @since  2.0.0
      *
      * @uses  Chart
      * @param string $type  Type of chart to fetch or create.
      * @param string $label Label of the chart.
-     *
      * @return Chart
      */
     private function chartFactory($type, $label)
@@ -361,11 +352,9 @@ class Lavacharts
      * Creates Config Objects
      *
      * @access private
-     * @since  v2.0.0
-     *
+     * @since  2.0.0
      * @param string $type    Type of configObject to create.
      * @param array  $options Array of options to pass to the config object.
-     *
      * @return ConfigObject
      */
     private function configFactory($type, $options = [])
@@ -379,11 +368,9 @@ class Lavacharts
      * Creates Format Objects
      *
      * @access private
-     * @since  v2.0.0
-     *
+     * @since  2.0.0
      * @param string $type    Type of formatter to create.
      * @param array  $options Array of options to pass to the formatter object.
-     *
      * @return Formatter
      */
     private function formatFactory($type, $options = [])
@@ -397,10 +384,8 @@ class Lavacharts
      * Creates Event Objects
      *
      * @access private
-     * @since  v2.0.0
-     *
+     * @since  2.0.0
      * @param string $type Type of event to create.
-     *
      * @return Event
      */
     private function eventFactory($type, $callback)
@@ -414,8 +399,7 @@ class Lavacharts
      * Simple string starts with function
      *
      * @access private
-     * @since  v2.0.0
-     *
+     * @since  2.0.0
      * @param string $haystack String to search through.
      * @param array  $needle   String to search with.
      */
@@ -430,8 +414,7 @@ class Lavacharts
      * This will check if the folder 'composer' is within the path to Lavacharts.
      *
      * @access private
-     * @since  v2.4.0
-     *
+     * @since  2.4.0
      * @return bool
      */
     private function usingComposer()
