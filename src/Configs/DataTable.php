@@ -358,7 +358,9 @@ class DataTable
                 $timeOfDayIndex = $this->getColumnIndexByType('timeofday');
 
                 if ($timeOfDayIndex !== false) {
-                    $rowVals[] = array('c' => $optCellArray[$timeOfDayIndex]);
+                    $rowVals = $this->parseTimeOfDayRow($optCellArray);//, $timeOfDayIndex);
+
+                    //$rowVals[] = array('v' => $optCellArray[$timeOfDayIndex]);
                 } else {
                     $rowVals = $this->parseExtendedCellArray($optCellArray);
                 }
@@ -614,6 +616,22 @@ class DataTable
             }
 
             $rowVals[] = array($prop => $value);
+        }
+
+        return $rowVals;
+    }
+
+    /**
+     * Parses a timeofday row definition.
+     *
+     * @access private
+     * @param  array   $cellArray
+     * @return array
+     */
+    private function parseTimeOfDayRow($cellArray)
+    {
+        foreach ($cellArray as $cell) {
+            $rowVals[] = array('v' => $cell);
         }
 
         return $rowVals;
