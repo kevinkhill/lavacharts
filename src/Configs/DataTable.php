@@ -465,7 +465,14 @@ class DataTable
      */
     public function getColumnTypes()
     {
-        return array_column($this->getColumns(), 'type');
+        foreach($this->getColumns() as $arr) {
+            if (array_key_exists('type', $arr)) {
+                $colTypes[] = $arr['type'];
+            }
+        }
+
+        return $colTypes;
+        //return array_column($this->getColumns(), 'type');
     }
 
     /**
