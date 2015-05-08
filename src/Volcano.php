@@ -40,6 +40,8 @@ class Volcano
     public function storeChart(Chart $chart)
     {
         $this->charts[$chart::TYPE][$chart->label] = $chart;
+
+        return true;
     }
 
     /**
