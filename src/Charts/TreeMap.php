@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Charts;
+<?php
+
+namespace Khill\Lavacharts\Charts;
 
 /**
  * TreeMap Chart Class
@@ -18,7 +20,7 @@
  * element that you insert in your page. If you have leaf nodes with names too
  * long to show, the name will be truncated with an ellipsis (...).
  *
- *
+ * @codeCoverageIgnore
  * @package    Lavacharts
  * @subpackage Charts
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -26,10 +28,6 @@
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
- */
-
-/**
- * @codeCoverageIgnore
  */
 class TreeMap extends Chart
 {
@@ -108,7 +106,7 @@ class TreeMap extends Chart
     /**
      * The height of the header section for each node, in pixels (can be zero).
      *
-     * @param  int $headerHeight
+     * @param  integer $headerHeight
      * @return TreeMap
      */
     public function headerHeight($headerHeight)
@@ -148,7 +146,7 @@ class TreeMap extends Chart
      * additionally see maxPostDepth levels below this as shaded rectangles
      * within these nodes.
      *
-     * @param  int $maxDepth
+     * @param  integer $maxDepth
      * @return TreeMap
      */
     public function maxDepth($maxDepth)
@@ -174,7 +172,7 @@ class TreeMap extends Chart
      * Hinted nodes are shown as shaded rectangles within a node that is within
      * the maxDepth limit.
      *
-     * @param  int $maxPostDepth
+     * @param  integer $maxPostDepth
      * @return TreeMap
      */
     public function maxPostDepth($maxPostDepth)
@@ -187,7 +185,7 @@ class TreeMap extends Chart
      * be trimmed to this value. If set to null, it will be set to the max value
      * in the column.
      *
-     * @param  int $maxColorValue
+     * @param  integer $maxColorValue
      * @return TreeMap
      */
     public function maxColorValue($maxColorValue)
@@ -251,7 +249,7 @@ class TreeMap extends Chart
      * trimmed to this value. If set to null, it will be calculated as the
      * minimum value in the column.
      *
-     * @param  int $minColorValue
+     * @param  integer $minColorValue
      * @return TreeMap
      */
     public function minColorValue($minColorValue)
@@ -333,7 +331,7 @@ class TreeMap extends Chart
     /**
      * The font size for all text, in points.
      *
-     * @param  int $fontSize
+     * @param  integer $fontSize
      * @return TreeMap
      */
     public function fontSize($fontSize)

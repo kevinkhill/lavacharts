@@ -1,4 +1,8 @@
-<?php namespace Khill\Lavacharts\Charts;
+<?php
+
+namespace Khill\Lavacharts\Charts;
+
+use \Khill\Lavacharts\Utils;
 
 /**
  * LineChart Class
@@ -16,9 +20,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-
 class LineChart extends Chart
 {
     /**

@@ -1,7 +1,11 @@
-<?php namespace Khill\Lavacharts\Charts;
+<?php
+
+namespace Khill\Lavacharts\Charts;
+
+use \Khill\Lavacharts\Utils;
 
 /**
- * Combo Chart Class
+ * ScatterChart Class
  *
  * A chart that lets you render each series as a different marker type from the following list:
  * line, area, bars, candlesticks and stepped area.
@@ -19,9 +23,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-
 class ScatterChart extends Chart
 {
     /**

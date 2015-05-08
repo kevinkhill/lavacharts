@@ -1,11 +1,13 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
 
 /**
  * DataCell Object
  *
  * Holds the information for a data point
  *
- *
+ * @codeCoverageIgnore
  * @package    Lavacharts
  * @subpackage Configs
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -13,10 +15,6 @@
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
- */
-
-/**
- * @codeCoverageIgnore
  */
 class DataCell
 {

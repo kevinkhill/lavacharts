@@ -1,4 +1,10 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 /**
  * ConfigObject Parent Class
@@ -15,11 +21,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
-
 class ConfigObject
 {
     /**
@@ -44,8 +45,8 @@ class ConfigObject
      *
      * @param  mixed                 $child  Child ConfigOption object.
      * @param  array                 $config Array of options.
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return mixed
      */
     public function __construct($child, $config)

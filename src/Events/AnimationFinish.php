@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Events;
+<?php
+
+namespace Khill\Lavacharts\Events;
 
 /**
  * AnimationFinish Event Object
@@ -16,7 +18,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
 class AnimationFinish extends Event
 {
     const TYPE = 'animationfinish';
@@ -24,10 +25,10 @@ class AnimationFinish extends Event
     /**
      * Builds the AnimationFinish Event object when passed an array of configuration options.
      *
-     * @param  array                 $c Options for the Event
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
-     * @return AnimationFinish
+     * @param  array $c Options for the Event
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @return self
      */
     public function __construct($c)
     {

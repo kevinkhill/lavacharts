@@ -1,7 +1,12 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
- * Slice Properties Object
+ * Slice ConfigObject
  *
  * An object containing all the values for the tooltip which can be passed
  * into the chart's options.
@@ -15,10 +20,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 class Slice extends ConfigObject
 {
     /**
@@ -47,8 +48,8 @@ class Slice extends ConfigObject
      * Builds the slice object with specified options.
      *
      * @param  array                 $config Configuration options for the Slice
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return Slice
      */
     public function __construct($config = array())
@@ -60,7 +61,7 @@ class Slice extends ConfigObject
      * The color to use for this slice. Specify a valid HTML color string.
      *
      * @param  string             $color
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Slice
      */
     public function color($color)
@@ -83,7 +84,7 @@ class Slice extends ConfigObject
      * from 0.0 (not at all) to 1.0 (the pie's radius).
      *
      * @param  float              $offset
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Slice
      */
     public function offset($offset)

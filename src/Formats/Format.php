@@ -1,4 +1,10 @@
-<?php namespace Khill\Lavacharts\Formats;
+<?php
+
+namespace Khill\Lavacharts\Formats;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 /**
  * Format Parent Class
@@ -15,11 +21,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
-
 class Format
 {
     /**
@@ -35,10 +36,10 @@ class Format
      * Passing an array of key value pairs will set the configuration for each
      * child object created from this parent object.
      *
-     * @param  mixed                 $child  Child ConfigOption object.
-     * @param  array                 $config Array of options.
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @param  mixed $child  Child ConfigOption object.
+     * @param  array $config Array of options.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return mixed
      */
     public function __construct($child, $config)
@@ -49,25 +50,25 @@ class Format
             return $prop->name;
         }, $class->getProperties(\ReflectionProperty::IS_PUBLIC));
 
-        if (is_array($config)) {
-            foreach ($config as $option => $value) {
-                if (in_array($option, $this->options)) {
-                    $this->{$option}($value);
-                } else {
-                    throw new InvalidConfigProperty(
-                        $child::TYPE,
-                        __FUNCTION__,
-                        $option,
-                        $this->options
-                    );
-                }
-            }
-        } else {
+        if (is_array($config) === false) {
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'array',
                 'with valid keys as '.Utils::arrayToPipedString($this->options)
             );
+        }
+
+        foreach ($config as $option => $value) {
+            if (in_array($option, $this->options)) {
+                $this->{$option}($value);
+            } else {
+                throw new InvalidConfigProperty(
+                    $child::TYPE,
+                    __FUNCTION__,
+                    $option,
+                    $this->options
+                );
+            }
         }
     }
 

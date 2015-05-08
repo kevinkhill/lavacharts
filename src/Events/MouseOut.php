@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Events;
+<?php
+
+namespace Khill\Lavacharts\Events;
 
 /**
  * MouseOut Event Object
@@ -16,7 +18,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
 class MouseOut extends Event
 {
     const TYPE = 'onmouseout';
@@ -24,10 +25,10 @@ class MouseOut extends Event
     /**
      * Builds the MouseOut Event object when passed an array of configuration options.
      *
-     * @param  array                 $c Options for the Event
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
-     * @return MouseOut
+     * @param  array $c Options for the Event
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @return self
      */
     public function __construct($c)
     {

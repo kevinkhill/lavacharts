@@ -1,4 +1,18 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Carbon\Carbon;
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Formats\Format;
+use \Khill\Lavacharts\Exceptions\InvalidDate;
+use \Khill\Lavacharts\Exceptions\InvalidCellCount;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+use \Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
+use \Khill\Lavacharts\Exceptions\InvalidColumnIndex;
+use \Khill\Lavacharts\Exceptions\InvalidRowDefinition;
+use \Khill\Lavacharts\Exceptions\InvalidRowProperty;
 
 /**
  * DataTable Object
@@ -23,19 +37,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Carbon\Carbon;
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Formats\Format;
-use \Khill\Lavacharts\Exceptions\InvalidDate;
-use \Khill\Lavacharts\Exceptions\InvalidCellCount;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
-use \Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
-use \Khill\Lavacharts\Exceptions\InvalidColumnIndex;
-use \Khill\Lavacharts\Exceptions\InvalidRowDefinition;
-use \Khill\Lavacharts\Exceptions\InvalidRowProperty;
-
 class DataTable
 {
     /**
@@ -192,8 +193,8 @@ class DataTable
      * @param  string                A label for the column. (Optional)
      * @param  string                An ID for the column. (Optional)
      * @param  Format                A column formatter object. (Optional)
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return DataTable
      */
     public function addColumn($typeOrDescArr, $optLabel = '', $optId = '', Format $formatter = null)
@@ -217,7 +218,7 @@ class DataTable
      *
      * @access public
      * @param  array              $arrOfCols Array of columns to batch add to the DataTable.
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return DataTable
      */
     public function addColumns($arrOfCols)
@@ -242,8 +243,8 @@ class DataTable
      * @access public
      * @param  string                A label for the column.
      * @param  Format                A column formatter object. (Optional)
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return DataTable
      */
     public function addStringColumn($optLabel, Format $formatter = null)
@@ -257,8 +258,8 @@ class DataTable
      * @access public
      * @param  string                A label for the column.
      * @param  Format                A column formatter object. (Optional)
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return DataTable
      */
     public function addDateColumn($optLabel, Format $formatter = null)
@@ -272,8 +273,8 @@ class DataTable
      * @access public
      * @param  string                A label for the column.
      * @param  Format                A column formatter object. (Optional)
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return DataTable
      */
     public function addNumberColumn($optLabel, Format $formatter = null)
@@ -285,7 +286,7 @@ class DataTable
      * Sets the format of the column.
      *
      * @access public
-     * @param  int                $colIndex
+     * @param  integer                $colIndex
      * @param  Format             $formatter
      * @throws InvalidColumnIndex
      * @return DataTable
@@ -557,7 +558,7 @@ class DataTable
      * @param  array               $label
      * @param  array               $id
      * @param  array               $format
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return DataTable
      */
     private function addColumnFromStrings($type, $label = '', $id = '', $format = null)

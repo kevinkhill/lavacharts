@@ -1,7 +1,11 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
- * MagnifyingGlass Properties Object
+ * MagnifyingGlass Object
  *
  * An object containing all the values for the magnifying glass which can
  * be passed into the chart's options.
@@ -18,9 +22,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 class MagnifyingGlass extends ConfigObject
 {
     /**
@@ -45,8 +46,8 @@ class MagnifyingGlass extends ConfigObject
      * of 5. Passing a number in upon creation, then the zoomFactor will be set.
      *
      * @param  bool                  $zoomFactor
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return MagnifyingGlass
      */
     public function __construct($zoomFactor = 5)
@@ -59,7 +60,7 @@ class MagnifyingGlass extends ConfigObject
     /**
      * The zoom factor of the magnifying glass.
      *
-     * @param  int             $zoomFactor Can be any number greater than 0.
+     * @param  integer             $zoomFactor Can be any number greater than 0.
      * @return MagnifyingGlass
      */
     public function zoomFactor($zoomFactor)

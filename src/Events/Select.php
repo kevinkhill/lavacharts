@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Events;
+<?php
+
+namespace Khill\Lavacharts\Events;
 
 /**
  * Select Event Object
@@ -16,7 +18,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
 class Select extends Event
 {
     const TYPE = 'select';
@@ -24,9 +25,9 @@ class Select extends Event
     /**
      * Builds the Select Event object.
      *
-     * @param  string              $c Callback function name.
-     * @throws InvalidConfigValue
-     * @return Select
+     * @param  string $c Callback function name.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function __construct($c)
     {

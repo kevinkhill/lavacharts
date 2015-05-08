@@ -1,4 +1,8 @@
-<?php namespace Khill\Lavacharts\Charts;
+<?php
+
+namespace Khill\Lavacharts\Charts;
+
+use \Khill\Lavacharts\Utils;
 
 /**
  * ComboChart Class
@@ -19,9 +23,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-
 class ComboChart extends Chart
 {
     /**
@@ -123,7 +124,7 @@ class ComboChart extends Chart
      * 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'
      *
      * @param  string             $type
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return ComboChart
      */
     public function seriesType($type)

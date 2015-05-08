@@ -1,4 +1,8 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * backgroundColor Object
@@ -15,9 +19,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 class BackgroundColor extends ConfigObject
 {
     /**
@@ -49,8 +50,8 @@ class BackgroundColor extends ConfigObject
      * [ stroke | strokeWidth | fill ]
      *
      * @param  array                 $config Configuration options
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return BackgroundColor
      */
     public function __construct($config = array())
@@ -81,7 +82,7 @@ class BackgroundColor extends ConfigObject
     /**
      * Sets the chart border width.
      *
-     * @param  int             $strokeWidth Border width, in pixels.
+     * @param  integer             $strokeWidth Border width, in pixels.
      * @return BackgroundColor
      */
     public function strokeWidth($strokeWidth)

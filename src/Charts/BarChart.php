@@ -1,4 +1,11 @@
-<?php namespace Khill\Lavacharts\Charts;
+<?php
+
+namespace Khill\Lavacharts\Charts;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Configs\Annotation;
+use \Khill\Lavacharts\Configs\HorizontalAxis;
+use \Khill\Lavacharts\Configs\VerticalAxis;
 
 /**
  * BarChart Class
@@ -17,12 +24,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Configs\Annotation;
-use \Khill\Lavacharts\Configs\HorizontalAxis;
-use \Khill\Lavacharts\Configs\VerticalAxis;
-
 class BarChart extends Chart
 {
     /**

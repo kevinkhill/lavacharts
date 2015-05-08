@@ -1,4 +1,9 @@
-<?php namespace Khill\Lavacharts\Events;
+<?php
+
+namespace Khill\Lavacharts\Events;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * Event Parent Object
@@ -16,10 +21,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 class Event
 {
     /**
@@ -32,9 +33,9 @@ class Event
     /**
      * Builds the Event object.
      *
-     * @param  string             $c Name of Javascript callback function.
-     * @throws InvalidConfigValue
-     * @return Event
+     * @param  string $c Name of Javascript callback function.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function __construct($c)
     {

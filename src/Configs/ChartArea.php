@@ -1,7 +1,12 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
- * ChartArea Properties Object
+ * ChartArea ConfigObject
  *
  * An object containing all the values for the chartArea which can be
  * passed into the chart's options.
@@ -15,10 +20,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 class ChartArea extends ConfigObject
 {
     /**
@@ -64,8 +65,8 @@ class ChartArea extends ConfigObject
     /**
      * Sets the left padding of the chart in the container.
      *
-     * @param  int                $left Amount in pixels
-     * @throws InvalidConfigValue
+     * @param  integer                $left Amount in pixels
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return ChartArea
      */
     public function left($left)
@@ -86,8 +87,8 @@ class ChartArea extends ConfigObject
     /**
      * Sets the top padding of the chart in the container.
      *
-     * @param  int                $top Amount in pixels
-     * @throws InvalidConfigValue
+     * @param  integer                $top Amount in pixels
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return ChartArea
      */
     public function top($top)
@@ -108,8 +109,8 @@ class ChartArea extends ConfigObject
     /**
      * Sets the width of the chart in the container.
      *
-     * @param  int                $width Amount in pixels
-     * @throws InvalidConfigValue
+     * @param  integer                $width Amount in pixels
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return ChartArea
      */
     public function width($width)
@@ -130,8 +131,8 @@ class ChartArea extends ConfigObject
     /**
      * Sets the height of the chart in the container.
      *
-     * @param  int                $height Amount in pixels
-     * @throws InvalidConfigValue
+     * @param  integer                $height Amount in pixels
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return ChartArea
      */
     public function height($height)

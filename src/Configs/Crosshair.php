@@ -1,7 +1,13 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Configs\Color;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
- * Crosshair Properties Object
+ * Crosshair ConfigObject
  *
  * An object containing the crosshair properties for the chart.
  *
@@ -15,11 +21,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Configs\Color;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 class Crosshair extends ConfigObject
 {
     /**
@@ -72,8 +73,8 @@ class Crosshair extends ConfigObject
      * once an object has been created.
      *
      * @param  array                 $config
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return HorizontalAxis
      */
     public function __construct($config = array())
@@ -97,7 +98,7 @@ class Crosshair extends ConfigObject
      * Specifies the crosshair color.
      *
      * @param  string             $color
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Crosshair
      */
     public function color($color)
@@ -153,7 +154,7 @@ class Crosshair extends ConfigObject
      * 'horizontal' for horizontal hairs only, or 'both' for traditional crosshairs.
      *
      * @param  string             $orientation
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Crosshair
      */
     public function orientation($orientation)
@@ -194,7 +195,7 @@ class Crosshair extends ConfigObject
      * When to display crosshairs: on 'focus', 'selection', or 'both'.
      *
      * @param  string             $trigger
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Crosshair
      */
     public function trigger($trigger)

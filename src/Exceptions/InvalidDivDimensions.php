@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Exceptions;
+<?php
+
+namespace Khill\Lavacharts\Exceptions;
 
 class InvalidDivDimensions extends \Exception
 {

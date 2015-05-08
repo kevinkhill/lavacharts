@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Events;
+<?php
+
+namespace Khill\Lavacharts\Events;
 
 /**
  * Error Event Object
@@ -16,7 +18,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
 class Error extends Event
 {
     const TYPE = 'error';
@@ -24,9 +25,9 @@ class Error extends Event
     /**
      * Builds the Error Event object.
      *
-     * @param  string              $c Callback function name.
-     * @throws InvalidConfigValue
-     * @return Error
+     * @param  string $c Callback function name.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function __construct($c)
     {

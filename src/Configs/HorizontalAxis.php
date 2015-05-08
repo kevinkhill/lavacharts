@@ -1,7 +1,13 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 /**
- * Horizontal Axis Properties Object
+ * Horizontal Axis ConfigObject
  *
  * An object containing all the values for the axis which can be
  * passed into the chart's options.
@@ -15,11 +21,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
-
 class HorizontalAxis extends Axis
 {
     /**
@@ -79,8 +80,8 @@ class HorizontalAxis extends Axis
      * created.
      *
      * @param  array                 $config
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return HorizontalAxis
      */
     public function __construct($config = array())

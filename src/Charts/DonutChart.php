@@ -1,4 +1,8 @@
-<?php namespace Khill\Lavacharts\Charts;
+<?php
+
+namespace Khill\Lavacharts\Charts;
+
+use \Khill\Lavacharts\Utils;
 
 /**
  * DonutChart Class
@@ -16,9 +20,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-
 class DonutChart extends PieChart
 {
     /**
@@ -70,7 +71,7 @@ class DonutChart extends PieChart
      * If between 0 and 1, displays a donut chart. The hole with have a radius
      * equal to $pieHole times the radius of the chart.
      *
-     * @param  int|float  $pieHole Size of the pie hole.
+     * @param  integer|float  $pieHole Size of the pie hole.
      * @return DonutChart
      */
     public function pieHole($pieHole)

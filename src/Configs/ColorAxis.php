@@ -1,4 +1,9 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * ColorAxis Object
@@ -15,10 +20,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 class ColorAxis extends ConfigObject
 {
     /**
@@ -53,8 +54,8 @@ class ColorAxis extends ConfigObject
      * Builds the ColorAxis object with specified options
      *
      * @param  array                 $config
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return ColorAxis
      */
     public function __construct($config = array())
@@ -68,7 +69,7 @@ class ColorAxis extends ConfigObject
      * the $this->colors range.
      *
      * @param  numeric            $minValue
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return ColorAxis
      */
     public function minValue($minValue)
@@ -91,7 +92,7 @@ class ColorAxis extends ConfigObject
      * the $this->colors range.
      *
      * @param  numeric            $maxValue
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return ColorAxis
      */
     public function maxValue($maxValue)
@@ -118,7 +119,7 @@ class ColorAxis extends ConfigObject
      * [minValue, maxValue].
      *
      * @param  array              $values
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return ColorAxis
      */
     public function values($values)
@@ -146,7 +147,7 @@ class ColorAxis extends ConfigObject
      * smallest value, and the last color as the highest.
      *
      * @param  array              $colors
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return ColorAxis
      */
     public function colors($colors)

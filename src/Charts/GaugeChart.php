@@ -1,4 +1,8 @@
-<?php namespace Khill\Lavacharts\Charts;
+<?php
+
+namespace Khill\Lavacharts\Charts;
+
+use \Khill\Lavacharts\Utils;
 
 /**
  * GaugeChart Class
@@ -15,9 +19,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-
 class GaugeChart extends Chart
 {
     /**
@@ -116,7 +117,7 @@ class GaugeChart extends Chart
     /**
      * The lowest value for a range marked by a green color.
      *
-     * @param  int $greenFrom
+     * @param  integer $greenFrom
      * @return GaugeChart
      */
     public function greenFrom($greenFrom)
@@ -134,7 +135,7 @@ class GaugeChart extends Chart
     /**
      * The highest value for a range marked by a green color.
      *
-     * @param  int $greenTo
+     * @param  integer $greenTo
      * @return GaugeChart
      */
     public function greenTo($greenTo)
@@ -171,7 +172,7 @@ class GaugeChart extends Chart
     /**
      * The maximal value of a gauge.
      *
-     * @param  int $max
+     * @param  integer $max
      * @return GaugeChart
      */
     public function max($max)
@@ -189,7 +190,7 @@ class GaugeChart extends Chart
     /**
      * The minimal value of a gauge.
      *
-     * @param  int $min
+     * @param  integer $min
      * @return GaugeChart
      */
     public function min($min)
@@ -207,7 +208,7 @@ class GaugeChart extends Chart
     /**
      * The number of minor tick section in each major tick section.
      *
-     * @param  int $minorTicks
+     * @param  integer $minorTicks
      * @return GaugeChart
      */
     public function minorTicks($minorTicks)
@@ -243,7 +244,7 @@ class GaugeChart extends Chart
     /**
      * The lowest value for a range marked by a red color.
      *
-     * @param  int $redFrom
+     * @param  integer $redFrom
      * @return GaugeChart
      */
     public function redFrom($redFrom)
@@ -261,7 +262,7 @@ class GaugeChart extends Chart
     /**
      * The highest value for a range marked by a red color.
      *
-     * @param  int $redTo
+     * @param  integer $redTo
      * @return GaugeChart
      */
     public function redTo($redTo)
@@ -297,7 +298,7 @@ class GaugeChart extends Chart
     /**
      * The lowest value for a range marked by a yellow color.
      *
-     * @param  int $yellowFrom
+     * @param  integer $yellowFrom
      * @return GaugeChart
      */
     public function yellowFrom($yellowFrom)
@@ -315,7 +316,7 @@ class GaugeChart extends Chart
     /**
      * The highest value for a range marked by a yellow color.
      *
-     * @param  int $yellowTo
+     * @param  integer $yellowTo
      * @return GaugeChart
      */
     public function yellowTo($yellowTo)

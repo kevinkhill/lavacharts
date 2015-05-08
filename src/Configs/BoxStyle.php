@@ -1,4 +1,9 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * BoxStyle Object
@@ -15,10 +20,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 class BoxStyle extends ConfigObject
 {
     /**
@@ -61,8 +62,8 @@ class BoxStyle extends ConfigObject
      *
      * @param array $config
      *
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return BoxStyle
      */
     public function __construct($config = array())
@@ -94,7 +95,7 @@ class BoxStyle extends ConfigObject
     /**
      * Sets the thickness of the box outline.
      *
-     * @param  int|string $strokeWidth
+     * @param  integer|string $strokeWidth
      * @return BoxStyle
      */
     public function strokeWidth($strokeWidth)
@@ -114,7 +115,7 @@ class BoxStyle extends ConfigObject
     /**
      * Sets the x-radius of the corner curvature.
      *
-     * @param  int|string $rx
+     * @param  integer|string $rx
      * @return BoxStyle
      */
     public function rx($rx)
@@ -134,7 +135,7 @@ class BoxStyle extends ConfigObject
     /**
      * Sets the y-radius of the corner curvature.
      *
-     * @param  int|string $ry
+     * @param  integer|string $ry
      * @return BoxStyle
      */
     public function ry($ry)

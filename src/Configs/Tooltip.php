@@ -1,7 +1,12 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
- * Tooltip Properties Object
+ * Tooltip ConfigObject
  *
  * An object containing all the values for the tooltip which can be passed
  * into the chart's options.
@@ -15,10 +20,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 class Tooltip extends ConfigObject
 {
     /**
@@ -47,8 +48,8 @@ class Tooltip extends ConfigObject
      * Builds the tooltip object with specified options.
      *
      * @param  array                 $config Configuration options for the tooltip
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return Tooltip
      */
     public function __construct($config = array())
@@ -60,7 +61,7 @@ class Tooltip extends ConfigObject
      * Sets whether to show the color code.
      *
      * @param  bool               $showColorCode State of showing the color code.
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Tooltip
      */
     public function showColorCode($showColorCode)
@@ -97,7 +98,7 @@ class Tooltip extends ConfigObject
      * 'none'  - The tooltip will not be displayed.
      *
      * @param  string             $trigger Type of trigger.
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Tooltip
      */
     public function trigger($trigger)

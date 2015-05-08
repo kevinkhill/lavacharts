@@ -1,7 +1,11 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
- * Gradient Object
+ * Gradient ConfigObject
  *
  * An object that specifies a color gradient
  *
@@ -14,9 +18,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 class Gradient extends ConfigObject
 {
     /**
@@ -65,8 +66,8 @@ class Gradient extends ConfigObject
      * Builds the gradient object with specified options
      *
      * @param  array                 $config
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return Gradient
      */
     public function __construct($config = array())

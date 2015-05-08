@@ -1,4 +1,9 @@
-<?php namespace Khill\Lavacharts\Formats;
+<?php
+
+namespace Khill\Lavacharts\Formats;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * DateFormat Object
@@ -6,7 +11,6 @@
  * Formats date values in the datatable for display.
  * Added to columns during column definition.
  *
- * @see        https://developers.google.com/chart/interactive/docs/reference#dateformatter
  *
  * @package    Lavacharts
  * @subpackage Formats
@@ -15,11 +19,8 @@
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
+ * @see        https://developers.google.com/chart/interactive/docs/reference#dateformatter
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 class DateFormat extends Format
 {
     const TYPE = 'DateFormat';
@@ -49,10 +50,10 @@ class DateFormat extends Format
     /**
      * Builds the NumberFormat object with specified options
      *
-     * @param  array                 $config
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
-     * @return DateFormat
+     * @param  array $config
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @return self
      */
     public function __construct($config = array())
     {
@@ -71,9 +72,9 @@ class DateFormat extends Format
      *
      * You cannot specify both formatType and pattern.
      *
-     * @param  string             $ft
-     * @throws InvalidConfigValue
-     * @return DateFormat
+     * @param  string $ft
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function formatType($ft)
     {
@@ -97,14 +98,14 @@ class DateFormat extends Format
 
     /**
      * A custom format pattern to apply to the value, similar to the ICU date and time format.
-     * For example: new DateFormat({pattern: "EEE, MMM d, ''yy"});
      *
+     * For example: DateFormat(array('pattern' => "EEE, MMM d, ''yy"));
      * You cannot specify both formatType and pattern.
      *
      * @see    http://userguide.icu-project.org/formatparse/datetime#TOC-Date-Field-Symbol-Table
-     * @param  string              $p
-     * @throws InvalidConfigValue
-     * @return DateFormat
+     * @param  string $p
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function pattern($p)
     {
@@ -132,9 +133,9 @@ class DateFormat extends Format
      * the value displayed would be 12 noon.
      *
      *
-     * @param  string              $tz
-     * @throws InvalidConfigValue
-     * @return DateFormat
+     * @param  string $tz
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function timeZone($tz)
     {

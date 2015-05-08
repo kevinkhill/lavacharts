@@ -1,7 +1,12 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
- * Animation Properties Object
+ * Animation ConfigObject
  *
  * An object containing all the values for the Animation which can
  * be passed into the chart's options.
@@ -16,10 +21,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 class Animation extends ConfigObject
 {
     /**
@@ -47,8 +48,8 @@ class Animation extends ConfigObject
      * Builds the Animation object.
      *
      * @param  array $config Associative array containing key => value pairs for the various configuration options.
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return Animation
      */
     public function __construct($config = [])
@@ -62,7 +63,7 @@ class Animation extends ConfigObject
      * For details, see the animation documentation.
      *
      * @see    https://developers.google.com/chart/interactive/docs/animation
-     * @param  int       $d
+     * @param  integer       $d
      * @return Animation
      */
     public function duration($d)

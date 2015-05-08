@@ -1,4 +1,9 @@
-<?php namespace Khill\Lavacharts\Formats;
+<?php
+
+namespace Khill\Lavacharts\Formats;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * NumberFormat Object
@@ -16,10 +21,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 class NumberFormat extends Format
 {
     const TYPE = 'NumberFormat';
@@ -84,9 +85,9 @@ class NumberFormat extends Format
      * Builds the NumberFormat object with specified options
      *
      * @param  array                 $config
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
-     * @return NumberFormat
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @return self
      */
     public function __construct($config = array())
     {
@@ -94,11 +95,13 @@ class NumberFormat extends Format
     }
 
     /**
-     * Sets the character to use as the decimal marker. The default is a dot (.)
+     * Sets the character to use as the decimal marker.
      *
-     * @param  string             $ds
-     * @throws InvalidConfigValue
-     * @return NumberFormat
+     * The default is a dot (.)
+     *
+     * @param  string $ds
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function decimalSymbol($ds)
     {
@@ -116,13 +119,15 @@ class NumberFormat extends Format
 
     /**
      * A number specifying how many digits to display after the decimal.
+     *
+     *
      * The default is 2. If you specify more digits than the number contains,
      * it will display zeros for the smaller values.
      * Truncated values will be rounded (5 rounded up).
      *
-     * @param  int            $fd
-     * @throws InvalidConfigValue
-     * @return NumberFormat
+     * @param  integer $fd
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function fractionDigits($fd)
     {
@@ -142,9 +147,9 @@ class NumberFormat extends Format
      * A character to be used to group digits to the left of the decimal into sets of three.
      * Default is a comma (,)
      *
-     * @param  string              $gs
-     * @throws InvalidConfigValue
-     * @return NumberFormat
+     * @param  string $gs
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function groupingSymbol($gs)
     {
@@ -161,12 +166,14 @@ class NumberFormat extends Format
     }
 
     /**
-     * The text color for negative values. No default value.
-     * Values can be any acceptable HTML color value, such as "red" or "#FF0000".
+     * The text color for negative values.
      *
-     * @param  string              $nc Valid HTML color
-     * @throws InvalidConfigValue
-     * @return NumberFormat
+     * No default value & values can be any acceptable HTML color value,
+     * such as "red" or "#FF0000".
+     *
+     * @param  string $nc Valid HTML color
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function negativeColor($nc)
     {
@@ -184,11 +191,12 @@ class NumberFormat extends Format
 
     /**
      * Sets whether negative values should be surrounded by parentheses.
+     *
      * Default is true.
      *
-     * @param  boolean            $np
-     * @throws InvalidConfigValue
-     * @return NumberFormat
+     * @param  boolean $np
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function negativeParens($np)
     {
@@ -212,9 +220,9 @@ class NumberFormat extends Format
      * "1,000%", "750%", and "50%" for values 10, 7.5, and 0.5.
      *
      * @see    http://icu-project.org/apiref/icu4c/classDecimalFormat.html#_details
-     * @param  string              $p
-     * @throws InvalidConfigValue
-     * @return NumberFormat
+     * @param  string $p
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function pattern($p)
     {
@@ -233,9 +241,9 @@ class NumberFormat extends Format
     /**
      * Sets the string prefix for the value.
      *
-     * @param  string              $p
-     * @throws InvalidConfigValue
-     * @return NumberFormat
+     * @param  string $p
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function prefix($p)
     {
@@ -254,9 +262,9 @@ class NumberFormat extends Format
     /**
      * Sets the string suffix for the value.
      *
-     * @param  string              $s
-     * @throws InvalidConfigValue
-     * @return NumberFormat
+     * @param  string $s
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function suffix($s)
     {

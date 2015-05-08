@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Traits;
+<?php
+
+namespace Khill\Lavacharts\Traits;
 
 trait IsStackedTrait
 {

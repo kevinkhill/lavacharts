@@ -1,4 +1,8 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * SizeAxis Object
@@ -15,9 +19,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 class SizeAxis extends ConfigObject
 {
     /**
@@ -57,8 +58,8 @@ class SizeAxis extends ConfigObject
      * an object has been created.
      *
      * @param  array                 $config An array containing configuration options.
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return SizeAxis
      */
     public function __construct($config = array())
@@ -69,7 +70,7 @@ class SizeAxis extends ConfigObject
     /**
      * Sets maximum radius of the largest possible bubble, in pixels
      *
-     * @param  int      $maxSize
+     * @param  integer      $maxSize
      * @return SizeAxis
      */
     public function maxSize($maxSize)
@@ -90,7 +91,7 @@ class SizeAxis extends ConfigObject
      * Set the size value (as appears in the chart data) to be mapped to
      * $this->maxSize. Larger values will be cropped to this value.
      *
-     * @param  int      $maxValue
+     * @param  integer      $maxValue
      * @return SizeAxis
      */
     public function maxValue($maxValue)
@@ -110,7 +111,7 @@ class SizeAxis extends ConfigObject
     /**
      * Sets mininum radius of the smallest possible bubble, in pixels
      *
-     * @param  int      $minSize
+     * @param  integer      $minSize
      * @return SizeAxis
      */
     public function minSize($minSize)
@@ -131,7 +132,7 @@ class SizeAxis extends ConfigObject
      * Set the size value (as appears in the chart data) to be mapped to
      * $this->minSize. Larger values will be cropped to this value.
      *
-     * @param  int      $minValue
+     * @param  integer      $minValue
      * @return SizeAxis
      */
     public function minValue($minValue)

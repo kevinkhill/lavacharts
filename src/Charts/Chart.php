@@ -1,19 +1,6 @@
-<?php namespace Khill\Lavacharts\Charts;
+<?php
 
-/**
- * Chart Class, Parent to all charts.
- *
- * Has common properties and methods used between all the different charts.
- *
- *
- * @package    Lavacharts
- * @subpackage Charts
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2015, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
- */
+namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Javascript\JavascriptFactory;
@@ -29,6 +16,20 @@ use \Khill\Lavacharts\Exceptions\InvalidElementId;
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
+/**
+ * Chart Class, Parent to all charts.
+ *
+ * Has common properties and methods used between all the different charts.
+ *
+ *
+ * @package    Lavacharts
+ * @subpackage Charts
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2015, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
+ * @license    http://opensource.org/licenses/MIT MIT
+ */
 class Chart
 {
     /**
@@ -125,8 +126,8 @@ class Chart
      * or chaining the functions from the chart objects.
      *
      * @param  array                 $o
-     * @throws InvalidConfigProperty
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Chart
      */
     public function setOptions($o)
@@ -166,7 +167,7 @@ class Chart
      * Gets a specific option from the array.
      *
      * @param  string             $option Which option to fetch
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return mixed
      */
     public function getOption($option)
@@ -301,7 +302,7 @@ class Chart
      * element is an HTML color string, for example: colors:['red','#004411'].
      *
      * @param  array              $cArr
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Chart
      */
@@ -326,7 +327,7 @@ class Chart
      * associated to a respective pre-defined javascript function as the callback.
      *
      * @param  array              $e Array of events associated to a callback
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Chart
      */
@@ -357,8 +358,8 @@ class Chart
      * The default font size, in pixels, of all text in the chart. You can
      * override this using properties for specific chart elements.
      *
-     * @param  int                $fontSize
-     * @throws InvalidConfigValue
+     * @param  integer                $fontSize
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Chart
      */
@@ -379,7 +380,7 @@ class Chart
      * using properties for specific chart elements.
      *
      * @param  string             $fontName
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Chart
      */
@@ -398,8 +399,8 @@ class Chart
     /**
      * Height of the chart, in pixels.
      *
-     * @param  int                $h
-     * @throws InvalidConfigValue
+     * @param  integer                $h
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Chart
      */
@@ -422,7 +423,7 @@ class Chart
      *
      * @uses   Legend
      * @param  Legend             $legend
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Chart
      */
@@ -454,7 +455,7 @@ class Chart
      * Text to display above the chart.
      *
      * @param  string             $title
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Chart
      */
@@ -477,7 +478,7 @@ class Chart
      * 'none' - Omit the title.
      *
      * @param  string             $titlePosition
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Chart
      */
@@ -506,7 +507,7 @@ class Chart
      *
      * @uses   TextStyle
      * @param  TextStyle          $textStyle
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Chart
      */
@@ -522,7 +523,7 @@ class Chart
      *
      * @uses   Tooltip
      * @param  Tooltip            $tooltip
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Chart
      */
@@ -534,8 +535,8 @@ class Chart
     /**
      * Width of the chart, in pixels.
      *
-     * @param  int                $width
-     * @throws InvalidConfigValue
+     * @param  integer                $width
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Chart
      */

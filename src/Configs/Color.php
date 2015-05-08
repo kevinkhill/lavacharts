@@ -1,4 +1,9 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * Color Object
@@ -16,10 +21,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 class Color extends ConfigObject
 {
     /**
@@ -47,8 +48,8 @@ class Color extends ConfigObject
      * Builds the Color object with specified options
      *
      * @param  array                 $config
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return Color
      */
     public function __construct($config = array())
@@ -60,7 +61,7 @@ class Color extends ConfigObject
      * Specifies the foreground color.
      *
      * @param  string             $fgColor
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Color
      */
@@ -82,7 +83,7 @@ class Color extends ConfigObject
      * Specifies the background color.
      *
      * @param  string             $bgColor
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
      * @return Color
      */

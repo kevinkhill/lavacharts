@@ -1,4 +1,9 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * Stroke Object
@@ -15,10 +20,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 class Stroke extends ConfigObject
 {
     /**
@@ -46,8 +47,8 @@ class Stroke extends ConfigObject
      * Builds the Stroke object with specified options
      *
      * @param  array                 $config
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return Stroke
      */
     public function __construct($config = array())
@@ -59,7 +60,7 @@ class Stroke extends ConfigObject
      * Sets the color of the stroke.
      *
      * @param  string            $stroke A valid html color string
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Stroke
      */
     public function stroke($s)
@@ -80,7 +81,7 @@ class Stroke extends ConfigObject
      * Sets the opacity of the stroke.
      *
      * @param  float             $strokeOpacity
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Stroke
      */
     public function strokeOpacity($so)
@@ -100,8 +101,8 @@ class Stroke extends ConfigObject
     /**
      * Sets the width of the stroke.
      *
-     * @param  int                $sw
-     * @throws InvalidConfigValue
+     * @param  integer                $sw
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Stroke
      */
     public function strokeWidth($sw)

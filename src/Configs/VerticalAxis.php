@@ -1,7 +1,9 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
 
 /**
- * Vertical Axis Properties Object
+ * Vertical Axis ConfigObject
  *
  * An object containing all the values for the axis which can be passed
  * into the chart's options.
@@ -15,7 +17,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
 class VerticalAxis extends Axis
 {
     /**

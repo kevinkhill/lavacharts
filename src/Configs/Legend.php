@@ -1,7 +1,12 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
- * Legend Properties Object
+ * Legend ConfigObject
  *
  * An object containing all the values for the legend which can be
  * passed into the chart's options.
@@ -15,10 +20,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 class Legend extends ConfigObject
 {
     /**
@@ -47,8 +48,8 @@ class Legend extends ConfigObject
      * Builds the legend object when passed an array of configuration options.
      *
      * @param  array                 $config Options for the legend
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return Legend
      */
     public function __construct($config = array())

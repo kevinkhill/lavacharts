@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Events;
+<?php
+
+namespace Khill\Lavacharts\Events;
 
 /**
  * Ready Event Object
@@ -16,7 +18,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
 class Ready extends Event
 {
     const TYPE = 'ready';
@@ -24,9 +25,9 @@ class Ready extends Event
     /**
      * Builds the Ready Event object.
      *
-     * @param  string              $c Callback function name.
-     * @throws InvalidConfigValue
-     * @return Ready
+     * @param  string $c Callback function name.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function __construct($c)
     {

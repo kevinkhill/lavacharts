@@ -1,7 +1,12 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
- * Series Properties Object
+ * Series ConfigObject
  *
  * An object containing all the values for a single series in a multiple data
  * set chart, which can be passed into the series property of the chart's options.
@@ -15,10 +20,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 class Series extends ConfigObject
 {
     /**
@@ -73,7 +74,7 @@ class Series extends ConfigObject
      * This can be used to control, for instance, the textStyle for the series.
      *
      * @param  Annotation Style of the series annotations
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Series
      */
     public function annotation(Annotation $annotation)
@@ -99,7 +100,7 @@ class Series extends ConfigObject
      * 'function' - The angles of the line will be smoothed.
      *
      * @param  string             $curveType
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Series
      */
     public function curveType($curveType)
@@ -133,8 +134,8 @@ class Series extends ConfigObject
      * At least one series much be allocated to the default axis.
      * You can define a different scale for different axes.
      *
-     * @param  int                $index
-     * @throws InvalidConfigValue
+     * @param  integer                $index
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Series
      */
     public function targetAxisIndex($index)
@@ -157,7 +158,7 @@ class Series extends ConfigObject
      * 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'
      *
      * @param  string             $type
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Series
      */
     public function type($type)
@@ -187,7 +188,7 @@ class Series extends ConfigObject
      * An object that specifies the series text style.
      *
      * @param  TextStyle          $textStyle
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Series
      */
     public function textStyle(TextStyle $textStyle)

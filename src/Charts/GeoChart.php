@@ -1,4 +1,11 @@
-<?php namespace Khill\Lavacharts\Charts;
+<?php
+
+namespace Khill\Lavacharts\Charts;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Configs\ColorAxis;
+use \Khill\Lavacharts\Configs\SizeAxis;
+use \Khill\Lavacharts\Configs\MagnifyingGlass;
 
 /**
  * GeoChart Class
@@ -19,12 +26,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Configs\ColorAxis;
-use \Khill\Lavacharts\Configs\SizeAxis;
-use \Khill\Lavacharts\Configs\MagnifyingGlass;
-
 class GeoChart extends Chart
 {
     /**
@@ -88,7 +89,7 @@ class GeoChart extends Chart
      * Color to assign to regions with no associated data.
      *
      * @param  string             $drc
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return GeoChart
      */
     public function datalessRegionColor($drc)
@@ -113,7 +114,7 @@ class GeoChart extends Chart
      * 'markers' - This is a marker map
      *
      * @param  string             $dm
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return GeoChart
      */
     public function displayMode($dm)
@@ -145,7 +146,7 @@ class GeoChart extends Chart
      * The default is true in region mode, and false in marker mode.
      *
      * @param  bool               $eri
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return GeoChart
      */
     public function enableRegionInteractivity($eri)
@@ -172,7 +173,7 @@ class GeoChart extends Chart
      * specified by the width and height options.
      *
      * @param  bool               $kar
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return GeoChart
      */
     public function keepAspectRatio($kar)
@@ -199,7 +200,7 @@ class GeoChart extends Chart
      * A state in the United States, specified by its ISO 3166-2:US code, e.g., 'US-AL' for Alabama. Note that the resolution option must be set to either 'provinces' or 'metros'.
      *
      * @param  string             $r
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return GeoChart
      */
     public function region($r)
@@ -236,7 +237,7 @@ class GeoChart extends Chart
      * is fully opaque.
      *
      * @param  float|int          $mo
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return GeoChart
      */
     public function markerOpacity($mo)
@@ -266,7 +267,7 @@ class GeoChart extends Chart
      * 'metros' - Supported for the US country region and US state regions only.
      *
      * @param  string             $r
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return GeoChart
      */
     public function resolution($r)

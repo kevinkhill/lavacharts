@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Laravel;
+<?php
+
+namespace Khill\Lavacharts\Laravel;
 
 use \Illuminate\Support\Facades\Facade;
 

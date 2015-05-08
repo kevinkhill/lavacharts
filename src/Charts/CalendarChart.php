@@ -1,4 +1,12 @@
-<?php namespace Khill\Lavacharts\Charts;
+<?php
+
+namespace Khill\Lavacharts\Charts;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Configs\Stroke;
+use \Khill\Lavacharts\Configs\TextStyle;
+use \Khill\Lavacharts\Configs\Color;
+use \Khill\Lavacharts\Configs\ColorAxis;
 
 /**
  * CalendarChart Class
@@ -17,13 +25,6 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Configs\Stroke;
-use \Khill\Lavacharts\Configs\TextStyle;
-use \Khill\Lavacharts\Configs\Color;
-use \Khill\Lavacharts\Configs\ColorAxis;
-
 class CalendarChart extends Chart
 {
     /**
@@ -116,7 +117,7 @@ class CalendarChart extends Chart
      * (Thanks google)
      *
      * @param  string             $o Which option to fetch
-     * @throws InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return mixed
      */
     public function getOption($o)
@@ -152,7 +153,7 @@ class CalendarChart extends Chart
     /**
      * Sets the size of the calendar day squares
      *
-     * @param  int           $cellSize
+     * @param  integer           $cellSize
      * @return CalendarChart
      */
     public function cellSize($cellSize)
@@ -182,7 +183,7 @@ class CalendarChart extends Chart
      * Sets The distance between the right edge of the week labels and
      * the left edge of the chart day squares.
      *
-     * @param  int           $space
+     * @param  integer           $space
      * @return CalendarChart
      */
     public function dayOfWeekRightSpace($space)
@@ -253,7 +254,7 @@ class CalendarChart extends Chart
      * The number of pixels between the bottom of the month labels and
      * the top of the day squares.
      *
-     * @param  int           $space
+     * @param  integer           $space
      * @return CalendarChart
      */
     public function underMonthSpace($space)
@@ -272,7 +273,7 @@ class CalendarChart extends Chart
      * The number of pixels between the bottom-most year label and
      * the bottom of the chart.
      *
-     * @param  int           $space
+     * @param  integer           $space
      * @return CalendarChart
      */
     public function underYearSpace($space)
