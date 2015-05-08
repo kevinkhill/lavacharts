@@ -48,7 +48,7 @@ class Annotation extends ConfigObject
      * @param  array Associative array containing key => value pairs for the various configuration options.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return Annotation
+     * @return self
      */
     public function __construct($config = array())
     {
@@ -59,7 +59,7 @@ class Annotation extends ConfigObject
      * In Bar and Column charts, if set to true, draws all annotations outside of the Bar/Column.
      *
      * @param  bool       $alwaysOutside
-     * @return Annotation
+     * @return self
      */
     public function alwaysOutside($alwaysOutside)
     {
@@ -84,7 +84,7 @@ class Annotation extends ConfigObject
      * will use the default series color for the annotation
      *
      * @param  bool       $highContrast
-     * @return Annotation
+     * @return self
      */
     public function highContrast($highContrast)
     {
@@ -104,7 +104,7 @@ class Annotation extends ConfigObject
      * An object that specifies the annotation text style.
      *
      * @param  TextStyle  $textStyle Style of the annotation
-     * @return Annotation
+     * @return self
      */
     public function textStyle(TextStyle $textStyle)
     {

@@ -25,8 +25,8 @@ class VerticalAxis extends Axis
      * value, or by chaining together the functions once an object has been
      * created.
      *
-     * @param  array        $config Configuration options for the VerticalAxis
-     * @return VerticalAxis
+     * @param  array $config Configuration options for the VerticalAxis
+     * @return self
      */
     public function __construct($config = array())
     {

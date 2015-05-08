@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts;
+<?php
+
+namespace Khill\Lavacharts;
 
 class Utils
 {

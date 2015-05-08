@@ -56,7 +56,7 @@ class ColorAxis extends ConfigObject
      * @param  array                 $config
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return ColorAxis
+     * @return self
      */
     public function __construct($config = array())
     {
@@ -70,7 +70,7 @@ class ColorAxis extends ConfigObject
      *
      * @param  numeric            $minValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return ColorAxis
+     * @return self
      */
     public function minValue($minValue)
     {
@@ -93,7 +93,7 @@ class ColorAxis extends ConfigObject
      *
      * @param  numeric            $maxValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return ColorAxis
+     * @return self
      */
     public function maxValue($maxValue)
     {
@@ -120,7 +120,7 @@ class ColorAxis extends ConfigObject
      *
      * @param  array              $values
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return ColorAxis
+     * @return self
      */
     public function values($values)
     {
@@ -148,7 +148,7 @@ class ColorAxis extends ConfigObject
      *
      * @param  array              $colors
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return ColorAxis
+     * @return self
      */
     public function colors($colors)
     {

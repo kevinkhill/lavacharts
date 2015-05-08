@@ -1,4 +1,17 @@
-<?php namespace Khill\Lavacharts;
+<?php
+
+namespace Khill\Lavacharts;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Volcano;
+use \Khill\Lavacharts\JavascriptFactory;
+use \Khill\Lavacharts\Exceptions\ChartNotFound;
+use \Khill\Lavacharts\Exceptions\InvalidChartLabel;
+use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Exceptions\InvalidEventCallback;
+use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
+use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 /**
  * Lavacharts - A PHP wrapper library for the Google Chart API
@@ -12,18 +25,6 @@
  * @link      http://kevinkhill.github.io/Lavacharts  GitHub Project Page
  * @license   http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Volcano;
-use \Khill\Lavacharts\JavascriptFactory;
-use \Khill\Lavacharts\Exceptions\ChartNotFound;
-use \Khill\Lavacharts\Exceptions\InvalidChartLabel;
-use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Exceptions\InvalidEventCallback;
-use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
-
 class Lavacharts
 {
     /**

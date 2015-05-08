@@ -50,7 +50,7 @@ class Animation extends ConfigObject
      * @param  array $config Associative array containing key => value pairs for the various configuration options.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return Animation
+     * @return self
      */
     public function __construct($config = [])
     {
@@ -64,7 +64,7 @@ class Animation extends ConfigObject
      *
      * @see    https://developers.google.com/chart/interactive/docs/animation
      * @param  integer       $d
-     * @return Animation
+     * @return self
      */
     public function duration($d)
     {
@@ -90,7 +90,7 @@ class Animation extends ConfigObject
      * 'inAndOut' - Ease in and out - Start slow, speed up, then slow down.
      *
      * @param  string    $e
-     * @return Animation
+     * @return self
      */
     public function easing($e)
     {
@@ -120,7 +120,7 @@ class Animation extends ConfigObject
      * If true, the chart will start at the baseline and animate to its final state.
      *
      * @param  bool       $s
-     * @return Animation
+     * @return self
      */
     public function startup($s)
     {

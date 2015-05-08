@@ -64,7 +64,7 @@ class TextStyle extends ConfigObject
      * @param  array                 $config Options for the TextStyle
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return TextStyle
+     * @return self
      */
     public function __construct($config = array())
     {
@@ -76,7 +76,7 @@ class TextStyle extends ConfigObject
      *
      * @param  boolean  $bold
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return TextStyle
+     * @return self
      */
     public function bold($bold)
     {
@@ -99,7 +99,7 @@ class TextStyle extends ConfigObject
      *
      * @param  string             $color Valid HTML color
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return TextStyle
+     * @return self
      */
     public function color($color)
     {
@@ -123,7 +123,7 @@ class TextStyle extends ConfigObject
      *
      * @param  string             $fontName Valid font name
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return TextStyle
+     * @return self
      */
     public function fontName($fontName)
     {
@@ -144,7 +144,7 @@ class TextStyle extends ConfigObject
      *
      * @param  integer                $fontSize Font size in pixels
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return TextStyle
+     * @return self
      */
     public function fontSize($fontSize)
     {
@@ -165,7 +165,7 @@ class TextStyle extends ConfigObject
      *
      * @param  boolean  $italic
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return TextStyle
+     * @return self
      */
     public function italic($italic)
     {

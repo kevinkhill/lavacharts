@@ -62,7 +62,7 @@ class Series extends ConfigObject
      * Builds the series object when passed an array of configuration options.
      *
      * @param  array  $config Options for the series
-     * @return Series
+     * @return self
      */
     public function __construct($config = array())
     {
@@ -75,7 +75,7 @@ class Series extends ConfigObject
      *
      * @param  Annotation Style of the series annotations
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Series
+     * @return self
      */
     public function annotation(Annotation $annotation)
     {
@@ -101,7 +101,7 @@ class Series extends ConfigObject
      *
      * @param  string             $curveType
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Series
+     * @return self
      */
     public function curveType($curveType)
     {
@@ -136,7 +136,7 @@ class Series extends ConfigObject
      *
      * @param  integer                $index
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Series
+     * @return self
      */
     public function targetAxisIndex($index)
     {
@@ -159,7 +159,7 @@ class Series extends ConfigObject
      *
      * @param  string             $type
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Series
+     * @return self
      */
     public function type($type)
     {
@@ -189,7 +189,7 @@ class Series extends ConfigObject
      *
      * @param  TextStyle          $textStyle
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Series
+     * @return self
      */
     public function textStyle(TextStyle $textStyle)
     {

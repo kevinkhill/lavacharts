@@ -60,7 +60,7 @@ class SizeAxis extends ConfigObject
      * @param  array                 $config An array containing configuration options.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return SizeAxis
+     * @return self
      */
     public function __construct($config = array())
     {
@@ -71,7 +71,7 @@ class SizeAxis extends ConfigObject
      * Sets maximum radius of the largest possible bubble, in pixels
      *
      * @param  integer      $maxSize
-     * @return SizeAxis
+     * @return self
      */
     public function maxSize($maxSize)
     {
@@ -92,7 +92,7 @@ class SizeAxis extends ConfigObject
      * $this->maxSize. Larger values will be cropped to this value.
      *
      * @param  integer      $maxValue
-     * @return SizeAxis
+     * @return self
      */
     public function maxValue($maxValue)
     {
@@ -112,7 +112,7 @@ class SizeAxis extends ConfigObject
      * Sets mininum radius of the smallest possible bubble, in pixels
      *
      * @param  integer      $minSize
-     * @return SizeAxis
+     * @return self
      */
     public function minSize($minSize)
     {
@@ -133,7 +133,7 @@ class SizeAxis extends ConfigObject
      * $this->minSize. Larger values will be cropped to this value.
      *
      * @param  integer      $minValue
-     * @return SizeAxis
+     * @return self
      */
     public function minValue($minValue)
     {

@@ -75,7 +75,7 @@ class Crosshair extends ConfigObject
      * @param  array                 $config
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return HorizontalAxis
+     * @return self
      */
     public function __construct($config = array())
     {
@@ -99,7 +99,7 @@ class Crosshair extends ConfigObject
      *
      * @param  string             $color
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Crosshair
+     * @return self
      */
     public function color($color)
     {
@@ -119,7 +119,7 @@ class Crosshair extends ConfigObject
      * An object that specifies the crosshair focused color.
      *
      * @param  Color     $color
-     * @return Crosshair
+     * @return self
      */
     public function focused(Color $color)
     {
@@ -132,7 +132,7 @@ class Crosshair extends ConfigObject
      * The crosshair opacity, with 0.0 being fully transparent and 1.0 fully opaque.
      *
      * @param  float     $opacity
-     * @return Crosshair
+     * @return self
      */
     public function opacity($opacity)
     {
@@ -155,7 +155,7 @@ class Crosshair extends ConfigObject
      *
      * @param  string             $orientation
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Crosshair
+     * @return self
      */
     public function orientation($orientation)
     {
@@ -182,7 +182,7 @@ class Crosshair extends ConfigObject
      * An object that specifies the crosshair selected color.
      *
      * @param  Color     $color
-     * @return Crosshair
+     * @return self
      */
     public function selected(Color $color)
     {
@@ -196,7 +196,7 @@ class Crosshair extends ConfigObject
      *
      * @param  string             $trigger
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Crosshair
+     * @return self
      */
     public function trigger($trigger)
     {

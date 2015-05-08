@@ -49,7 +49,7 @@ class Stroke extends ConfigObject
      * @param  array                 $config
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return Stroke
+     * @return self
      */
     public function __construct($config = array())
     {
@@ -61,7 +61,7 @@ class Stroke extends ConfigObject
      *
      * @param  string            $stroke A valid html color string
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Stroke
+     * @return self
      */
     public function stroke($s)
     {
@@ -82,7 +82,7 @@ class Stroke extends ConfigObject
      *
      * @param  float             $strokeOpacity
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Stroke
+     * @return self
      */
     public function strokeOpacity($so)
     {
@@ -103,7 +103,7 @@ class Stroke extends ConfigObject
      *
      * @param  integer                $sw
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Stroke
+     * @return self
      */
     public function strokeWidth($sw)
     {

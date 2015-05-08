@@ -1,4 +1,11 @@
-<?php namespace Khill\Lavacharts;
+<?php
+
+namespace Khill\Lavacharts;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Charts\Chart;
+use \Khill\Lavacharts\Exceptions\InvalidLabel;
+use \Khill\Lavacharts\Exceptions\ChartNotFound;
 
 /**
  * Volcano Storage Class
@@ -14,12 +21,6 @@
  * @link      http://kevinkhill.github.io/Lavacharts  GitHub Project Page
  * @license   http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Exceptions\InvalidLabel;
-use \Khill\Lavacharts\Exceptions\ChartNotFound;
-
 class Volcano
 {
     /**

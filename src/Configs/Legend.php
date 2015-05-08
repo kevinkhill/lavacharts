@@ -50,7 +50,7 @@ class Legend extends ConfigObject
      * @param  array                 $config Options for the legend
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return Legend
+     * @return self
      */
     public function __construct($config = array())
     {
@@ -68,7 +68,7 @@ class Legend extends ConfigObject
      * 'none'   - No legend is displayed.
      *
      * @param  string $position Location of legend.
-     * @return Legend
+     * @return self
      */
     public function position($position)
     {
@@ -109,7 +109,7 @@ class Legend extends ConfigObject
      * the default is 'center'; other legends default to 'start'.
      *
      * @param  string $alignment Alignment of the legend.
-     * @return Legend
+     * @return self
      */
     public function alignment($alignment)
     {
@@ -136,7 +136,7 @@ class Legend extends ConfigObject
      * An object that specifies the legend text style.
      *
      * @param  TextStyle $textStyle Style of the legend
-     * @return Legend
+     * @return self
      */
     public function textStyle(TextStyle $textStyle)
     {

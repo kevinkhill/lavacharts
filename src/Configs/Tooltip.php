@@ -50,7 +50,7 @@ class Tooltip extends ConfigObject
      * @param  array                 $config Configuration options for the tooltip
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return Tooltip
+     * @return self
      */
     public function __construct($config = array())
     {
@@ -62,7 +62,7 @@ class Tooltip extends ConfigObject
      *
      * @param  bool               $showColorCode State of showing the color code.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Tooltip
+     * @return self
      */
     public function showColorCode($showColorCode)
     {
@@ -82,7 +82,7 @@ class Tooltip extends ConfigObject
      * Sets the text style of the tooltip.
      *
      * @param  TextStyle $textStyle A valid TextStyle object.
-     * @return Tooltip
+     * @return self
      */
     public function textStyle(TextStyle $textStyle)
     {
@@ -99,7 +99,7 @@ class Tooltip extends ConfigObject
      *
      * @param  string             $trigger Type of trigger.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Tooltip
+     * @return self
      */
     public function trigger($trigger)
     {

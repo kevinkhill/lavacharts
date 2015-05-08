@@ -50,7 +50,7 @@ class Slice extends ConfigObject
      * @param  array                 $config Configuration options for the Slice
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return Slice
+     * @return self
      */
     public function __construct($config = array())
     {
@@ -62,7 +62,7 @@ class Slice extends ConfigObject
      *
      * @param  string             $color
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Slice
+     * @return self
      */
     public function color($color)
     {
@@ -85,7 +85,7 @@ class Slice extends ConfigObject
      *
      * @param  float              $offset
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Slice
+     * @return self
      */
     public function offset($offset)
     {
@@ -106,7 +106,7 @@ class Slice extends ConfigObject
      * Overrides the global pieSliceTextSlice for this slice.
      *
      * @param  TextStyle $textStyle A valid textStyle object.
-     * @return Slice
+     * @return self
      */
     public function textStyle(TextStyle $textStyle)
     {

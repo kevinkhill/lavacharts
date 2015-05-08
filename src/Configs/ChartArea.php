@@ -55,7 +55,7 @@ class ChartArea extends ConfigObject
      * Builds the chartArea object when passed an array of configuration options.
      *
      * @param  array     $config
-     * @return ChartArea
+     * @return self
      */
     public function __construct($config = array())
     {
@@ -67,7 +67,7 @@ class ChartArea extends ConfigObject
      *
      * @param  integer                $left Amount in pixels
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return ChartArea
+     * @return self
      */
     public function left($left)
     {
@@ -89,7 +89,7 @@ class ChartArea extends ConfigObject
      *
      * @param  integer                $top Amount in pixels
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return ChartArea
+     * @return self
      */
     public function top($top)
     {
@@ -111,7 +111,7 @@ class ChartArea extends ConfigObject
      *
      * @param  integer                $width Amount in pixels
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return ChartArea
+     * @return self
      */
     public function width($width)
     {
@@ -133,7 +133,7 @@ class ChartArea extends ConfigObject
      *
      * @param  integer                $height Amount in pixels
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return ChartArea
+     * @return self
      */
     public function height($height)
     {

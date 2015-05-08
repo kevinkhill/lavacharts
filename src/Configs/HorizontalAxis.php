@@ -82,7 +82,7 @@ class HorizontalAxis extends Axis
      * @param  array                 $config
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return HorizontalAxis
+     * @return self
      */
     public function __construct($config = array())
     {
@@ -111,8 +111,7 @@ class HorizontalAxis extends Axis
      * This option is only supported for a discrete axis.
      *
      * @param bool Status of allowing label cutoff
-     *
-     * @return HorizontalAxis
+     * @return self
      */
     public function allowContainerBoundaryTextCutoff($cutoff)
     {
@@ -140,8 +139,7 @@ class HorizontalAxis extends Axis
      * This option is only supported for a discrete axis.
      *
      * @param bool Status of label slant
-     *
-     * @return HorizontalAxis
+     * @return self
      */
     public function slantedText($slant)
     {
@@ -166,8 +164,7 @@ class HorizontalAxis extends Axis
      * This option is only supported for a discrete axis.
      *
      * @param int Angle of labels
-     *
-     * @return HorizontalAxis
+     * @return self
      */
     public function slantedTextAngle($angle)
     {
@@ -196,8 +193,7 @@ class HorizontalAxis extends Axis
      * This option is only supported for a discrete axis.
      *
      * @param int Number of levels
-     *
-     * @return HorizontalAxis
+     * @return self
      */
     public function maxAlternation($alternation)
     {
@@ -222,8 +218,7 @@ class HorizontalAxis extends Axis
      * This option is only supported for a discrete axis.
      *
      * @param int Number of lines
-     *
-     * @return HorizontalAxis
+     * @return self
      */
     public function maxTextLines($maxTextLines)
     {
@@ -251,8 +246,7 @@ class HorizontalAxis extends Axis
      * This option is only supported for a discrete axis.
      *
      * @param int Amount in pixels
-     *
-     * @return HorizontalAxis
+     * @return self
      */
     public function minTextSpacing($minTextSpacing)
     {
@@ -277,8 +271,7 @@ class HorizontalAxis extends Axis
      * This option is only supported for a discrete axis.
      *
      * @param int Number of labels
-     *
-     * @return HorizontalAxis
+     * @return self
      */
     public function showTextEvery($showTextEvery)
     {

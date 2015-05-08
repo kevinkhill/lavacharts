@@ -16,7 +16,6 @@ class LavachartsServiceProvider extends ServiceProvider
          */
         if (method_exists($this, 'package')) {
             $this->package('khill/lavacharts');
-
         }
 
         include __DIR__.'/BladeTemplateExtensions.php';

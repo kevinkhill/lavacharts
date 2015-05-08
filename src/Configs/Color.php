@@ -50,7 +50,7 @@ class Color extends ConfigObject
      * @param  array                 $config
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return Color
+     * @return self
      */
     public function __construct($config = array())
     {
@@ -62,8 +62,7 @@ class Color extends ConfigObject
      *
      * @param  string             $fgColor
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
-     * @return Color
+     * @return self
      */
     public function color($fgColor)
     {
@@ -84,8 +83,7 @@ class Color extends ConfigObject
      *
      * @param  string             $bgColor
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
-     * @return Color
+     * @return self
      */
     public function backgroundColor($bgColor)
     {
@@ -105,7 +103,7 @@ class Color extends ConfigObject
      * Opacity, with 0.0 being fully transparent and 1.0 fully opaque.
      *
      * @param  float $opacity
-     * @return Color
+     * @return self
      */
     public function opacity($opacity)
     {

@@ -52,7 +52,7 @@ class BackgroundColor extends ConfigObject
      * @param  array                 $config Configuration options
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return BackgroundColor
+     * @return self
      */
     public function __construct($config = array())
     {
@@ -63,7 +63,7 @@ class BackgroundColor extends ConfigObject
      * Sets the chart border color. Example: 'red' or '#A2A2A2'
      *
      * @param  string          $stroke Valid HTML color string.
-     * @return BackgroundColor
+     * @return self
      */
     public function stroke($stroke)
     {
@@ -83,7 +83,7 @@ class BackgroundColor extends ConfigObject
      * Sets the chart border width.
      *
      * @param  integer             $strokeWidth Border width, in pixels.
-     * @return BackgroundColor
+     * @return self
      */
     public function strokeWidth($strokeWidth)
     {
@@ -103,7 +103,7 @@ class BackgroundColor extends ConfigObject
      * Sets the chart color fill, Example: 'blue' or '#C5C5C5'
      *
      * @param  string          $fill Valid HTML color string.
-     * @return BackgroundColor
+     * @return self
      */
     public function fill($fill)
     {

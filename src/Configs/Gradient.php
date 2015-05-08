@@ -68,7 +68,7 @@ class Gradient extends ConfigObject
      * @param  array                 $config
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return Gradient
+     * @return self
      */
     public function __construct($config = array())
     {
@@ -79,7 +79,7 @@ class Gradient extends ConfigObject
      * If present, specifies the start color for the gradient.
      *
      * @param  string   $color1
-     * @return Gradient
+     * @return self
      */
     public function color1($color1)
     {
@@ -99,7 +99,7 @@ class Gradient extends ConfigObject
      * If present, specifies the finish color for the gradient.
      *
      * @param  string   $color2
-     * @return Gradient
+     * @return self
      */
     public function color2($color2)
     {
@@ -119,7 +119,7 @@ class Gradient extends ConfigObject
      * Sets where on the boundary to start in X.
      *
      * @param  string   $x1
-     * @return Gradient
+     * @return self
      */
     public function x1($x1)
     {
@@ -139,7 +139,7 @@ class Gradient extends ConfigObject
      * Sets where on the boundary to start in Y.
      *
      * @param  string   $y1
-     * @return Gradient
+     * @return self
      */
     public function y1($y1)
     {
@@ -159,7 +159,7 @@ class Gradient extends ConfigObject
      * Sets where on the boundary to end in X, relative to x1.
      *
      * @param  string   $x2
-     * @return Gradient
+     * @return self
      */
     public function x2($x2)
     {
@@ -179,7 +179,7 @@ class Gradient extends ConfigObject
      * Sets where on the boundary to end in Y, relative to y1.
      *
      * @param  string   $y2
-     * @return Gradient
+     * @return self
      */
     public function y2($y2)
     {

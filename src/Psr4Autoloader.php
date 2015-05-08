@@ -1,17 +1,19 @@
-<?php namespace Khill\Lavacharts;
+<?php
+
+namespace Khill\Lavacharts;
 
 /**
  * PSR4 Autoloader Class
  *
  * As implemented by PHP FIG
  *
+ * @codeCoverageIgnore
  * @category Class
  * @package  Lavacharts
  * @author   PHP-FIG
  * @since    2.4.0
  * @link     http://www.php-fig.org/psr/psr-4/examples/
  * @license  http://opensource.org/licenses/MIT MIT
- * @codeCoverageIgnore
  */
 class Psr4Autoloader
 {

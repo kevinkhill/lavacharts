@@ -64,7 +64,7 @@ class BoxStyle extends ConfigObject
      *
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return BoxStyle
+     * @return self
      */
     public function __construct($config = array())
     {
@@ -76,7 +76,7 @@ class BoxStyle extends ConfigObject
      * If undefined, a random color will be used.
      *
      * @param  string   $stroke Valid HTML color.
-     * @return BoxStyle
+     * @return self
      */
     public function stroke($stroke)
     {
@@ -96,7 +96,7 @@ class BoxStyle extends ConfigObject
      * Sets the thickness of the box outline.
      *
      * @param  integer|string $strokeWidth
-     * @return BoxStyle
+     * @return self
      */
     public function strokeWidth($strokeWidth)
     {
@@ -116,7 +116,7 @@ class BoxStyle extends ConfigObject
      * Sets the x-radius of the corner curvature.
      *
      * @param  integer|string $rx
-     * @return BoxStyle
+     * @return self
      */
     public function rx($rx)
     {
@@ -136,7 +136,7 @@ class BoxStyle extends ConfigObject
      * Sets the y-radius of the corner curvature.
      *
      * @param  integer|string $ry
-     * @return BoxStyle
+     * @return self
      */
     public function ry($ry)
     {
@@ -156,7 +156,7 @@ class BoxStyle extends ConfigObject
      * Sets the attributes for linear gradient fill.
      *
      * @param  Gradient $gradient
-     * @return BoxStyle
+     * @return self
      */
     public function gradient(Gradient $gradient)
     {

@@ -48,7 +48,7 @@ class MagnifyingGlass extends ConfigObject
      * @param  bool                  $zoomFactor
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return MagnifyingGlass
+     * @return self
      */
     public function __construct($zoomFactor = 5)
     {
@@ -60,8 +60,8 @@ class MagnifyingGlass extends ConfigObject
     /**
      * The zoom factor of the magnifying glass.
      *
-     * @param  integer             $zoomFactor Can be any number greater than 0.
-     * @return MagnifyingGlass
+     * @param  integer $zoomFactor Can be any number greater than 0.
+     * @return self
      */
     public function zoomFactor($zoomFactor)
     {
