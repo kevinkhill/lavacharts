@@ -17,7 +17,7 @@ $versions = GitVersionCollection::create(__DIR__)
     ->add('traits', 'v3.0 branch');
 
 return new Sami($iterator, array(
-    'theme'                => 'symfony',
+    'theme'                => 'default',
     'versions'             => $versions,
     'title'                => 'Lavacharts API',
     'build_dir'            => __DIR__.'/../build/%version%',
