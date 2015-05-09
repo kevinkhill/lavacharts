@@ -13,10 +13,11 @@ $iterator = Finder::create()
 ;
 
 $versions = GitVersionCollection::create(__DIR__)
-    ->addFromTags('2.5.1');
+    ->addFromTags('2.5.1')
+    ->add('traits', 'v3.0 branch');
 
 return new Sami($iterator, array(
-    'theme'                => 'enhanced',
+    'theme'                => 'symfony',
     'versions'             => $versions,
     'title'                => 'Lavacharts API',
     'build_dir'            => __DIR__.'/../build/%version%',
