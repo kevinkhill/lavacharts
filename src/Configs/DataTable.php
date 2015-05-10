@@ -113,7 +113,7 @@ class DataTable
      *
      * @access public
      * @param  string    $timezone
-     * @return DataTable
+     * @return self
      */
     public function __construct($timezone = null)
     {
@@ -128,7 +128,7 @@ class DataTable
      *
      * @access public
      * @param  string    $timezone
-     * @return DataTable
+     * @return self
      */
     public function setTimezone($timezone)
     {
@@ -156,7 +156,7 @@ class DataTable
      *
      * @access public
      * @param  string    $dateTimeFormat
-     * @return DataTable
+     * @return self
      */
     public function setDateTimeFormat($dateTimeFormat)
     {
@@ -193,16 +193,17 @@ class DataTable
      * @param  string                A label for the column. (Optional)
      * @param  string                An ID for the column. (Optional)
      * @param  Format                A column formatter object. (Optional)
+     * @param  string                A role for the column. (Optional)
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return DataTable
+     * @return self
      */
-    public function addColumn($typeOrDescArr, $optLabel = '', $optId = '', Format $formatter = null)
+    public function addColumn($typeOrDescArr, $optLabel = '', $optId = '', Format $formatter = null, $role = '')
     {
         if (is_array($typeOrDescArr)) {
             $this->addColumnFromArray($typeOrDescArr);
         } elseif (is_string($typeOrDescArr)) {
-            $this->addColumnFromStrings($typeOrDescArr, $optLabel, $optId, $formatter);
+            $this->addColumnFromStrings($typeOrDescArr, $optLabel, $optId, $formatter, $role);
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
@@ -219,7 +220,7 @@ class DataTable
      * @access public
      * @param  array              $arrOfCols Array of columns to batch add to the DataTable.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return DataTable
+     * @return self
      */
     public function addColumns($arrOfCols)
     {
@@ -245,7 +246,7 @@ class DataTable
      * @param  Format                A column formatter object. (Optional)
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return DataTable
+     * @return self
      */
     public function addStringColumn($optLabel, Format $formatter = null)
     {
@@ -260,7 +261,7 @@ class DataTable
      * @param  Format                A column formatter object. (Optional)
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return DataTable
+     * @return self
      */
     public function addDateColumn($optLabel, Format $formatter = null)
     {
@@ -275,7 +276,7 @@ class DataTable
      * @param  Format                A column formatter object. (Optional)
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return DataTable
+     * @return self
      */
     public function addNumberColumn($optLabel, Format $formatter = null)
     {
@@ -289,7 +290,7 @@ class DataTable
      * @param  integer                $colIndex
      * @param  Format             $formatter
      * @throws InvalidColumnIndex
-     * @return DataTable
+     * @return self
      */
     public function formatColumn($colIndex, Format $formatter)
     {
@@ -307,7 +308,7 @@ class DataTable
      *
      * @access public
      * @param  array     $colFormatArr
-     * @return DataTable
+     * @return self
      */
     public function formatColumns($colFormatArr)
     {
@@ -350,8 +351,8 @@ class DataTable
      *
      * @access public
      * @param  mixed $optCellArray Array of values or DataCells.
-     * @throws InvalidCellCount
-     * @return DataTable
+     * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
+     * @return self
      */
     public function addRow($optCellArray = null)
     {
@@ -401,8 +402,8 @@ class DataTable
      *
      * @see   addRow()
      * @access public
-     * @param array Multi-dimensional array of rows.
-     * @return DataTable
+     * @param  array Multi-dimensional array of rows.
+     * @return self
      */
     public function addRows($arrayOfRows)
     {
@@ -535,13 +536,13 @@ class DataTable
      * Supplemental function to add columns from an array.
      *
      * @access private
-     * @param  array                   $colDefArray
-     * @throws InvalidColumnDefinition
-     * @return DataTable
+     * @param  array $colDefArray
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnDefinition
+     * @return self
      */
     private function addColumnFromArray($colDefArray)
     {
-        if (Utils::arrayValuesCheck($colDefArray, 'string') && Utils::between(1, count($colDefArray), 4, true)) {
+        if (Utils::arrayValuesCheck($colDefArray, 'string') && Utils::between(1, count($colDefArray), 5, true)) {
             call_user_func_array(array($this, 'addColumnFromStrings'), $colDefArray);
         } else {
             throw new InvalidColumnDefinition($colDefArray);
@@ -554,14 +555,15 @@ class DataTable
      * Supplemental function to add columns from strings.
      *
      * @access private
-     * @param  array               $type
-     * @param  array               $label
-     * @param  array               $id
-     * @param  array               $format
+     * @param  array  $type
+     * @param  array  $label
+     * @param  array  $id
+     * @param  array  $format
+     * @param  string $role
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return DataTable
+     * @return self
      */
-    private function addColumnFromStrings($type, $label = '', $id = '', $format = null)
+    private function addColumnFromStrings($type, $label = '', $id = '', $format = null, $role = '')
     {
         $colIndex = $this->getNumberOfColumns();
 
@@ -592,6 +594,10 @@ class DataTable
 
         if (! is_null($format)) {
             $this->formats[$colIndex] = $format;
+        }
+
+        if (Utils::nonEmptyString($role)) {
+            $descArray['role'] = $role;
         }
 
         $this->cols[$colIndex] = $descArray;

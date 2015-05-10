@@ -52,12 +52,11 @@ class DataCell
      * assigning the values "low" "medium", and "high" as formatted values to
      * numeric cell values of 1, 2, and 3.
      *
-     * @see   DataTable
-     * @param string $v The cell value
-     * @param string $f A string version of the v value
-     * @param string $p An object that is a map of custom values applied to the cell
-     *
-     * @return DataCell
+     * @see    DataTable
+     * @param  string $v The cell value
+     * @param  string $f A string version of the v value
+     * @param  string $p An object that is a map of custom values applied to the cell
+     * @return self
      */
     public function __construct($v = null, $f = null, $p = null)
     {
@@ -65,7 +64,7 @@ class DataCell
         $this->f = $f;
 
         if (is_array($p)) {
-            $vals = array();
+            $vals = [];
             foreach ($p as $k => $v) {
                 $vals[$k] = $v;
             }
@@ -84,7 +83,7 @@ class DataCell
      */
     public function toJson()
     {
-        $output = array();
+        $output = [];
 
         if ($this->v != null) {
             $output['v'] = $this->v;
