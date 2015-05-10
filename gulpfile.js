@@ -15,6 +15,10 @@ gulp.task('phpunit', function (done) {
   sh('./vendor/bin/phpunit -c configs/phpunit.xml');
 });
 
+gulp.task('sami', function (done) {
+  sh('./vendor/bin/sami.php update configs/sami.cfg.php');
+});
+
 gulp.task('karma', function (done) {
   var conf = {
     configFile: __dirname + '/configs/karma.conf.js'
