@@ -185,16 +185,17 @@ class DataTable
      * @param  string                A label for the column. (Optional)
      * @param  string                An ID for the column. (Optional)
      * @param  Format                A column formatter object. (Optional)
+     * @param  string                A role for the column. (Optional)
      * @throws InvalidConfigValue
      * @throws InvalidConfigProperty
      * @return DataTable
      */
-    public function addColumn($typeOrDescArr, $optLabel = '', $optId = '', Format $formatter = null)
+    public function addColumn($typeOrDescArr, $optLabel = '', $optId = '', Format $formatter = null, $role = '')
     {
         if (is_array($typeOrDescArr)) {
             $this->addColumnFromArray($typeOrDescArr);
         } elseif (is_string($typeOrDescArr)) {
-            $this->addColumnFromStrings($typeOrDescArr, $optLabel, $optId, $formatter);
+            $this->addColumnFromStrings($typeOrDescArr, $optLabel, $optId, $formatter, $role);
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
@@ -533,7 +534,7 @@ class DataTable
      */
     private function addColumnFromArray($colDefArray)
     {
-        if (Utils::arrayValuesCheck($colDefArray, 'string') && Utils::between(1, count($colDefArray), 4, true)) {
+        if (Utils::arrayValuesCheck($colDefArray, 'string') && Utils::between(1, count($colDefArray), 5, true)) {
             call_user_func_array(array($this, 'addColumnFromStrings'), $colDefArray);
         } else {
             throw new InvalidColumnDefinition($colDefArray);
@@ -550,10 +551,11 @@ class DataTable
      * @param  array               $label
      * @param  array               $id
      * @param  array               $format
+     * @param  array               $role
      * @throws InvalidConfigValue
      * @return DataTable
      */
-    private function addColumnFromStrings($type, $label = '', $id = '', $format = null)
+    private function addColumnFromStrings($type, $label = '', $id = '', $format = null, $role = '')
     {
         $colIndex = $this->getNumberOfColumns();
 
@@ -584,6 +586,10 @@ class DataTable
 
         if (! is_null($format)) {
             $this->formats[$colIndex] = $format;
+        }
+
+        if (Utils::nonEmptyString($role)) {
+            $descArray['role'] = $role;
         }
 
         $this->cols[$colIndex] = $descArray;
