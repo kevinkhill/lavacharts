@@ -47,14 +47,14 @@ class DataTable
     const VERSION = '0.6';
 
     /**
-     * Timezone for dealing with datetime and Carbon objects
+     * Timezone for dealing with datetime and Carbon objects.
      *
      * @var string
      */
     public $timezone;
 
     /**
-     * Timezone for dealing with datetime and Carbon objects
+     * The DateTime format used by Carbon when parsing string dates.
      *
      * @var string
      */
