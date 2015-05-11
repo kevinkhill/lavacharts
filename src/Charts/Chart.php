@@ -138,27 +138,29 @@ class Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Chart
      */
-    public function setOptions($o)
+    public function setOptions($options)
     {
-        if (is_array($o) && count($o) > 0) {
-            foreach ($o as $option => $value) {
-                if (in_array($option, $this->defaults)) {
-                    $this->$option($value);
-                } else {
-                    throw new InvalidConfigProperty(
-                        static::TYPE,
-                        __FUNCTION__,
-                        $option,
-                        $this->defaults
-                    );
-                }
-            }
-        } else {
+        if (is_array($options) === false || count($options) == 0) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'array'
             );
         }
+
+        foreach ($options as $option => $value) {
+            if (in_array($option, $this->defaults)) {
+                $this->$option($value);
+            } else {
+                throw new InvalidConfigProperty(
+                    static::TYPE,
+                    __FUNCTION__,
+                    $option,
+                    $this->defaults
+                );
+            }
+        }
+
+        return $this;
     }
 
     /**
