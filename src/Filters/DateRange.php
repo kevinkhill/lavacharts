@@ -2,8 +2,8 @@
 
 namespace \Khill\Lavacharts\Filters;
 
-use \Khill\Lavacharts\Dashboard\Filters\Filter;
+use \Khill\Lavacharts\Filters\Filter;
 
-class DateRangeFilter extends Filter {
+class DateRange extends Filter {
 
 }
