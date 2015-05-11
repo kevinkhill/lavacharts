@@ -14,6 +14,10 @@ var lava = {
     this.options = null;
     this.formats = [];
   },
+  Dashboard: function() {
+    this.chart    = null;
+    this.bindings = [];
+  },
   get: function (chartLabel, callback) {
     if (arguments.length < 2 || typeof chartLabel !== 'string' || typeof callback !== 'function') {
       throw new Error('[Lavacharts] The syntax for lava.get must be (str ChartLabel, fn Callback)');

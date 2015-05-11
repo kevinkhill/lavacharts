@@ -721,16 +721,16 @@ class DataTable
     {
         if (is_a($date, 'Carbon\Carbon')) {
             $carbonDate = $date;
-        } elseif (Utils::nonEmptyString($date)) {
-            try {
+        } elseif (empty($date) === false) {
+            //try {
                 if (Utils::nonEmptyString($this->dateTimeFormat)) {
                     $carbonDate = Carbon::createFromFormat($this->dateTimeFormat, $date);
                 } else {
                     $carbonDate = Carbon::parse($date);
                 }
-            } catch (\Exception $e) {
-                throw new InvalidDate;
-            }
+            //} catch (\Exception $e) {
+            //   throw new InvalidDate;
+            //}
         } else {
             throw new InvalidDate;
         }

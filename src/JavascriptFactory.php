@@ -6,6 +6,7 @@ use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Charts\Chart;
 use \Khill\Lavacharts\Events\Event;
 use \Khill\Lavacharts\Configs\DataTable;
+use \Khill\Lavacharts\Dashboard\ControlWrapper;
 use \Khill\Lavacharts\Exceptions\InvalidElementId;
 
 /**
@@ -120,11 +121,7 @@ class JavascriptFactory
     }
 
     /**
-     * Builds the Javascript code block
-     *
-     * Build the script block for the chart. If there are any events defined,
-     * they will be automatically be attached to the chart and
-     * pulled from the callbacks folder.
+     * Builds the Javascript code block for a chart.
      *
      * @access private
      * @param  Chart  $chart
@@ -158,7 +155,7 @@ class JavascriptFactory
         $this->out .=
 <<<JS
         /**
-         * If the object does not exist for a given chart type, initialise it.
+         * If the object does not exist for a given chart type, initialize it.
          * This will prevent overriding keys when multiple charts of the same
          * type are being rendered on the same page.
          */
@@ -256,5 +253,88 @@ JS;
         }
 
         return $output;
+    }
+
+
+    /**
+     * Builds the Javascript code block for a ControlWrapper
+     *
+     * @access private
+     * @since  3.0.0
+     * @param  Chart  $chart
+     * @return string Javascript code block.
+     */
+    private function buildWrapperJs(ControlWrapper $wrapper)
+    {
+
+        $mappedValues = [
+            'type'    => $chart::TYPE,
+            'version' => $chart::VERSION,
+            'class'   => $chart::VIZ_CLASS,
+            'package' => $chart::VIZ_PACKAGE,
+            'label'   => $chart->label,
+            'data'    => $chart->getDataTableJson(),
+            'options' => $chart->optionsToJson(),
+            'elemId'  => $this->elementId,
+            'dataVer' => DataTable::VERSION,
+            'formats' => '',
+            'events'  => ''
+        ];
+
+        if ($chart->getDataTable()->hasFormats()) {
+            $mappedValues['formats'] = $this->buildFormatters($chart);
+        }
+
+        if ($chart->hasEvents()) {
+            $mappedValues['events'] = $this->buildEventCallbacks($chart);
+        }
+
+        $this->out = self::JS_OPEN.PHP_EOL;
+        $this->out .=
+<<<JS
+        /**
+         * If the object does not exist for a given chart type, initialize it.
+         * This will prevent overriding keys when multiple charts of the same
+         * type are being rendered on the same page.
+         */
+        if ( typeof lava.charts.<type> == "undefined" ) {
+            lava.charts.<type> = {};
+        }
+
+        //Creating a new lavachart object
+        lava.charts.<type>["<label>"] = new lava.Chart();
+
+        //Checking if output div exists
+        if (! document.getElementById("<elemId>")) {
+            throw new Error('[Lavacharts] No matching element was found with ID "<elemId>"');
+        }
+
+        lava.charts.<type>["<label>"].draw = function() {
+            var Chart = lava.charts.<type>["<label>"];
+
+            Chart.data = new google.visualization.DataTable(<data>, <dataVer>);
+
+            Chart.options = <options>;
+
+            Chart.chart = new <class>(document.getElementById("<elemId>"));
+
+            <formats>
+            <events>
+
+            Chart.chart.draw(Chart.data, Chart.options);
+        };
+
+        google.load('visualization', '<version>', {'packages':['<package>']});
+        google.setOnLoadCallback(lava.charts.<type>["<label>"].draw);
+
+        lava.register("<type>", "<label>");
+JS;
+        $this->out .= PHP_EOL.self::JS_CLOSE;
+
+        foreach ($mappedValues as $key => $value) {
+            $this->out = preg_replace("/<$key>/", $value, $this->out);
+        }
+
+        return $this->out;
     }
 }

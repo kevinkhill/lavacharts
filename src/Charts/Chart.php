@@ -92,6 +92,14 @@ class Chart
      */
     public function __construct($chartLabel)
     {
+        if (Utils::nonEmptyString($chartLabel) === false) {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string',
+                'which is unique and non-empty'
+            );
+        }
+
         $this->label = $chartLabel;
     }
 

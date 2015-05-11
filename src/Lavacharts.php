@@ -5,6 +5,10 @@ namespace Khill\Lavacharts;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Volcano;
 use \Khill\Lavacharts\JavascriptFactory;
+use \Khill\Lavacharts\Configs\DataTable;
+use \Khill\Lavacharts\Dashboard\Dashboard;
+use \Khill\Lavacharts\Dashboard\ChartWrapper;
+use \Khill\Lavacharts\Dashboard\ControlWrapper;
 use \Khill\Lavacharts\Exceptions\ChartNotFound;
 use \Khill\Lavacharts\Exceptions\InvalidChartLabel;
 use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
@@ -12,6 +16,8 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidEventCallback;
 use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+use \Khill\Lavacharts\Exceptions\InvalidChartWrapperParams;
+use \Khill\Lavacharts\Exceptions\InvalidControlWrapperParams;
 
 /**
  * Lavacharts - A PHP wrapper library for the Google Chart API
@@ -112,6 +118,19 @@ class Lavacharts
     ];
 
     /**
+     * Types of filters.
+     *
+     * @var array
+     */
+    private $filterClasses = [
+        'Category',
+        'ChartRange',
+        'DateRange',
+        'NumberRange',
+        'String'
+    ];
+
+    /**
      * Creates Volcano & Javascript Factory
      *
      * @return Lavacharts
@@ -143,36 +162,64 @@ class Lavacharts
      */
     public function __call($member, $arguments)
     {
+        //Core Objects
+        if ($member == 'DataTable') {
+            if (isset($arguments[0])) {
+                return new DataTable($arguments[0]);
+            } else {
+                return new DataTable;
+            }
+        }
+
+        if ($member == 'Dashboard') {
+            if (isset($arguments[0])) {
+                return new Dashboard($arguments[0]);
+            } else {
+                return new Dashboard;
+            }
+        }
+
+        if ($member == 'ControlWrapper') {
+            if (isset($arguments[0]) === false || isset($arguments[1]) === false) {
+                throw new InvalidControlWrapperParams;
+            }
+
+            return new ControlWrapper($arguments[0], $arguments[1]);
+        }
+
+        if ($member == 'ChartWrapper') {
+            if (isset($arguments[0]) === false || isset($arguments[1]) === false) {
+                throw new InvalidChartWrapperParams;
+            }
+
+            return new ChartWrapper($arguments[0], $arguments[1]);
+        }
+
+        //Rendering Aliases
         if ($this->strStartsWith($member, 'render')) {
             $chartType = str_replace('render', '', $member);
 
-            if (in_array($chartType, $this->chartClasses)) {
-                return $this->render($chartType, $arguments[0], $arguments[1]);
-            } else {
+            if (in_array($chartType, $this->chartClasses, true) === false) {
                 throw new InvalidLavaObject($chartType);
             }
+
+            return $this->render($chartType, $arguments[0], $arguments[1]);
         }
 
-        if ($member == 'DataTable') {
-            if (isset($arguments[0])) {
-                return new Configs\DataTable($arguments[0]);
-            } else {
-                return new Configs\DataTable;
-            }
-        }
-
+        //Charts
         if (in_array($member, $this->chartClasses)) {
-            if (isset($arguments[0])) {
-                if (Utils::nonEmptyString($arguments[0])) {
-                    return $this->chartFactory($member, $arguments[0]);
-                } else {
-                    throw new InvalidChartLabel($arguments[0]);
-                }
-            } else {
+            if (isset($arguments[0]) === false) {
                 throw new InvalidChartLabel;
             }
+
+            if (Utils::nonEmptyString($arguments[0]) === false) {
+                throw new InvalidChartLabel($arguments[0]);
+            }
+
+            return $this->chartFactory($member, $arguments[0]);
         }
 
+        //ConfigObjects
         if (in_array($member, $this->configClasses)) {
             if (isset($arguments[0]) && is_array($arguments[0])) {
                 return $this->configFactory($member, $arguments[0]);
@@ -181,6 +228,7 @@ class Lavacharts
             }
         }
 
+        //Formatters
         if (in_array($member, $this->formatClasses)) {
             if (isset($arguments[0]) && is_array($arguments[0])) {
                 return $this->formatFactory($member, $arguments[0]);
@@ -189,19 +237,22 @@ class Lavacharts
             }
         }
 
+        //Events
         if (in_array($member, $this->eventClasses)) {
-            if (isset($arguments[0])) {
-                if (Utils::nonEmptyString($arguments[0])) {
-                    return $this->eventFactory($member, $arguments[0]);
-                } else {
-                    throw new InvalidEventCallback($arguments[0]);
-                }
-            } else {
+            if (isset($arguments[0]) === false) {
                 throw new InvalidEventCallback;
             }
+
+            if (Utils::nonEmptyString($arguments[0]) === false) {
+                throw new InvalidEventCallback($arguments[0]);
+
+            }
+
+            return $this->eventFactory($member, $arguments[0]);
         }
 
-        if (! method_exists($this, $member)) {
+        //Missing
+        if (method_exists($this, $member) === false) {
             throw new InvalidLavaObject($member);
         }
     }
