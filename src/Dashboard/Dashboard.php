@@ -1,6 +1,6 @@
 <?php
 
-namespace \Khill\Lavacharts\Dashboard;
+namespace Khill\Lavacharts\Dashboard;
 
 use \Khill\Lavacharts\Dashboard\ChartWrapper;
 use \Khill\Lavacharts\Dashboard\ControlWrapper;
