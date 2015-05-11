@@ -40,12 +40,17 @@ class Dashboard {
     }
 
     /**
+     * Binds a ControlWrapper to a ChartWrapper in the dashboard.
      *
-     * @param
+     * @param  \Khill\Lavacharts\Dashboard\ChartWrapper   $chartWrap
+     * @param  \Khill\Lavacharts\Dashboard\ControlWrapper $controlWrap
      * @return self
      */
     public function bind(ControlWrapper $controlWrap, ChartWrapper $chartWrap)
     {
-        # code...
+        $this->bindings[] = [
+            'control' => $controlWrap,
+            'chart'   => $chartWrap
+        ];
     }
 }

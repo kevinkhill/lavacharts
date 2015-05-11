@@ -1,6 +1,6 @@
 <?php
 
-namespace \Khill\Lavacharts\Dashboard\Filters;
+namespace \Khill\Lavacharts\Filters;
 
 use \Khill\Lavacharts\Dashboard\Filters\Filter;
 

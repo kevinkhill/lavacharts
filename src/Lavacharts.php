@@ -196,7 +196,7 @@ class Lavacharts
         }
 
         //Rendering Aliases
-        if ($this->strStartsWith($member, 'render')) {
+        if ((bool) preg_match('/^render/', $member) === true) {
             $chartType = str_replace('render', '', $member);
 
             if (in_array($chartType, $this->chartClasses, true) === false) {
@@ -249,6 +249,13 @@ class Lavacharts
             }
 
             return $this->eventFactory($member, $arguments[0]);
+        }
+
+        //Filters
+        if ((bool) preg_match('/Filter$/', $member) === true) {
+            $filter = "\\Khill\\Lavacharts\\Filters\\$member";
+
+            return new $filter;
         }
 
         //Missing
