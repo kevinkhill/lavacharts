@@ -127,7 +127,7 @@ class DataTable
      * and falling back from that to America/Los_Angeles
      *
      * @access public
-     * @param  string    $timezone
+     * @param  string $timezone
      * @return self
      */
     public function setTimezone($timezone)
@@ -155,7 +155,7 @@ class DataTable
      * passed to a cell in a date column, that was parsed incorrectly by Carbon::parse()
      *
      * @access public
-     * @param  string    $dateTimeFormat
+     * @param  string $dateTimeFormat
      * @return self
      */
     public function setDateTimeFormat($dateTimeFormat)
