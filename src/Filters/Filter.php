@@ -1,6 +1,6 @@
 <?php
 
-namespace \Khill\Lavacharts\Filters;
+namespace Khill\Lavacharts\Filters;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
