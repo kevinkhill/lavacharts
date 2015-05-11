@@ -253,7 +253,8 @@ class Lavacharts
 
         //Filters
         if ((bool) preg_match('/Filter$/', $member) === true) {
-            $filter = "\\Khill\\Lavacharts\\Filters\\$member";
+            $filter = str_replace('Filter', '', $member);
+            $filter = "\\Khill\\Lavacharts\\Filters\\$filter";
 
             return new $filter;
         }

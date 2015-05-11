@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Dashboard\Filters;
+namespace \Khill\Lavacharts\Filters;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -12,7 +12,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * functions to the child objects.
  *
  *
- * @package    Dashboard
+ * @package    Lavacharts
  * @subpackage Filters
  * @since      2.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -23,31 +23,8 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  */
 class Filter
 {
-    /**
-     * Javascript callback function name.
-     *
-     * @var string
-     */
-    public $callback;
-
-    /**
-     * Builds the Event object.
-     *
-     * @param  string $c Name of Javascript callback function.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
-     */
-    public function __construct($c)
+    public function __construct()
     {
-        if (Utils::nonEmptyString($c)) {
-            $this->callback = $c;
-        } else {
-            throw new InvalidConfigValue(
-                'a Filter',
-                'string'
-            );
-        }
+        //
     }
-
-
 }
