@@ -2,7 +2,9 @@
 
 namespace Khill\Lavacharts\Configs;
 
+use \SplFileObject;
 use \Carbon\Carbon;
+use \League\Csv\Reader;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Formats\Format;
 use \Khill\Lavacharts\Exceptions\InvalidDate;
@@ -11,6 +13,8 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 use \Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
 use \Khill\Lavacharts\Exceptions\InvalidColumnIndex;
+use \Khill\Lavacharts\Exceptions\InvalidColumnType;
+use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
 use \Khill\Lavacharts\Exceptions\InvalidRowDefinition;
 use \Khill\Lavacharts\Exceptions\InvalidRowProperty;
 
@@ -86,7 +90,7 @@ class DataTable
      *
      * @var array
      */
-    private $colCellTypes = [
+    private $columnTypes = [
         'string',
         'number',
         //'bool',
@@ -100,7 +104,7 @@ class DataTable
      *
      * @var array
      */
-    private $colCellDesc = [
+    private $columnDesc = [
         'type',
         'label',
         'id',
@@ -372,25 +376,28 @@ class DataTable
                     $rowVals = $this->parseExtendedCellArray($optCellArray);
                 }
 
-                $this->rows[] = array('c' => $rowVals);
+                $this->rows[] = ['c' => $rowVals];
             } else {
-                if (count($optCellArray) > count($this->cols)) {
-                    throw new InvalidCellCount(count($optCellArray), count($this->cols));
+                $colCount = $this->getNumberOfColumns();
+                $rowColCount = count($optCellArray);
+
+                if ($rowColCount > $colCount) {
+                    throw new InvalidCellCount($rowColCount, $colCount);
                 }
 
-                for ($index = 0; $index < count($this->cols); $index++) {
+                for ($index = 0; $index < $colCount; $index++) {
                     if (isset($optCellArray[$index])) {
                         if ($this->cols[$index]['type'] == 'date') {
-                            $rowVals[] = array('v' => $this->parseDate($optCellArray[$index]));
+                            $rowVals[] = ['v' => $this->parseDate($optCellArray[$index])];
                         } else {
-                            $rowVals[] = array('v' => $optCellArray[$index]);
+                            $rowVals[] = ['v' => $optCellArray[$index]];
                         }
                     } else {
-                        $rowVals[] = array('v' => null);
+                        $rowVals[] = ['v' => null];
                     }
                 }
 
-                $this->rows[] = array('c' => $rowVals);
+                $this->rows[] = ['c' => $rowVals];
             }
         }
 
@@ -400,7 +407,7 @@ class DataTable
     /**
      * Adds multiple rows to the DataTable.
      *
-     * @see   addRow()
+     * @see    addRow()
      * @access public
      * @param  array Multi-dimensional array of rows.
      * @return self
@@ -419,6 +426,53 @@ class DataTable
         }
 
         return $this;
+    }
+
+    public function parseCsv($filepath, $columnTypes = null)
+    {
+        if (Utils::nonEmptyString($filepath) === false) {
+            throw new InvalidFunctionParam(
+                $filepath,
+                __FUNCTION__,
+                'string'
+            );
+        }
+
+        if (is_array($columnTypes) === false || empty($columnTypes) === true) {
+            throw new InvalidFunctionParam(
+               $columnTypes,
+                __FUNCTION__,
+                'array'
+            );
+        }
+
+        $reader = Reader::createFromPath($filepath);
+        $reader->setFlags(SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY);
+
+        $csvColumns = $reader->fetchOne();
+
+        foreach($columnTypes as $index => $column) {
+            if (in_array($column, $this->columnTypes, true) === false) {
+                throw new InvalidColumnType(
+                   $column,
+                   Utils::arrayToPipedString($this->columnTypes)
+                );
+            }
+
+            $this->addColumnFromStrings($columnTypes[$index], $csvColumns[$index]);
+        }
+
+        $csvRows = $reader->setOffset(1)->fetchAll(function ($row) {
+            return array_map(function ($cell) {
+                if (is_numeric($cell)) {
+                    return $cell + 0;
+                } else {
+                    return $cell;
+                }
+            }, $row);
+        });
+
+        return $this->addRows($csvRows);
     }
 
     /**
@@ -567,11 +621,11 @@ class DataTable
     {
         $colIndex = $this->getNumberOfColumns();
 
-        if (in_array($type, $this->colCellTypes) === false) {
+        if (in_array($type, $this->columnTypes) === false) {
             throw new InvalidConfigProperty(
                 __FUNCTION__,
                 'string',
-                Utils::arrayToPipedString($this->colCellTypes)
+                Utils::arrayToPipedString($this->columnTypes)
             );
         }
 
@@ -613,10 +667,10 @@ class DataTable
     private function addNullColumn()
     {
         for ($a = 0; $a < count($this->cols); $a++) {
-            $tmp[] = array('v' => null);
+            $tmp[] = ['v' => null];
         }
 
-        return array('c' => $tmp);
+        return ['c' => $tmp];
     }
 
     /**
@@ -650,7 +704,7 @@ class DataTable
     private function parseTimeOfDayRow($cellArray)
     {
         foreach ($cellArray as $cell) {
-            $rowVals[] = array('v' => $cell);
+            $rowVals[] = ['v' => $cell];
         }
 
         return $rowVals;
