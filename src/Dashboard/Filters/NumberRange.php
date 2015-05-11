@@ -2,6 +2,8 @@
 
 namespace \Khill\Lavacharts\Dashboard\Filters;
 
-class NumberRange {
+use \Khill\Lavacharts\Dashboard\Filters\Filter;
+
+class NumberRangeFilter extends Filter {
 
 }

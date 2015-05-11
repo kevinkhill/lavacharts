@@ -2,6 +2,8 @@
 
 namespace \Khill\Lavacharts\Dashboard\Filters;
 
-class StringFilter {
+use \Khill\Lavacharts\Dashboard\Filters\Filter;
+
+class StringFilter extends Filter {
 
 }
