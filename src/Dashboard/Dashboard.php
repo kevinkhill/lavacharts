@@ -21,6 +21,13 @@ class Dashboard implements \JsonSerializable {
     const VIZ_CLASS = 'google.visualization.Dashboard';
 
     /**
+     * The dashboard's unique label.
+     *
+     * @var string
+     */
+    public $label = null;
+
+    /**
      * Arry of Binding objects, mapping controls to charts.
      *
      * @var array
@@ -28,14 +35,22 @@ class Dashboard implements \JsonSerializable {
     private $bindings = [];
 
     /**
-     * Builds a new Dashboard.
+     * Builds a new Dashboard with identifying label.
      *
      * @param  string $label
      * @return self
      */
     public function __construct($label)
     {
-        # code...
+        if (Utils::nonEmptyString($chartLabel) === false) {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'string',
+                'which is unique and non-empty'
+            );
+        }
+
+        $this->label = $label;
     }
 
     /**

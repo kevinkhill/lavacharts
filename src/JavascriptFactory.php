@@ -103,9 +103,9 @@ class JavascriptFactory
      * Checks for an element id to output the chart into and builds the Javascript.
      *
      * @access public
-     * @uses   Chart
-     * @param  Chart             $chart     Chart object to render.
-     * @param  string            $elementId HTML element id to output the chart into.
+     * @uses   \Khill\Lavacharts\Charts\Chart
+     * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to render.
+     * @param  string $elementId HTML element id to output the chart into.
      * @throws InvalidElementId
      * @return string Javascript code block.
      */
@@ -118,6 +118,28 @@ class JavascriptFactory
         $this->elementId = $elementId;
 
         return $this->buildChartJs($chart);
+    }
+
+    /**
+     * Checks for an element id to output the chart into and builds the Javascript.
+     *
+     * @access public
+     * @since  3.0.0
+     * @uses   \Khill\Lavacharts\Dashboard\Dashboard
+     * @param  \Khill\Lavacharts\Dashboard\Dashboard $dashboard Dashboard to render.
+     * @param  string $elementId HTML element id to output the dashboard into.
+     * @throws InvalidElementId
+     * @return string Javascript code block.
+     */
+    public function getDashboardJs(Dashboard $dashboard, $elementId = null)
+    {
+        if (Utils::nonEmptyString($elementId) === false) {
+            throw new InvalidElementId($elementId);
+        }
+
+        $this->elementId = $elementId;
+
+        return $this->buildDashboardJs($dashboard);
     }
 
     /**
@@ -151,7 +173,7 @@ class JavascriptFactory
             $mappedValues['events'] = $this->buildEventCallbacks($chart);
         }
 
-        $this->out = self::JS_OPEN.PHP_EOL;
+        $this->out  = self::JS_OPEN.PHP_EOL;
         $this->out .=
 <<<JS
         /**
@@ -263,7 +285,7 @@ JS;
      * @param  \Khill\Lavacharts\Dashbaord\Dashboard $dashboard
      * @return string Javascript code block.
      */
-    private function buildWrapperJs(Dashboard $dashboard)
+    private function buildDashboardJs(Dashboard $dashboard)
     {
         $mappedValues = [
             'type'    => $chart::TYPE,
@@ -278,14 +300,6 @@ JS;
             'formats' => '',
             'events'  => ''
         ];
-
-        if ($chart->getDataTable()->hasFormats()) {
-            $mappedValues['formats'] = $this->buildFormatters($chart);
-        }
-
-        if ($chart->hasEvents()) {
-            $mappedValues['events'] = $this->buildEventCallbacks($chart);
-        }
 
         $this->out = self::JS_OPEN.PHP_EOL;
         $this->out .=
