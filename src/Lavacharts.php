@@ -162,6 +162,7 @@ class Lavacharts
      */
     public function __call($member, $arguments)
     {
+            var_dump($arguments);
         //Core Objects
         if ($member == 'DataTable') {
             if (isset($arguments[0])) {

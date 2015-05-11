@@ -2,7 +2,8 @@
 
 namespace Khill\Lavacharts\Dashboard;
 
-use \Khill\Lavacharts\Dashboard\Filters\Filter;
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Filters\Filter;
 
 class ControlWrapper {
 
@@ -23,7 +24,7 @@ class ControlWrapper {
     /**
      * Filter used in the Control.
      *
-     * @var \Khill\Lavacharts\Dashboard\Filters\Filter
+     * @var \Khill\Lavacharts\Filters\Filter
      */
     private $controlType;
 
@@ -38,7 +39,7 @@ class ControlWrapper {
      * Builds a ControlWrapper object.
      *
      * @param  \Khill\Lavacharts\Charts\Chart $chart
-     * @param  \Khill\Lavacharts\Dashboard\Filters\Filter $filter
+     * @param  \Khill\Lavacharts\Filters\Filter $filter
      * @param  string $containerId
      * @return self
      */

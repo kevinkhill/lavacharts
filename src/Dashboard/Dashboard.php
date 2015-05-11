@@ -2,8 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboard;
 
-use \Khill\Lavacharts\Dashboard\ChartWrapper;
-use \Khill\Lavacharts\Dashboard\ControlWrapper;
+use \Khill\Lavacharts\Dashboard\Binding;
 
 class Dashboard {
 
@@ -22,7 +21,7 @@ class Dashboard {
     const VIZ_CLASS = 'google.visualization.Dashboard';
 
     /**
-     * Control to chart bindings.
+     * Arry of Binding objects, mapping controls to charts.
      *
      * @var array
      */
@@ -48,9 +47,6 @@ class Dashboard {
      */
     public function bind(ControlWrapper $controlWrap, ChartWrapper $chartWrap)
     {
-        $this->bindings[] = [
-            'control' => $controlWrap,
-            'chart'   => $chartWrap
-        ];
+        $this->bindings[] = new Binding($controlWrap, $chartWrap);
     }
 }

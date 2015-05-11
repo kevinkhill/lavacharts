@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboard;
 
+use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Charts\Chart;
 
 class ChartWrapper {
@@ -31,7 +32,7 @@ class ChartWrapper {
      * Builds a ControlWrapper object.
      *
      * @param  \Khill\Lavacharts\Charts\Chart $chart
-     * @param  \Khill\Lavacharts\Dashboard\Filters\Filter $filter
+     * @param  \Khill\Lavacharts\Filters\Filter $filter
      * @param  string $containerId
      * @return self
      */
