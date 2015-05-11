@@ -3,10 +3,26 @@
 namespace Khill\Lavacharts\Dashboard;
 
 use \Khill\Lavacharts\Utils;
+//use \Khill\Lavacharts\Dashboard\Wrapper;
 use \Khill\Lavacharts\Filters\Filter;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
-class ControlWrapper {
-
+/**
+ * ControlWrapper Class
+ *
+ * Used for building controls for dashboards.
+ *
+ * @package    Lavacharts
+ * @subpackage Dashboard
+ * @since      3.0.0
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2015, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
+ * @license    http://opensource.org/licenses/MIT MIT
+ */
+class ControlWrapper implements \JsonSerializable
+{
     /**
      * Javascript chart class.
      *
@@ -46,13 +62,28 @@ class ControlWrapper {
     public function __construct(Filter $filter, $containerId)
     {
         if (Utils::nonEmptyString($containerId) === false) {
-            throw $this->invalidConfigValue(
+            throw new InvalidConfigValue(
+                get_class(),
                 __FUNCTION__,
                 'string'
             );
         }
 
-        $this->controlType = $filter;
+        $this->filter      = $filter;
+        $this->type        = $filter::TYPE;
         $this->containerId = $containerId;
+    }
+
+    public function jsonSerialize() {
+        return [
+            'controlType' => $this->type,
+            'containerId' => $this->containerId,
+            'options' => [ //@TODO: make options classes
+                'filterColumnLabel' => $this->filter->columnLabel,
+                'ui' => [
+                    'labelStacking' => 'vertical'
+                ]
+            ]
+        ];
     }
 }

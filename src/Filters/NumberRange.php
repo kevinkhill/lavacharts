@@ -6,8 +6,10 @@ use \Khill\Lavacharts\Filters\Filter;
 
 class NumberRange extends Filter
 {
-    public function __construct()
+    const TYPE = 'NumberRangeFilter';
+
+    public function __construct($columnLabel)
     {
-        //
+        parent::__construct($columnLabel);
     }
 }

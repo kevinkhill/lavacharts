@@ -4,7 +4,7 @@ namespace Khill\Lavacharts\Dashboard;
 
 use \Khill\Lavacharts\Dashboard\Binding;
 
-class Dashboard {
+class Dashboard implements \JsonSerializable {
 
     /**
      * Javascript chart package.
@@ -48,5 +48,11 @@ class Dashboard {
     public function bind(ControlWrapper $controlWrap, ChartWrapper $chartWrap)
     {
         $this->bindings[] = new Binding($controlWrap, $chartWrap);
+
+        return $this;
+    }
+
+    public function jsonSerialize() {
+        return $this->bindings;
     }
 }

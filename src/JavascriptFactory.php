@@ -255,18 +255,16 @@ JS;
         return $output;
     }
 
-
     /**
-     * Builds the Javascript code block for a ControlWrapper
+     * Builds the Javascript code block for a Dashboard
      *
      * @access private
      * @since  3.0.0
-     * @param  Chart  $chart
+     * @param  \Khill\Lavacharts\Dashbaord\Dashboard $dashboard
      * @return string Javascript code block.
      */
-    private function buildWrapperJs(ControlWrapper $wrapper)
+    private function buildWrapperJs(Dashboard $dashboard)
     {
-
         $mappedValues = [
             'type'    => $chart::TYPE,
             'version' => $chart::VERSION,

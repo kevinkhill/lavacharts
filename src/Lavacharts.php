@@ -14,6 +14,7 @@ use \Khill\Lavacharts\Exceptions\InvalidChartLabel;
 use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidEventCallback;
+use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
 use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 use \Khill\Lavacharts\Exceptions\InvalidChartWrapperParams;
@@ -162,7 +163,6 @@ class Lavacharts
      */
     public function __call($member, $arguments)
     {
-            var_dump($arguments);
         //Core Objects
         if ($member == 'DataTable') {
             if (isset($arguments[0])) {
@@ -254,10 +254,17 @@ class Lavacharts
 
         //Filters
         if ((bool) preg_match('/Filter$/', $member) === true) {
+            if (Utils::nonEmptyString($arguments[0]) == false) {
+                throw new InvalidFunctionParam(
+                    $arguments[0],
+                    $member,
+                    'string'
+                );
+            }
             $filter = str_replace('Filter', '', $member);
             $filter = "\\Khill\\Lavacharts\\Filters\\$filter";
 
-            return new $filter;
+            return new $filter($arguments[0]);
         }
 
         //Missing
