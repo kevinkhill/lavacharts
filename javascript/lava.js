@@ -5,18 +5,21 @@ var lava = {
   register         : null,
   getLavachart     : null,
   charts           : {},
+  dashboards       : {},
   registeredCharts : [],
 
   Chart: function() {
-    this.chart   = null;
     this.draw    = null;
     this.data    = null;
+    this.chart   = null;
     this.options = null;
     this.formats = [];
   },
   Dashboard: function() {
-    this.chart    = null;
-    this.bindings = [];
+    this.draw      = null;
+    this.data      = null;
+    this.bindings  = [];
+    this.dashboard = null;
   },
   get: function (chartLabel, callback) {
     if (arguments.length < 2 || typeof chartLabel !== 'string' || typeof callback !== 'function') {

@@ -24,7 +24,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class ControlWrapper implements \JsonSerializable
 {
     /**
-     * Javascript chart class.
+     * Google's visualization class name.
      *
      * @var string
      */
@@ -74,6 +74,20 @@ class ControlWrapper implements \JsonSerializable
         $this->containerId = $containerId;
     }
 
+    /**
+     * Return a serialized ControlWrapper.
+     *
+     * @return string JSON
+     */
+    public function toJson() {
+        return json_encode($this);
+    }
+
+    /**
+     * Custom serialization of the ControlWrapper.
+     *
+     * @return array
+     */
     public function jsonSerialize() {
         return [
             'controlType' => $this->type,

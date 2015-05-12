@@ -66,6 +66,30 @@ class ChartWrapper implements \JsonSerializable
         $this->containerId = $containerId;
     }
 
+    /**
+     * Returns the wrapped chart.
+     *
+     * @return \Khill\Lavacharts\Charts\Chart
+     */
+    public function getChart()
+    {
+        return $this->chart;
+    }
+
+    /**
+     * Return a serialized ChartWrapper.
+     *
+     * @return string JSON
+     */
+    public function toJson() {
+        return json_encode($this);
+    }
+
+    /**
+     * Custom serialization of the ChartWrapper.
+     *
+     * @return array
+     */
     public function jsonSerialize() {
         return [
             'chartType'   => $this->type,

@@ -5,7 +5,14 @@ namespace Khill\Lavacharts\Dashboard;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Dashboard\Binding;
 
-class Dashboard implements \JsonSerializable {
+class Dashboard implements \JsonSerializable
+{
+    /**
+     * Google's dashboard version
+     *
+     * @var string
+     */
+    const VERSION = '1';
 
     /**
      * Javascript chart package.
@@ -68,6 +75,23 @@ class Dashboard implements \JsonSerializable {
         return $this;
     }
 
+    /**
+     * Binds a ControlWrapper to a ChartWrapper in the dashboard.
+     *
+     * @param  \Khill\Lavacharts\Dashboard\ChartWrapper   $chartWrap
+     * @param  \Khill\Lavacharts\Dashboard\ControlWrapper $controlWrap
+     * @return self
+     */
+    public function getBindings()
+    {
+        return $this->bindings;
+    }
+
+    /**
+     * Custom JSON serialization of the Dashboard.
+     *
+     * @return string JSON
+     */
     public function jsonSerialize() {
         return $this->bindings;
     }

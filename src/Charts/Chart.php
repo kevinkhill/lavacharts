@@ -164,16 +164,6 @@ class Chart
     }
 
     /**
-     * Gets the current chart options.
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
      * Gets a specific option from the array.
      *
      * @param  string             $option Which option to fetch
@@ -194,6 +184,26 @@ class Chart
     }
 
     /**
+     * Gets the current chart options.
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Returns a JSON string representation of the chart's properties.
+     *
+     * @return string
+     */
+    public function optionsToJson()
+    {
+        return json_encode($this->options);
+    }
+
+    /**
      * Checks if any events have been assigned to the chart.
      *
      * @return bool
@@ -211,6 +221,21 @@ class Chart
     public function getEvents()
     {
         return $this->events;
+    }
+
+    /**
+     * Assigns wich Datatable will be used for this Chart.
+     *
+     * @uses  Datatable
+     * @param Datatable $datatable
+     *
+     * @return Chart
+     */
+    public function datatable(Datatable $datatable)
+    {
+        $this->datatable = $datatable;
+
+        return $this;
     }
 
     /**
@@ -239,31 +264,6 @@ class Chart
     public function getDataTableJson()
     {
         return $this->getDataTable()->toJson();
-    }
-
-    /**
-     * Assigns wich Datatable will be used for this Chart.
-     *
-     * @uses  Datatable
-     * @param Datatable $datatable
-     *
-     * @return Chart
-     */
-    public function datatable(Datatable $datatable)
-    {
-        $this->datatable = $datatable;
-
-        return $this;
-    }
-
-    /**
-     * Returns a JSON string representation of the chart's properties.
-     *
-     * @return string
-     */
-    public function optionsToJson()
-    {
-        return json_encode($this->options);
     }
 
     /**
