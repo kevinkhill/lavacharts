@@ -1,6 +1,9 @@
 - 3.0.0
   - Dropping support for PHP 5.3
-  -
+  - Adding ScatterChart
+  - Adding Dashboards
+  - Adding Material Charts
+    - Line
 
 - 2.5.3
   - Added column roles
