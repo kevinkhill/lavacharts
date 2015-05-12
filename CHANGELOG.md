@@ -1,5 +1,6 @@
 - 3.0.0
   - Dropping support for PHP 5.3
+  - Added support for reading csv files
   -
 
 - 2.5.3
