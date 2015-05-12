@@ -68,7 +68,7 @@ class ScatterChart extends Chart
     const VIZ_PACKAGE = 'corechart';
 
     /**
-     * Javascript chart class.
+     * Google's visualization class name.
      *
      * @var string
      */

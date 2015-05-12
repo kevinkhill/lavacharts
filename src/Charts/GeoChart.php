@@ -55,7 +55,7 @@ class GeoChart extends Chart
     const VIZ_PACKAGE = 'geochart';
 
     /**
-     * Javascript chart class.
+     * Google's visualization class name.
      *
      * @var string
      */

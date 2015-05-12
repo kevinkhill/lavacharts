@@ -54,7 +54,7 @@ class CalendarChart extends Chart
     const VIZ_PACKAGE = 'calendar';
 
     /**
-     * Javascript chart class.
+     * Google's visualization class name.
      *
      * @var string
      */

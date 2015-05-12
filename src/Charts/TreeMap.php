@@ -53,7 +53,7 @@ class TreeMap extends Chart
     const VIZ_PACKAGE = '';
 
     /**
-     * Javascript chart class.
+     * Google's visualization class name.
      *
      * @var string
      */

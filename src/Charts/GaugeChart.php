@@ -43,7 +43,7 @@ class GaugeChart extends Chart
     const VIZ_PACKAGE = 'gauge';
 
     /**
-     * Javascript chart class.
+     * Google's visualization class name.
      *
      * @var string
      */
