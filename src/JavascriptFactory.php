@@ -6,6 +6,7 @@ use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Charts\Chart;
 use \Khill\Lavacharts\Events\Event;
 use \Khill\Lavacharts\Configs\DataTable;
+use \Khill\Lavacharts\Dashboard\Dashboard;
 use \Khill\Lavacharts\Dashboard\ControlWrapper;
 use \Khill\Lavacharts\Exceptions\InvalidElementId;
 
@@ -69,22 +70,19 @@ class JavascriptFactory
     private $coreJsRendered = false;
 
     /**
-     * True if the lava object and jsapi have been added to the page.
+     * Returns true|false depending on if the jsapi & lava.js core
+     * have been added to the output.
      *
-     * @access private
-     * @return bool
+     * @access public
+     * @return boolean
      */
-    public function coreJsRendered($stat = false)
+    public function coreJsRendered()
     {
-        if ($stat !== false) {
-            $this->coreJsRendered = $stat;
-        }
-
         return $this->coreJsRendered;
     }
 
     /**
-     * Builds the javascript lava object for chart interation.
+     * Gets the Google chart api and lava.js core.
      *
      * @access public
      * @return string Javascript code blocks.
@@ -95,6 +93,8 @@ class JavascriptFactory
         $coreJs .= self::JS_OPEN;
         $coreJs .= file_get_contents(__DIR__.'/../javascript/lava.js');
         $coreJs .= self::JS_CLOSE;
+
+        $this->coreJsRendered = true;
 
         return $coreJs;
     }

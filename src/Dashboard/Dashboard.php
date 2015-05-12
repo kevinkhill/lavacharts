@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboard;
 
+use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Dashboard\Binding;
 
 class Dashboard implements \JsonSerializable {
@@ -42,7 +43,7 @@ class Dashboard implements \JsonSerializable {
      */
     public function __construct($label)
     {
-        if (Utils::nonEmptyString($chartLabel) === false) {
+        if (Utils::nonEmptyString($label) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
