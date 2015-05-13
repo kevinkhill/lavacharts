@@ -123,8 +123,8 @@ class JavascriptFactory
     /**
      * Checks for an element id to output the chart into and builds the Javascript.
      *
-     * @access public
      * @since  3.0.0
+     * @access public
      * @uses   \Khill\Lavacharts\Dashboard\Dashboard
      * @param  \Khill\Lavacharts\Dashboard\Dashboard $dashboard Dashboard to render.
      * @param  string $elementId HTML element id to output the dashboard into.
@@ -281,8 +281,8 @@ CHART;
     /**
      * Builds the Javascript code block for a Dashboard
      *
-     * @access private
      * @since  3.0.0
+     * @access private
      * @param  \Khill\Lavacharts\Dashbaord\Dashboard $dashboard
      * @return string Javascript code block.
      */
@@ -349,8 +349,8 @@ DASH;
      *
      * Turns the chart and control wrappers into new Google Vizualization Objects.
      *
-     * @access public
      * @since  3.0.0
+     * @access public
      * @param  \Khill\Lavacharts\Dashboard\Dashboard $dashboard
      * @return string
      */

@@ -382,10 +382,10 @@ class Lavacharts
      *
      * @access private
      * @since  1.0.0
-     * @param  string               $elementId  Element id to apply to the div.
-     * @param  array                $dimensions Height & width of the div.
-     * @throws InvalidDivDimensions
-     * @return string               HTML div element.
+     * @param  string $elementId  Element id to apply to the div.
+     * @param  array  $dimensions Height & width of the div.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions
+     * @return string HTML div element.
      */
     private function div($elementId, $dimensions = true)
     {
@@ -443,10 +443,10 @@ class Lavacharts
     {
         if (isset($type) === false) {
             throw new InvalidLabel;
-        }
-
-        if (Utils::nonEmptyString($type) === false) {
-            throw new InvalidLabel($type);
+        } else {
+            if (Utils::nonEmptyString($type) === false) {
+                throw new InvalidLabel($type);
+            }
         }
 
         if ($this->volcano->checkChart($type, $args[0]) === true) {
@@ -456,19 +456,18 @@ class Lavacharts
         if (isset($args[1]) === false) {
             throw new InvalidDataTable;
         } else {
-            $datatable = $args[1];
-        }
-
-        if ($datatable instanceof DataTable === false) {
-            throw new InvalidDataTable($datatable);
+            if ($args[1] instanceof DataTable === false) {
+                throw new InvalidDataTable($args[1]);
+            }
         }
 
         $chartObject = __NAMESPACE__ . '\\Charts\\' . $type;
 
+//@TODO: array options checking
         if (isset($args[2]) === true && is_array($args[2]) === true) {
-            $chart = new $chartObject($args[0], $datatable, $args[2]);
+            $chart = new $chartObject($args[0], $args[1], $args[2]);
         } else {
-            $chart = new $chartObject($args[0], $datatable);
+            $chart = new $chartObject($args[0], $args[1]);
         }
 
         $this->volcano->storeChart($chart);
