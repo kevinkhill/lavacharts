@@ -10,6 +10,7 @@ use \Khill\Lavacharts\Dashboard\Dashboard;
 use \Khill\Lavacharts\Dashboard\ChartWrapper;
 use \Khill\Lavacharts\Dashboard\ControlWrapper;
 use \Khill\Lavacharts\Exceptions\ChartNotFound;
+use \Khill\Lavacharts\Exceptions\InvalidDataTable;
 use \Khill\Lavacharts\Exceptions\InvalidLabel;
 use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -156,18 +157,18 @@ class Lavacharts
      *
      * @access public
      * @since  1.0.0
-     * @param  string            $member    Name of method
-     * @param  array             $arguments Passed arguments
+     * @param  string $method    Name of method
+     * @param  array  $arguments Passed arguments
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidLavaObject
      * @throws \Khill\Lavacharts\Exceptions\InvalidFilterObject
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
      * @return mixed Returns Charts, DataTables, and Config Objects, Events, Filters
      */
-    public function __call($member, $arguments)
+    public function __call($method, $arguments)
     {
         //Core Objects
-        if ($member == 'DataTable') {
+        if ($method == 'DataTable') {
             if (isset($arguments[0])) {
                 return new DataTable($arguments[0]);
             } else {
@@ -175,7 +176,7 @@ class Lavacharts
             }
         }
 
-        if ($member == 'Dashboard') {
+        if ($method == 'Dashboard') {
             if (isset($arguments[0]) === false) {
                 throw new InvalidLabel;
             }
@@ -187,7 +188,7 @@ class Lavacharts
             return $this->dashboardFactory($arguments[0]);
         }
 
-        if ($member == 'ControlWrapper') {
+        if ($method == 'ControlWrapper') {
             if (isset($arguments[0]) === false || isset($arguments[1]) === false) {
                 throw new InvalidControlWrapperParams;
             }
@@ -195,7 +196,7 @@ class Lavacharts
             return new ControlWrapper($arguments[0], $arguments[1]);
         }
 
-        if ($member == 'ChartWrapper') {
+        if ($method == 'ChartWrapper') {
             if (isset($arguments[0]) === false || isset($arguments[1]) === false) {
                 throw new InvalidChartWrapperParams;
             }
@@ -204,8 +205,8 @@ class Lavacharts
         }
 
         //Rendering Aliases
-        if ((bool) preg_match('/^render/', $member) === true) {
-            $chartType = str_replace('render', '', $member);
+        if ((bool) preg_match('/^render/', $method) === true) {
+            $chartType = str_replace('render', '', $method);
 
             if (in_array($chartType, $this->chartClasses, true) === false) {
                 throw new InvalidLavaObject($chartType);
@@ -215,65 +216,33 @@ class Lavacharts
         }
 
         //Charts
-        if (in_array($member, $this->chartClasses)) {
-            if (isset($arguments[0]) === false) {
-                throw new InvalidLabel;
-            }
-
-            if (Utils::nonEmptyString($arguments[0]) === false) {
-                throw new InvalidLabel($arguments[0]);
-            }
-
-            return $this->chartFactory($member, $arguments[0]);
+        if (in_array($method, $this->chartClasses)) {
+            return $this->chartFactory($method, $arguments);
         }
 
         //ConfigObjects
-        if (in_array($member, $this->configClasses)) {
-            if (isset($arguments[0]) && is_array($arguments[0])) {
-                return $this->configFactory($member, $arguments[0]);
-            } else {
-                return $this->configFactory($member);
-            }
+        if (in_array($method, $this->configClasses)) {
+            return $this->configFactory($method, $arguments);
         }
 
         //Formatters
-        if (in_array($member, $this->formatClasses)) {
-            if (isset($arguments[0]) && is_array($arguments[0])) {
-                return $this->formatFactory($member, $arguments[0]);
-            } else {
-                return $this->formatFactory($member);
-            }
+        if (in_array($method, $this->formatClasses)) {
+            return $this->formatFactory($method, $arguments);
         }
 
         //Events
-        if (in_array($member, $this->eventClasses)) {
-            if (isset($arguments[0]) === false) {
-                throw new InvalidEventCallback;
-            }
-
-            if (Utils::nonEmptyString($arguments[0]) === false) {
-                throw new InvalidEventCallback($arguments[0]);
-            }
-
-            return $this->eventFactory($member, $arguments[0]);
+        if (in_array($method, $this->eventClasses)) {
+            return $this->eventFactory($method, $arguments);
         }
 
         //Filters
-        if ((bool) preg_match('/Filter$/', $member) === true) {
-            if (Utils::nonEmptyString($arguments[0]) === false) {
-                throw new InvalidFunctionParam(
-                    $arguments[0],
-                    $member,
-                    'string'
-                );
-            }
-
-            return $this->filterFactory($member, $arguments[0]);
+        if ((bool) preg_match('/Filter$/', $method) === true) {
+            return $this->filterFactory($method, $arguments);
         }
 
         //Missing
-        if (method_exists($this, $member) === false) {
-            throw new InvalidLavaObject($member);
+        if (method_exists($this, $method) === false) {
+            throw new InvalidLavaObject($method);
         }
     }
 
@@ -454,27 +423,57 @@ class Lavacharts
     /**
      * Creates and stores Charts
      *
-     * If the Chart is found in the Volcano, then it is returned.
-     * Otherwise, a new chart is created and stored in the Volcano.
+     * If args contains a label and datatable, a chart will be created,
+     * stored in the Volcano and returned.
+     *
+     * If args only contains a label, and the chart already exists in the
+     * Volcano, then it will  be returned.
      *
      * @access private
      * @since  2.0.0
      * @uses   \Khill\Lavacharts\Charts\Chart
-     * @param  string $type  Type of chart to fetch or create.
-     * @param  string $label Label of the chart.
+     * @param  string $type Type of chart to fetch or create.
+     * @param  string $args Arguments from __call
+     * @param  \Khill\Lavacharts\Configs\DataTable $datatable Datatable used for the chart.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
+     * @throws \Khill\Lavacharts\Exceptions\InvalidDataTable
      * @return \Khill\Lavacharts\Charts\Chart
      */
-    private function chartFactory($type, $label)
+    private function chartFactory($type, $args)
     {
-        $chartObject = __NAMESPACE__ . '\\Charts\\' . $type;
-
-        if ($this->volcano->checkChart($type, $label) === false) {
-            $chart = new $chartObject($label);
-
-            $this->volcano->storeChart($chart);
+        if (isset($type) === false) {
+            throw new InvalidLabel;
         }
 
-        return $this->volcano->getChart($type, $label);
+        if (Utils::nonEmptyString($type) === false) {
+            throw new InvalidLabel($type);
+        }
+
+        if ($this->volcano->checkChart($type, $args[0]) === true) {
+            return $this->volcano->getChart($type, $args[0]);
+        }
+
+        if (isset($args[1]) === false) {
+            throw new InvalidDataTable;
+        } else {
+            $datatable = $args[1];
+        }
+
+        if ($datatable instanceof DataTable === false) {
+            throw new InvalidDataTable($datatable);
+        }
+
+        $chartObject = __NAMESPACE__ . '\\Charts\\' . $type;
+
+        if (isset($args[2]) === true && is_array($args[2]) === true) {
+            $chart = new $chartObject($args[0], $datatable, $args[2]);
+        } else {
+            $chart = new $chartObject($args[0], $datatable);
+        }
+
+        $this->volcano->storeChart($chart);
+
+        return $chart;
     }
 
     /**
@@ -503,17 +502,34 @@ class Lavacharts
     /**
      * Creates Config Objects
      *
+     * If args[0] contains an array of options then they are passed to the
+     * ConfigObject. Otherwise an empty ConfigObject is created.
+     *
      * @access private
      * @since  2.0.0
-     * @param  string $type    Type of configObject to create.
-     * @param  array  $options Array of options to pass to the config object.
+     * @param  string $type Type of configObject to create.
+     * @param  string $args Arguments from __call
+     * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
      * @return \Khill\Lavacharts\Configs\ConfigObject
      */
-    private function configFactory($type, $options = [])
+    private function configFactory($type, $args)
     {
         $configObj = __NAMESPACE__ . '\\Configs\\' . $type;
 
-        return ! empty($options) ? new $configObj($options) : new $configObj;
+        if (isset($args[0]) === false) {
+            return new $configObj;
+        }
+
+        if (is_array($args[0]) === false || empty($args[0]) === true) {
+            throw new InvalidFunctionParam(
+                $args[0],
+                __FUNCTION__,
+                'array'
+            );
+        }
+
+        return new $configObj($args[0]);
+
     }
 
     /**
@@ -521,15 +537,28 @@ class Lavacharts
      *
      * @access private
      * @since  2.0.0
-     * @param  string $type    Type of formatter to create.
-     * @param  array  $options Array of options to pass to the formatter object.
+     * @param  string $type Type of format to create.
+     * @param  string $args Arguments from __call
+     * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
      * @return \Khill\Lavacharts\Formats\Format
      */
-    private function formatFactory($type, $options = [])
+    private function formatFactory($type, $args)
     {
-        $formatter = __NAMESPACE__ . '\\Formats\\' . $type;
+        $format = __NAMESPACE__ . '\\Formats\\' . $type;
 
-        return ! empty($options) ? new $formatter($options) : new $formatter;
+        if (isset($args[0]) === false) {
+            return new $format;
+        }
+
+        if (is_array($args[0]) === false || empty($args[0]) === true) {
+            throw new InvalidFunctionParam(
+                $args[0],
+                __FUNCTION__,
+                'array'
+            );
+        }
+
+        return new $format($method, $args[0]);
     }
 
     /**
@@ -538,13 +567,23 @@ class Lavacharts
      * @access private
      * @since  2.0.0
      * @param  string $type Type of event to create.
+     * @param  string $args Arguments from __call
+     * @throws \Khill\Lavacharts\Exceptions\InvalidEventCallback
      * @return \Khill\Lavacharts\Events\Event
      */
-    private function eventFactory($type, $callback)
+    private function eventFactory($type, $args)
     {
+        if (isset($args[0]) === false) {
+            throw new InvalidEventCallback;
+        }
+
+        if (Utils::nonEmptyString($args[0]) === false) {
+            throw new InvalidEventCallback($args[0]);
+        }
+
         $event = __NAMESPACE__ . '\\Events\\' . $type;
 
-        return new $event($callback);
+        return new $event($args[0]);
     }
 
     /**
@@ -553,10 +592,21 @@ class Lavacharts
      * @access private
      * @since  3.0.0
      * @param  string $type Type of filter to create.
+     * @param  string $args Arguments from __call
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
+     * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
      * @return \Khill\Lavacharts\Filters\Filter
      */
-    private function filterFactory($type, $label)
+    private function filterFactory($type, $args)
     {
+        if (isset($args[0]) === false) {
+            throw new InvalidLabel;
+        }
+
+        if (Utils::nonEmptyString($args[0]) === false) {
+            throw new InvalidLabel($args[0]);
+        }
+
         if (in_array($type, $this->filterClasses) === false) {
             throw new InvalidFilterObject(
                 $type,
@@ -566,21 +616,7 @@ class Lavacharts
 
         $filter = __NAMESPACE__ . '\\Filters\\' . str_replace('Filter', '', $type);
 
-        return new $filter($label);
-    }
-
-    /**
-     * Simple string starts with function
-     *
-     * @access private
-     * @since  2.0.0
-     * @param  string $haystack String to search through.
-     * @param  array  $needle   String to search with.
-     * @return boolean
-     */
-    private function strStartsWith($haystack, $needle)
-    {
-        return $needle === "" || strpos($haystack, $needle) === 0;
+        return new $filter($args[0]);
     }
 
     /**

@@ -4,6 +4,7 @@
   - Adding Dashboards
   - Adding Material Charts
     - Line
+  - Setting DataTable and options in chart constructor
 
 - 2.5.3
   - Added column roles
