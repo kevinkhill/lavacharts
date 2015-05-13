@@ -1,16 +1,18 @@
 <?php namespace Khill\Lavacharts\Tests\Charts;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Carbon\Carbon;
 use \Mockery as m;
 
-class ChartTest extends ProvidersTestCase
+class ChartTest extends ChartTestCase
 {
     public function setUp()
     {
         parent::setUp();
 
-        $this->mlc = m::mock('Khill\Lavacharts\Charts\LineChart', array('TestChart'))->makePartial();
+        $this->mlc = m::mock('Khill\Lavacharts\Charts\LineChart', array(
+            'TestChart',
+            $this->mockDataTable
+        ))->makePartial();
     }
 
     public function testLabelAssignedViaConstructor()

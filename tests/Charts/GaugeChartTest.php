@@ -1,15 +1,14 @@
 <?php namespace Khill\Lavacharts\Tests\Charts;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\GaugeChart;
 
-class GaugeChartTest extends ProvidersTestCase
+class GaugeChartTest extends ChartTestCase
 {
     public function setUp()
     {
         parent::setUp();
 
-        $this->g = new GaugeChart('Temps');
+        $this->g = new GaugeChart('Temps', $this->mockDataTable);
     }
 
     public function testInstanceOfGaugeChartWithType()

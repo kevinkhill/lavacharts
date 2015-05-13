@@ -1,16 +1,15 @@
 <?php namespace Khill\Lavacharts\Tests\Charts;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\BarChart;
 use \Mockery as m;
 
-class BarChartTest extends ProvidersTestCase
+class BarChartTest extends ChartTestCase
 {
     public function setUp()
     {
         parent::setUp();
 
-        $this->bc = new BarChart('MyTestChart');
+        $this->bc = new BarChart('MyTestChart', $this->mockDataTable);
     }
 
     public function testInstanceOfBarChartWithType()

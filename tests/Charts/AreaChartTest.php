@@ -1,16 +1,15 @@
 <?php namespace Khill\Lavacharts\Tests\Charts;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\AreaChart;
 use \Mockery as m;
 
-class AreaChartTest extends ProvidersTestCase
+class AreaChartTest extends ChartTestCase
 {
     public function setUp()
     {
         parent::setUp();
 
-        $this->ac = new AreaChart('MyTestChart');
+        $this->ac = new AreaChart('MyTestChart', $this->mockDataTable);
     }
 
     public function testInstanceOfAreaChartWithType()
