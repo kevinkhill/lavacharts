@@ -3,9 +3,9 @@
 namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Javascript\JavascriptFactory;
-use \Khill\Lavacharts\Configs\Animation;
+use \Khill\Lavacharts\JavascriptFactory;
 use \Khill\Lavacharts\Configs\DataTable;
+use \Khill\Lavacharts\Configs\Animation;
 use \Khill\Lavacharts\Configs\Legend;
 use \Khill\Lavacharts\Configs\Tooltip;
 use \Khill\Lavacharts\Configs\TextStyle;
@@ -88,9 +88,10 @@ class Chart
      * Builds a new chart with the given label.
      *
      * @param  string $chartLabel Identifying label for the chart.
-     * @return Chart
+     * @param  \Khill\Lavacharts\Configs\DataTable $datatable Datatable used for the chart.
+     * @return self
      */
-    public function __construct($chartLabel)
+    public function __construct($chartLabel, DataTable $datatable)
     {
         if (Utils::nonEmptyString($chartLabel) === false) {
             throw $this->invalidConfigValue(
@@ -100,9 +101,15 @@ class Chart
             );
         }
 
-        $this->label = $chartLabel;
+        $this->label     = $chartLabel;
+        $this->datatable = $datatable;
     }
-
+/* @TODO: see if child charts can have defaults as properties and the parent constructor merge them.
+    public function mergeDefaultOptions($childDefaults)
+    {
+        $this->defaults = array_merge($childDefaults, $this->defaults);
+    }
+*/
     /**
      * Sets a configuration option
      *
@@ -133,10 +140,10 @@ class Chart
      * You can set the options all at once instead of passing them individually
      * or chaining the functions from the chart objects.
      *
-     * @param  array                 $o
+     * @param  array $options
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Chart
+     * @return self
      */
     public function setOptions($options)
     {
@@ -224,12 +231,12 @@ class Chart
     }
 
     /**
-     * Assigns wich Datatable will be used for this Chart.
+     * Assigns a datatable to use for the Chart.
      *
-     * @uses  Datatable
-     * @param Datatable $datatable
-     *
-     * @return Chart
+     * @deprecated
+     * @uses   Datatable
+     * @param  Datatable $datatable
+     * @return self
      */
     public function datatable(Datatable $datatable)
     {
@@ -270,7 +277,7 @@ class Chart
      * Set the animation options for a chart
      *
      * @param  Animation $animation Animation config object
-     * @return Chart
+     * @return self
      */
     public function animation(Animation $animation)
     {
@@ -284,7 +291,7 @@ class Chart
      * @uses  BackgroundColor
      * @param BackgroundColor $backgroundColor
      *
-     * @return Chart
+     * @return self
      */
     public function backgroundColor(BackgroundColor $backgroundColor)
     {
@@ -300,7 +307,7 @@ class Chart
      * @uses  ChartArea
      * @param ChartArea $chartArea
      *
-     * @return Chart
+     * @return self
      */
     public function chartArea(ChartArea $chartArea)
     {
@@ -314,7 +321,7 @@ class Chart
      * @param  array              $cArr
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
-     * @return Chart
+     * @return self
      */
     public function colors($cArr)
     {
@@ -339,7 +346,7 @@ class Chart
      * @param  array              $e Array of events associated to a callback
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
-     * @return Chart
+     * @return self
      */
     public function events($e)
     {
@@ -371,7 +378,7 @@ class Chart
      * @param  integer                $fontSize
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
-     * @return Chart
+     * @return self
      */
     public function fontSize($fontSize)
     {
@@ -392,7 +399,7 @@ class Chart
      * @param  string             $fontName
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
-     * @return Chart
+     * @return self
      */
     public function fontName($fontName)
     {
@@ -412,7 +419,7 @@ class Chart
      * @param  integer                $h
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
-     * @return Chart
+     * @return self
      */
     public function height($h)
     {
@@ -435,7 +442,7 @@ class Chart
      * @param  Legend             $legend
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
-     * @return Chart
+     * @return self
      */
     public function legend(Legend $legend)
     {
@@ -467,7 +474,7 @@ class Chart
      * @param  string             $title
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
-     * @return Chart
+     * @return self
      */
     public function title($title)
     {
@@ -490,7 +497,7 @@ class Chart
      * @param  string             $titlePosition
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
-     * @return Chart
+     * @return self
      */
     public function titlePosition($titlePosition)
     {
@@ -519,7 +526,7 @@ class Chart
      * @param  TextStyle          $textStyle
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
-     * @return Chart
+     * @return self
      */
     public function titleTextStyle(TextStyle $textStyle)
     {
@@ -535,7 +542,7 @@ class Chart
      * @param  Tooltip            $tooltip
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
-     * @return Chart
+     * @return self
      */
     public function tooltip(Tooltip $tooltip)
     {
@@ -548,7 +555,7 @@ class Chart
      * @param  integer                $width
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      *
-     * @return Chart
+     * @return self
      */
     public function width($width)
     {

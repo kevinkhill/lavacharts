@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Configs\DataTable;
 use \Khill\Lavacharts\Configs\Annotation;
 use \Khill\Lavacharts\Configs\HorizontalAxis;
 use \Khill\Lavacharts\Configs\VerticalAxis;
@@ -78,11 +79,12 @@ class BarChart extends Chart
      * Builds a new chart with the given label.
      *
      * @param  string $chartLabel Identifying label for the chart.
-     * @return Chart
+     * @param  \Khill\Lavacharts\Configs\DataTable $datatable Datatable used for the chart.
+     * @return self
      */
-    public function __construct($chartLabel)
+    public function __construct($chartLabel, DataTable $datatable)
     {
-        parent::__construct($chartLabel);
+        parent::__construct($chartLabel, $datatable);
 
         $this->defaults = array_merge([
             'annotations',
