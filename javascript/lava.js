@@ -23,7 +23,7 @@ var lava = {
   },
   get: function (chartLabel, callback) {
     if (arguments.length < 2 || typeof chartLabel !== 'string' || typeof callback !== 'function') {
-      throw new Error('[Lavacharts] The syntax for lava.get must be (str ChartLabel, fn Callback)');
+      throw new Error('[Lavacharts] The syntax for lava.get must be (str ChartLabel, fn Callback).');
     }
 
     lava.getLavachart(chartLabel, function (lavachart) {
@@ -39,11 +39,36 @@ var lava = {
       return callback(lavachart.chart);
     });
   },
+  dashboardBinding: function (dashboardLabel, controlLabel, callback) {
+    var binding = lava.dashboards[dashboardLabel].bindings[controlLabel];
+
+    callback(binding.control, binding.chart);
+  },
   event: function (event, chart, callback) {
     return callback(event, chart);
   },
   register: function(type, label) {
     this.registeredCharts.push(type + ':' + label);
+  },
+  getDashboard: function (dashboardLabel, callback) {
+    var chartTypes = Object.keys(lava.dashboards);
+    var dashboard;
+
+    var search = chartTypes.some(function (e) {
+      if (typeof lava.dashboards[e][chartLabel] !== 'undefined') {
+        dashboard = lava.dashboards[e][chartLabel];
+
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    if (search === false) {
+      throw new Error('[Lavacharts] Dashboard "' + dashboardLabel + '" was not found.');
+    } else {
+      callback(dashboard);
+    }
   },
   getLavachart: function (chartLabel, callback) {
     var chartTypes = Object.keys(lava.charts);
@@ -60,7 +85,7 @@ var lava = {
     });
 
     if (search === false) {
-      throw new Error('[Lavacharts] Chart "' + chartLabel + '" was not found');
+      throw new Error('[Lavacharts] Chart "' + chartLabel + '" was not found.');
     } else {
       callback(chart);
     }

@@ -75,11 +75,22 @@ class ControlWrapper implements \JsonSerializable
     }
 
     /**
+     * Returns the container id.
+     *
+     * @return \Khill\Lavacharts\Charts\Chart
+     */
+    public function getContainerId()
+    {
+        return $this->containerId;
+    }
+
+    /**
      * Return a serialized ControlWrapper.
      *
      * @return string JSON
      */
-    public function toJson() {
+    public function toJson()
+    {
         return json_encode($this);
     }
 

@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\Dashboard;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Dashboard\Binding;
+use \Khill\Lavacharts\Exceptions\InvalidLabel;
 
 class Dashboard implements \JsonSerializable
 {
@@ -51,11 +52,7 @@ class Dashboard implements \JsonSerializable
     public function __construct($label)
     {
         if (Utils::nonEmptyString($label) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'which is unique and non-empty'
-            );
+            throw new InvalidLabel($label);
         }
 
         $this->label = $label;
@@ -64,23 +61,43 @@ class Dashboard implements \JsonSerializable
     /**
      * Binds a ControlWrapper to a ChartWrapper in the dashboard.
      *
+     * @param  string $label Label for the binding
      * @param  \Khill\Lavacharts\Dashboard\ChartWrapper   $chartWrap
      * @param  \Khill\Lavacharts\Dashboard\ControlWrapper $controlWrap
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel  $label
      * @return self
      */
-    public function bind(ControlWrapper $controlWrap, ChartWrapper $chartWrap)
+    public function bind($label, ControlWrapper $controlWrap, ChartWrapper $chartWrap)
     {
-        $this->bindings[] = new Binding($controlWrap, $chartWrap);
+        if (Utils::nonEmptyString($label) === false) {
+            throw new InvalidLabel($label);
+        }
+
+        $this->bindings[$label] = new Binding($label, $controlWrap, $chartWrap);
 
         return $this;
     }
 
     /**
-     * Binds a ControlWrapper to a ChartWrapper in the dashboard.
+     * Fetch a binding by label.
      *
-     * @param  \Khill\Lavacharts\Dashboard\ChartWrapper   $chartWrap
-     * @param  \Khill\Lavacharts\Dashboard\ControlWrapper $controlWrap
-     * @return self
+     * @param  string $label Label for the binding
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel  $label
+     * @return \Khill\Lavacharts\Dashboard\Binding
+     */
+    public function getBinding($label)
+    {
+        if (Utils::nonEmptyString($label) === false) {
+            throw new InvalidLabel($label);
+        }
+
+        return $this->bindings[$label];
+    }
+
+    /**
+     * Fetch the dashboard's bindings.
+     *
+     * @return array
      */
     public function getBindings()
     {
@@ -92,7 +109,8 @@ class Dashboard implements \JsonSerializable
      *
      * @return string JSON
      */
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return $this->bindings;
     }
 }

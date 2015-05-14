@@ -290,7 +290,7 @@ CHART;
     {
         $a = $this->processBindings($dashboard);
 
-        $boundChart = $dashboard->getBindings()[0]->chartWrapper->getChart();
+        $boundChart = $dashboard->getBinding('pie_control')->getChartWrapper()->getChart();
 
         $mappedValues = [
             'label'     => $dashboard->label,
@@ -326,7 +326,7 @@ CHART;
 
             <bindings>
 
-            Dash.dashboard.bind(programmaticSlider, programmaticChart);
+            //Dash.dashboard.bind(programmaticSlider, programmaticChart);
             Dash.dashboard.draw(Dash.data);
         };
 
@@ -359,18 +359,28 @@ DASH;
         $output = '';
 
         foreach ($dashboard->getBindings() as $binding) {
-            $chartWrapper   = $binding->chartWrapper;
-            $controlWrapper = $binding->controlWrapper;
+            $chartWrapper   = $binding->getChartWrapper();
+            $controlWrapper = $binding->getControlWrapper();
 
-            $output .= 'programmaticSlider = new ' . $controlWrapper::VIZ_CLASS . '(';
-            $output .= $controlWrapper->toJson();
-            $output .= ');'.PHP_EOL;
+            $control = sprintf('"control": new %s(%s)', $controlWrapper::VIZ_CLASS, $controlWrapper->toJson());
+            $chart   = sprintf('"chart"  : new %s(%s)', $chartWrapper::VIZ_CLASS,   $chartWrapper->toJson());
 
-            $output .= 'programmaticChart = new ' . $chartWrapper::VIZ_CLASS . '(';
-            $output .= $chartWrapper->toJson();
-            $output .= ');';
+            $output .= sprintf('Dash.bindings["%s"] = {%s, %s};',
+                                  $binding->getLabel(),
+                                  $control,
+                                  $chart
+                              ).PHP_EOL;
+
+            $output .= sprintf(
+                'Dash.dashboard.bind('.
+                    'Dash.bindings["%1$s"]["control"],'.
+                    'Dash.bindings["%1$s"]["chart"]'.
+                ');',
+                $binding->getLabel()
+            ).PHP_EOL;
         }
 
         return $output;
     }
 }
+
