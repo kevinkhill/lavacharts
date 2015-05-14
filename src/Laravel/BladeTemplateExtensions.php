@@ -8,6 +8,7 @@ $app   = App::getFacadeApplication();
 $blade = $app['view']->getEngineResolver()->resolve('blade')->getCompiler();
 
 $charts = array(
+    'Dashboard',
     'AreaChart',
     'BarChart',
     'CalendarChart',

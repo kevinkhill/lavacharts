@@ -212,7 +212,7 @@ class JavascriptFactory
         google.load('visualization', '<version>', {'packages':['<chartPackage>']});
         google.setOnLoadCallback(lava.charts.<chartType>["<chartLabel>"].draw);
 
-        lava.register("<chartType>", "<chartLabel>");
+        lava.registerChart("<chartType>", "<chartLabel>");
 CHART;
         $this->out .= PHP_EOL.self::JS_CLOSE;
 
@@ -310,13 +310,12 @@ CHART;
         $this->out = self::JS_OPEN.PHP_EOL;
         $this->out .=
 <<<DASH
-        lava.dashboards["<label>"] = new lava.Dashboard();
-
         //Checking if output div exists
         if (! document.getElementById("<elemId>")) {
             throw new Error('[Lavacharts] No matching element was found with ID "<elemId>"');
         }
 
+        lava.dashboards["<label>"] = new lava.Dashboard();
         lava.dashboards["<label>"].draw = function() {
             var Dash = lava.dashboards["<label>"];
 
@@ -371,13 +370,10 @@ DASH;
                                   $chart
                               ).PHP_EOL;
 
-            $output .= sprintf(
-                'Dash.dashboard.bind('.
-                    'Dash.bindings["%1$s"]["control"],'.
-                    'Dash.bindings["%1$s"]["chart"]'.
-                ');',
+            $output .= sprintf('            '.
+                'Dash.dashboard.bind(Dash.bindings["%1$s"]["control"], Dash.bindings["%1$s"]["chart"]);',
                 $binding->getLabel()
-            ).PHP_EOL;
+            );
         }
 
         return $output;

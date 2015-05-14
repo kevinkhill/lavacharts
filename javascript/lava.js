@@ -1,12 +1,8 @@
 var lava = {
-  get              : null,
-  event            : null,
-  loadData         : null,
-  register         : null,
-  getLavachart     : null,
-  charts           : {},
-  dashboards       : {},
-  registeredCharts : [],
+  charts              : [],
+  dashboards          : [],
+  registeredCharts    : [],
+  registeredCallbacks : [],
 
   Chart: function() {
     this.draw    = null;
@@ -19,64 +15,50 @@ var lava = {
     this.draw      = null;
     this.data      = null;
     this.bindings  = [];
-    this.dashboard = null;
-  },
-  get: function (chartLabel, callback) {
-    if (arguments.length < 2 || typeof chartLabel !== 'string' || typeof callback !== 'function') {
-      throw new Error('[Lavacharts] The syntax for lava.get must be (str ChartLabel, fn Callback).');
-    }
+    this.dashboard;
+    this.callbacks = [];
+    this.registerCallback = function (label, bindingType, func) {
 
-    lava.getLavachart(chartLabel, function (lavachart) {
-      return callback(lavachart.chart);
-    });
+    }
+  },
+  Callback: function (label, func) {
+    this.label = label;
+    this.func  = func;
   },
   loadData: function (chartLabel, dataTableJson, callback) {
-    lava.getLavachart(chartLabel, function (lavachart) {
-      lavachart.data = new google.visualization.DataTable(dataTableJson, '0.6');
+    lava.getChart(chartLabel, function (googleChart, lavaChart) {
+      lavaChart.data = new google.visualization.DataTable(dataTableJson, '0.6');
 
-      lavachart.chart.draw(lavachart.data, lavachart.options);
+      googleChart.draw(lavaChart.data, lavaChart.options);
 
-      return callback(lavachart.chart);
+      return callback(googleChart, lavaChart);
     });
   },
-  dashboardBinding: function (dashboardLabel, controlLabel, callback) {
-    var binding = lava.dashboards[dashboardLabel].bindings[controlLabel];
-
-    callback(binding.control, binding.chart);
+  action: function (label) {
+    lava
   },
   event: function (event, chart, callback) {
     return callback(event, chart);
   },
-  register: function(type, label) {
+  registerChart: function(type, label) {
     this.registeredCharts.push(type + ':' + label);
   },
-  getDashboard: function (dashboardLabel, callback) {
-    var chartTypes = Object.keys(lava.dashboards);
-    var dashboard;
-
-    var search = chartTypes.some(function (e) {
-      if (typeof lava.dashboards[e][chartLabel] !== 'undefined') {
-        dashboard = lava.dashboards[e][chartLabel];
-
-        return true;
-      } else {
-        return false;
-      }
-    });
-
-    if (search === false) {
-      throw new Error('[Lavacharts] Dashboard "' + dashboardLabel + '" was not found.');
-    } else {
-      callback(dashboard);
+  getDashboard: function (label, callback) {
+    if (typeof lava.dashboards[label] === 'undefined') {
+      throw new Error('[Lavacharts] Dashboard "' + label + '" was not found.');
     }
-  },
-  getLavachart: function (chartLabel, callback) {
-    var chartTypes = Object.keys(lava.charts);
-    var chart;
 
-    var search = chartTypes.some(function (e) {
-      if (typeof lava.charts[e][chartLabel] !== 'undefined') {
-        chart = lava.charts[e][chartLabel];
+    var lavaDashboard = lava.dashboards[label];
+
+    callback(lavaDashboard.dashboard, lavaDashboard);
+  },
+  getChart: function (chartLabel, callback) {
+    var chartTypes = Object.keys(lava.charts);
+    var lavaChart;
+
+    var search = chartTypes.some(function (type) {
+      if (typeof lava.charts[type][chartLabel] !== 'undefined') {
+        lavaChart = lava.charts[type][chartLabel];
 
         return true;
       } else {
@@ -87,7 +69,7 @@ var lava = {
     if (search === false) {
       throw new Error('[Lavacharts] Chart "' + chartLabel + '" was not found.');
     } else {
-      callback(chart);
+      callback(lavaChart.chart, lavaChart);
     }
   },
   redrawCharts: function() {

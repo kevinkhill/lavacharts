@@ -1,10 +1,16 @@
 - 3.0.0
   - Dropping support for PHP 5.3
-  - Adding ScatterChart
+  - Setting DataTable and options in chart constructor
   - Adding Dashboards
+  - get method in lava.js has been replaced with:
+    - getChart(label, callback) -> callback(Google chartObj, Lava chartObj)
+    - getDashboard(label, callback) -> callback(Google dashboardObj, Lava dashboardObj)
+  - Adding ScatterChart
   - Adding Material Charts
     - Line
-  - Setting DataTable and options in chart constructor
+
+- 2.5.4
+  - Fixed namespace bug
 
 - 2.5.3
   - Added column roles
