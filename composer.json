@@ -38,11 +38,5 @@
             "Khill\\Lavacharts\\Tests\\": "tests/"
         }
     },
-    "repositories": [
-        {
-            "type": "artifact",
-            "url": "../datatableplus-dist/"
-        }
-    ],
     "minimum-stability": "stable"
 }
