@@ -17,9 +17,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "nesbot/carbon": "~1.14",
-        "ext-mbstring": "*",
-        "league/csv": "~7.1"
+        "nesbot/carbon": "~1.14"
     },
     "autoload": {
         "psr-4": {
@@ -40,5 +38,11 @@
             "Khill\\Lavacharts\\Tests\\": "tests/"
         }
     },
+    "repositories": [
+        {
+            "type": "artifact",
+            "url": "../datatableplus-dist/"
+        }
+    ],
     "minimum-stability": "stable"
 }
