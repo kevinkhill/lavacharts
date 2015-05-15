@@ -194,7 +194,7 @@ class JavascriptFactory
             throw new Error('[Lavacharts] No matching element was found with ID "<elemId>"');
         }
 
-        lava.charts.<chartType>["<chartLabel>"].draw = function() {
+        lava.charts.<chartType>["<chartLabel>"].render = function() {
             var Chart = lava.charts.<chartType>["<chartLabel>"];
 
             Chart.data = new <dataClass>(<chartData>, <dataVer>);
@@ -209,10 +209,13 @@ class JavascriptFactory
             Chart.chart.draw(Chart.data, Chart.options);
         };
 
-        google.load('visualization', '<version>', {'packages':['<chartPackage>']});
-        google.setOnLoadCallback(lava.charts.<chartType>["<chartLabel>"].draw);
-
         lava.registerChart("<chartType>", "<chartLabel>");
+
+        google.load('visualization', '<version>', {'packages':['<chartPackage>']});
+        google.setOnLoadCallback(function() {
+            lava.charts.<chartType>["<chartLabel>"].render();
+            lava.readyCallback();
+        );
 CHART;
         $this->out .= PHP_EOL.self::JS_CLOSE;
 
@@ -290,7 +293,7 @@ CHART;
     {
         $a = $this->processBindings($dashboard);
 
-        $boundChart = $dashboard->getBinding('pie_control')->getChartWrapper()->getChart();
+        $boundChart = $dashboard->getBinding('MyPie')->getChartWrapper()->getChart();
 
         $mappedValues = [
             'label'     => $dashboard->label,
@@ -307,7 +310,7 @@ CHART;
             'dataClass' => DataTable::VIZ_CLASS,
         ];
 
-        $this->out = self::JS_OPEN.PHP_EOL;
+        $this->out  = self::JS_OPEN.PHP_EOL;
         $this->out .=
 <<<DASH
         //Checking if output div exists
@@ -316,7 +319,8 @@ CHART;
         }
 
         lava.dashboards["<label>"] = new lava.Dashboard();
-        lava.dashboards["<label>"].draw = function() {
+        
+        lava.dashboards["<label>"].render = function() {
             var Dash = lava.dashboards["<label>"];
 
             Dash.dashboard = new <class>(document.getElementById('<elemId>'));
@@ -325,12 +329,14 @@ CHART;
 
             <bindings>
 
-            //Dash.dashboard.bind(programmaticSlider, programmaticChart);
             Dash.dashboard.draw(Dash.data);
         };
 
         google.load('visualization', '<version>', {'packages':<packages>});
-        google.setOnLoadCallback(lava.dashboards["<label>"].draw);
+        google.setOnLoadCallback(function() {
+            lava.dashboards["<label>"].render();
+            lava.readyCallback();
+        });
 
         //lava.register("<chartType>", "<chartLabel>");
 DASH;
