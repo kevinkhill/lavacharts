@@ -20,9 +20,9 @@ use \Khill\Lavacharts\Exceptions\InvalidElementId;
  * @package   Lavacharts
  * @since     2.0.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2014, KHill Designs
- * @link      http://github.com/kevinkhill/Lavacharts GitHub Repository Page
- * @link      http://kevinkhill.github.io/Lavacharts  GitHub Project Page
+ * @copyright (c) 2015, KHill Designs
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT MIT
  */
 class JavascriptFactory
@@ -319,7 +319,7 @@ CHART;
         }
 
         lava.dashboards["<label>"] = new lava.Dashboard();
-        
+
         lava.dashboards["<label>"].render = function() {
             var Dash = lava.dashboards["<label>"];
 
