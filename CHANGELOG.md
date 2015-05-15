@@ -1,10 +1,16 @@
 - 3.0.0
   - Dropping support for PHP 5.3
-  - Setting DataTable and options in chart constructor
+    - Minimum version PHP 5.4+
+  - Assign DataTable and options via chart constructor
   - Adding Dashboards
-  - get method in lava.js has been replaced with:
-    - getChart(label, callback) -> callback(Google chartObj, Lava chartObj)
-    - getDashboard(label, callback) -> callback(Google dashboardObj, Lava dashboardObj)
+    - ChartWrappers
+    - ControlWrappers
+  - lava.js has been refactored:
+    - lava.get() replaced with:
+      - getChart(label, callback) -> callback(Google chartObj, Lava chartObj)
+      - getDashboard(label, callback) -> callback(Google dashboardObj, Lava dashboardObj)
+    - lava.ready() used to wrap other lava.js interaction.
+      - Called after all of the google jsapi is loaded and the charts are rendered.
   - Adding ScatterChart
   - Adding Material Charts
     - Line
