@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Configs\DataTable;
 
 /**
  * GaugeChart Class
@@ -43,7 +44,7 @@ class GaugeChart extends Chart
     const VIZ_PACKAGE = 'gauge';
 
     /**
-     * Javascript chart class.
+     * Google's visualization class name.
      *
      * @var string
      */
@@ -53,11 +54,12 @@ class GaugeChart extends Chart
      * Builds a new chart with the given label.
      *
      * @param  string $chartLabel Identifying label for the chart.
-     * @return Chart
+     * @param  \Khill\Lavacharts\Configs\DataTable $datatable Datatable used for the chart.
+     * @return self
      */
-    public function __construct($chartLabel)
+    public function __construct($chartLabel, DataTable $datatable)
     {
-        parent::__construct($chartLabel);
+        parent::__construct($chartLabel, $datatable);
 
         $this->defaults = array_merge([
             'forceIFrame',

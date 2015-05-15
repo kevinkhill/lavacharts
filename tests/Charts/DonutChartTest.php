@@ -1,16 +1,15 @@
 <?php namespace Khill\Lavacharts\Tests\Charts;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\DonutChart;
 use \Mockery as m;
 
-class DonutChartTest extends ProvidersTestCase
+class DonutChartTest extends ChartTestCase
 {
     public function setUp()
     {
         parent::setUp();
 
-        $this->dc = new DonutChart('MyTestChart');
+        $this->dc = new DonutChart('MyTestChart', $this->mockDataTable);
     }
 
     public function testInstanceOfDonutChartWithType()

@@ -1,16 +1,15 @@
 <?php namespace Khill\Lavacharts\Tests\Charts;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\ColumnChart;
 use \Mockery as m;
 
-class ColumnChartTest extends ProvidersTestCase
+class ColumnChartTest extends ChartTestCase
 {
     public function setUp()
     {
         parent::setUp();
 
-        $this->cc = new ColumnChart('MyTestChart');
+        $this->cc = new ColumnChart('MyTestChart', $this->mockDataTable);
     }
 
     public function testInstanceOfColumnChartWithType()

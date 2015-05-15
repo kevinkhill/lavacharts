@@ -1,16 +1,15 @@
 <?php namespace Khill\Lavacharts\Tests\Charts;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\GeoChart;
 use \Mockery as m;
 
-class GeoChartTest extends ProvidersTestCase
+class GeoChartTest extends ChartTestCase
 {
     public function setUp()
     {
         parent::setUp();
 
-        $this->gc = new GeoChart('MyTestChart');
+        $this->gc = new GeoChart('MyTestChart', $this->mockDataTable);
     }
 
     public function testInstanceOfGeoChartWithType()

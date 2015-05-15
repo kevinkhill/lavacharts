@@ -1,16 +1,15 @@
 <?php namespace Khill\Lavacharts\Tests\Charts;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\PieChart;
 use \Mockery as m;
 
-class PieChartTest extends ProvidersTestCase
+class PieChartTest extends ChartTestCase
 {
     public function setUp()
     {
         parent::setUp();
 
-        $this->pc = new PieChart('MyTestChart');
+        $this->pc = new PieChart('MyTestChart', $this->mockDataTable);
     }
 
     public function testInstanceOfPieChartWithType()

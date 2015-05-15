@@ -6,6 +6,8 @@ use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Charts\Chart;
 use \Khill\Lavacharts\Events\Event;
 use \Khill\Lavacharts\Configs\DataTable;
+use \Khill\Lavacharts\Dashboard\Dashboard;
+use \Khill\Lavacharts\Dashboard\ControlWrapper;
 use \Khill\Lavacharts\Exceptions\InvalidElementId;
 
 /**
@@ -68,22 +70,19 @@ class JavascriptFactory
     private $coreJsRendered = false;
 
     /**
-     * True if the lava object and jsapi have been added to the page.
+     * Returns true|false depending on if the jsapi & lava.js core
+     * have been added to the output.
      *
-     * @access private
-     * @return bool
+     * @access public
+     * @return boolean
      */
-    public function coreJsRendered($stat = false)
+    public function coreJsRendered()
     {
-        if ($stat !== false) {
-            $this->coreJsRendered = $stat;
-        }
-
         return $this->coreJsRendered;
     }
 
     /**
-     * Builds the javascript lava object for chart interation.
+     * Gets the Google chart api and lava.js core.
      *
      * @access public
      * @return string Javascript code blocks.
@@ -95,6 +94,8 @@ class JavascriptFactory
         $coreJs .= file_get_contents(__DIR__.'/../javascript/lava.js');
         $coreJs .= self::JS_CLOSE;
 
+        $this->coreJsRendered = true;
+
         return $coreJs;
     }
 
@@ -102,9 +103,9 @@ class JavascriptFactory
      * Checks for an element id to output the chart into and builds the Javascript.
      *
      * @access public
-     * @uses   Chart
-     * @param  Chart             $chart     Chart object to render.
-     * @param  string            $elementId HTML element id to output the chart into.
+     * @uses   \Khill\Lavacharts\Charts\Chart
+     * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to render.
+     * @param  string $elementId HTML element id to output the chart into.
      * @throws InvalidElementId
      * @return string Javascript code block.
      */
@@ -120,11 +121,29 @@ class JavascriptFactory
     }
 
     /**
-     * Builds the Javascript code block
+     * Checks for an element id to output the chart into and builds the Javascript.
      *
-     * Build the script block for the chart. If there are any events defined,
-     * they will be automatically be attached to the chart and
-     * pulled from the callbacks folder.
+     * @since  3.0.0
+     * @access public
+     * @uses   \Khill\Lavacharts\Dashboard\Dashboard
+     * @param  \Khill\Lavacharts\Dashboard\Dashboard $dashboard Dashboard to render.
+     * @param  string $elementId HTML element id to output the dashboard into.
+     * @throws InvalidElementId
+     * @return string Javascript code block.
+     */
+    public function getDashboardJs(Dashboard $dashboard, $elementId = null)
+    {
+        if (Utils::nonEmptyString($elementId) === false) {
+            throw new InvalidElementId($elementId);
+        }
+
+        $this->elementId = $elementId;
+
+        return $this->buildDashboardJs($dashboard);
+    }
+
+    /**
+     * Builds the Javascript code block for a chart.
      *
      * @access private
      * @param  Chart  $chart
@@ -133,17 +152,18 @@ class JavascriptFactory
     private function buildChartJs(Chart $chart)
     {
         $mappedValues = [
-            'type'    => $chart::TYPE,
-            'version' => $chart::VERSION,
-            'class'   => $chart::VIZ_CLASS,
-            'package' => $chart::VIZ_PACKAGE,
-            'label'   => $chart->label,
-            'data'    => $chart->getDataTableJson(),
-            'options' => $chart->optionsToJson(),
-            'elemId'  => $this->elementId,
-            'dataVer' => DataTable::VERSION,
-            'formats' => '',
-            'events'  => ''
+            'chartLabel'   => $chart->label,
+            'chartType'    => $chart::TYPE,
+            'chartVer'     => $chart::VERSION,
+            'chartClass'   => $chart::VIZ_CLASS,
+            'chartPackage' => $chart::VIZ_PACKAGE,
+            'chartData'    => $chart->getDataTableJson(),
+            'chartOptions' => $chart->optionsToJson(),
+            'elemId'       => $this->elementId,
+            'dataVer'      => DataTable::VERSION,
+            'dataClass'    => DataTable::VIZ_CLASS,
+            'formats'      => '',
+            'events'       => ''
         ];
 
         if ($chart->getDataTable()->hasFormats()) {
@@ -154,34 +174,34 @@ class JavascriptFactory
             $mappedValues['events'] = $this->buildEventCallbacks($chart);
         }
 
-        $this->out = self::JS_OPEN.PHP_EOL;
+        $this->out  = self::JS_OPEN.PHP_EOL;
         $this->out .=
-<<<JS
+<<<CHART
         /**
-         * If the object does not exist for a given chart type, initialise it.
+         * If the object does not exist for a given chart type, initialize it.
          * This will prevent overriding keys when multiple charts of the same
          * type are being rendered on the same page.
          */
-        if ( typeof lava.charts.<type> == "undefined" ) {
-            lava.charts.<type> = {};
+        if ( typeof lava.charts.<chartType> == "undefined" ) {
+            lava.charts.<chartType> = {};
         }
 
         //Creating a new lavachart object
-        lava.charts.<type>["<label>"] = new lava.Chart();
+        lava.charts.<chartType>["<chartLabel>"] = new lava.Chart();
 
         //Checking if output div exists
         if (! document.getElementById("<elemId>")) {
             throw new Error('[Lavacharts] No matching element was found with ID "<elemId>"');
         }
 
-        lava.charts.<type>["<label>"].draw = function() {
-            var Chart = lava.charts.<type>["<label>"];
+        lava.charts.<chartType>["<chartLabel>"].render = function() {
+            var Chart = lava.charts.<chartType>["<chartLabel>"];
 
-            Chart.data = new google.visualization.DataTable(<data>, <dataVer>);
+            Chart.data = new <dataClass>(<chartData>, <dataVer>);
 
-            Chart.options = <options>;
+            Chart.options = <chartOptions>;
 
-            Chart.chart = new <class>(document.getElementById("<elemId>"));
+            Chart.chart = new <chartClass>(document.getElementById("<elemId>"));
 
             <formats>
             <events>
@@ -189,11 +209,14 @@ class JavascriptFactory
             Chart.chart.draw(Chart.data, Chart.options);
         };
 
-        google.load('visualization', '<version>', {'packages':['<package>']});
-        google.setOnLoadCallback(lava.charts.<type>["<label>"].draw);
+        lava.registerChart("<chartType>", "<chartLabel>");
 
-        lava.register("<type>", "<label>");
-JS;
+        google.load('visualization', '<version>', {'packages':['<chartPackage>']});
+        google.setOnLoadCallback(function() {
+            lava.charts.<chartType>["<chartLabel>"].render();
+            lava.readyCallback();
+        );
+CHART;
         $this->out .= PHP_EOL.self::JS_CLOSE;
 
         foreach ($mappedValues as $key => $value) {
@@ -257,4 +280,109 @@ JS;
 
         return $output;
     }
+
+    /**
+     * Builds the Javascript code block for a Dashboard
+     *
+     * @since  3.0.0
+     * @access private
+     * @param  \Khill\Lavacharts\Dashbaord\Dashboard $dashboard
+     * @return string Javascript code block.
+     */
+    private function buildDashboardJs(Dashboard $dashboard)
+    {
+        $a = $this->processBindings($dashboard);
+
+        $boundChart = $dashboard->getBinding('MyPie')->getChartWrapper()->getChart();
+
+        $mappedValues = [
+            'label'     => $dashboard->label,
+            'version'   => $dashboard::VERSION,
+            'class'     => $dashboard::VIZ_CLASS,
+            'packages'  => json_encode([
+                $dashboard::VIZ_PACKAGE,
+                $boundChart::VIZ_PACKAGE
+            ]),
+            'chartData' => $boundChart->getDataTableJson(),
+            'elemId'    => $this->elementId,
+            'bindings'  => $this->processBindings($dashboard),
+            'dataVer'   => DataTable::VERSION,
+            'dataClass' => DataTable::VIZ_CLASS,
+        ];
+
+        $this->out  = self::JS_OPEN.PHP_EOL;
+        $this->out .=
+<<<DASH
+        //Checking if output div exists
+        if (! document.getElementById("<elemId>")) {
+            throw new Error('[Lavacharts] No matching element was found with ID "<elemId>"');
+        }
+
+        lava.dashboards["<label>"] = new lava.Dashboard();
+        
+        lava.dashboards["<label>"].render = function() {
+            var Dash = lava.dashboards["<label>"];
+
+            Dash.dashboard = new <class>(document.getElementById('<elemId>'));
+
+            Dash.data = new <dataClass>(<chartData>, <dataVer>);
+
+            <bindings>
+
+            Dash.dashboard.draw(Dash.data);
+        };
+
+        google.load('visualization', '<version>', {'packages':<packages>});
+        google.setOnLoadCallback(function() {
+            lava.dashboards["<label>"].render();
+            lava.readyCallback();
+        });
+
+        //lava.register("<chartType>", "<chartLabel>");
+DASH;
+        $this->out .= PHP_EOL.self::JS_CLOSE;
+
+        foreach ($mappedValues as $key => $value) {
+            $this->out = preg_replace("/<$key>/", $value, $this->out);
+        }
+
+        return $this->out;
+    }
+
+    /**
+     * Process all the bindings for a Dashboard.
+     *
+     * Turns the chart and control wrappers into new Google Vizualization Objects.
+     *
+     * @since  3.0.0
+     * @access public
+     * @param  \Khill\Lavacharts\Dashboard\Dashboard $dashboard
+     * @return string
+     */
+    public function processBindings(Dashboard $dashboard)
+    {
+        $output = '';
+
+        foreach ($dashboard->getBindings() as $binding) {
+            $chartWrapper   = $binding->getChartWrapper();
+            $controlWrapper = $binding->getControlWrapper();
+
+            $control = sprintf('"control": new %s(%s)', $controlWrapper::VIZ_CLASS, $controlWrapper->toJson());
+            $chart   = sprintf('"chart"  : new %s(%s)', $chartWrapper::VIZ_CLASS,   $chartWrapper->toJson());
+
+            $output .= sprintf('Dash.bindings["%s"] = {%s, %s};',
+                                  $binding->getLabel(),
+                                  $control,
+                                  $chart
+                              ).PHP_EOL;
+
+            $output .= sprintf('            '.
+                'Dash.dashboard.bind(Dash.bindings["%1$s"]["control"], Dash.bindings["%1$s"]["chart"]);',
+                $binding->getLabel()
+            );
+        }
+
+        return $output;
+    }
 }
+

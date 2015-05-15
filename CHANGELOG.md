@@ -1,7 +1,23 @@
 - 3.0.0
   - Dropping support for PHP 5.3
-  - Added support for reading csv files
-  -
+    - Minimum version PHP 5.4+
+  - Assign DataTable and options via chart constructor
+  - Adding Dashboards
+    - ChartWrappers
+    - ControlWrappers
+  - Adding support for reading csv files into DataTables
+  - Adding ScatterChart
+  - Adding Material Charts
+    - Line
+  - lava.js has been refactored:
+    - lava.get() replaced with:
+      - getChart(label, callback) -> callback(Google chartObj, Lava chartObj)
+      - getDashboard(label, callback) -> callback(Google dashboardObj, Lava dashboardObj)
+    - lava.ready() used to wrap other lava.js interaction.
+      - Called after all of the google jsapi is loaded and the charts are rendered.
+
+- 2.5.4
+  - Fixed namespace bug
 
 - 2.5.3
   - Added column roles

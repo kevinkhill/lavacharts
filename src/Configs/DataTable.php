@@ -41,7 +41,7 @@ use \Khill\Lavacharts\Exceptions\InvalidRowProperty;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class DataTable
+class DataTable implements \JsonSerializable
 {
     /**
      * Google's datatable version
@@ -49,6 +49,13 @@ class DataTable
      * @var string
      */
     const VERSION = '0.6';
+
+    /**
+     * Google's visualization class name.
+     *
+     * @var string
+     */
+    const VIZ_CLASS = 'google.visualization.DataTable';
 
     /**
      * Timezone for dealing with datetime and Carbon objects.
@@ -288,12 +295,99 @@ class DataTable
     }
 
     /**
+     * Supplemental function to add columns from an array.
+     *
+     * @access private
+     * @param  array $colDefArray
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnDefinition
+     * @return self
+     */
+    private function addColumnFromArray($colDefArray)
+    {
+        if (Utils::arrayValuesCheck($colDefArray, 'string') && Utils::between(1, count($colDefArray), 5, true)) {
+            call_user_func_array(array($this, 'addColumnFromStrings'), $colDefArray);
+        } else {
+            throw new InvalidColumnDefinition($colDefArray);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Supplemental function to add columns from strings.
+     *
+     * @access private
+     * @param  array  $type
+     * @param  array  $label
+     * @param  array  $id
+     * @param  array  $format
+     * @param  string $role
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
+     */
+    private function addColumnFromStrings($type, $label = '', $id = '', $format = null, $role = '')
+    {
+        $colIndex = $this->getColumnCount();
+
+        if (in_array($type, $this->columnTypes) === false) {
+            throw new InvalidConfigProperty(
+                __FUNCTION__,
+                'string',
+                Utils::arrayToPipedString($this->columnTypes)
+            );
+        }
+
+        if (Utils::nonEmptyString($type) !== true) {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'string'
+            );
+        }
+
+        $descArray['type'] = $type;
+
+        if (Utils::nonEmptyString($label)) {
+            $descArray['label'] = $label;
+        }
+
+        if (Utils::nonEmptyString($id)) {
+            $descArray['id'] = $id;
+        }
+
+        if (! is_null($format)) {
+            $this->formats[$colIndex] = $format;
+        }
+
+        if (Utils::nonEmptyString($role)) {
+            $descArray['role'] = $role;
+        }
+
+        $this->cols[$colIndex] = $descArray;
+    }
+
+    /**
+     * Returns an array of array wrapped null values equal to the
+     * number of columns defined.
+     *
+     * @access private
+     * @return array
+     */
+    private function addNullColumn()
+    {
+        for ($a = 0; $a < count($this->cols); $a++) {
+            $tmp[] = ['v' => null];
+        }
+
+        return ['c' => $tmp];
+    }
+
+    /**
      * Sets the format of the column.
      *
      * @access public
      * @param  integer                $colIndex
      * @param  Format             $formatter
-     * @throws InvalidColumnIndex
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      * @return self
      */
     public function formatColumn($colIndex, Format $formatter)
@@ -301,7 +395,7 @@ class DataTable
         if (is_int($colIndex) && $colIndex > 0) {
             $this->formats[$colIndex] = $formatter->toArray();
         } else {
-            throw new InvalidColumnIndex($colIndex);
+            throw new InvalidColumnIndex($colIndex, count($this->cols));
         }
 
         return $this;
@@ -378,7 +472,7 @@ class DataTable
 
                 $this->rows[] = ['c' => $rowVals];
             } else {
-                $colCount = $this->getNumberOfColumns();
+                $colCount = $this->getColumnCount();
                 $rowColCount = count($optCellArray);
 
                 if ($rowColCount > $colCount) {
@@ -428,6 +522,39 @@ class DataTable
         return $this;
     }
 
+    /**
+     * Returns the rows array from the DataTable
+     *
+     * @access public
+     * @return array
+     */
+    public function getRows()
+    {
+        return $this->rows;
+    }
+
+    /**
+     * Returns the number of rows in the DataTable
+     *
+     * @access public
+     * @return int
+     */
+    public function getRowsCount()
+    {
+        return count($this->rows);
+    }
+
+    /**
+     * Parses a csv file into a DataTable.
+     *
+     * Pass in a filepath to a csv file and an array of column types:
+     * ['date', 'number', 'number', 'number'] for example and a DataTable
+     * will be built.
+     *
+     * @since  3.0.0
+     * @param  string $filepath Path location to a csv file
+     * @param  array  $columnTypes Array of column types to apply to the csv values
+     */
     public function parseCsv($filepath, $columnTypes = null)
     {
         if (Utils::nonEmptyString($filepath) === false) {
@@ -476,25 +603,21 @@ class DataTable
     }
 
     /**
-     * Returns the number of columns in the DataTable
+     * Returns a column based on it's index.
      *
+     * @since  3.0.0
      * @access public
-     * @return int
+     * @param  integer $index
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
+     * @return string
      */
-    public function getNumberOfColumns()
+    public function getColumn($index)
     {
-        return count($this->cols);
-    }
+        if (is_int($index) === false || isset($this->cols[$index]) === false) {
+            throw new InvalidColumnIndex($index, count($this->cols));
+        }
 
-    /**
-     * Returns the number of rows in the DataTable
-     *
-     * @access public
-     * @return int
-     */
-    public function getNumberOfRows()
-    {
-        return count($this->rows);
+        return $this->cols[$index];
     }
 
     /**
@@ -509,14 +632,42 @@ class DataTable
     }
 
     /**
-     * Returns the rows array from the DataTable
+     * Returns the number of columns in the DataTable
      *
      * @access public
-     * @return array
+     * @return int
      */
-    public function getRows()
+    public function getColumnCount()
     {
-        return $this->rows;
+        return count($this->cols);
+    }
+
+    /**
+     * Returns the label of a column based on it's index.
+     *
+     * @since  3.0.0
+     * @access public
+     * @param  integer $index
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
+     * @return string
+     */
+    public function getColumnLabel($index)
+    {
+        return $this->getColumn($index)['label'];
+    }
+
+    /**
+     * Returns the type of a column based on it's index.
+     *
+     * @since  3.0.0
+     * @access public
+     * @param  integer $index
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
+     * @return string
+     */
+    public function getColumnType($index)
+    {
+        return $this->getColumn($index)['type'];
     }
 
     /**
@@ -528,7 +679,7 @@ class DataTable
      */
     public function getColumnTypes()
     {
-        foreach($this->getColumns() as $arr) {
+        foreach($this->cols as $arr) {
             if (array_key_exists('type', $arr)) {
                 $colTypes[] = $arr['type'];
             }
@@ -580,97 +731,19 @@ class DataTable
      */
     public function toJson()
     {
-        return json_encode(array(
-            'cols' => $this->cols,
-            'rows' => $this->rows,
-        ));
+        return json_encode($this);
     }
 
     /**
-     * Supplemental function to add columns from an array.
+     * Custom serialization of the DataTable.
      *
-     * @access private
-     * @param  array $colDefArray
-     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnDefinition
-     * @return self
-     */
-    private function addColumnFromArray($colDefArray)
-    {
-        if (Utils::arrayValuesCheck($colDefArray, 'string') && Utils::between(1, count($colDefArray), 5, true)) {
-            call_user_func_array(array($this, 'addColumnFromStrings'), $colDefArray);
-        } else {
-            throw new InvalidColumnDefinition($colDefArray);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Supplemental function to add columns from strings.
-     *
-     * @access private
-     * @param  array  $type
-     * @param  array  $label
-     * @param  array  $id
-     * @param  array  $format
-     * @param  string $role
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
-     */
-    private function addColumnFromStrings($type, $label = '', $id = '', $format = null, $role = '')
-    {
-        $colIndex = $this->getNumberOfColumns();
-
-        if (in_array($type, $this->columnTypes) === false) {
-            throw new InvalidConfigProperty(
-                __FUNCTION__,
-                'string',
-                Utils::arrayToPipedString($this->columnTypes)
-            );
-        }
-
-        if (Utils::nonEmptyString($type) !== true) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        $descArray['type'] = $type;
-
-        if (Utils::nonEmptyString($label)) {
-            $descArray['label'] = $label;
-        }
-
-        if (Utils::nonEmptyString($id)) {
-            $descArray['id'] = $id;
-        }
-
-        if (! is_null($format)) {
-            $this->formats[$colIndex] = $format;
-        }
-
-        if (Utils::nonEmptyString($role)) {
-            $descArray['role'] = $role;
-        }
-
-        $this->cols[$colIndex] = $descArray;
-    }
-
-    /**
-     * Returns an array of array wrapped null values equal to the
-     * number of columns defined.
-     *
-     * @access private
      * @return array
      */
-    private function addNullColumn()
-    {
-        for ($a = 0; $a < count($this->cols); $a++) {
-            $tmp[] = ['v' => null];
-        }
-
-        return ['c' => $tmp];
+    public function jsonSerialize() {
+        return [
+            'cols' => $this->cols,
+            'rows' => $this->rows,
+        ];
     }
 
     /**
@@ -721,16 +794,16 @@ class DataTable
     {
         if (is_a($date, 'Carbon\Carbon')) {
             $carbonDate = $date;
-        } elseif (Utils::nonEmptyString($date)) {
-            try {
+        } elseif (empty($date) === false) {
+            //try {
                 if (Utils::nonEmptyString($this->dateTimeFormat)) {
                     $carbonDate = Carbon::createFromFormat($this->dateTimeFormat, $date);
                 } else {
                     $carbonDate = Carbon::parse($date);
                 }
-            } catch (\Exception $e) {
-                throw new InvalidDate;
-            }
+            //} catch (\Exception $e) {
+            //   throw new InvalidDate;
+            //}
         } else {
             throw new InvalidDate;
         }

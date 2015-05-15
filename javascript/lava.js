@@ -1,50 +1,74 @@
 var lava = {
-  get              : null,
-  event            : null,
-  loadData         : null,
-  register         : null,
-  getLavachart     : null,
-  charts           : {},
-  registeredCharts : [],
+  charts            : [],
+  dashboards        : [],
+  registeredCharts  : [],
+  registeredActions : [],
+  readyCallback     : function(){},
 
   Chart: function() {
-    this.chart   = null;
     this.draw    = null;
     this.data    = null;
+    this.chart   = null;
     this.options = null;
     this.formats = [];
   },
-  get: function (chartLabel, callback) {
-    if (arguments.length < 2 || typeof chartLabel !== 'string' || typeof callback !== 'function') {
-      throw new Error('[Lavacharts] The syntax for lava.get must be (str ChartLabel, fn Callback)');
-    }
-
-    lava.getLavachart(chartLabel, function (lavachart) {
-      return callback(lavachart.chart);
-    });
+  
+  Dashboard: function() {
+    this.draw      = null;
+    this.data      = null;
+    this.bindings  = [];
+    this.dashboard = null;
+    this.callbacks = [];
   },
-  loadData: function (chartLabel, dataTableJson, callback) {
-    lava.getLavachart(chartLabel, function (lavachart) {
-      lavachart.data = new google.visualization.DataTable(dataTableJson, '0.6');
-
-      lavachart.chart.draw(lavachart.data, lavachart.options);
-
-      return callback(lavachart.chart);
-    });
+  
+  Callback: function (label, func) {
+    this.label = label;
+    this.func  = func;
   },
+
+  ready: function (callback) { 
+    lava.readyCallback = callback;
+  },
+/*
+  action: function (label) {
+    lava.registeredActions[label] = 
+  },
+*/
   event: function (event, chart, callback) {
     return callback(event, chart);
   },
-  register: function(type, label) {
+
+  registerChart: function(type, label) {
     this.registeredCharts.push(type + ':' + label);
   },
-  getLavachart: function (chartLabel, callback) {
-    var chartTypes = Object.keys(lava.charts);
-    var chart;
 
-    var search = chartTypes.some(function (e) {
-      if (typeof lava.charts[e][chartLabel] !== 'undefined') {
-        chart = lava.charts[e][chartLabel];
+  loadData: function (chartLabel, dataTableJson, callback) {
+    lava.getChart(chartLabel, function (googleChart, lavaChart) {
+      lavaChart.data = new google.visualization.DataTable(dataTableJson, '0.6');
+
+      googleChart.draw(lavaChart.data, lavaChart.options);
+
+      return callback(googleChart, lavaChart);
+    });
+  },
+
+  getDashboard: function (label, callback) {
+    if (typeof lava.dashboards[label] === 'undefined') {
+      throw new Error('[Lavacharts] Dashboard "' + label + '" was not found.');
+    }
+
+    var lavaDashboard = lava.dashboards[label];
+
+    callback(lavaDashboard.dashboard, lavaDashboard);
+  },
+
+  getChart: function (chartLabel, callback) {
+    var chartTypes = Object.keys(lava.charts);
+    var lavaChart;
+
+    var search = chartTypes.some(function (type) {
+      if (typeof lava.charts[type][chartLabel] !== 'undefined') {
+        lavaChart = lava.charts[type][chartLabel];
 
         return true;
       } else {
@@ -53,11 +77,12 @@ var lava = {
     });
 
     if (search === false) {
-      throw new Error('[Lavacharts] Chart "' + chartLabel + '" was not found');
+      throw new Error('[Lavacharts] Chart "' + chartLabel + '" was not found.');
     } else {
-      callback(chart);
+      callback(lavaChart.chart, lavaChart);
     }
   },
+
   redrawCharts: function() {
     var timer, delay = 300;
 
