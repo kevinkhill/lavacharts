@@ -2,9 +2,7 @@
 
 namespace Khill\Lavacharts\Configs;
 
-//use \SplFileObject;
 use \Carbon\Carbon;
-//use \League\Csv\Reader;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Formats\Format;
 use \Khill\Lavacharts\Exceptions\InvalidDate;
@@ -543,64 +541,6 @@ class DataTable implements \JsonSerializable
     {
         return count($this->rows);
     }
-
-    /**
-     * Parses a csv file into a DataTable.
-     *
-     * Pass in a filepath to a csv file and an array of column types:
-     * ['date', 'number', 'number', 'number'] for example and a DataTable
-     * will be built.
-     *
-     * @since  3.0.0
-     * @param  string $filepath Path location to a csv file
-     * @param  array  $columnTypes Array of column types to apply to the csv values
-     *//*
-    public function parseCsv($filepath, $columnTypes = null)
-    {
-        if (Utils::nonEmptyString($filepath) === false) {
-            throw new InvalidFunctionParam(
-                $filepath,
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        if (is_array($columnTypes) === false || empty($columnTypes) === true) {
-            throw new InvalidFunctionParam(
-               $columnTypes,
-                __FUNCTION__,
-                'array'
-            );
-        }
-
-        $reader = Reader::createFromPath($filepath);
-        $reader->setFlags(SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY);
-
-        $csvColumns = $reader->fetchOne();
-
-        foreach($columnTypes as $index => $column) {
-            if (in_array($column, $this->columnTypes, true) === false) {
-                throw new InvalidColumnType(
-                   $column,
-                   Utils::arrayToPipedString($this->columnTypes)
-                );
-            }
-
-            $this->addColumnFromStrings($columnTypes[$index], $csvColumns[$index]);
-        }
-
-        $csvRows = $reader->setOffset(1)->fetchAll(function ($row) {
-            return array_map(function ($cell) {
-                if (is_numeric($cell)) {
-                    return $cell + 0;
-                } else {
-                    return $cell;
-                }
-            }, $row);
-        });
-
-        return $this->addRows($csvRows);
-    }*/
 
     /**
      * Returns a column based on it's index.
