@@ -630,6 +630,25 @@ class DataTable implements \JsonSerializable
     }
 
     /**
+     * Returns the labels of columns currently defined.
+     *
+     * @since  3.0.0
+     * @access public
+     * @return array
+     */
+    public function getColumnLabels()
+    {
+        foreach($this->cols as $arr) {
+            if (array_key_exists('label', $arr)) {
+                $colTypes[] = $arr['label'];
+            }
+        }
+
+        return $colTypes;
+        //return array_column($this->getColumns(), 'type');
+    }
+
+    /**
      * Returns the column number of the ypes of columns currently defined.
      *
      * @since  2.5.2
