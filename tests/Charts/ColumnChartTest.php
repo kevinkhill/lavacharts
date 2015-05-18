@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Charts;
+<?php
+
+namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Charts\ColumnChart;
 use \Mockery as m;
@@ -9,7 +11,7 @@ class ColumnChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->cc = new ColumnChart('MyTestChart', $this->mockDataTable);
+        $this->cc = new ColumnChart('MyTestChart', $this->partialDataTable);
     }
 
     public function testInstanceOfColumnChartWithType()

@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Events;
+<?php
+
+namespace Khill\Lavacharts\Tests\Events;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Events\MouseOver;

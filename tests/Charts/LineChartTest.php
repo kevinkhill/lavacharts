@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Charts;
+<?php
+
+namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Charts\LineChart;
 use \Mockery as m;
@@ -9,7 +11,7 @@ class LineChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->lc = new LineChart('MyTestChart', $this->mockDataTable);
+        $this->lc = new LineChart('MyTestChart', $this->partialDataTable);
     }
 
     public function testInstanceOfLineChartWithType()

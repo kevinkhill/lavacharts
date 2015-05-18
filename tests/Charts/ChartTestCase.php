@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Charts;
+<?php
+
+namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Mockery as m;

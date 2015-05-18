@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Configs;
+<?php
+
+namespace Khill\Lavacharts\Tests\Configs;
 
 use \Khill\Lavacharts\Configs\ConfigOptions;
 use \Khill\Lavacharts\Configs\TextStyle;

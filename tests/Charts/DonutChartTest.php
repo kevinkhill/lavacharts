@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Charts;
+<?php
+
+namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Charts\DonutChart;
 use \Mockery as m;
@@ -9,7 +11,7 @@ class DonutChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->dc = new DonutChart('MyTestChart', $this->mockDataTable);
+        $this->dc = new DonutChart('MyTestChart', $this->partialDataTable);
     }
 
     public function testInstanceOfDonutChartWithType()

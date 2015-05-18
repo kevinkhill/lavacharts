@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Configs;
+<?php
+
+namespace Khill\Lavacharts\Tests\Configs;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Configs\Legend;

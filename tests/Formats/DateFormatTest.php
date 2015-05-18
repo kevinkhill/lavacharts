@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Formats;
+<?php
+
+namespace Khill\Lavacharts\Tests\Formats;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Formats\DateFormat;

@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests;
+<?php
+
+namespace Khill\Lavacharts\Tests;
 
 
 use \Khill\Lavacharts\JavascriptFactory;

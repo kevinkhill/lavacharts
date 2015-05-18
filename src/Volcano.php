@@ -42,7 +42,7 @@ class Volcano
     /**
      * Stores a chart in the volcano datastore.
      *
-     * @param  Chart $chart Chart to store in the volcano.
+     * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to store in the volcano.
      * @return boolean
      */
     public function storeChart(Chart $chart)
@@ -55,7 +55,7 @@ class Volcano
     /**
      * Stores a dashboard in the volcano datastore.
      *
-     * @param  Dashboard $dashboard Dashboard to store in the volcano.
+     * @param  \Khill\Lavacharts\Dashboard\Dashboard $dashboard Dashboard to store in the volcano.
      * @return boolean
      */
     public function storeDashboard(Dashboard $dashboard)
@@ -75,11 +75,11 @@ class Volcano
      */
     public function getChart($type, $label)
     {
-        if ($this->checkChart($type, $label)) {
-            return $this->charts[$type][$label];
-        } else {
+        if ($this->checkChart($type, $label) === false) {
             throw new ChartNotFound($type, $label);
         }
+
+        return $this->charts[$type][$label];
     }
 
     /**
@@ -91,11 +91,11 @@ class Volcano
      */
     public function getDashboard($label)
     {
-        if ($this->checkDashboard($label)) {
-            return $this->dashboards[$label];
-        } else {
+        if ($this->checkDashboard($label) === false) {
             throw new DashboardNotFound($label);
         }
+
+        return $this->dashboards[$label];
     }
 
     /**

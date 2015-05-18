@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Charts;
+<?php
+
+namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Charts\CalendarChart;
 use \Mockery as m;
@@ -9,7 +11,7 @@ class CalendarChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->cc = new CalendarChart('MyTestChart', $this->mockDataTable);
+        $this->cc = new CalendarChart('MyTestChart', $this->partialDataTable);
     }
 
     public function testInstanceOfLineChartWithType()

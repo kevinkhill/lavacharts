@@ -1,15 +1,21 @@
-<?php namespace Khill\Lavacharts\Tests;
+<?php
 
-//use Khill\Lavacharts\Lavacharts;
+namespace Khill\Lavacharts\Tests;
+
 use \Mockery as m;
 
 abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Partial DataTable for use throughout various tests
+     */
+    protected $partialDataTable;
+
     public function setUp()
     {
         parent::setUp();
 
-        $this->mockDataTable = m::mock('Khill\Lavacharts\Configs\DataTable');
+        $this->partialDataTable = m::mock('Khill\Lavacharts\Configs\DataTable')->makePartial();
     }
 
     public function nonIntOrPercentProvider()

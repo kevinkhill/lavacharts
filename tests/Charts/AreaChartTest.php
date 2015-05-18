@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Charts;
+<?php
+
+namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Charts\AreaChart;
 
@@ -8,7 +10,7 @@ class AreaChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->AreaChart = new AreaChart('MyTestChart', $this->mockDataTable);
+        $this->AreaChart = new AreaChart('MyTestChart', $this->partialDataTable);
     }
 
     public function testInstanceOfAreaChartWithType()

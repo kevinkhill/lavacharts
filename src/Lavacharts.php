@@ -173,7 +173,7 @@ class Lavacharts
                 $datatable = '\Khill\Lavacharts\Configs\DataTable';
             }
 
-            if (isset($arguments[0])) {                
+            if (isset($arguments[0])) {
                 return new $datatable($arguments[0]);
             } else {
                 return new $datatable;
@@ -369,6 +369,44 @@ class Lavacharts
     }
 
     /**
+     * Fetches an existing Chart or Dashboard from the volcano storage.
+     * @TODO look into volcano
+     * @access public
+     * @since  3.0.0
+     * @param  string $lavaObj Chart or Dashboard.
+     * @return mixed
+     */
+    public function fetch($type, $label)
+    {
+        if ($type == 'Dashboard') {
+            return $this->volcano->getDashboard($label);
+        } else {
+            return $this->volcano->getChart($type, $label);
+        }
+    }
+
+    /**
+     * Stores a existing Chart or Dashboard into the volcano storage.
+     * @TODO fix return types or make volcano return the stored object
+     * @access public
+     * @since  3.0.0
+     * @param  string $lavaObj Chart or Dashboard.
+     * @return boolean
+     */
+    public function store($lavaObj)
+    {
+        if (is_a($lavaObj, 'Khill\Lavacharts\Dashboards\Dashboard')) {
+            return $this->volcano->storeDashboard($lavaObj);
+        }
+
+        if (is_a($lavaObj, 'Khill\Lavacharts\Charts\Chart')) {
+            return $this->volcano->storeChart($lavaObj);
+        }
+
+        return false;
+    }
+
+    /**
      * Builds a div html element for the chart to be rendered into.
      *
      * Calling with no arguments will return a div with the ID set to what was
@@ -561,7 +599,7 @@ class Lavacharts
             );
         }
 
-        return new $format($method, $args[0]);
+        return new $format($args[0]);
     }
 
     /**

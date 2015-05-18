@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Charts;
+<?php
+
+namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Charts\GaugeChart;
 
@@ -8,7 +10,7 @@ class GaugeChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->g = new GaugeChart('Temps', $this->mockDataTable);
+        $this->g = new GaugeChart('Temps', $this->partialDataTable);
     }
 
     public function testInstanceOfGaugeChartWithType()
