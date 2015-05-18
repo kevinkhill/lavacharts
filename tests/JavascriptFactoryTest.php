@@ -1,6 +1,6 @@
 <?php namespace Khill\Lavacharts\Tests;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
+
 use \Khill\Lavacharts\JavascriptFactory;
 use \Mockery as m;
 
@@ -12,13 +12,13 @@ class JavascriptFactoryTest extends ProvidersTestCase
 
         $this->jsf = new JavascriptFactory;
 
-        $this->mlc = m::mock('Khill\Lavacharts\Charts\LineChart', array('TestChart'))->makePartial();
         $this->mdt = m::mock('Khill\Lavacharts\Configs\DataTable')->makePartial();
-
         $this->mdt->addColumn('number')
                   ->addColumn('number')
                   ->addColumn('number')
-                  ->addRow(array(10101, 12345, 67890));
+                  ->addRow([10101, 12345, 67890]);
+
+        $this->mlc = m::mock('Khill\Lavacharts\Charts\LineChart', ['TestChart', $this->mdt])->makePartial();
     }
 
     public function testGetChartJsOutput()
@@ -46,6 +46,6 @@ class JavascriptFactoryTest extends ProvidersTestCase
     {
         $this->mlc->datatable($this->mdt);
 
-        $js = $this->jsf->getChartJs($this->mlc, $badTypes);
+        $this->jsf->getChartJs($this->mlc, $badTypes);
     }
 }

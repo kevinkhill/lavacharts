@@ -65,16 +65,16 @@ class UtilsBetweenTest extends \PHPUnit_Framework_TestCase
 
     public function badParamsProvider()
     {
-        return array(
-            array(1, 2, 'string'),
-            array(1, 2, array(), 3),
-            array(1, new \stdClass(), 3),
-            array(1, false, 3,),
-            array(array(), array(), array()),
-            array(true, true, true),
-            array(false, false, false),
-            array(null, null, null),
-            array(new \stdClass(), new \stdClass(), new \stdClass())
-        );
+        return [
+            [1, 2, 'string'],
+            [1, 2, [], 3],
+            [1, new \stdClass(), 3],
+            [1, false, 3,],
+            [[], [], []],
+            [true, true, true],
+            [false, false, false],
+            [null, null, null],
+            [new \stdClass(), new \stdClass(), new \stdClass()]
+        ];
     }
 }

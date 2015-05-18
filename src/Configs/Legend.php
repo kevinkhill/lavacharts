@@ -52,7 +52,7 @@ class Legend extends ConfigObject
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return self
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         parent::__construct($this, $config);
     }
@@ -72,13 +72,13 @@ class Legend extends ConfigObject
      */
     public function position($position)
     {
-        $values = array(
+        $values = [
             'right',
             'top',
             'bottom',
             'in',
             'none'
-        );
+        ];
 
         if (is_string($position) && in_array($position, $values)) {
             $this->position = $position;
@@ -113,11 +113,11 @@ class Legend extends ConfigObject
      */
     public function alignment($alignment)
     {
-        $values = array(
+        $values = [
             'start',
             'center',
             'end'
-        );
+        ];
 
         if (is_string($alignment) && in_array($alignment, $values)) {
             $this->alignment = $alignment;

@@ -12,7 +12,7 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
 
         $this->mockTextStyle = $this->getMock(
             '\Khill\Lavacharts\Configs\TextStyle',
-            array('__construct')
+            ['__construct']
         );
     }
 
@@ -25,16 +25,11 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorValuesAssignment()
     {
-        $mockTextStyle = $this->getMock(
-            '\Khill\Lavacharts\Configs\TextStyle',
-            array('__construct')
-        );
-
-        $tooltip = new Tooltip(array(
+        $tooltip = new Tooltip([
             'showColorCode' => true,
             'textStyle'     => $this->mockTextStyle,
             'trigger'       => 'focus'
-        ));
+        ]);
 
         $this->assertTrue($tooltip->showColorCode);
         $this->assertTrue(is_array($tooltip->textStyle));
@@ -46,7 +41,7 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        new Tooltip(array('Fruits' => array()));
+        new Tooltip(['Fruits' => []]);
     }
 
     /**
@@ -79,13 +74,13 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
 
     public function badParamsProvider()
     {
-        return array(
-            array('stringy'),
-            array(123),
-            array(123.456),
-            array(array()),
-            array(new \stdClass()),
-            array(null)
-        );
+        return [
+            ['stringy'],
+            [123],
+            [123.456],
+            [[]],
+            [new \stdClass()],
+            [null]
+        ];
     }
 }

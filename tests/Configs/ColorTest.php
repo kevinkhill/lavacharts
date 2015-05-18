@@ -22,11 +22,11 @@ class ColorTest extends ProvidersTestCase
 
     public function testConstructorValuesAssignment()
     {
-        $colorAxis = new Color(array(
+        $colorAxis = new Color([
             'color'           => '#5B5B5B',
             'backgroundColor' => 'red',
             'opacity'         => 0.8
-        ));
+        ]);
 
         $this->assertEquals('#5B5B5B', $colorAxis->color);
         $this->assertEquals('red', $colorAxis->backgroundColor);
@@ -38,7 +38,7 @@ class ColorTest extends ProvidersTestCase
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        $colorAxis = new Color(array('Soda' => 'Coke'));
+        new Color(['Soda' => 'Coke']);
     }
 
     /**

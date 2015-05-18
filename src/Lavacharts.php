@@ -2,14 +2,12 @@
 
 namespace Khill\Lavacharts;
 
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Volcano;
-use \Khill\Lavacharts\JavascriptFactory;
+
 use \Khill\Lavacharts\Configs\DataTable;
 use \Khill\Lavacharts\Dashboard\Dashboard;
 use \Khill\Lavacharts\Dashboard\ChartWrapper;
 use \Khill\Lavacharts\Dashboard\ControlWrapper;
-use \Khill\Lavacharts\Exceptions\ChartNotFound;
+
 use \Khill\Lavacharts\Exceptions\InvalidDataTable;
 use \Khill\Lavacharts\Exceptions\InvalidLabel;
 use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
@@ -18,7 +16,7 @@ use \Khill\Lavacharts\Exceptions\InvalidFilterObject;
 use \Khill\Lavacharts\Exceptions\InvalidEventCallback;
 use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
 use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+
 use \Khill\Lavacharts\Exceptions\InvalidChartWrapperParams;
 use \Khill\Lavacharts\Exceptions\InvalidControlWrapperParams;
 

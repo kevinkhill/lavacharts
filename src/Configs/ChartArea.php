@@ -57,7 +57,7 @@ class ChartArea extends ConfigObject
      * @param  array     $config
      * @return self
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         parent::__construct($this, $config);
     }

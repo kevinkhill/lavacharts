@@ -14,7 +14,7 @@ class LegendTest extends ProvidersTestCase
 
         $this->mockTextStyle = $this->getMock(
             '\Khill\Lavacharts\Configs\TextStyle',
-            array('__construct')
+            ['__construct']
         );
     }
 
@@ -89,11 +89,11 @@ class LegendTest extends ProvidersTestCase
             '\Khill\Lavacharts\Configs\TextStyle',
             array('__construct')
         );*/
-        $textStyleVals = array(
+        $textStyleVals = [
             'color'    => 'blue',
             'fontName' => 'Arial',
             'fontSize' => 16
-        );
+        ];
 
         $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
         $mockTextStyle->shouldReceive('getValues')->once()->andReturn($textStyleVals);

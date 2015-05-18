@@ -9,32 +9,32 @@ class HorizontalAxisTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->ha = new HorizontalAxis(array());
+        $this->ha = new HorizontalAxis([]);
 
         $this->mockTextStyle = $this->getMock(
             '\Khill\Lavacharts\Configs\TextStyle',
-            array('__construct')
+            ['__construct']
         );
     }
 
     public function testConstructorValuesAssignment()
     {
-        $ha = new HorizontalAxis(array(
+        $ha = new HorizontalAxis([
             'baselineColor'  => '#F4D4E7',
             'direction'      => 1,
             'format'         => '999.99',
-            'gridlines'      => array(
+            'gridlines'      => [
                 'color' => '#123ABC',
                 'count' => 4
-            ),
+            ],
             'logScale'       => true,
             'maxAlternation' => 2,
             'maxTextLines'   => 3,
             'maxValue'       => 5000,
-            'minorGridlines' => array(
+            'minorGridlines' => [
                 'color' => '#456EFF',
                 'count' => 7
-            ),
+            ],
             'minTextSpacing' => 2,
             'minValue'       => 50,
             'showTextEvery'  => 3,
@@ -42,12 +42,12 @@ class HorizontalAxisTest extends ProvidersTestCase
             'title'          => 'Taco Graph',
             'titleTextStyle' => $this->mockTextStyle,
             'textStyle'      => $this->mockTextStyle,
-            'viewWindow'     => array(
+            'viewWindow'     => [
                 'min' => 100,
                 'max' => 400
-            ),
+            ],
             'viewWindowMode' => 'explicit'
-        ));
+        ]);
 
         $this->assertEquals('#F4D4E7', $ha->baselineColor);
         $this->assertEquals(1, $ha->direction);
@@ -77,7 +77,7 @@ class HorizontalAxisTest extends ProvidersTestCase
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        new HorizontalAxis(array('Jellybeans' => array()));
+        new HorizontalAxis(['Jellybeans' => []]);
     }
 
     public function testAllowContainerBoundaryTextCutoff()
@@ -138,10 +138,10 @@ class HorizontalAxisTest extends ProvidersTestCase
 
     public function testGridlinesWithAcceptableKeys()
     {
-        $this->ha->gridlines(array(
+        $this->ha->gridlines([
             'color' => '#123ABC',
             'count' => 7
-        ));
+        ]);
 
         $this->assertEquals('#123ABC', $this->ha->gridlines['color']);
         $this->assertEquals(7, $this->ha->gridlines['count']);
@@ -149,10 +149,10 @@ class HorizontalAxisTest extends ProvidersTestCase
 
     public function testGridlinesWithAutoCount()
     {
-        $this->ha->gridlines(array(
+        $this->ha->gridlines([
             'color' => '#123ABC',
             'count' => -1
-        ));
+        ]);
         $this->assertEquals(-1, $this->ha->gridlines['count']);
     }
 
@@ -161,10 +161,10 @@ class HorizontalAxisTest extends ProvidersTestCase
      */
     public function testGridlinesWithBadKeys()
     {
-        $this->ha->gridlines(array(
+        $this->ha->gridlines([
             'frank'     => '#123ABC',
             'and beans' => 7
-        ));
+        ]);
     }
 
     /**
@@ -172,10 +172,10 @@ class HorizontalAxisTest extends ProvidersTestCase
      */
     public function testGridlinesWithBadValueForColor()
     {
-        $this->ha->gridlines(array(
+        $this->ha->gridlines([
             'count' => 5,
-            'color' => array()
-        ));
+            'color' => []
+        ]);
     }
 
     /**
@@ -183,10 +183,10 @@ class HorizontalAxisTest extends ProvidersTestCase
      */
     public function testGridlinesWithBadValueForCount()
     {
-        $this->ha->gridlines(array(
+        $this->ha->gridlines([
             'count' => 9.8,
             'color' => '#123ABC'
-        ));
+        ]);
     }
 
     /**
@@ -236,10 +236,10 @@ class HorizontalAxisTest extends ProvidersTestCase
 
     public function testMinorGridlinesWithAutoCount()
     {
-        $this->ha->minorGridlines(array(
+        $this->ha->minorGridlines([
             'color' => '#123ABC',
             'count' => -1
-        ));
+        ]);
         $this->assertEquals(-1, $this->ha->minorGridlines['count']);
     }
 
@@ -248,10 +248,10 @@ class HorizontalAxisTest extends ProvidersTestCase
      */
     public function testMinorGridlinesWithBadKeys()
     {
-        $this->ha->minorGridlines(array(
+        $this->ha->minorGridlines([
             'frank'     => '#123ABC',
             'and beans' => 7
-        ));
+        ]);
     }
 
     /**
@@ -259,10 +259,10 @@ class HorizontalAxisTest extends ProvidersTestCase
      */
     public function testMinorGridlinesWithBadValueForColor()
     {
-        $this->ha->minorGridlines(array(
+        $this->ha->minorGridlines([
             'count' => 5,
-            'color' => array()
-        ));
+            'color' => []
+        ]);
     }
 
     /**
@@ -270,10 +270,10 @@ class HorizontalAxisTest extends ProvidersTestCase
      */
     public function testMinorGridlinesWithBadValueForCount()
     {
-        $this->ha->minorGridlines(array(
+        $this->ha->minorGridlines([
             'count' => 9.8,
             'color' => '#123ABC'
-        ));
+        ]);
     }
 
     /**
@@ -459,10 +459,10 @@ class HorizontalAxisTest extends ProvidersTestCase
      */
     public function testViewWindowModeWithViewWindowSet()
     {
-        $this->ha->viewWindow(array(
+        $this->ha->viewWindow([
             'min' => 10,
             'max' => 100
-        ));
+        ]);
 
         $this->assertEquals('explicit', $this->ha->viewWindowMode);
     }

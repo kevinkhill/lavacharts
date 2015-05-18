@@ -22,11 +22,11 @@ class AnimationTest extends ProvidersTestCase
 
     public function testConstructorValuesAssignment()
     {
-        $animation = new Animation(array(
+        $animation = new Animation([
             'duration' => 300,
             'easing'   => 'linear',
             'startup'  => true
-        ));
+        ]);
 
         $this->assertEquals(300, $animation->duration);
         $this->assertEquals('linear', $animation->easing);
@@ -38,7 +38,7 @@ class AnimationTest extends ProvidersTestCase
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        $animation = new Animation(array('Pickles' => 'tasty'));
+        new Animation(['Pickles' => 'tasty']);
     }
 
     /**
@@ -88,11 +88,11 @@ class AnimationTest extends ProvidersTestCase
 
     public function easingVals()
     {
-        return array(
-            array('linear'),
-            array('in'),
-            array('out'),
-            array('inAndOut'),
-        );
+        return [
+            ['linear'],
+            ['in'],
+            ['out'],
+            ['inAndOut'],
+        ];
     }
 }

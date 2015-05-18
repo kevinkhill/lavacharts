@@ -88,9 +88,9 @@ class ColumnChartTest extends ChartTestCase
     public function testHorizontalAxis()
     {
         $mockHorizontalAxis = m::mock('Khill\Lavacharts\Configs\HorizontalAxis');
-        $mockHorizontalAxis->shouldReceive('toArray')->once()->andReturn(array(
-            'hAxis' => array()
-        ));
+        $mockHorizontalAxis->shouldReceive('toArray')->once()->andReturn([
+            'hAxis' => []
+        ]);
 
         $this->cc->hAxis($mockHorizontalAxis);
 
@@ -116,9 +116,9 @@ class ColumnChartTest extends ChartTestCase
     public function testVerticalAxis()
     {
         $mockVerticalAxis = m::mock('Khill\Lavacharts\Configs\VerticalAxis');
-        $mockVerticalAxis->shouldReceive('toArray')->once()->andReturn(array(
-            'vAxis' => array()
-        ));
+        $mockVerticalAxis->shouldReceive('toArray')->once()->andReturn([
+            'vAxis' => []
+        ]);
 
         $this->cc->vAxis($mockVerticalAxis);
 
@@ -127,12 +127,12 @@ class ColumnChartTest extends ChartTestCase
 
     public function nonIntOrPercentProvider()
     {
-        return array(
-            array(3.2),
-            array(true),
-            array(false),
-            array(array()),
-            array(new \stdClass)
-        );
+        return [
+            [3.2],
+            [true],
+            [false],
+            [[]],
+            [new \stdClass]
+        ];
     }
 }

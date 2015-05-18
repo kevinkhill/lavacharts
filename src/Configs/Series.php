@@ -64,7 +64,7 @@ class Series extends ConfigObject
      * @param  array  $config Options for the series
      * @return self
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         parent::__construct($this, $config);
     }
@@ -105,10 +105,10 @@ class Series extends ConfigObject
      */
     public function curveType($curveType)
     {
-        $values = array(
+        $values = [
             'none',
             'function'
-        );
+        ];
 
         if (is_string($curveType) && in_array($curveType, $values)) {
             $this->curveType = $curveType;
@@ -163,13 +163,13 @@ class Series extends ConfigObject
      */
     public function type($type)
     {
-        $values = array(
+        $values = [
             'line',
             'area',
             'bars',
             'candlesticks',
             'steppedArea'
-        );
+        ];
 
         if (in_array($type, $values)) {
             $this->type = $type;

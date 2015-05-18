@@ -9,32 +9,32 @@ class VerticalAxisTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->va = new VerticalAxis(array());
+        $this->va = new VerticalAxis([]);
 
         $this->mockTextStyle = $this->getMock(
             '\Khill\Lavacharts\Configs\TextStyle',
-            array('__construct')
+            ['__construct']
         );
     }
 
     public function testConstructorValuesAssignment()
     {
-        $va = new VerticalAxis(array(
+        $va = new VerticalAxis([
             'baselineColor'  => '#F4D4E7',
             'direction'      => 1,
             'format'         => '999.99',
-            'gridlines'      => array(
+            'gridlines'      => [
                 'color' => '#123ABC',
                 'count' => 4
-            ),
+            ],
             'logScale'       => true,
             'maxAlternation' => 2,
             'maxTextLines'   => 3,
             'maxValue'       => 5000,
-            'minorGridlines' => array(
+            'minorGridlines' => [
                 'color' => '#456EFF',
                 'count' => 7
-            ),
+            ],
             'minTextSpacing' => 2,
             'minValue'       => 50,
             'showTextEvery'  => 3,
@@ -42,12 +42,12 @@ class VerticalAxisTest extends ProvidersTestCase
             'title'          => 'Taco Graph',
             'titleTextStyle' => $this->mockTextStyle,
             'textStyle'      => $this->mockTextStyle,
-            'viewWindow'     => array(
+            'viewWindow'     => [
                 'min' => 100,
                 'max' => 400
-            ),
+            ],
             'viewWindowMode' => 'explicit'
-        ));
+        ]);
 
         $this->assertEquals('#F4D4E7', $va->baselineColor);
         $this->assertEquals(1, $va->direction);
@@ -77,7 +77,7 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        new VerticalAxis(array('Jellybeans' => array()));
+        new VerticalAxis(['Jellybeans' => []]);
     }
 
     /**
@@ -123,10 +123,10 @@ class VerticalAxisTest extends ProvidersTestCase
 
     public function testGridlinesWithAcceptableKeys()
     {
-        $this->va->gridlines(array(
+        $this->va->gridlines([
             'color' => '#123ABC',
             'count' => 7
-        ));
+        ]);
 
         $this->assertEquals('#123ABC', $this->va->gridlines['color']);
         $this->assertEquals(7, $this->va->gridlines['count']);
@@ -134,10 +134,10 @@ class VerticalAxisTest extends ProvidersTestCase
 
     public function testGridlinesWithAutoCount()
     {
-        $this->va->gridlines(array(
+        $this->va->gridlines([
             'color' => '#123ABC',
             'count' => -1
-        ));
+        ]);
         $this->assertEquals(-1, $this->va->gridlines['count']);
     }
 
@@ -146,10 +146,10 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testGridlinesWithBadKeys()
     {
-        $this->va->gridlines(array(
+        $this->va->gridlines([
             'frank'     => '#123ABC',
             'and beans' => 7
-        ));
+        ]);
     }
 
     /**
@@ -157,10 +157,10 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testGridlinesWithBadValueForColor()
     {
-        $this->va->gridlines(array(
+        $this->va->gridlines([
             'count' => 5,
-            'color' => array()
-        ));
+            'color' => []
+        ]);
     }
 
     /**
@@ -168,10 +168,10 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testGridlinesWithBadValueForCount()
     {
-        $this->va->gridlines(array(
+        $this->va->gridlines([
             'count' => 9.8,
             'color' => '#123ABC'
-        ));
+        ]);
     }
 
     /**
@@ -221,10 +221,10 @@ class VerticalAxisTest extends ProvidersTestCase
 
     public function testMinorGridlinesWithAutoCount()
     {
-        $this->va->minorGridlines(array(
+        $this->va->minorGridlines([
             'color' => '#123ABC',
             'count' => -1
-        ));
+        ]);
         $this->assertEquals(-1, $this->va->minorGridlines['count']);
     }
 
@@ -233,10 +233,10 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testMinorGridlinesWithBadKeys()
     {
-        $this->va->minorGridlines(array(
+        $this->va->minorGridlines([
             'frank'     => '#123ABC',
             'and beans' => 7
-        ));
+        ]);
     }
 
     /**
@@ -244,10 +244,10 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testMinorGridlinesWithBadValueForColor()
     {
-        $this->va->minorGridlines(array(
+        $this->va->minorGridlines([
             'count' => 5,
-            'color' => array()
-        ));
+            'color' => []
+        ]);
     }
 
     /**
@@ -255,10 +255,10 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testMinorGridlinesWithBadValueForCount()
     {
-        $this->va->minorGridlines(array(
+        $this->va->minorGridlines([
             'count' => 9.8,
             'color' => '#123ABC'
-        ));
+        ]);
     }
 
     /**
@@ -353,10 +353,10 @@ class VerticalAxisTest extends ProvidersTestCase
 
     public function testViewWindowWithValidValues()
     {
-        $this->va->viewWindow(array(
+        $this->va->viewWindow([
             'min' => 10,
             'max' => 100
-        ));
+        ]);
 
         $this->assertEquals(10, $this->va->viewWindow['viewWindowMin']);
         $this->assertEquals(100, $this->va->viewWindow['viewWindowMax']);
@@ -367,9 +367,9 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testViewWindowWithInvalidArrayKeys()
     {
-        $this->va->viewWindow(array(
+        $this->va->viewWindow([
             'gunderfluffen' => 10
-        ));
+        ]);
     }
 
     /**
@@ -398,10 +398,10 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testViewWindowModeWithViewWindowSet()
     {
-        $this->va->viewWindow(array(
+        $this->va->viewWindow([
             'min' => 10,
             'max' => 100
-        ));
+        ]);
 
         $this->assertEquals('explicit', $this->va->viewWindowMode);
     }

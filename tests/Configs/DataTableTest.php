@@ -61,8 +61,8 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->dt->addColumn('date');
 
-        $this->dt->addRow(array(Carbon::parse('March 24th, 1988')));
-        $this->dt->addRow(array(Carbon::parse('March 25th, 1988')));
+        $this->dt->addRow([Carbon::parse('March 24th, 1988')]);
+        $this->dt->addRow([Carbon::parse('March 25th, 1988')]);
 
         $rows = $this->dt->getRows();
 
@@ -87,7 +87,7 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testAddColumnWithArrayOfTypeOnly()
     {
-        $this->dt->addColumn(array('date'));
+        $this->dt->addColumn(['date']);
 
         $cols = $this->dt->getColumns();
 
@@ -112,7 +112,7 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testAddColumnWithArrafOfTypeAndDescription()
     {
-        $this->dt->addColumn(array('date', 'Days in March'));
+        $this->dt->addColumn(['date', 'Days in March']);
 
         $cols = $this->dt->getColumns();
 
@@ -139,7 +139,7 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testAddColumnWithArrayOfTypeAndDescriptionAndId()
     {
-        $this->dt->addColumn(array('date', 'Days in March', 'march-dates'));
+        $this->dt->addColumn(['date', 'Days in March', 'march-dates']);
 
         $cols = $this->dt->getColumns();
 
@@ -154,11 +154,11 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testAddMultipleColumnsWithArrayOfTypeAndDescriptionAndId()
     {
-        $this->dt->addColumns(array(
-            array('date', 'Days in March', 'march-dates'),
-            array('number', 'Day of the Week', 'dotw'),
-            array('number', 'Temperature', 'temp'),
-        ));
+        $this->dt->addColumns([
+            ['date', 'Days in March', 'march-dates'],
+            ['number', 'Day of the Week', 'dotw'],
+            ['number', 'Temperature', 'temp'],
+        ]);
 
         $cols = $this->dt->getColumns();
 
@@ -184,7 +184,7 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->dt->addColumn('date');
 
-        $this->dt->addRow(array(Carbon::parse('March 24th, 1988')));
+        $this->dt->addRow([Carbon::parse('March 24th, 1988')]);
 
         $cols = $this->dt->getColumns();
         $rows = $this->dt->getRows();
@@ -204,7 +204,7 @@ class DataTableTest extends ProvidersTestCase
         $this->dt->addColumn('number');
         $this->dt->addColumn('number');
 
-        $this->dt->addRow(array(Carbon::parse('March 24th, 1988'), 12345, 67890));
+        $this->dt->addRow([Carbon::parse('March 24th, 1988'), 12345, 67890]);
 
         $cols = $this->dt->getColumns();
         $rows = $this->dt->getRows();
@@ -227,10 +227,10 @@ class DataTableTest extends ProvidersTestCase
         $this->dt->addColumn('number');
         $this->dt->addColumn('number');
 
-        $rows = array(
-            array(Carbon::parse('March 24th, 1988'), 12345, 67890),
-            array(Carbon::parse('March 25th, 1988'), 1122, 3344)
-        );
+        $rows = [
+            [Carbon::parse('March 24th, 1988'), 12345, 67890],
+            [Carbon::parse('March 25th, 1988'), 1122, 3344]
+        ];
 
         $this->dt->addRows($rows);
 
@@ -259,10 +259,10 @@ class DataTableTest extends ProvidersTestCase
         $this->dt->addColumn('number');
         $this->dt->addColumn('number');
 
-        $rows = array(
-            array(Carbon::parse('March 24th, 1988'), 12345, 67890),
+        $rows = [
+            [Carbon::parse('March 24th, 1988'), 12345, 67890],
             234.234
-        );
+        ];
 
         $this->dt->addRows($rows);
 
@@ -287,7 +287,7 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->dt->addColumn('date');
         $this->dt->addColumn('number');
-        $this->dt->addRow(array(Carbon::parse('March 24th, 1988'), 12345, 67890));
+        $this->dt->addRow([Carbon::parse('March 24th, 1988'), 12345, 67890]);
     }
 
     /**
@@ -298,7 +298,7 @@ class DataTableTest extends ProvidersTestCase
     public function testAddingRowWithBadDateType($badDate)
     {
         $this->dt->addColumn('date');
-        $this->dt->addRow(array($badDate));
+        $this->dt->addRow([$badDate]);
     }
 
     /**
@@ -308,7 +308,7 @@ class DataTableTest extends ProvidersTestCase
     public function testAddingRowWithEmptyArray()
     {
         $this->dt->addColumn('date');
-        $this->dt->addRow(array(array()));
+        $this->dt->addRow([[]]);
     }
 
     /**
@@ -316,10 +316,10 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testAddBadColumnsFromArray()
     {
-        $this->dt->addColumn(array(
-            array(5, 'falcons'),
-            array(false, 'tacos')
-        ));
+        $this->dt->addColumn([
+            [5, 'falcons'],
+            [false, 'tacos']
+        ]);
     }
 
     /**

@@ -4,7 +4,7 @@ namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Configs\DataTable;
-use \Khill\Lavacharts\Configs\ColorAxis;
+
 use \Khill\Lavacharts\Configs\SizeAxis;
 use \Khill\Lavacharts\Configs\MagnifyingGlass;
 
@@ -97,7 +97,7 @@ class GeoChart extends Chart
     public function datalessRegionColor($drc)
     {
         if (is_string($drc) && ! empty($drc)) {
-            $this->addOption(array(__FUNCTION__ => $drc));
+            $this->addOption([__FUNCTION__ => $drc]);
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -121,14 +121,14 @@ class GeoChart extends Chart
      */
     public function displayMode($dm)
     {
-        $v = array(
+        $v = [
             'auto',
             'regions',
             'markers',
-        );
+        ];
 
         if (is_string($dm) && in_array($dm, $v)) {
-            $this->addOption(array(__FUNCTION__ => $dm));
+            $this->addOption([__FUNCTION__ => $dm]);
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -154,7 +154,7 @@ class GeoChart extends Chart
     public function enableRegionInteractivity($eri)
     {
         if (is_bool($eri)) {
-            $this->addOption(array(__FUNCTION__ => $eri));
+            $this->addOption([__FUNCTION__ => $eri]);
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -181,7 +181,7 @@ class GeoChart extends Chart
     public function keepAspectRatio($kar)
     {
         if (is_bool($kar)) {
-            $this->addOption(array(__FUNCTION__ => $kar));
+            $this->addOption([__FUNCTION__ => $kar]);
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -208,7 +208,7 @@ class GeoChart extends Chart
     public function region($r)
     {
         if (is_string($r)) {
-            $this->addOption(array(__FUNCTION__ => $r));
+            $this->addOption([__FUNCTION__ => $r]);
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -245,9 +245,9 @@ class GeoChart extends Chart
     public function markerOpacity($mo)
     {
         if ($mo === 0 || $mo === 1) {
-            $this->addOption(array(__FUNCTION__ => $mo));
+            $this->addOption([__FUNCTION__ => $mo]);
         } elseif (is_float($mo) && Utils::between(0.0, $mo, 1.0, true)) {
-            $this->addOption(array(__FUNCTION__ => $mo));
+            $this->addOption([__FUNCTION__ => $mo]);
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
@@ -274,14 +274,14 @@ class GeoChart extends Chart
      */
     public function resolution($r)
     {
-        $v = array(
+        $v = [
             'countries',
             'provinces',
             'metros',
-        );
+        ];
 
         if (is_string($r) && in_array($r, $v)) {
-            $this->addOption(array(__FUNCTION__ => $r));
+            $this->addOption([__FUNCTION__ => $r]);
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,

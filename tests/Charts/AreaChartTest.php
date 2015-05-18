@@ -1,7 +1,6 @@
 <?php namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Charts\AreaChart;
-use \Mockery as m;
 
 class AreaChartTest extends ChartTestCase
 {
@@ -9,31 +8,31 @@ class AreaChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->ac = new AreaChart('MyTestChart', $this->mockDataTable);
+        $this->AreaChart = new AreaChart('MyTestChart', $this->mockDataTable);
     }
 
     public function testInstanceOfAreaChartWithType()
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\AreaChart', $this->ac);
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\AreaChart', $this->AreaChart);
     }
 
     public function testTypeAreaChart()
     {
-        $chart = $this->ac;
+        $chart = $this->AreaChart;
 
         $this->assertEquals('AreaChart', $chart::TYPE);
     }
 
     public function testLabelAssignedViaConstructor()
     {
-        $this->assertEquals('MyTestChart', $this->ac->label);
+        $this->assertEquals('MyTestChart', $this->AreaChart->label);
     }
 
     public function testAreaOpacity()
     {
-        $this->ac->areaOpacity(0.6);
+        $this->AreaChart->areaOpacity(0.6);
 
-        $this->assertEquals(0.6, $this->ac->getOption('areaOpacity'));
+        $this->assertEquals(0.6, $this->AreaChart->getOption('areaOpacity'));
     }
 
     /**
@@ -42,19 +41,19 @@ class AreaChartTest extends ChartTestCase
      */
     public function testAreaOpacityWithBadTypes($badTypes)
     {
-        $this->ac->areaOpacity($badTypes);
+        $this->AreaChart->areaOpacity($badTypes);
     }
 
     public function testAxisTitlesPositionValidValues()
     {
-        $this->ac->axisTitlesPosition('in');
-        $this->assertEquals('in', $this->ac->getOption('axisTitlesPosition'));
+        $this->AreaChart->axisTitlesPosition('in');
+        $this->assertEquals('in', $this->AreaChart->getOption('axisTitlesPosition'));
 
-        $this->ac->axisTitlesPosition('out');
-        $this->assertEquals('out', $this->ac->getOption('axisTitlesPosition'));
+        $this->AreaChart->axisTitlesPosition('out');
+        $this->assertEquals('out', $this->AreaChart->getOption('axisTitlesPosition'));
 
-        $this->ac->axisTitlesPosition('none');
-        $this->assertEquals('none', $this->ac->getOption('axisTitlesPosition'));
+        $this->AreaChart->axisTitlesPosition('none');
+        $this->assertEquals('none', $this->AreaChart->getOption('axisTitlesPosition'));
     }
 
     /**
@@ -62,7 +61,7 @@ class AreaChartTest extends ChartTestCase
      */
     public function testAxisTitlesPositionWithBadValue()
     {
-        $this->ac->axisTitlesPosition('happymeal');
+        $this->AreaChart->axisTitlesPosition('happymeal');
     }
 
     /**
@@ -71,16 +70,16 @@ class AreaChartTest extends ChartTestCase
      */
     public function testAxisTitlesPositionWithBadType($badTypes)
     {
-        $this->ac->axisTitlesPosition($badTypes);
+        $this->AreaChart->axisTitlesPosition($badTypes);
     }
 
     public function testFocusTarget()
     {
-        $this->ac->focusTarget('datum');
-        $this->assertEquals('datum', $this->ac->getOption('focusTarget'));
+        $this->AreaChart->focusTarget('datum');
+        $this->assertEquals('datum', $this->AreaChart->getOption('focusTarget'));
 
-        $this->ac->focusTarget('category');
-        $this->assertEquals('category', $this->ac->getOption('focusTarget'));
+        $this->AreaChart->focusTarget('category');
+        $this->assertEquals('category', $this->AreaChart->getOption('focusTarget'));
     }
 
     /**
@@ -89,26 +88,21 @@ class AreaChartTest extends ChartTestCase
      */
     public function testFocusTargetWithBadType($badTypes)
     {
-        $this->ac->focusTarget($badTypes);
+        $this->AreaChart->focusTarget($badTypes);
     }
 
     public function testHorizontalAxis()
     {
-        $mockHorizontalAxis = m::mock('Khill\Lavacharts\Configs\HorizontalAxis');
-        $mockHorizontalAxis->shouldReceive('toArray')->once()->andReturn(array(
-            'hAxis' => array()
-        ));
+        $this->AreaChart->hAxis($this->getMockHorizontalAxis());
 
-        $this->ac->hAxis($mockHorizontalAxis);
-
-        $this->assertTrue(is_array($this->ac->getOption('hAxis')));
+        $this->assertTrue(is_array($this->AreaChart->getOption('hAxis')));
     }
 
     public function testIsStacked()
     {
-        $this->ac->isStacked(true);
+        $this->AreaChart->isStacked(true);
 
-        $this->assertTrue($this->ac->getOption('isStacked'));
+        $this->assertTrue($this->AreaChart->getOption('isStacked'));
     }
 
     /**
@@ -117,14 +111,14 @@ class AreaChartTest extends ChartTestCase
      */
     public function testIsStackedWithBadType($badTypes)
     {
-        $this->ac->isStacked($badTypes);
+        $this->AreaChart->isStacked($badTypes);
     }
 
     public function testInterpolateNulls()
     {
-        $this->ac->interpolateNulls(true);
+        $this->AreaChart->interpolateNulls(true);
 
-        $this->assertTrue($this->ac->getOption('interpolateNulls'));
+        $this->assertTrue($this->AreaChart->getOption('interpolateNulls'));
     }
 
     /**
@@ -133,14 +127,14 @@ class AreaChartTest extends ChartTestCase
      */
     public function testInterpolateNullsWithBadType($badTypes)
     {
-        $this->ac->interpolateNulls($badTypes);
+        $this->AreaChart->interpolateNulls($badTypes);
     }
 
     public function testLineWidth()
     {
-        $this->ac->lineWidth(22);
+        $this->AreaChart->lineWidth(22);
 
-        $this->assertEquals(22, $this->ac->getOption('lineWidth'));
+        $this->assertEquals(22, $this->AreaChart->getOption('lineWidth'));
     }
 
     /**
@@ -149,14 +143,14 @@ class AreaChartTest extends ChartTestCase
      */
     public function testLineWidthWithBadType($badTypes)
     {
-        $this->ac->lineWidth($badTypes);
+        $this->AreaChart->lineWidth($badTypes);
     }
 
     public function testPointSize()
     {
-        $this->ac->pointSize(3);
+        $this->AreaChart->pointSize(3);
 
-        $this->assertEquals(3, $this->ac->getOption('pointSize'));
+        $this->assertEquals(3, $this->AreaChart->getOption('pointSize'));
     }
 
     /**
@@ -165,18 +159,13 @@ class AreaChartTest extends ChartTestCase
      */
     public function testPointSizeWithBadType($badTypes)
     {
-        $this->ac->pointSize($badTypes);
+        $this->AreaChart->pointSize($badTypes);
     }
 
     public function testVerticalAxis()
     {
-        $mockVerticalAxis = m::mock('Khill\Lavacharts\Configs\VerticalAxis');
-        $mockVerticalAxis->shouldReceive('toArray')->once()->andReturn(array(
-            'vAxis' => array()
-        ));
+        $this->AreaChart->vAxis($this->getMockVerticalAxis());
 
-        $this->ac->vAxis($mockVerticalAxis);
-
-        $this->assertTrue(is_array($this->ac->getOption('vAxis')));
+        $this->assertTrue(is_array($this->AreaChart->getOption('vAxis')));
     }
 }

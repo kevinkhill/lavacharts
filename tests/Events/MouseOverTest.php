@@ -24,8 +24,6 @@ class MouseOverTest extends ProvidersTestCase
 
     public function testConstructorValueAssignment()
     {
-        $mouseOver = new MouseOver('jsCallback');
-
         $this->assertEquals('jsCallback', $this->mouseOver->callback);
     }
 

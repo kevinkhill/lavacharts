@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\App;
 $app   = App::getFacadeApplication();
 $blade = $app['view']->getEngineResolver()->resolve('blade')->getCompiler();
 
-$charts = array(
+$charts = [
     'Dashboard',
     'AreaChart',
     'BarChart',
@@ -20,7 +20,7 @@ $charts = array(
     'LineChart',
     'PieChart',
     'ScatterChart'
-);
+];
 
 foreach ($charts as $chart) {
     $blade->extend(function ($view, $compiler) use ($chart) {

@@ -54,7 +54,7 @@ class MagnifyingGlass extends ConfigObject
     {
         $this->zoomFactor($zoomFactor);
 
-        parent::__construct($this, array('zoomFactor' => $zoomFactor));
+        parent::__construct($this, ['zoomFactor' => $zoomFactor]);
     }
 
     /**

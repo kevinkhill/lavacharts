@@ -89,7 +89,7 @@ class NumberFormat extends Format
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return self
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         parent::__construct($this, $config);
     }

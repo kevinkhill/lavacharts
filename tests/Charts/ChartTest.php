@@ -9,41 +9,33 @@ class ChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->mlc = m::mock('Khill\Lavacharts\Charts\LineChart', array(
-            'TestChart',
-            $this->mockDataTable
-        ))->makePartial();
+        $this->mockLineChart = m::mock('Khill\Lavacharts\Charts\LineChart', ['TestChart', $this->mockDataTable]);
     }
 
     public function testLabelAssignedViaConstructor()
     {
-        $this->assertEquals('TestChart', $this->mlc->label);
+        $this->assertEquals('TestChart', $this->mockLineChart->label);
     }
 
     public function testDataTable()
     {
-        $mdt = m::mock(new \Khill\Lavacharts\Configs\DataTable);
+        $mdt = m::mock('\Khill\Lavacharts\Configs\DataTable[addColumn,addRow]');
 
         $mdt->addColumn('date');
         $mdt->addColumn('number');
         $mdt->addColumn('number');
 
-        $mdt->addRow(array(Carbon::parse('March 24th, 1988'), 12345, 67890));
+        $mdt->addRow([Carbon::parse('March 24th, 1988'), 12345, 67890]);
 
-        $this->mlc->datatable($mdt);
+        $this->mockLineChart->datatable($mdt);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\DataTable', $this->mlc->getDatatable());
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\DataTable', $this->mockLineChart->getDatatable());
     }
 
     public function testBackgroundColorWithValidValues()
     {
-        $mbc = m::mock('Khill\Lavacharts\Configs\BackgroundColor');
-        $mbc->shouldReceive('toArray')->once()->andReturn(array(
-            'backgroundColor' => array()
-        ));
-
-        $this->mlc->backgroundColor($mbc);
-        $this->assertTrue(is_array($this->mlc->getOption('backgroundColor')));
+        $this->mockLineChart->backgroundColor($this->getMockBackgroundColor());
+        $this->assertTrue(is_array($this->mockLineChart->getOption('backgroundColor')));
     }
 
     /**
@@ -52,18 +44,13 @@ class ChartTest extends ChartTestCase
      */
     public function testBackgroundColorWithBadTypes($badTypes)
     {
-        $this->mlc->backgroundColor($badTypes);
+        $this->mockLineChart->backgroundColor($badTypes);
     }
 
     public function testChartAreaWithValidValues()
     {
-        $mca = m::mock('Khill\Lavacharts\Configs\ChartArea');
-        $mca->shouldReceive('toArray')->once()->andReturn(array(
-            'chartArea' => array()
-        ));
-
-        $this->mlc->chartArea($mca);
-        $this->assertTrue(is_array($this->mlc->getOption('chartArea')));
+        $this->mockLineChart->chartArea($this->getMockChartArea());
+        $this->assertTrue(is_array($this->mockLineChart->getOption('chartArea')));
     }
 
     /**
@@ -72,15 +59,15 @@ class ChartTest extends ChartTestCase
      */
     public function testChartAreaWithBadTypes($badTypes)
     {
-        $this->mlc->chartArea($badTypes);
+        $this->mockLineChart->chartArea($badTypes);
     }
 
     public function testColorsWithValidValue()
     {
-        $colors = array('green', 'red');
+        $colors = ['green', 'red'];
 
-        $this->mlc->colors($colors);
-        $this->assertEquals($colors, $this->mlc->getOption('colors'));
+        $this->mockLineChart->colors($colors);
+        $this->assertEquals($colors, $this->mockLineChart->getOption('colors'));
     }
 
     /**
@@ -89,13 +76,13 @@ class ChartTest extends ChartTestCase
      */
     public function testColorsWithBadTypes($badTypes)
     {
-        $this->mlc->colors($badTypes);
+        $this->mockLineChart->colors($badTypes);
     }
 
     public function testFontNameWithValidValue()
     {
-        $this->mlc->fontName('Tahoma');
-        $this->assertEquals('Tahoma', $this->mlc->getOption('fontName'));
+        $this->mockLineChart->fontName('Tahoma');
+        $this->assertEquals('Tahoma', $this->mockLineChart->getOption('fontName'));
     }
 
     /**
@@ -104,13 +91,13 @@ class ChartTest extends ChartTestCase
      */
     public function testFontNameWithBadTypes($badTypes)
     {
-        $this->mlc->fontName($badTypes);
+        $this->mockLineChart->fontName($badTypes);
     }
 
     public function testFontSizeWithValidValue()
     {
-        $this->mlc->fontSize(34);
-        $this->assertEquals(34, $this->mlc->getOption('fontSize'));
+        $this->mockLineChart->fontSize(34);
+        $this->assertEquals(34, $this->mockLineChart->getOption('fontSize'));
     }
 
     /**
@@ -119,13 +106,13 @@ class ChartTest extends ChartTestCase
      */
     public function testFontSizeWithBadTypes($badTypes)
     {
-        $this->mlc->fontSize($badTypes);
+        $this->mockLineChart->fontSize($badTypes);
     }
 
     public function testHeightWithValidValue()
     {
-        $this->mlc->height(500);
-        $this->assertEquals(500, $this->mlc->getOption('height'));
+        $this->mockLineChart->height(500);
+        $this->assertEquals(500, $this->mockLineChart->getOption('height'));
     }
 
     /**
@@ -134,18 +121,18 @@ class ChartTest extends ChartTestCase
      */
     public function testHeightWithBadTypes($badTypes)
     {
-        $this->mlc->height($badTypes);
+        $this->mockLineChart->height($badTypes);
     }
 
     public function testLegendWithValidValues()
     {
         $ml = m::mock('Khill\Lavacharts\Configs\Legend');
-        $ml->shouldReceive('toArray')->once()->andReturn(array(
-            'legend' => array()
-        ));
+        $ml->shouldReceive('toArray')->once()->andReturn([
+            'legend' => []
+        ]);
 
-        $this->mlc->legend($ml);
-        $this->assertTrue(is_array($this->mlc->getOption('legend')));
+        $this->mockLineChart->legend($ml);
+        $this->assertTrue(is_array($this->mockLineChart->getOption('legend')));
     }
 
     /**
@@ -154,14 +141,14 @@ class ChartTest extends ChartTestCase
      */
     public function testLegendWithBadTypes($badTypes)
     {
-        $this->mlc->legend($badTypes);
+        $this->mockLineChart->legend($badTypes);
     }
 
     public function testTitleWithValidValue()
     {
-        $this->mlc->title('Fancy Chart');
+        $this->mockLineChart->title('Fancy Chart');
 
-        $this->assertEquals('Fancy Chart', $this->mlc->getOption('title'));
+        $this->assertEquals('Fancy Chart', $this->mockLineChart->getOption('title'));
     }
 
     /**
@@ -170,19 +157,19 @@ class ChartTest extends ChartTestCase
      */
     public function testTitleWithBadTypes($badTypes)
     {
-        $this->mlc->title($badTypes);
+        $this->mockLineChart->title($badTypes);
     }
 
     public function testTitlePositionWithValidValues()
     {
-        $this->mlc->titlePosition('in');
-        $this->assertEquals('in', $this->mlc->getOption('titlePosition'));
+        $this->mockLineChart->titlePosition('in');
+        $this->assertEquals('in', $this->mockLineChart->getOption('titlePosition'));
 
-        $this->mlc->titlePosition('out');
-        $this->assertEquals('out', $this->mlc->getOption('titlePosition'));
+        $this->mockLineChart->titlePosition('out');
+        $this->assertEquals('out', $this->mockLineChart->getOption('titlePosition'));
 
-        $this->mlc->titlePosition('none');
-        $this->assertEquals('none', $this->mlc->getOption('titlePosition'));
+        $this->mockLineChart->titlePosition('none');
+        $this->assertEquals('none', $this->mockLineChart->getOption('titlePosition'));
     }
 
     /**
@@ -190,7 +177,7 @@ class ChartTest extends ChartTestCase
      */
     public function testTitlePositionWithBadValue()
     {
-        $this->mlc->titlePosition('underneath');
+        $this->mockLineChart->titlePosition('underneath');
     }
 
     /**
@@ -199,18 +186,18 @@ class ChartTest extends ChartTestCase
      */
     public function testTitlePositionWithBadTypes($badTypes)
     {
-        $this->mlc->titlePosition($badTypes);
+        $this->mockLineChart->titlePosition($badTypes);
     }
 
     public function testTitleTextStyleWithValidValues()
     {
         $mts = m::mock('Khill\Lavacharts\Configs\TextStyle');
-        $mts->shouldReceive('toArray')->once()->andReturn(array(
-            'titleTextStyle' => array()
-        ));
+        $mts->shouldReceive('toArray')->once()->andReturn([
+            'titleTextStyle' => []
+        ]);
 
-        $this->mlc->titleTextStyle($mts);
-        $this->assertTrue(is_array($this->mlc->getOption('titleTextStyle')));
+        $this->mockLineChart->titleTextStyle($mts);
+        $this->assertTrue(is_array($this->mockLineChart->getOption('titleTextStyle')));
     }
 
     /**
@@ -219,18 +206,18 @@ class ChartTest extends ChartTestCase
      */
     public function testTitleTextStyleWithBadTypes($badTypes)
     {
-        $this->mlc->titleTextStyle($badTypes);
+        $this->mockLineChart->titleTextStyle($badTypes);
     }
 
     public function testTooltipWithValidValues()
     {
         $mtt = m::mock('Khill\Lavacharts\Configs\Tooltip');
-        $mtt->shouldReceive('toArray')->once()->andReturn(array(
-            'tooltip' => array()
-        ));
+        $mtt->shouldReceive('toArray')->once()->andReturn([
+            'tooltip' => []
+        ]);
 
-        $this->mlc->tooltip($mtt);
-        $this->assertTrue(is_array($this->mlc->getOption('tooltip')));
+        $this->mockLineChart->tooltip($mtt);
+        $this->assertTrue(is_array($this->mockLineChart->getOption('tooltip')));
     }
 
     /**
@@ -239,13 +226,13 @@ class ChartTest extends ChartTestCase
      */
     public function testTooltipWithBadTypes($badTypes)
     {
-        $this->mlc->tooltip($badTypes);
+        $this->mockLineChart->tooltip($badTypes);
     }
 
     public function testWidthWithValidValue()
     {
-        $this->mlc->width(800);
-        $this->assertEquals(800, $this->mlc->getOption('width'));
+        $this->mockLineChart->width(800);
+        $this->assertEquals(800, $this->mockLineChart->getOption('width'));
     }
 
     /**
@@ -254,7 +241,7 @@ class ChartTest extends ChartTestCase
      */
     public function testWidthWithBadTypes($badTypes)
     {
-        $this->mlc->width($badTypes);
+        $this->mockLineChart->width($badTypes);
     }
 
     /**
@@ -264,15 +251,15 @@ class ChartTest extends ChartTestCase
      */
     public function testSetOptionsWithArrayOfValidOptions()
     {
-        $expected = array(
+        $expected = [
             'title' => 'My Cool Chart',
             'width' => 1024,
             'height' => 768
-        );
+        ];
 
-        $this->mlc->setOptions($expected);
+        $this->mockLineChart->setOptions($expected);
 
-        $this->assertEquals($expected, $this->mlc->getOptions());
+        $this->assertEquals($expected, $this->mockLineChart->getOptions());
     }
 
     /**
@@ -280,11 +267,11 @@ class ChartTest extends ChartTestCase
      */
     public function testSetOptionsWithArrayOfBadOptions()
     {
-        $this->mlc->setOptions(array(
+        $this->mockLineChart->setOptions([
             'tibtle' => 'My Cool Chart',
             'widmth' => 1024,
             'heaight' => 768
-        ));
+        ]);
     }
 
     /**
@@ -293,7 +280,7 @@ class ChartTest extends ChartTestCase
      */
     public function testSetOptionsWithBadTypes($badTypes)
     {
-        $this->mlc->setOptions($badTypes);
+        $this->mockLineChart->setOptions($badTypes);
     }
 
     /**
@@ -301,7 +288,7 @@ class ChartTest extends ChartTestCase
      */
     public function testGetOptionsWithBadValue()
     {
-        $this->mlc->getOption('Bananas');
+        $this->mockLineChart->getOption('Bananas');
     }
 
     /**
@@ -310,7 +297,7 @@ class ChartTest extends ChartTestCase
      */
     public function testGetOptionsWithBadTypes($badTypes)
     {
-        $this->mlc->getOption($badTypes);
+        $this->mockLineChart->getOption($badTypes);
     }
 
     /**
@@ -320,12 +307,12 @@ class ChartTest extends ChartTestCase
      */
     public function testOptionsToJson()
     {
-        $this->mlc->title('My Cool Chart');
-        $this->mlc->width(1024);
-        $this->mlc->height(768);
+        $this->mockLineChart->title('My Cool Chart');
+        $this->mockLineChart->width(1024);
+        $this->mockLineChart->height(768);
 
         $expected = '{"title":"My Cool Chart","width":1024,"height":768}';
 
-        $this->assertEquals($expected, $this->mlc->optionsToJson());
+        $this->assertEquals($expected, $this->mockLineChart->optionsToJson());
     }
 }

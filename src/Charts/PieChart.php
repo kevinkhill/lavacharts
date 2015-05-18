@@ -182,12 +182,12 @@ class PieChart extends Chart
      */
     public function pieSliceText($pieSliceText)
     {
-        $values = array(
+        $values = [
             'percentage',
             'value',
             'label',
             'none'
-        );
+        ];
 
         if (in_array($pieSliceText, $values, true) === false) {
             throw $this->invalidConfigValue(

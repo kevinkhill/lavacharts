@@ -2,10 +2,9 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Utils;
+
 use \Khill\Lavacharts\Configs\DataTable;
-use \Khill\Lavacharts\Configs\HorizontalAxis;
-use \Khill\Lavacharts\Configs\VerticalAxis;
+
 
 /**
  * ColumnChart Class

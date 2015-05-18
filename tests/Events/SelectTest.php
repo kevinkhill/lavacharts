@@ -24,8 +24,6 @@ class SelectTest extends ProvidersTestCase
 
     public function testConstructorValueAssignment()
     {
-        $Select = new Select('jsCallback');
-
         $this->assertEquals('jsCallback', $this->selectEvent->callback);
     }
 

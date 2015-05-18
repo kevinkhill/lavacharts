@@ -94,12 +94,12 @@ class Animation extends ConfigObject
      */
     public function easing($e)
     {
-        $values = array(
+        $values = [
             'linear',
             'in',
             'out',
             'inAndOut'
-        );
+        ];
 
         if (in_array($e, $values, true)) {
             $this->easing = $e;

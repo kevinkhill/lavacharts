@@ -24,8 +24,6 @@ class MouseOutTest extends ProvidersTestCase
 
     public function testConstructorValueAssignment()
     {
-        $mouseOut = new MouseOut('jsCallback');
-
         $this->assertEquals('jsCallback', $this->mouseOut->callback);
     }
 

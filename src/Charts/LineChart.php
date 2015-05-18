@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Utils;
+
 use \Khill\Lavacharts\Configs\DataTable;
 
 /**

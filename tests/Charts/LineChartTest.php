@@ -105,9 +105,9 @@ class LineChartTest extends ChartTestCase
     public function testHorizontalAxis()
     {
         $mockHorizontalAxis = m::mock('Khill\Lavacharts\Configs\HorizontalAxis');
-        $mockHorizontalAxis->shouldReceive('toArray')->once()->andReturn(array(
-            'hAxis' => array()
-        ));
+        $mockHorizontalAxis->shouldReceive('toArray')->once()->andReturn([
+            'hAxis' => []
+        ]);
 
         $this->lc->hAxis($mockHorizontalAxis);
 
@@ -165,9 +165,9 @@ class LineChartTest extends ChartTestCase
     public function testVerticalAxis()
     {
         $mockVerticalAxis = m::mock('Khill\Lavacharts\Configs\VerticalAxis');
-        $mockVerticalAxis->shouldReceive('toArray')->once()->andReturn(array(
-            'vAxis' => array()
-        ));
+        $mockVerticalAxis->shouldReceive('toArray')->once()->andReturn([
+            'vAxis' => []
+        ]);
 
         $this->lc->vAxis($mockVerticalAxis);
 

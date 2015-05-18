@@ -261,7 +261,7 @@ class DataTable implements \JsonSerializable
      */
     public function addStringColumn($optLabel, Format $formatter = null)
     {
-        return $this->addColumn('string', $optLabel, 'col_' . count($this->cols) + 1, $formatter);
+        return $this->addColumn('string', $optLabel, 'col_' . (count($this->cols) + 1), $formatter);
     }
 
     /**
@@ -276,7 +276,7 @@ class DataTable implements \JsonSerializable
      */
     public function addDateColumn($optLabel, Format $formatter = null)
     {
-        return $this->addColumn('date', $optLabel, 'col_' . count($this->cols) + 1, $formatter);
+        return $this->addColumn('date', $optLabel, 'col_' . (count($this->cols) + 1), $formatter);
     }
 
     /**
@@ -291,7 +291,7 @@ class DataTable implements \JsonSerializable
      */
     public function addNumberColumn($optLabel, Format $formatter = null)
     {
-        return $this->addColumn('number', $optLabel, 'col_' . count($this->cols) + 1, $formatter);
+        return $this->addColumn('number', $optLabel, 'col_' . (count($this->cols) + 1), $formatter);
     }
 
     /**
@@ -305,7 +305,7 @@ class DataTable implements \JsonSerializable
     private function addColumnFromArray($colDefArray)
     {
         if (Utils::arrayValuesCheck($colDefArray, 'string') && Utils::between(1, count($colDefArray), 5, true)) {
-            call_user_func_array(array($this, 'addColumnFromStrings'), $colDefArray);
+            call_user_func_array([$this, 'addColumnFromStrings'], $colDefArray);
         } else {
             throw new InvalidColumnDefinition($colDefArray);
         }
@@ -545,64 +545,6 @@ class DataTable implements \JsonSerializable
     }
 
     /**
-     * Parses a csv file into a DataTable.
-     *
-     * Pass in a filepath to a csv file and an array of column types:
-     * ['date', 'number', 'number', 'number'] for example and a DataTable
-     * will be built.
-     *
-     * @since  3.0.0
-     * @param  string $filepath Path location to a csv file
-     * @param  array  $columnTypes Array of column types to apply to the csv values
-     */
-    public function parseCsv($filepath, $columnTypes = null)
-    {
-        if (Utils::nonEmptyString($filepath) === false) {
-            throw new InvalidFunctionParam(
-                $filepath,
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        if (is_array($columnTypes) === false || empty($columnTypes) === true) {
-            throw new InvalidFunctionParam(
-               $columnTypes,
-                __FUNCTION__,
-                'array'
-            );
-        }
-
-        $reader = Reader::createFromPath($filepath);
-        $reader->setFlags(SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY);
-
-        $csvColumns = $reader->fetchOne();
-
-        foreach($columnTypes as $index => $column) {
-            if (in_array($column, $this->columnTypes, true) === false) {
-                throw new InvalidColumnType(
-                   $column,
-                   Utils::arrayToPipedString($this->columnTypes)
-                );
-            }
-
-            $this->addColumnFromStrings($columnTypes[$index], $csvColumns[$index]);
-        }
-
-        $csvRows = $reader->setOffset(1)->fetchAll(function ($row) {
-            return array_map(function ($cell) {
-                if (is_numeric($cell)) {
-                    return $cell + 0;
-                } else {
-                    return $cell;
-                }
-            }, $row);
-        });
-
-        return $this->addRows($csvRows);
-    }
-
-    /**
      * Returns a column based on it's index.
      *
      * @since  3.0.0
@@ -757,11 +699,11 @@ class DataTable implements \JsonSerializable
     private function parseExtendedCellArray($cellArray)
     {
         foreach ($cellArray as $prop => $value) {
-            if (in_array($value, array('v', 'f', 'p')) === false) {
+            if (in_array($value, ['v', 'f', 'p']) === false) {
                 throw new InvalidRowProperty;
             }
 
-            $rowVals[] = array($prop => $value);
+            $rowVals[] = [$prop => $value];
         }
 
         return $rowVals;

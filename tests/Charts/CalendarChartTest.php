@@ -32,9 +32,9 @@ class CalendarChartTest extends ChartTestCase
     public function testCellColor()
     {
         $mockStroke = m::mock('Khill\Lavacharts\Configs\Stroke');
-        $mockStroke->shouldReceive('toArray')->once()->andReturn(array(
-            'cellColor' => array()
-        ));
+        $mockStroke->shouldReceive('toArray')->once()->andReturn([
+            'cellColor' => []
+        ]);
 
         $this->cc->cellColor($mockStroke);
 
@@ -60,9 +60,9 @@ class CalendarChartTest extends ChartTestCase
     public function testDayOfWeekLabel()
     {
         $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
-        $mockTextStyle->shouldReceive('toArray')->once()->andReturn(array(
-            'dayOfWeekLabel' => array()
-        ));
+        $mockTextStyle->shouldReceive('toArray')->once()->andReturn([
+            'dayOfWeekLabel' => []
+        ]);
 
         $this->cc->dayOfWeekLabel($mockTextStyle);
 
@@ -104,9 +104,9 @@ class CalendarChartTest extends ChartTestCase
     public function testFocusedCellColor()
     {
         $mockStroke = m::mock('Khill\Lavacharts\Configs\Stroke');
-        $mockStroke->shouldReceive('toArray')->once()->andReturn(array(
-            'focusedCellColor' => array()
-        ));
+        $mockStroke->shouldReceive('toArray')->once()->andReturn([
+            'focusedCellColor' => []
+        ]);
 
         $this->cc->focusedCellColor($mockStroke);
 
@@ -116,9 +116,9 @@ class CalendarChartTest extends ChartTestCase
     public function testMonthLabel()
     {
         $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
-        $mockTextStyle->shouldReceive('toArray')->once()->andReturn(array(
-            'monthLabel' => array()
-        ));
+        $mockTextStyle->shouldReceive('toArray')->once()->andReturn([
+            'monthLabel' => []
+        ]);
 
         $this->cc->monthLabel($mockTextStyle);
 
@@ -128,9 +128,9 @@ class CalendarChartTest extends ChartTestCase
     public function testMonthOutlineColor()
     {
         $mockStroke = m::mock('Khill\Lavacharts\Configs\Stroke');
-        $mockStroke->shouldReceive('toArray')->once()->andReturn(array(
-            'monthOutlineColor' => array()
-        ));
+        $mockStroke->shouldReceive('toArray')->once()->andReturn([
+            'monthOutlineColor' => []
+        ]);
 
         $this->cc->monthOutlineColor($mockStroke);
 
@@ -172,9 +172,9 @@ class CalendarChartTest extends ChartTestCase
     public function testUnusedMonthOutlineColor()
     {
         $mockStroke = m::mock('Khill\Lavacharts\Configs\Stroke');
-        $mockStroke->shouldReceive('toArray')->once()->andReturn(array(
-            'unusedMonthOutlineColor' => array()
-        ));
+        $mockStroke->shouldReceive('toArray')->once()->andReturn([
+            'unusedMonthOutlineColor' => []
+        ]);
 
         $this->cc->unusedMonthOutlineColor($mockStroke);
 
@@ -184,9 +184,9 @@ class CalendarChartTest extends ChartTestCase
     public function testColorAxis()
     {
         $mockColorAxis = m::mock('Khill\Lavacharts\Configs\ColorAxis');
-        $mockColorAxis->shouldReceive('toArray')->once()->andReturn(array(
-            'colorAxis' => array()
-        ));
+        $mockColorAxis->shouldReceive('toArray')->once()->andReturn([
+            'colorAxis' => []
+        ]);
 
         $this->cc->colorAxis($mockColorAxis);
 

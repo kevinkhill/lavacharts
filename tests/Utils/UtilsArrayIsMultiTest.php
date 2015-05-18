@@ -7,14 +7,14 @@ class UtilsArrayIsMultiTest extends ProvidersTestCase
 {
     public function testArrayIsMultiWithMultiArray()
     {
-        $multiArray = array(array('test1'), array('test2'));
+        $multiArray = [['test1'], ['test2']];
 
         $this->assertTrue(Utils::arrayIsMulti($multiArray));
     }
 
     public function testArrayIsMultiWithNonMultiArray()
     {
-        $this->assertFalse(Utils::arrayIsMulti(array('test1')));
+        $this->assertFalse(Utils::arrayIsMulti(['test1']));
     }
 
     /**

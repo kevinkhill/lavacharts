@@ -52,7 +52,7 @@ class Tooltip extends ConfigObject
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return self
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         parent::__construct($this, $config);
     }
@@ -103,10 +103,10 @@ class Tooltip extends ConfigObject
      */
     public function trigger($trigger)
     {
-        $values = array(
+        $values = [
             'focus',
             'none'
-        );
+        ];
 
         if (in_array($trigger, $values)) {
             $this->trigger = $trigger;

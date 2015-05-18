@@ -2,11 +2,9 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Utils;
+
 use \Khill\Lavacharts\Configs\DataTable;
-use \Khill\Lavacharts\Configs\Annotation;
-use \Khill\Lavacharts\Configs\HorizontalAxis;
-use \Khill\Lavacharts\Configs\VerticalAxis;
+
 
 /**
  * BarChart Class

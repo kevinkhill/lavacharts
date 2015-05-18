@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Configs;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Configs\Color;
+
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
@@ -77,20 +77,20 @@ class Crosshair extends ConfigObject
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return self
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         parent::__construct($this, $config);
 
         $this->options = array_merge(
             $this->options,
-            array(
+            [
                 'color',
                 'focused',
                 'opacity',
                 'orientation',
                 'selected',
                 'trigger'
-            )
+            ]
         );
     }
 

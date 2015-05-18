@@ -14,7 +14,7 @@ class AnnotationTest extends ProvidersTestCase
 
         $this->mockTextStyle = $this->getMock(
             '\Khill\Lavacharts\Configs\TextStyle',
-            array('__construct')
+            ['__construct']
         );
     }
 
@@ -27,11 +27,11 @@ class AnnotationTest extends ProvidersTestCase
 
     public function testConstructorValuesAssignment()
     {
-        $annotation = new Annotation(array(
+        $annotation = new Annotation([
             'alwaysOutside' => true,
             'highContrast'  => false,
             'textStyle'     => $this->mockTextStyle
-        ));
+        ]);
 
         $this->assertTrue($annotation->alwaysOutside);
         $this->assertFalse($annotation->highContrast);
@@ -43,7 +43,7 @@ class AnnotationTest extends ProvidersTestCase
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        $annotation = new Annotation(array('RainbowRoll' => 'spicy'));
+        new Annotation(['RainbowRoll' => 'spicy']);
     }
 
     /**

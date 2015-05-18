@@ -1,117 +1,120 @@
 <?php namespace Khill\Lavacharts\Tests;
 
-use Khill\Lavacharts\Lavacharts;
+//use Khill\Lavacharts\Lavacharts;
+use \Mockery as m;
 
 abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         parent::setUp();
+
+        $this->mockDataTable = m::mock('Khill\Lavacharts\Configs\DataTable');
     }
 
     public function nonIntOrPercentProvider()
     {
-        return array(
-            array(3.2),
-            array(true),
-            array(false),
-            array(array()),
-            array(new \stdClass)
-        );
+        return [
+            [3.2],
+            [true],
+            [false],
+            [[]],
+            [new \stdClass]
+        ];
     }
 
     public function nonCarbonOrDateOrEmptyArrayProvider()
     {
-        return array(
-            array('cheese'),
-            array(9),
-            array(1.2),
-            array(true),
-            array(false),
-            array(new \stdClass())
-        );
+        return [
+            ['cheese'],
+            [9],
+            [1.2],
+            [true],
+            [false],
+            [new \stdClass()]
+        ];
     }
 
     public function nonConfigObjectProvider()
     {
-        return array(
-            array('stringy'),
-            array(9),
-            array(1.2),
-            array(true),
-            array(false),
-            array(array()),
-            array(new \stdClass())
-        );
+        return [
+            ['stringy'],
+            [9],
+            [1.2],
+            [true],
+            [false],
+            [[]],
+            [new \stdClass()]
+        ];
     }
 
     public function nonStringProvider()
     {
-        return array(
-            array(9),
-            array(1.2),
-            array(true),
-            array(false),
-            array(array()),
-            array(new \stdClass())
-        );
+        return [
+            [9],
+            [1.2],
+            [true],
+            [false],
+            [[]],
+            [new \stdClass()]
+        ];
     }
 
     public function nonBoolProvider()
     {
-        return array(
-            array('Imastring'),
-            array(9),
-            array(1.2),
-            array(array()),
-            array(new \stdClass())
-        );
+        return [
+            ['Imastring'],
+            [9],
+            [1.2],
+            [[]],
+            [new \stdClass()]
+        ];
     }
 
     public function nonIntProvider()
     {
-        return array(
-            array('Imastring'),
-            array(1.2),
-            array(true),
-            array(false),
-            array(array()),
-            array(new \stdClass())
-        );
+        return [
+            ['Imastring'],
+            [1.2],
+            [true],
+            [false],
+            [[]],
+            [new \stdClass()]
+        ];
     }
 
     public function nonFloatProvider()
     {
-        return array(
-            array('Imastring'),
-            array(9),
-            array(true),
-            array(false),
-            array(array()),
-            array(new \stdClass())
-        );
+        return [
+            ['Imastring'],
+            [9],
+            [true],
+            [false],
+            [[]],
+            [new \stdClass()]
+        ];
     }
 
     public function nonNumericProvider()
     {
-        return array(
-            array('Imastring'),
-            array(true),
-            array(false),
-            array(array()),
-            array(new \stdClass())
-        );
+        return [
+            ['Imastring'],
+            [true],
+            [false],
+            [[]],
+            [new \stdClass()]
+        ];
     }
 
     public function nonArrayProvider()
     {
-        return array(
-            array('Imastring'),
-            array(9),
-            array(1.2),
-            array(true),
-            array(false),
-            array(new \stdClass())
-        );
+        return [
+            ['Imastring'],
+            [9],
+            [1.2],
+            [true],
+            [false],
+            [new \stdClass()]
+        ];
     }
 }

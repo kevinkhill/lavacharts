@@ -32,9 +32,9 @@ class BarChartTest extends ChartTestCase
     public function testAnnotations()
     {
         $mockAnnotation = m::mock('Khill\Lavacharts\Configs\Annotation');
-        $mockAnnotation->shouldReceive('toArray')->once()->andReturn(array(
-            'annotations' => array()
-        ));
+        $mockAnnotation->shouldReceive('toArray')->once()->andReturn([
+            'annotations' => []
+        ]);
 
         $this->bc->annotations($mockAnnotation);
 
@@ -179,7 +179,7 @@ class BarChartTest extends ChartTestCase
     {
         $mockHorizontalAxis = m::mock('Khill\Lavacharts\Configs\HorizontalAxis');
 
-        $this->bc->hAxes(array($mockHorizontalAxis, $mockHorizontalAxis));
+        $this->bc->hAxes([$mockHorizontalAxis, $mockHorizontalAxis]);
 
         $this->assertTrue(is_array($this->bc->getOption('hAxes')));
     }
@@ -198,15 +198,15 @@ class BarChartTest extends ChartTestCase
      */
     public function testHorizontalAxesWithArrayOfBadTypes()
     {
-        $this->bc->hAxes(array(1, 4.5, 'salmon'));
+        $this->bc->hAxes([1, 4.5, 'salmon']);
     }
 
     public function testHorizontalAxis()
     {
         $mockHorizontalAxis = m::mock('Khill\Lavacharts\Configs\HorizontalAxis');
-        $mockHorizontalAxis->shouldReceive('toArray')->once()->andReturn(array(
-            'hAxis' => array()
-        ));
+        $mockHorizontalAxis->shouldReceive('toArray')->once()->andReturn([
+            'hAxis' => []
+        ]);
 
         $this->bc->hAxis($mockHorizontalAxis);
 
@@ -275,7 +275,7 @@ class BarChartTest extends ChartTestCase
     {
         $mockSeries = m::mock('Khill\Lavacharts\Configs\Series');
 
-        $this->bc->series(array($mockSeries, $mockSeries));
+        $this->bc->series([$mockSeries, $mockSeries]);
 
         $this->assertTrue(is_array($this->bc->getOption('series')));
     }
@@ -294,7 +294,7 @@ class BarChartTest extends ChartTestCase
      */
     public function testSeriesWithArrayOfBadTypes()
     {
-        $this->bc->series(array(4, array(), 8.7));
+        $this->bc->series([4, [], 8.7]);
     }
 
     public function testTheme()
@@ -325,7 +325,7 @@ class BarChartTest extends ChartTestCase
     {
         $mockVerticalAxis = m::mock('Khill\Lavacharts\Configs\VerticalAxis');
 
-        $this->bc->vAxes(array($mockVerticalAxis, $mockVerticalAxis));
+        $this->bc->vAxes([$mockVerticalAxis, $mockVerticalAxis]);
 
         $this->assertTrue(is_array($this->bc->getOption('vAxes')));
     }
@@ -344,17 +344,12 @@ class BarChartTest extends ChartTestCase
      */
     public function testVerticalAxesWithArrayOfBadTypes()
     {
-        $this->bc->vAxes(array(false, 'truth'));
+        $this->bc->vAxes([false, 'truth']);
     }
 
     public function testVerticalAxis()
     {
-        $mockVerticalAxis = m::mock('Khill\Lavacharts\Configs\VerticalAxis');
-        $mockVerticalAxis->shouldReceive('toArray')->once()->andReturn(array(
-            'vAxis' => array()
-        ));
-
-        $this->bc->vAxis($mockVerticalAxis);
+        $this->bc->vAxis($this->getMockVerticalAxis());
 
         $this->assertTrue(is_array($this->bc->getOption('vAxis')));
     }

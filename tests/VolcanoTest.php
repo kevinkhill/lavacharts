@@ -10,37 +10,36 @@ class VolcanoTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
+
+        $this->volcano = new Volcano;
     }
 
     public function testStoreChart()
     {
-        $v = new Volcano;
-        $c = new LineChart('testchart');
+        $c = new LineChart('testchart', $this->mockDataTable);
 
-        $this->assertTrue($v->storeChart($c));
+        $this->assertTrue($this->volcano->storeChart($c));
     }
 
     public function testGetChart()
     {
-        $v = new Volcano;
-        $c = new LineChart('testchart');
+        $c = new LineChart('testchart', $this->mockDataTable);
 
-        $v->storeChart($c);
+        $this->volcano->storeChart($c);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $v->getChart('LineChart', 'testchart'));
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $this->volcano->getChart('LineChart', 'testchart'));
     }
 
     public function testCheckChart()
     {
-        $v = new Volcano;
-        $c = new LineChart('testchart');
+        $c = new LineChart('testchart', $this->mockDataTable);
 
-        $v->storeChart($c);
+        $this->volcano->storeChart($c);
 
-        $this->assertTrue($v->checkChart('LineChart', 'testchart'));
+        $this->assertTrue($this->volcano->checkChart('LineChart', 'testchart'));
 
-        $this->assertFalse($v->checkChart('LaserChart', 'testchart'));
-        $this->assertFalse($v->checkChart('LineChart', 'testing123chart'));
+        $this->assertFalse($this->volcano->checkChart('LaserChart', 'testchart'));
+        $this->assertFalse($this->volcano->checkChart('LineChart', 'testing123chart'));
     }
 
     /**
@@ -48,11 +47,10 @@ class VolcanoTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetNonExistantTypeChart()
     {
-        $v = new Volcano;
-        $c = new LineChart('testchart');
+        $c = new LineChart('testchart', $this->mockDataTable);
 
-        $v->storeChart($c);
-        $v->getChart('LaserChart', 'testchart');
+        $this->volcano->storeChart($c);
+        $this->volcano->getChart('LaserChart', 'testchart');
     }
 
     /**
@@ -60,10 +58,9 @@ class VolcanoTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetNonExistantLabelChart()
     {
-        $v = new Volcano;
-        $c = new LineChart('testchart');
+        $c = new LineChart('testchart', $this->mockDataTable);
 
-        $v->storeChart($c);
-        $v->getChart('LineChart', 'superduperchart');
+        $this->volcano->storeChart($c);
+        $this->volcano->getChart('LineChart', 'superduperchart');
     }
 }

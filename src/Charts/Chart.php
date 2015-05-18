@@ -501,11 +501,11 @@ class Chart
      */
     public function titlePosition($titlePosition)
     {
-        $values = array(
+        $values = [
             'in',
             'out',
             'none'
-        );
+        ];
 
         if (in_array($titlePosition, $values, true) === false) {
             throw $this->invalidConfigValue(

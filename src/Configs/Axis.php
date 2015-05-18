@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Configs;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+
 
 /**
  * Axis Properties Parent Object
@@ -572,11 +572,11 @@ class Axis extends ConfigObject
      */
     public function textPosition($position)
     {
-        $values = array(
+        $values = [
             'out',
             'in',
             'none'
-        );
+        ];
 
         if (Utils::nonEmptyString($position) && in_array($position, $values)) {
             $this->textPosition = $position;
@@ -707,11 +707,11 @@ class Axis extends ConfigObject
      */
     public function viewWindowMode($viewMode)
     {
-        $values = array(
+        $values = [
             'pretty',
             'maximized',
             'explicit'
-        );
+        ];
 
         if (Utils::nonEmptyString($viewMode) && in_array($viewMode, $values)) {
             $this->viewWindowMode = $viewMode;

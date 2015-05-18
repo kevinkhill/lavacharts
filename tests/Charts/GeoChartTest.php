@@ -32,9 +32,9 @@ class GeoChartTest extends ChartTestCase
     public function testColorAxis()
     {
         $mockColorAxis = m::mock('Khill\Lavacharts\Configs\ColorAxis');
-        $mockColorAxis->shouldReceive('toArray')->once()->andReturn(array(
-            'colorAxis' => array()
-        ));
+        $mockColorAxis->shouldReceive('toArray')->once()->andReturn([
+            'colorAxis' => []
+        ]);
 
         $this->gc->colorAxis($mockColorAxis);
 
@@ -185,9 +185,9 @@ class GeoChartTest extends ChartTestCase
     public function testMagnifiyingGlass()
     {
         $mockMagnifyingGlass = m::mock('Khill\Lavacharts\Configs\MagnifyingGlass');
-        $mockMagnifyingGlass->shouldReceive('toArray')->once()->andReturn(array(
-            'magnifyingGlass' => array()
-        ));
+        $mockMagnifyingGlass->shouldReceive('toArray')->once()->andReturn([
+            'magnifyingGlass' => []
+        ]);
 
         $this->gc->magnifyingGlass($mockMagnifyingGlass);
 
@@ -226,9 +226,9 @@ class GeoChartTest extends ChartTestCase
     public function testSizeAxis()
     {
         $mockSizeAxis = m::mock('Khill\Lavacharts\Configs\SizeAxis');
-        $mockSizeAxis->shouldReceive('toArray')->once()->andReturn(array(
-            'sizeAxis' => array()
-        ));
+        $mockSizeAxis->shouldReceive('toArray')->once()->andReturn([
+            'sizeAxis' => []
+        ]);
 
         $this->gc->sizeAxis($mockSizeAxis);
 
@@ -237,12 +237,12 @@ class GeoChartTest extends ChartTestCase
 
     public function nonIntOrPercentProvider()
     {
-        return array(
-            array(3.2),
-            array(true),
-            array(false),
-            array(array()),
-            array(new \stdClass)
-        );
+        return [
+            [3.2],
+            [true],
+            [false],
+            [[]],
+            [new \stdClass]
+        ];
     }
 }

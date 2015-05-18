@@ -28,7 +28,7 @@ class Format
      *
      * @var array
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * Builds the ConfigOptions object.
@@ -79,7 +79,7 @@ class Format
      */
     public function getValues()
     {
-        $output = array();
+        $output = [];
 
         foreach ($this->options as $option) {
             if (isset($this->{$option})) {

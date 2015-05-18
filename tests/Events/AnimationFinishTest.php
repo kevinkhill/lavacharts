@@ -24,8 +24,6 @@ class AnimationFinishTest extends ProvidersTestCase
 
     public function testConstructorValueAssignment()
     {
-        $AnimationFinish = new AnimationFinish('jsCallback');
-
         $this->assertEquals('jsCallback', $this->animationFinishEvent->callback);
     }
 

@@ -24,8 +24,6 @@ class ReadyTest extends ProvidersTestCase
 
     public function testConstructorValueAssignment()
     {
-        $Ready = new Ready('jsCallback');
-
         $this->assertEquals('jsCallback', $this->readyEvent->callback);
     }
 

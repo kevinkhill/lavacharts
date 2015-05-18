@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Configs;
 
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+
 
 /**
  * Text Style ConfigObject
@@ -66,7 +66,7 @@ class TextStyle extends ConfigObject
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return self
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         parent::__construct($this, $config);
     }

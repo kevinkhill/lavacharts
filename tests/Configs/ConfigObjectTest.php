@@ -12,11 +12,11 @@ class ConfigObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testTextStyleConstructorValuesAssignment()
     {
-        $textStyle = new TextStyle(array(
+        $textStyle = new TextStyle([
             'color'    => 'blue',
             'fontName' => 'Arial',
             'fontSize' => 16
-        ));
+        ]);
 
         $this->assertEquals('blue', $textStyle->color);
         $this->assertEquals('Arial', $textStyle->fontName);
@@ -28,11 +28,11 @@ class ConfigObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testToArrayWithTextStyleConfigObject()
     {
-        $textStyle = new TextStyle(array(
+        $textStyle = new TextStyle([
             'color'    => 'blue',
             'fontName' => 'Arial',
             'fontSize' => 16
-        ));
+        ]);
 
         $textStyleArr = $textStyle->toArray();
 
@@ -51,11 +51,11 @@ class ConfigObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetValuesWithTextStyleConfigObject()
     {
-        $textStyle = new TextStyle(array(
+        $textStyle = new TextStyle([
             'color'    => 'blue',
             'fontName' => 'Arial',
             'fontSize' => 16
-        ));
+        ]);
 
         $textStyleArr = $textStyle->getValues();
 

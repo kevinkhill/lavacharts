@@ -3,8 +3,7 @@
 namespace Khill\Lavacharts\Configs;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+
 
 /**
  * Horizontal Axis ConfigObject
@@ -84,13 +83,13 @@ class HorizontalAxis extends Axis
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return self
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         parent::__construct($this, $config);
 
         $this->options = array_merge(
             $this->options,
-            array(
+            [
                 'allowContainerBoundaryTextCutoff',
                 'slantedText',
                 'slantedTextAngle',
@@ -98,7 +97,7 @@ class HorizontalAxis extends Axis
                 'maxTextLines',
                 'minTextSpacing',
                 'showTextEvery',
-            )
+            ]
         );
     }
 

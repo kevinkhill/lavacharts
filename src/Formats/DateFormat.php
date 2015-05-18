@@ -55,7 +55,7 @@ class DateFormat extends Format
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return self
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         parent::__construct($this, $config);
     }
@@ -78,11 +78,11 @@ class DateFormat extends Format
      */
     public function formatType($ft)
     {
-        $values = array(
+        $values = [
             'short',
             'medium',
             'long'
-        );
+        ];
 
         if (Utils::nonEmptyStringInArray($ft, $values)) {
             $this->formatType = $ft;

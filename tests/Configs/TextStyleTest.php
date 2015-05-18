@@ -14,13 +14,13 @@ class TextStyleTest extends ProvidersTestCase
 
     public function testConstructorValuesAssignment()
     {
-        $textStyle = new TextStyle(array(
+        $textStyle = new TextStyle([
             'color'    => 'blue',
             'fontName' => 'Arial',
             'fontSize' => 16,
             'bold'     => true,
             'italic'   => true
-        ));
+        ]);
 
         $this->assertEquals('blue', $textStyle->color);
         $this->assertEquals('Arial', $textStyle->fontName);
@@ -34,7 +34,7 @@ class TextStyleTest extends ProvidersTestCase
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        new TextStyle(array('Burrito' => array(123)));
+        new TextStyle(['Burrito' => [123]]);
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php namespace Khill\Lavacharts\Tests;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
+
 use \Khill\Lavacharts\Lavacharts;
 use \Mockery as m;
 
@@ -10,12 +10,14 @@ class LavachartsTest extends ProvidersTestCase
     {
         $this->lava = new Lavacharts;
 
-        $this->mdt = m::mock('\Khill\Lavacharts\Configs\DataTable')
-                      ->shouldReceive('toJson')
-                      ->atMost(1)
-                      ->shouldReceive('hasFormats')
-                      ->atLeast(1)
-                      ->getMock();
+        $this->mockDataTableWithReceives = m::mock('\Khill\Lavacharts\Configs\DataTable')
+                                          ->shouldReceive('toJson')
+                                          ->atMost(1)
+                                          ->shouldReceive('hasFormats')
+                                          ->atLeast(1)
+                                          ->getMock();
+
+        $this->mockDataTable = m::mock('Khill\Lavacharts\Configs\DataTable');
     }
 
     public function testIfInstanceOfVolcano()
@@ -47,14 +49,14 @@ class LavachartsTest extends ProvidersTestCase
 
     public function testExistsWithNonExistantChartTypeInVolcano()
     {
-        $this->lava->LineChart('TestChart');
+        $this->lava->LineChart('TestChart', $this->mockDataTable);
 
         $this->assertFalse($this->lava->exists('SheepChart', 'TestChart'));
     }
 
     public function testExistsWithNonExistantChartLabelInVolcano()
     {
-        $this->lava->LineChart('WhaaaaatChart?');
+        $this->lava->LineChart('WhaaaaatChart?', $this->mockDataTable);
 
         $this->assertFalse($this->lava->exists('LineChart', 'TestChart'));
     }
@@ -64,7 +66,7 @@ class LavachartsTest extends ProvidersTestCase
      */
     public function testExistsWithNonStringInputForType($badTypes)
     {
-        $this->lava->LineChart('TestChart');
+        $this->lava->LineChart('TestChart', $this->mockDataTable);
 
         $this->assertFalse($this->lava->exists($badTypes, 'TestChart'));
     }
@@ -74,7 +76,7 @@ class LavachartsTest extends ProvidersTestCase
      */
     public function testExistsWithNonStringInputForLabel($badTypes)
     {
-        $this->lava->LineChart('TestChart');
+        $this->lava->LineChart('TestChart', $this->mockDataTable);
 
         $this->assertFalse($this->lava->exists('LineChart', $badTypes));
     }
@@ -84,7 +86,7 @@ class LavachartsTest extends ProvidersTestCase
      */
     public function testCreateChartsViaAlias($chartType)
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\\'.$chartType, $this->lava->$chartType('testchart'));
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\\'.$chartType, $this->lava->$chartType('testchart', $this->mockDataTable));
     }
 
     /**
@@ -131,10 +133,10 @@ class LavachartsTest extends ProvidersTestCase
 
     public function testCreateConfigObjectViaAliasWithParam()
     {
-        $params = array(
+        $params = [
             'fontSize' => 4,
             'fontName' => 'Arial'
-        );
+        ];
 
         $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $this->lava->TextStyle($params));
     }
@@ -183,10 +185,10 @@ class LavachartsTest extends ProvidersTestCase
         $chart = $this->lava->LineChart('test');
         $chart->datatable($this->mdt);
 
-        $dims = array(
+        $dims = [
             'height' => 200,
             'width' => 200
-        );
+        ];
 
         $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div', $dims)));
     }
@@ -200,10 +202,10 @@ class LavachartsTest extends ProvidersTestCase
         $chart = $this->lava->LineChart('test');
         $chart->datatable($this->mdt);
 
-        $dims = array(
+        $dims = [
             'heiXght' => 200,
             'wZidth' => 200
-        );
+        ];
 
         $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div', $dims)));
     }
@@ -229,10 +231,10 @@ class LavachartsTest extends ProvidersTestCase
         $chart = $this->lava->LineChart('test');
         $chart->datatable($this->mdt);
 
-        $dims = array(
+        $dims = [
             'height' => 4.6,
             'width' => 'hotdogs'
-        );
+        ];
 
         $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div', $dims)));
     }
@@ -245,9 +247,9 @@ class LavachartsTest extends ProvidersTestCase
     {
         $dt = $this->lava->DataTable();
 
-        $df = $this->lava->DateFormat(array(
+        $df = $this->lava->DateFormat([
             'formatType' => 'medium'
-        ));
+        ]);
 
         $dt->addDateColumn('dates', $df);
 
@@ -305,63 +307,63 @@ class LavachartsTest extends ProvidersTestCase
 
     public function chartTypesProvider()
     {
-        return array(
-            array('AreaChart'),
-            array('BarChart'),
-            array('CalendarChart'),
-            array('ColumnChart'),
-            array('ComboChart'),
-            array('DonutChart'),
-            array('GaugeChart'),
-            array('GeoChart'),
-            array('LineChart'),
-            array('PieChart'),
-            array('ScatterChart')
-        );
+        return [
+            ['AreaChart'],
+            ['BarChart'],
+            ['CalendarChart'],
+            ['ColumnChart'],
+            ['ComboChart'],
+            ['DonutChart'],
+            ['GaugeChart'],
+            ['GeoChart'],
+            ['LineChart'],
+            ['PieChart'],
+            ['ScatterChart']
+        ];
     }
 
     public function configObjectProvider()
     {
-        return array(
-            array('Animation'),
-            array('Annotation'),
-            array('BackgroundColor'),
-            array('BoxStyle'),
-            array('ChartArea'),
-            array('Color'),
-            array('ColorAxis'),
-            array('Crosshair'),
-            array('Gradient'),
-            array('HorizontalAxis'),
-            array('Legend'),
-            array('MagnifyingGlass'),
-            array('Series'),
-            array('SizeAxis'),
-            array('Slice'),
-            array('Stroke'),
-            array('TextStyle'),
-            array('Tooltip'),
-            array('VerticalAxis')
-        );
+        return [
+            ['Animation'],
+            ['Annotation'],
+            ['BackgroundColor'],
+            ['BoxStyle'],
+            ['ChartArea'],
+            ['Color'],
+            ['ColorAxis'],
+            ['Crosshair'],
+            ['Gradient'],
+            ['HorizontalAxis'],
+            ['Legend'],
+            ['MagnifyingGlass'],
+            ['Series'],
+            ['SizeAxis'],
+            ['Slice'],
+            ['Stroke'],
+            ['TextStyle'],
+            ['Tooltip'],
+            ['VerticalAxis']
+        ];
     }
 
     public function eventObjectProvider()
     {
-        return array(
-            array('AnimationFinish'),
-            array('Error'),
-            array('MouseOut'),
-            array('MouseOver'),
-            array('Ready'),
-            array('Select')
-        );
+        return [
+            ['AnimationFinish'],
+            ['Error'],
+            ['MouseOut'],
+            ['MouseOver'],
+            ['Ready'],
+            ['Select']
+        ];
     }
 
     public function formatObjectProvider()
     {
-        return array(
-            array('DateFormat'),
-            array('NumberFormat')
-        );
+        return [
+            ['DateFormat'],
+            ['NumberFormat']
+        ];
     }
 }

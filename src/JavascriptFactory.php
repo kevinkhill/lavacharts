@@ -2,12 +2,12 @@
 
 namespace Khill\Lavacharts;
 
-use \Khill\Lavacharts\Utils;
+
 use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Events\Event;
+
 use \Khill\Lavacharts\Configs\DataTable;
 use \Khill\Lavacharts\Dashboard\Dashboard;
-use \Khill\Lavacharts\Dashboard\ControlWrapper;
+
 use \Khill\Lavacharts\Exceptions\InvalidElementId;
 
 /**
@@ -286,13 +286,11 @@ CHART;
      *
      * @since  3.0.0
      * @access private
-     * @param  \Khill\Lavacharts\Dashbaord\Dashboard $dashboard
+     * @param  \Khill\Lavacharts\Dashboard\Dashboard $dashboard
      * @return string Javascript code block.
      */
     private function buildDashboardJs(Dashboard $dashboard)
     {
-        $a = $this->processBindings($dashboard);
-
         $boundChart = $dashboard->getBinding('MyPie')->getChartWrapper()->getChart();
 
         $mappedValues = [

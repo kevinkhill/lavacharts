@@ -28,7 +28,7 @@ class VerticalAxis extends Axis
      * @param  array $config Configuration options for the VerticalAxis
      * @return self
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         parent::__construct($this, $config);
     }

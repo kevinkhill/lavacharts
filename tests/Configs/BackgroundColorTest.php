@@ -19,11 +19,11 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorValuesAssignment()
     {
-        $backgroundColor = new BackgroundColor(array(
+        $backgroundColor = new BackgroundColor([
             'stroke'      => '#E3D5F2',
             'strokeWidth' => 6,
             'fill'        => '#B0C9E3'
-        ));
+        ]);
 
         $this->assertEquals('#E3D5F2', $backgroundColor->stroke);
         $this->assertEquals(6, $backgroundColor->strokeWidth);
@@ -35,7 +35,7 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        $bgc = new BackgroundColor(array('TunaSalad' => 'sandwich'));
+        new BackgroundColor(['TunaSalad' => 'sandwich']);
     }
 
     /**
@@ -69,25 +69,25 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
 
     public function badParamsProvider1()
     {
-        return array(
-            array(123),
-            array(123.456),
-            array(array()),
-            array(new \stdClass),
-            array(true),
-            array(null)
-        );
+        return [
+            [123],
+            [123.456],
+            [[]],
+            [new \stdClass],
+            [true],
+            [null]
+        ];
     }
 
     public function badParamsProvider2()
     {
-        return array(
-            array('fruitsAndVeggies'),
-            array(123.456),
-            array(array()),
-            array(new \stdClass),
-            array(true),
-            array(null)
-        );
+        return [
+            ['fruitsAndVeggies'],
+            [123.456],
+            [[]],
+            [new \stdClass],
+            [true],
+            [null]
+        ];
     }
 }

@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Dashboard;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Dashboard\Binding;
+
 use \Khill\Lavacharts\Exceptions\InvalidLabel;
 
 class Dashboard implements \JsonSerializable

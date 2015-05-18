@@ -7,7 +7,7 @@ use \Khill\Lavacharts\Configs\DataTable;
 use \Khill\Lavacharts\Configs\Stroke;
 use \Khill\Lavacharts\Configs\TextStyle;
 use \Khill\Lavacharts\Configs\Color;
-use \Khill\Lavacharts\Configs\ColorAxis;
+
 
 /**
  * CalendarChart Class

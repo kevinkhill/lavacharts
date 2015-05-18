@@ -13,7 +13,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
 
         $this->mockGradient = $this->getMock(
             '\Khill\Lavacharts\Configs\Gradient',
-            array('__construct')
+            ['__construct']
         );
     }
 
@@ -28,13 +28,13 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorValuesAssignment()
     {
-        $boxStyle = new BoxStyle(array(
+        $boxStyle = new BoxStyle([
             'stroke'      => '#5B5B5B',
             'strokeWidth' => '5',
             'rx'          => '10',
             'ry'          => '10',
             'gradient'    => $this->mockGradient
-        ));
+        ]);
 
         $this->assertEquals('#5B5B5B', $boxStyle->stroke);
         $this->assertEquals('5', $boxStyle->strokeWidth);
@@ -48,7 +48,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        $boxStyle = new BoxStyle(array('Lasagna' => '50%'));
+        new BoxStyle(['Lasagna' => '50%']);
     }
 
     public function testStokeWithNumericParams()
@@ -127,19 +127,19 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
 
     public function badParamsProvider()
     {
-        return array(
-            array(array()),
-            array(new \stdClass),
-            array(true),
-            array(null)
-        );
+        return [
+            [[]],
+            [new \stdClass],
+            [true],
+            [null]
+        ];
     }
 
     public function numericParamsProvider()
     {
-        return array(
-            array(123),
-            array('123')
-        );
+        return [
+            [123],
+            ['123']
+        ];
     }
 }

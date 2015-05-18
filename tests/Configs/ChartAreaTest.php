@@ -21,12 +21,12 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorWithIntsValuesAssignment()
     {
-        $chartArea = new ChartArea(array(
+        $chartArea = new ChartArea([
             'left'   => 25,
             'top'    => 10,
             'width'  => 900,
             'height' => 300
-        ));
+        ]);
 
         $this->assertEquals(25, $chartArea->left);
         $this->assertEquals(10, $chartArea->top);
@@ -36,12 +36,12 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorWithPercentsValuesAssignment()
     {
-        $chartArea = new ChartArea(array(
+        $chartArea = new ChartArea([
             'left'   => '5%',
             'top'    => '10%',
             'width'  => '90%',
             'height' => '40%'
-        ));
+        ]);
 
         $this->assertEquals('5%', $chartArea->left);
         $this->assertEquals('10%', $chartArea->top);
@@ -54,7 +54,7 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        $chartArea = new ChartArea(array('Pizza' => 'sandwich'));
+        new ChartArea(['Pizza' => 'sandwich']);
     }
 
     /**
@@ -95,13 +95,13 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
 
     public function badParamsProvider()
     {
-        return array(
-            array('zooAnimals'),
-            array(123.456),
-            array(array()),
-            array(new \stdClass()),
-            array(true),
-            array(null)
-        );
+        return [
+            ['zooAnimals'],
+            [123.456],
+            [[]],
+            [new \stdClass()],
+            [true],
+            [null]
+        ];
     }
 }

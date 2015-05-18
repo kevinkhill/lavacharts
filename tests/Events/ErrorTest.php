@@ -24,8 +24,6 @@ class ErrorTest extends ProvidersTestCase
 
     public function testConstructorValueAssignment()
     {
-        $Error = new Error('jsCallback');
-
         $this->assertEquals('jsCallback', $this->errorEvent->callback);
     }
 

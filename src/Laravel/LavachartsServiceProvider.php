@@ -2,8 +2,9 @@
 
 namespace Khill\Lavacharts\Laravel;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\AliasLoader;
+use \Khill\Lavacharts\Lavacharts;
+use \Illuminate\Support\ServiceProvider;
+use \Illuminate\Foundation\AliasLoader;
 
 class LavachartsServiceProvider extends ServiceProvider
 {
@@ -25,7 +26,7 @@ class LavachartsServiceProvider extends ServiceProvider
     {
         $this->app['lavacharts'] = $this->app->share(
             function ($app) {
-                return new \Khill\Lavacharts\Lavacharts;
+                return new Lavacharts;
             }
         );
 
@@ -39,6 +40,6 @@ class LavachartsServiceProvider extends ServiceProvider
 
     public function provides()
     {
-        return array('lavacharts');
+        return ['lavacharts'];
     }
 }

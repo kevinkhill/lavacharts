@@ -94,19 +94,19 @@ class GaugeChartTest extends ChartTestCase
 
     public function testMajorTicks()
     {
-        $this->g->majorTicks(array(
+        $this->g->majorTicks([
             'Safe',
             'Ok',
             'Danger',
             'Critical'
-        ));
+        ]);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'Safe',
             'Ok',
             'Danger',
             'Critical'
-        ), $this->g->getOption('majorTicks'));
+        ], $this->g->getOption('majorTicks'));
     }
 
     /**

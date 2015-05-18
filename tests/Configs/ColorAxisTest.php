@@ -23,17 +23,17 @@ class ColorAxisTest extends ProvidersTestCase
 
     public function testConstructorValuesAssignment()
     {
-        $colorAxis = new ColorAxis(array(
+        $colorAxis = new ColorAxis([
             'minValue' => 1,
             'maxValue' => 10,
-            'values'   => array('10', 6),
-            'colors'   => array('#5B5B5B', 'red')
-        ));
+            'values'   => ['10', 6],
+            'colors'   => ['#5B5B5B', 'red']
+        ]);
 
         $this->assertEquals(1, $colorAxis->minValue);
         $this->assertEquals(10, $colorAxis->maxValue);
-        $this->assertEquals(array(10, 6), $colorAxis->values);
-        $this->assertEquals(array('#5B5B5B', 'red'), $colorAxis->colors);
+        $this->assertEquals([10, 6], $colorAxis->values);
+        $this->assertEquals(['#5B5B5B', 'red'], $colorAxis->colors);
     }
 
     /**
@@ -41,7 +41,7 @@ class ColorAxisTest extends ProvidersTestCase
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        $colorAxis = new ColorAxis(array('Cake' => 'green'));
+        new ColorAxis(['Cake' => 'green']);
     }
 
     public function testMinValueWithNumericParams()
@@ -84,9 +84,9 @@ class ColorAxisTest extends ProvidersTestCase
 
     public function testValuesWithArrayOfNumbers()
     {
-        $this->ca->values(array(1, '18', 54));
+        $this->ca->values([1, '18', 54]);
 
-        $this->assertEquals(array(1, '18', 54), $this->ca->values);
+        $this->assertEquals([1, '18', 54], $this->ca->values);
     }
 
     /**
@@ -101,9 +101,9 @@ class ColorAxisTest extends ProvidersTestCase
 
     public function testColorsWithArrayOfStrings()
     {
-        $this->ca->colors(array('red', 'blue'));
+        $this->ca->colors(['red', 'blue']);
 
-        $this->assertEquals(array('red', 'blue'), $this->ca->colors);
+        $this->assertEquals(['red', 'blue'], $this->ca->colors);
     }
 
     /**

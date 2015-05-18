@@ -107,13 +107,13 @@ class CategoryUI extends ConfigObject
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return self
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         parent::__construct($this, $config);
 
         $this->options = array_merge(
             $this->options,
-            array(
+            [
                 'caption',
                 'sortValues',
                 'selectedValuesLayout',
@@ -124,7 +124,7 @@ class CategoryUI extends ConfigObject
                 'labelSeparator',
                 'labelStacking',
                 'cssClass'
-            )
+            ]
         );
     }
 
@@ -185,12 +185,12 @@ class CategoryUI extends ConfigObject
      */
     public function selectedValuesLayout($selectedValuesLayout)
     {
-        $values = array(
+        $values = [
             'aside',
             'below',
             'belowWrapping',
             'belowStacked'
-        );
+        ];
 
         if (in_array($selectedValuesLayout, $values)) {
             $this->selectedValuesLayout = $selectedValuesLayout;
@@ -329,12 +329,12 @@ class CategoryUI extends ConfigObject
      */
     public function labelStacking($labelStacking)
     {
-        $values = array(
+        $values = [
             'aside',
             'below',
             'belowWrapping',
             'belowStacked'
-        );
+        ];
 
         if (in_array($labelStacking, $values)) {
             $this->labelStacking = $labelStacking;

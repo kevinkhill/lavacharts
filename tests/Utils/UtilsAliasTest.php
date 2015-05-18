@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Utilss;
+<?php
+
+namespace Khill\Lavacharts\Tests\Utils;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Configs as c;

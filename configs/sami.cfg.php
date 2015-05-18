@@ -16,11 +16,11 @@ $versions = GitVersionCollection::create(__DIR__)
     ->addFromTags('2.5.2')
     ->add('traits', 'v3.0 branch');
 
-return new Sami($iterator, array(
+return new Sami($iterator, [
     'theme'                => 'default',
     'versions'             => $versions,
     'title'                => 'Lavacharts API',
     'build_dir'            => __DIR__.'/../build/%version%',
     'cache_dir'            => __DIR__.'/../cache/%version%',
     'default_opened_level' => 2,
-));
+]);

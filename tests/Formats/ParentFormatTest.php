@@ -10,11 +10,11 @@ class ParentFormatTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->options = array(
+        $this->options = [
             'formatType' => 'short',
             'pattern'    => 'Y-m-d',
             'timeZone'   => 'PST'
-        );
+        ];
 
         $this->dateFormat = new DateFormat($this->options);
     }
@@ -33,7 +33,7 @@ class ParentFormatTest extends ProvidersTestCase
      */
     public function testConstructorWithBadOption()
     {
-        new DateFormat(array('baked'=>'beans'));
+        new DateFormat(['baked'=>'beans']);
     }
 
     public function testGetValues()

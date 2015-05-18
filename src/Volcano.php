@@ -2,10 +2,10 @@
 
 namespace Khill\Lavacharts;
 
-use \Khill\Lavacharts\Utils;
+
 use \Khill\Lavacharts\Charts\Chart;
 use \Khill\Lavacharts\Dashboard\Dashboard;
-use \Khill\Lavacharts\Exceptions\InvalidLabel;
+
 use \Khill\Lavacharts\Exceptions\ChartNotFound;
 use \Khill\Lavacharts\Exceptions\DashboardNotFound;
 

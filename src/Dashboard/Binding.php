@@ -3,8 +3,8 @@
 namespace Khill\Lavacharts\Dashboard;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Dashboard\ChartWrapper;
-use \Khill\Lavacharts\Dashboard\ControlWrapper;
+
+
 use \Khill\Lavacharts\Exceptions\InvalidLabel;
 
 /**

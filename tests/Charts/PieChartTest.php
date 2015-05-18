@@ -47,20 +47,20 @@ class PieChartTest extends ChartTestCase
 
     public function testSlices()
     {
-        $textStyleVals = array(
+        $textStyleVals = [
            'color'    => 'blue',
            'fontName' => 'Arial',
            'fontSize' => 16
-        );
+        ];
 
         $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
         //$mockTextStyle->shouldReceive('getValues')->once()->andReturn($textStyleVals);
 
-        $sliceVals = array(
+        $sliceVals = [
            'color'     => 'blue',
            'offset'    => 'Arial',
            'textStyle' => $mockTextStyle
-        );
+        ];
 
         $mockSlice1 = m::mock('Khill\Lavacharts\Configs\Slice');
         $mockSlice1->shouldReceive('getValues')->once()->andReturn($sliceVals);
@@ -68,7 +68,7 @@ class PieChartTest extends ChartTestCase
         $mockSlice2 = m::mock('Khill\Lavacharts\Configs\Slice');
         $mockSlice2->shouldReceive('getValues')->once()->andReturn($sliceVals);
 
-        $this->pc->slices(array($mockSlice1, $mockSlice2));
+        $this->pc->slices([$mockSlice1, $mockSlice2]);
 
         $slices = $this->pc->getOption('slices');
 
