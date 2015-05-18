@@ -2,9 +2,7 @@
 
 namespace Khill\Lavacharts\Configs;
 
-use \SplFileObject;
 use \Carbon\Carbon;
-use \League\Csv\Reader;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Formats\Format;
 use \Khill\Lavacharts\Exceptions\InvalidDate;
@@ -76,28 +74,28 @@ class DataTable implements \JsonSerializable
      *
      * @var array
      */
-    private $cols = [];
+    protected $cols = [];
 
     /**
      * Holds the information defining each row.
      *
      * @var array
      */
-    private $rows = [];
+    protected $rows = [];
 
     /**
      * Holds the formatting information for each column.
      *
      * @var array
      */
-    private $formats = [];
+    protected $formats = [];
 
     /**
      * Valid column types.
      *
      * @var array
      */
-    private $columnTypes = [
+    protected $columnTypes = [
         'string',
         'number',
         //'bool',
@@ -111,7 +109,7 @@ class DataTable implements \JsonSerializable
      *
      * @var array
      */
-    private $columnDesc = [
+    protected $columnDesc = [
         'type',
         'label',
         'id',
@@ -297,12 +295,12 @@ class DataTable implements \JsonSerializable
     /**
      * Supplemental function to add columns from an array.
      *
-     * @access private
+     * @access protected
      * @param  array $colDefArray
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnDefinition
      * @return self
      */
-    private function addColumnFromArray($colDefArray)
+    protected function addColumnFromArray($colDefArray)
     {
         if (Utils::arrayValuesCheck($colDefArray, 'string') && Utils::between(1, count($colDefArray), 5, true)) {
             call_user_func_array([$this, 'addColumnFromStrings'], $colDefArray);
@@ -316,7 +314,7 @@ class DataTable implements \JsonSerializable
     /**
      * Supplemental function to add columns from strings.
      *
-     * @access private
+     * @access protected
      * @param  array  $type
      * @param  array  $label
      * @param  array  $id
@@ -325,7 +323,7 @@ class DataTable implements \JsonSerializable
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
-    private function addColumnFromStrings($type, $label = '', $id = '', $format = null, $role = '')
+    protected function addColumnFromStrings($type, $label = '', $id = '', $format = null, $role = '')
     {
         $colIndex = $this->getColumnCount();
 
@@ -369,10 +367,10 @@ class DataTable implements \JsonSerializable
      * Returns an array of array wrapped null values equal to the
      * number of columns defined.
      *
-     * @access private
+     * @access protected
      * @return array
      */
-    private function addNullColumn()
+    protected function addNullColumn()
     {
         for ($a = 0; $a < count($this->cols); $a++) {
             $tmp[] = ['v' => null];
@@ -632,6 +630,25 @@ class DataTable implements \JsonSerializable
     }
 
     /**
+     * Returns the labels of columns currently defined.
+     *
+     * @since  3.0.0
+     * @access public
+     * @return array
+     */
+    public function getColumnLabels()
+    {
+        foreach($this->cols as $arr) {
+            if (array_key_exists('label', $arr)) {
+                $colTypes[] = $arr['label'];
+            }
+        }
+
+        return $colTypes;
+        //return array_column($this->getColumns(), 'type');
+    }
+
+    /**
      * Returns the column number of the ypes of columns currently defined.
      *
      * @since  2.5.2
@@ -691,12 +708,12 @@ class DataTable implements \JsonSerializable
     /**
      * Parses an extended cell definition, as and array defined with v,f,p
      *
-     * @access private
+     * @access protected
      * @param  array              $cellArray
      * @throws InvalidRowProperty
      * @return array
      */
-    private function parseExtendedCellArray($cellArray)
+    protected function parseExtendedCellArray($cellArray)
     {
         foreach ($cellArray as $prop => $value) {
             if (in_array($value, ['v', 'f', 'p']) === false) {
@@ -712,11 +729,11 @@ class DataTable implements \JsonSerializable
     /**
      * Parses a timeofday row definition.
      *
-     * @access private
+     * @access protected
      * @param  array   $cellArray
      * @return array
      */
-    private function parseTimeOfDayRow($cellArray)
+    protected function parseTimeOfDayRow($cellArray)
     {
         foreach ($cellArray as $cell) {
             $rowVals[] = ['v' => $cell];
@@ -728,11 +745,11 @@ class DataTable implements \JsonSerializable
     /**
      * Either passes the Carbon instance or parses a datetime string.
      *
-     * @access private
+     * @access protected
      * @param  Carbon|string $date
      * @return string Javscript date declaration
      */
-    private function parseDate($date)
+    protected function parseDate($date)
     {
         if (is_a($date, 'Carbon\Carbon')) {
             $carbonDate = $date;
@@ -756,10 +773,10 @@ class DataTable implements \JsonSerializable
     /**
      * Outputs the Carbon object as a valid javascript Date string.
      *
-     * @access private
+     * @access protected
      * @return string Javscript date declaration
      */
-    private function carbonToJsString(Carbon $c)
+    protected function carbonToJsString(Carbon $c)
     {
         return sprintf(
             'Date(%d,%d,%d,%d,%d,%d)',

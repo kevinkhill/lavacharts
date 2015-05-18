@@ -167,10 +167,16 @@ class Lavacharts
     {
         //Core Objects
         if ($method == 'DataTable') {
-            if (isset($arguments[0])) {
-                return new DataTable($arguments[0]);
+            $datatable = '\Khill\Lavacharts\DataTablePlus\DataTablePlus';
+
+            if (class_exists($datatable) === false) {
+                $datatable = '\Khill\Lavacharts\Configs\DataTable';
+            }
+
+            if (isset($arguments[0])) {                
+                return new $datatable($arguments[0]);
             } else {
-                return new DataTable;
+                return new $datatable;
             }
         }
 
@@ -234,7 +240,7 @@ class Lavacharts
         }
 
         //Filters
-        if ((bool) preg_match('/Filter$/', $method) === true) {
+        if ((bool) preg_match('/Filter$/', $method)) {
             return $this->filterFactory($method, $arguments);
         }
 
@@ -296,7 +302,7 @@ class Lavacharts
         }
 
         $jsOutput .= $this->jsFactory->getChartJs(
-            $this->volcano->getChart($type, $lLabel),
+            $this->volcano->getChart($type, $label),
             $elementId
         );
 

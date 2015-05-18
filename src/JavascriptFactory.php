@@ -211,11 +211,11 @@ class JavascriptFactory
 
         lava.registerChart("<chartType>", "<chartLabel>");
 
-        google.load('visualization', '<version>', {'packages':['<chartPackage>']});
+        google.load('visualization', '<chartVer>', {'packages':['<chartPackage>']});
         google.setOnLoadCallback(function() {
             lava.charts.<chartType>["<chartLabel>"].render();
             lava.readyCallback();
-        );
+        });
 CHART;
         $this->out .= PHP_EOL.self::JS_CLOSE;
 
