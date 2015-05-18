@@ -7,7 +7,6 @@ use \Khill\Lavacharts\Configs\DataTable;
 use \Khill\Lavacharts\Dashboard\Dashboard;
 use \Khill\Lavacharts\Dashboard\ChartWrapper;
 use \Khill\Lavacharts\Dashboard\ControlWrapper;
-
 use \Khill\Lavacharts\Exceptions\InvalidDataTable;
 use \Khill\Lavacharts\Exceptions\InvalidLabel;
 use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
@@ -16,7 +15,6 @@ use \Khill\Lavacharts\Exceptions\InvalidFilterObject;
 use \Khill\Lavacharts\Exceptions\InvalidEventCallback;
 use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
 use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
-
 use \Khill\Lavacharts\Exceptions\InvalidChartWrapperParams;
 use \Khill\Lavacharts\Exceptions\InvalidControlWrapperParams;
 
@@ -483,13 +481,17 @@ class Lavacharts
      */
     private function chartFactory($type, $args)
     {
-        if (isset($type) === false) {
-            throw new InvalidLabel;
-        } else {
-            if (Utils::nonEmptyString($type) === false) {
-                throw new InvalidLabel($type);
-            }
+        if (Utils::nonEmptyString($type) === false) {
+            throw new InvalidLavaObject($type);
         }
+
+        if (isset($args[0]) === false) {
+            throw new InvalidLabel;
+        }
+    
+        if (Utils::nonEmptyString($args[0]) === false) {
+            throw new InvalidLabel($args[0]);
+        }    
 
         if ($this->volcano->checkChart($type, $args[0]) === true) {
             return $this->volcano->getChart($type, $args[0]);
@@ -497,10 +499,10 @@ class Lavacharts
 
         if (isset($args[1]) === false) {
             throw new InvalidDataTable;
-        } else {
-            if ($args[1] instanceof DataTable === false) {
-                throw new InvalidDataTable($args[1]);
-            }
+        }
+    
+        if ($args[1] instanceof DataTable === false) {
+            throw new InvalidDataTable($args[1]);
         }
 
         $chartObject = __NAMESPACE__ . '\\Charts\\' . $type;
