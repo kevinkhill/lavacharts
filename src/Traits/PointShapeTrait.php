@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Traits;
 
+use \Khill\Lavacharts\Utils;
+
 trait PointShapeTrait
 {
     /**
@@ -28,7 +30,8 @@ trait PointShapeTrait
         if (in_array($shape, $values, true) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'string'
+                'string',
+                'Accepted values include '.Utils::arrayToPipedString($values)
             );
         }
 
