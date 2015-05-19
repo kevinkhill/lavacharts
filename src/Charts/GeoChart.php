@@ -229,7 +229,7 @@ class GeoChart extends Chart
      */
     public function magnifyingGlass(MagnifyingGlass $mg)
     {
-        $this->addOption($mg->toArray(__FUNCTION__));
+        $this->addOption($mg->toArray());
 
         return $this;
     }

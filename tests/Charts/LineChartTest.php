@@ -3,7 +3,6 @@
 namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Charts\LineChart;
-use \Mockery as m;
 
 class LineChartTest extends ChartTestCase
 {
@@ -11,36 +10,36 @@ class LineChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->lc = new LineChart('MyTestChart', $this->partialDataTable);
+        $this->LineChart = new LineChart('MyTestChart', $this->partialDataTable);
     }
 
     public function testInstanceOfLineChartWithType()
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $this->lc);
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $this->LineChart);
     }
 
     public function testTypeLineChart()
     {
-        $chart = $this->lc;
+        $chart = $this->LineChart;
 
         $this->assertEquals('LineChart', $chart::TYPE);
     }
 
     public function testLabelAssignedViaConstructor()
     {
-        $this->assertEquals('MyTestChart', $this->lc->label);
+        $this->assertEquals('MyTestChart', $this->LineChart->label);
     }
 
     public function testAxisTitlesPositionWithValidValues()
     {
-        $this->lc->axisTitlesPosition('in');
-        $this->assertEquals('in', $this->lc->getOption('axisTitlesPosition'));
+        $this->LineChart->axisTitlesPosition('in');
+        $this->assertEquals('in', $this->LineChart->getOption('axisTitlesPosition'));
 
-        $this->lc->axisTitlesPosition('out');
-        $this->assertEquals('out', $this->lc->getOption('axisTitlesPosition'));
+        $this->LineChart->axisTitlesPosition('out');
+        $this->assertEquals('out', $this->LineChart->getOption('axisTitlesPosition'));
 
-        $this->lc->axisTitlesPosition('none');
-        $this->assertEquals('none', $this->lc->getOption('axisTitlesPosition'));
+        $this->LineChart->axisTitlesPosition('none');
+        $this->assertEquals('none', $this->LineChart->getOption('axisTitlesPosition'));
     }
 
     /**
@@ -48,7 +47,7 @@ class LineChartTest extends ChartTestCase
      */
     public function testAxisTitlesPositionWithBadValue()
     {
-        $this->lc->axisTitlesPosition('socks');
+        $this->LineChart->axisTitlesPosition('socks');
     }
 
     /**
@@ -57,16 +56,16 @@ class LineChartTest extends ChartTestCase
      */
     public function testAxisTitlesPositionWithBadType($badTypes)
     {
-        $this->lc->axisTitlesPosition($badTypes);
+        $this->LineChart->axisTitlesPosition($badTypes);
     }
 
     public function testCurveTypeWithValidValues()
     {
-        $this->lc->curveType('none');
-        $this->assertEquals('none', $this->lc->getOption('curveType'));
+        $this->LineChart->curveType('none');
+        $this->assertEquals('none', $this->LineChart->getOption('curveType'));
 
-        $this->lc->curveType('function');
-        $this->assertEquals('function', $this->lc->getOption('curveType'));
+        $this->LineChart->curveType('function');
+        $this->assertEquals('function', $this->LineChart->getOption('curveType'));
     }
 
     /**
@@ -74,7 +73,7 @@ class LineChartTest extends ChartTestCase
      */
     public function testCurveTypeWithBadValue()
     {
-        $this->lc->curveType('rocks');
+        $this->LineChart->curveType('rocks');
     }
 
     /**
@@ -83,16 +82,16 @@ class LineChartTest extends ChartTestCase
      */
     public function testCurveTypeWithBadType($badTypes)
     {
-        $this->lc->curveType($badTypes);
+        $this->LineChart->curveType($badTypes);
     }
 
     public function testFocusTarget()
     {
-        $this->lc->focusTarget('datum');
-        $this->assertEquals('datum', $this->lc->getOption('focusTarget'));
+        $this->LineChart->focusTarget('datum');
+        $this->assertEquals('datum', $this->LineChart->getOption('focusTarget'));
 
-        $this->lc->focusTarget('category');
-        $this->assertEquals('category', $this->lc->getOption('focusTarget'));
+        $this->LineChart->focusTarget('category');
+        $this->assertEquals('category', $this->LineChart->getOption('focusTarget'));
     }
 
     /**
@@ -101,26 +100,21 @@ class LineChartTest extends ChartTestCase
      */
     public function testFocusTargetWithBadType($badTypes)
     {
-        $this->lc->focusTarget($badTypes);
+        $this->LineChart->focusTarget($badTypes);
     }
 
     public function testHorizontalAxis()
     {
-        $mockHorizontalAxis = m::mock('Khill\Lavacharts\Configs\HorizontalAxis');
-        $mockHorizontalAxis->shouldReceive('toArray')->once()->andReturn([
-            'hAxis' => []
-        ]);
+        $this->LineChart->hAxis($this->getMockHorizontalAxis());
 
-        $this->lc->hAxis($mockHorizontalAxis);
-
-        $this->assertTrue(is_array($this->lc->getOption('hAxis')));
+        $this->assertTrue(is_array($this->LineChart->getOption('hAxis')));
     }
 
     public function testInterpolateNulls()
     {
-        $this->lc->interpolateNulls(true);
+        $this->LineChart->interpolateNulls(true);
 
-        $this->assertTrue($this->lc->getOption('interpolateNulls'));
+        $this->assertTrue($this->LineChart->getOption('interpolateNulls'));
     }
 
     /**
@@ -129,14 +123,14 @@ class LineChartTest extends ChartTestCase
      */
     public function testInterpolateNullsWithBadType($badTypes)
     {
-        $this->lc->interpolateNulls($badTypes);
+        $this->LineChart->interpolateNulls($badTypes);
     }
 
     public function testLineWidth()
     {
-        $this->lc->lineWidth(22);
+        $this->LineChart->lineWidth(22);
 
-        $this->assertEquals(22, $this->lc->getOption('lineWidth'));
+        $this->assertEquals(22, $this->LineChart->getOption('lineWidth'));
     }
 
     /**
@@ -145,14 +139,14 @@ class LineChartTest extends ChartTestCase
      */
     public function testLineWidthWithBadType($badTypes)
     {
-        $this->lc->lineWidth($badTypes);
+        $this->LineChart->lineWidth($badTypes);
     }
 
     public function testPointSize()
     {
-        $this->lc->pointSize(3);
+        $this->LineChart->pointSize(3);
 
-        $this->assertEquals(3, $this->lc->getOption('pointSize'));
+        $this->assertEquals(3, $this->LineChart->getOption('pointSize'));
     }
 
     /**
@@ -161,18 +155,13 @@ class LineChartTest extends ChartTestCase
      */
     public function testPointSizeWithBadType($badTypes)
     {
-        $this->lc->pointSize($badTypes);
+        $this->LineChart->pointSize($badTypes);
     }
 
     public function testVerticalAxis()
     {
-        $mockVerticalAxis = m::mock('Khill\Lavacharts\Configs\VerticalAxis');
-        $mockVerticalAxis->shouldReceive('toArray')->once()->andReturn([
-            'vAxis' => []
-        ]);
+        $this->LineChart->vAxis($this->getMockVerticalAxis());
 
-        $this->lc->vAxis($mockVerticalAxis);
-
-        $this->assertTrue(is_array($this->lc->getOption('vAxis')));
+        $this->assertTrue(is_array($this->LineChart->getOption('vAxis')));
     }
 }

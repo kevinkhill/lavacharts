@@ -11,48 +11,43 @@ class BarChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->bc = new BarChart('MyTestChart', $this->partialDataTable);
+        $this->BarChart = new BarChart('MyTestChart', $this->partialDataTable);
     }
 
     public function testInstanceOfBarChartWithType()
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\BarChart', $this->bc);
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\BarChart', $this->BarChart);
     }
 
     public function testTypeBarChart()
     {
-        $chart = $this->bc;
+        $chart = $this->BarChart;
 
         $this->assertEquals('BarChart', $chart::TYPE);
     }
 
     public function testLabelAssignedViaConstructor()
     {
-        $this->assertEquals('MyTestChart', $this->bc->label);
+        $this->assertEquals('MyTestChart', $this->BarChart->label);
     }
 
     public function testAnnotations()
     {
-        $mockAnnotation = m::mock('Khill\Lavacharts\Configs\Annotation');
-        $mockAnnotation->shouldReceive('toArray')->once()->andReturn([
-            'annotations' => []
-        ]);
-
-        $this->bc->annotations($mockAnnotation);
-
-        $this->assertTrue(is_array($this->bc->getOption('annotations')));
+        $this->BarChart->annotations($this->getMockAnnotation());
+        
+        $this->assertTrue(is_array($this->BarChart->getOption('annotations')));
     }
 
     public function testAxisTitlesPositionWithValidValues()
     {
-        $this->bc->axisTitlesPosition('in');
-        $this->assertEquals('in', $this->bc->getOption('axisTitlesPosition'));
+        $this->BarChart->axisTitlesPosition('in');
+        $this->assertEquals('in', $this->BarChart->getOption('axisTitlesPosition'));
 
-        $this->bc->axisTitlesPosition('out');
-        $this->assertEquals('out', $this->bc->getOption('axisTitlesPosition'));
+        $this->BarChart->axisTitlesPosition('out');
+        $this->assertEquals('out', $this->BarChart->getOption('axisTitlesPosition'));
 
-        $this->bc->axisTitlesPosition('none');
-        $this->assertEquals('none', $this->bc->getOption('axisTitlesPosition'));
+        $this->BarChart->axisTitlesPosition('none');
+        $this->assertEquals('none', $this->BarChart->getOption('axisTitlesPosition'));
     }
 
     /**
@@ -60,7 +55,7 @@ class BarChartTest extends ChartTestCase
      */
     public function testAxisTitlesPositionWithBadValue()
     {
-        $this->bc->axisTitlesPosition('stapler');
+        $this->BarChart->axisTitlesPosition('stapler');
     }
 
     /**
@@ -69,21 +64,21 @@ class BarChartTest extends ChartTestCase
      */
     public function testAxisTitlesPositionWithBadType($badTypes)
     {
-        $this->bc->axisTitlesPosition($badTypes);
+        $this->BarChart->axisTitlesPosition($badTypes);
     }
 
     public function testBarGroupWidthWithInt()
     {
-        $this->bc->barGroupWidth(200);
+        $this->BarChart->barGroupWidth(200);
 
-        $this->assertEquals(200, $this->bc->getOption('barGroupWidth')['groupWidth']);
+        $this->assertEquals(200, $this->BarChart->getOption('barGroupWidth')['groupWidth']);
     }
 
     public function testBarGroupWidthWithPercent()
     {
-        $this->bc->barGroupWidth('33%');
+        $this->BarChart->barGroupWidth('33%');
 
-        $this->assertEquals('33%', $this->bc->getOption('barGroupWidth')['groupWidth']);
+        $this->assertEquals('33%', $this->BarChart->getOption('barGroupWidth')['groupWidth']);
     }
 
     /**
@@ -92,14 +87,14 @@ class BarChartTest extends ChartTestCase
      */
     public function testBarGroupWidthWithBadTypes($badTypes)
     {
-        $this->bc->barGroupWidth($badTypes);
+        $this->BarChart->barGroupWidth($badTypes);
     }
 
     public function testDataOpacity()
     {
-        $this->bc->dataOpacity(0.75);
+        $this->BarChart->dataOpacity(0.75);
 
-        $this->assertEquals(0.75, $this->bc->getOption('dataOpacity'));
+        $this->assertEquals(0.75, $this->BarChart->getOption('dataOpacity'));
     }
 
     /**
@@ -107,7 +102,7 @@ class BarChartTest extends ChartTestCase
      */
     public function testDataOpacityWithOverLimit()
     {
-        $this->bc->dataOpacity(1.1);
+        $this->BarChart->dataOpacity(1.1);
     }
 
     /**
@@ -115,7 +110,7 @@ class BarChartTest extends ChartTestCase
      */
     public function testDataOpacityWithNegative()
     {
-        $this->bc->dataOpacity(-0.1);
+        $this->BarChart->dataOpacity(-0.1);
     }
 
     /**
@@ -124,14 +119,14 @@ class BarChartTest extends ChartTestCase
      */
     public function testDataOpacityWithBadValues($badVals)
     {
-        $this->bc->dataOpacity($badVals);
+        $this->BarChart->dataOpacity($badVals);
     }
 
     public function testEnableInteractivity()
     {
-        $this->bc->enableInteractivity(true);
+        $this->BarChart->enableInteractivity(true);
 
-        $this->assertTrue($this->bc->getOption('enableInteractivity'));
+        $this->assertTrue($this->BarChart->getOption('enableInteractivity'));
     }
 
     /**
@@ -140,16 +135,16 @@ class BarChartTest extends ChartTestCase
      */
     public function testEnableInteractivityWithBadTypes($badTypes)
     {
-        $this->bc->enableInteractivity($badTypes);
+        $this->BarChart->enableInteractivity($badTypes);
     }
 
     public function testFocusTarget()
     {
-        $this->bc->focusTarget('datum');
-        $this->assertEquals('datum', $this->bc->getOption('focusTarget'));
+        $this->BarChart->focusTarget('datum');
+        $this->assertEquals('datum', $this->BarChart->getOption('focusTarget'));
 
-        $this->bc->focusTarget('category');
-        $this->assertEquals('category', $this->bc->getOption('focusTarget'));
+        $this->BarChart->focusTarget('category');
+        $this->assertEquals('category', $this->BarChart->getOption('focusTarget'));
     }
 
     /**
@@ -158,14 +153,14 @@ class BarChartTest extends ChartTestCase
      */
     public function testFocusTargetWithBadType($badTypes)
     {
-        $this->bc->focusTarget($badTypes);
+        $this->BarChart->focusTarget($badTypes);
     }
 
     public function testForceIFrame()
     {
-        $this->bc->forceIFrame(true);
+        $this->BarChart->forceIFrame(true);
 
-        $this->assertTrue($this->bc->getOption('forceIFrame'));
+        $this->assertTrue($this->BarChart->getOption('forceIFrame'));
     }
 
     /**
@@ -174,16 +169,16 @@ class BarChartTest extends ChartTestCase
      */
     public function testForceIFrameWithBadType($badTypes)
     {
-        $this->bc->forceIFrame($badTypes);
+        $this->BarChart->forceIFrame($badTypes);
     }
 
     public function testHorizontalAxes()
     {
         $mockHorizontalAxis = m::mock('Khill\Lavacharts\Configs\HorizontalAxis');
 
-        $this->bc->hAxes([$mockHorizontalAxis, $mockHorizontalAxis]);
+        $this->BarChart->hAxes([$mockHorizontalAxis, $mockHorizontalAxis]);
 
-        $this->assertTrue(is_array($this->bc->getOption('hAxes')));
+        $this->assertTrue(is_array($this->BarChart->getOption('hAxes')));
     }
 
     /**
@@ -192,7 +187,7 @@ class BarChartTest extends ChartTestCase
      */
     public function testHorizontalAxesWithBadTypes($badTypes)
     {
-        $this->bc->hAxes($badTypes);
+        $this->BarChart->hAxes($badTypes);
     }
 
     /**
@@ -200,28 +195,23 @@ class BarChartTest extends ChartTestCase
      */
     public function testHorizontalAxesWithArrayOfBadTypes()
     {
-        $this->bc->hAxes([1, 4.5, 'salmon']);
+        $this->BarChart->hAxes([1, 4.5, 'salmon']);
     }
 
     public function testHorizontalAxis()
     {
-        $mockHorizontalAxis = m::mock('Khill\Lavacharts\Configs\HorizontalAxis');
-        $mockHorizontalAxis->shouldReceive('toArray')->once()->andReturn([
-            'hAxis' => []
-        ]);
+        $this->BarChart->hAxis($this->getMockHorizontalAxis());
 
-        $this->bc->hAxis($mockHorizontalAxis);
-
-        $this->assertTrue(is_array($this->bc->getOption('hAxis')));
+        $this->assertTrue(is_array($this->BarChart->getOption('hAxis')));
     }
 
     public function testOrientationWithValidInput()
     {
-        $this->bc->orientation('horizontal');
-        $this->assertEquals('horizontal', $this->bc->getOption('orientation'));
+        $this->BarChart->orientation('horizontal');
+        $this->assertEquals('horizontal', $this->BarChart->getOption('orientation'));
 
-        $this->bc->orientation('vertical');
-        $this->assertEquals('vertical', $this->bc->getOption('orientation'));
+        $this->BarChart->orientation('vertical');
+        $this->assertEquals('vertical', $this->BarChart->getOption('orientation'));
     }
 
     /**
@@ -229,7 +219,7 @@ class BarChartTest extends ChartTestCase
      */
     public function testOrientationWithBadValue()
     {
-        $this->bc->orientation('circles');
+        $this->BarChart->orientation('circles');
     }
 
     /**
@@ -238,14 +228,14 @@ class BarChartTest extends ChartTestCase
      */
     public function testOrientationWithBadTypes($badTypes)
     {
-        $this->bc->orientation($badTypes);
+        $this->BarChart->orientation($badTypes);
     }
 
     public function testIsStacked()
     {
-        $this->bc->isStacked(true);
+        $this->BarChart->isStacked(true);
 
-        $this->assertTrue($this->bc->getOption('isStacked'));
+        $this->assertTrue($this->BarChart->getOption('isStacked'));
     }
 
     /**
@@ -254,14 +244,14 @@ class BarChartTest extends ChartTestCase
      */
     public function testIsStackedWithBadTypes($badTypes)
     {
-        $this->bc->isStacked($badTypes);
+        $this->BarChart->isStacked($badTypes);
     }
 
     public function testReverseCategories()
     {
-        $this->bc->reverseCategories(true);
+        $this->BarChart->reverseCategories(true);
 
-        $this->assertTrue($this->bc->getOption('reverseCategories'));
+        $this->assertTrue($this->BarChart->getOption('reverseCategories'));
     }
 
     /**
@@ -270,16 +260,16 @@ class BarChartTest extends ChartTestCase
      */
     public function testReverseCategoriesWithBadTypes($badTypes)
     {
-        $this->bc->reverseCategories($badTypes);
+        $this->BarChart->reverseCategories($badTypes);
     }
 
     public function testSeries()
     {
         $mockSeries = m::mock('Khill\Lavacharts\Configs\Series');
 
-        $this->bc->series([$mockSeries, $mockSeries]);
+        $this->BarChart->series([$mockSeries, $mockSeries]);
 
-        $this->assertTrue(is_array($this->bc->getOption('series')));
+        $this->assertTrue(is_array($this->BarChart->getOption('series')));
     }
 
     /**
@@ -288,7 +278,7 @@ class BarChartTest extends ChartTestCase
      */
     public function testSeriesWithBadTypes($badTypes)
     {
-        $this->bc->series($badTypes);
+        $this->BarChart->series($badTypes);
     }
 
     /**
@@ -296,14 +286,14 @@ class BarChartTest extends ChartTestCase
      */
     public function testSeriesWithArrayOfBadTypes()
     {
-        $this->bc->series([4, [], 8.7]);
+        $this->BarChart->series([4, [], 8.7]);
     }
 
     public function testTheme()
     {
-        $this->bc->theme('maximized');
+        $this->BarChart->theme('maximized');
 
-        $this->assertEquals('maximized', $this->bc->getOption('theme'));
+        $this->assertEquals('maximized', $this->BarChart->getOption('theme'));
     }
 
     /**
@@ -311,7 +301,7 @@ class BarChartTest extends ChartTestCase
      */
     public function testThemeWithBadValue()
     {
-        $this->bc->theme('spaceTheme');
+        $this->BarChart->theme('spaceTheme');
     }
 
     /**
@@ -320,16 +310,16 @@ class BarChartTest extends ChartTestCase
      */
     public function testThemeWithBadTypes($badTypes)
     {
-        $this->bc->theme($badTypes);
+        $this->BarChart->theme($badTypes);
     }
 
     public function testVerticalAxes()
     {
         $mockVerticalAxis = m::mock('Khill\Lavacharts\Configs\VerticalAxis');
 
-        $this->bc->vAxes([$mockVerticalAxis, $mockVerticalAxis]);
+        $this->BarChart->vAxes([$mockVerticalAxis, $mockVerticalAxis]);
 
-        $this->assertTrue(is_array($this->bc->getOption('vAxes')));
+        $this->assertTrue(is_array($this->BarChart->getOption('vAxes')));
     }
 
     /**
@@ -338,7 +328,7 @@ class BarChartTest extends ChartTestCase
      */
     public function testVerticalAxesWithBadTypes($badTypes)
     {
-        $this->bc->vAxes($badTypes);
+        $this->BarChart->vAxes($badTypes);
     }
 
     /**
@@ -346,13 +336,13 @@ class BarChartTest extends ChartTestCase
      */
     public function testVerticalAxesWithArrayOfBadTypes()
     {
-        $this->bc->vAxes([false, 'truth']);
+        $this->BarChart->vAxes([false, 'truth']);
     }
 
     public function testVerticalAxis()
     {
-        $this->bc->vAxis($this->getMockVerticalAxis());
+        $this->BarChart->vAxis($this->getMockVerticalAxis());
 
-        $this->assertTrue(is_array($this->bc->getOption('vAxis')));
+        $this->assertTrue(is_array($this->BarChart->getOption('vAxis')));
     }
 }

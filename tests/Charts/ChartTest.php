@@ -23,15 +23,7 @@ class ChartTest extends ChartTestCase
 
     public function testDataTable()
     {
-        $mdt = m::mock('\Khill\Lavacharts\Configs\DataTable[addColumn,addRow]');
-
-        $mdt->addColumn('date');
-        $mdt->addColumn('number');
-        $mdt->addColumn('number');
-
-        $mdt->addRow([Carbon::parse('March 24th, 1988'), 12345, 67890]);
-
-        $this->mockLineChart->datatable($mdt);
+        $this->mockLineChart->datatable($this->partialDataTable);
 
         $this->assertInstanceOf('\Khill\Lavacharts\Configs\DataTable', $this->mockLineChart->getDatatable());
     }

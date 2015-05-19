@@ -11,31 +11,31 @@ class PieChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->pc = new PieChart('MyTestChart', $this->partialDataTable);
+        $this->PieChart = new PieChart('MyTestChart', $this->partialDataTable);
     }
 
     public function testInstanceOfPieChartWithType()
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\PieChart', $this->pc);
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\PieChart', $this->PieChart);
     }
 
     public function testTypePieChart()
     {
-        $chart = $this->pc;
+        $chart = $this->PieChart;
 
         $this->assertEquals('PieChart', $chart::TYPE);
     }
 
     public function testLabelAssignedViaConstructor()
     {
-        $this->assertEquals('MyTestChart', $this->pc->label);
+        $this->assertEquals('MyTestChart', $this->PieChart->label);
     }
 
     public function testIs3D()
     {
-        $this->pc->is3D(true);
+        $this->PieChart->is3D(true);
 
-        $this->assertTrue($this->pc->getOption('is3D'));
+        $this->assertTrue($this->PieChart->getOption('is3D'));
     }
 
     /**
@@ -44,7 +44,7 @@ class PieChartTest extends ChartTestCase
      */
     public function testIs3DWithBadType($badTypes)
     {
-        $this->pc->is3D($badTypes);
+        $this->PieChart->is3D($badTypes);
     }
 
     public function testSlices()
@@ -70,9 +70,9 @@ class PieChartTest extends ChartTestCase
         $mockSlice2 = m::mock('Khill\Lavacharts\Configs\Slice');
         $mockSlice2->shouldReceive('getValues')->once()->andReturn($sliceVals);
 
-        $this->pc->slices([$mockSlice1, $mockSlice2]);
+        $this->PieChart->slices([$mockSlice1, $mockSlice2]);
 
-        $slices = $this->pc->getOption('slices');
+        $slices = $this->PieChart->getOption('slices');
 
         $this->assertEquals($sliceVals, $slices[0]);
         $this->assertEquals($sliceVals, $slices[1]);
@@ -84,14 +84,14 @@ class PieChartTest extends ChartTestCase
      */
     public function testSlicesWithBadTypes($badTypes)
     {
-        $this->pc->slices($badTypes);
+        $this->PieChart->slices($badTypes);
     }
 
     public function testPieSliceBorderColorValidValues()
     {
-        $this->pc->pieSliceBorderColor('green');
+        $this->PieChart->pieSliceBorderColor('green');
 
-        $this->assertEquals('green', $this->pc->getOption('pieSliceBorderColor'));
+        $this->assertEquals('green', $this->PieChart->getOption('pieSliceBorderColor'));
     }
 
     /**
@@ -100,22 +100,22 @@ class PieChartTest extends ChartTestCase
      */
     public function testPieSliceBorderColorWithBadTypes($badTypes)
     {
-        $this->pc->pieSliceBorderColor($badTypes);
+        $this->PieChart->pieSliceBorderColor($badTypes);
     }
 
     public function testPieSliceTextWithValidValues()
     {
-        $this->pc->pieSliceText('percentage');
-        $this->assertEquals('percentage', $this->pc->getOption('pieSliceText'));
+        $this->PieChart->pieSliceText('percentage');
+        $this->assertEquals('percentage', $this->PieChart->getOption('pieSliceText'));
 
-        $this->pc->pieSliceText('value');
-        $this->assertEquals('value', $this->pc->getOption('pieSliceText'));
+        $this->PieChart->pieSliceText('value');
+        $this->assertEquals('value', $this->PieChart->getOption('pieSliceText'));
 
-        $this->pc->pieSliceText('label');
-        $this->assertEquals('label', $this->pc->getOption('pieSliceText'));
+        $this->PieChart->pieSliceText('label');
+        $this->assertEquals('label', $this->PieChart->getOption('pieSliceText'));
 
-        $this->pc->pieSliceText('none');
-        $this->assertEquals('none', $this->pc->getOption('pieSliceText'));
+        $this->PieChart->pieSliceText('none');
+        $this->assertEquals('none', $this->PieChart->getOption('pieSliceText'));
     }
 
     /**
@@ -123,7 +123,7 @@ class PieChartTest extends ChartTestCase
      */
     public function testPieSliceTextWithBadValue()
     {
-        $this->pc->pieSliceText('beer');
+        $this->PieChart->pieSliceText('beer');
     }
 
     /**
@@ -132,32 +132,21 @@ class PieChartTest extends ChartTestCase
      */
     public function testPieSliceTextWithBadTypes($badTypes)
     {
-        $this->pc->pieSliceText($badTypes);
+        $this->PieChart->pieSliceText($badTypes);
     }
 
     public function testPieSliceTextStyle()
     {
-        $textStyleVals = [
-            'color'    => 'blue',
-            'fontName' => 'Arial',
-            'fontSize' => 16
-        ];
+        $this->PieChart->pieSliceTextStyle($this->getMockTextStyle('pieSliceTextStyle'));
 
-        $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
-        $mockTextStyle->shouldReceive('toArray')->once()->andReturn([
-            'pieSliceTextStyle' => $textStyleVals
-        ]);
-
-        $this->pc->pieSliceTextStyle($mockTextStyle);
-
-        $this->assertEquals($textStyleVals, $this->pc->getOption('pieSliceTextStyle'));
+        $this->assertTrue(is_array($this->PieChart->getOption('pieSliceTextStyle')));
     }
 
     public function testPieStartAngle()
     {
-        $this->pc->pieStartAngle(12);
+        $this->PieChart->pieStartAngle(12);
 
-        $this->assertEquals(12, $this->pc->getOption('pieStartAngle'));
+        $this->assertEquals(12, $this->PieChart->getOption('pieStartAngle'));
     }
 
     /**
@@ -166,14 +155,14 @@ class PieChartTest extends ChartTestCase
      */
     public function testPieStartAngleWithBadTypes($badTypes)
     {
-        $this->pc->pieStartAngle($badTypes);
+        $this->PieChart->pieStartAngle($badTypes);
     }
 
     public function testReverseCategories()
     {
-        $this->pc->reverseCategories(true);
+        $this->PieChart->reverseCategories(true);
 
-        $this->assertTrue($this->pc->getOption('reverseCategories'));
+        $this->assertTrue($this->PieChart->getOption('reverseCategories'));
     }
 
     /**
@@ -182,14 +171,14 @@ class PieChartTest extends ChartTestCase
      */
     public function testReverseCategoriesWithBadType($badTypes)
     {
-        $this->pc->reverseCategories($badTypes);
+        $this->PieChart->reverseCategories($badTypes);
     }
 
     public function testSliceVisibilityThreshold()
     {
-        $this->pc->sliceVisibilityThreshold(23);
+        $this->PieChart->sliceVisibilityThreshold(23);
 
-        $this->assertEquals(23, $this->pc->getOption('sliceVisibilityThreshold'));
+        $this->assertEquals(23, $this->PieChart->getOption('sliceVisibilityThreshold'));
     }
 
     /**
@@ -198,14 +187,14 @@ class PieChartTest extends ChartTestCase
      */
     public function testSliceVisibilityThresholdWithBadTypes($badTypes)
     {
-        $this->pc->sliceVisibilityThreshold($badTypes);
+        $this->PieChart->sliceVisibilityThreshold($badTypes);
     }
 
     public function testPieResidueSliceColor()
     {
-        $this->pc->pieResidueSliceColor('red');
+        $this->PieChart->pieResidueSliceColor('red');
 
-        $this->assertEquals('red', $this->pc->getOption('pieResidueSliceColor'));
+        $this->assertEquals('red', $this->PieChart->getOption('pieResidueSliceColor'));
     }
 
     /**
@@ -214,14 +203,14 @@ class PieChartTest extends ChartTestCase
      */
     public function testPieResidueSliceColorWithBadTypes($badTypes)
     {
-        $this->pc->pieResidueSliceColor($badTypes);
+        $this->PieChart->pieResidueSliceColor($badTypes);
     }
 
     public function testPieResidueSliceLabel()
     {
-        $this->pc->pieResidueSliceLabel('leftovers');
+        $this->PieChart->pieResidueSliceLabel('leftovers');
 
-        $this->assertEquals('leftovers', $this->pc->getOption('pieResidueSliceLabel'));
+        $this->assertEquals('leftovers', $this->PieChart->getOption('pieResidueSliceLabel'));
     }
 
     /**
@@ -230,6 +219,6 @@ class PieChartTest extends ChartTestCase
      */
     public function testPieResidueSliceLabelWithBadTypes($badTypes)
     {
-        $this->pc->pieResidueSliceLabel($badTypes);
+        $this->PieChart->pieResidueSliceLabel($badTypes);
     }
 }

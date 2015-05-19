@@ -3,7 +3,6 @@
 namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Charts\DonutChart;
-use \Mockery as m;
 
 class DonutChartTest extends ChartTestCase
 {
@@ -11,31 +10,31 @@ class DonutChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->dc = new DonutChart('MyTestChart', $this->partialDataTable);
+        $this->DonutChart = new DonutChart('MyTestChart', $this->partialDataTable);
     }
 
     public function testInstanceOfDonutChartWithType()
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\DonutChart', $this->dc);
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\DonutChart', $this->DonutChart);
     }
 
     public function testTypeDonutChart()
     {
-        $chart = $this->dc;
+        $chart = $this->DonutChart;
 
         $this->assertEquals('DonutChart', $chart::TYPE);
     }
 
     public function testLabelAssignedViaConstructor()
     {
-        $this->assertEquals('MyTestChart', $this->dc->label);
+        $this->assertEquals('MyTestChart', $this->DonutChart->label);
     }
 
     public function testPieHole()
     {
-        $this->dc->pieHole(0.23);
+        $this->DonutChart->pieHole(0.23);
 
-        $this->assertEquals(0.23, $this->dc->getOption('pieHole'));
+        $this->assertEquals(0.23, $this->DonutChart->getOption('pieHole'));
     }
 
     /**
@@ -44,6 +43,6 @@ class DonutChartTest extends ChartTestCase
      */
     public function testPieHoleWithBadType($badTypes)
     {
-        $this->dc->pieHole($badTypes);
+        $this->DonutChart->pieHole($badTypes);
     }
 }
