@@ -2,7 +2,7 @@
 
 First of all, **thank you** for contributing!
 
-Here are a few rules to follow in order to ease code reviews and merging:
+Here are a few guidelines to follow in order to ease code reviews and merging:
 
 - follow [PSR-1](http://www.php-fig.org/psr/1/) and [PSR-2](http://www.php-fig.org/psr/2/)
 - run the test suite
