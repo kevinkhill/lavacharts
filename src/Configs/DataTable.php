@@ -751,23 +751,25 @@ class DataTable implements \JsonSerializable
      */
     protected function parseDate($date)
     {
-        if (is_a($date, 'Carbon\Carbon')) {
-            $carbonDate = $date;
-        } elseif (empty($date) === false) {
-            //try {
-                if (Utils::nonEmptyString($this->dateTimeFormat)) {
-                    $carbonDate = Carbon::createFromFormat($this->dateTimeFormat, $date);
-                } else {
-                    $carbonDate = Carbon::parse($date);
-                }
-            //} catch (\Exception $e) {
-            //   throw new InvalidDate;
-            //}
-        } else {
+        if (empty($date)) {
             throw new InvalidDate;
         }
 
-        return $this->carbonToJsString($carbonDate);
+        if (is_a($date, 'Carbon\Carbon')) {
+            return $this->carbonToJsString($date);
+        }
+
+        try {
+            if (Utils::nonEmptyString($this->dateTimeFormat)) {
+                $carbonDate = Carbon::createFromFormat($this->dateTimeFormat, $date);
+            } else {
+                $carbonDate = Carbon::parse($date);
+            }
+//var_dump($carbonDate);die;
+            return $this->carbonToJsString($carbonDate);
+        } catch (\Exception $e) {
+           throw new InvalidDate;
+        }
     }
 
     /**

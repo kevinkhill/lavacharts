@@ -34,7 +34,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         return [
             ['cheese'],
             [9],
-            [1.2],
+            [14.6342],
             [true],
             [false],
             [new \stdClass()]
