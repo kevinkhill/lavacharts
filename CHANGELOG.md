@@ -1,18 +1,25 @@
 - 3.0.0
   - Dropping support for PHP 5.3
     - Minimum version PHP 5.4+
-  - Assign DataTable and options via chart constructor
-  - Adding Dashboards
+  - Assign DataTable to chart via constructor
+  - Added Format#formatColumn method to format datatable columns.
+  - Added Dashboards
     - ChartWrappers
     - ControlWrappers
-  - Adding support for reading csv files into DataTables
-  - Adding ScatterChart
-  - Adding Material Charts
-    - Line
+  - Added support for reading csv files into DataTables
+    - Add separate package to composer "khill/datatableplus":"dev-master"
+  - Added ScatterChart (WIP)
+  - Added Material Charts (WIP)
   - lava.js has been refactored:
     - lava.get() replaced with:
       - getChart(label, callback) -> callback(Google chartObj, Lava chartObj)
+        - Google chart object allows for using chart methods
+        - Lava chart object contains all relevent info about the chart
+         - chart, data, options, formats etc...
       - getDashboard(label, callback) -> callback(Google dashboardObj, Lava dashboardObj)
+        - Google dashboard object allows for using dashboard methods
+        - Lava dashboard object contains all relevent info about the dashboard
+         - dashboard, control bindings, chart wrapper, data, options, etc...
     - lava.ready() used to wrap other lava.js interaction.
       - Called after all of the google jsapi is loaded and the charts are rendered.
 

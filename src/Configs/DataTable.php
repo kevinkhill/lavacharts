@@ -383,18 +383,18 @@ class DataTable implements \JsonSerializable
      * Sets the format of the column.
      *
      * @access public
-     * @param  integer                $colIndex
-     * @param  Format             $formatter
+     * @param  integer $colIndex
+     * @param  \Khill\Lavacharts\Formats\Format $formatter
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      * @return self
      */
     public function formatColumn($colIndex, Format $formatter)
     {
-        if (is_int($colIndex) && $colIndex > 0) {
-            $this->formats[$colIndex] = $formatter->toArray();
-        } else {
+        if (is_int($colIndex) == false || Utils::between(0, $colIndex, $this->getColumnCount()-1)) {
             throw new InvalidColumnIndex($colIndex, count($this->cols));
         }
+
+        $this->formats[$colIndex] = $formatter->toArray();
 
         return $this;
     }

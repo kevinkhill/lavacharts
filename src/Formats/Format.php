@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Formats;
 
 use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Configs\DataTable;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
@@ -70,6 +71,21 @@ class Format
                 );
             }
         }
+    }
+
+    /**
+     * Formats a DataTable column by index.
+     *
+     * @access public
+     * @since  3.0.0
+     * @param  \Khill\Lavacharts\Configs\DataTable $datatable
+     * @param  int $index Column index
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
+     * @return 
+     */
+    public function formatColumn(DataTable $datatable, $index)
+    {
+        $datatable->formatColumn($index, $this);
     }
 
     /**

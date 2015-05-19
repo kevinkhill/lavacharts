@@ -35,7 +35,6 @@
     <whitelist processUncoveredFilesFromWhitelist="true">
       <directory>../src/Khill/Lavacharts</directory>
       <exclude>
-        <directory>../src/Khill/Lavacharts/Facade</directory>
         <directory>../src/Khill/Lavacharts/Laravel</directory>
       </exclude>
     </whitelist>
