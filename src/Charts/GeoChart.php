@@ -4,7 +4,6 @@ namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Configs\DataTable;
-
 use \Khill\Lavacharts\Configs\SizeAxis;
 use \Khill\Lavacharts\Configs\MagnifyingGlass;
 
@@ -92,20 +91,18 @@ class GeoChart extends Chart
      *
      * @param  string             $drc
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return GeoChart
+     * @return self
      */
     public function datalessRegionColor($drc)
     {
-        if (is_string($drc) && ! empty($drc)) {
-            $this->addOption([__FUNCTION__ => $drc]);
-        } else {
+        if (Utils::nonEmptyString($drc) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string'
             );
         }
 
-        return $this;
+        return $this->addOption([__FUNCTION__ => $drc]);
     }
 
     /**
@@ -117,27 +114,25 @@ class GeoChart extends Chart
      *
      * @param  string             $dm
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return GeoChart
+     * @return self
      */
     public function displayMode($dm)
     {
-        $v = [
+        $values = [
             'auto',
             'regions',
             'markers',
         ];
 
-        if (is_string($dm) && in_array($dm, $v)) {
-            $this->addOption([__FUNCTION__ => $dm]);
-        } else {
+        if (in_array($dm, $values, true) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.Utils::arrayToPipedString($v)
+                'with a value of '.Utils::arrayToPipedString($values)
             );
         }
 
-        return $this;
+        return $this->addOption([__FUNCTION__ => $dm]);
     }
 
     /**
@@ -149,20 +144,18 @@ class GeoChart extends Chart
      *
      * @param  bool               $eri
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return GeoChart
+     * @return self
      */
     public function enableRegionInteractivity($eri)
     {
-        if (is_bool($eri)) {
-            $this->addOption([__FUNCTION__ => $eri]);
-        } else {
+        if (is_bool($eri) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'bool'
             );
         }
 
-        return $this;
+        return $this->addOption([__FUNCTION__ => $eri]);
     }
 
     /**
@@ -176,20 +169,18 @@ class GeoChart extends Chart
      *
      * @param  bool               $kar
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return GeoChart
+     * @return self
      */
     public function keepAspectRatio($kar)
     {
-        if (is_bool($kar)) {
-            $this->addOption([__FUNCTION__ => $kar]);
-        } else {
+        if (is_bool($kar) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'bool'
             );
         }
 
-        return $this;
+        return $this->addOption([__FUNCTION__ => $kar]);
     }
 
     /**
@@ -203,20 +194,18 @@ class GeoChart extends Chart
      *
      * @param  string             $r
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return GeoChart
+     * @return self
      */
     public function region($r)
     {
-        if (is_string($r)) {
-            $this->addOption([__FUNCTION__ => $r]);
-        } else {
+        if (Utils::nonEmptyString($r) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string'
             );
         }
 
-        return $this;
+        return $this->addOption([__FUNCTION__ => $r]);
     }
 
     /**
@@ -225,13 +214,11 @@ class GeoChart extends Chart
      *
      * @uses   MagnifyingGlass
      * @param  MagnifyingGlass $mg
-     * @return GeoChart
+     * @return self
      */
     public function magnifyingGlass(MagnifyingGlass $mg)
     {
-        $this->addOption($mg->toArray());
-
-        return $this;
+        return $this->addOption($mg->toArray());
     }
 
     /**
@@ -240,15 +227,18 @@ class GeoChart extends Chart
      *
      * @param  float|int          $mo
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return GeoChart
+     * @return self
      */
     public function markerOpacity($mo)
     {
-        if ($mo === 0 || $mo === 1) {
-            $this->addOption([__FUNCTION__ => $mo]);
-        } elseif (is_float($mo) && Utils::between(0.0, $mo, 1.0, true)) {
-            $this->addOption([__FUNCTION__ => $mo]);
-        } else {
+        if (is_int($mo) === false && is_float($mo) === false) {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'float|int'
+            );
+        }
+
+        if (Utils::between(0, $mo, 1) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'float|int',
@@ -256,7 +246,7 @@ class GeoChart extends Chart
             );
         }
 
-        return $this;
+        return $this->addOption([__FUNCTION__ => $mo]);
     }
 
     /**
@@ -270,41 +260,37 @@ class GeoChart extends Chart
      *
      * @param  string             $r
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return GeoChart
+     * @return self
      */
     public function resolution($r)
     {
-        $v = [
+        $values = [
             'countries',
             'provinces',
             'metros',
         ];
 
-        if (is_string($r) && in_array($r, $v)) {
-            $this->addOption([__FUNCTION__ => $r]);
-        } else {
+        if (in_array($r, $values, true) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
-                'with a value of '.Utils::arrayToPipedString($v)
+                'with a value of '.Utils::arrayToPipedString($values)
             );
         }
-
-        return $this;
+        
+        return $this->addOption([__FUNCTION__ => $r]);
     }
 
     /**
      * An object with members to configure how values are associated with
      * bubble sizes.
      *
-     * @uses   Sizeaxis
-     * @param  SizeAxis $sa
-     * @return GeoChart
+     * @uses   \Khill\Lavacharts\Configs\Sizeaxis
+     * @param  \Khill\Lavacharts\Configs\SizeAxis $sa
+     * @return self
      */
     public function sizeAxis(SizeAxis $sa)
     {
-        $this->addOption($sa->toArray(__FUNCTION__));
-
-        return $this;
+        return $this->addOption($sa->toArray(__FUNCTION__));
     }
 }

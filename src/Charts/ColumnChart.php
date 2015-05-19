@@ -2,9 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
-
 use \Khill\Lavacharts\Configs\DataTable;
-
 
 /**
  * ColumnChart Class
