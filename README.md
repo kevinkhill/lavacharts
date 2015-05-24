@@ -8,6 +8,10 @@ Stable:
 [![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/master.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/master.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=master)
 
+Dev:
+[![Current Release](https://img.shields.io/badge/release-dev--3.0-brightgreen.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/3.0)
+[![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/3.0.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
+[![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/3.0.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=3.0)
 
 
 Package Features
@@ -23,7 +27,7 @@ Package Features
 - Supports string, number, date, and timeofday columns
 - Now supporting 10 Charts!
   - Area, Bar, Calendar, Column, Combo, Donut, Gauge, Geo, Line, Pie
-
+- [DataTablePlus](https://github.com/kevinkhill/datatableplus) package can be added to parse CSV files or Eloquent collections into DataTables.
 
 ## For complete documentation, please visit [lavacharts.com](http://lavacharts.com/)
 
