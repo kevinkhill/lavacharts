@@ -1,13 +1,23 @@
 - 3.0.0
   - Dropping support for PHP 5.3
     - Minimum version PHP 5.4+
-  - Assign DataTable to chart via constructor
+  - Assign DataTable to chart via constructor.
   - Added Format#formatColumn method to format datatable columns.
+  -Added new formats.
+   - ArrowFormat
+   - BarFormat
   - Added Dashboards
     - ChartWrappers
     - ControlWrappers
-  - Added support for reading csv files into DataTables
-    - Add separate package to composer "khill/datatableplus":"dev-master"
+    - Added filters for Dashboard ControlWrappers
+     - Category
+     - ChartRange
+     - DateRange
+     - NumberRange
+     - String
+  - Added support for csv file read/write and collection parsing into DataTables
+    - Add the separate package to composer "khill/datatableplus":"dev-master"
+    - Lavacharts will seamlessly create DataTablePlus if autoloaded by composer
   - Added ScatterChart (WIP)
   - Added Material Charts (WIP)
   - lava.js has been refactored:
