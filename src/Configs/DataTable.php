@@ -585,8 +585,8 @@ class DataTable implements \JsonSerializable
     /**
      * Returns the label of a column based on it's index.
      *
-     * @since  3.0.0
      * @access public
+     * @since  3.0.0
      * @param  integer $index
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      * @return string
@@ -599,8 +599,8 @@ class DataTable implements \JsonSerializable
     /**
      * Returns the type of a column based on it's index.
      *
-     * @since  3.0.0
      * @access public
+     * @since  3.0.0
      * @param  integer $index
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      * @return string
@@ -608,6 +608,20 @@ class DataTable implements \JsonSerializable
     public function getColumnType($index)
     {
         return $this->getColumn($index)['type'];
+    }
+
+    /**
+     * Returns the id of a column based on it's index.
+     *
+     * @access public
+     * @since  3.0.0
+     * @param  integer $index
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
+     * @return string
+     */
+    public function getColumnId($index)
+    {
+        return $this->getColumn($index)['id'];
     }
 
     /**
