@@ -9,12 +9,14 @@ php:
 
 matrix:
   allow_failures:
-    - php: hhvm
+    - php:
+     - 5.3
+     - hhvm
 
 branches:
   only:
     - master
-    - "3.0"
+    - 3.0
 
 cache:
   directories:
