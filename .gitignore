@@ -7,6 +7,8 @@ cache/
 docs/
 .idea/
 
+*.sublime-*
+
 bootstrap/compiled.php
 composer.phar
 composer.lock
