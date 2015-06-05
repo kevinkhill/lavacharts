@@ -257,14 +257,6 @@ class LavachartsTest extends ProvidersTestCase
     /**
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidLavaObject
      */
-    public function testInvalidLavaObject()
-    {
-        $this->lava->PizzaChart();
-    }
-
-    /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidLavaObject
-     */
     public function testRenderAliasWithInvalidLavaObject()
     {
         $this->lava->renderTacoChart();
