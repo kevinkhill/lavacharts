@@ -14,8 +14,7 @@ Dev:
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/3.0.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=3.0)
 
 
-Package Features
-================
+## Package Features
 - Blade template extensions for laravel
 - Lava.js module for interacting with charts client-side
   - AJAX data reloading
@@ -33,8 +32,7 @@ Package Features
 
 
 
-Installing
-----------
+## Installing
 In your project's main ```composer.json``` file, add this line to the requirements:
 
   ```
@@ -47,8 +45,19 @@ Run Composer to install Lavacharts:
   composer update
   ```
 
-Laravel
--------
+## Laravel Service Provider
+### Laravel 5.x
+Register Lavacharts in your app by adding this line to the end of the providers array in ```config/app.php```:
+  ```
+  'providers' => [
+      ...
+      
+      Khill\Lavacharts\Laravel\LavachartsServiceProvider::class
+  ],
+  ```
+The ```Lava::``` alias will be registered automatically via the service provider.
+
+### Laravel 4.x
 Register Lavacharts in your app by adding this line to the end of the providers array in ```app/config/app.php```:
 
   ```
@@ -58,11 +67,9 @@ Register Lavacharts in your app by adding this line to the end of the providers 
       "Khill\Lavacharts\Laravel\LavachartsServiceProvider"
   ),
   ```
+The ```Lava::``` alias will be registered automatically via the service provider.
 
-  Don't worry about the ```Lava``` alias, the service provider registers it automatically.
-
-Non-Laravel
------------
+## Non-Laravel
 If you are using Lavacharts with Composer and not in Laravel, that's fine, just make sure to:
 ```require 'vendor/autoload.php';``` within you project.
 
@@ -70,22 +77,19 @@ Create an instance of Lavacharts: ```$lava = new Khill\Lavacharts\Lavacharts;```
 
 Replace all of the ```Lava::``` aliases in the examples, by chaining from the Lavacharts object you created.
 
-Use ```$dt = $lava->DataTable();``` instead of ```$dt = Lava::DataTable();```
+Ex: ```$dt = $lava->DataTable();``` instead of ```$dt = Lava::DataTable();```
 
 
-Usage
------
+# Usage
 The creation of charts is separated into two parts:
 First, within a route or controller, you define the chart, the data table, and the customization of the output.
 
 Second, within a view, you use one line and the library will output all the necessary javascript code for you.
 
-Basic Example
--------------
+## Basic Example
 Here is an example of the simplest chart you can create: A line chart with one dataset and a title, no configuration.
 
-Controller
-==========
+### Controller
 ```
     $stocksTable = $lava->DataTable();  // Lava::DataTable() if using Laravel
 
@@ -122,8 +126,7 @@ Arrays work for datatables as well...
                       ));
 ```
 
-View
-====
+## View
 If you are using Laravel and the Blade templating engine, there are some nifty extensions thrown in for a cleaner view
 
   ```
@@ -150,5 +153,3 @@ Example:
   // Or
   echo Lava::render('LineChart', 'Stocks', 'stocks-div', array('width'=>1024, 'height'=>768));
 ```
-
-Charts can be rendered from the ```$lava``` master object you created, as shown above, or you can pass the chart object to your view, and call the ```render()``` method with the element id of your div. This will bypass needing to specify the type and title of the chart.
