@@ -98,6 +98,8 @@ class Lavacharts
      * @var array
      */
     private $formatClasses = [
+        'ArrowFormat',
+        'BarFormat',
         'DateFormat',
         'NumberFormat'
     ];
@@ -109,6 +111,7 @@ class Lavacharts
      */
     private $eventClasses = [
         'AnimationFinish',
+        'Callback',
         'Error',
         'MouseOut',
         'MouseOver',
