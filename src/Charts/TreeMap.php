@@ -45,14 +45,14 @@ class TreeMap extends Chart
      *
      * @var string
      */
-    const VERSION = '';
+    const VERSION = '1';
 
     /**
      * Javascript chart package.
      *
      * @var string
      */
-    const VIZ_PACKAGE = '';
+    const VIZ_PACKAGE = 'treemap';
 
     /**
      * Google's visualization class name.
