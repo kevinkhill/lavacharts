@@ -3,6 +3,8 @@
 namespace Khill\Lavacharts;
 
 
+use \Khill\Lavacharts\Charts\Chart;
+use \Khill\Lavacharts\Filters\Filter;
 use \Khill\Lavacharts\Configs\DataTable;
 use \Khill\Lavacharts\Dashboard\Dashboard;
 use \Khill\Lavacharts\Dashboard\ChartWrapper;
