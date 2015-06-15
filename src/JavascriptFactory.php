@@ -4,10 +4,8 @@ namespace Khill\Lavacharts;
 
 
 use \Khill\Lavacharts\Charts\Chart;
-
 use \Khill\Lavacharts\Configs\DataTable;
 use \Khill\Lavacharts\Dashboard\Dashboard;
-
 use \Khill\Lavacharts\Exceptions\InvalidElementId;
 
 /**
@@ -176,7 +174,7 @@ class JavascriptFactory
 
         $this->out  = self::JS_OPEN.PHP_EOL;
         $this->out .=
-<<<CHART
+<<<'CHART'
         /**
          * If the object does not exist for a given chart type, initialize it.
          * This will prevent overriding keys when multiple charts of the same
@@ -195,18 +193,18 @@ class JavascriptFactory
         }
 
         lava.charts.<chartType>["<chartLabel>"].render = function() {
-            var Chart = lava.charts.<chartType>["<chartLabel>"];
+            var $this = lava.charts.<chartType>["<chartLabel>"];
 
-            Chart.data = new <dataClass>(<chartData>, <dataVer>);
+            $this.data = new <dataClass>(<chartData>, <dataVer>);
 
-            Chart.options = <chartOptions>;
+            $this.options = <chartOptions>;
 
-            Chart.chart = new <chartClass>(document.getElementById("<elemId>"));
+            $this.chart = new <chartClass>(document.getElementById("<elemId>"));
 
             <formats>
             <events>
 
-            Chart.chart.draw(Chart.data, Chart.options);
+            $this.chart.draw($this.data, $this.options);
         };
 
         lava.registerChart("<chartType>", "<chartLabel>");
@@ -310,7 +308,7 @@ CHART;
 
         $this->out  = self::JS_OPEN.PHP_EOL;
         $this->out .=
-<<<DASH
+<<<'DASH'
         //Checking if output div exists
         if (! document.getElementById("<elemId>")) {
             throw new Error('[Lavacharts] No matching element was found with ID "<elemId>"');
@@ -319,15 +317,15 @@ CHART;
         lava.dashboards["<label>"] = new lava.Dashboard();
 
         lava.dashboards["<label>"].render = function() {
-            var Dash = lava.dashboards["<label>"];
+            var $this = lava.dashboards["<label>"];
 
-            Dash.dashboard = new <class>(document.getElementById('<elemId>'));
+            $this.dashboard = new <class>(document.getElementById('<elemId>'));
 
-            Dash.data = new <dataClass>(<chartData>, <dataVer>);
+            $this.data = new <dataClass>(<chartData>, <dataVer>);
 
             <bindings>
 
-            Dash.dashboard.draw(Dash.data);
+            $this.dashboard.draw($this.data);
         };
 
         google.load('visualization', '<version>', {'packages':<packages>});
@@ -368,19 +366,29 @@ DASH;
             $control = sprintf('"control": new %s(%s)', $controlWrapper::VIZ_CLASS, $controlWrapper->toJson());
             $chart   = sprintf('"chart"  : new %s(%s)', $chartWrapper::VIZ_CLASS,   $chartWrapper->toJson());
 
-            $output .= sprintf('Dash.bindings["%s"] = {%s, %s};',
+            $output .= sprintf('$this.bindings["%s"] = {%s, %s};',
                                   $binding->getLabel(),
                                   $control,
                                   $chart
                               ).PHP_EOL;
 
             $output .= sprintf('            '.
-                'Dash.dashboard.bind(Dash.bindings["%1$s"]["control"], Dash.bindings["%1$s"]["chart"]);',
+                '$this.dashboard.bind($this.bindings["%1$s"]["control"], $this.bindings["%1$s"]["chart"]);',
                 $binding->getLabel()
             );
         }
 
         return $output;
+    }
+
+    /**
+     * Parses the nowdoc templates with the value mappings
+     *
+     * @param  $paramname description
+     */
+    public function parseTemplate($template, $keyValueMap)
+    {
+
     }
 }
 

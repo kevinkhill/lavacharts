@@ -12,7 +12,7 @@ class LavachartsServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        /*
+        /**
          * If the package method exists, we're using Laravel 4
          */
         if (method_exists($this, 'package')) {
@@ -25,7 +25,7 @@ class LavachartsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app['lavacharts'] = $this->app->share(
-            function ($app) {
+            function () {
                 return new Lavacharts;
             }
         );
