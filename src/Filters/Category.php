@@ -8,7 +8,7 @@ class Category extends Filter
 {
     const TYPE = 'CategoryFilter';
 
-    public function __construct()
+    public function __construct($columnLabel)
     {
         parent::__construct($columnLabel);
     }

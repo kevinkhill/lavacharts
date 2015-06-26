@@ -8,7 +8,7 @@ class ChartRange extends Filter
 {
     const TYPE = 'ChartRangeFilter';
 
-    public function __construct()
+    public function __construct($columnLabel)
     {
         parent::__construct($columnLabel);
     }
