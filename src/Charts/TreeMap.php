@@ -45,21 +45,21 @@ class TreeMap extends Chart
      *
      * @var string
      */
-    const VERSION = '';
+    const VERSION = '1';
 
     /**
      * Javascript chart package.
      *
      * @var string
      */
-    const VIZ_PACKAGE = '';
+    const VIZ_PACKAGE = 'treemap';
 
     /**
      * Google's visualization class name.
      *
      * @var string
      */
-    const VIZ_CLASS = 'google.visualization.';
+    const VIZ_CLASS = 'google.visualization.TreeMap';
 
     /**
      * Builds a new chart with the given label.
@@ -73,6 +73,8 @@ class TreeMap extends Chart
         parent::__construct($chartLabel, $datatable);
 
         $this->defaults = array_merge([
+            'fontColor',
+            'fontFamily',
             'headerColor',
             'headerHeight',
             'headerHighlightColor',
@@ -89,9 +91,7 @@ class TreeMap extends Chart
             'noColor',
             'noHighlightColor',
             'showScale',
-            'showTooltips',
-            'fontColor',
-            'fontFamily'
+            'showTooltips'
         ], $this->defaults);
     }
 

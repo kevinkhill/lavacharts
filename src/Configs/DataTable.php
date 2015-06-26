@@ -100,7 +100,7 @@ class DataTable implements \JsonSerializable
         'number',
         //'bool',
         'date',
-        //'datetime',
+        'datetime',
         'timeofday'
     ];
 
@@ -479,7 +479,7 @@ class DataTable implements \JsonSerializable
 
                 for ($index = 0; $index < $colCount; $index++) {
                     if (isset($optCellArray[$index])) {
-                        if ($this->cols[$index]['type'] == 'date') {
+                        if ($this->cols[$index]['type'] == 'date' || $this->cols[$index]['type'] == 'datetime') {
                             $rowVals[] = ['v' => $this->parseDate($optCellArray[$index])];
                         } else {
                             $rowVals[] = ['v' => $optCellArray[$index]];

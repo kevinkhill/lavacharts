@@ -58,25 +58,25 @@ class ConfigObject
             return $prop->name;
         }, $class->getProperties(\ReflectionProperty::IS_PUBLIC));
 
-        if (is_array($config)) {
-            foreach ($config as $option => $value) {
-                if (in_array($option, $this->options)) {
-                    $this->{$option}($value);
-                } else {
-                    throw new InvalidConfigProperty(
-                        $this->className,
-                        __FUNCTION__,
-                        $option,
-                        $this->options
-                    );
-                }
-            }
-        } else {
+        if (is_array($config) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'array',
                 'with valid keys as '.Utils::arrayToPipedString($this->options)
             );
+        }
+
+        foreach ($config as $option => $value) {
+            if (in_array($option, $this->options)) {
+                $this->{$option}($value);
+            } else {
+                throw new InvalidConfigProperty(
+                    $this->className,
+                    __FUNCTION__,
+                    $option,
+                    $this->options
+                );
+            }
         }
     }
 

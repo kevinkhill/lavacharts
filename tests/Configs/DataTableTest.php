@@ -335,4 +335,36 @@ class DataTableTest extends ProvidersTestCase
         $this->dt->addColumn('date');
         $this->dt->formatColumn('grizzly', $mockDateFormat);
     }
+
+     /**
+     * @depends testGetColumns
+     * @depends testGetRows
+     * @depends testAddColumnWithTypeAndDescription
+     */
+    public function testAddMultipleRowsWithMultipleColumnsWithDateTimeAndNumbers()
+    {
+        $this->dt->addColumn('datetime');
+        $this->dt->addColumn('number');
+        $this->dt->addColumn('number');
+
+        $rows = [
+            [Carbon::parse('March 24th, 1988 8:01:05'), 12345, 67890],
+            [Carbon::parse('March 25th, 1988  8:02:06'), 1122, 3344]
+        ];
+
+        $this->dt->addRows($rows);
+
+        $cols = $this->dt->getColumns();
+        $rows = $this->dt->getRows();
+
+        $this->assertEquals($cols[0]['type'], 'datetime');
+        $this->assertEquals($cols[1]['type'], 'number');
+        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988,2,24,8,1,5)');
+        $this->assertEquals($rows[0]['c'][1]['v'], 12345);
+        $this->assertEquals($rows[0]['c'][2]['v'], 67890);
+        $this->assertEquals($rows[1]['c'][0]['v'], 'Date(1988,2,25,8,2,6)');
+        $this->assertEquals($rows[1]['c'][1]['v'], 1122);
+        $this->assertEquals($rows[1]['c'][2]['v'], 3344);
+    }
+
 }

@@ -3,6 +3,8 @@
 namespace Khill\Lavacharts;
 
 
+use \Khill\Lavacharts\Charts\Chart;
+use \Khill\Lavacharts\Filters\Filter;
 use \Khill\Lavacharts\Configs\DataTable;
 use \Khill\Lavacharts\Dashboard\Dashboard;
 use \Khill\Lavacharts\Dashboard\ChartWrapper;
@@ -98,6 +100,8 @@ class Lavacharts
      * @var array
      */
     private $formatClasses = [
+        'ArrowFormat',
+        'BarFormat',
         'DateFormat',
         'NumberFormat'
     ];
@@ -109,6 +113,7 @@ class Lavacharts
      */
     private $eventClasses = [
         'AnimationFinish',
+        'Callback',
         'Error',
         'MouseOut',
         'MouseOver',
@@ -163,49 +168,6 @@ class Lavacharts
      */
     public function __call($method, $arguments)
     {
-        //Core Objects
-        if ($method == 'DataTable') {
-            $datatable = '\Khill\Lavacharts\DataTablePlus\DataTablePlus';
-
-            if (class_exists($datatable) === false) {
-                $datatable = '\Khill\Lavacharts\Configs\DataTable';
-            }
-
-            if (isset($arguments[0])) {
-                return new $datatable($arguments[0]);
-            } else {
-                return new $datatable;
-            }
-        }
-
-        if ($method == 'Dashboard') {
-            if (isset($arguments[0]) === false) {
-                throw new InvalidLabel;
-            }
-
-            if (Utils::nonEmptyString($arguments[0]) === false) {
-                throw new InvalidLabel($arguments[0]);
-            }
-
-            return $this->dashboardFactory($arguments[0]);
-        }
-
-        if ($method == 'ControlWrapper') {
-            if (isset($arguments[0]) === false || isset($arguments[1]) === false) {
-                throw new InvalidControlWrapperParams;
-            }
-
-            return new ControlWrapper($arguments[0], $arguments[1]);
-        }
-
-        if ($method == 'ChartWrapper') {
-            if (isset($arguments[0]) === false || isset($arguments[1]) === false) {
-                throw new InvalidChartWrapperParams;
-            }
-
-            return new ChartWrapper($arguments[0], $arguments[1]);
-        }
-
         //Rendering Aliases
         if ((bool) preg_match('/^render/', $method) === true) {
             $chartType = str_replace('render', '', $method);
@@ -243,9 +205,51 @@ class Lavacharts
         }
 
         //Missing
-        if (method_exists($this, $method) === false) {
-            throw new InvalidLavaObject($method);
+//        if (method_exists($this, $method) === false) {
+//            throw new InvalidLavaObject($method);
+//        }
+    }
+
+    public function DataTable($timezone = null)
+    {
+        $datatable = '\Khill\Lavacharts\DataTablePlus\DataTablePlus';
+
+        if (class_exists($datatable) === false) {
+            $datatable = '\Khill\Lavacharts\Configs\DataTable';
         }
+
+        if (is_null($timezone) === false) {
+            return new $datatable($timezone);
+        } else {
+            return new $datatable;
+        }
+    }
+
+    public function Dashboard($label)
+    {
+        if (Utils::nonEmptyString($label) === false) {
+            throw new InvalidLabel($label);
+        }
+
+        return $this->dashboardFactory($label);
+    }
+
+    public function ControlWrapper(Filter $filter, $elementId)
+    {
+        if (Utils::nonEmptyString($elementId) === false) {
+            throw new InvalidElementId($elementId);
+        }
+
+        return new ControlWrapper($filter, $elementId);
+    }
+
+    public function ChartWrapper(Chart $chart, $elementId)
+    {
+        if (Utils::nonEmptyString($elementId) === false) {
+            throw new InvalidElementId($elementId);
+        }
+
+        return new ChartWrapper($chart, $elementId);
     }
 
     /**
@@ -488,10 +492,10 @@ class Lavacharts
         if (isset($args[0]) === false) {
             throw new InvalidLabel;
         }
-    
+
         if (Utils::nonEmptyString($args[0]) === false) {
             throw new InvalidLabel($args[0]);
-        }    
+        }
 
         if ($this->volcano->checkChart($type, $args[0]) === true) {
             return $this->volcano->getChart($type, $args[0]);
@@ -500,7 +504,7 @@ class Lavacharts
         if (isset($args[1]) === false) {
             throw new InvalidDataTable;
         }
-    
+
         if ($args[1] instanceof DataTable === false) {
             throw new InvalidDataTable($args[1]);
         }

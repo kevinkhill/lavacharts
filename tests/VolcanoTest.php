@@ -4,9 +4,6 @@ namespace Khill\Lavacharts\Tests;
 
 use \Mockery as m;
 use \Khill\Lavacharts\Volcano;
-use \Khill\Lavacharts\Charts\LineChart;
-
- //@TODO fix this to mockery
 
 class VolcanoTest extends ProvidersTestCase
 {
@@ -20,20 +17,24 @@ class VolcanoTest extends ProvidersTestCase
             'TestChart',
             $this->partialDataTable
         ]);
+
+        $this->mockDashboard = m::mock('\Khill\Lavacharts\Dashboard\Dashboard', [
+            'MyDash'
+        ]);
     }
 
+    /**
+     * @group chart
+     */
     public function testStoreChart()
     {
         $this->assertTrue($this->volcano->storeChart($this->mockLineChart));
     }
 
-    public function testGetChart()
-    {
-        $this->volcano->storeChart($this->mockLineChart);
-
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $this->volcano->getChart('LineChart', 'TestChart'));
-    }
-
+    /**
+     * @group chart
+     * @depends testStoreChart
+     */
     public function testCheckChart()
     {
         $this->volcano->storeChart($this->mockLineChart);
@@ -45,20 +46,100 @@ class VolcanoTest extends ProvidersTestCase
     }
 
     /**
+     * @group chart
+     * @depends testStoreChart
+     * @depends testCheckChart
+     */
+    public function testGetChart()
+    {
+        $this->volcano->storeChart($this->mockLineChart);
+
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $this->volcano->getChart('LineChart', 'TestChart'));
+    }
+
+    /**
+     * @group chart
+     * @depends testStoreChart
+     * @depends testCheckChart
+     * @depends testGetChart
      * @expectedException \Khill\Lavacharts\Exceptions\ChartNotFound
      */
-    public function testGetNonExistantTypeChart()
+    public function testGetChartWithBadChartType()
     {
         $this->volcano->storeChart($this->mockLineChart);
         $this->volcano->getChart('LaserChart', 'TestChart');
     }
 
     /**
+     * @group chart
+     * @depends testStoreChart
+     * @depends testCheckChart
+     * @depends testGetChart
      * @expectedException \Khill\Lavacharts\Exceptions\ChartNotFound
      */
-    public function testGetNonExistantLabelChart()
+    public function testGetChartWithNonExistantLabel()
     {
         $this->volcano->storeChart($this->mockLineChart);
         $this->volcano->getChart('LineChart', 'superduperchart');
+    }
+
+
+    /**
+     * @group dashboard
+     */
+    public function testStoreDashboard()
+    {
+        $this->assertTrue($this->volcano->storeDashboard($this->mockDashboard));
+    }
+
+    /**
+     * @group dashboard
+     * @depends testStoreDashboard
+     */
+    public function testCheckDashboard()
+    {
+        $this->volcano->storeDashboard($this->mockDashboard);
+
+        $this->assertTrue($this->volcano->checkDashboard('MyDash'));
+
+        $this->assertFalse($this->volcano->checkDashboard('Buckets'));
+    }
+
+    /**
+     * @group dashboard
+     * @depends testStoreDashboard
+     * @dataProvder nonStringProvider
+     */
+    public function testCheckDashboardWithBadTypes($badTypes)
+    {
+        $this->volcano->storeDashboard($this->mockDashboard);
+
+        $this->assertFalse($this->volcano->checkDashboard($badTypes));
+    }
+
+    /**
+     * @group dashboard
+     * @depends testStoreDashboard
+     * @depends testCheckDashboard
+     */
+    public function testGetDashboard()
+    {
+        $this->volcano->storeDashboard($this->mockDashboard);
+
+        $this->assertInstanceOf('\Khill\Lavacharts\Dashboard\Dashboard', $this->volcano->getDashboard('MyDash'));
+    }
+
+    /**
+     * @group dashboard
+     * @depends testStoreDashboard
+     * @depends testCheckDashboard
+     * @depends testGetDashboard
+     * @expectedException \Khill\Lavacharts\Exceptions\DashboardNotFound
+     */
+    public function testGetDashboardWithNonExistantLabel()
+    {
+        $this->volcano->storeDashboard($this->mockDashboard);
+
+        $this->volcano->getDashboard('Buckets');
     }
 }

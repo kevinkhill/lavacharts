@@ -6,22 +6,21 @@ use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
- * Event Parent Object
+ * Callback Object
  *
- * The base class for the individual event objects, providing common
- * functions to the child objects.
+ * A generic callback class used to define javascript callbacks to be used within charts.
  *
  *
  * @package    Lavacharts
  * @subpackage Events
- * @since      2.0.0
+ * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Event
+class Callback extends Event
 {
     /**
      * Javascript callback function name.
@@ -31,7 +30,7 @@ class Event
     public $callback;
 
     /**
-     * Builds the Event object.
+     * Builds the Callback object.
      *
      * @param  string $c Name of Javascript callback function.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
@@ -39,13 +38,6 @@ class Event
      */
     public function __construct($c)
     {
-        if (Utils::nonEmptyString($c) === false) {
-            throw new InvalidConfigValue(
-                'an Event',
-                'string'
-            );
-        }
-
-        $this->callback = $c;
+        parent::__construct($c);
     }
 }

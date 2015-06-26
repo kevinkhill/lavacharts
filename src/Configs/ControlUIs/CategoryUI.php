@@ -26,70 +26,70 @@ class CategoryUI extends ConfigObject
 {
     /**
      * [$label description]
-     * 
+     *
      * @var string
      */
     public $caption;
-    
+
     /**
      * [$sortValues description]
-     * 
+     *
      * @var boolean
      */
     public $sortValues;
-    
+
     /**
      * [$label description]
-     * 
+     *
      * @var string
      */
     public $selectedValuesLayout;
-    
+
     /**
      * [$sortValues description]
-     * 
+     *
      * @var boolean
      */
     public $allowNone;
 
     /**
      * [$sortValues description]
-     * 
+     *
      * @var boolean
-     */    
+     */
     public $allowMultiple;
 
     /**
      * [$sortValues description]
-     * 
+     *
      * @var boolean
-     */    
+     */
     public $allowTyping;
 
     /**
      * [$label description]
-     * 
+     *
      * @var string
      */
     public $label;
 
     /**
      * [$label description]
-     * 
+     *
      * @var string
      */
     public $labelSeparator;
 
     /**
      * [$label description]
-     * 
+     *
      * @var string
      */
     public $labelStacking;
-    
+
     /**
      * [$label description]
-     * 
+     *
      * @var string
      */
     public $cssClass;
@@ -111,21 +111,18 @@ class CategoryUI extends ConfigObject
     {
         parent::__construct($this, $config);
 
-        $this->options = array_merge(
-            $this->options,
-            [
-                'caption',
-                'sortValues',
-                'selectedValuesLayout',
-                'allowNone',
-                'allowMultiple',
-                'allowTyping',
-                'label',
-                'labelSeparator',
-                'labelStacking',
-                'cssClass'
-            ]
-        );
+        $this->options = array_merge([
+            'caption',
+            'sortValues',
+            'selectedValuesLayout',
+            'allowNone',
+            'allowMultiple',
+            'allowTyping',
+            'label',
+            'labelSeparator',
+            'labelStacking',
+            'cssClass'
+        ], $this->options);
     }
 
     /**
@@ -172,7 +169,7 @@ class CategoryUI extends ConfigObject
 
     /**
      * How to display selected values, when multiple selection is allowed.
-     * 
+     *
      * Possible values are:
      *  'aside': selected values will display in a single text line next to the value picker widget,
      *  'below': selected values will display in a single text line below the widget,
@@ -207,9 +204,9 @@ class CategoryUI extends ConfigObject
 
     /**
      * Whether the user is allowed not to choose any value.
-     * 
+     *
      * If false the user must choose at least one value from the available ones.
-     * During control initialization, if the option is set to false and no 
+     * During control initialization, if the option is set to false and no
      * selectedValues state is given, the first value from the avaiable ones
      * is automatically seleted.
      *
@@ -233,7 +230,7 @@ class CategoryUI extends ConfigObject
 
     /**
      * Whether multiple values can be selected, rather than just one.
-     * 
+     *
      * @param  boolean $allowMultiple
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
@@ -255,7 +252,7 @@ class CategoryUI extends ConfigObject
     /**
      * Whether the user is allowed to type in a text field to narrow
      * down the list of possible choices (via an autocompleter), or not.
-     * 
+     *
      * @param  boolean $allowTyping
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
@@ -276,7 +273,7 @@ class CategoryUI extends ConfigObject
 
     /**
      * The label to display next to the category picker.
-     * 
+     *
      * If unspecified, the label of the column the control operates on will be used.
      *
      * @param  string $label
@@ -300,7 +297,7 @@ class CategoryUI extends ConfigObject
     /**
      * A separator string appended to the label, to visually separate
      * the label from the category picker.
-     * 
+     *
      * @param  string $labelSeparator
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
@@ -322,7 +319,7 @@ class CategoryUI extends ConfigObject
     /**
      * Whether the label should display above (vertical stacking) or beside (horizontal stacking)
      * the category picker. Use either 'vertical' or 'horizontal'.
-     * 
+     *
      * @param  string $labelStacking
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
@@ -351,7 +348,7 @@ class CategoryUI extends ConfigObject
 
     /**
      * The CSS class to assign to the control, for custom styling.
-     * 
+     *
      * @param  string $cssClass
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
