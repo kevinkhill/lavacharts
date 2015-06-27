@@ -157,7 +157,7 @@ class JavascriptFactory
         ).PHP_EOL.PHP_EOL;
 
         $out .= sprintf(
-            'lava.charts.%s["%s"].draw = function() {',
+            'lava.charts.%s["%s"].init = function (data) {',
             $this->chart->type,
             $this->chart->label
         ).PHP_EOL;
@@ -168,11 +168,18 @@ class JavascriptFactory
             $this->chart->label
         ).PHP_EOL.PHP_EOL;
 
+        $out .= 'if (typeof data == "string") {'.PHP_EOL;
+        $out .= sprintf(
+            '$this.data = new google.visualization.DataTable(data, %s);',
+            $this->googleDataTableVer
+        ).PHP_EOL;
+        $out .= '} else {'.PHP_EOL;
         $out .= sprintf(
             '$this.data = new google.visualization.DataTable(%s, %s);',
             $this->chart->datatable->toJson(),
             $this->googleDataTableVer
-        ).PHP_EOL.PHP_EOL;
+        ).PHP_EOL;
+        $out .= '}'.PHP_EOL.PHP_EOL;
 
         $out .= sprintf(
             '$this.options = %s;',
@@ -204,7 +211,7 @@ class JavascriptFactory
         ).PHP_EOL;
 
         $out .= sprintf(
-            'google.setOnLoadCallback(lava.charts.%s["%s"].draw);',
+            'google.setOnLoadCallback(lava.charts.%s["%s"].init);',
             $this->chart->type,
             $this->chart->label
         ).PHP_EOL;
@@ -215,11 +222,18 @@ class JavascriptFactory
             $this->chart->label
         ).PHP_EOL;
 
-        if (self::DEBUG) {
-            $out .= 'console.debug(lava);';
-        }
-
-        $out .= $this->jsC.PHP_EOL;
+        $out .= 'if (typeof data == "string") {'.PHP_EOL;
+        $out .= sprintf(
+            '$this.data = new google.visualization.DataTable(data, %s);',
+            $this->googleDataTableVer
+        ).PHP_EOL;
+        $out .= '} else {'.PHP_EOL;
+        $out .= sprintf(
+            '$this.data = new google.visualization.DataTable(%s, %s);',
+            $this->chart->datatable->toJson(),
+            $this->googleDataTableVer
+        ).PHP_EOL;
+        $out .= '}'.PHP_EOL.PHP_EOL;
 
         return $out;
     }

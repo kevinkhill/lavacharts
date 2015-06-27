@@ -19,10 +19,8 @@ window.lava = (function() {
 
   this.loadData = function (chartLabel, dataTableJson, callback) {
     lava.getLavachart(chartLabel, function (lavachart) {
-      lavachart.data = new google.visualization.DataTable(dataTableJson, '0.6');
-
-      lavachart.chart.draw(lavachart.data, lavachart.options);
-
+      lavachart.init(dataTableJson);
+      
       return callback(lavachart.chart);
     });
   };
