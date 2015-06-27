@@ -220,20 +220,7 @@ class JavascriptFactory
             'lava.register("%s", "%s");',
             $this->chart->type,
             $this->chart->label
-        ).PHP_EOL;
-
-        $out .= 'if (typeof data == "string") {'.PHP_EOL;
-        $out .= sprintf(
-            '$this.data = new google.visualization.DataTable(data, %s);',
-            $this->googleDataTableVer
-        ).PHP_EOL;
-        $out .= '} else {'.PHP_EOL;
-        $out .= sprintf(
-            '$this.data = new google.visualization.DataTable(%s, %s);',
-            $this->chart->datatable->toJson(),
-            $this->googleDataTableVer
-        ).PHP_EOL;
-        $out .= '}'.PHP_EOL.PHP_EOL;
+        ).PHP_EOL.PHP_EOL;
 
         return $out;
     }
