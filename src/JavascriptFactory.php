@@ -222,6 +222,8 @@ class JavascriptFactory
             $this->chart->label
         ).PHP_EOL.PHP_EOL;
 
+        $out .= $this->jsC.PHP_EOL;
+
         return $out;
     }
 
