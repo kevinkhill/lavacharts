@@ -43,12 +43,10 @@ var lava = {
   },
 
   loadData: function (chartLabel, dataTableJson, callback) {
-    lava.getChart(chartLabel, function (googleChart, lavaChart) {
-      lavaChart.data = new google.visualization.DataTable(dataTableJson, '0.6');
-
-      googleChart.draw(lavaChart.data, lavaChart.options);
-
-      return callback(googleChart, lavaChart);
+    lava.getLavachart(chartLabel, function (lavachart) {
+      lavachart.render(dataTableJson);
+      
+      return callback(lavachart.chart);
     });
   },
 

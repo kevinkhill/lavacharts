@@ -186,35 +186,41 @@ class JavascriptFactory
 
         //Creating a new lavachart object
         lava.charts.<chartType>["<chartLabel>"] = new lava.Chart();
-
+        
         //Checking if output div exists
         if (! document.getElementById("<elemId>")) {
             throw new Error('[Lavacharts] No matching element was found with ID "<elemId>"');
         }
-
-        lava.charts.<chartType>["<chartLabel>"].render = function() {
+        
+        lava.charts.<chartType>["<chartLabel>"].render = function (data) {
             var $this = lava.charts.<chartType>["<chartLabel>"];
-
-            $this.data = new <dataClass>(<chartData>, <dataVer>);
+            
+            if (typeof data == "string") {
+                $this.data = new <dataClass>(data, <dataVer>);
+            } else {
+                $this.data = new <dataClass>(<chartData>, <dataVer>);
+            }
 
             $this.options = <chartOptions>;
-
+            
             $this.chart = new <chartClass>(document.getElementById("<elemId>"));
-
+            
             <formats>
+            
             <events>
 
             $this.chart.draw($this.data, $this.options);
         };
-
+        
         lava.registerChart("<chartType>", "<chartLabel>");
-
+        
         google.load('visualization', '<chartVer>', {'packages':['<chartPackage>']});
         google.setOnLoadCallback(function() {
             lava.charts.<chartType>["<chartLabel>"].render();
             lava.readyCallback();
         });
 CHART;
+
         $this->out .= PHP_EOL.self::JS_CLOSE;
 
         foreach ($mappedValues as $key => $value) {
@@ -391,4 +397,3 @@ DASH;
 
     }
 }
-
