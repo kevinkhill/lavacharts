@@ -7,6 +7,16 @@ window.lava = (function() {
   this.charts           = {};
   this.registeredCharts = [];
 
+  this.Chart = function() {
+    this.init    = null;
+    this.redraw  = null;
+    this.setData = null;
+    this.data    = null;
+    this.chart   = null;
+    this.options = null;
+    this.formats = [];
+  };
+
   this.get = function (chartLabel, callback) {
     if (arguments.length < 2 || typeof chartLabel !== 'string' || typeof callback !== 'function') {
       throw new Error('[Lavacharts] The syntax for lava.get must be (str ChartLabel, fn Callback)');
@@ -19,9 +29,19 @@ window.lava = (function() {
 
   this.loadData = function (chartLabel, dataTableJson, callback) {
     lava.getLavachart(chartLabel, function (lavachart) {
-      lavachart.init(dataTableJson);
+      console.log("sent json", dataTableJson);
+      console.log("old data", lavachart.data);
       
-      return callback(lavachart.chart);
+      lavachart.setData(dataTableJson);
+      console.log("new data", lavachart.data);
+      
+      lavachart.redraw();
+
+      if (typeof callback == "function") {
+        return callback(lavachart.chart);
+      } else {
+        return true;
+      }
     });
   };
 

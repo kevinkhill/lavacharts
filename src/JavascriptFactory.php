@@ -144,7 +144,7 @@ class JavascriptFactory
 
         //Creating new chart js object
         $out .= sprintf(
-            'lava.charts.%s["%s"] = {chart:null,draw:null,data:null,options:null,formats:[]};',
+            'lava.charts.%s["%s"] = new lava.Chart;',
             $this->chart->type,
             $this->chart->label
         ).PHP_EOL.PHP_EOL;
@@ -157,7 +157,7 @@ class JavascriptFactory
         ).PHP_EOL.PHP_EOL;
 
         $out .= sprintf(
-            'lava.charts.%s["%s"].init = function (data) {',
+            'lava.charts.%s["%s"].init = function() {',
             $this->chart->type,
             $this->chart->label
         ).PHP_EOL;
@@ -168,18 +168,11 @@ class JavascriptFactory
             $this->chart->label
         ).PHP_EOL.PHP_EOL;
 
-        $out .= 'if (typeof data == "string") {'.PHP_EOL;
-        $out .= sprintf(
-            '$this.data = new google.visualization.DataTable(data, %s);',
-            $this->googleDataTableVer
-        ).PHP_EOL;
-        $out .= '} else {'.PHP_EOL;
         $out .= sprintf(
             '$this.data = new google.visualization.DataTable(%s, %s);',
             $this->chart->datatable->toJson(),
             $this->googleDataTableVer
         ).PHP_EOL;
-        $out .= '}'.PHP_EOL.PHP_EOL;
 
         $out .= sprintf(
             '$this.options = %s;',
@@ -203,6 +196,30 @@ class JavascriptFactory
         $out .= '$this.chart.draw($this.data, $this.options);'.PHP_EOL;
 
         $out .= "};".PHP_EOL.PHP_EOL;
+
+
+        $out .= sprintf(
+            'lava.charts.%1$s["%2$s"].setData = function (data) {' .
+            '    var $this = lava.charts.%1$s["%2$s"];',
+            $this->chart->type,
+            $this->chart->label
+        ).PHP_EOL;
+
+        $out .= sprintf(
+            '$this.data = new google.visualization.DataTable(data, %s);',
+            $this->googleDataTableVer
+        ).PHP_EOL;
+
+        $out .= "};".PHP_EOL.PHP_EOL;
+
+        $out .= sprintf(
+            'lava.charts.%1$s["%2$s"].redraw = function () {' .
+            '    var $this = lava.charts.%1$s["%2$s"];' .
+            '    $this.chart.draw($this.data, $this.options);' .
+            '};',
+            $this->chart->type,
+            $this->chart->label
+        ).PHP_EOL;
 
         $out .= sprintf(
             "google.load('visualization', '%s', {'packages':['%s']});",
