@@ -29,12 +29,7 @@ window.lava = (function() {
 
   this.loadData = function (chartLabel, dataTableJson, callback) {
     lava.getLavachart(chartLabel, function (lavachart) {
-      console.log("sent json", dataTableJson);
-      console.log("old data", lavachart.data);
-      
       lavachart.setData(dataTableJson);
-      console.log("new data", lavachart.data);
-      
       lavachart.redraw();
 
       if (typeof callback == "function") {
