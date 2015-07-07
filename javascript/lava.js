@@ -6,7 +6,9 @@ var lava = {
   readyCallback     : function(){},
 
   Chart: function() {
-    this.draw    = null;
+    this.render  = null;
+    this.setData = null;
+    this.redraw  = null;
     this.data    = null;
     this.chart   = null;
     this.options = null;
@@ -14,7 +16,7 @@ var lava = {
   },
   
   Dashboard: function() {
-    this.draw      = null;
+    this.render    = null;
     this.data      = null;
     this.bindings  = [];
     this.dashboard = null;
@@ -43,8 +45,9 @@ var lava = {
   },
 
   loadData: function (chartLabel, dataTableJson, callback) {
-    lava.getLavachart(chartLabel, function (lavachart) {
-      lavachart.render(dataTableJson);
+    lava.getChart(chartLabel, function (chart, lavachart) {
+      lavachart.setData(dataTableJson);
+      lavachart.redraw();
       
       return callback(lavachart.chart);
     });
@@ -62,11 +65,11 @@ var lava = {
 
   getChart: function (chartLabel, callback) {
     var chartTypes = Object.keys(lava.charts);
-    var lavaChart;
+    var LavaChart;
 
     var search = chartTypes.some(function (type) {
       if (typeof lava.charts[type][chartLabel] !== 'undefined') {
-        lavaChart = lava.charts[type][chartLabel];
+        LavaChart = lava.charts[type][chartLabel];
 
         return true;
       } else {
@@ -77,7 +80,7 @@ var lava = {
     if (search === false) {
       throw new Error('[Lavacharts] Chart "' + chartLabel + '" was not found.');
     } else {
-      callback(lavaChart.chart, lavaChart);
+      callback(LavaChart.chart, LavaChart);
     }
   },
 
@@ -90,10 +93,7 @@ var lava = {
       for(var c = 0; c < lava.registeredCharts.length; c++) {
         var parts = lava.registeredCharts[c].split(':');
 
-        lava.charts[parts[0]][parts[1]].chart.draw(
-          lava.charts[parts[0]][parts[1]].data,
-          lava.charts[parts[0]][parts[1]].options
-        );
+        lava.charts[parts[0]][parts[1]].redraw();
       }
     }, delay);
   }

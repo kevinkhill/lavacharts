@@ -194,12 +194,8 @@ class JavascriptFactory
         
         lava.charts.<chartType>["<chartLabel>"].render = function (data) {
             var $this = lava.charts.<chartType>["<chartLabel>"];
-            
-            if (typeof data == "string") {
-                $this.data = new <dataClass>(data, <dataVer>);
-            } else {
-                $this.data = new <dataClass>(<chartData>, <dataVer>);
-            }
+
+            $this.data = new <dataClass>(<chartData>, <dataVer>);
 
             $this.options = <chartOptions>;
             
@@ -211,7 +207,19 @@ class JavascriptFactory
 
             $this.chart.draw($this.data, $this.options);
         };
+
+        lava.charts.<chartType>["<chartLabel>"].setData = function (data) {
+            var $this = lava.charts.<chartType>["<chartLabel>"];
+
+            $this.data = new <dataClass>(data, <dataVer>);
+        };
         
+        lava.charts.<chartType>["<chartLabel>"].redraw = function () {
+            var $this = lava.charts.<chartType>["<chartLabel>"];
+
+            $this.chart.draw($this.data, $this.options);
+        };
+
         lava.registerChart("<chartType>", "<chartLabel>");
         
         google.load('visualization', '<chartVer>', {'packages':['<chartPackage>']});
