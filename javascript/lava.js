@@ -15,6 +15,11 @@ var lava = lava || {};
   this.registeredCharts  = [];
   //var registeredActions = [];
   
+  /**
+   * LavaChart object.
+   * 
+   * @constructor
+   */
   this.Chart = function() {
     this.render  = function(){};
     this.setData = function(){};
@@ -25,6 +30,11 @@ var lava = lava || {};
     this.formats = [];
   };
   
+  /**
+   * Dashboard object.
+   * 
+   * @constructor
+   */
   this.Dashboard = function() {
     this.render    = null;
     this.data      = null;
@@ -54,9 +64,9 @@ var lava = lava || {};
    * Used internally when events are applied so the user event function has
    * access to the chart within the event callback.
    * 
-   * @param object event   
-   * @param object chart   
-   * @param function callback
+   * @param {object} event   
+   * @param {object} chart   
+   * @param {function} callback
    */
   this.event = function (event, chart, callback) {
     return callback(event, chart);
@@ -76,9 +86,9 @@ var lava = lava || {};
    * Used with an AJAX call to a PHP method returning DataTable->toJson(),
    * a chart can be dynamically update in page, without reloads.
    * 
-   * @param string chartLabel
-   * @param string dataTableJson
-   * @param function callback
+   * @param {string} chartLabel
+   * @param {string} dataTableJson
+   * @param {function} callback
    */
   this.loadData = function (chartLabel, dataTableJson, callback) {
     lava.getChart(chartLabel, function (chart, LavaChart) {
@@ -125,8 +135,8 @@ var lava = lava || {};
    *    important information. It was added to not restrict the user to only getting the GoogleChart
    *    returned, and as the second value because it is less useful / rarely accessed.
    *
-   * @param  string   chartLabel
-   * @param  function callback
+   * @param  {string}   chartLabel
+   * @param  {function} callback
    */
   this.getChart = function (chartLabel, callback) {
     if (typeof chartLabel != 'string') {
