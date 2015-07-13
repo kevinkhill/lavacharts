@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Dashboard;
 
 use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Exceptions\InvalidLabel;
 use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
 
@@ -32,9 +33,9 @@ class Dashboard implements \JsonSerializable
     /**
      * The dashboard's unique label.
      *
-     * @var string
+     * @var \Khill\Lavacharts\Values\Label
      */
-    public $label = null;
+    private $label = null;
 
     /**
      * Arry of Binding objects, mapping controls to charts.
@@ -49,22 +50,9 @@ class Dashboard implements \JsonSerializable
      * @param  string $label
      * @return self
      */
-    public function __construct($label, $bindings=null)
+    public function __construct(Label $label)
     {
-        if (Utils::nonEmptyString($label) === false) {
-            throw new InvalidLabel($label);
-        }
-
-        if (Utils::arrayValuesCheck($bindings, 'array') === false) {
-            throw new InvalidFunctionParam(
-                $bindings,
-                '__construct()',
-                'array'
-            );
-        }
-
         $this->label = $label;
-        $this->addBindings($bindings);
     }
 
     /**
@@ -114,6 +102,17 @@ class Dashboard implements \JsonSerializable
     }
 
     /**
+     * Returns the chart label.
+     *
+     * @since  3.0.0
+     * @return \Khill\Lavacharts\Values\Label
+     */
+    public function getLabel()
+    {
+        return (string) $this->label;
+    }
+
+    /**
      * Custom JSON serialization of the Dashboard.
      *
      * @return string JSON
@@ -127,7 +126,7 @@ class Dashboard implements \JsonSerializable
      * Batch add bindings.
      *
      * Called from the constructor if an array of bindings is passed in.
-     * 
+     *
      * @param array $bindings
      */
     private function addBindings($bindings)

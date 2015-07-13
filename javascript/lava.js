@@ -1,5 +1,3 @@
-"use strict"
-
 /**
  * lava.js
  *
@@ -10,14 +8,19 @@
 var lava = lava || {};
 
 (function() {
+  "use strict";
+
   this.charts            = [];
   this.dashboards        = [];
   this.registeredCharts  = [];
+
+  this.readyCallback = function(){};
+
   //var registeredActions = [];
-  
+
   /**
    * LavaChart object.
-   * 
+   *
    * @constructor
    */
   this.Chart = function() {
@@ -29,10 +32,10 @@ var lava = lava || {};
     this.options = null;
     this.formats = [];
   };
-  
+
   /**
    * Dashboard object.
-   * 
+   *
    * @constructor
    */
   this.Dashboard = function() {
@@ -42,30 +45,35 @@ var lava = lava || {};
     this.dashboard = null;
     this.callbacks = [];
   };
-  
+
   this.Callback = function (label, func) {
     this.label = label;
     this.func  = func;
   };
 
-  this.ready = function (callback) { 
-    //lava.readyCallback(callback;
+  this.ready = function (callback) {
+    if (typeof callback !== 'function') {
+      throw new Error('[Lavacharts] ' + typeof callback + ' is not a valid callback.');
+    }
+
+    lava.readyCallback = callback;
   };
+
 /*
   action: function (label) {
-    lava.registeredActions[label] = 
+    lava.registeredActions[label] =
   },
 */
 
   /**
    * Event wrapper for chart events.
    *
-   * 
+   *
    * Used internally when events are applied so the user event function has
    * access to the chart within the event callback.
-   * 
-   * @param {object} event   
-   * @param {object} chart   
+   *
+   * @param {object} event
+   * @param {object} chart
    * @param {function} callback
    */
   this.event = function (event, chart, callback) {
@@ -82,10 +90,10 @@ var lava = lava || {};
   /**
    * Loads a new DataTable into the chart and redraws.
    *
-   * 
+   *
    * Used with an AJAX call to a PHP method returning DataTable->toJson(),
    * a chart can be dynamically update in page, without reloads.
-   * 
+   *
    * @param {string} chartLabel
    * @param {string} dataTableJson
    * @param {function} callback
@@ -94,7 +102,7 @@ var lava = lava || {};
     lava.getChart(chartLabel, function (chart, LavaChart) {
       LavaChart.setData(dataTableJson);
       LavaChart.redraw();
-      
+
       if (typeof callback == 'function') {
         callback(LavaChart.chart);
       }
@@ -108,17 +116,17 @@ var lava = lava || {};
 
     var lavaDashboard = lava.dashboards[label];
 
-    if (typeof callback != 'function') {
-      throw new Error('[Lavacharts] ' + typeof callback + ' is not a valid callback.')
+    if (typeof callback !== 'function') {
+      throw new Error('[Lavacharts] ' + typeof callback + ' is not a valid callback.');
     }
-    
+
     callback(lavaDashboard.dashboard, lavaDashboard);
   };
 
   /**
    * Returns the GoogleChart and the LavaChart objects
    *
-   * 
+   *
    * The GoogleChart object can be used to access any of the available methods such as
    * getImageURI() or getChartLayoutInterface().
    * See https://google-developers.appspot.com/chart/interactive/docs/gallery/linechart#methods
@@ -130,7 +138,7 @@ var lava = lava || {};
    * Just to clarify:
    *  - The first returned callback value is a property of the LavaChart.
    *    It was add as a shortcut to avoid chart.chart to access google's methods of the chart.
-   *    
+   *
    *  - The second returned callback value is the LavaChart, which holds the GoogleChart and other
    *    important information. It was added to not restrict the user to only getting the GoogleChart
    *    returned, and as the second value because it is less useful / rarely accessed.
@@ -140,11 +148,11 @@ var lava = lava || {};
    */
   this.getChart = function (chartLabel, callback) {
     if (typeof chartLabel != 'string') {
-      throw new Error('[Lavacharts] ' + typeof chartLabel + ' is not a valid chart label.')
+      throw new Error('[Lavacharts] ' + typeof chartLabel + ' is not a valid chart label.');
     }
 
     if (typeof callback != 'function') {
-      throw new Error('[Lavacharts] ' + typeof callback + ' is not a valid callback.')
+      throw new Error('[Lavacharts] ' + typeof callback + ' is not a valid callback.');
     }
 
     var chartTypes = Object.keys(lava.charts);
@@ -170,7 +178,7 @@ var lava = lava || {};
   /**
    * Redraws all of the registed charts on screen.
    *
-   * 
+   *
    * This method is attached to the window resize event with a 300ms debounce
    * to make the charts responsive to the browser resizing.
    */
@@ -191,6 +199,6 @@ var lava = lava || {};
 }).apply(lava);
 
 /**
- * Adding the resize event listener for redrawing charts. 
+ * Adding the resize event listener for redrawing charts.
  */
 window.addEventListener("resize", window.lava.redrawCharts);

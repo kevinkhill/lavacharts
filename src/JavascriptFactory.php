@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts;
 
-
+use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Charts\Chart;
 use \Khill\Lavacharts\Configs\DataTable;
 use \Khill\Lavacharts\Dashboard\Dashboard;
@@ -150,7 +150,7 @@ class JavascriptFactory
     private function buildChartJs(Chart $chart)
     {
         $mappedValues = [
-            'chartLabel'   => $chart->label,
+            'chartLabel'   => (string) $chart->getLabel(),
             'chartType'    => $chart::TYPE,
             'chartVer'     => $chart::VERSION,
             'chartClass'   => $chart::VIZ_CLASS,
@@ -186,23 +186,23 @@ class JavascriptFactory
 
         //Creating a new lavachart object
         lava.charts.<chartType>["<chartLabel>"] = new lava.Chart();
-        
+
         //Checking if output div exists
         if (! document.getElementById("<elemId>")) {
             throw new Error('[Lavacharts] No matching element was found with ID "<elemId>"');
         }
-        
+
         lava.charts.<chartType>["<chartLabel>"].render = function (data) {
             var $this = lava.charts.<chartType>["<chartLabel>"];
 
             $this.data = new <dataClass>(<chartData>, <dataVer>);
 
             $this.options = <chartOptions>;
-            
+
             $this.chart = new <chartClass>(document.getElementById("<elemId>"));
-            
+
             <formats>
-            
+
             <events>
 
             $this.chart.draw($this.data, $this.options);
@@ -213,7 +213,7 @@ class JavascriptFactory
 
             $this.data = new <dataClass>(data, <dataVer>);
         };
-        
+
         lava.charts.<chartType>["<chartLabel>"].redraw = function () {
             var $this = lava.charts.<chartType>["<chartLabel>"];
 
@@ -221,7 +221,7 @@ class JavascriptFactory
         };
 
         lava.registerChart("<chartType>", "<chartLabel>");
-        
+
         google.load('visualization', '<chartVer>', {'packages':['<chartPackage>']});
         google.setOnLoadCallback(function() {
             lava.charts.<chartType>["<chartLabel>"].render();
@@ -306,7 +306,7 @@ CHART;
         $boundChart = $dashboard->getBinding('MyPie')->getChartWrapper()->getChart();
 
         $mappedValues = [
-            'label'     => $dashboard->label,
+            'label'     => (string) $dashboard->getLabel(),
             'version'   => $dashboard::VERSION,
             'class'     => $dashboard::VIZ_CLASS,
             'packages'  => json_encode([
