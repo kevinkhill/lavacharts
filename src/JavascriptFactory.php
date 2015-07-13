@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts;
 
 use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Charts\Chart;
 use \Khill\Lavacharts\Configs\DataTable;
 use \Khill\Lavacharts\Dashboard\Dashboard;
@@ -103,16 +104,12 @@ class JavascriptFactory
      * @access public
      * @uses   \Khill\Lavacharts\Charts\Chart
      * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to render.
-     * @param  string $elementId HTML element id to output the chart into.
-     * @throws InvalidElementId
+     * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to output the chart into.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
      * @return string Javascript code block.
      */
-    public function getChartJs(Chart $chart, $elementId = null)
+    public function getChartJs(Chart $chart, ElementId $elementId)
     {
-        if (Utils::nonEmptyString($elementId) === false) {
-            throw new InvalidElementId($elementId);
-        }
-
         $this->elementId = $elementId;
 
         return $this->buildChartJs($chart);
@@ -125,16 +122,12 @@ class JavascriptFactory
      * @access public
      * @uses   \Khill\Lavacharts\Dashboard\Dashboard
      * @param  \Khill\Lavacharts\Dashboard\Dashboard $dashboard Dashboard to render.
-     * @param  string $elementId HTML element id to output the dashboard into.
-     * @throws InvalidElementId
+     * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to output the dashboard into.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
      * @return string Javascript code block.
      */
-    public function getDashboardJs(Dashboard $dashboard, $elementId = null)
+    public function getDashboardJs(Dashboard $dashboard, ElementId $elementId)
     {
-        if (Utils::nonEmptyString($elementId) === false) {
-            throw new InvalidElementId($elementId);
-        }
-
         $this->elementId = $elementId;
 
         return $this->buildDashboardJs($dashboard);
@@ -157,7 +150,7 @@ class JavascriptFactory
             'chartPackage' => $chart::VIZ_PACKAGE,
             'chartData'    => $chart->getDataTableJson(),
             'chartOptions' => $chart->optionsToJson(),
-            'elemId'       => $this->elementId,
+            'elemId'       => (string) $this->elementId,
             'dataVer'      => DataTable::VERSION,
             'dataClass'    => DataTable::VIZ_CLASS,
             'formats'      => '',
@@ -314,7 +307,7 @@ CHART;
                 $boundChart::VIZ_PACKAGE
             ]),
             'chartData' => $boundChart->getDataTableJson(),
-            'elemId'    => $this->elementId,
+            'elemId'    => (string) $this->elementId,
             'bindings'  => $this->processBindings($dashboard),
             'dataVer'   => DataTable::VERSION,
             'dataClass' => DataTable::VIZ_CLASS,

@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts;
+namespace Khill\Lavacharts\Values;
 
 use Khill\Lavacharts\Exceptions\InvalidElementId;
 

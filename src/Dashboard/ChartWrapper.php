@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Dashboard;
 
 use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Values\ElementId;
 //use \Khill\Lavacharts\Dashboard\Wrapper;
 use \Khill\Lavacharts\Charts\Chart;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -38,9 +39,9 @@ class ChartWrapper implements \JsonSerializable
     private $chart;
 
     /**
-     * ContainerId of the div to render the control into.
+     * HTML element id of the div to render the control into.
      *
-     * @var string
+     * @var \Khill\Lavacharts\Values\ElementId
      */
     private $containerId;
 
@@ -48,19 +49,11 @@ class ChartWrapper implements \JsonSerializable
      * Builds a ChartWrapper object.
      *
      * @param  \Khill\Lavacharts\Charts\Chart $chart
-     * @param  string $containerId
+     * @param  \Khill\Lavacharts\Values\ElementId $containerId
      * @return self
      */
-    public function __construct(Chart $chart, $containerId)
+    public function __construct(Chart $chart, ElementId $containerId)
     {
-        if (Utils::nonEmptyString($containerId) === false) {
-            throw new InvalidConfigValue(
-                get_class(),
-                __FUNCTION__,
-                'string'
-            );
-        }
-
         $this->chart       = $chart;
         $this->type        = $chart::TYPE;
         $this->containerId = $containerId;
@@ -79,7 +72,7 @@ class ChartWrapper implements \JsonSerializable
     /**
      * Returns the container id.
      *
-     * @return \Khill\Lavacharts\Charts\Chart
+     * @return \Khill\Lavacharts\Values\ElementId
      */
     public function getContainerId()
     {
@@ -104,7 +97,7 @@ class ChartWrapper implements \JsonSerializable
     public function jsonSerialize() {
         return [
             'chartType'   => $this->type,
-            'containerId' => $this->containerId,
+            'containerId' => (string) $this->containerId,
             'options'     => $this->chart->getOptions()
         ];
     }

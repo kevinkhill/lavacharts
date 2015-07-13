@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Dashboard;
 
 use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Values\ElementId;
 //use \Khill\Lavacharts\Dashboard\Wrapper;
 use \Khill\Lavacharts\Filters\Filter;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -45,7 +46,7 @@ class ControlWrapper implements \JsonSerializable
     private $controlType;
 
     /**
-     * ContainerId of the div to render the control into.
+     * HTML element id of the div to render the control into.
      *
      * @var string
      */
@@ -59,16 +60,8 @@ class ControlWrapper implements \JsonSerializable
      * @param  string $containerId
      * @return self
      */
-    public function __construct(Filter $filter, $containerId)
+    public function __construct(Filter $filter, ElementId $containerId)
     {
-        if (Utils::nonEmptyString($containerId) === false) {
-            throw new InvalidConfigValue(
-                get_class(),
-                __FUNCTION__,
-                'string'
-            );
-        }
-
         $this->filter      = $filter;
         $this->type        = $filter::TYPE;
         $this->containerId = $containerId;
@@ -77,7 +70,7 @@ class ControlWrapper implements \JsonSerializable
     /**
      * Returns the container id.
      *
-     * @return \Khill\Lavacharts\Charts\Chart
+     * @return \Khill\Lavacharts\Values\ElementId
      */
     public function getContainerId()
     {
@@ -102,7 +95,7 @@ class ControlWrapper implements \JsonSerializable
     public function jsonSerialize() {
         return [
             'controlType' => $this->type,
-            'containerId' => $this->containerId,
+            'containerId' => (string) $this->containerId,
             'options' => [ //@TODO: make options classes
                 'filterColumnLabel' => $this->filter->columnLabel,
                 'ui' => [
