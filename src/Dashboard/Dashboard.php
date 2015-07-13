@@ -3,8 +3,8 @@
 namespace Khill\Lavacharts\Dashboard;
 
 use \Khill\Lavacharts\Utils;
-
 use \Khill\Lavacharts\Exceptions\InvalidLabel;
+use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
 
 class Dashboard implements \JsonSerializable
 {
@@ -49,13 +49,22 @@ class Dashboard implements \JsonSerializable
      * @param  string $label
      * @return self
      */
-    public function __construct($label)
+    public function __construct($label, $bindings=null)
     {
         if (Utils::nonEmptyString($label) === false) {
             throw new InvalidLabel($label);
         }
 
+        if (Utils::arrayValuesCheck($bindings, 'array') === false) {
+            throw new InvalidFunctionParam(
+                $bindings,
+                '__construct()',
+                'array'
+            );
+        }
+
         $this->label = $label;
+        $this->addBindings($bindings);
     }
 
     /**
@@ -113,4 +122,19 @@ class Dashboard implements \JsonSerializable
     {
         return $this->bindings;
     }
+
+    /**
+     * Batch add bindings.
+     *
+     * Called from the constructor if an array of bindings is passed in.
+     * 
+     * @param array $bindings
+     */
+    private function addBindings($bindings)
+    {
+        foreach ($bindings as $binding) {
+            $this->bind($binding[0], $binding[1], $binding[2]);
+        }
+    }
+
 }
