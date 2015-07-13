@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts;
 
 use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Charts\Chart;
 use \Khill\Lavacharts\Filters\Filter;
 use \Khill\Lavacharts\Configs\DataTable;
@@ -203,13 +204,18 @@ class Lavacharts
         if ((bool) preg_match('/Filter$/', $method)) {
             return $this->filterFactory($method, $arguments);
         }
-
-        //Missing
-//        if (method_exists($this, $method) === false) {
-//            throw new InvalidLavaObject($method);
-//        }
     }
 
+    /**
+     * Create a new Datatable
+     *
+     * If the additional DataTablePlus package is available, then one will
+     * be created, otherwise a standard DataTable is returned.
+     *
+     * @since  3.0.0
+     * @param  string $timezone
+     * @return \Khill\Lavacharts\Configs\DataTable
+     */
     public function DataTable($timezone = null)
     {
         $datatable = '\Khill\Lavacharts\DataTablePlus\DataTablePlus';
@@ -225,6 +231,13 @@ class Lavacharts
         }
     }
 
+    /**
+     * Create a new Dashboard
+     *
+     * @since  3.0.0
+     * @param  string $label
+     * @return \Khill\Lavacharts\Configs\DataTable
+     */
     public function Dashboard($label)
     {
         $label = new Label($label);
@@ -232,20 +245,32 @@ class Lavacharts
         return $this->dashboardFactory($label);
     }
 
+    /**
+     * Create a new ControlWrapper
+     *
+     * @since  3.0.0
+     * @param  \Khill\Lavacharts\Filters\Filter $chart Chart to wrap
+     * @param  string $elementId HTML element ID to output the control.
+     * @return \Khill\Lavacharts\Dashboard\ControlWrapper
+     */
     public function ControlWrapper(Filter $filter, $elementId)
     {
-        if (Utils::nonEmptyString($elementId) === false) {
-            throw new InvalidElementId($elementId);
-        }
+        $elementId = new ElementId($elementId);
 
         return new ControlWrapper($filter, $elementId);
     }
 
+    /**
+     * Create a new ChartWrapper
+     *
+     * @since  3.0.0
+     * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to wrap
+     * @param  string $elementId HTML element ID to output the control.
+     * @return \Khill\Lavacharts\Dashboard\ChartWrapper
+     */
     public function ChartWrapper(Chart $chart, $elementId)
     {
-        if (Utils::nonEmptyString($elementId) === false) {
-            throw new InvalidElementId($elementId);
-        }
+        $elementId = new ElementId($elementId);
 
         return new ChartWrapper($chart, $elementId);
     }
@@ -259,14 +284,15 @@ class Lavacharts
      * @access public
      * @since  2.0.0
      * @param  string $type Type of object to render.
-     * @param  \Khill\Lavacharts\Values\Label $label Label of the object to render.
+     * @param  string $label Label of the object to render.
      * @param  string $elementId HTML element id to render into.
      * @param  mixed  $divDimensions Set true for div creation, or pass an array with height & width
      * @return string
      */
     public function render($type, $label, $elementId, $divDimensions = false)
     {
-        $label = new Label($label);
+        $label     = new Label($label);
+        $elementId = new ElementId($elementId);
 
         if ($type == 'Dashboard') {
             $output = $this->renderDashboard($label, $elementId);
@@ -285,13 +311,13 @@ class Lavacharts
      *
      * @access public
      * @since  3.0.0
-     * @param  string $chartType     Type of chart to render.
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel    Label of a saved chart.
-     * @param  string $elementId     HTML element id to render the chart into.
+     * @param  string $chartType Type of chart to render.
+     * @param  \Khill\Lavacharts\Values\Label $chartLabel Label of a saved chart.
+     * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to render the chart into.
      * @param  mixed  $divDimensions Set true for div creation, or pass an array with height & width
      * @return string
      */
-    private function renderChart($type, Label $label, $elementId, $divDimensions = false)
+    private function renderChart($type, Label $label, ElementId $elementId, $divDimensions=false)
     {
         $jsOutput = '';
 
@@ -320,10 +346,10 @@ class Lavacharts
      * @access public
      * @since  3.0.0
      * @param  \Khill\Lavacharts\Values\Label $chartLabel Label of a saved chart.
-     * @param  string $elementId HTML element id to render the chart into.
+     * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to render the chart into.
      * @return string
      */
-    private function renderDashboard(Label $label, $elementId)
+    private function renderDashboard(Label $label, ElementId $elementId)
     {
         $jsOutput = '';
 
@@ -362,6 +388,8 @@ class Lavacharts
      */
     public function exists($type, $label)
     {
+        $label = new Label($label);
+
         if ($type == 'Dashboard') {
             return $this->volcano->checkDashboard($label);
         } else {
@@ -379,6 +407,8 @@ class Lavacharts
      */
     public function fetch($type, $label)
     {
+        $label = new Label($label);
+
         if ($type == 'Dashboard') {
             return $this->volcano->getDashboard($label);
         } else {
@@ -432,6 +462,8 @@ class Lavacharts
      */
     private function div($elementId, $dimensions = true)
     {
+        $elementId = new ElementId($elementId);
+
         if ($dimensions === true) {
             return sprintf('<div id="%s"></div>', $elementId);
         } else {

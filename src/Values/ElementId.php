@@ -2,13 +2,13 @@
 
 namespace Khill\Lavacharts;
 
-use Khill\Lavacharts\Exceptions\InvalidLabel;
+use Khill\Lavacharts\Exceptions\InvalidElementId;
 
 /**
- * Label Value Object
+ * ElementId Value Object
  *
  *
- * Creates a new label for a chart or dashboard while checking if it is a non empty string.
+ * Creates a new elementId for a html entity while checking if it is a non empty string.
  *
  * @category  Class
  * @package   Lavacharts
@@ -18,21 +18,21 @@ use Khill\Lavacharts\Exceptions\InvalidLabel;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT MIT
  */
-class Label
+class ElementId
 {
-    private $label;
+    private $elementId;
 
-    public function __construct($label)
+    public function __construct($elementId)
     {
-        if (is_string($label) === false || empty($label) === true) {
-            throw new InvalidLabel($label);
+        if (is_string($elementId) === false || empty($elementId) === true) {
+            throw new InvalidElementId($elementId);
         }
 
-        $this->label = $label;
+        $this->elementId = $elementId;
     }
 
     public function __toString()
     {
-        return $this->label;
+        return $this->elementId;
     }
 }
