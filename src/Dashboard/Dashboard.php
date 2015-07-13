@@ -64,31 +64,11 @@ class Dashboard implements \JsonSerializable
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel  $label
      * @return self
      */
-    public function bind($label, ControlWrapper $controlWrap, ChartWrapper $chartWrap)
+    public function bind(ControlWrapper $controlWrap, ChartWrapper $chartWrap)
     {
-        if (Utils::nonEmptyString($label) === false) {
-            throw new InvalidLabel($label);
-        }
-
-        $this->bindings[$label] = new Binding($label, $controlWrap, $chartWrap);
+        $this->bindings[] = new Binding($label, $controlWrap, $chartWrap);
 
         return $this;
-    }
-
-    /**
-     * Fetch a binding by label.
-     *
-     * @param  string $label Label for the binding
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel  $label
-     * @return \Khill\Lavacharts\Dashboard\Binding
-     */
-    public function getBinding($label)
-    {
-        if (Utils::nonEmptyString($label) === false) {
-            throw new InvalidLabel($label);
-        }
-
-        return $this->bindings[$label];
     }
 
     /**
@@ -102,14 +82,14 @@ class Dashboard implements \JsonSerializable
     }
 
     /**
-     * Returns the chart label.
+     * Returns the dashboard label.
      *
      * @since  3.0.0
      * @return \Khill\Lavacharts\Values\Label
      */
     public function getLabel()
     {
-        return (string) $this->label;
+        return $this->label;
     }
 
     /**
@@ -123,13 +103,13 @@ class Dashboard implements \JsonSerializable
     }
 
     /**
-     * Batch add bindings.
+     * Add array of bindings.
      *
-     * Called from the constructor if an array of bindings is passed in.
+     * bind will use this method if there are OneToMany or ManyToOne bindings
      *
      * @param array $bindings
      */
-    private function addBindings($bindings)
+    private function addArrayOfBindings($bindings)
     {
         foreach ($bindings as $binding) {
             $this->bind($binding[0], $binding[1], $binding[2]);

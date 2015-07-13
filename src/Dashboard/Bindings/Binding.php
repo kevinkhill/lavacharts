@@ -1,19 +1,19 @@
 <?php
 
-namespace Khill\Lavacharts\Dashboard;
+namespace Khill\Lavacharts\Dashboard\Bindings;
 
 use \Khill\Lavacharts\Utils;
-
-
+use \Khill\Lavacharts\Dashboard\ChartWrapper;
+use \Khill\Lavacharts\Dashboard\ControlWrapper;
 use \Khill\Lavacharts\Exceptions\InvalidLabel;
 
 /**
- * Binding Class
+ * OneToOne Binding Class
  *
- * Binds a control wrapper to chart wrapper to use in dashboards.
+ * Binds a ControlWrapper to a ChartWrapper to use in dashboards.
  *
  * @package    Lavacharts
- * @subpackage Dashboard
+ * @subpackage Dashboard\Bindings
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
@@ -21,15 +21,8 @@ use \Khill\Lavacharts\Exceptions\InvalidLabel;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Binding
+class OneToOne extends Binding
 {
-    /**
-     * Label for the binding.
-     *
-     * @var string
-     */
-    private $label;
-
     /**
      * ControlWrapper to bind to chart.
      *
@@ -53,25 +46,10 @@ class Binding
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel  $label
      * @return self
      */
-    public function __construct($label, ControlWrapper $controlWrapper, ChartWrapper $chartWrapper)
+    public function __construct(ControlWrapper $controlWrapper, ChartWrapper $chartWrapper)
     {
-        if (Utils::nonEmptyString($label) === false) {
-            throw new InvalidLabel($label);
-        }
-
-        $this->label          = $label;
         $this->chartWrapper   = $chartWrapper;
         $this->controlWrapper = $controlWrapper;
-    }
-
-    /**
-     * Get the chart label.
-     *
-     * @return string
-     */
-    public function getLabel()
-    {
-        return $this->label;
     }
 
     /**
