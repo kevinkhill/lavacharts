@@ -27,7 +27,6 @@ class ManyToMany extends Binding
      */
     public function __construct($controlWrappers, $chartWrappers)
     {
-        $this->chartWrappers   = $chartWrappers;
-        $this->controlWrappers = $controlWrappers;
+        parent::__construct($controlWrappers, $chartWrappers);
     }
 }

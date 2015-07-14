@@ -26,15 +26,12 @@ class OneToOne extends Binding
     /**
      * Creates the new Binding.
      *
-     * @param  string $label Label for the binding
      * @param  \Khill\Lavacharts\Dashboard\ChartWrapper   $chartWrap
      * @param  \Khill\Lavacharts\Dashboard\ControlWrapper $controlWrap
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel  $label
      * @return self
      */
     public function __construct(ControlWrapper $controlWrapper, ChartWrapper $chartWrapper)
     {
-        $this->chartWrappers   = [$chartWrapper];
-        $this->controlWrappers = [$controlWrapper];
+        parent::__construct([$controlWrapper], [$chartWrapper]);
     }
 }

@@ -23,13 +23,12 @@ class ManyToOne extends Binding
     /**
      * Creates the new Binding.
      *
-     * @param  \Khill\Lavacharts\Dashboard\ChartWrapper $chartWrapper
      * @param  array $controlWrappers
+     * @param  \Khill\Lavacharts\Dashboard\ChartWrapper $chartWrapper
      * @return self
      */
     public function __construct($controlWrappers, ChartWrapper $chartWrapper)
     {
-        $this->chartWrappers   = [$chartWrapper];
-        $this->controlWrappers = $controlWrappers;
+        parent::__construct($controlWrappers, [$chartWrapper]);
     }
 }

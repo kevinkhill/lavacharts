@@ -31,11 +31,24 @@ class Binding
     protected $controlWrappers;
 
     /**
-     * ChartWrappers on which to bind ControlWrappers.
+     * ChartWrappers with to bound ControlWrappers.
      *
      * @var array
      */
     protected $chartWrappers;
+
+    /**
+     * Creates the new Binding.
+     *
+     * @param  array $chartWrappers
+     * @param  array $controlWrappers
+     * @return self
+     */
+    public function __construct($controlWrappers, $chartWrappers)
+    {
+        $this->chartWrappers   = $chartWrappers;
+        $this->controlWrappers = $controlWrappers;
+    }
 
     /**
      * Get the ChartWrappers

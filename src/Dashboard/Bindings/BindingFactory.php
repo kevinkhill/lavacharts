@@ -23,6 +23,14 @@ use \Khill\Lavacharts\Exceptions\InvalidBindings;
  */
 class BindingFactory
 {
+    /**
+     * Create a new Binding for the dashboard.
+     *
+     * @param  mixed $arg1 One or array of many ControlWrappers
+     * @param  mixed $arg2 One or array of many ChartWrappers
+     * @throws \Khill\Lavacharts\Exception\InvalidBindings
+     * @return \Khill\Lavacharts\Dashboard\Binding
+     */
     public function create($arg1, $arg2)
     {
         if ($arg1 instanceof ControlWrapper && $arg2 instanceof ChartWrapper)
