@@ -10,6 +10,7 @@ use \Khill\Lavacharts\Configs\DataTable;
 use \Khill\Lavacharts\Dashboard\Dashboard;
 use \Khill\Lavacharts\Dashboard\ChartWrapper;
 use \Khill\Lavacharts\Dashboard\ControlWrapper;
+use \Khill\Lavacharts\Javascript\JavascriptFactory;
 use \Khill\Lavacharts\Exceptions\InvalidDataTable;
 use \Khill\Lavacharts\Exceptions\InvalidLabel;
 use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
@@ -43,7 +44,7 @@ class Lavacharts
     public $volcano;
 
     /**
-     * Javascript factory class for lava.js and chart js
+     * JavascriptFactory for outputting lava.js and chart/dashboard javascript
      *
      * @var JavascriptFactory
      */
