@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\Dashboard;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Dashboard\Bindings\BindingFactory;
 use \Khill\Lavacharts\Exceptions\InvalidLabel;
 use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
 
@@ -53,20 +54,25 @@ class Dashboard implements \JsonSerializable
     public function __construct(Label $label)
     {
         $this->label = $label;
+        $this->bindingFactory = new BindingFactory;
     }
 
     /**
-     * Binds a ControlWrapper to a ChartWrapper in the dashboard.
+     * Binds ControlWrappers to ChartWrappers in the dashboard.
      *
-     * @param  string $label Label for the binding
-     * @param  \Khill\Lavacharts\Dashboard\ChartWrapper   $chartWrap
-     * @param  \Khill\Lavacharts\Dashboard\ControlWrapper $controlWrap
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel  $label
+     * - A OneToOne binding is created if single wrappers are passed.
+     * - If a single ControlWrapper is passed with an array of ChartWappers,
+     *   a OneToMany binding is created.
+     * - If an array of ControlWrappers is passed with one ChartWrapper, then
+     *   a ManyToOne binding is created.
+     *
+     * @param  mixed $controlWraps
+     * @param  mixed $chartWraps
      * @return self
      */
-    public function bind(ControlWrapper $controlWrap, ChartWrapper $chartWrap)
+    public function bind($controlWraps, $chartWraps)
     {
-        $this->bindings[] = new Binding($label, $controlWrap, $chartWrap);
+        $this->bindings[] = $this->bindingFactory->create($controlWraps, $chartWraps);
 
         return $this;
     }

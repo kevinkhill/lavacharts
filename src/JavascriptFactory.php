@@ -316,7 +316,7 @@ CHART;
         $this->out  = self::JS_OPEN.PHP_EOL;
         $this->out .=
 <<<'DASH'
-        //Checking if output div exists
+        //Checking if dashboard div exists
         if (! document.getElementById("<elemId>")) {
             throw new Error('[Lavacharts] No matching element was found with ID "<elemId>"');
         }
@@ -350,6 +350,21 @@ DASH;
         }
 
         return $this->out;
+    }
+
+    /**
+     * Process the charts to retrieve the datatables for a Dashboard.
+     *
+     * Turns the charts' datatables into new Google DataTable Objects.
+     *
+     * @since  3.0.0
+     * @access public
+     * @param  \Khill\Lavacharts\Dashboard\Dashboard $dashboard
+     * @return string
+     */
+    public function processCharts(Dashboard $dashboard)
+    {
+        $output = '';
     }
 
     /**

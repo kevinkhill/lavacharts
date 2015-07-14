@@ -171,13 +171,13 @@ class Lavacharts
     {
         //Rendering Aliases
         if ((bool) preg_match('/^render/', $method) === true) {
-            $chartType = str_replace('render', '', $method);
+            $type = str_replace('render', '', $method);
 
-            if (in_array($chartType, $this->chartClasses, true) === false) {
-                throw new InvalidLavaObject($chartType);
+            if ($type !== 'Dashboard' && in_array($type, $this->chartClasses, true) === false) {
+                throw new InvalidLavaObject($type);
             }
 
-            return $this->render($chartType, $arguments[0], $arguments[1]);
+            return $this->render($type, $arguments[0], $arguments[1]);
         }
 
         //Charts

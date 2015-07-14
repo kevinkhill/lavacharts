@@ -8,7 +8,7 @@ use \Khill\Lavacharts\Dashboard\ControlWrapper;
 use \Khill\Lavacharts\Exceptions\InvalidLabel;
 
 /**
- * OneToOne Binding Class
+ * Parent Binding Class
  *
  * Binds a ControlWrapper to a ChartWrapper to use in dashboards.
  *
@@ -21,54 +21,39 @@ use \Khill\Lavacharts\Exceptions\InvalidLabel;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class OneToOne extends Binding
+class Binding
 {
     /**
-     * ControlWrapper to bind to chart.
+     * ControlWrappers to bind to ChartWrappers.
      *
-     * @var \Khill\Lavacharts\Dashboard\ControlWrapper
+     * @var mixed
      */
-    private $controlWrapper;
+    protected $controlWrappers;
 
     /**
-     * ChartWrapper on which to bind a control.
+     * ChartWrappers on which to bind ControlWrappers.
      *
-     * @var \Khill\Lavacharts\Dashboard\ChartWrapper
+     * @var mixed
      */
-    private $chartWrapper;
+    protected $chartWrappers;
 
-     /**
-     * Binds a ControlWrapper to a ChartWrapper in the dashboard.
+    /**
+     * Get the ChartWrappers
      *
-     * @param  string $label Label for the binding
-     * @param  \Khill\Lavacharts\Dashboard\ChartWrapper   $chartWrap
-     * @param  \Khill\Lavacharts\Dashboard\ControlWrapper $controlWrap
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel  $label
-     * @return self
+     * @return mixed
      */
-    public function __construct(ControlWrapper $controlWrapper, ChartWrapper $chartWrapper)
+    public function getChartWrappers()
     {
-        $this->chartWrapper   = $chartWrapper;
-        $this->controlWrapper = $controlWrapper;
+        return $this->chartWrappers;
     }
 
     /**
-     * Get the ChartWrapper
+     * Get the ControlWrappers
      *
-     * @return \Khill\Lavacharts\Dashboard\ChartWrapper
+     * @return mixed
      */
-    public function getChartWrapper()
+    public function getControlWrappers()
     {
-        return $this->chartWrapper;
-    }
-
-    /**
-     * Get the ControlWrapper
-     *
-     * @return \Khill\Lavacharts\Dashboard\ControlWrapper
-     */
-    public function getControlWrapper()
-    {
-        return $this->controlWrapper;
+        return $this->controlWrappers;
     }
 }

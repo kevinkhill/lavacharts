@@ -5,7 +5,7 @@ namespace Khill\Lavacharts\Dashboard\Bindings;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Dashboard\ChartWrapper;
 use \Khill\Lavacharts\Dashboard\ControlWrapper;
-use \Khill\Lavacharts\Exceptions\InvalidLabel;
+use \Khill\Lavacharts\Exceptions\InvalidBindings;
 
 /**
  * BindingFactory Class
@@ -23,26 +23,27 @@ use \Khill\Lavacharts\Exceptions\InvalidLabel;
  */
 class BindingFactory
 {
-    public static function oneToOne(ControlWrapper $controlWrapper, ChartWrapper $chartWrapper)
+    public function create($arg1, $arg2)
     {
-        return new OneToOne($controlWrapper, $chartWrapper);
-    }
-
-    public static function oneToMany(ControlWrapper $controlWrapper, $chartWrapperArray)
-    {
-        if (Utils::arrayValuesCheck($chartWrapperArray, 'class', 'ChartWrapper') === false) {
-            throw new Exception;
+        if ($arg1 instanceof ControlWrapper && $arg2 instanceof ChartWrapper)
+        {
+            return new OneToOne($arg1, $arg2);
         }
-
-        return new OneToMany($controlWrapper, $chartWrapperArray);
-    }
-
-    public static function manyToOne($controlWrapperArray, ChartWrapper $chartWrapper)
-    {
-        if (Utils::arrayValuesCheck($chartWrapperArray, 'class', 'ControlWrapper') === false) {
-            throw new Exception;
+        else if ($arg1 instanceof ControlWrapper && Utils::arrayValuesCheck($arg2, 'class', 'ChartWrapper'))
+        {
+            return new OneToMany($arg1, $arg2);
         }
-
-        return new ManyToOne($controlWrapperArray, $chartWrapper);
+        else if (Utils::arrayValuesCheck($arg1, 'class', 'ControlWrapper') && $arg2 instanceof ChartWrapper)
+        {
+            return new ManyToOne($arg1, $arg2);
+        }
+        else if (Utils::arrayValuesCheck($arg1, 'class', 'ControlWrapper') && Utils::arrayValuesCheck($arg2, 'class', 'ChartWrapper'))
+        {
+            return new ManyToMany($arg1, $arg2);
+        }
+        else
+        {
+            throw new InvalidBindings;
+        }
     }
 }
