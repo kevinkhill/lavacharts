@@ -296,8 +296,9 @@ CHART;
      */
     private function buildDashboardJs(Dashboard $dashboard)
     {
-        $boundChart = $dashboard->getBinding('MyPie')->getChartWrapper()->getChart();
-
+        //$boundChart = $dashboard->getBinding('MyPie')->getChartWrapper()->getChart();
+        $boundCharts = $dashboard->getBoundCharts();
+dd($boundCharts);
         $mappedValues = [
             'label'     => (string) $dashboard->getLabel(),
             'version'   => $dashboard::VERSION,

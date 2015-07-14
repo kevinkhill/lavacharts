@@ -30,6 +30,6 @@ class OneToMany extends Binding
     public function __construct(ControlWrapper $controlWrapper, $chartWrappers)
     {
         $this->chartWrappers   = $chartWrappers;
-        $this->controlWrappers = $controlWrapper;
+        $this->controlWrappers = [$controlWrapper];
     }
 }

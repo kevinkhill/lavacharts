@@ -88,6 +88,26 @@ class Dashboard implements \JsonSerializable
     }
 
     /**
+     * Fetch the dashboard's bindings.
+     *
+     * @return array
+     */
+    public function getBoundCharts()
+    {
+        $charts = [];
+
+        foreach ($this->bindings as $binding) {
+            foreach ($binding->getChartWrappers() as $chartWrapper) {
+                $chart = $chartWrapper->getChart();
+
+                $charts[$chart::TYPE] = $chart;
+            }
+        }
+
+        return $charts;
+    }
+
+    /**
      * Returns the dashboard label.
      *
      * @since  3.0.0

@@ -26,14 +26,14 @@ class Binding
     /**
      * ControlWrappers to bind to ChartWrappers.
      *
-     * @var mixed
+     * @var array
      */
     protected $controlWrappers;
 
     /**
      * ChartWrappers on which to bind ControlWrappers.
      *
-     * @var mixed
+     * @var array
      */
     protected $chartWrappers;
 

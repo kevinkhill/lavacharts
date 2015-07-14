@@ -29,7 +29,7 @@ class ManyToOne extends Binding
      */
     public function __construct($controlWrappers, ChartWrapper $chartWrapper)
     {
-        $this->chartWrappers   = $chartWrapper;
+        $this->chartWrappers   = [$chartWrapper];
         $this->controlWrappers = $controlWrappers;
     }
 }

@@ -34,7 +34,7 @@ class OneToOne extends Binding
      */
     public function __construct(ControlWrapper $controlWrapper, ChartWrapper $chartWrapper)
     {
-        $this->chartWrappers   = $chartWrapper;
-        $this->controlWrappers = $controlWrapper;
+        $this->chartWrappers   = [$chartWrapper];
+        $this->controlWrappers = [$controlWrapper];
     }
 }
