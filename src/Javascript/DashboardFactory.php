@@ -123,25 +123,38 @@ class DashboardFactory extends JavascriptFactory
         foreach ($bindings as $binding) {
             $bindingHash = spl_object_hash($binding);
 
-            $chartWrapper   = $binding->getChartWrappers()[0];
-            $controlWrapper = $binding->getControlWrappers()[0];
+            //$chartWrapper   = $this->processChartWrappers($binding->getChartWrappers());
+            $chartWrapper = $binding->getChartWrappers()[0];
+            $chart        = $chartWrapper->toJavascript();
 
-            $control = sprintf('"control": new %s(%s)', $controlWrapper::VIZ_CLASS, $controlWrapper->toJson());
-            $chart   = sprintf('"chart"  : new %s(%s)', $chartWrapper::VIZ_CLASS,   $chartWrapper->toJson());
+            //$controlWrapper = $this->processControlWrappers($binding->getControlWrappers());
+            $controls = $this->processControlWrappers($binding->getControlWrappers());
 
-            $output .= sprintf('$this.bindings["%s"] = {%s, %s};',
-                                  $bindingHash,
-                                  $control,
-                                  $chart
-                              ).PHP_EOL;
-
-            $output .= sprintf('            '.
-                '$this.dashboard.bind($this.bindings["%1$s"]["control"], $this.bindings["%1$s"]["chart"]);',
-                $bindingHash
-            );
+            $output .= sprintf('$this.dashboard.bind(%s, %s);', $controls, $chart);
         }
 
         return $output;
+    }
+
+    public function processControlWrappers($controlWrappers)
+    {
+        $controls = [];
+
+        foreach ($controlWrappers as $control) {
+            //$controls[] = sprintf('new %s(%s)', $control::VIZ_CLASS, $control->toJson());
+            $controls[] = $control->toJavascript();
+        }
+
+        if (count($controls) > 1) {
+            return '[' . implode(', ', $controls) . ']';
+        } else {
+            return $controls[0];
+        }
+    }
+
+    public function processChartWrappers($chartWrappers)
+    {
+        dd($chartWrappers);
     }
 
     /**
@@ -185,3 +198,40 @@ DASH;
     }
 
 }
+
+
+
+/*
+
+  public function processBindings()
+    {
+        $output = '';
+        $bindings = $this->dashboard->getBindings();
+
+        foreach ($bindings as $binding) {
+            $bindingHash = spl_object_hash($binding);
+
+            //$chartWrapper   = $this->processChartWrappers($binding->getChartWrappers());
+            $chartWrapper   = $binding->getChartWrappers()[0];
+
+            //$controlWrapper = $this->processControlWrappers($binding->getControlWrappers());
+
+            $chart   = sprintf('"chart"  : new %s(%s)', $chartWrapper::VIZ_CLASS,   $chartWrapper->toJson());
+            $control = sprintf('"control": new %s(%s)', $controlWrapper::VIZ_CLASS, $controlWrapper->toJson());
+
+            $output .= sprintf('$this.bindings["%s"] = {%s, %s};',
+                                  $bindingHash,
+                                  $control,
+                                  $chart
+                              ).PHP_EOL;
+
+            $output .= sprintf('            '.
+                '$this.dashboard.bind($this.bindings["%1$s"]["control"], $this.bindings["%1$s"]["chart"]);',
+                $bindingHash
+            );
+        }
+
+        return $output;
+    }
+
+    */

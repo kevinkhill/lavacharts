@@ -80,13 +80,13 @@ class ChartWrapper implements \JsonSerializable
     }
 
     /**
-     * Return a serialized ChartWrapper.
+     * Returns a javascript string with the constructor for the ChartWrapper.
      *
-     * @return string JSON
+     * @return string
      */
-    public function toJson()
+    public function toJavascript()
     {
-        return json_encode($this);
+        return sprintf('new %s(%s)', self::VIZ_CLASS, json_encode($this));
     }
 
     /**

@@ -62,8 +62,8 @@ class ControlWrapper implements \JsonSerializable
      */
     public function __construct(Filter $filter, ElementId $containerId)
     {
-        $this->filter      = $filter;
         $this->type        = $filter::TYPE;
+        $this->controlType = $filter;
         $this->containerId = $containerId;
     }
 
@@ -78,13 +78,13 @@ class ControlWrapper implements \JsonSerializable
     }
 
     /**
-     * Return a serialized ControlWrapper.
+     * Returns a javascript string with the constructor for the ControlWrapper
      *
-     * @return string JSON
+     * @return string
      */
-    public function toJson()
+    public function toJavascript()
     {
-        return json_encode($this);
+        return sprintf('new %s(%s)', self::VIZ_CLASS, json_encode($this));
     }
 
     /**
@@ -97,10 +97,10 @@ class ControlWrapper implements \JsonSerializable
             'controlType' => $this->type,
             'containerId' => (string) $this->containerId,
             'options' => [ //@TODO: make options classes
-                'filterColumnLabel' => $this->filter->columnLabel,
-                'ui' => [
+                'filterColumnLabel' => $this->controlType->columnLabel,
+                /*'ui' => [
                     'labelStacking' => 'vertical'
-                ]
+                ]*/
             ]
         ];
     }
