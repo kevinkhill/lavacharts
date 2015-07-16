@@ -24,6 +24,13 @@ use \Khill\Lavacharts\Exceptions\InvalidLabel;
 class OneToOne extends Binding
 {
     /**
+     * Type of binding.
+     *
+     * @var string
+     */
+    const TYPE = 'OneToOne';
+
+    /**
      * Creates the new Binding.
      *
      * @param  \Khill\Lavacharts\Dashboard\ChartWrapper   $chartWrap

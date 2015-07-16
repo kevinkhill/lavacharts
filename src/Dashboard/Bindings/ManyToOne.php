@@ -21,6 +21,13 @@ use \Khill\Lavacharts\Dashboard\ChartWrapper;
 class ManyToOne extends Binding
 {
     /**
+     * Type of binding.
+     *
+     * @var string
+     */
+    const TYPE = 'ManyToOne';
+
+    /**
      * Creates the new Binding.
      *
      * @param  array $controlWrappers

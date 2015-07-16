@@ -38,6 +38,7 @@ class DashboardFactory extends JavascriptFactory
     /**
      * Creates a new ChartFactory with the javascript template.
      *
+     * @access public
      * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to process
      * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to output into.
      * @return self
@@ -53,7 +54,6 @@ class DashboardFactory extends JavascriptFactory
     /**
      * Builds the Javascript code block for a Dashboard
      *
-     * @since  3.0.0
      * @access private
      * @param  \Khill\Lavacharts\Dashboard\Dashboard $dashboard
      * @return string Javascript code block.
@@ -96,7 +96,6 @@ class DashboardFactory extends JavascriptFactory
      *
      * Turns the charts' datatables into new Google DataTable Objects.
      *
-     * @since  3.0.0
      * @access public
      * @param  \Khill\Lavacharts\Dashboard\Dashboard $dashboard
      * @return string
@@ -111,7 +110,6 @@ class DashboardFactory extends JavascriptFactory
      *
      * Turns the chart and control wrappers into new Google Vizualization Objects.
      *
-     * @since  3.0.0
      * @access public
      * @return string
      */
@@ -121,46 +119,53 @@ class DashboardFactory extends JavascriptFactory
         $bindings = $this->dashboard->getBindings();
 
         foreach ($bindings as $binding) {
-            $bindingHash = spl_object_hash($binding);
+            switch($binding::TYPE) {
+                case 'OneToOne':
+                    $controls = $binding->getControlWrappers()[0]->toJavascript();
+                    $charts   = $binding->getChartWrappers()[0]->toJavascript();
+                break;
 
-            //$chartWrapper   = $this->processChartWrappers($binding->getChartWrappers());
-            $chartWrapper = $binding->getChartWrappers()[0];
-            $chart        = $chartWrapper->toJavascript();
+                case 'OneToMany':
+                    $controls = $binding->getControlWrappers()[0]->toJavascript();
+                    $charts   = $this->mapWrapperArray($binding->getChartWrappers());
+                break;
 
-            //$controlWrapper = $this->processControlWrappers($binding->getControlWrappers());
-            $controls = $this->processControlWrappers($binding->getControlWrappers());
+                case 'ManyToOne':
+                    $controls = $this->mapWrapperArray($binding->getControlWrappers());
+                    $charts   = $binding->getChartWrappers()[0]->toJavascript();
+                break;
 
-            $output .= sprintf('$this.dashboard.bind(%s, %s);', $controls, $chart);
+                case 'ManyToMany':
+                    $controls = $this->mapWrapperArray($binding->getControlWrappers());
+                    $charts   = $this->mapWrapperArray($binding->getChartWrappers());
+                break;
+            }
+
+            $output .= sprintf('$this.dashboard.bind(%s, %s);', $controls, $charts);
         }
 
         return $output;
     }
 
-    public function processControlWrappers($controlWrappers)
+    /**
+     * Map the wrapper values from the array to javascript notation.
+     *
+     * @access private
+     * @param  $wrapperArray Array of control or chart wrappers
+     * @return string Json notation for the wrappers
+     */
+    private function mapWrapperArray($wrapperArray)
     {
-        $controls = [];
+        $wrappers = array_map(function ($wrapperArray) {
+            return $wrapperArray->toJavascript();
+        }, $wrapperArray);
 
-        foreach ($controlWrappers as $control) {
-            //$controls[] = sprintf('new %s(%s)', $control::VIZ_CLASS, $control->toJson());
-            $controls[] = $control->toJavascript();
-        }
-
-        if (count($controls) > 1) {
-            return '[' . implode(', ', $controls) . ']';
-        } else {
-            return $controls[0];
-        }
-    }
-
-    public function processChartWrappers($chartWrappers)
-    {
-        dd($chartWrappers);
+        return '[' . implode(', ', $wrappers) . ']';
     }
 
     /**
      * Returns the dashboard javascript template.
      *
-     * @since  3.0.0
      * @access private
      * @return string Javascript template
      */

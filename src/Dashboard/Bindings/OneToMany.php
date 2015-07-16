@@ -21,6 +21,13 @@ use \Khill\Lavacharts\Dashboard\ControlWrapper;
 class OneToMany extends Binding
 {
     /**
+     * Type of binding.
+     *
+     * @var string
+     */
+    const TYPE = 'OneToMany';
+
+    /**
      * Creates the new Binding.
      *
      * @param  \Khill\Lavacharts\Dashboard\ControlWrapper $controlWrap

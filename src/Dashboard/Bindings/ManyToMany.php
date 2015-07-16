@@ -19,6 +19,13 @@ namespace Khill\Lavacharts\Dashboard\Bindings;
 class ManyToMany extends Binding
 {
     /**
+     * Type of binding.
+     *
+     * @var string
+     */
+    const TYPE = 'ManyToMany';
+
+    /**
      * Creates the new Binding.
      *
      * @param  array $chartWrappers
