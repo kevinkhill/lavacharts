@@ -60,18 +60,14 @@ class DashboardFactory extends JavascriptFactory
      */
     private function getTemplateVars()
     {
-        $dashboard = $this->dashboard;
-        //$boundChart = $this->dashboard->getBinding('MyPie')->getChartWrapper()->getChart();
         $boundCharts = $this->dashboard->getBoundCharts();
-        //dd($boundCharts);
 
         $vars = [
             'label'     => (string) $this->dashboard->getLabel(),
-            'version'   => $dashboard::VERSION,
-            'class'     => $dashboard::VIZ_CLASS,
+            'version'   => Dashboard::VERSION,
+            'class'     => Dashboard::VIZ_CLASS,
             'packages'  => [
-                $dashboard::VIZ_PACKAGE,
-                //$boundChart::VIZ_PACKAGE
+                Dashboard::VIZ_PACKAGE
             ],
             //'chartData' => $boundChart->getDataTableJson(),
             'elemId'    => (string) $this->elementId,
