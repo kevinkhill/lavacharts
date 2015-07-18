@@ -1,10 +1,10 @@
 <?php
 
-namespace Khill\Lavacharts\Dashboard\Bindings;
+namespace Khill\Lavacharts\Dashboards\Bindings;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Dashboard\ChartWrapper;
-use \Khill\Lavacharts\Dashboard\ControlWrapper;
+use \Khill\Lavacharts\Dashboards\ChartWrapper;
+use \Khill\Lavacharts\Dashboards\ControlWrapper;
 use \Khill\Lavacharts\Exceptions\InvalidLabel;
 
 /**
@@ -13,7 +13,7 @@ use \Khill\Lavacharts\Exceptions\InvalidLabel;
  * Binds a ControlWrapper to a ChartWrapper to use in dashboards.
  *
  * @package    Lavacharts
- * @subpackage Dashboard\Bindings
+ * @subpackage Dashboards\Bindings
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs

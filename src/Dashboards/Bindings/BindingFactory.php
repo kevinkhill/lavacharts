@@ -1,10 +1,10 @@
 <?php
 
-namespace Khill\Lavacharts\Dashboard\Bindings;
+namespace Khill\Lavacharts\Dashboards\Bindings;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Dashboard\ChartWrapper;
-use \Khill\Lavacharts\Dashboard\ControlWrapper;
+use \Khill\Lavacharts\Dashboards\ChartWrapper;
+use \Khill\Lavacharts\Dashboards\ControlWrapper;
 use \Khill\Lavacharts\Exceptions\InvalidBindings;
 
 /**
@@ -13,7 +13,7 @@ use \Khill\Lavacharts\Exceptions\InvalidBindings;
  * Creates new bindings for dashboards.
  *
  * @package    Lavacharts
- * @subpackage Dashboard\Bindings
+ * @subpackage Dashboards\Bindings
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
@@ -28,10 +28,10 @@ class BindingFactory
      *
      * @param  mixed $arg1 One or array of many ControlWrappers
      * @param  mixed $arg2 One or array of many ChartWrappers
-     * @throws \Khill\Lavacharts\Exception\InvalidBindings
-     * @return \Khill\Lavacharts\Dashboard\Binding
+     * @throws \Khill\Lavacharts\Exceptions\InvalidBindings
+     * @return \Khill\Lavacharts\Dashboards\Binding
      */
-    public function create($arg1, $arg2)
+    public static function create($arg1, $arg2)
     {
         if ($arg1 instanceof ControlWrapper && $arg2 instanceof ChartWrapper)
         {

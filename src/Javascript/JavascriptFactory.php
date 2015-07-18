@@ -2,12 +2,9 @@
 
 namespace Khill\Lavacharts\Javascript;
 
-use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Configs\DataTable;
-use \Khill\Lavacharts\Dashboard\Dashboard;
-use \Khill\Lavacharts\Exceptions\InvalidElementId;
+use \Khill\Lavacharts\Dashboards\Dashboard;
 
 /**
  * JavascriptFactory Class
@@ -149,8 +146,8 @@ class JavascriptFactory
      *
      * @since  3.0.0
      * @access public
-     * @uses   \Khill\Lavacharts\Dashboard\Dashboard
-     * @param  \Khill\Lavacharts\Dashboard\Dashboard $dashboard Dashboard to render.
+     * @uses   \Khill\Lavacharts\Dashboards\Dashboard
+     * @param  \Khill\Lavacharts\Dashboards\Dashboard $dashboard Dashboard to render.
      * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to output the dashboard into.
      * @return string Javascript code block.
      */

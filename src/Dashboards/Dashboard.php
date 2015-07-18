@@ -1,12 +1,9 @@
 <?php
 
-namespace Khill\Lavacharts\Dashboard;
+namespace Khill\Lavacharts\Dashboards;
 
-use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Dashboard\Bindings\BindingFactory;
-use \Khill\Lavacharts\Exceptions\InvalidLabel;
-use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
+use \Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
 
 class Dashboard implements \JsonSerializable
 {
@@ -54,25 +51,25 @@ class Dashboard implements \JsonSerializable
     public function __construct(Label $label)
     {
         $this->label = $label;
-        $this->bindingFactory = new BindingFactory;
     }
 
     /**
      * Binds ControlWrappers to ChartWrappers in the dashboard.
      *
      * - A OneToOne binding is created if single wrappers are passed.
-     * - If a single ControlWrapper is passed with an array of ChartWappers,
+     * - If a single ControlWrapper is passed with an array of ChartWrappers,
      *   a OneToMany binding is created.
      * - If an array of ControlWrappers is passed with one ChartWrapper, then
      *   a ManyToOne binding is created.
      *
+     * @uses \Khill\Lavacharts\Dashboard\Bindings\BindingFactory
      * @param  mixed $controlWraps
      * @param  mixed $chartWraps
      * @return self
      */
     public function bind($controlWraps, $chartWraps)
     {
-        $this->bindings[] = $this->bindingFactory->create($controlWraps, $chartWraps);
+        $this->bindings[] = BindingFactory::create($controlWraps, $chartWraps);
 
         return $this;
     }

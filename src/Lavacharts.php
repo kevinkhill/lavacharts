@@ -5,11 +5,11 @@ namespace Khill\Lavacharts;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Filters\Filter;
 use \Khill\Lavacharts\Configs\DataTable;
-use \Khill\Lavacharts\Dashboard\Dashboard;
-use \Khill\Lavacharts\Dashboard\ChartWrapper;
-use \Khill\Lavacharts\Dashboard\ControlWrapper;
+use \Khill\Lavacharts\Dashboards\Dashboard;
+use \Khill\Lavacharts\Dashboards\ChartWrapper;
+use \Khill\Lavacharts\Dashboards\ControlWrapper;
+use \Khill\Lavacharts\Dashboards\Filters\Filter;
 use \Khill\Lavacharts\Javascript\JavascriptFactory;
 use \Khill\Lavacharts\Exceptions\InvalidDataTable;
 use \Khill\Lavacharts\Exceptions\InvalidLabel;
@@ -19,8 +19,6 @@ use \Khill\Lavacharts\Exceptions\InvalidFilterObject;
 use \Khill\Lavacharts\Exceptions\InvalidEventCallback;
 use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
 use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
-use \Khill\Lavacharts\Exceptions\InvalidChartWrapperParams;
-use \Khill\Lavacharts\Exceptions\InvalidControlWrapperParams;
 
 /**
  * Lavacharts - A PHP wrapper library for the Google Chart API
@@ -247,12 +245,13 @@ class Lavacharts
     }
 
     /**
-     * Create a new ControlWrapper
+     * Create a new ControlWrapper from a Filter
      *
      * @since  3.0.0
-     * @param  \Khill\Lavacharts\Filters\Filter $chart Chart to wrap
+     * @uses   \Khill\Lavacharts\Values\ElementId
+     * @param  \Khill\Lavacharts\Dashboards\Filters\Filter $filter Filter to wrap
      * @param  string $elementId HTML element ID to output the control.
-     * @return \Khill\Lavacharts\Dashboard\ControlWrapper
+     * @return \Khill\Lavacharts\Dashboards\ControlWrapper
      */
     public function ControlWrapper(Filter $filter, $elementId)
     {
@@ -262,12 +261,13 @@ class Lavacharts
     }
 
     /**
-     * Create a new ChartWrapper
+     * Create a new ChartWrapper from a Chart
      *
      * @since  3.0.0
+     * @uses   \Khill\Lavacharts\Values\ElementId
      * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to wrap
      * @param  string $elementId HTML element ID to output the control.
-     * @return \Khill\Lavacharts\Dashboard\ChartWrapper
+     * @return \Khill\Lavacharts\Dashboards\ChartWrapper
      */
     public function ChartWrapper(Chart $chart, $elementId)
     {
@@ -284,6 +284,8 @@ class Lavacharts
      *
      * @access public
      * @since  2.0.0
+     * @uses   \Khill\Lavacharts\Values\Label
+     * @uses   \Khill\Lavacharts\Values\ElementId
      * @param  string $type Type of object to render.
      * @param  string $label Label of the object to render.
      * @param  string $elementId HTML element id to render into.
@@ -312,6 +314,8 @@ class Lavacharts
      *
      * @access public
      * @since  3.0.0
+     * @uses   \Khill\Lavacharts\Values\Label
+     * @uses   \Khill\Lavacharts\Values\ElementId
      * @param  string $chartType Type of chart to render.
      * @param  \Khill\Lavacharts\Values\Label $chartLabel Label of a saved chart.
      * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to render the chart into.
@@ -346,6 +350,8 @@ class Lavacharts
      *
      * @access public
      * @since  3.0.0
+     * @uses   \Khill\Lavacharts\Values\Label
+     * @uses   \Khill\Lavacharts\Values\ElementId
      * @param  \Khill\Lavacharts\Values\Label $chartLabel Label of a saved chart.
      * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to render the chart into.
      * @return string
@@ -383,6 +389,7 @@ class Lavacharts
      *
      * @access public
      * @since  2.4.2
+     * @uses   \Khill\Lavacharts\Values\Label
      * @param  string $type Type of object to check.
      * @param  string $label Label of the object to check.
      * @return bool
@@ -403,6 +410,7 @@ class Lavacharts
      * @TODO look into volcano
      * @access public
      * @since  3.0.0
+     * @uses   \Khill\Lavacharts\Values\Label
      * @param  string $lavaObj Chart or Dashboard.
      * @return mixed
      */
@@ -456,6 +464,7 @@ class Lavacharts
      *
      * @access private
      * @since  1.0.0
+     * @uses   \Khill\Lavacharts\Values\ElementId
      * @param  string $elementId  Element id to apply to the div.
      * @param  array  $dimensions Height & width of the div.
      * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions
@@ -507,7 +516,7 @@ class Lavacharts
      *
      * @access private
      * @since  2.0.0
-     * @uses   \Khill\Lavacharts\Charts\Chart
+     * @uses   \Khill\Lavacharts\Values\Label
      * @param  string $type Type of chart to fetch or create.
      * @param  string $args Arguments from __call
      * @param  \Khill\Lavacharts\Configs\DataTable $datatable Datatable used for the chart.
@@ -522,11 +531,7 @@ class Lavacharts
         $datatable  = null;
         $options    = [];
         $chart      = null;
-/*
-        if (Utils::nonEmptyString($type) === false) {
-            throw new InvalidLavaObject($type);
-        }
-*/
+
         if (isset($args[0]) === false) {
             throw new InvalidLabel;
         } else {
@@ -708,7 +713,7 @@ class Lavacharts
             );
         }
 
-        $filter = __NAMESPACE__ . '\\Filters\\' . str_replace('Filter', '', $type);
+        $filter = __NAMESPACE__ . '\\Dashboards\\Filters\\' . str_replace('Filter', '', $type);
 
         return new $filter($args[0]);
     }

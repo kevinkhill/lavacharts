@@ -4,7 +4,7 @@ namespace Khill\Lavacharts;
 
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Dashboard\Dashboard;
+use \Khill\Lavacharts\Dashboards\Dashboard;
 use \Khill\Lavacharts\Exceptions\ChartNotFound;
 use \Khill\Lavacharts\Exceptions\DashboardNotFound;
 
@@ -54,7 +54,7 @@ class Volcano
     /**
      * Stores a dashboard in the volcano datastore.
      *
-     * @param  \Khill\Lavacharts\Dashboard\Dashboard $dashboard Dashboard to store in the volcano.
+     * @param  \Khill\Lavacharts\Dashboards\Dashboard $dashboard Dashboard to store in the volcano.
      * @return boolean
      */
     public function storeDashboard(Dashboard $dashboard)

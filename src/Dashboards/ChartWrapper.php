@@ -1,12 +1,9 @@
 <?php
 
-namespace Khill\Lavacharts\Dashboard;
+namespace Khill\Lavacharts\Dashboards;
 
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Values\ElementId;
-//use \Khill\Lavacharts\Dashboard\Wrapper;
+use \Khill\Lavacharts\Values\ElementId;;
 use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * ChartWrapper Class
@@ -14,7 +11,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * Used for wrapping charts to use in dashboards.
  *
  * @package    Lavacharts
- * @subpackage Dashboard
+ * @subpackage Dashboards
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
@@ -22,7 +19,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class ChartWrapper implements \JsonSerializable
+class ChartWrapper extends Wrapper implements \JsonSerializable
 {
     /**
      * Javascript chart class.
@@ -54,9 +51,10 @@ class ChartWrapper implements \JsonSerializable
      */
     public function __construct(Chart $chart, ElementId $containerId)
     {
-        $this->chart       = $chart;
-        $this->type        = $chart::TYPE;
-        $this->containerId = $containerId;
+        parent::__construct($containerId);
+
+        $this->chart = $chart;
+        $this->type  = $chart::TYPE;
     }
 
     /**
@@ -67,26 +65,6 @@ class ChartWrapper implements \JsonSerializable
     public function getChart()
     {
         return $this->chart;
-    }
-
-    /**
-     * Returns the container id.
-     *
-     * @return \Khill\Lavacharts\Values\ElementId
-     */
-    public function getContainerId()
-    {
-        return $this->containerId;
-    }
-
-    /**
-     * Returns a javascript string with the constructor for the ChartWrapper.
-     *
-     * @return string
-     */
-    public function toJavascript()
-    {
-        return sprintf('new %s(%s)', self::VIZ_CLASS, json_encode($this));
     }
 
     /**

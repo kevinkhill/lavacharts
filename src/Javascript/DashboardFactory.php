@@ -2,18 +2,15 @@
 
 namespace Khill\Lavacharts\Javascript;
 
-use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
-use \Khill\Lavacharts\Charts\Chart;
 use \Khill\Lavacharts\Configs\DataTable;
-use \Khill\Lavacharts\Dashboard\Dashboard;
-use \Khill\Lavacharts\Exceptions\InvalidElementId;
+use \Khill\Lavacharts\Dashboards\Dashboard;
 
 /**
  * DashboardGenerator Class
  *
  * This class takes Chart and Control Wrappers and uses all of the info to build the complete
- * javascript blocks for outputing into the page.
+ * javascript blocks for outputting into the page.
  *
  * @category   Class
  * @package    Lavacharts
@@ -30,7 +27,7 @@ class DashboardFactory extends JavascriptFactory
     /**
      * Dashboard to generate javascript from.
      *
-     * @var \Khill\Lavacharts\Dashboard\Dashboard
+     * @var \Khill\Lavacharts\Dashboards\Dashboard
      */
     private $dashboard;
 
@@ -55,7 +52,7 @@ class DashboardFactory extends JavascriptFactory
      * Builds the Javascript code block for a Dashboard
      *
      * @access private
-     * @param  \Khill\Lavacharts\Dashboard\Dashboard $dashboard
+     * @param  \Khill\Lavacharts\Dashboards\Dashboard $dashboard
      * @return string Javascript code block.
      */
     private function getTemplateVars()
@@ -93,7 +90,7 @@ class DashboardFactory extends JavascriptFactory
      * Turns the charts' datatables into new Google DataTable Objects.
      *
      * @access public
-     * @param  \Khill\Lavacharts\Dashboard\Dashboard $dashboard
+     * @param  \Khill\Lavacharts\Dashboards\Dashboard $dashboard
      * @return string
      */
     public function processCharts(Dashboard $dashboard)
@@ -104,7 +101,7 @@ class DashboardFactory extends JavascriptFactory
     /**
      * Process all the bindings for a Dashboard.
      *
-     * Turns the chart and control wrappers into new Google Vizualization Objects.
+     * Turns the chart and control wrappers into new Google Visualization Objects.
      *
      * @access public
      * @return string

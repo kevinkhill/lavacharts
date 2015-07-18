@@ -2,15 +2,12 @@
 
 namespace Khill\Lavacharts\Javascript;
 
-use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Charts\Chart;
 use \Khill\Lavacharts\Configs\DataTable;
-use \Khill\Lavacharts\Dashboard\Dashboard;
-use \Khill\Lavacharts\Exceptions\InvalidElementId;
 
 /**
- * ChartGenerator Class
+ * ChartFactory Class
  *
  * This class takes Charts and uses all of the info to build the complete
  * javascript blocks for outputing into the page.

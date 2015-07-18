@@ -1,12 +1,9 @@
 <?php
 
-namespace Khill\Lavacharts\Dashboard;
+namespace Khill\Lavacharts\Dashboards;
 
-use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\ElementId;
-//use \Khill\Lavacharts\Dashboard\Wrapper;
-use \Khill\Lavacharts\Filters\Filter;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Dashboards\Filters\Filter;
 
 /**
  * ControlWrapper Class
@@ -14,7 +11,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * Used for building controls for dashboards.
  *
  * @package    Lavacharts
- * @subpackage Dashboard
+ * @subpackage Dashboards
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
@@ -22,7 +19,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class ControlWrapper implements \JsonSerializable
+class ControlWrapper extends Wrapper implements \JsonSerializable
 {
     /**
      * Google's visualization class name.
@@ -41,50 +38,24 @@ class ControlWrapper implements \JsonSerializable
     /**
      * Filter used in the Control.
      *
-     * @var \Khill\Lavacharts\Filters\Filter
+     * @var \Khill\Lavacharts\Dashboards\Filters\Filter
      */
     private $controlType;
-
-    /**
-     * HTML element id of the div to render the control into.
-     *
-     * @var string
-     */
-    private $containerId;
 
     /**
      * Builds a ControlWrapper object.
      *
      * @param  \Khill\Lavacharts\Charts\Chart $chart
-     * @param  \Khill\Lavacharts\Filters\Filter $filter
+     * @param  \Khill\Lavacharts\Dashboards\Filters\Filter $filter
      * @param  string $containerId
      * @return self
      */
     public function __construct(Filter $filter, ElementId $containerId)
     {
+        parent::__construct($containerId);
+
         $this->type        = $filter::TYPE;
         $this->controlType = $filter;
-        $this->containerId = $containerId;
-    }
-
-    /**
-     * Returns the container id.
-     *
-     * @return \Khill\Lavacharts\Values\ElementId
-     */
-    public function getContainerId()
-    {
-        return $this->containerId;
-    }
-
-    /**
-     * Returns a javascript string with the constructor for the ControlWrapper
-     *
-     * @return string
-     */
-    public function toJavascript()
-    {
-        return sprintf('new %s(%s)', self::VIZ_CLASS, json_encode($this));
     }
 
     /**

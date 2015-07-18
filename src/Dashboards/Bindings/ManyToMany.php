@@ -1,16 +1,14 @@
 <?php
 
-namespace Khill\Lavacharts\Dashboard\Bindings;
-
-use \Khill\Lavacharts\Dashboard\ChartWrapper;
+namespace Khill\Lavacharts\Dashboards\Bindings;
 
 /**
- * ManyToOne Binding Class
+ * ManyToMany Binding Class
  *
- * Binds multiple ControlWrappers to a single ChartWrapper for use in dashboards.
+ * Binds multiple ControlWrappers to a multiple ChartWrapper for use in dashboards.
  *
  * @package    Lavacharts
- * @subpackage Dashboard
+ * @subpackage Dashboards\Bindings
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
@@ -18,24 +16,24 @@ use \Khill\Lavacharts\Dashboard\ChartWrapper;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class ManyToOne extends Binding
+class ManyToMany extends Binding
 {
     /**
      * Type of binding.
      *
      * @var string
      */
-    const TYPE = 'ManyToOne';
+    const TYPE = 'ManyToMany';
 
     /**
      * Creates the new Binding.
      *
+     * @param  array $chartWrappers
      * @param  array $controlWrappers
-     * @param  \Khill\Lavacharts\Dashboard\ChartWrapper $chartWrapper
      * @return self
      */
-    public function __construct($controlWrappers, ChartWrapper $chartWrapper)
+    public function __construct($controlWrappers, $chartWrappers)
     {
-        parent::__construct($controlWrappers, [$chartWrapper]);
+        parent::__construct($controlWrappers, $chartWrappers);
     }
 }
