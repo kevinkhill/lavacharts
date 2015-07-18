@@ -19,14 +19,14 @@ use \Khill\Lavacharts\Values\ElementId;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Wrapper
+abstract class Wrapper implements \JsonSerializable
 {
     /**
      * ContainerId of the div to render the control into.
      *
      * @var \Khill\Lavacharts\Values\ElementId
      */
-    private $containerId;
+    protected $containerId;
 
     /**
      * Builds a new Wrapper object.
@@ -56,6 +56,6 @@ class Wrapper
      */
     public function toJavascript()
     {
-        return sprintf('new %s(%s)', self::VIZ_CLASS, json_encode($this));
+        return sprintf('new %s(%s)', static::VIZ_CLASS, json_encode($this));
     }
 }

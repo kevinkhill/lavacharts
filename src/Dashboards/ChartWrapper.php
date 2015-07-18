@@ -19,7 +19,7 @@ use \Khill\Lavacharts\Charts\Chart;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class ChartWrapper extends Wrapper implements \JsonSerializable
+class ChartWrapper extends Wrapper
 {
     /**
      * Javascript chart class.
@@ -34,13 +34,6 @@ class ChartWrapper extends Wrapper implements \JsonSerializable
      * @var \Khill\Lavacharts\Charts\Chart
      */
     private $chart;
-
-    /**
-     * HTML element id of the div to render the control into.
-     *
-     * @var \Khill\Lavacharts\Values\ElementId
-     */
-    private $containerId;
 
     /**
      * Builds a ChartWrapper object.

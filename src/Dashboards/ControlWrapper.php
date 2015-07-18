@@ -19,7 +19,7 @@ use \Khill\Lavacharts\Dashboards\Filters\Filter;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class ControlWrapper extends Wrapper implements \JsonSerializable
+class ControlWrapper extends Wrapper
 {
     /**
      * Google's visualization class name.
