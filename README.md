@@ -151,3 +151,6 @@ Example:
   // Or
   echo Lava::render('LineChart', 'Stocks', 'stocks-div', ['width'=>1024, 'height'=>768]);
 ```
+
+# Changelog
+The complete changelog can be found [here](https://github.com/kevinkhill/lavacharts/wiki/Changelog)
