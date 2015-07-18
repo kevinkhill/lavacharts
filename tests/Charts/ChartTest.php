@@ -11,14 +11,16 @@ class ChartTest extends ChartTestCase
     {
         parent::setUp();
 
+        $label = m::mock('\Khill\Lavacharts\Values\Label', ['TestChart'])->makePartial();
+
         $this->mockLineChart = m::mock('Khill\Lavacharts\Charts\LineChart', [
-            'TestChart', $this->partialDataTable
-        ])->makePartial();;
+            $label, $this->partialDataTable
+        ])->makePartial();
     }
 
     public function testLabelAssignedViaConstructor()
     {
-        $this->assertEquals('TestChart', $this->mockLineChart->label);
+        $this->assertEquals('TestChart', $this->mockLineChart->getLabel());
     }
 
     public function testDataTable()
