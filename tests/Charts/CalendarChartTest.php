@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Charts\CalendarChart;
+use \Mockery as m;
 
 class CalendarChartTest extends ChartTestCase
 {
@@ -10,7 +11,9 @@ class CalendarChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->CalendarChart = new CalendarChart('MyTestChart', $this->partialDataTable);
+        $label = m::mock('\Khill\Lavacharts\Values\Label', ['MyTestChart'])->makePartial();
+
+        $this->CalendarChart = new CalendarChart($label, $this->partialDataTable);
     }
 
     public function testInstanceOfLineChartWithType()
@@ -27,7 +30,7 @@ class CalendarChartTest extends ChartTestCase
 
     public function testLabelAssignedViaConstructor()
     {
-        $this->assertEquals('MyTestChart', $this->CalendarChart->label);
+        $this->assertEquals('MyTestChart', (string) $this->CalendarChart->getLabel());
     }
 
     public function testCellColor()

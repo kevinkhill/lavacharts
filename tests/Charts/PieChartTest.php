@@ -11,7 +11,9 @@ class PieChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->PieChart = new PieChart('MyTestChart', $this->partialDataTable);
+        $label = m::mock('\Khill\Lavacharts\Values\Label', ['MyTestChart'])->makePartial();
+
+        $this->PieChart = new PieChart($label, $this->partialDataTable);
     }
 
     public function testInstanceOfPieChartWithType()
@@ -28,7 +30,7 @@ class PieChartTest extends ChartTestCase
 
     public function testLabelAssignedViaConstructor()
     {
-        $this->assertEquals('MyTestChart', $this->PieChart->label);
+        $this->assertEquals('MyTestChart', (string) $this->PieChart->getLabel());
     }
 
     public function testIs3D()
