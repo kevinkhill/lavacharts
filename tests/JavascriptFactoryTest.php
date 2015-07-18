@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Tests;
 
 
-use \Khill\Lavacharts\JavascriptFactory;
+use \Khill\Lavacharts\Javascript\JavascriptFactory;
 use \Mockery as m;
 
 class JavascriptFactoryTest extends ProvidersTestCase
