@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\Utilss;
+namespace Khill\Lavacharts\Tests\Utils;
 
 use \Mockery as m;
 use \Khill\Lavacharts\Utils;
