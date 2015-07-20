@@ -43,6 +43,9 @@
   </testsuites>
 
   <filter>
+    <whitelist>
+      <directory>../src/</directory>
+    </whitelist>
     <blacklist>
       <directory>../vendor/</directory>
     </blacklist>
@@ -53,3 +56,4 @@
     <listener class="\Mockery\Adapter\Phpunit\TestListener" />
   </listeners>
 </phpunit>
+

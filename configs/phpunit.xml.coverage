@@ -42,6 +42,9 @@
   </testsuites>
 
   <filter>
+    <whitelist>
+      <directory>../src/</directory>
+    </whitelist>
     <blacklist>
       <directory>../vendor/</directory>
     </blacklist>
