@@ -14,26 +14,29 @@ class JavascriptFactoryTest extends ProvidersTestCase
 
         $this->jsf = new JavascriptFactory;
 
+        $this->mockChartLabel = m::mock('\Khill\Lavacharts\Values\Label', ['TestChart'])->makePartial();
+        $this->mockElementId = m::mock('\Khill\Lavacharts\Values\ElementId', ['chart'])->makePartial();
+
         $this->mdt = m::mock('Khill\Lavacharts\Configs\DataTable')->makePartial();
         $this->mdt->addColumn('number')
                   ->addColumn('number')
                   ->addColumn('number')
                   ->addRow([10101, 12345, 67890]);
 
-        $this->mlc = m::mock('Khill\Lavacharts\Charts\LineChart', ['TestChart', $this->mdt])->makePartial();
+        $this->mlc = m::mock('Khill\Lavacharts\Charts\LineChart', [$this->mockChartLabel, $this->mdt])->makePartial();
     }
 
     public function testGetChartJsOutput()
     {
         $this->mlc->datatable($this->mdt);
 
-        $js = $this->jsf->getChartJs($this->mlc, 'div_id');
+        $js = $this->jsf->getChartJs($this->mlc, $this->mockElementId);
 
-        $this->assertTrue(strpos($js, 'div_id') > 0 ? true : false);
+        $this->assertTrue(strpos($js, 'chart') > 0 ? true : false);
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidElementId
+     * @expectedException \PHPUnit_Framework_Error
      */
     public function testGetChartJsWithNoElementId()
     {
@@ -42,7 +45,7 @@ class JavascriptFactoryTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidElementId
+     * @expectedException \PHPUnit_Framework_Error
      */
     public function testGetChartJsWithBadElementIdTypes($badTypes)
     {

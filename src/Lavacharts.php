@@ -407,7 +407,7 @@ class Lavacharts
 
     /**
      * Fetches an existing Chart or Dashboard from the volcano storage.
-     * @TODO look into volcano
+     *
      * @access public
      * @since  3.0.0
      * @uses   \Khill\Lavacharts\Values\Label
@@ -427,7 +427,7 @@ class Lavacharts
 
     /**
      * Stores a existing Chart or Dashboard into the volcano storage.
-     * @TODO fix return types or make volcano return the stored object
+     *
      * @access public
      * @since  3.0.0
      * @param  string $lavaObj Chart or Dashboard.
@@ -464,16 +464,13 @@ class Lavacharts
      *
      * @access private
      * @since  1.0.0
-     * @uses   \Khill\Lavacharts\Values\ElementId
-     * @param  string $elementId  Element id to apply to the div.
+     * @param  \Khill\Lavacharts\Values\ElementId $elementId  Element id to apply to the div.
      * @param  array  $dimensions Height & width of the div.
      * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions
      * @return string HTML div element.
      */
-    private function div($elementId, $dimensions = true)
+    private function div(ElementId $elementId, $dimensions = true)
     {
-        $elementId = new ElementId($elementId);
-
         if ($dimensions === true) {
             return sprintf('<div id="%s"></div>', $elementId);
         } else {
@@ -583,9 +580,9 @@ class Lavacharts
      *
      * @access private
      * @since  3.0.0
-     * @uses   \Khill\Lavacharts\Dashboard\Dashboard
+     * @uses   \Khill\Lavacharts\Dashboards\Dashboard
      * @param  \Khill\Lavacharts\Values\Label $label Label of the dashboard.
-     * @return \Khill\Lavacharts\Dashboard\Dashboard
+     * @return \Khill\Lavacharts\Dashboards\Dashboard
      */
     private function dashboardFactory(Label $label)
     {
@@ -694,7 +691,7 @@ class Lavacharts
      * @param  string $args Arguments from __call
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
-     * @return \Khill\Lavacharts\Filters\Filter
+     * @return \Khill\Lavacharts\Dashboards\Filters\Filter
      */
     private function filterFactory($type, $args)
     {
@@ -719,7 +716,7 @@ class Lavacharts
     }
 
     /**
-     * Checks if running in comopser environment
+     * Checks if running in composer environment
      *
      * This will check if the folder 'composer' is within the path to Lavacharts.
      *
