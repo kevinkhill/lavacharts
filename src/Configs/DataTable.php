@@ -130,6 +130,17 @@ class DataTable implements \JsonSerializable
     }
 
     /**
+     * Returns a clone of the DataTable
+     *
+     * @access public
+     * @return \Khill\Lavacharts\Configs\DataTable;
+     */
+    public function getClone()
+    {
+        return clone $this;
+    }
+
+    /**
      * Sets the Timezone that Carbon will use when parsing dates
      *
      * This will use the passed timezone, falling back to the default from php.ini,
@@ -377,6 +388,26 @@ class DataTable implements \JsonSerializable
         }
 
         return ['c' => $tmp];
+    }
+
+    /**
+     * Drops a column and its data from the DataTable
+     *
+     * @param  int $colIndex
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
+     * @return self
+     */
+    public function dropColumn($colIndex)
+    {
+        if (is_int($colIndex) === false || array_key_exists($colIndex, $this->cols) === false) {
+            throw new InvalidColumnIndex($colIndex, count($this->cols));
+        }
+
+        unset($this->cols[$colIndex]);
+
+        $this->cols = array_values($this->cols);
+
+        return $this;
     }
 
     /**
@@ -779,7 +810,7 @@ class DataTable implements \JsonSerializable
             } else {
                 $carbonDate = Carbon::parse($date);
             }
-//var_dump($carbonDate);die;
+
             return $this->carbonToJsString($carbonDate);
         } catch (\Exception $e) {
            throw new InvalidDate;
