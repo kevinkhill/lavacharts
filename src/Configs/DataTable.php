@@ -5,6 +5,8 @@ namespace Khill\Lavacharts\Configs;
 use \Carbon\Carbon;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Formats\Format;
+use \Khill\Lavacharts\Datatables\Columns\DataColumn;
+use \Khill\Lavacharts\Datatables\Columns\NumberColumn;
 use \Khill\Lavacharts\Exceptions\InvalidDate;
 use \Khill\Lavacharts\Exceptions\InvalidCellCount;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -218,7 +220,7 @@ class DataTable implements \JsonSerializable
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return self
      */
-    public function addColumn($typeOrDescArr, $optLabel = '', $optId = '', Format $formatter = null, $role = '')
+    public function addColumnDEPRECATED($typeOrDescArr, $optLabel = '', $optId = '', Format $formatter = null, $role = '')
     {
         if (is_array($typeOrDescArr)) {
             $this->addColumnFromArray($typeOrDescArr);
@@ -230,6 +232,13 @@ class DataTable implements \JsonSerializable
                 'string or array'
             );
         }
+
+        return $this;
+    }
+
+    public function addColumn(DataColumn $column)
+    {
+        $this->cols[] = $column;
 
         return $this;
     }
@@ -300,7 +309,15 @@ class DataTable implements \JsonSerializable
      */
     public function addNumberColumn($optLabel, Format $formatter = null)
     {
-        return $this->addColumn('number', $optLabel, 'col_' . (count($this->cols) + 1), $formatter);
+        $column = new NumberColumn($optLabel, 'col_' . (count($this->cols) + 1));
+
+        if ($formatter instanceof Format) {
+            $column->addFormat($formatter);
+        }
+
+        $this->addColumn($column);
+        //return $this->addColumn('number', $optLabel, 'col_' . (count($this->cols) + 1), $formatter);
+        return $this;
     }
 
     /**
