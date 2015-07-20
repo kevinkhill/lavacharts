@@ -19,7 +19,7 @@ matrix:
 
 branches:
   only:
-    - 2.5
+    - master
     - 3.0
 
 cache:
