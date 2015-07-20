@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Charts\GaugeChart;
+use \Mockery as m;
 
 class GaugeChartTest extends ChartTestCase
 {
@@ -10,7 +11,9 @@ class GaugeChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->GaugeChart = new GaugeChart('Temps', $this->partialDataTable);
+        $label = m::mock('\Khill\Lavacharts\Values\Label', ['Temps'])->makePartial();
+
+        $this->GaugeChart = new GaugeChart($label, $this->partialDataTable);
     }
 
     public function testInstanceOfGaugeChartWithType()
@@ -27,7 +30,7 @@ class GaugeChartTest extends ChartTestCase
 
     public function testLabelAssignedViaConstructor()
     {
-        $this->assertEquals('Temps', $this->GaugeChart->label);
+        $this->assertEquals('Temps', (string) $this->GaugeChart->getLabel());
     }
 
     public function testForceIFrame()

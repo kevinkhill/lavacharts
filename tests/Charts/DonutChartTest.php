@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Charts\DonutChart;
+use \Mockery as m;
 
 class DonutChartTest extends ChartTestCase
 {
@@ -10,7 +11,9 @@ class DonutChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->DonutChart = new DonutChart('MyTestChart', $this->partialDataTable);
+        $label = m::mock('\Khill\Lavacharts\Values\Label', ['MyTestChart'])->makePartial();
+
+        $this->DonutChart = new DonutChart($label, $this->partialDataTable);
     }
 
     public function testInstanceOfDonutChartWithType()
@@ -27,7 +30,7 @@ class DonutChartTest extends ChartTestCase
 
     public function testLabelAssignedViaConstructor()
     {
-        $this->assertEquals('MyTestChart', $this->DonutChart->label);
+        $this->assertEquals('MyTestChart', (string) $this->DonutChart->getLabel());
     }
 
     public function testPieHole()

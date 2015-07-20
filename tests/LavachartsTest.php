@@ -13,6 +13,8 @@ class LavachartsTest extends ProvidersTestCase
 
         $this->lava = new Lavacharts;
 
+        $this->mockLabel = m::mock('\Khill\Lavacharts\Values\Label', ['MockLabel'])->makePartial();
+
         $this->partialDataTableWithReceives = m::mock('\Khill\Lavacharts\Configs\DataTable')
                                           ->shouldReceive('toJson')
                                           ->atMost(1)
@@ -30,7 +32,7 @@ class LavachartsTest extends ProvidersTestCase
 
     public function testIfInstanceOfJavascriptFactory()
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\JavascriptFactory', $this->lava->jsFactory);
+        $this->assertInstanceOf('\Khill\Lavacharts\Javascript\JavascriptFactory', $this->lava->jsFactory);
     }
 
     public function testCreateDataTableViaAlias()
@@ -76,6 +78,7 @@ class LavachartsTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidLabel
      */
     public function testExistsWithNonStringInputForLabel($badTypes)
     {
@@ -172,7 +175,7 @@ class LavachartsTest extends ProvidersTestCase
      */
     public function testDirectRenderChartWithDivNoDimensions()
     {
-        $chart = $this->lava->LineChart('test', $this->partialDataTable);
+        $this->lava->LineChart('test', $this->partialDataTable);
 
         $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div', true)));
     }
@@ -225,14 +228,14 @@ class LavachartsTest extends ProvidersTestCase
      */
     public function testDirectRenderChartWithDivAndDimensionsWithBadValues()
     {
-        $chart = $this->lava->LineChart('test', $this->partialDataTable);
+        $this->lava->LineChart('my-chart', $this->partialDataTable);
 
         $dims = [
             'height' => 4.6,
             'width' => 'hotdogs'
         ];
 
-        $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div', $dims)));
+        $this->assertTrue(is_string($this->lava->render('LineChart', 'my-chart', 'test-div', $dims)));
     }
 
     /**
@@ -289,12 +292,12 @@ class LavachartsTest extends ProvidersTestCase
     public function testStoreChartIntoVolcano()
     {
         $mockPieChart = m::mock('\Khill\Lavacharts\Charts\PieChart', [
-            'volcanoTest',
+            $this->mockLabel,
             $this->partialDataTable
-        ]);
+        ])->shouldReceive('getLabel')->andReturn('MockLabel')->getMock();
 
         $this->assertTrue($this->lava->store($mockPieChart));
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\PieChart', $this->lava->fetch('PieChart', 'volcanoTest'));
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\PieChart', $this->lava->fetch('PieChart', 'MockLabel'));
     }
 
     public function testJsapiMethodWithCoreJsTracking()

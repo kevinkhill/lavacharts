@@ -2,7 +2,6 @@
 
 Lavacharts is a graphing / chart library for PHP5.4+ that wraps the Google Chart API
 
-
 Stable:
 [![Current Release](https://img.shields.io/github/release/kevinkhill/lavacharts.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/releases)
 [![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/master.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
@@ -13,6 +12,8 @@ Dev:
 [![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/3.0.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/3.0.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=3.0)
 
+## Version 3.0 is still a work in progress, but mostly stable.
+Check here for notes on how to  [upgrade from 2.5.x to 3.0.x](https://github.com/kevinkhill/lavacharts/wiki/Upgrading-from-2.5-to-3.0)  
 
 ## Package Features
 - Blade template extensions for laravel
@@ -30,13 +31,13 @@ Dev:
 
 ## For complete documentation, please visit [lavacharts.com](http://lavacharts.com/)
 
-
+---
 
 ## Installing
 In your project's main ```composer.json``` file, add this line to the requirements:
 
   ```
-  "khill/lavacharts": "2.5.*"
+  "khill/lavacharts": "3.0.x-dev"
   ```
 
 Run Composer to install Lavacharts:
@@ -100,9 +101,9 @@ Here is an example of the simplest chart you can create: A line chart with one d
     // Random Data For Example
     for ($a = 1; $a < 30; $a++)
     {
-        $rowData = array(
+        $rowData = [
           "2014-8-$a", rand(800,1000), rand(800,1000)
-        );
+        ];
 
         $stocksTable->addRow($rowData);
     }
@@ -110,20 +111,16 @@ Here is an example of the simplest chart you can create: A line chart with one d
 
 Arrays work for datatables as well...
 ```
-  $stocksTable->addColumns(array(
-    array('date', 'Day of Month'),
-    array('number', 'Projected'),
-    array('number', 'Official')
-  ));
+  $stocksTable->addColumns([
+    ['date', 'Day of Month'],
+    ['number', 'Projected'],
+    ['number', 'Official']
+  ]];
 ```
 
 ...and for setting chart options!
 ```
-  $lineChart = $lava->LineChart('Stocks')
-                    ->setOptions(array(
-                        'datatable' => $stocksTable,
-                        'title' => 'Stock Market Trends'
-                      ));
+  $lava->LineChart('Stocks', $stocksTable, ['title' => 'Stock Market Trends']);
 ```
 
 ## View
@@ -132,6 +129,7 @@ If you are using Laravel and the Blade templating engine, there are some nifty e
   ```
   @linechart('Stocks', 'stocks-div');
   // Behind the scenes this just calls Lava::renderLineChart('Stocks', 'stocks-div')
+  // which is an alias for the render method, seen below
   ```
 
 Or you can use the new render method, passing in the chart type, label, and element id.
@@ -151,5 +149,8 @@ Example:
 ```
   @linechart('Stocks', 'stocks-div', true)
   // Or
-  echo Lava::render('LineChart', 'Stocks', 'stocks-div', array('width'=>1024, 'height'=>768));
+  echo Lava::render('LineChart', 'Stocks', 'stocks-div', ['width'=>1024, 'height'=>768]);
 ```
+
+# Changelog
+The complete changelog can be found [here](https://github.com/kevinkhill/lavacharts/wiki/Changelog)

@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Configs\DataTable;
 
 /**
@@ -65,13 +66,13 @@ class LineChart extends Chart
     /**
      * Builds a new chart with the given label.
      *
-     * @param  string $chartLabel Identifying label for the chart.
+     * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
      * @param  \Khill\Lavacharts\Configs\DataTable $datatable Datatable used for the chart.
      * @return self
      */
-    public function __construct($chartLabel, DataTable $datatable)
+    public function __construct(Label $chartLabel, DataTable $datatable, $options=[])
     {
-        parent::__construct($chartLabel, $datatable);
+        parent::__construct($chartLabel, $datatable, $options);
 
         $this->defaults = array_merge([
             'axisTitlesPosition',

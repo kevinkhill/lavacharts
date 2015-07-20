@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Filters;
+namespace Khill\Lavacharts\Dashboards\Filters;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -13,7 +13,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  *
  *
  * @package    Lavacharts
- * @subpackage Filters
+ * @subpackage Dashbaords\Filters
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs

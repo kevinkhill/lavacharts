@@ -2,10 +2,9 @@
 
 namespace Khill\Lavacharts;
 
-
+use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Dashboard\Dashboard;
-
+use \Khill\Lavacharts\Dashboards\Dashboard;
 use \Khill\Lavacharts\Exceptions\ChartNotFound;
 use \Khill\Lavacharts\Exceptions\DashboardNotFound;
 
@@ -47,7 +46,7 @@ class Volcano
      */
     public function storeChart(Chart $chart)
     {
-        $this->charts[$chart::TYPE][$chart->label] = $chart;
+        $this->charts[$chart::TYPE][(string) $chart->getLabel()] = $chart;
 
         return true;
     }
@@ -55,12 +54,12 @@ class Volcano
     /**
      * Stores a dashboard in the volcano datastore.
      *
-     * @param  \Khill\Lavacharts\Dashboard\Dashboard $dashboard Dashboard to store in the volcano.
+     * @param  \Khill\Lavacharts\Dashboards\Dashboard $dashboard Dashboard to store in the volcano.
      * @return boolean
      */
     public function storeDashboard(Dashboard $dashboard)
     {
-        $this->dashboards[$dashboard->label] = $dashboard;
+        $this->dashboards[(string) $dashboard->getLabel()] = $dashboard;
 
         return true;
     }
@@ -69,45 +68,45 @@ class Volcano
      * Retrieves a chart from the volcano datastore.
      *
      * @param  string $type  Type of chart to store.
-     * @param  string $label Identifying label for the chart.
+     * @param  \Khill\Lavacharts\Values\Label $label Identifying label for the chart.
      * @throws \Khill\Lavacharts\Exceptions\ChartNotFound
      * @return \Khill\Lavacharts\Charts\Chart
      */
-    public function getChart($type, $label)
+    public function getChart($type, Label $label)
     {
         if ($this->checkChart($type, $label) === false) {
             throw new ChartNotFound($type, $label);
         }
 
-        return $this->charts[$type][$label];
+        return $this->charts[$type][(string) $label];
     }
 
     /**
      * Retrieves a dashboard from the volcano datastore.
      *
-     * @param  string $label Identifying label for the dashboard.
+     * @param  \Khill\Lavacharts\Values\Label $label Identifying label for the dashboard.
      * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
      * @return \Khill\Lavacharts\Dashboards\Dashboard
      */
-    public function getDashboard($label)
+    public function getDashboard(Label $label)
     {
         if ($this->checkDashboard($label) === false) {
             throw new DashboardNotFound($label);
         }
 
-        return $this->dashboards[$label];
+        return $this->dashboards[(string) $label];
     }
 
     /**
      * Simple true/false test if a chart exists.
      *
      * @param  string $type  Type of chart to check.
-     * @param  string $label Identifying label of a chart to check.
+     * @param  \Khill\Lavacharts\Values\Label $label Identifying label of a chart to check.
      * @return boolean
      */
-    public function checkChart($type, $label)
+    public function checkChart($type, Label $label)
     {
-        if (Utils::nonEmptyString($type) === false || Utils::nonEmptyString($label) === false) {
+        if (Utils::nonEmptyString($type) === false) {
             return false;
         }
 
@@ -115,21 +114,17 @@ class Volcano
             return false;
         }
 
-        return array_key_exists($label, $this->charts[$type]);
+        return array_key_exists((string) $label, $this->charts[$type]);
     }
 
     /**
      * Simple true/false test if a dashboard exists.
      *
-     * @param  string $label Identifying label of a chart to check.
+     * @param  \Khill\Lavacharts\Values\Label $label Identifying label of a chart to check.
      * @return boolean
      */
-    public function checkDashboard($label)
+    public function checkDashboard(Label $label)
     {
-        if (Utils::nonEmptyString($label) === false) {
-            return false;
-        }
-
-        return array_key_exists($label, $this->dashboards);
+        return array_key_exists((string) $label, $this->dashboards);
     }
 }

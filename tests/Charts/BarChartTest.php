@@ -11,7 +11,9 @@ class BarChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->BarChart = new BarChart('MyTestChart', $this->partialDataTable);
+        $label = m::mock('\Khill\Lavacharts\Values\Label', ['MyTestChart'])->makePartial();
+
+        $this->BarChart = new BarChart($label, $this->partialDataTable);
     }
 
     public function testInstanceOfBarChartWithType()
@@ -28,13 +30,13 @@ class BarChartTest extends ChartTestCase
 
     public function testLabelAssignedViaConstructor()
     {
-        $this->assertEquals('MyTestChart', $this->BarChart->label);
+        $this->assertEquals('MyTestChart', (string) $this->BarChart->getLabel());
     }
 
     public function testAnnotations()
     {
         $this->BarChart->annotations($this->getMockAnnotation());
-        
+
         $this->assertTrue(is_array($this->BarChart->getOption('annotations')));
     }
 

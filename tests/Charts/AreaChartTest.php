@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Charts\AreaChart;
+use \Mockery as m;
 
 class AreaChartTest extends ChartTestCase
 {
@@ -10,7 +11,9 @@ class AreaChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->AreaChart = new AreaChart('MyTestChart', $this->partialDataTable);
+        $label = m::mock('\Khill\Lavacharts\Values\Label', ['MyTestChart'])->makePartial();
+
+        $this->AreaChart = new AreaChart($label, $this->partialDataTable);
     }
 
     public function testInstanceOfAreaChartWithType()
@@ -27,7 +30,7 @@ class AreaChartTest extends ChartTestCase
 
     public function testLabelAssignedViaConstructor()
     {
-        $this->assertEquals('MyTestChart', $this->AreaChart->label);
+        $this->assertEquals('MyTestChart', (string) $this->AreaChart->getLabel());
     }
 
     public function testAreaOpacity()

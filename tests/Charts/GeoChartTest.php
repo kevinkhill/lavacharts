@@ -11,7 +11,9 @@ class GeoChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->GeoChart = new GeoChart('MyTestChart', $this->partialDataTable);
+        $label = m::mock('\Khill\Lavacharts\Values\Label', ['MyTestChart'])->makePartial();
+
+        $this->GeoChart = new GeoChart($label, $this->partialDataTable);
     }
 
     public function testInstanceOfGeoChartWithType()
@@ -28,7 +30,7 @@ class GeoChartTest extends ChartTestCase
 
     public function testLabelAssignedViaConstructor()
     {
-        $this->assertEquals('MyTestChart', $this->GeoChart->label);
+        $this->assertEquals('MyTestChart', (string) $this->GeoChart->getLabel());
     }
 
     public function testColorAxis()
@@ -180,13 +182,13 @@ class GeoChartTest extends ChartTestCase
     }
 
     public function testMagnifiyingGlass()
-    {       
+    {
         $mockMagnifyingGlass = m::mock('Khill\Lavacharts\Configs\MagnifyingGlass', function ($mock) {
             $mock->shouldReceive('toArray')->once()->andReturn([
                 'magnifyingGlass' => []
             ]);
         });
-        
+
         $this->GeoChart->magnifyingGlass($mockMagnifyingGlass);
 
         $this->assertTrue(is_array($this->GeoChart->getOption('magnifyingGlass')));

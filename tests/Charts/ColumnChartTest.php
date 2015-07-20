@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Charts\ColumnChart;
+use \Mockery as m;
 
 class ColumnChartTest extends ChartTestCase
 {
@@ -10,7 +11,9 @@ class ColumnChartTest extends ChartTestCase
     {
         parent::setUp();
 
-        $this->ColumnChart = new ColumnChart('MyTestChart', $this->partialDataTable);
+        $label = m::mock('\Khill\Lavacharts\Values\Label', ['MyTestChart'])->makePartial();
+
+        $this->ColumnChart = new ColumnChart($label, $this->partialDataTable);
     }
 
     public function testInstanceOfColumnChartWithType()
@@ -27,7 +30,7 @@ class ColumnChartTest extends ChartTestCase
 
     public function testLabelAssignedViaConstructor()
     {
-        $this->assertEquals('MyTestChart', $this->ColumnChart->label);
+        $this->assertEquals('MyTestChart', (string) $this->ColumnChart->getLabel());
     }
 
     public function testAxisTitlesPositionValidValues()

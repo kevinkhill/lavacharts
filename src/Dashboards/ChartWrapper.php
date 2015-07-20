@@ -1,11 +1,9 @@
 <?php
 
-namespace Khill\Lavacharts\Dashboard;
+namespace Khill\Lavacharts\Dashboards;
 
-use \Khill\Lavacharts\Utils;
-//use \Khill\Lavacharts\Dashboard\Wrapper;
+use \Khill\Lavacharts\Values\ElementId;;
 use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * ChartWrapper Class
@@ -13,7 +11,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * Used for wrapping charts to use in dashboards.
  *
  * @package    Lavacharts
- * @subpackage Dashboard
+ * @subpackage Dashboards
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
@@ -21,7 +19,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class ChartWrapper implements \JsonSerializable
+class ChartWrapper extends Wrapper
 {
     /**
      * Javascript chart class.
@@ -38,32 +36,18 @@ class ChartWrapper implements \JsonSerializable
     private $chart;
 
     /**
-     * ContainerId of the div to render the control into.
-     *
-     * @var string
-     */
-    private $containerId;
-
-    /**
      * Builds a ChartWrapper object.
      *
      * @param  \Khill\Lavacharts\Charts\Chart $chart
-     * @param  string $containerId
+     * @param  \Khill\Lavacharts\Values\ElementId $containerId
      * @return self
      */
-    public function __construct(Chart $chart, $containerId)
+    public function __construct(Chart $chart, ElementId $containerId)
     {
-        if (Utils::nonEmptyString($containerId) === false) {
-            throw new InvalidConfigValue(
-                get_class(),
-                __FUNCTION__,
-                'string'
-            );
-        }
+        parent::__construct($containerId);
 
-        $this->chart       = $chart;
-        $this->type        = $chart::TYPE;
-        $this->containerId = $containerId;
+        $this->chart = $chart;
+        $this->type  = $chart::TYPE;
     }
 
     /**
@@ -77,26 +61,6 @@ class ChartWrapper implements \JsonSerializable
     }
 
     /**
-     * Returns the container id.
-     *
-     * @return \Khill\Lavacharts\Charts\Chart
-     */
-    public function getContainerId()
-    {
-        return $this->containerId;
-    }
-
-    /**
-     * Return a serialized ChartWrapper.
-     *
-     * @return string JSON
-     */
-    public function toJson()
-    {
-        return json_encode($this);
-    }
-
-    /**
      * Custom serialization of the ChartWrapper.
      *
      * @return array
@@ -104,7 +68,7 @@ class ChartWrapper implements \JsonSerializable
     public function jsonSerialize() {
         return [
             'chartType'   => $this->type,
-            'containerId' => $this->containerId,
+            'containerId' => (string) $this->containerId,
             'options'     => $this->chart->getOptions()
         ];
     }

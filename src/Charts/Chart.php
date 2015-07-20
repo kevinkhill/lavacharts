@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\JavascriptFactory;
 use \Khill\Lavacharts\Configs\DataTable;
 use \Khill\Lavacharts\Configs\Animation;
@@ -35,9 +36,9 @@ class Chart
     /**
      * The chart's unique label.
      *
-     * @var string
+     * @var \Khill\Lavacharts\Values\Label
      */
-    public $label = null;
+    protected $label = null;
 
     /**
      * The chart's datatable.
@@ -87,18 +88,15 @@ class Chart
     /**
      * Builds a new chart with the given label.
      *
-     * @param  string $chartLabel Identifying label for the chart.
+     * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
      * @param  \Khill\Lavacharts\Configs\DataTable $datatable Datatable used for the chart.
+     * @param  array $options Array of options to set on the chart.
      * @return self
      */
-    public function __construct($chartLabel, DataTable $datatable)
+    public function __construct(Label $chartLabel, DataTable $datatable, $options=[])
     {
-        if (Utils::nonEmptyString($chartLabel) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'which is unique and non-empty'
-            );
+        if (empty($options) === false) {
+            $this->setOptions($options);
         }
 
         $this->label     = $chartLabel;
@@ -228,6 +226,17 @@ class Chart
     public function getEvents()
     {
         return $this->events;
+    }
+
+    /**
+     * Returns the chart label.
+     *
+     * @since  3.0.0
+     * @return \Khill\Lavacharts\Values\Label
+     */
+    public function getLabel()
+    {
+        return (string) $this->label;
     }
 
     /**
