@@ -26,6 +26,9 @@
     <testsuite name="formats">
       <directory>../tests/Formats/</directory>
     </testsuite>
+    <testsuite name="filters">
+      <directory>../tests/Filters/</directory>
+    </testsuite>
     <testsuite name="utils">
       <directory>../tests/Utils/</directory>
     </testsuite>
@@ -35,12 +38,12 @@
   </testsuites>
 
   <filter>
-    <whitelist processUncoveredFilesFromWhitelist="true">
-      <directory>../src/Khill/Lavacharts</directory>
-      <exclude>
-        <directory>../src/Khill/Lavacharts/Laravel</directory>
-      </exclude>
+    <whitelist>
+      <directory>../src/</directory>
     </whitelist>
+    <blacklist>
+      <directory>../vendor/</directory>
+    </blacklist>
   </filter>
 
   <logging>
