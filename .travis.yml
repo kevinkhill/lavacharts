@@ -40,7 +40,8 @@ before_install:
 
 install:
   - npm install karma karma-jasmine karma-phantomjs-launcher jasmine-core
-  - composer install --no-progress
+  #- composer install --no-progress
+  - composer update --prefer-lowest
 
 before_script:
   - echo 'date.timezone = "America/Los_Angeles"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
