@@ -29,12 +29,11 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~4.5",
-        "brianium/paratest": "dev-master",
         "mybuilder/phpunit-accelerator": "~1.1",
         "mockery/mockery": "~0.9",
         "squizlabs/php_codesniffer": "~2.3",
         "sami/sami": "~3.0",
-        "satooshi/php-coveralls": "~0.6"
+        "satooshi/php-coveralls": "dev-master"
     },
     "autoload-dev": {
         "psr-4": {
