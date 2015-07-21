@@ -141,6 +141,7 @@ class DataTable implements \JsonSerializable
      * Returns a clone of the DataTable
      *
      * @access public
+     * @since  3.0.0
      * @return \Khill\Lavacharts\Configs\DataTable;
      */
     public function getClone()

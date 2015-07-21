@@ -5,11 +5,10 @@ namespace Khill\Lavacharts\Values;
 use Khill\Lavacharts\Exceptions\InvalidElementId;
 
 /**
- * ElementId Value Object
+ * Role Value Object
  *
  *
- * Creates a new ElementId Object defining an id on an html entity
- * while checking if it is a non empty string.
+ * Creates a new Role object for a column roles while checking if it is a non empty string.
  *
  * @category  Class
  * @package   Lavacharts
@@ -19,14 +18,25 @@ use Khill\Lavacharts\Exceptions\InvalidElementId;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT MIT
  */
-class ElementId extends String
+class Role extends String
 {
+    private $validRoles = [
+        'annotation',
+        'annotationText',
+        'certainty',
+        'emphasis',
+        'interval',
+        'scope',
+        'style',
+        'tooltip'
+    ];
+
     public function __construct($value)
     {
-        try {
-            parent::__construct($value);
-        } catch (\Exception $e) {
-            throw new InvalidLabel($value);
+        parent::__construct($value);
+
+        if (in_array($value, $this->valideRoles) === false) {
+            throw new InvalidRole($value);
         }
     }
 }

@@ -18,21 +18,14 @@ use Khill\Lavacharts\Exceptions\InvalidLabel;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT MIT
  */
-class Label
+class Label extends String
 {
-    private $label;
-
-    public function __construct($label)
+    public function __construct($value)
     {
-        if (is_string($label) === false || empty($label) === true) {
-            throw new InvalidLabel($label);
+        try {
+            parent::__construct($value);
+        } catch (\Exception $e) {
+            throw new InvalidLabel($value);
         }
-
-        $this->label = $label;
-    }
-
-    public function __toString()
-    {
-        return $this->label;
     }
 }
