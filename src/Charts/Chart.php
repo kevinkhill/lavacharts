@@ -4,7 +4,7 @@ namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\JavascriptFactory;
+use \Khill\Lavacharts\Javascript\JavascriptFactory;
 use \Khill\Lavacharts\Configs\DataTable;
 use \Khill\Lavacharts\Configs\Animation;
 use \Khill\Lavacharts\Configs\Legend;
