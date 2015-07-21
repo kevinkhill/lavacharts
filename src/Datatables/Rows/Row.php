@@ -1,6 +1,8 @@
 <?php
 
-class DataRow
+namespace Khill\Lavacharts\Datatables\Rows;
+
+class Row
 {
     private $values;
 
