@@ -2,6 +2,14 @@ language: php
 
 sudo: false
 
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/0a100612ee5327ce066f
+    on_success: change  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: false     # default: false
+
 php:
   - 5.4
   - 5.5
