@@ -25,8 +25,8 @@ matrix:
 
 branches:
   only:
-    - master
-    - 3.0
+    - "master"
+    - "3.0"
 
 cache:
   directories:
