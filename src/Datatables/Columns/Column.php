@@ -13,6 +13,8 @@ abstract class Column implements \JsonSerializable
 
     protected $format;
 
+    //TODO: add column roles
+
     public function __construct(Label $label, Label $id, Format $format = null)
     {
         $this->label  = $label;

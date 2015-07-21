@@ -5,6 +5,9 @@ namespace Khill\Lavacharts\Configs;
 use \Carbon\Carbon;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Formats\Format;
+use \Khill\Lavacharts\Datatables\Rows\Row;
+use \Khill\Lavacharts\Datatables\Rows\NullRow;
+use \Khill\Lavacharts\Datatables\Rows\RowFactory;
 use \Khill\Lavacharts\Datatables\Columns\Column;
 use \Khill\Lavacharts\Datatables\Columns\ColumnFactory;
 use \Khill\Lavacharts\Exceptions\InvalidDate;
@@ -130,6 +133,7 @@ class DataTable implements \JsonSerializable
     {
         $this->setTimezone($timezone);
 
+        $this->rowFactory    = new RowFactory($this);
         $this->columnFactory = new ColumnFactory;
     }
 
@@ -402,22 +406,6 @@ class DataTable implements \JsonSerializable
     }
 
     /**
-     * Returns an array of array wrapped null values equal to the
-     * number of columns defined.
-     *
-     * @access protected
-     * @return array
-     */
-    protected function addNullRow()
-    {
-        for ($a = 0; $a < count($this->cols); $a++) {
-            $tmp[] = ['v' => null];
-        }
-
-        return ['c' => $tmp];
-    }
-
-    /**
      * Drops a column and its data from the DataTable
      *
      * @param  int $colIndex
@@ -511,7 +499,7 @@ class DataTable implements \JsonSerializable
     public function addRow($optCellArray = null)
     {
         if (is_null($optCellArray)) {
-            $this->rows[] = $this->addNullRow();
+            $this->rows[] = $this->rowFactory->null();
         } else {
             if (is_array($optCellArray) === false) {
                 throw new InvalidRowDefinition($optCellArray);
@@ -528,12 +516,15 @@ class DataTable implements \JsonSerializable
 
                 $this->rows[] = ['c' => $rowVals];
             } else {
+/*
                 $colCount = $this->getColumnCount();
                 $rowColCount = count($optCellArray);
 
                 if ($rowColCount > $colCount) {
                     throw new InvalidCellCount($rowColCount, $colCount);
                 }
+
+//TODO: Add logic for parsing date cells
 
                 for ($index = 0; $index < $colCount; $index++) {
                     if (isset($optCellArray[$index])) {
@@ -546,8 +537,14 @@ class DataTable implements \JsonSerializable
                         $rowVals[] = ['v' => null];
                     }
                 }
+*/
 
-                $this->rows[] = ['c' => $rowVals];
+                if (empty($optCellArray) === true) {
+                    $this->rows[] = $this->rowFactory->null();
+                } else {
+                    $this->rows[] = $this->rowFactory->create($optCellArray);
+                }
+                //$this->rows[] = ['c' => $rowVals];
             }
         }
 
@@ -576,6 +573,22 @@ class DataTable implements \JsonSerializable
         }
 
         return $this;
+    }
+
+    /**
+     * Returns an array of array wrapped null values equal to the
+     * number of columns defined.
+     *
+     * @access protected
+     * @return array
+     */
+    protected function addNullRow()
+    {
+        for ($a = 0; $a < count($this->cols); $a++) {
+            $tmp[] = ['v' => null];
+        }
+
+        return ['c' => $tmp];
     }
 
     /**

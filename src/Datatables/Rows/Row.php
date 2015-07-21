@@ -2,12 +2,21 @@
 
 namespace Khill\Lavacharts\Datatables\Rows;
 
-class Row
+class Row implements \JsonSerializable
 {
     private $values;
 
-    public function __construct()
+    public function __construct($valueArray)
     {
-        # code...
+        $this->values = $valueArray;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'c' => array_map(function ($cellValue) {
+                return ['v' => $cellValue];
+            }, $this->values)
+        ];
     }
 }
