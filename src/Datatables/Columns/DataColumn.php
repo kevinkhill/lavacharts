@@ -13,14 +13,10 @@ abstract class DataColumn implements \JsonSerializable
 
     protected $format;
 
-    public function __construct(Label $label, Label $id)
+    public function __construct(Label $label, Label $id, Format $format = null)
     {
         $this->label  = $label;
         $this->id     = $id;
-    }
-
-    public function addFormat(Format $format)
-    {
         $this->format = $format;
     }
 
@@ -44,4 +40,12 @@ abstract class DataColumn implements \JsonSerializable
         return $this->format;
     }
 
+    public function jsonSerialize()
+    {
+        return [
+            'type'  => static::TYPE,
+            'label' => (string) $this->label,
+            'id'    => (string) $this->id,
+        ];
+    }
 }

@@ -5,7 +5,9 @@ namespace Khill\Lavacharts\Configs;
 use \Carbon\Carbon;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Formats\Format;
+use \Khill\Lavacharts\Datatables\Columns\ColumnFactory;
 use \Khill\Lavacharts\Datatables\Columns\DataColumn;
+use \Khill\Lavacharts\Datatables\Columns\StringColumn;
 use \Khill\Lavacharts\Datatables\Columns\NumberColumn;
 use \Khill\Lavacharts\Exceptions\InvalidDate;
 use \Khill\Lavacharts\Exceptions\InvalidCellCount;
@@ -129,6 +131,8 @@ class DataTable implements \JsonSerializable
     public function __construct($timezone = null)
     {
         $this->setTimezone($timezone);
+
+        $this->columnFactory = new ColumnFactory;
     }
 
     /**
@@ -271,25 +275,30 @@ class DataTable implements \JsonSerializable
      * Supplemental function to add a string column with less params.
      *
      * @access public
-     * @param  string                A label for the column.
-     * @param  Format                A column formatter object. (Optional)
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @param  string $optLabel A label for the column.
+     * @param  \Khill\Lavacharts\Formats\Format $format A column format object. (Optional)
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      * @return self
      */
-    public function addStringColumn($optLabel, Format $formatter = null)
+    public function addStringColumn($optLabel, Format $format = null)
     {
-        return $this->addColumn('string', $optLabel, 'col_' . (count($this->cols) + 1), $formatter);
+        $colId = 'col_' . (count($this->cols) + 1);
+
+        $column = $this->columnFactory->create('string', $optLabel, $colId, $format);
+
+        return $this->addColumn($column);
+        //return $this->addColumn('string', $optLabel, 'col_' . (count($this->cols) + 1), $formatter);
     }
 
     /**
      * Supplemental function to add a date column with less params.
      *
      * @access public
-     * @param  string                A label for the column.
-     * @param  Format                A column formatter object. (Optional)
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @param  string $optLabel A label for the column.
+     * @param  \Khill\Lavacharts\Formats\Format $format A column format object. (Optional)
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      * @return self
      */
     public function addDateColumn($optLabel, Format $formatter = null)
@@ -301,23 +310,21 @@ class DataTable implements \JsonSerializable
      * Supplemental function to add a number column with less params.
      *
      * @access public
-     * @param  string                A label for the column.
-     * @param  Format                A column formatter object. (Optional)
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @param  string $optLabel A label for the column.
+     * @param  \Khill\Lavacharts\Formats\Format $format A column format object. (Optional)
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      * @return self
      */
-    public function addNumberColumn($optLabel, Format $formatter = null)
+    public function addNumberColumn($optLabel, Format $format = null)
     {
-        $column = new NumberColumn($optLabel, 'col_' . (count($this->cols) + 1));
+        $colId = 'col_' . (count($this->cols) + 1);
 
-        if ($formatter instanceof Format) {
-            $column->addFormat($formatter);
-        }
+        $column = $this->columnFactory->create('number', $optLabel, $colId, $format);
 
-        $this->addColumn($column);
+        return $this->addColumn($column);
+
         //return $this->addColumn('number', $optLabel, 'col_' . (count($this->cols) + 1), $formatter);
-        return $this;
     }
 
     /**
@@ -398,7 +405,7 @@ class DataTable implements \JsonSerializable
      * @access protected
      * @return array
      */
-    protected function addNullColumn()
+    protected function addNullRow()
     {
         for ($a = 0; $a < count($this->cols); $a++) {
             $tmp[] = ['v' => null];
@@ -501,7 +508,7 @@ class DataTable implements \JsonSerializable
     public function addRow($optCellArray = null)
     {
         if (is_null($optCellArray)) {
-            $this->rows[] = $this->addNullColumn();
+            $this->rows[] = $this->addNullRow();
         } else {
             if (is_array($optCellArray) === false) {
                 throw new InvalidRowDefinition($optCellArray);

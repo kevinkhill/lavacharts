@@ -9,21 +9,8 @@ class NumberColumn extends DataColumn
 {
     const TYPE = 'number';
 
-    public function __construct($label, $id)
+    public function __construct(Label $label, Label $id, Format $format = null)
     {
-        $label  = new Label($label);
-        $id     = new Label($id);
-        $format = $format;
-
         parent::__construct($label, $id, $format);
-    }
-
-    public function jsonSerialize()
-    {
-        return [
-            'type'  => self::TYPE,
-            'label' => (string) $this->label,
-            'id'    => $this->id,
-        ];
     }
 }

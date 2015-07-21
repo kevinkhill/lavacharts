@@ -9,13 +9,8 @@ class StringColumn extends DataColumn
 {
     const TYPE = 'string';
 
-    public function __construct($label, $id, $index, Format $format=null)
+    public function __construct(Label $label, Label $id, Format $format = null)
     {
-        $label  = new Label($label);
-        $id     = new Label($id);
-        $index  = $index;
-        $format = $format;
-
-        parent::__construct($label, $id, $index, $format);
+        parent::__construct($label, $id, $format);
     }
 }
