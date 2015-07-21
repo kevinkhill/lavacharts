@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Javascript\JavascriptFactory;
 use \Khill\Lavacharts\Configs\DataTable;
 use \Khill\Lavacharts\Configs\Animation;
@@ -468,10 +469,14 @@ class Chart
      * @param  string           $elemId The id of an HTML element to render the chart into.
      * @throws InvalidElementId
      *
-     * @return string Javscript code blocks
+     * @return string Javascript code blocks
      */
     public function render($elemId)
     {
+        if ($elemId instanceof ElementId === false) {
+            $elemId = new ElementId($elemId);
+        }
+
         $jsf = new JavascriptFactory;
 
         return $jsf->getChartJs($this, $elemId);
