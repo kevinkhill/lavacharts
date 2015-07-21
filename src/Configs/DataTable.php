@@ -5,10 +5,8 @@ namespace Khill\Lavacharts\Configs;
 use \Carbon\Carbon;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Formats\Format;
+use \Khill\Lavacharts\Datatables\Columns\Column;
 use \Khill\Lavacharts\Datatables\Columns\ColumnFactory;
-use \Khill\Lavacharts\Datatables\Columns\DataColumn;
-use \Khill\Lavacharts\Datatables\Columns\StringColumn;
-use \Khill\Lavacharts\Datatables\Columns\NumberColumn;
 use \Khill\Lavacharts\Exceptions\InvalidDate;
 use \Khill\Lavacharts\Exceptions\InvalidCellCount;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -240,7 +238,12 @@ class DataTable implements \JsonSerializable
         return $this;
     }
 
-    public function addColumn(DataColumn $column)
+    private function getNextColumnId()
+    {
+        return 'col_' . (count($this->cols) + 1);
+    }
+
+    public function addColumn(Column $column)
     {
         $this->cols[] = $column;
 
@@ -283,7 +286,7 @@ class DataTable implements \JsonSerializable
      */
     public function addStringColumn($optLabel, Format $format = null)
     {
-        $colId = 'col_' . (count($this->cols) + 1);
+        $colId = $this->getNextColumnId();
 
         $column = $this->columnFactory->create('string', $optLabel, $colId, $format);
 
@@ -318,7 +321,7 @@ class DataTable implements \JsonSerializable
      */
     public function addNumberColumn($optLabel, Format $format = null)
     {
-        $colId = 'col_' . (count($this->cols) + 1);
+        $colId = $this->getNextColumnId();
 
         $column = $this->columnFactory->create('number', $optLabel, $colId, $format);
 
@@ -534,7 +537,7 @@ class DataTable implements \JsonSerializable
 
                 for ($index = 0; $index < $colCount; $index++) {
                     if (isset($optCellArray[$index])) {
-                        if ($this->cols[$index]['type'] == 'date' || $this->cols[$index]['type'] == 'datetime') {
+                        if ($this->cols[$index]->getType() == 'date' || $this->cols[$index]->getType() == 'datetime') {
                             $rowVals[] = ['v' => $this->parseDate($optCellArray[$index])];
                         } else {
                             $rowVals[] = ['v' => $optCellArray[$index]];
