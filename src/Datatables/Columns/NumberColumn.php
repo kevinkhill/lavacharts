@@ -5,7 +5,7 @@ namespace Khill\Lavacharts\Datatables\Columns;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Formats\Format;
 
-class NumberColumn extends DataColumn
+class NumberColumn extends Column
 {
     const TYPE = 'number';
 

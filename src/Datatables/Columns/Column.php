@@ -5,7 +5,7 @@ namespace Khill\Lavacharts\Datatables\Columns;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Formats\Format;
 
-abstract class DataColumn implements \JsonSerializable
+abstract class Column implements \JsonSerializable
 {
     protected $label;
 
