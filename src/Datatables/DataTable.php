@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\DataTables;
+namespace Khill\Lavacharts\Datatables;
 
 use \Carbon\Carbon;
 use \Khill\Lavacharts\Utils;
@@ -35,14 +35,14 @@ use \Khill\Lavacharts\Exceptions\InvalidRowProperty;
  *
  *
  * @package    Lavacharts
- * @subpackage Configs
+ * @subpackage Datatables
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class DataTable implements \JsonSerializable
+class Datatable implements \JsonSerializable
 {
     /**
      * Google's datatable version
@@ -139,7 +139,7 @@ class DataTable implements \JsonSerializable
      *
      * @access public
      * @since  3.0.0
-     * @return \Khill\Lavacharts\Configs\DataTable;
+     * @return \Khill\Lavacharts\Datatables\Datatable;
      */
     public function getClone()
     {

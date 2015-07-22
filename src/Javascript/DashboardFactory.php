@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Javascript;
 
 use \Khill\Lavacharts\Values\ElementId;
-use \Khill\Lavacharts\Configs\DataTable;
+use \Khill\Lavacharts\Datatables\Datatable;
 use \Khill\Lavacharts\Dashboards\Dashboard;
 
 /**

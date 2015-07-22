@@ -4,7 +4,7 @@ namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Configs\DataTable;
+use \Khill\Lavacharts\Datatables\Datatable;
 use \Khill\Lavacharts\Configs\Slice;
 use \Khill\Lavacharts\Configs\TextStyle;
 
@@ -58,10 +58,10 @@ class PieChart extends Chart
      * Builds a new chart with the given label.
      *
      * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\Configs\DataTable $datatable Datatable used for the chart.
+     * @param  \Khill\Lavacharts\Datatables\Datatable $datatable Datatable used for the chart.
      * @return self
      */
-    public function __construct(Label $chartLabel, DataTable $datatable)//, $options = [])
+    public function __construct(Label $chartLabel, Datatable $datatable)//, $options = [])
     {
         parent::__construct($chartLabel, $datatable);
 

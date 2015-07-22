@@ -2,14 +2,14 @@
 
 namespace Khill\Lavacharts\Datatables\Rows;
 
-use \Khill\Lavacharts\Configs\Datatable;
+use \Khill\Lavacharts\Datatables\Datatable;
 use \Khill\Lavacharts\Exceptions\InvalidCellCount;
 
 class RowFactory
 {
     private $datatable;
 
-    public function __construct(DataTable $datatable)
+    public function __construct(Datatable $datatable)
     {
         $this->datatable = $datatable;
     }
