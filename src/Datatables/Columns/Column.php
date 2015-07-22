@@ -2,10 +2,11 @@
 
 namespace Khill\Lavacharts\Datatables\Columns;
 
+use \Khill\Lavacharts\Values\Role;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Formats\Format;
 
-abstract class DataColumn implements \JsonSerializable
+abstract class Column implements \JsonSerializable
 {
     protected $label;
 
@@ -13,15 +14,14 @@ abstract class DataColumn implements \JsonSerializable
 
     protected $format;
 
-    public function __construct(Label $label, Label $id)
+    //TODO: add column roles
+
+    public function __construct(Label $label, Label $id, Format $format = null, Role $role)
     {
         $this->label  = $label;
         $this->id     = $id;
-    }
-
-    public function addFormat(Format $format)
-    {
         $this->format = $format;
+        $this->role   = $role;
     }
 
     public function getType()
@@ -44,4 +44,17 @@ abstract class DataColumn implements \JsonSerializable
         return $this->format;
     }
 
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'type'  => static::TYPE,
+            'label' => (string) $this->label,
+            'id'    => (string) $this->id,
+        ];
+    }
 }
