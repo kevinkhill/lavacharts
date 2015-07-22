@@ -14,14 +14,12 @@ abstract class Column implements \JsonSerializable
 
     protected $format;
 
-    //TODO: add column roles
+    protected $role;
 
-    public function __construct(Label $label, Label $id, Format $format = null, Role $role)
+    public function __construct(Label $label, Label $id)
     {
         $this->label  = $label;
         $this->id     = $id;
-        $this->format = $format;
-        $this->role   = $role;
     }
 
     public function getType()
@@ -39,9 +37,19 @@ abstract class Column implements \JsonSerializable
         return $this->id;
     }
 
+    public function setFormat($format)
+    {
+        $this->format = $format;
+    }
+
     public function getFormat()
     {
         return $this->format;
+    }
+
+    public function setRole($role)
+    {
+        $this->role = $role;
     }
 
     public function getRole()
@@ -51,10 +59,21 @@ abstract class Column implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return [
+        $values = [
             'type'  => static::TYPE,
             'label' => (string) $this->label,
             'id'    => (string) $this->id,
         ];
+
+        if (is_null($this->format) === false) {
+            $values['format'] = $this->format;
+        }
+
+        if (is_null($this->role) === false) {
+            $values['role'] = $this->role;
+        }
+
+        return $values;
     }
 }
+

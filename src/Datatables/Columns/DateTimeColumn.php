@@ -5,9 +5,9 @@ namespace Khill\Lavacharts\Datatables\Columns;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Formats\Format;
 
-class StringColumn extends Column
+class DateTimeColumn extends DateColumn
 {
-    const TYPE = 'string';
+    const TYPE = 'datetime';
 
     public function __construct(Label $label, Label $id)
     {

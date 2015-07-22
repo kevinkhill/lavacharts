@@ -206,7 +206,7 @@ class Datatable implements \JsonSerializable
      * The type can be one of the following: 'string' 'number' 'bool' 'date'
      * 'datetime' 'timeofday'.
      *
-     * optLabel - [Optional] A string with the label of the column. The column
+     * columnLabel - [Optional] A string with the label of the column. The column
      * label is typically displayed as part of the visualization, for example as
      *  a column header in a table, or as a legend label in a pie chart. If not
      * value is specified, an empty string is assigned.
@@ -224,12 +224,12 @@ class Datatable implements \JsonSerializable
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return self
      */
-    public function addColumnDEPRECATED($typeOrDescArr, $optLabel = '', $optId = '', Format $formatter = null, $role = '')
+    public function addColumnDEPRECATED($typeOrDescArr, $label = '', $optId = '', Format $formatter = null, $role = '')
     {
         if (is_array($typeOrDescArr)) {
             $this->addColumnFromArray($typeOrDescArr);
         } elseif (is_string($typeOrDescArr)) {
-            $this->addColumnFromStrings($typeOrDescArr, $optLabel, $optId, $formatter, $role);
+            $this->addColumnFromStrings($typeOrDescArr, $label, $optId, $formatter, $role);
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
@@ -280,56 +280,61 @@ class Datatable implements \JsonSerializable
      * Supplemental function to add a string column with less params.
      *
      * @access public
-     * @param  string $optLabel A label for the column.
+     * @param  string $label A label for the column.
      * @param  \Khill\Lavacharts\Formats\Format $format A column format object. (Optional)
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      * @return self
      */
-    public function addStringColumn($optLabel, Format $format = null)
+    public function addStringColumn($label, Format $format=null, $role=null)
     {
-        $colId = $this->getNextColumnId();
+        $id = $this->getNextColumnId();
 
-        $column = ColumnFactory::create('string', $optLabel, $colId, $format);
+        $column = ColumnFactory::StringColumn($label, $id, $format, $role);
 
         return $this->addColumn($column);
-        //return $this->addColumn('string', $optLabel, 'col_' . (count($this->cols) + 1), $formatter);
+        //return $this->addColumn('string', $label, 'col_' . (count($this->cols) + 1), $formatter);
     }
 
     /**
      * Supplemental function to add a date column with less params.
      *
      * @access public
-     * @param  string $optLabel A label for the column.
+     * @param  string $label A label for the column.
      * @param  \Khill\Lavacharts\Formats\Format $format A column format object. (Optional)
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      * @return self
      */
-    public function addDateColumn($optLabel, Format $formatter = null)
+    public function addDateColumn($label, Format $format=null, $role=null)
     {
-        return $this->addColumn('date', $optLabel, 'col_' . (count($this->cols) + 1), $formatter);
+        $id = $this->getNextColumnId();
+
+        $column = ColumnFactory::DateColumn($label, $id, $format, $role);
+
+        return $this->addColumn($column);
+        //return $this->addColumn('date', $label, 'col_' . (count($this->cols) + 1), $formatter);
     }
 
     /**
      * Supplemental function to add a number column with less params.
      *
      * @access public
-     * @param  string $optLabel A label for the column.
+     * @param  string $label A label for the column.
      * @param  \Khill\Lavacharts\Formats\Format $format A column format object. (Optional)
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      * @return self
      */
-    public function addNumberColumn($optLabel, Format $format = null)
+    public function addNumberColumn($label, Format $format=null, $role=null)
     {
-        $colId = $this->getNextColumnId();
+        $id = $this->getNextColumnId();
 
-        $column = ColumnFactory::create('number', $optLabel, $colId, $format);
+        $column = ColumnFactory::NumberColumn($label, $id, $format, $role);
 
         return $this->addColumn($column);
 
-        //return $this->addColumn('number', $optLabel, 'col_' . (count($this->cols) + 1), $formatter);
+        //return $this->addColumn('number', $label, 'col_' . (count($this->cols) + 1), $formatter);
     }
 
     /**

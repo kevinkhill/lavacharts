@@ -2,31 +2,50 @@
 
 namespace Khill\Lavacharts\Datatables\Columns;
 
-use \Khill\Lavacharts\Utils;
+//use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Formats\Format;
+use \Khill\Lavacharts\Exceptions\InvalidColumnType;
 
 class ColumnFactory
 {
     private static $columnTypes = [
-        'string',
-        'number',
-        'boolean',
-        'date',
-        'datetime',
-        'timeofday'
+        'StringColumn',
+        'NumberColumn',
+        'BooleanColumn',
+        'DateColumn',
+        'DateTimeColumn',
+        'TimeOfDayColumn'
     ];
 
-    public static function create($type, $label, $id, Format $format = null)
+    public static function __callStatic($type, $parameters)
     {
-        if (Utils::nonEmptyString($type) === false || in_array($type, self::columnTypes) === false) {
-            throw new InvalidColumnType($type, self::columnTypes);
+        if (in_array($type, self::$columnTypes) === false) {
+            throw new InvalidColumnType($type, self::$columnTypes);
         }
 
-        $label  = new Label($label);
-        $id     = new Label($id);
-        $column = __NAMESPACE__ . '\\' . ucfirst($type) . 'Column';
+        array_unshift($parameters, $type); //prepend
 
-        return new $column($label, $id, $format);
+        return forward_static_call_array('self::create', $parameters);
     }
+
+    private static function create($type, $label, $id, $format, $role)
+    {
+        $label = new Label($label);
+        $id    = new Label($id);
+        $type  = __NAMESPACE__ . '\\' . $type;
+
+        $column = new $type($label, $id);
+
+        if (is_null($format) === false) {
+            $column->setFormat($format);
+        }
+
+        if (is_null($role) === false) {
+            $column->setRole($role);
+        }
+
+        return $column;
+    }
+
 }
