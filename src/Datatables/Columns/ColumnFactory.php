@@ -8,19 +8,19 @@ use \Khill\Lavacharts\Formats\Format;
 
 class ColumnFactory
 {
-    private $columnTypes = [
+    private static $columnTypes = [
         'string',
         'number',
-        //'bool',
+        'boolean',
         'date',
         'datetime',
         'timeofday'
     ];
 
-    public function create($type, $label, $id, Format $format = null)
+    public static function create($type, $label, $id, Format $format = null)
     {
-        if (Utils::nonEmptyString($type) === false || in_array($type, $this->columnTypes) === false) {
-            throw new InvalidColumnType($type, $this->columnTypes);
+        if (Utils::nonEmptyString($type) === false || in_array($type, self::columnTypes) === false) {
+            throw new InvalidColumnType($type, self::columnTypes);
         }
 
         $label  = new Label($label);

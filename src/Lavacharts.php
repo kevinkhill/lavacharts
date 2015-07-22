@@ -5,7 +5,7 @@ namespace Khill\Lavacharts;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Configs\DataTable;
+use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Dashboards\Dashboard;
 use \Khill\Lavacharts\Dashboards\ChartWrapper;
 use \Khill\Lavacharts\Dashboards\ControlWrapper;
@@ -213,14 +213,14 @@ class Lavacharts
      *
      * @since  3.0.0
      * @param  string $timezone
-     * @return \Khill\Lavacharts\Configs\DataTable
+     * @return \Khill\Lavacharts\DataTables\DataTable
      */
     public function DataTable($timezone = null)
     {
         $datatable = '\Khill\Lavacharts\DataTablePlus\DataTablePlus';
 
         if (class_exists($datatable) === false) {
-            $datatable = '\Khill\Lavacharts\Configs\DataTable';
+            $datatable = '\Khill\Lavacharts\DataTables\DataTable';
         }
 
         if (is_null($timezone) === false) {
@@ -235,7 +235,7 @@ class Lavacharts
      *
      * @since  3.0.0
      * @param  string $label
-     * @return \Khill\Lavacharts\Configs\DataTable
+     * @return \Khill\Lavacharts\DataTables\DataTable
      */
     public function Dashboard($label)
     {
@@ -516,7 +516,7 @@ class Lavacharts
      * @uses   \Khill\Lavacharts\Values\Label
      * @param  string $type Type of chart to fetch or create.
      * @param  string $args Arguments from __call
-     * @param  \Khill\Lavacharts\Configs\DataTable $datatable Datatable used for the chart.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable Datatable used for the chart.
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidDataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam

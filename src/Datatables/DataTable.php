@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Configs;
+namespace Khill\Lavacharts\DataTables;
 
 use \Carbon\Carbon;
 use \Khill\Lavacharts\Utils;
@@ -16,8 +16,6 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 use \Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
 use \Khill\Lavacharts\Exceptions\InvalidColumnIndex;
-use \Khill\Lavacharts\Exceptions\InvalidColumnType;
-use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
 use \Khill\Lavacharts\Exceptions\InvalidRowDefinition;
 use \Khill\Lavacharts\Exceptions\InvalidRowProperty;
 
@@ -133,8 +131,7 @@ class DataTable implements \JsonSerializable
     {
         $this->setTimezone($timezone);
 
-        $this->rowFactory    = new RowFactory($this);
-        $this->columnFactory = new ColumnFactory;
+        $this->rowFactory = new RowFactory($this);
     }
 
     /**
@@ -293,7 +290,7 @@ class DataTable implements \JsonSerializable
     {
         $colId = $this->getNextColumnId();
 
-        $column = $this->columnFactory->create('string', $optLabel, $colId, $format);
+        $column = ColumnFactory::create('string', $optLabel, $colId, $format);
 
         return $this->addColumn($column);
         //return $this->addColumn('string', $optLabel, 'col_' . (count($this->cols) + 1), $formatter);
@@ -328,7 +325,7 @@ class DataTable implements \JsonSerializable
     {
         $colId = $this->getNextColumnId();
 
-        $column = $this->columnFactory->create('number', $optLabel, $colId, $format);
+        $column = ColumnFactory::create('number', $optLabel, $colId, $format);
 
         return $this->addColumn($column);
 
