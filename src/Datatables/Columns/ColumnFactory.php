@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Datatables\Columns;
 
 //use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Datatables\Datatable;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Formats\Format;
 use \Khill\Lavacharts\Exceptions\InvalidColumnType;
@@ -10,6 +11,7 @@ use \Khill\Lavacharts\Exceptions\InvalidColumnType;
 class ColumnFactory
 {
     private static $columnTypes = [
+        'RoleColumn',
         'StringColumn',
         'NumberColumn',
         'BooleanColumn',
@@ -29,23 +31,21 @@ class ColumnFactory
         return forward_static_call_array('self::create', $parameters);
     }
 
-    private static function create($type, $label, $id, $format, $role)
+    private static function create($type, $label, $format, $role)
     {
-        $label = new Label($label);
-        $id    = new Label($id);
-        $type  = __NAMESPACE__ . '\\' . $type;
+        $columnType  = __NAMESPACE__ . '\\' . $type;
 
-        $column = new $type($label, $id);
+        $label  = new Label($label);
+        $column = new $columnType($label);
 
-        if (is_null($format) === false) {
+        if ($format instanceof Format) {
             $column->setFormat($format);
         }
 
-        if (is_null($role) === false) {
+        if ($role instanceof ColumnRole) {
             $column->setRole($role);
         }
 
         return $column;
     }
-
 }

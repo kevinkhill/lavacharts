@@ -9,9 +9,9 @@ class DateColumn extends Column
 {
     const TYPE = 'date';
 
-    public function __construct(Label $label, Label $id)
+    public function __construct(Label $label)
     {
-        parent::__construct($label, $id);
+        parent::__construct($label);
     }
 
 }

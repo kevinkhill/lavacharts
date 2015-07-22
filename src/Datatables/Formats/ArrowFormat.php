@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Formats;
+namespace Khill\Lavacharts\Datatables\Formats;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -9,7 +9,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * ArrowFormat Object
  *
  * Adds an up or down arrow to a numeric cell, depending on whether the value
- * is above or below a specified base value. If equal to the base value, no arrow is shown. 
+ * is above or below a specified base value. If equal to the base value, no arrow is shown.
  *
  *
  * @package    Lavacharts
@@ -48,10 +48,10 @@ class ArrowFormat extends Format
 
     /**
      * A number indicating the base value, used to compare against the cell value.
-     * 
+     *
      * If the cell value is higher, the cell will include a green up arrow.
      * If the cell value is lower, it will include a red down arrow.
-     * If the same, no arrow. 
+     * If the same, no arrow.
      *
      * @param  int|float $base
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue

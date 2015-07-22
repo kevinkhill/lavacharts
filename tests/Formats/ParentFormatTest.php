@@ -3,11 +3,10 @@
 namespace Khill\Lavacharts\Tests\Formats;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Formats\DateFormat;
+use \Khill\Lavacharts\Datatables\Formats\DateFormat;
 
 class ParentFormatTest extends ProvidersTestCase
 {
-
     public function setUp()
     {
         parent::setUp();

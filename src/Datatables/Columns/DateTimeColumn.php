@@ -9,8 +9,8 @@ class DateTimeColumn extends DateColumn
 {
     const TYPE = 'datetime';
 
-    public function __construct(Label $label, Label $id)
+    public function __construct(Label $label)
     {
-        parent::__construct($label, $id);
+        parent::__construct($label);
     }
 }

@@ -4,12 +4,11 @@ namespace Khill\Lavacharts\Datatables;
 
 use \Carbon\Carbon;
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Formats\Format;
-use \Khill\Lavacharts\Datatables\Rows\Row;
-use \Khill\Lavacharts\Datatables\Rows\NullRow;
 use \Khill\Lavacharts\Datatables\Rows\RowFactory;
+use \Khill\Lavacharts\Datatables\Columns\Role;
 use \Khill\Lavacharts\Datatables\Columns\Column;
 use \Khill\Lavacharts\Datatables\Columns\ColumnFactory;
+use \Khill\Lavacharts\Datatables\Formats\Format;
 use \Khill\Lavacharts\Exceptions\InvalidDate;
 use \Khill\Lavacharts\Exceptions\InvalidCellCount;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -240,11 +239,6 @@ class Datatable implements \JsonSerializable
         return $this;
     }
 
-    private function getNextColumnId()
-    {
-        return 'col_' . (count($this->cols) + 1);
-    }
-
     public function addColumn(Column $column)
     {
         $this->cols[] = $column;
@@ -286,11 +280,9 @@ class Datatable implements \JsonSerializable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      * @return self
      */
-    public function addStringColumn($label, Format $format=null, $role=null)
+    public function addStringColumn($label, Format $format=null, Role $role=null)
     {
-        $id = $this->getNextColumnId();
-
-        $column = ColumnFactory::StringColumn($label, $id, $format, $role);
+        $column = ColumnFactory::StringColumn($label, $format, $role);
 
         return $this->addColumn($column);
         //return $this->addColumn('string', $label, 'col_' . (count($this->cols) + 1), $formatter);
@@ -308,9 +300,7 @@ class Datatable implements \JsonSerializable
      */
     public function addDateColumn($label, Format $format=null, $role=null)
     {
-        $id = $this->getNextColumnId();
-
-        $column = ColumnFactory::DateColumn($label, $id, $format, $role);
+        $column = ColumnFactory::DateColumn($label, $this->colCount(), $format, $role);
 
         return $this->addColumn($column);
         //return $this->addColumn('date', $label, 'col_' . (count($this->cols) + 1), $formatter);
@@ -328,13 +318,19 @@ class Datatable implements \JsonSerializable
      */
     public function addNumberColumn($label, Format $format=null, $role=null)
     {
-        $id = $this->getNextColumnId();
-
-        $column = ColumnFactory::NumberColumn($label, $id, $format, $role);
+        $column = ColumnFactory::NumberColumn($label, $format, $role);
 
         return $this->addColumn($column);
 
         //return $this->addColumn('number', $label, 'col_' . (count($this->cols) + 1), $formatter);
+    }
+
+    public function addRoleColumn($type, Role $role=null)
+    {
+        $column = ColumnFactory::StringColumn($label, $format, $role);
+
+        return $this->addColumn($column);
+        //return $this->addColumn('string', $label, 'col_' . (count($this->cols) + 1), $formatter);
     }
 
     /**
@@ -611,7 +607,7 @@ class Datatable implements \JsonSerializable
      * @access public
      * @return int
      */
-    public function getRowsCount()
+    public function getRowCount()
     {
         return count($this->rows);
     }

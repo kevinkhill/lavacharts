@@ -9,8 +9,8 @@ class StringColumn extends Column
 {
     const TYPE = 'string';
 
-    public function __construct(Label $label, Label $id)
+    public function __construct(Label $label)
     {
-        parent::__construct($label, $id);
+        parent::__construct($label);
     }
 }
