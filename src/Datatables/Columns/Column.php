@@ -7,19 +7,17 @@ use \Khill\Lavacharts\Formats\Format;
 
 class Column implements \JsonSerializable
 {
-    protected $label;
+    protected $label = '';
 
-    protected $id;
+    protected $id = '';
 
-    protected $format;
+    protected $format = null;
 
-    protected $role;
+    protected $role = null;
 
-    public function __construct(Label $label)
+    public function __construct($label=null)
     {
         $this->label = $label;
-
-        $this->setIdFromLabel();
     }
 
     public function getType()
@@ -37,7 +35,7 @@ class Column implements \JsonSerializable
         return $this->id;
     }
 
-    public function setFormat($format)
+    public function setFormat(Format $format)
     {
         $this->format = $format;
     }
@@ -47,7 +45,7 @@ class Column implements \JsonSerializable
         return $this->format;
     }
 
-    public function setRole($role)
+    public function setRole(ColumnRole $role)
     {
         $this->role = $role;
     }
@@ -74,14 +72,6 @@ class Column implements \JsonSerializable
         }
 
         return $values;
-    }
-
-    private function setIdFromLabel()
-    {
-        $id = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', (string) $this->label);
-        $id = strtolower(trim($id, '-'));
-
-        $this->id = preg_replace("/[\/_|+ -]+/", '-', $id);
     }
 }
 

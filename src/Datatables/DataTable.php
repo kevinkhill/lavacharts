@@ -134,18 +134,6 @@ class Datatable implements \JsonSerializable
     }
 
     /**
-     * Returns a clone of the DataTable
-     *
-     * @access public
-     * @since  3.0.0
-     * @return \Khill\Lavacharts\Datatables\Datatable;
-     */
-    public function getClone()
-    {
-        return clone $this;
-    }
-
-    /**
      * Sets the Timezone that Carbon will use when parsing dates
      *
      * This will use the passed timezone, falling back to the default from php.ini,
@@ -198,6 +186,33 @@ class Datatable implements \JsonSerializable
     }
 
     /**
+     * Returns a clone of the DataTable
+     *
+     * @access public
+     * @since  3.0.0
+     * @return \Khill\Lavacharts\Datatables\Datatable;
+     */
+    public function getClone()
+    {
+        return clone $this;
+    }
+
+    /**
+     * Adds a column object to the datatable.
+     *
+     * @access private
+     * @since  3.0.0
+     * @param  \Khill\Lavacharts\Datatables\Columns\Column $column;
+     * @return self;
+     */
+    private function addColumnToTable(Column $column)
+    {
+        $this->cols[] = $column;
+
+        return $this;
+    }
+
+    /**
      * Adds a column to the DataTable
      *
      * First signature has the following parameters:
@@ -223,12 +238,12 @@ class Datatable implements \JsonSerializable
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return self
      */
-    public function addColumnDEPRECATED($typeOrDescArr, $label = '', $optId = '', Format $formatter = null, $role = '')
+    public function addColumn($typeOrDescArr, $label = '', $optId = '', Format $formatter = null, $role = '')
     {
         if (is_array($typeOrDescArr)) {
             $this->addColumnFromArray($typeOrDescArr);
         } elseif (is_string($typeOrDescArr)) {
-            $this->addColumnFromStrings($typeOrDescArr, $label, $optId, $formatter, $role);
+            $this->createColumnFromStrings($typeOrDescArr, $label, $optId, $formatter, $role);
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
@@ -239,32 +254,25 @@ class Datatable implements \JsonSerializable
         return $this;
     }
 
-    public function addColumn(Column $column)
-    {
-        $this->cols[] = $column;
-
-        return $this;
-    }
-
     /**
      * Adds multiple columns to the DataTable
      *
      * @access public
-     * @param  array              $arrOfCols Array of columns to batch add to the DataTable.
+     * @param  array $arrOfCols Array of columns to batch add to the DataTable.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
     public function addColumns($arrOfCols)
     {
-        if (Utils::arrayIsMulti($arrOfCols)) {
-            foreach ($arrOfCols as $col) {
-                $this->addColumnFromArray($col);
-            }
-        } else {
+        if (Utils::arrayIsMulti($arrOfCols) === false) {
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'array of arrays'
             );
+        }
+
+        foreach ($arrOfCols as $col) {
+            $this->addColumnFromArray($col);
         }
 
         return $this;
@@ -280,11 +288,11 @@ class Datatable implements \JsonSerializable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      * @return self
      */
-    public function addStringColumn($label, Format $format=null, Role $role=null)
+    public function addStringColumn($label='', Format $format=null, $role='')
     {
-        $column = ColumnFactory::StringColumn($label, $format, $role);
+        $column = ColumnFactory::create('string', $label, $format, $role);
 
-        return $this->addColumn($column);
+        return $this->addColumnToTable($column);
         //return $this->addColumn('string', $label, 'col_' . (count($this->cols) + 1), $formatter);
     }
 
@@ -298,11 +306,11 @@ class Datatable implements \JsonSerializable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      * @return self
      */
-    public function addDateColumn($label, Format $format=null, $role=null)
+    public function addDateColumn($label='', Format $format=null, $role='')
     {
-        $column = ColumnFactory::DateColumn($label, $this->colCount(), $format, $role);
+        $column = ColumnFactory::create('date', $label, $format, $role);
 
-        return $this->addColumn($column);
+        return $this->addColumnToTable($column);
         //return $this->addColumn('date', $label, 'col_' . (count($this->cols) + 1), $formatter);
     }
 
@@ -316,20 +324,31 @@ class Datatable implements \JsonSerializable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      * @return self
      */
-    public function addNumberColumn($label, Format $format=null, $role=null)
+    public function addNumberColumn($label='', Format $format=null, $role='')
     {
-        $column = ColumnFactory::NumberColumn($label, $format, $role);
+        $column = ColumnFactory::create('number', $label, $format, $role);
 
-        return $this->addColumn($column);
+        return $this->addColumnToTable($column);
 
         //return $this->addColumn('number', $label, 'col_' . (count($this->cols) + 1), $formatter);
     }
 
-    public function addRoleColumn($type, Role $role=null)
+    /**
+     * Adds a new column for defining a data role.
+     *
+     * @access public
+     * @since  3.0.0
+     * @param  string $type Type of data the column will define.
+     * @param  string $role Type of role that the data will represent.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnRole
+     * @return self
+     */
+    public function addRoleColumn($type, $role)
     {
-        $column = ColumnFactory::StringColumn($label, $format, $role);
+        $column = ColumnFactory::create($type, '', null, $role);
 
-        return $this->addColumn($column);
+        return $this->addColumnToTable($column);
         //return $this->addColumn('string', $label, 'col_' . (count($this->cols) + 1), $formatter);
     }
 
@@ -344,7 +363,7 @@ class Datatable implements \JsonSerializable
     protected function addColumnFromArray($colDefArray)
     {
         if (Utils::arrayValuesCheck($colDefArray, 'string') && Utils::between(1, count($colDefArray), 5, true)) {
-            call_user_func_array([$this, 'addColumnFromStrings'], $colDefArray);
+            call_user_func_array([$this, 'createColumnFromStrings'], $colDefArray);
         } else {
             throw new InvalidColumnDefinition($colDefArray);
         }
@@ -353,18 +372,25 @@ class Datatable implements \JsonSerializable
     }
 
     /**
-     * Supplemental function to add columns from strings.
+     * Supplemental function to create columns from strings.
      *
      * @access protected
-     * @param  array  $type
-     * @param  array  $label
-     * @param  array  $id
-     * @param  array  $format
+     * @param  string  $type
+     * @param  string  $label
+     * @param  string  $id
+     * @param  \Khill\Lavacharts\Datatables\Formats\Format $format
      * @param  string $role
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
-    protected function addColumnFromStrings($type, $label = '', $id = '', $format = null, $role = '')
+    protected function createColumnFromStrings($type, $label='', $format=null, $role='')
+    {
+        $column = ColumnFactory::create($type, $label, $format, $role);
+
+        return $this->addColumnToTable($column);
+    }
+
+    protected function XXXcreateColumnFromStrings($type, $label='', $id='', $format=null, $role='')
     {
         $colIndex = $this->getColumnCount();
 

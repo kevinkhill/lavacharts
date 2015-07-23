@@ -2,7 +2,8 @@
 
 namespace Khill\Lavacharts\Datatables\Columns;
 
-use \Khill\Lavacharts\Values\String;
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidColumnRole;
 
 class ColumnRole implements \JsonSerializable
 {
@@ -21,8 +22,8 @@ class ColumnRole implements \JsonSerializable
 
     public function __construct($type)
     {
-        if (in_array($type, $this->$roleTypes) === false) {
-            throw new InvalidRoleType($type, $this->$roleTypes);
+        if (Utils::nonEmptyStringInArray($type, $this->roleTypes) === false) {
+            throw new InvalidColumnRole($type, $this->roleTypes);
         }
 
         $this->type = $type;

@@ -9,7 +9,7 @@ class TimeOfDayColumn extends DateColumn
 {
     const TYPE = 'timeofday';
 
-    public function __construct(Label $label)
+    public function __construct(Label $label=null)
     {
         parent::__construct($label);
     }

@@ -2,50 +2,48 @@
 
 namespace Khill\Lavacharts\Datatables\Columns;
 
-//use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Datatables\Datatable;
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Formats\Format;
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Datatables\Formats\Format;
+use \Khill\Lavacharts\Datatables\Columns\ColumnRole;
 use \Khill\Lavacharts\Exceptions\InvalidColumnType;
 
 class ColumnFactory
 {
     private static $columnTypes = [
-        'RoleColumn',
-        'StringColumn',
-        'NumberColumn',
-        'BooleanColumn',
-        'DateColumn',
-        'DateTimeColumn',
-        'TimeOfDayColumn'
+        'role',
+        'string',
+        'number',
+        'boolean',
+        'date',
+        'datetime',
+        'timeofday'
     ];
 
-    public static function __callStatic($type, $parameters)
+    public static function create($type, $label='', $format=null, $role='')
     {
-        if (in_array($type, self::$columnTypes) === false) {
+        if (Utils::nonEmptyStringInArray($type, self::$columnTypes) === false) {
             throw new InvalidColumnType($type, self::$columnTypes);
         }
 
-        array_unshift($parameters, $type); //prepend
+        $columnType = __NAMESPACE__ . '\\' . ucfirst($type) . 'Column';
 
-        return forward_static_call_array('self::create', $parameters);
-    }
-
-    private static function create($type, $label, $format, $role)
-    {
-        $columnType  = __NAMESPACE__ . '\\' . $type;
-
-        $label  = new Label($label);
         $column = new $columnType($label);
 
         if ($format instanceof Format) {
             $column->setFormat($format);
         }
+        var_dump($role);
+        if (Utils::nonEmptyString($role) === true) {
+            $role = new ColumnRole($role);
 
-        if ($role instanceof ColumnRole) {
             $column->setRole($role);
         }
 
         return $column;
+    }
+
+    private static function createWithRole($role)
+    {
+
     }
 }

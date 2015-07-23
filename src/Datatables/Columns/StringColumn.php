@@ -9,7 +9,7 @@ class StringColumn extends Column
 {
     const TYPE = 'string';
 
-    public function __construct(Label $label)
+    public function __construct($label=null)
     {
         parent::__construct($label);
     }

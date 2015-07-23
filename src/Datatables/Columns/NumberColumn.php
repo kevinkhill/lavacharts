@@ -9,7 +9,7 @@ class NumberColumn extends Column
 {
     const TYPE = 'number';
 
-    public function __construct(Label $label)
+    public function __construct($label=null)
     {
         parent::__construct($label);
     }
