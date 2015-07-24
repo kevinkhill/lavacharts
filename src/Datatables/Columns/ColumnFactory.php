@@ -4,8 +4,8 @@ namespace Khill\Lavacharts\Datatables\Columns;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Datatables\Formats\Format;
-use \Khill\Lavacharts\Datatables\Columns\ColumnRole;
 use \Khill\Lavacharts\Exceptions\InvalidColumnType;
+use \Khill\Lavacharts\Exceptions\InvalidColumnFormat;
 
 /**
  * ColumnFactory Class
@@ -50,9 +50,10 @@ class ColumnFactory
      * @param  string $role A role for the column to play.
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnRole
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnFormat
      * @return \Khill\Lavacharts\Datatables\Columns\Column
      */
-    public static function create($type, $label='', $format=null, $role='')
+    public static function create($type, $label='', Format $format=null, $role='')
     {
         if (Utils::nonEmptyStringInArray($type, self::$columnTypes) === false) {
             throw new InvalidColumnType($type, self::$columnTypes);
@@ -66,10 +67,9 @@ class ColumnFactory
             $column->setFormat($format);
         }
 
-        if (Utils::nonEmptyString($role) === true) {
-            $role = new ColumnRole($role);
 
-            $column->setRole($role);
+        if (Utils::nonEmptyString($role)) {
+            $column->setRole(new ColumnRole($role));
         }
 
         return $column;

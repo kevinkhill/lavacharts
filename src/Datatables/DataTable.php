@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Datatables;
 
 use \Carbon\Carbon;
+use Khill\Lavacharts\Exceptions\InvalidColumnFormat;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Datatables\Rows\RowFactory;
 use \Khill\Lavacharts\Datatables\Columns\Role;
@@ -72,14 +73,14 @@ class Datatable implements \JsonSerializable
     public $dateTimeFormat;
 
     /**
-     * Holds the information defining the columns.
+     * Holds all of the Datatable's column objects.
      *
      * @var array
      */
     protected $cols = [];
 
     /**
-     * Holds the information defining each row.
+     * Holds all of the Datatable's row objects.
      *
      * @var array
      */
@@ -91,20 +92,6 @@ class Datatable implements \JsonSerializable
      * @var array
      */
     protected $formats = [];
-
-    /**
-     * Valid column types.
-     *
-     * @var array
-     */
-    protected $columnTypes = [
-        'string',
-        'number',
-        //'bool',
-        'date',
-        'datetime',
-        'timeofday'
-    ];
 
     /**
      * Valid column descriptions
@@ -120,10 +107,10 @@ class Datatable implements \JsonSerializable
     ];
 
     /**
-     * Creates a new DataTable
+     * Creates a new Datatable
      *
      * @access public
-     * @param  string    $timezone
+     * @param  string $timezone
      * @return self
      */
     public function __construct($timezone = null)
@@ -169,18 +156,19 @@ class Datatable implements \JsonSerializable
      *
      * @access public
      * @param  string $dateTimeFormat
+     * @throws InvalidConfigValue
      * @return self
      */
     public function setDateTimeFormat($dateTimeFormat)
     {
-        if (Utils::nonEmptyString($dateTimeFormat)) {
-            $this->dateTimeFormat = $dateTimeFormat;
-        } else {
+        if (Utils::nonEmptyString($dateTimeFormat) === false) {
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'string'
             );
         }
+
+        $this->dateTimeFormat = $dateTimeFormat;
 
         return $this;
     }
@@ -283,7 +271,7 @@ class Datatable implements \JsonSerializable
      *
      * @access public
      * @param  string $label A label for the column.
-     * @param  \Khill\Lavacharts\Formats\Format $format A column format object. (Optional)
+     * @param  \Khill\Lavacharts\Datatables\Formats\Format $format A column format object. (Optional)
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      * @return self
@@ -301,7 +289,7 @@ class Datatable implements \JsonSerializable
      *
      * @access public
      * @param  string $label A label for the column.
-     * @param  \Khill\Lavacharts\Formats\Format $format A column format object. (Optional)
+     * @param  \Khill\Lavacharts\Datatables\Formats\Format $format A column format object. (Optional)
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      * @return self
@@ -319,7 +307,7 @@ class Datatable implements \JsonSerializable
      *
      * @access public
      * @param  string $label A label for the column.
-     * @param  \Khill\Lavacharts\Formats\Format $format A column format object. (Optional)
+     * @param  \Khill\Lavacharts\Datatables\Formats\Format $format A column format object. (Optional)
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      * @return self
@@ -377,10 +365,8 @@ class Datatable implements \JsonSerializable
      * @access protected
      * @param  string  $type
      * @param  string  $label
-     * @param  string  $id
      * @param  \Khill\Lavacharts\Datatables\Formats\Format $format
      * @param  string $role
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
     protected function createColumnFromStrings($type, $label='', $format=null, $role='')
@@ -388,46 +374,6 @@ class Datatable implements \JsonSerializable
         $column = ColumnFactory::create($type, $label, $format, $role);
 
         return $this->addColumnToTable($column);
-    }
-
-    protected function XXXcreateColumnFromStrings($type, $label='', $id='', $format=null, $role='')
-    {
-        $colIndex = $this->getColumnCount();
-
-        if (in_array($type, $this->columnTypes) === false) {
-            throw new InvalidConfigProperty(
-                __FUNCTION__,
-                'string',
-                Utils::arrayToPipedString($this->columnTypes)
-            );
-        }
-
-        if (Utils::nonEmptyString($type) !== true) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        $descArray['type'] = $type;
-
-        if (Utils::nonEmptyString($label)) {
-            $descArray['label'] = $label;
-        }
-
-        if (Utils::nonEmptyString($id)) {
-            $descArray['id'] = $id;
-        }
-
-        if (! is_null($format)) {
-            $this->formats[$colIndex] = $format;
-        }
-
-        if (Utils::nonEmptyString($role)) {
-            $descArray['role'] = $role;
-        }
-
-        $this->cols[$colIndex] = $descArray;
     }
 
     /**
@@ -455,7 +401,7 @@ class Datatable implements \JsonSerializable
      *
      * @access public
      * @param  integer $colIndex
-     * @param  \Khill\Lavacharts\Formats\Format $formatter
+     * @param  \Khill\Lavacharts\Datatables\Formats\Format $formatter
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      * @return self
      */
@@ -601,22 +547,6 @@ class Datatable implements \JsonSerializable
     }
 
     /**
-     * Returns an array of array wrapped null values equal to the
-     * number of columns defined.
-     *
-     * @access protected
-     * @return array
-     */
-    protected function addNullRow()
-    {
-        for ($a = 0; $a < count($this->cols); $a++) {
-            $tmp[] = ['v' => null];
-        }
-
-        return ['c' => $tmp];
-    }
-
-    /**
      * Returns the rows array from the DataTable
      *
      * @access public
@@ -689,7 +619,7 @@ class Datatable implements \JsonSerializable
      */
     public function getColumnLabel($index)
     {
-        return $this->getColumn($index)['label'];
+        return $this->getColumn($index)->getLabel();
     }
 
     /**
@@ -703,7 +633,7 @@ class Datatable implements \JsonSerializable
      */
     public function getColumnType($index)
     {
-        return $this->getColumn($index)['type'];
+        return $this->getColumn($index)->getType();
     }
 
     /**
@@ -715,11 +645,12 @@ class Datatable implements \JsonSerializable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      * @return string
      */
+/*
     public function getColumnId($index)
     {
         return $this->getColumn($index)['id'];
     }
-
+*/
     /**
      * Returns the types of columns currently defined.
      *
@@ -729,14 +660,11 @@ class Datatable implements \JsonSerializable
      */
     public function getColumnTypes()
     {
-        foreach($this->cols as $arr) {
-            if (array_key_exists('type', $arr)) {
-                $colTypes[] = $arr['type'];
-            }
+        foreach($this->cols as $column) {
+            $colTypes[] = $column->getType();
         }
 
         return $colTypes;
-        //return array_column($this->getColumns(), 'type');
     }
 
     /**
@@ -748,18 +676,15 @@ class Datatable implements \JsonSerializable
      */
     public function getColumnLabels()
     {
-        foreach($this->cols as $arr) {
-            if (array_key_exists('label', $arr)) {
-                $colTypes[] = $arr['label'];
-            }
+        foreach($this->cols as $column) {
+            $colTypes[] = $column->getLabel();
         }
 
         return $colTypes;
-        //return array_column($this->getColumns(), 'type');
     }
 
     /**
-     * Returns the column number of the ypes of columns currently defined.
+     * Returns the column number from the type of columns currently defined.
      *
      * @since  2.5.2
      * @access public
