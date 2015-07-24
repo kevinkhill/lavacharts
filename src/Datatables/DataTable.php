@@ -241,7 +241,7 @@ class Datatable implements \JsonSerializable
     public function addColumn($typeOrDescArr, $label = '', $optId = '', Format $formatter = null, $role = '')
     {
         if (is_array($typeOrDescArr)) {
-            $this->addColumnFromArray($typeOrDescArr);
+            call_user_func_array([$this, 'createColumnFromStrings'], $typeOrDescArr);
         } elseif (is_string($typeOrDescArr)) {
             $this->createColumnFromStrings($typeOrDescArr, $label, $optId, $formatter, $role);
         } else {
@@ -258,21 +258,21 @@ class Datatable implements \JsonSerializable
      * Adds multiple columns to the DataTable
      *
      * @access public
-     * @param  array $arrOfCols Array of columns to batch add to the DataTable.
+     * @param  array $arrayOfColumns Array of columns to batch add to the DataTable.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
-    public function addColumns($arrOfCols)
+    public function addColumns($arrayOfColumns)
     {
-        if (Utils::arrayIsMulti($arrOfCols) === false) {
+        if (Utils::arrayIsMulti($arrayOfColumns) === false) {
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'array of arrays'
             );
         }
 
-        foreach ($arrOfCols as $col) {
-            $this->addColumnFromArray($col);
+        foreach ($arrayOfColumns as $columnArray) {
+            call_user_func_array([$this, 'createColumnFromStrings'], $columnArray);
         }
 
         return $this;
@@ -360,7 +360,7 @@ class Datatable implements \JsonSerializable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnDefinition
      * @return self
      */
-    protected function addColumnFromArray($colDefArray)
+    protected function XXXXaddColumnFromArray($colDefArray)
     {
         if (Utils::arrayValuesCheck($colDefArray, 'string') && Utils::between(1, count($colDefArray), 5, true)) {
             call_user_func_array([$this, 'createColumnFromStrings'], $colDefArray);

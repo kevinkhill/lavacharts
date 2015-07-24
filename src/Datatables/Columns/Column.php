@@ -15,7 +15,7 @@ class Column implements \JsonSerializable
 
     protected $role = null;
 
-    public function __construct($label=null)
+    public function __construct($label='')
     {
         $this->label = $label;
     }

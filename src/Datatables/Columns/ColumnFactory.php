@@ -7,8 +7,28 @@ use \Khill\Lavacharts\Datatables\Formats\Format;
 use \Khill\Lavacharts\Datatables\Columns\ColumnRole;
 use \Khill\Lavacharts\Exceptions\InvalidColumnType;
 
+/**
+ * ColumnFactory Class
+ *
+ * The ColumnFactory creates new columns for Datatables. The only mandatory parameter is
+ * the type of column to create, all others are optional.
+ *
+ *
+ * @package    Lavacharts
+ * @subpackage Datatables\Columns
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2015, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
+ * @license    http://opensource.org/licenses/MIT MIT
+ */
 class ColumnFactory
 {
+    /**
+     * Valid column roles
+     *
+     * @var array
+     */
     private static $columnTypes = [
         'role',
         'string',
@@ -19,6 +39,19 @@ class ColumnFactory
         'timeofday'
     ];
 
+    /**
+     * Creates a new column object.
+     *
+     * @access public
+     * @since 3.0.0
+     * @param  string $type Type of column to create.
+     * @param  string $label A label for the column.
+     * @param  \Khill\Lavacharts\Datatables\Formats\Format $format Column formatter for the data.
+     * @param  string $role A role for the column to play.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnRole
+     * @return \Khill\Lavacharts\Datatables\Columns\Column
+     */
     public static function create($type, $label='', $format=null, $role='')
     {
         if (Utils::nonEmptyStringInArray($type, self::$columnTypes) === false) {
@@ -32,7 +65,7 @@ class ColumnFactory
         if ($format instanceof Format) {
             $column->setFormat($format);
         }
-        var_dump($role);
+
         if (Utils::nonEmptyString($role) === true) {
             $role = new ColumnRole($role);
 
@@ -40,10 +73,5 @@ class ColumnFactory
         }
 
         return $column;
-    }
-
-    private static function createWithRole($role)
-    {
-
     }
 }
