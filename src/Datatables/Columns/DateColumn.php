@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Datatables\Columns;
+namespace Khill\Lavacharts\DataTables\Columns;
 
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Formats\Format;
@@ -8,11 +8,11 @@ use \Khill\Lavacharts\Formats\Format;
 /**
  * DateColumn Object
  *
- * Date columns are for Carbon objects or strings representing dates in the Datatable.
+ * Date columns are for Carbon objects or strings representing dates in the DataTable.
  *
  *
  * @package    Lavacharts
- * @subpackage Datatables\Columns
+ * @subpackage DataTables\Columns
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
@@ -36,7 +36,7 @@ class DateColumn extends Column
      * @param  string $label Label for the column.
      * @return self
      */
-    public function __construct(Label $label=null)
+    public function __construct($label='')
     {
         parent::__construct($label);
     }

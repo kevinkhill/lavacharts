@@ -26,7 +26,7 @@ class ElementId extends String
         try {
             parent::__construct($value);
         } catch (\Exception $e) {
-            throw new InvalidLabel($value);
+            throw new InvalidElementId($value);
         }
     }
 }

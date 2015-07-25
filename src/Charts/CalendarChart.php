@@ -4,7 +4,7 @@ namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Datatables\Datatable;
+use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Configs\Stroke;
 use \Khill\Lavacharts\Configs\TextStyle;
 use \Khill\Lavacharts\Configs\Color;
@@ -65,10 +65,10 @@ class CalendarChart extends Chart
      * Builds a new chart with the given label.
      *
      * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\Datatables\Datatable $datatable Datatable used for the chart.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
      * @return self
      */
-    public function __construct(Label $chartLabel, Datatable $datatable)
+    public function __construct(Label $chartLabel, DataTable $datatable)
     {
         parent::__construct($chartLabel, $datatable);
 

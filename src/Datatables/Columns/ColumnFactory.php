@@ -1,21 +1,21 @@
 <?php
 
-namespace Khill\Lavacharts\Datatables\Columns;
+namespace Khill\Lavacharts\DataTables\Columns;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Datatables\Formats\Format;
+use \Khill\Lavacharts\DataTables\Formats\Format;
 use \Khill\Lavacharts\Exceptions\InvalidColumnType;
 use \Khill\Lavacharts\Exceptions\InvalidColumnFormat;
 
 /**
  * ColumnFactory Class
  *
- * The ColumnFactory creates new columns for Datatables. The only mandatory parameter is
+ * The ColumnFactory creates new columns for DataTables. The only mandatory parameter is
  * the type of column to create, all others are optional.
  *
  *
  * @package    Lavacharts
- * @subpackage Datatables\Columns
+ * @subpackage DataTables\Columns
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
@@ -46,12 +46,12 @@ class ColumnFactory
      * @since 3.0.0
      * @param  string $type Type of column to create.
      * @param  string $label A label for the column.
-     * @param  \Khill\Lavacharts\Datatables\Formats\Format $format Column formatter for the data.
+     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format Column formatter for the data.
      * @param  string $role A role for the column to play.
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnRole
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnFormat
-     * @return \Khill\Lavacharts\Datatables\Columns\Column
+     * @return \Khill\Lavacharts\DataTables\Columns\Column
      */
     public static function create($type, $label='', Format $format=null, $role='')
     {

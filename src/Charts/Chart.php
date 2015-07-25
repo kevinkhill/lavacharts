@@ -5,7 +5,7 @@ namespace Khill\Lavacharts\Charts;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Javascript\JavascriptFactory;
-use \Khill\Lavacharts\Datatables\Datatable;
+use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Configs\Animation;
 use \Khill\Lavacharts\Configs\Legend;
 use \Khill\Lavacharts\Configs\Tooltip;
@@ -89,11 +89,11 @@ class Chart
      * Builds a new chart with the given label.
      *
      * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\Datatables\Datatable $datatable Datatable used for the chart.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
      * @param  array $options Array of options to set on the chart.
      * @return self
      */
-    public function __construct(Label $chartLabel, Datatable $datatable, $options=[])
+    public function __construct(Label $chartLabel, DataTable $datatable, $options=[])
     {
         if (empty($options) === false) {
             $this->setOptions($options);
@@ -244,10 +244,10 @@ class Chart
      *
      * @deprecated
      * @uses   Datatable
-     * @param  Datatable $datatable
+     * @param  DataTable $datatable
      * @return self
      */
-    public function datatable(Datatable $datatable)
+    public function datatable(DataTable $datatable)
     {
         $this->datatable = $datatable;
 

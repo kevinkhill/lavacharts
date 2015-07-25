@@ -1,17 +1,17 @@
 <?php
 
-namespace Khill\Lavacharts\Datatables\Columns;
+namespace Khill\Lavacharts\DataTables\Columns;
 
-use \Khill\Lavacharts\Datatables\Formats\Format;
+use \Khill\Lavacharts\DataTables\Formats\Format;
 
 /**
  * Column Object
  *
- * The Column object is used to define the different columns for a Datatable.
+ * The Column object is used to define the different columns for a DataTable.
  *
  *
  * @package    Lavacharts
- * @subpackage Datatables\Columns
+ * @subpackage DataTables\Columns
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
@@ -38,7 +38,7 @@ class Column implements \JsonSerializable
     /**
      * Column formatter.
      *
-     * @var \Khill\Lavacharts\Datatables\Formats\Format
+     * @var \Khill\Lavacharts\DataTables\Formats\Format
      */
     protected $format = null;
 
@@ -92,7 +92,7 @@ class Column implements \JsonSerializable
      * Sets the column formatter.
      *
      * @access public
-     * @param  \Khill\Lavacharts\Datatables\Formats\Format
+     * @param  \Khill\Lavacharts\DataTables\Formats\Format
      * @return self
      */
     public function setFormat(Format $format)
@@ -106,7 +106,7 @@ class Column implements \JsonSerializable
      * Returns the column formatter.
      *
      * @access public
-     * @return \Khill\Lavacharts\Datatables\Formats\Format
+     * @return \Khill\Lavacharts\DataTables\Formats\Format
      */
     public function getFormat()
     {
@@ -117,7 +117,7 @@ class Column implements \JsonSerializable
      * Sets the column formatter.
      *
      * @access public
-     * @param  \Khill\Lavacharts\Datatables\Columns\ColumnRole
+     * @param  \Khill\Lavacharts\DataTables\Columns\ColumnRole
      * @return self
      */
     public function setRole(ColumnRole $role)
@@ -131,7 +131,7 @@ class Column implements \JsonSerializable
      * Returns the column role.
      *
      * @access public
-     * @return \Khill\Lavacharts\Datatables\Columns\ColumnRole
+     * @return \Khill\Lavacharts\DataTables\Columns\ColumnRole
      */
     public function getRole()
     {

@@ -27,7 +27,7 @@ class ChartTest extends ChartTestCase
     {
         $this->mockLineChart->datatable($this->partialDataTable);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\DataTable', $this->mockLineChart->getDatatable());
+        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Datatable', $this->mockLineChart->getDatatable());
     }
 
     public function testBackgroundColorWithValidValues()

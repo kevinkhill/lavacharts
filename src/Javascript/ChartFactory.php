@@ -4,7 +4,7 @@ namespace Khill\Lavacharts\Javascript;
 
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Datatables\Datatable;
+use \Khill\Lavacharts\DataTables\DataTable;
 
 /**
  * ChartFactory Class

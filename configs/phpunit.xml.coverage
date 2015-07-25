@@ -18,11 +18,14 @@
     <testsuite name="charts">
       <directory>../tests/Charts/</directory>
     </testsuite>
+    <testsuite name="configs">
+      <directory>../tests/Configs/</directory>
+    </testsuite>
     <testsuite name="dashboard">
       <directory>../tests/Dashboard/</directory>
     </testsuite>
-    <testsuite name="configs">
-      <directory>../tests/Configs/</directory>
+    <testsuite name="datatables">
+      <directory>../tests/DataTables/</directory>
     </testsuite>
     <testsuite name="events">
       <directory>../tests/Events/</directory>

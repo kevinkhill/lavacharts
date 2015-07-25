@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Datatables\Rows;
+namespace Khill\Lavacharts\DataTables\Rows;
 
 class NullRow extends Row
 {

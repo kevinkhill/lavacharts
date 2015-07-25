@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Datatables\Columns;
+namespace Khill\Lavacharts\DataTables\Columns;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\InvalidColumnRole;
@@ -8,11 +8,11 @@ use \Khill\Lavacharts\Exceptions\InvalidColumnRole;
 /**
  * ColumnRole Object
  *
- * The ColumnRole object is used to define the role that a column plays in a Datatable.
+ * The ColumnRole object is used to define the role that a column plays in a DataTable.
  *
  *
  * @package    Lavacharts
- * @subpackage Datatables\Columns
+ * @subpackage DataTables\Columns
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs

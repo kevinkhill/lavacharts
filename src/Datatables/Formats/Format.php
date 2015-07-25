@@ -1,9 +1,9 @@
 <?php
 
-namespace Khill\Lavacharts\Datatables\Formats;
+namespace Khill\Lavacharts\DataTables\Formats;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Datatables\Datatable;
+use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
@@ -78,12 +78,12 @@ class Format
      *
      * @access public
      * @since  3.0.0
-     * @param  \Khill\Lavacharts\Datatables\Datatable $datatable
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable
      * @param  int $index Column index
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      * @return
      */
-    public function formatColumn(Datatable $datatable, $index)
+    public function formatColumn(DataTable $datatable, $index)
     {
         $datatable->formatColumn($index, $this);
     }

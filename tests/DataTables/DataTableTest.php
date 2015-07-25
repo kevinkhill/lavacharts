@@ -1,10 +1,9 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\Configs;
+namespace Khill\Lavacharts\Tests\DataTables;
 
+use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Configs\DataTable;
-use \Khill\Lavacharts\Format\DateFormat;
 use \Carbon\Carbon;
 use \Mockery as m;
 
@@ -14,7 +13,7 @@ class DataTableTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->dt = new DataTable;
+        $this->dt = new DataTable();
     }
 
     public function testDefaultTimezoneUponCreation()
@@ -55,8 +54,8 @@ class DataTableTest extends ProvidersTestCase
 
         $cols = $this->dt->getColumns();
 
-        $this->assertEquals($cols[0]['type'], 'date');
-        $this->assertEquals($cols[1]['type'], 'number');
+        $this->assertEquals($cols[0]->getType(), 'date');
+        $this->assertEquals($cols[1]->getType(), 'number');
     }
 
     public function testGetRows()
@@ -67,7 +66,7 @@ class DataTableTest extends ProvidersTestCase
         $this->dt->addRow([Carbon::parse('March 25th, 1988')]);
 
         $rows = $this->dt->getRows();
-
+var_dump($rows);
         $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988,2,24,0,0,0)');
         $this->assertEquals($rows[1]['c'][0]['v'], 'Date(1988,2,25,0,0,0)');
     }
@@ -81,7 +80,7 @@ class DataTableTest extends ProvidersTestCase
 
         $cols = $this->dt->getColumns();
 
-        $this->assertEquals($cols[0]['type'], 'date');
+        $this->assertEquals($cols[0]->getType(), 'date');
     }
 
     /**
@@ -93,7 +92,7 @@ class DataTableTest extends ProvidersTestCase
 
         $cols = $this->dt->getColumns();
 
-        $this->assertEquals($cols[0]['type'], 'date');
+        $this->assertEquals($cols[0]->getType(), 'date');
     }
 
     /**
@@ -105,7 +104,7 @@ class DataTableTest extends ProvidersTestCase
 
         $cols = $this->dt->getColumns();
 
-        $this->assertEquals($cols[0]['type'], 'date');
+        $this->assertEquals($cols[0]->getType(), 'date');
         $this->assertEquals($cols[0]['label'], 'Days in March');
     }
 
@@ -118,7 +117,7 @@ class DataTableTest extends ProvidersTestCase
 
         $cols = $this->dt->getColumns();
 
-        $this->assertEquals($cols[0]['type'], 'date');
+        $this->assertEquals($cols[0]->getType(), 'date');
         $this->assertEquals($cols[0]['label'], 'Days in March');
     }
 
@@ -131,7 +130,7 @@ class DataTableTest extends ProvidersTestCase
 
         $cols = $this->dt->getColumns();
 
-        $this->assertEquals($cols[0]['type'], 'date');
+        $this->assertEquals($cols[0]->getType(), 'date');
         $this->assertEquals($cols[0]['label'], 'Days in March');
         $this->assertEquals($cols[0]['id'], 'march-dates');
     }
@@ -145,7 +144,7 @@ class DataTableTest extends ProvidersTestCase
 
         $cols = $this->dt->getColumns();
 
-        $this->assertEquals($cols[0]['type'], 'date');
+        $this->assertEquals($cols[0]->getType(), 'date');
         $this->assertEquals($cols[0]['label'], 'Days in March');
         $this->assertEquals($cols[0]['id'], 'march-dates');
     }
@@ -164,15 +163,15 @@ class DataTableTest extends ProvidersTestCase
 
         $cols = $this->dt->getColumns();
 
-        $this->assertEquals($cols[0]['type'], 'date');
+        $this->assertEquals($cols[0]->getType(), 'date');
         $this->assertEquals($cols[0]['label'], 'Days in March');
         $this->assertEquals($cols[0]['id'], 'march-dates');
 
-        $this->assertEquals($cols[1]['type'], 'number');
+        $this->assertEquals($cols[1]->getType(), 'number');
         $this->assertEquals($cols[1]['label'], 'Day of the Week');
         $this->assertEquals($cols[1]['id'], 'dotw');
 
-        $this->assertEquals($cols[2]['type'], 'number');
+        $this->assertEquals($cols[2]->getType(), 'number');
         $this->assertEquals($cols[2]['label'], 'Temperature');
         $this->assertEquals($cols[2]['id'], 'temp');
     }
@@ -191,7 +190,7 @@ class DataTableTest extends ProvidersTestCase
         $cols = $this->dt->getColumns();
         $rows = $this->dt->getRows();
 
-        $this->assertEquals($cols[0]['type'], 'date');
+        $this->assertEquals($cols[0]->getType(), 'date');
         $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988,2,24,0,0,0)');
     }
 
@@ -211,8 +210,8 @@ class DataTableTest extends ProvidersTestCase
         $cols = $this->dt->getColumns();
         $rows = $this->dt->getRows();
 
-        $this->assertEquals($cols[0]['type'], 'date');
-        $this->assertEquals($cols[1]['type'], 'number');
+        $this->assertEquals($cols[0]->getType(), 'date');
+        $this->assertEquals($cols[1]->getType(), 'number');
         $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988,2,24,0,0,0)');
         $this->assertEquals($rows[0]['c'][1]['v'], 12345);
         $this->assertEquals($rows[0]['c'][2]['v'], 67890);
@@ -239,8 +238,8 @@ class DataTableTest extends ProvidersTestCase
         $cols = $this->dt->getColumns();
         $rows = $this->dt->getRows();
 
-        $this->assertEquals($cols[0]['type'], 'date');
-        $this->assertEquals($cols[1]['type'], 'number');
+        $this->assertEquals($cols[0]->getType(), 'date');
+        $this->assertEquals($cols[1]->getType(), 'number');
         $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988,2,24,0,0,0)');
         $this->assertEquals($rows[0]['c'][1]['v'], 12345);
         $this->assertEquals($rows[0]['c'][2]['v'], 67890);
@@ -271,8 +270,8 @@ class DataTableTest extends ProvidersTestCase
         $cols = $this->dt->getColumns();
         $rows = $this->dt->getRows();
 
-        $this->assertEquals($cols[0]['type'], 'date');
-        $this->assertEquals($cols[1]['type'], 'number');
+        $this->assertEquals($cols[0]->getType(), 'date');
+        $this->assertEquals($cols[1]->getType(), 'number');
         $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988, 2, 24, 0, 0, 0)');
         $this->assertEquals($rows[0]['c'][1]['v'], 12345);
         $this->assertEquals($rows[0]['c'][2]['v'], 67890);
@@ -357,8 +356,8 @@ class DataTableTest extends ProvidersTestCase
         $cols = $this->dt->getColumns();
         $rows = $this->dt->getRows();
 
-        $this->assertEquals($cols[0]['type'], 'datetime');
-        $this->assertEquals($cols[1]['type'], 'number');
+        $this->assertEquals($cols[0]->getType(), 'datetime');
+        $this->assertEquals($cols[1]->getType(), 'number');
         $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988,2,24,8,1,5)');
         $this->assertEquals($rows[0]['c'][1]['v'], 12345);
         $this->assertEquals($rows[0]['c'][2]['v'], 67890);

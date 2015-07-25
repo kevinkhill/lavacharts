@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Datatables\Formats;
+namespace Khill\Lavacharts\DataTables\Formats;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;

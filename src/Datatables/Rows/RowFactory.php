@@ -1,15 +1,18 @@
 <?php
 
-namespace Khill\Lavacharts\Datatables\Rows;
+namespace Khill\Lavacharts\DataTables\Rows;
 
-use \Khill\Lavacharts\Datatables\Datatable;
+use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Exceptions\InvalidCellCount;
 
 class RowFactory
 {
+    /**
+     * @var DataTable
+     */
     private $datatable;
 
-    public function __construct(Datatable $datatable)
+    public function __construct(DataTable $datatable)
     {
         $this->datatable = $datatable;
     }

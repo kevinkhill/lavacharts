@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Tests\Formats;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Datatables\Formats\NumberFormat;
+use \Khill\Lavacharts\DataTables\Formats\NumberFormat;
 
 class NumberFormatTest extends ProvidersTestCase
 {
@@ -16,7 +16,7 @@ class NumberFormatTest extends ProvidersTestCase
 
     public function testInstanceOf()
     {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Datatables\\Formats\\NumberFormat', $this->numberFormat);
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\DataTables\\Formats\\NumberFormat', $this->numberFormat);
     }
 
     public function testStaticFormatType()

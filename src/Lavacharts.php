@@ -206,7 +206,7 @@ class Lavacharts
     }
 
     /**
-     * Create a new Datatable
+     * Create a new DataTable
      *
      * If the additional DataTablePlus package is available, then one will
      * be created, otherwise a standard DataTable is returned.
@@ -516,7 +516,7 @@ class Lavacharts
      * @uses   \Khill\Lavacharts\Values\Label
      * @param  string $type Type of chart to fetch or create.
      * @param  string $args Arguments from __call
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable Datatable used for the chart.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidDataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam

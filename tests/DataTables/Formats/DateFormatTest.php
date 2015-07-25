@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Tests\Formats;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Datatables\Formats\DateFormat;
+use \Khill\Lavacharts\DataTables\Formats\DateFormat;
 
 class DateFormatTest extends ProvidersTestCase
 {
@@ -16,7 +16,7 @@ class DateFormatTest extends ProvidersTestCase
 
     public function testInstanceOf()
     {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Datatables\\Formats\\DateFormat', $this->dateFormat);
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\DataTables\\Formats\\DateFormat', $this->dateFormat);
     }
 
     public function testStaticFormatType()

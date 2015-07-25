@@ -9,7 +9,7 @@ namespace Khill\Lavacharts\Configs;
  *
  * @codeCoverageIgnore
  * @package    Lavacharts
- * @subpackage Datatables
+ * @subpackage DataTables
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page

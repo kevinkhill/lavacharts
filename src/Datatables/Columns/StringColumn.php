@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Datatables\Columns;
+namespace Khill\Lavacharts\DataTables\Columns;
 
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Formats\Format;
@@ -8,11 +8,11 @@ use \Khill\Lavacharts\Formats\Format;
 /**
  * StringColumn Object
  *
- * String columns are for string type data in the Datatable.
+ * String columns are for string type data in the DataTable.
  *
  *
  * @package    Lavacharts
- * @subpackage Datatables\Columns
+ * @subpackage DataTables\Columns
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
