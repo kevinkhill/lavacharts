@@ -31,12 +31,19 @@ class Filter
     public $columnLabel;
 
     /**
-     * Builds a new Filter
+     * Options for the Filter
+     *
+     * @var array
+     */
+    private $options;
+
+    /**
+     * Builds a new Filter Object
      *
      * @param  string $columnLabel
      * @return self
      */
-    public function __construct($columnLabel)
+    public function __construct($columnLabel, $options=[])
     {
         if (Utils::nonEmptyString($columnLabel) === false) {
             throw new InvalidConfigValue(
@@ -47,5 +54,33 @@ class Filter
         }
 
         $this->columnLabel = $columnLabel;
+    }
+
+    public function setOptions()
+    {
+        $this->options = array_map(function ($prop) {
+            return $prop->name;
+        }, $class->getProperties(\ReflectionProperty::IS_PUBLIC));
+
+        if (is_array($config) === false) {
+            throw $this->invalidConfigValue(
+                __FUNCTION__,
+                'array',
+                'with valid keys as '.Utils::arrayToPipedString($this->options)
+            );
+        }
+
+        foreach ($config as $option => $value) {
+            if (in_array($option, $this->options)) {
+                $this->{$option}($value);
+            } else {
+                throw new InvalidConfigProperty(
+                    $this->className,
+                    __FUNCTION__,
+                    $option,
+                    $this->options
+                );
+            }
+        }
     }
 }

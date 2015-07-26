@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Configs\ControlUIs;
+namespace Khill\Lavacharts\Configs\FilterObjects;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Configs\ConfigObject;
