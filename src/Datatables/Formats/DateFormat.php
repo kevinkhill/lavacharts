@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\DataTables\Formats;
 
 use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Configs\ConfigOptions;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
@@ -23,6 +24,11 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  */
 class DateFormat extends Format
 {
+    /**
+     * Type of format.
+     *
+     * @var string
+     */
     const TYPE = 'DateFormat';
 
     /**
@@ -46,6 +52,7 @@ class DateFormat extends Format
      */
     public $timeZone;
 
+    protected $options;
 
     /**
      * Builds the NumberFormat object with specified options
@@ -55,9 +62,11 @@ class DateFormat extends Format
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return self
      */
-    public function __construct($config = [])
+    public function __construct($config=[])
     {
-        parent::__construct($this, $config);
+        $options = new ConfigOptions($this->childDefaults);
+
+        parent::__construct($options, $config);
     }
 
     /**

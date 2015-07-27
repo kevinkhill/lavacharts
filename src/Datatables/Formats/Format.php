@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\DataTables\Formats;
 
 use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Configs\ConfigOptions;
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
@@ -25,11 +26,22 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 class Format
 {
     /**
-     * Allowed keys for the ConfigOptions child objects.
+     * Default configuration options.
      *
      * @var array
      */
-    protected $options = [];
+    protected $defaults = [
+        'filterColumnIndex',
+        'filterColumnLabel',
+        'ui'
+    ];
+
+    /**
+     * Allowed keys for the ConfigOptions child objects.
+     *
+     * @var \Khill\Lavacharts\Configs\ConfigOptions
+     */
+    protected $options;
 
     /**
      * Builds the ConfigOptions object.
@@ -37,40 +49,42 @@ class Format
      * Passing an array of key value pairs will set the configuration for each
      * child object created from this parent object.
      *
-     * @param  mixed $child  Child ConfigOption object.
-     * @param  array $config Array of options.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @param  \Khill\Lavacharts\Configs\ConfigOptions $options Object with options.
+     * @param  array $config Array of options to set.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return mixed
+     * @return self
      */
-    public function __construct($child, $config)
+    public function __construct(ConfigOptions $options, $config)
     {
-        $class = new \ReflectionClass($child);
-
-        $this->options = array_map(function ($prop) {
-            return $prop->name;
-        }, $class->getProperties(\ReflectionProperty::IS_PUBLIC));
-
-        if (is_array($config) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'array',
-                'with valid keys as '.Utils::arrayToPipedString($this->options)
-            );
-        }
+        $this->options = $options->extend($this->defaults);
 
         foreach ($config as $option => $value) {
             if (in_array($option, $this->options)) {
-                $this->{$option}($value);
+                call_user_func([$this, $option], $value);
             } else {
                 throw new InvalidConfigProperty(
-                    $child::TYPE,
+                    static::TYPE,
                     __FUNCTION__,
                     $option,
                     $this->options
                 );
             }
         }
+        /*
+                $class = new \ReflectionClass($ild);
+
+                $this->options = array_map(function ($prop) {
+                    return $prop->name;
+                }, $class->getProperties(\ReflectionProperty::IS_PUBLIC));
+
+                if (is_array($config) === false) {
+                    throw new InvalidConfigValue(
+                        __FUNCTION__,
+                        'array',
+                        'with valid keys as '.Utils::arrayToPipedString($this->options)
+                    );
+                }
+        */
     }
 
     /**
@@ -86,6 +100,17 @@ class Format
     public function formatColumn(DataTable $datatable, $index)
     {
         $datatable->formatColumn($index, $this);
+    }
+
+    /**
+     * Returns the type of format.
+     *
+     * @access public
+     * @return string Format type.
+     */
+    public function getType()
+    {
+        return static::TYPE;
     }
 
     /**

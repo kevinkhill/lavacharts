@@ -636,11 +636,11 @@ class Lavacharts
      * @param  string $type Type of format to create.
      * @param  string $args Arguments from __call
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
-     * @return \Khill\Lavacharts\Formats\Format
+     * @return \Khill\Lavacharts\Datatables\Formats\Format
      */
     private function formatFactory($type, $args)
     {
-        $format = __NAMESPACE__ . '\\Formats\\' . $type;
+        $format = __NAMESPACE__ . '\\Datatables\\Formats\\' . $type;
 
         if (isset($args[0]) === false) {
             return new $format;

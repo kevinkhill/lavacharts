@@ -66,7 +66,6 @@ class ConfigOptions
      * @param $option
      * @return null
      * @throws InvalidConfigProperty
-     * @internal param $name
      */
     public function get($option)
     {

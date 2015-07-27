@@ -83,7 +83,7 @@ class Row implements \JsonSerializable
      * @param  \Carbon\Carbon $carbon A Carbon instance
      * @return string Javscript date declaration
      */
-    protected function carbonToJsString(Carbon $carbon)
+    private function carbonToJsString(Carbon $carbon)
     {
         return sprintf(
             'Date(%d,%d,%d,%d,%d,%d)',

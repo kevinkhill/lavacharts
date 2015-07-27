@@ -121,21 +121,19 @@ class Filter implements \JsonSerializable
      * @param $option
      * @return null
      * @throws InvalidConfigProperty
-     * @internal param $name
      */
     public function __get($option)
     {
-        if (array_key_exists($option, $this->options->get($option))) {
-            return $this->values[$option];
+        if (in_array($option, $this->options->getValues($option)) === false) {
+            throw new InvalidConfigProperty(
+                get_class(),
+                __FUNCTION__,
+                $option,
+                $this->getDefaults()
+            );
         }
 
-        $trace = debug_backtrace();
-        trigger_error(
-            'Undefined property via __get(): ' . $option .
-            ' in ' . $trace[0]['file'] .
-            ' on line ' . $trace[0]['line'],
-            E_USER_NOTICE);
-        return null;
+        return $this->options->get($option);
     }
 
     function jsonSerialize()
