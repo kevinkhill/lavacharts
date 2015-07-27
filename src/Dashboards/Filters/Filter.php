@@ -134,7 +134,7 @@ class Filter implements \JsonSerializable
         return $this;
     }
 
-    public function setOption($option, $value)
+    protected function setOption($option, $value)
     {
         $this->options->set($option, $value);
 

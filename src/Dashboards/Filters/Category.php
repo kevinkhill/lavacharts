@@ -68,7 +68,6 @@ class Category extends Filter
     {
         if (is_bool($useFormattedValue) === false) {
             throw new InvalidConfigValue(
-                static::TYPE,
                 __FUNCTION__,
                 'boolean'
             );
@@ -91,7 +90,6 @@ class Category extends Filter
     {
         if (is_bool($values) === false) {
             throw new InvalidConfigValue(
-                static::TYPE,
                 __FUNCTION__,
                 'boolean'
             );

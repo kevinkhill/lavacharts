@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Configs;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Configs\ConfigOptions;
+use \Khill\Lavacharts\Configs\Options;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
@@ -32,14 +32,14 @@ class ConfigObject
     protected $className;
 
     /**
-     * Allowed keys for the ConfigOptions child objects.
+     * Allowed keys for the Options child objects.
      *
      * @var array
      */
     protected $options = [];
 
     /**
-     * Builds the ConfigOptions object.
+     * Builds the Options object.
      *
      * Passing an array of key value pairs will set the configuration for each
      * child object created from this parent object.

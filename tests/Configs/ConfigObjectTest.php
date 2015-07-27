@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Tests\Configs;
 
-use \Khill\Lavacharts\Configs\ConfigOptions;
 use \Khill\Lavacharts\Configs\TextStyle;
 
 class ConfigObjectTest extends \PHPUnit_Framework_TestCase

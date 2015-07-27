@@ -4,7 +4,7 @@ namespace Khill\Lavacharts\Configs;
 
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
-class ConfigOptions
+class Options
 {
     /**
      * @var array

@@ -75,7 +75,6 @@ class String extends Filter
 
         if (Utils::nonEmptyStringInArray($matchType, $matchTypes) === false) {
             throw new InvalidConfigValue(
-                static::TYPE,
                 __FUNCTION__,
                 'string',
                 'whose value is one of '.Utils::arrayToPipedString($matchTypes)
@@ -96,7 +95,6 @@ class String extends Filter
     {
         if (is_bool($caseSensitive) === false) {
             throw new InvalidConfigValue(
-                static::TYPE,
                 __FUNCTION__,
                 'boolean'
             );
@@ -116,7 +114,6 @@ class String extends Filter
     {
         if (is_bool($useFormattedValue) === false) {
             throw new InvalidConfigValue(
-                static::TYPE,
                 __FUNCTION__,
                 'boolean'
             );

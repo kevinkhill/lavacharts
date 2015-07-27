@@ -44,6 +44,7 @@ class NumberRange extends Filter
      * @param  array $config Array of options to set.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function __construct($columnLabelOrIndex, $config=[])
     {
@@ -59,18 +60,18 @@ class NumberRange extends Filter
      *
      * @param  numeric $minValue
      * @throws InvalidConfigValue
+     * @return self
      */
     public function minValue($minValue)
     {
         if (is_numeric($minValue) === false) {
             throw new InvalidConfigValue(
-                static::TYPE,
                 __FUNCTION__,
                 'int|float'
             );
         }
 
-        $this->setOption(__FUNCTION__, $minValue);
+        return $this->setOption(__FUNCTION__, $minValue);
     }
 
     /**
@@ -80,17 +81,17 @@ class NumberRange extends Filter
      *
      * @param  numeric $maxValue
      * @throws InvalidConfigValue
+     * @return self
      */
     public function maxValue($maxValue)
     {
         if (is_numeric($maxValue) === false) {
             throw new InvalidConfigValue(
-                static::TYPE,
                 __FUNCTION__,
                 'int|float'
             );
         }
 
-        $this->setOption(__FUNCTION__, $maxValue);
+        return $this->setOption(__FUNCTION__, $maxValue);
     }
 }

@@ -23,14 +23,14 @@ use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 class Format
 {
     /**
-     * Allowed keys for the ConfigOptions child objects.
+     * Allowed keys for the Options child objects.
      *
      * @var array
      */
     protected $options = array();
 
     /**
-     * Builds the ConfigOptions object.
+     * Builds the Options object.
      *
      * Passing an array of key value pairs will set the configuration for each
      * child object created from this parent object.
