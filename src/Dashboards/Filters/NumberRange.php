@@ -15,6 +15,7 @@ use \Khill\Lavacharts\Configs\ConfigOptions;
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
+ * @see        https://developers.google.com/chart/interactive/docs/gallery/controls#--googlevisualizationnumberrangefilter
  */
 class NumberRange extends Filter
 {
@@ -25,13 +26,18 @@ class NumberRange extends Filter
      */
     const TYPE = 'NumberRangeFilter';
 
+    /**
+     * NumberRange specific default options.
+     *
+     * @var array
+     */
     private $defaults = [
         'minValue',
         'maxValue'
     ];
 
     /**
-     * Creates the new Filter object to filter the given column label.
+     * Creates the new Filter object to filter the given column label or index.
      *
      * @param $columnLabelOrIndex
      * @param array $config

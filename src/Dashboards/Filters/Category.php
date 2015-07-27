@@ -8,6 +8,8 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 /**
  * Category Filter Class
  *
+ * A picker to choose one or more between a set of defined values.
+ *
  * @package    Lavacharts
  * @subpackage Dashboards\Filters
  * @since      3.0.0
@@ -16,6 +18,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
+ * @see        https://developers.google.com/chart/interactive/docs/gallery/controls#googlevisualizationcategoryfilter
  */
 class Category extends Filter
 {
@@ -27,89 +30,27 @@ class Category extends Filter
     const TYPE = 'CategoryFilter';
 
     /**
-     * Index of the column to filter.
-     *
-     * @var integer
-     */
-    public $filterColumnIndex;
-
-    /**
-     * Label of the column to filter.
-     *
-     * @var string
-     */
-    public $filterColumnLabel;
-
-    /**
-     * List of values to choose from.
+     * Category specific default options.
      *
      * @var array
      */
-    public $values;
+    private $defaults = [
+        'values',
+        'useFormattedValue'
+    ];
 
     /**
-     * Use cell values or formatted values.
+     * Creates the new Filter object to filter the given column label or index.
      *
-     * @var boolean
-     */
-    public $useFormattedValue;
-
-    /**
-     * UI object to configure the display of the control.
-     *
-     * @var \Khill\Lavacharts\Configs\UI
-     */
-    public $ui;
-
-    /**
-     * Creates the new Filter object to filter the given column label.
-     *
-     * @param string $columnLabel
-     */
-    public function __construct($columnLabel)
-    {
-        parent::__construct($columnLabel);
-    }
-
-    /**
-     * The column of the datatable the filter should operate upon.
-     *
-     * It is mandatory to provide either this option or filterColumnLabel.
-     * If both present, this option takes precedence.
-     *
-     * @param  integer $index Column index
+     * @param $columnLabelOrIndex
+     * @param array $config
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function filterColumnIndex($index)
+    public function __construct($columnLabelOrIndex, $config=[])
     {
-        if (is_int($index) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'integer'
-            );
-        }
+        $options = new ConfigOptions($this->defaults);
 
-        $this->filterColumnIndex = $index;
-    }
-
-    /**
-     * The label of the column the filter should operate upon.
-     *
-     * It is mandatory to provide either this option or filterColumnIndex.
-     * If both present, filterColumnIndex takes precedence.
-     *
-     * @param  integer $label Column label
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function filterColumnLabel($label)
-    {
-        if (Utils::nonEmptyString($label) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        $this->filterColumnIndex = $label;
+        parent::__construct($columnLabelOrIndex, $options, $config);
     }
 }

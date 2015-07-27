@@ -13,6 +13,7 @@ namespace Khill\Lavacharts\Dashboards\Filters;
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
+ * @see        https://developers.google.com/chart/interactive/docs/gallery/controls#googlevisualizationstringfilter
  */
 class String extends Filter
 {
@@ -24,12 +25,28 @@ class String extends Filter
     const TYPE = 'StringFilter';
 
     /**
-     * Creates the new Filter object to filter the given column label.
+     * NumberRange specific default options.
      *
-     * @param string $columnLabel
+     * @var array
      */
-    public function __construct($columnLabel)
+    private $defaults = [
+        'matchType',
+        'caseSensitive',
+        'useFormattedValue'
+    ];
+
+    /**
+     * Creates the new Filter object to filter the given column label or index.
+     *
+     * @param $columnLabelOrIndex
+     * @param array $config
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function __construct($columnLabelOrIndex, $config=[])
     {
-        parent::__construct($columnLabel);
+        $options = new ConfigOptions($this->defaults);
+
+        parent::__construct($columnLabelOrIndex, $options, $config);
     }
 }

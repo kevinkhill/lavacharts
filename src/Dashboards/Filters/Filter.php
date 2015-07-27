@@ -86,7 +86,15 @@ class Filter implements \JsonSerializable
             call_user_func([$this, $option], $value);
         }
     }
-
+    /**
+     * The column of the datatable the filter should operate upon.
+     *
+     * It is mandatory to provide either this option or filterColumnLabel.
+     * If both present, this option takes precedence.
+     *
+     * @param  integer $index Column index
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
     public function filterColumnIndex($columnIndex)
     {
         if (is_int($columnIndex) === false) {
@@ -102,6 +110,15 @@ class Filter implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * The label of the column the filter should operate upon.
+     *
+     * It is mandatory to provide either this option or filterColumnIndex.
+     * If both present, filterColumnIndex takes precedence.
+     *
+     * @param  integer $label Column label
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
     public function filterColumnLabel($columnLabel)
     {
         if (Utils::nonEmptyString($columnLabel) === false) {
