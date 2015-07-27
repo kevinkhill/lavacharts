@@ -1,12 +1,4 @@
-<?php
-
-namespace Khill\Lavacharts\DataTables\Formats;
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Configs\ConfigOptions;
-use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+<?php namespace Khill\Lavacharts\Formats;
 
 /**
  * Format Parent Class
@@ -23,25 +15,19 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
+
+use Khill\Lavacharts\Utils;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+
 class Format
 {
     /**
-     * Default configuration options.
+     * Allowed keys for the ConfigOptions child objects.
      *
      * @var array
      */
-    protected $defaults = [
-        'filterColumnIndex',
-        'filterColumnLabel',
-        'ui'
-    ];
-
-    /**
-     * Allowed keys for the ConfigOptions child objects.
-     *
-     * @var \Khill\Lavacharts\Configs\ConfigOptions
-     */
-    protected $options;
+    protected $options = array();
 
     /**
      * Builds the ConfigOptions object.
@@ -49,68 +35,40 @@ class Format
      * Passing an array of key value pairs will set the configuration for each
      * child object created from this parent object.
      *
-     * @param  \Khill\Lavacharts\Configs\ConfigOptions $options Object with options.
-     * @param  array $config Array of options to set.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
+     * @param  mixed                 $child  Child ConfigOption object.
+     * @param  array                 $config Array of options.
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigProperty
+     * @return mixed
      */
-    public function __construct(ConfigOptions $options, $config)
+    public function __construct($child, $config)
     {
-        $this->options = $options->extend($this->defaults);
+        $class = new \ReflectionClass($child);
 
-        foreach ($config as $option => $value) {
-            if (in_array($option, $this->options)) {
-                call_user_func([$this, $option], $value);
-            } else {
-                throw new InvalidConfigProperty(
-                    static::TYPE,
-                    __FUNCTION__,
-                    $option,
-                    $this->options
-                );
-            }
-        }
-        /*
-                $class = new \ReflectionClass($ild);
+        $this->options = array_map(function ($prop) {
+            return $prop->name;
+        }, $class->getProperties(\ReflectionProperty::IS_PUBLIC));
 
-                $this->options = array_map(function ($prop) {
-                    return $prop->name;
-                }, $class->getProperties(\ReflectionProperty::IS_PUBLIC));
-
-                if (is_array($config) === false) {
-                    throw new InvalidConfigValue(
+        if (is_array($config)) {
+            foreach ($config as $option => $value) {
+                if (in_array($option, $this->options)) {
+                    $this->{$option}($value);
+                } else {
+                    throw new InvalidConfigProperty(
+                        $child::TYPE,
                         __FUNCTION__,
-                        'array',
-                        'with valid keys as '.Utils::arrayToPipedString($this->options)
+                        $option,
+                        $this->options
                     );
                 }
-        */
-    }
-
-    /**
-     * Formats a DataTable column by index.
-     *
-     * @access public
-     * @since  3.0.0
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable
-     * @param  int $index Column index
-     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
-     * @return
-     */
-    public function formatColumn(DataTable $datatable, $index)
-    {
-        $datatable->formatColumn($index, $this);
-    }
-
-    /**
-     * Returns the type of format.
-     *
-     * @access public
-     * @return string Format type.
-     */
-    public function getType()
-    {
-        return static::TYPE;
+            }
+        } else {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'array',
+                'with valid keys as '.Utils::arrayToPipedString($this->options)
+            );
+        }
     }
 
     /**
@@ -120,7 +78,7 @@ class Format
      */
     public function getValues()
     {
-        $output = [];
+        $output = array();
 
         foreach ($this->options as $option) {
             if (isset($this->{$option})) {
