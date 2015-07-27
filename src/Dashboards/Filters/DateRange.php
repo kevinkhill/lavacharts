@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
-use \Khill\Lavacharts\Configs\ConfigOptions;
+use \Khill\Lavacharts\Configs\Options;
 
 /**
  * Date Range Class
@@ -46,7 +46,7 @@ class DateRange extends Filter
      */
     public function __construct($columnLabelOrIndex, $config=[])
     {
-        $options = new ConfigOptions($this->defaults);
+        $options = new Options($this->defaults);
 
         parent::__construct($columnLabelOrIndex, $options, $config);
     }

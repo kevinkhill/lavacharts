@@ -2,7 +2,8 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
-use \Khill\Lavacharts\Configs\ConfigOptions;
+use \Khill\Lavacharts\Configs\Options;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * Number Range Filter Class
@@ -39,16 +40,57 @@ class NumberRange extends Filter
     /**
      * Creates the new Filter object to filter the given column label or index.
      *
-     * @param $columnLabelOrIndex
-     * @param array $config
-     * @throws InvalidConfigProperty
+     * @param  string|int $columnLabelOrIndex The column label or index to filter.
+     * @param  array $config Array of options to set.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @internal param string $columnLabel
      */
     public function __construct($columnLabelOrIndex, $config=[])
     {
-        $options = new ConfigOptions($this->defaults);
+        $options = new Options($this->defaults);
 
         parent::__construct($columnLabelOrIndex, $options, $config);
+    }
+
+    /**
+     * Minimum allowed value for the range lower extent.
+     *
+     * If undefined, the value will be inferred from the contents of the DataTable managed by the control.
+     *
+     * @param  numeric $minValue
+     * @throws InvalidConfigValue
+     */
+    public function minValue($minValue)
+    {
+        if (is_numeric($minValue) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE,
+                __FUNCTION__,
+                'int|float'
+            );
+        }
+
+        $this->setOption(__FUNCTION__, $minValue);
+    }
+
+    /**
+     * Maximum allowed value for the range higher extent.
+     *
+     * If undefined, the value will be inferred from the contents of the DataTable managed by the control.
+     *
+     * @param  numeric $maxValue
+     * @throws InvalidConfigValue
+     */
+    public function maxValue($maxValue)
+    {
+        if (is_numeric($maxValue) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE,
+                __FUNCTION__,
+                'int|float'
+            );
+        }
+
+        $this->setOption(__FUNCTION__, $maxValue);
     }
 }

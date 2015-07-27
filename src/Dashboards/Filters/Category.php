@@ -42,8 +42,8 @@ class Category extends Filter
     /**
      * Creates the new Filter object to filter the given column label or index.
      *
-     * @param $columnLabelOrIndex
-     * @param array $config
+     * @param  string|int $columnLabelOrIndex The column label or index to filter.
+     * @param  array $config Array of options to set.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
@@ -52,5 +52,51 @@ class Category extends Filter
         $options = new ConfigOptions($this->defaults);
 
         parent::__construct($columnLabelOrIndex, $options, $config);
+    }
+
+    /**
+     * Selects whether to use the Datatable values or the formatted values.
+     *
+     * When populating the list of selectable values automatically from the DataTable
+     * column this filter operates on, whether to use the actual cell values or their formatted values.
+     *
+     * @param  boolean $useFormattedValue
+     * @return Category
+     * @throws InvalidConfigValue
+     */
+    public function useFormattedValue($useFormattedValue)
+    {
+        if (is_bool($useFormattedValue) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE,
+                __FUNCTION__,
+                'boolean'
+            );
+        }
+
+        return $this->setOption(__FUNCTION__, $useFormattedValue);
+    }
+    /**
+     * List of values to choose from.
+     *
+     * If an array of Objects is used, they should have a suitable toString() representation
+     * for display to the user. If null or undefined, the list of values will be automatically
+     * computed from the values present in the DataTable column this control operates on.
+     *
+     * @param  boolean $values
+     * @return Category
+     * @throws InvalidConfigValue
+     */
+    public function values($values)
+    {
+        if (is_bool($values) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE,
+                __FUNCTION__,
+                'boolean'
+            );
+        }
+
+        return $this->setOption(__FUNCTION__, $values);
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
 namespace Khill\Lavacharts\Dashboards\Filters;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Utils;
 
 /**
  * String Filter Class
@@ -38,15 +40,88 @@ class String extends Filter
     /**
      * Creates the new Filter object to filter the given column label or index.
      *
-     * @param $columnLabelOrIndex
-     * @param array $config
+     * @param  string|int $columnLabelOrIndex The column label or index to filter.
+     * @param  array $config Array of options to set.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function __construct($columnLabelOrIndex, $config=[])
     {
         $options = new ConfigOptions($this->defaults);
 
         parent::__construct($columnLabelOrIndex, $options, $config);
+    }
+
+    /**
+     * What type of string the control should match.
+     *
+     * Allowed types:
+     * - exact  : Match exact values only
+     * - prefix : Prefixes starting from the beginning of the value ('prefix')
+     * - any    : Any substring
+     *
+     * @param  string $matchType
+     * @throws InvalidConfigValue
+     * @return self
+     */
+    public function matchType($matchType)
+    {
+        $matchTypes = [
+            'exact',
+            'prefix',
+            'any'
+        ];
+
+        if (Utils::nonEmptyStringInArray($matchType, $matchTypes) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE,
+                __FUNCTION__,
+                'string',
+                'whose value is one of '.Utils::arrayToPipedString($matchTypes)
+            );
+        }
+
+        return $this->setOption(__FUNCTION__, $matchType);
+    }
+
+    /**
+     * Whether matching should be case sensitive or not.
+     *
+     * @param  boolean $caseSensitive
+     * @throws InvalidConfigValue
+     * @return self
+     */
+    public function caseSensitive($caseSensitive)
+    {
+        if (is_bool($caseSensitive) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE,
+                __FUNCTION__,
+                'boolean'
+            );
+        }
+
+        return $this->setOption(__FUNCTION__, $caseSensitive);
+    }
+
+    /**
+     * Whether the control should match against cell formatted values or against actual values.
+     *
+     * @param  boolean $useFormattedValue
+     * @throws InvalidConfigValue
+     * @return self
+     */
+    public function useFormattedValue($useFormattedValue)
+    {
+        if (is_bool($useFormattedValue) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE,
+                __FUNCTION__,
+                'boolean'
+            );
+        }
+
+        return $this->setOption(__FUNCTION__, $useFormattedValue);
     }
 }

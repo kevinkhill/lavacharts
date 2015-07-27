@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Dashboards\Filters;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Configs\ConfigOptions;
+use \Khill\Lavacharts\Configs\Options;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
@@ -37,9 +37,9 @@ class Filter implements \JsonSerializable
     ];
 
     /**
-     * Allowed keys for the ConfigOptions child objects.
+     * Allowed keys for the Options child objects.
      *
-     * @var \Khill\Lavacharts\Configs\ConfigOptions
+     * @var \Khill\Lavacharts\Configs\Options
      */
     protected $options;
 
@@ -47,13 +47,13 @@ class Filter implements \JsonSerializable
      * Builds a new Filter Object
      *
      * @param $columnLabelOrIndex
-     * @param ConfigOptions $options
+     * @param Options $options
      * @param $config
      * @throws InvalidConfigProperty
      * @throws InvalidConfigValue
      * @return self
      */
-    public function __construct($columnLabelOrIndex, ConfigOptions $options, $config)
+    public function __construct($columnLabelOrIndex, Options $options, $config)
     {
         $this->options = $options->extend($this->baseDefaults);
 
@@ -134,6 +134,13 @@ class Filter implements \JsonSerializable
         return $this;
     }
 
+    public function setOption($option, $value)
+    {
+        $this->options->set($option, $value);
+
+        return $this;
+    }
+
     /**
      * @param $option
      * @return null
@@ -141,7 +148,7 @@ class Filter implements \JsonSerializable
      */
     public function __get($option)
     {
-        if (in_array($option, $this->options->getValues($option)) === false) {
+        if (in_array($option, $this->options->getValues()) === false) {
             throw new InvalidConfigProperty(
                 get_class(),
                 __FUNCTION__,
@@ -153,6 +160,11 @@ class Filter implements \JsonSerializable
         return $this->options->get($option);
     }
 
+    /**
+     * Custom serialization of the Filter object.
+     *
+     * @return array
+     */
     function jsonSerialize()
     {
         return $this->options->getValues();
