@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
+use \Khill\Lavacharts\Configs\ConfigOptions;
+
 /**
  * Number Range Filter Class
  *
@@ -23,13 +25,24 @@ class NumberRange extends Filter
      */
     const TYPE = 'NumberRangeFilter';
 
+    private $defaults = [
+        'minValue',
+        'maxValue'
+    ];
+
     /**
      * Creates the new Filter object to filter the given column label.
      *
-     * @param string $columnLabel
+     * @param $columnLabelOrIndex
+     * @param array $config
+     * @throws InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @internal param string $columnLabel
      */
-    public function __construct($columnLabel)
+    public function __construct($columnLabelOrIndex, $config=[])
     {
-        parent::__construct($columnLabel);
+        $options = new ConfigOptions($this->defaults);
+
+        parent::__construct($columnLabelOrIndex, $options, $config);
     }
 }

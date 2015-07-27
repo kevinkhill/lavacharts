@@ -3,7 +3,9 @@
 namespace Khill\Lavacharts\Dashboards\Filters;
 
 use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Configs\ConfigOptions;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 /**
  * Filter Parent Class
@@ -21,29 +23,86 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Filter
+class Filter implements \JsonSerializable
 {
     /**
-     * Label for the filter
-     *
-     * @var string
-     */
-    public $columnLabel;
-
-    /**
-     * Options for the Filter
+     * Default configuration options.
      *
      * @var array
      */
-    private $options;
+    protected $baseDefaults = [
+        'filterColumnIndex',
+        'filterColumnLabel',
+        'ui'
+    ];
+
+    /**
+     * Allowed keys for the ConfigOptions child objects.
+     *
+     * @var \Khill\Lavacharts\Configs\ConfigOptions
+     */
+    protected $options;
 
     /**
      * Builds a new Filter Object
      *
-     * @param  string $columnLabel
+     * @param $columnLabelOrIndex
+     * @param ConfigOptions $options
+     * @param $config
+     * @throws InvalidConfigProperty
+     * @throws InvalidConfigValue
      * @return self
      */
-    public function __construct($columnLabel, $options=[])
+    public function __construct($columnLabelOrIndex, ConfigOptions $options, $config)
+    {
+        $this->options = $options->extend($this->baseDefaults);
+
+        if (is_string($columnLabelOrIndex) === false && is_int($columnLabelOrIndex) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE,
+                __FUNCTION__,
+                'string|int'
+            );
+        }
+
+        if (is_string($columnLabelOrIndex) === true) {
+            $config['filterColumnLabel'] = $columnLabelOrIndex;
+        }
+
+        if (is_int($columnLabelOrIndex) === true) {
+            $config['filterColumnIndex'] = $columnLabelOrIndex;
+        }
+
+        foreach ($config as $option => $value) {
+            if ($this->options->has($option) === false) {
+                throw new InvalidConfigProperty(
+                    static::TYPE,
+                    __FUNCTION__,
+                    $option,
+                    $this->options->toArray()
+                );
+            }
+
+            call_user_func([$this, $option], $value);
+        }
+    }
+
+    public function filterColumnIndex($columnIndex)
+    {
+        if (is_int($columnIndex) === false) {
+            throw new InvalidConfigValue(
+                get_class(),
+                __FUNCTION__,
+                'integer'
+            );
+        }
+
+        $this->options->set(__FUNCTION__, $columnIndex);
+
+        return $this;
+    }
+
+    public function filterColumnLabel($columnLabel)
     {
         if (Utils::nonEmptyString($columnLabel) === false) {
             throw new InvalidConfigValue(
@@ -53,34 +112,34 @@ class Filter
             );
         }
 
-        $this->columnLabel = $columnLabel;
+        $this->options->set(__FUNCTION__, $columnLabel);
+
+        return $this;
     }
 
-    public function setOptions()
+    /**
+     * @param $option
+     * @return null
+     * @throws InvalidConfigProperty
+     * @internal param $name
+     */
+    public function __get($option)
     {
-        $this->options = array_map(function ($prop) {
-            return $prop->name;
-        }, $class->getProperties(\ReflectionProperty::IS_PUBLIC));
-
-        if (is_array($config) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'array',
-                'with valid keys as '.Utils::arrayToPipedString($this->options)
-            );
+        if (array_key_exists($option, $this->options->get($option))) {
+            return $this->values[$option];
         }
 
-        foreach ($config as $option => $value) {
-            if (in_array($option, $this->options)) {
-                $this->{$option}($value);
-            } else {
-                throw new InvalidConfigProperty(
-                    $this->className,
-                    __FUNCTION__,
-                    $option,
-                    $this->options
-                );
-            }
-        }
+        $trace = debug_backtrace();
+        trigger_error(
+            'Undefined property via __get(): ' . $option .
+            ' in ' . $trace[0]['file'] .
+            ' on line ' . $trace[0]['line'],
+            E_USER_NOTICE);
+        return null;
+    }
+
+    function jsonSerialize()
+    {
+        return $this->options->getValues();
     }
 }

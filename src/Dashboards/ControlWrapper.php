@@ -67,12 +67,7 @@ class ControlWrapper extends Wrapper
         return [
             'controlType' => $this->type,
             'containerId' => (string) $this->containerId,
-            'options' => [ //@TODO: make options classes
-                'filterColumnLabel' => $this->controlType->columnLabel,
-                /*'ui' => [
-                    'labelStacking' => 'vertical'
-                ]*/
-            ]
+            'options' => $this->controlType
         ];
     }
 }

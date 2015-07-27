@@ -23,6 +23,11 @@ class DateRange extends Filter
      */
     const TYPE = 'DateRangeFilter';
 
+    private $childDefaults = [
+        'minValue',
+        'maxValue'
+    ];
+
     /**
      * Creates the new Filter object to filter the given column label.
      *
@@ -31,5 +36,6 @@ class DateRange extends Filter
     public function __construct($columnLabel)
     {
         parent::__construct($columnLabel);
+
     }
 }
