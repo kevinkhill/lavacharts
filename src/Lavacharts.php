@@ -695,18 +695,18 @@ class Lavacharts
      */
     private function filterFactory($type, $args)
     {
-        if (isset($args[0]) === false) {
-            throw new InvalidLabel;
-        }
-
-        if (Utils::nonEmptyString($args[0]) === false) {
-            throw new InvalidLabel($args[0]);
+        if (is_string($args[0]) === false && is_int($args[0]) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE,
+                __FUNCTION__,
+                'string|int'
+            );
         }
 
         if (in_array($type, $this->filterClasses) === false) {
             throw new InvalidFilterObject(
                 $type,
-                Utils::arrayToPipedString($this->filterClasses)
+                $this->filterClasses
             );
         }
 

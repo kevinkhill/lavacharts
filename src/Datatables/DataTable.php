@@ -780,7 +780,8 @@ class DataTable implements \JsonSerializable
      *
      * @access protected
      * @param  Carbon|string $date
-     * @return string Javscript date declaration
+     * @return string Javascript date declaration
+     * @throws InvalidDate
      */
     protected function parseDate($date)
     {
@@ -809,7 +810,8 @@ class DataTable implements \JsonSerializable
      * Outputs the Carbon object as a valid javascript Date string.
      *
      * @access protected
-     * @return string Javscript date declaration
+     * @param  \Carbon\Carbon $c
+     * @return string Javascript date declaration
      */
     protected function carbonToJsString(Carbon $c)
     {
