@@ -36,7 +36,7 @@ class DateTimeColumn extends DateColumn
      * @param  string $label Label for the column.
      * @return self
      */
-    public function __construct(Label $label=null)
+    public function __construct($label='')
     {
         parent::__construct($label);
     }

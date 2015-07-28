@@ -66,9 +66,9 @@ class DataTableTest extends ProvidersTestCase
         $this->dt->addRow([Carbon::parse('March 25th, 1988')]);
 
         $rows = $this->dt->getRows();
-var_dump($rows);
-        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988,2,24,0,0,0)');
-        $this->assertEquals($rows[1]['c'][0]['v'], 'Date(1988,2,25,0,0,0)');
+
+        $this->assertEquals($rows[0]->getColumnValue(0), 'Date(1988,2,24,0,0,0)');
+        $this->assertEquals($rows[1]->getColumnValue(0), 'Date(1988,2,25,0,0,0)');
     }
 
     /**
@@ -105,75 +105,43 @@ var_dump($rows);
         $cols = $this->dt->getColumns();
 
         $this->assertEquals($cols[0]->getType(), 'date');
-        $this->assertEquals($cols[0]['label'], 'Days in March');
+        $this->assertEquals($cols[0]->getLabel(), 'Days in March');
     }
 
     /**
      * @depends testGetColumns
      */
-    public function testAddColumnWithArrafOfTypeAndDescription()
+    public function testAddColumnWithArrayOfTypeAndDescription()
     {
         $this->dt->addColumn(['date', 'Days in March']);
 
         $cols = $this->dt->getColumns();
 
         $this->assertEquals($cols[0]->getType(), 'date');
-        $this->assertEquals($cols[0]['label'], 'Days in March');
+        $this->assertEquals($cols[0]->getLabel(), 'Days in March');
     }
 
     /**
      * @depends testGetColumns
      */
-    public function testAddColumnWithTypeAndDescriptionAndId()
-    {
-        $this->dt->addColumn('date', 'Days in March', 'march-dates');
-
-        $cols = $this->dt->getColumns();
-
-        $this->assertEquals($cols[0]->getType(), 'date');
-        $this->assertEquals($cols[0]['label'], 'Days in March');
-        $this->assertEquals($cols[0]['id'], 'march-dates');
-    }
-
-    /**
-     * @depends testGetColumns
-     */
-    public function testAddColumnWithArrayOfTypeAndDescriptionAndId()
-    {
-        $this->dt->addColumn(['date', 'Days in March', 'march-dates']);
-
-        $cols = $this->dt->getColumns();
-
-        $this->assertEquals($cols[0]->getType(), 'date');
-        $this->assertEquals($cols[0]['label'], 'Days in March');
-        $this->assertEquals($cols[0]['id'], 'march-dates');
-    }
-
-    /**
-     * @depends testGetColumns
-     * @depends testAddColumnWithArrayOfTypeAndDescriptionAndId
-     */
-    public function testAddMultipleColumnsWithArrayOfTypeAndDescriptionAndId()
+    public function testAddMultipleColumnsWithArrayOfTypeAndDescription()
     {
         $this->dt->addColumns([
-            ['date', 'Days in March', 'march-dates'],
-            ['number', 'Day of the Week', 'dotw'],
-            ['number', 'Temperature', 'temp'],
+            ['date', 'Days in March'],
+            ['number', 'Day of the Week'],
+            ['number', 'Temperature'],
         ]);
 
         $cols = $this->dt->getColumns();
 
         $this->assertEquals($cols[0]->getType(), 'date');
-        $this->assertEquals($cols[0]['label'], 'Days in March');
-        $this->assertEquals($cols[0]['id'], 'march-dates');
+        $this->assertEquals($cols[0]->getLabel(), 'Days in March');
 
         $this->assertEquals($cols[1]->getType(), 'number');
-        $this->assertEquals($cols[1]['label'], 'Day of the Week');
-        $this->assertEquals($cols[1]['id'], 'dotw');
+        $this->assertEquals($cols[1]->getLabel(), 'Day of the Week');
 
         $this->assertEquals($cols[2]->getType(), 'number');
-        $this->assertEquals($cols[2]['label'], 'Temperature');
-        $this->assertEquals($cols[2]['id'], 'temp');
+        $this->assertEquals($cols[2]->getLabel(), 'Temperature');
     }
 
     /**
@@ -191,7 +159,7 @@ var_dump($rows);
         $rows = $this->dt->getRows();
 
         $this->assertEquals($cols[0]->getType(), 'date');
-        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988,2,24,0,0,0)');
+        $this->assertEquals($rows[0]->getColumnValue(0), 'Date(1988,2,24,0,0,0)');
     }
 
     /**
@@ -212,9 +180,9 @@ var_dump($rows);
 
         $this->assertEquals($cols[0]->getType(), 'date');
         $this->assertEquals($cols[1]->getType(), 'number');
-        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988,2,24,0,0,0)');
-        $this->assertEquals($rows[0]['c'][1]['v'], 12345);
-        $this->assertEquals($rows[0]['c'][2]['v'], 67890);
+        $this->assertEquals($rows[0]->getColumnValue(0), 'Date(1988,2,24,0,0,0)');
+        $this->assertEquals($rows[0]->getColumnValue(1), 12345);
+        $this->assertEquals($rows[0]->getColumnValue(2), 67890);
     }
 
     /**
@@ -240,12 +208,12 @@ var_dump($rows);
 
         $this->assertEquals($cols[0]->getType(), 'date');
         $this->assertEquals($cols[1]->getType(), 'number');
-        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988,2,24,0,0,0)');
-        $this->assertEquals($rows[0]['c'][1]['v'], 12345);
-        $this->assertEquals($rows[0]['c'][2]['v'], 67890);
-        $this->assertEquals($rows[1]['c'][0]['v'], 'Date(1988,2,25,0,0,0)');
-        $this->assertEquals($rows[1]['c'][1]['v'], 1122);
-        $this->assertEquals($rows[1]['c'][2]['v'], 3344);
+        $this->assertEquals($rows[0]->getColumnValue(0), 'Date(1988,2,24,0,0,0)');
+        $this->assertEquals($rows[0]->getColumnValue(1), 12345);
+        $this->assertEquals($rows[0]->getColumnValue(2), 67890);
+        $this->assertEquals($rows[1]->getColumnValue(0), 'Date(1988,2,25,0,0,0)');
+        $this->assertEquals($rows[1]->getColumnValue(1), 1122);
+        $this->assertEquals($rows[1]->getColumnValue(2), 3344);
     }
 
     /**
@@ -313,11 +281,11 @@ var_dump($rows);
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnDefinition
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
     public function testAddBadColumnsFromArray()
     {
-        $this->dt->addColumn([
+        $this->dt->addColumns([
             [5, 'falcons'],
             [false, 'tacos']
         ]);
@@ -329,7 +297,7 @@ var_dump($rows);
      */
     public function testAddBadColumnFromat()
     {
-        $mockDateFormat = m::mock('Khill\Lavacharts\Formats\DateFormat');
+        $mockDateFormat = m::mock('Khill\Lavacharts\Datatables\Formats\DateFormat');
 
         $this->dt->addColumn('date');
         $this->dt->formatColumn('grizzly', $mockDateFormat);
@@ -342,28 +310,27 @@ var_dump($rows);
      */
     public function testAddMultipleRowsWithMultipleColumnsWithDateTimeAndNumbers()
     {
-        $this->dt->addColumn('datetime');
-        $this->dt->addColumn('number');
-        $this->dt->addColumn('number');
-
-        $rows = [
+        $this->dt->addColumns([
+            ['datetime'],
+            ['number'],
+            ['number']
+        ])->addRows([
             [Carbon::parse('March 24th, 1988 8:01:05'), 12345, 67890],
-            [Carbon::parse('March 25th, 1988  8:02:06'), 1122, 3344]
-        ];
-
-        $this->dt->addRows($rows);
+            [Carbon::parse('March 25th, 1988 8:02:06'), 1122, 3344]
+        ]);
 
         $cols = $this->dt->getColumns();
         $rows = $this->dt->getRows();
 
         $this->assertEquals($cols[0]->getType(), 'datetime');
         $this->assertEquals($cols[1]->getType(), 'number');
-        $this->assertEquals($rows[0]['c'][0]['v'], 'Date(1988,2,24,8,1,5)');
-        $this->assertEquals($rows[0]['c'][1]['v'], 12345);
-        $this->assertEquals($rows[0]['c'][2]['v'], 67890);
-        $this->assertEquals($rows[1]['c'][0]['v'], 'Date(1988,2,25,8,2,6)');
-        $this->assertEquals($rows[1]['c'][1]['v'], 1122);
-        $this->assertEquals($rows[1]['c'][2]['v'], 3344);
+
+        $this->assertEquals($rows[0]->getColumnValue(0), 'Date(1988,2,24,8,1,5)');
+        $this->assertEquals($rows[0]->getColumnValue(1), 12345);
+        $this->assertEquals($rows[0]->getColumnValue(2), 67890);
+        $this->assertEquals($rows[1]->getColumnValue(0), 'Date(1988,2,25,8,2,6)');
+        $this->assertEquals($rows[1]->getColumnValue(1), 1122);
+        $this->assertEquals($rows[1]->getColumnValue(2), 3344);
     }
 
 }

@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\DataTables\Rows;
 
 use \Carbon\Carbon;
+use Khill\Lavacharts\Datatables\DateCell;
 use \Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 
 /**
@@ -37,7 +38,13 @@ class Row implements \JsonSerializable
      */
     public function __construct($valueArray)
     {
-        $this->values = $valueArray;
+        $this->values = array_map(function ($cellValue) {
+            if ($cellValue instanceof Carbon) {
+                return new DateCell($cellValue);
+            } else {
+                return $cellValue;
+            }
+        }, $valueArray);
     }
 
     /**
@@ -67,32 +74,8 @@ class Row implements \JsonSerializable
     {
         return [
             'c' => array_map(function ($cellValue) {
-                if ($cellValue instanceof Carbon) {
-                    return ['v' => $this->carbonToJsString($cellValue)];
-                } else {
-                    return ['v' => $cellValue];
-                }
+                return ['v' => $cellValue];
             }, $this->values)
         ];
-    }
-
-    /**
-     * Outputs the Carbon object as a valid javascript Date string.
-     *
-     * @access protected
-     * @param  \Carbon\Carbon $carbon A Carbon instance
-     * @return string Javscript date declaration
-     */
-    private function carbonToJsString(Carbon $carbon)
-    {
-        return sprintf(
-            'Date(%d,%d,%d,%d,%d,%d)',
-            isset($carbon->year)   ? $carbon->year      : 'null',
-            isset($carbon->month)  ? $carbon->month - 1 : 'null', //silly javascript
-            isset($carbon->day)    ? $carbon->day       : 'null',
-            isset($carbon->hour)   ? $carbon->hour      : 'null',
-            isset($carbon->minute) ? $carbon->minute    : 'null',
-            isset($carbon->second) ? $carbon->second    : 'null'
-        );
     }
 }

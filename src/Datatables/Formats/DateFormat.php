@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Formats;
+namespace Khill\Lavacharts\DataTables\Formats;
 
 /**
  * DateFormat Object

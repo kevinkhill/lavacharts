@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\DataTables\Rows;
 
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Exceptions\InvalidCellCount;
+use Khill\Lavacharts\Utils;
 
 /**
  * RowFactory Class
@@ -50,11 +51,11 @@ class RowFactory
      */
     public function create($valueArray)
     {
-        $columnCount  = $this->datatable->getColumnCount();
-        $rowCellCount = count($valueArray);
+        $cellCount   = count($valueArray);
+        $columnCount = $this->datatable->getColumnCount();
 
-        if ($rowCellCount > $columnCount) {
-            throw new InvalidCellCount($rowCellCount, $columnCount);
+        if ($cellCount > $columnCount) {
+            throw new InvalidCellCount($cellCount, $columnCount);
         }
 
         return new Row($valueArray);

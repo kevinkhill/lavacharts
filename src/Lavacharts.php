@@ -642,7 +642,7 @@ class Lavacharts
      */
     private function formatFactory($type, $args)
     {
-        $format = __NAMESPACE__ . '\\Datatables\\Formats\\' . $type;
+        $format = __NAMESPACE__ . '\\DataTables\\Formats\\' . $type;
 
         if (isset($args[0]) === false) {
             return new $format;

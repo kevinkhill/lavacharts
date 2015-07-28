@@ -10,9 +10,8 @@ use \Khill\Lavacharts\DataTables\Columns\Column;
 use \Khill\Lavacharts\DataTables\Columns\ColumnFactory;
 use \Khill\Lavacharts\DataTables\Formats\Format;
 use \Khill\Lavacharts\Exceptions\InvalidDate;
-use \Khill\Lavacharts\Exceptions\InvalidCellCount;
+use \Khill\Lavacharts\Exceptions\InvalidJson;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 use \Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
 use \Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use \Khill\Lavacharts\Exceptions\InvalidRowDefinition;
@@ -117,6 +116,46 @@ class DataTable implements \JsonSerializable
         $this->setTimezone($timezone);
 
         $this->rowFactory = new RowFactory($this);
+    }
+
+    /**
+     * Parses a string of JSON data into a DataTable.
+     *
+     * Most google examples can be passed to this method with some tweaks.
+     * PHP requires that only double quotes are used on identifiers.
+     * For example:
+     *  - {label: 'Team'} would be invalid
+     *  - {"label": "Team"} would be accepted.
+     *
+     * @param string $jsonString JSON string to decode
+     * @throws InvalidJson
+     * @return DataTable
+     */
+    public static function createFromJson($jsonString)
+    {
+        $decodedJson = json_decode($jsonString, true);
+
+        if ($decodedJson === null) {
+            throw new InvalidJson;
+        }
+
+        $datatable = new DataTable();
+
+        foreach ($decodedJson['cols'] as $column) {
+            $datatable->addColumn($column['type'], $column['label']);
+        }
+
+        foreach ($decodedJson['rows'] as $row) {
+            $rowData = [];
+
+            foreach ($row['c'] as $cell) {
+                $rowData[] = $cell['v'];
+            }
+
+            $datatable->addRow($rowData);
+        }
+
+        return $datatable;
     }
 
     /**
@@ -465,56 +504,53 @@ class DataTable implements \JsonSerializable
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      * @return self
      */
-    public function addRow($optCellArray = null)
+    public function addRow($optCellArray=null)
     {
-        if (is_null($optCellArray)) {
+        if (is_null($optCellArray) === false && is_array($optCellArray) === false) {
+            throw new InvalidRowDefinition($optCellArray);
+        }
+
+        if (is_null($optCellArray) === true || is_array($optCellArray) === true && count($optCellArray) == 0) {
             $this->rows[] = $this->rowFactory->null();
-        } else {
-            if (is_array($optCellArray) === false) {
-                throw new InvalidRowDefinition($optCellArray);
+        }
+
+        if (Utils::arrayIsMulti($optCellArray)) {
+            $timeOfDayIndex = $this->getColumnIndexByType('timeofday');
+
+            if ($timeOfDayIndex !== false) {
+                $rowVals = $this->parseTimeOfDayRow($optCellArray);
+            } else {
+                $rowVals = $this->parseExtendedCellArray($optCellArray);
             }
 
-            if (Utils::arrayIsMulti($optCellArray)) {
-                $timeOfDayIndex = $this->getColumnIndexByType('timeofday');
-
-                if ($timeOfDayIndex !== false) {
-                    $rowVals = $this->parseTimeOfDayRow($optCellArray);
-                } else {
-                    $rowVals = $this->parseExtendedCellArray($optCellArray);
-                }
-
-                $this->rows[] = ['c' => $rowVals];
-            } else {
+            $this->rows[] = ['c' => $rowVals];
+        } else {
+            $this->rows[] = $this->rowFactory->create($optCellArray);
 /*
-                $colCount = $this->getColumnCount();
-                $rowColCount = count($optCellArray);
+            $colCount = $this->getColumnCount();
+            $rowColCount = count($optCellArray);
 
-                if ($rowColCount > $colCount) {
-                    throw new InvalidCellCount($rowColCount, $colCount);
-                }
+            if ($rowColCount > $colCount) {
+                throw new InvalidCellCount($rowColCount, $colCount);
+            }
 
 //TODO: Add logic for parsing date cells
 
-                for ($index = 0; $index < $colCount; $index++) {
-                    if (isset($optCellArray[$index])) {
-                        if ($this->cols[$index]->getType() == 'date' || $this->cols[$index]->getType() == 'datetime') {
-                            $rowVals[] = ['v' => $this->parseDate($optCellArray[$index])];
-                        } else {
-                            $rowVals[] = ['v' => $optCellArray[$index]];
-                        }
+            for ($index = 0; $index < $colCount; $index++) {
+                if (isset($optCellArray[$index])) {
+                    if ($this->cols[$index]->getType() == 'date' || $this->cols[$index]->getType() == 'datetime') {
+                        $rowVals[] = ['v' => $this->parseDate($optCellArray[$index])];
                     } else {
-                        $rowVals[] = ['v' => null];
+                        $rowVals[] = ['v' => $optCellArray[$index]];
                     }
+                } else {
+                    $rowVals[] = ['v' => null];
                 }
+            }
 */
 
-                if (empty($optCellArray) === true) {
-                    $this->rows[] = $this->rowFactory->null();
-                } else {
-                    $this->rows[] = $this->rowFactory->create($optCellArray);
-                }
-                //$this->rows[] = ['c' => $rowVals];
-            }
+
+            //$this->rows[] = ['c' => $rowVals];
         }
 
         return $this;
@@ -686,7 +722,8 @@ class DataTable implements \JsonSerializable
      *
      * @since  2.5.2
      * @access public
-     * @return int|bool Column index on success, false on failure.
+     * @param $type
+     * @return bool|int Column index on success, false on failure.
      */
     public function getColumnIndexByType($type)
     {
