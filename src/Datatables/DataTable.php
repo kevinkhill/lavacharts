@@ -127,7 +127,9 @@ class DataTable implements \JsonSerializable
      *  - {label: 'Team'} would be invalid
      *  - {"label": "Team"} would be accepted.
      *
-     * @param string $jsonString JSON string to decode
+     * @access public
+     * @since  3.0.0
+     * @param  string $jsonString JSON string to decode
      * @throws InvalidJson
      * @return DataTable
      */
@@ -187,6 +189,18 @@ class DataTable implements \JsonSerializable
     }
 
     /**
+     * Returns the current timezone used in the DataTable
+     *
+     * @access public
+     * @since  3.0.0
+     * @return string
+     */
+    public function getTimeZone()
+    {
+        return $this->timezone;
+    }
+
+    /**
      * Sets the format to be used by Carbon::createFromFormat()
      *
      * This method is used to set the format to be used to parse a string
@@ -209,6 +223,18 @@ class DataTable implements \JsonSerializable
         $this->dateTimeFormat = $dateTimeFormat;
 
         return $this;
+    }
+
+    /**
+     * Returns the set DateTime format.
+     *
+     * @access public
+     * @since  3.0.0
+     * @return string DateTime format
+     */
+    public function getDateTimeFormat()
+    {
+        return $this->dateTimeFormat;
     }
 
     /**
@@ -514,7 +540,7 @@ class DataTable implements \JsonSerializable
             $this->rows[] = $this->rowFactory->null();
         }
 
-        if (Utils::arrayIsMulti($optCellArray)) {
+        if (Utils::arrayIsMulti($optCellArray)) { //TODO: timeofday cells
             $timeOfDayIndex = $this->getColumnIndexByType('timeofday');
 
             if ($timeOfDayIndex !== false) {
@@ -526,31 +552,6 @@ class DataTable implements \JsonSerializable
             $this->rows[] = ['c' => $rowVals];
         } else {
             $this->rows[] = $this->rowFactory->create($optCellArray);
-/*
-            $colCount = $this->getColumnCount();
-            $rowColCount = count($optCellArray);
-
-            if ($rowColCount > $colCount) {
-                throw new InvalidCellCount($rowColCount, $colCount);
-            }
-
-//TODO: Add logic for parsing date cells
-
-            for ($index = 0; $index < $colCount; $index++) {
-                if (isset($optCellArray[$index])) {
-                    if ($this->cols[$index]->getType() == 'date' || $this->cols[$index]->getType() == 'datetime') {
-                        $rowVals[] = ['v' => $this->parseDate($optCellArray[$index])];
-                    } else {
-                        $rowVals[] = ['v' => $optCellArray[$index]];
-                    }
-                } else {
-                    $rowVals[] = ['v' => null];
-                }
-            }
-*/
-
-
-            //$this->rows[] = ['c' => $rowVals];
         }
 
         return $this;
@@ -559,10 +560,12 @@ class DataTable implements \JsonSerializable
     /**
      * Adds multiple rows to the DataTable.
      *
-     * @see    addRow()
      * @access public
-     * @param  array Multi-dimensional array of rows.
-     * @return self
+     * @see    addRow()
+     * @param  array $arrayOfRows
+     * @throws InvalidConfigValue
+     * @throws InvalidRowDefinition
+     * @return DataTable
      */
     public function addRows($arrayOfRows)
     {
@@ -810,56 +813,5 @@ class DataTable implements \JsonSerializable
         }
 
         return $rowVals;
-    }
-
-    /**
-     * Either passes the Carbon instance or parses a datetime string.
-     *
-     * @access protected
-     * @param  Carbon|string $date
-     * @return string Javascript date declaration
-     * @throws InvalidDate
-     */
-    protected function parseDate($date)
-    {
-        if (empty($date)) {
-            throw new InvalidDate;
-        }
-
-        if (is_a($date, 'Carbon\Carbon')) {
-            return $this->carbonToJsString($date);
-        }
-
-        try {
-            if (Utils::nonEmptyString($this->dateTimeFormat)) {
-                $carbonDate = Carbon::createFromFormat($this->dateTimeFormat, $date);
-            } else {
-                $carbonDate = Carbon::parse($date);
-            }
-
-            return $this->carbonToJsString($carbonDate);
-        } catch (\Exception $e) {
-           throw new InvalidDate;
-        }
-    }
-
-    /**
-     * Outputs the Carbon object as a valid javascript Date string.
-     *
-     * @access protected
-     * @param  \Carbon\Carbon $c
-     * @return string Javascript date declaration
-     */
-    protected function carbonToJsString(Carbon $c)
-    {
-        return sprintf(
-            'Date(%d,%d,%d,%d,%d,%d)',
-            isset($c->year)   ? $c->year      : 'null',
-            isset($c->month)  ? $c->month - 1 : 'null', //silly javascript
-            isset($c->day)    ? $c->day       : 'null',
-            isset($c->hour)   ? $c->hour      : 'null',
-            isset($c->minute) ? $c->minute    : 'null',
-            isset($c->second) ? $c->second    : 'null'
-        );
     }
 }

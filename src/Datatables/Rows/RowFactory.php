@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\DataTables\Rows;
 
 use \Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Datatables\DateCell;
 use \Khill\Lavacharts\Exceptions\InvalidCellCount;
 use Khill\Lavacharts\Utils;
 
@@ -58,7 +59,20 @@ class RowFactory
             throw new InvalidCellCount($cellCount, $columnCount);
         }
 
-        return new Row($valueArray);
+        $columnTypes    = $this->datatable->getColumnTypes();
+        $dateTimeFormat = $this->datatable->getDateTimeFormat();
+
+        $rowData = [];
+
+        foreach ($valueArray as $index => $cell) {
+            if ((bool) preg_match('/date|datetime|timeofday/', $columnTypes[$index]) === true) {
+                $rowData[] = DateCell::parseString($cell, $dateTimeFormat);
+            } else {
+                $rowData[] = $cell;
+            }
+        }
+
+        return new Row($rowData);
     }
 
     /**
