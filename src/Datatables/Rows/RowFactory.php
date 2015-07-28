@@ -66,7 +66,7 @@ class RowFactory
 
         foreach ($valueArray as $index => $cell) {
             if ((bool) preg_match('/date|datetime|timeofday/', $columnTypes[$index]) === true) {
-                $rowData[] = DateCell::parseString($cell, $dateTimeFormat);
+               $rowData[] = DateCell::parseString($cell, $dateTimeFormat);
             } else {
                 $rowData[] = $cell;
             }

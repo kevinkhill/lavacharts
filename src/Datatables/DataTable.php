@@ -536,7 +536,7 @@ class DataTable implements \JsonSerializable
             throw new InvalidRowDefinition($optCellArray);
         }
 
-        if (is_null($optCellArray) === true || is_array($optCellArray) === true && count($optCellArray) == 0) {
+        if (is_null($optCellArray) === true || is_array($optCellArray) === true && empty($optCellArray) === true) {
             $this->rows[] = $this->rowFactory->null();
         }
 

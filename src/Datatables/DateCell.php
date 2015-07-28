@@ -49,7 +49,7 @@ class DateCell implements \JsonSerializable
     public static function parseString($dateTimeString, $dateTimeFormat)
     {
         try {
-            if (Utils::nonEmptyString($dateTimeFormat)) {
+            if (Utils::nonEmptyString($dateTimeFormat) === true) {
                 $carbon = Carbon::createFromFormat($dateTimeFormat, $dateTimeString);
             } else {
                 $carbon = Carbon::parse($dateTimeString);
