@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Formats;
+<?php
+
+namespace Khill\Lavacharts\Formats;
 
 /**
  * DateFormat Object
@@ -6,7 +8,6 @@
  * Formats date values in the datatable for display.
  * Added to columns during column definition.
  *
- * @see        https://developers.google.com/chart/interactive/docs/reference#dateformatter
  *
  * @package    Lavacharts
  * @subpackage Formats
@@ -15,6 +16,7 @@
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
+ * @see        https://developers.google.com/chart/interactive/docs/reference#dateformatter
  */
 
 use Khill\Lavacharts\Utils;
@@ -54,7 +56,7 @@ class DateFormat extends Format
      * @throws InvalidConfigProperty
      * @return DateFormat
      */
-    public function __construct($config = array())
+    public function __construct($config= [])
     {
         parent::__construct($this, $config);
     }
@@ -77,11 +79,11 @@ class DateFormat extends Format
      */
     public function formatType($ft)
     {
-        $values = array(
+        $values = [
             'short',
             'medium',
             'long'
-        );
+        ];
 
         if (Utils::nonEmptyStringInArray($ft, $values)) {
             $this->formatType = $ft;

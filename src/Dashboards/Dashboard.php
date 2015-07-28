@@ -135,7 +135,7 @@ class Dashboard implements \JsonSerializable
     private function addArrayOfBindings($bindings)
     {
         foreach ($bindings as $binding) {
-            $this->bind($binding[0], $binding[1], $binding[2]);
+            $this->bind($binding[0], $binding[1]);
         }
     }
 

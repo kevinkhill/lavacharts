@@ -176,33 +176,35 @@ class Lavacharts
                 throw new InvalidLavaObject($type);
             }
 
-            return $this->render($type, $arguments[0], $arguments[1]);
+            $lavaClass = $this->render($type, $arguments[0], $arguments[1]);
         }
 
         //Charts
         if (in_array($method, $this->chartClasses)) {
-            return $this->chartFactory($method, $arguments);
+            $lavaClass = $this->chartFactory($method, $arguments);
         }
 
         //ConfigObjects
         if (in_array($method, $this->configClasses)) {
-            return $this->configFactory($method, $arguments);
+            $lavaClass = $this->configFactory($method, $arguments);
         }
 
         //Formatters
         if (in_array($method, $this->formatClasses)) {
-            return $this->formatFactory($method, $arguments);
+            $lavaClass = $this->formatFactory($method, $arguments);
         }
 
         //Events
         if (in_array($method, $this->eventClasses)) {
-            return $this->eventFactory($method, $arguments);
+            $lavaClass = $this->eventFactory($method, $arguments);
         }
 
         //Filters
         if ((bool) preg_match('/Filter$/', $method)) {
-            return $this->filterFactory($method, $arguments);
+            $lavaClass = $this->filterFactory($method, $arguments);
         }
+
+        return $lavaClass;
     }
 
     /**
