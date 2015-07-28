@@ -46,11 +46,14 @@ class Filter implements \JsonSerializable
     /**
      * Builds a new Filter Object
      *
-     * @param $columnLabelOrIndex
-     * @param Options $options
-     * @param $config
-     * @throws InvalidConfigProperty
-     * @throws InvalidConfigValue
+     * Takes either a column label or a column index to filter. The options object will be
+     * created internally, so no need to set defaults. The child filter objects will set them.
+     *
+     * @param  mixed $columnLabelOrIndex Either column index or label of the column to filter.
+     * @param  Options $options Options object with defaults and values.
+     * @param  array $config Array of options to set.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
     public function __construct($columnLabelOrIndex, Options $options, $config)
@@ -86,65 +89,13 @@ class Filter implements \JsonSerializable
             call_user_func([$this, $option], $value);
         }
     }
-    /**
-     * The column of the datatable the filter should operate upon.
-     *
-     * It is mandatory to provide either this option or filterColumnLabel.
-     * If both present, this option takes precedence.
-     *
-     * @param  integer $index Column index
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function filterColumnIndex($columnIndex)
-    {
-        if (is_int($columnIndex) === false) {
-            throw new InvalidConfigValue(
-                get_class(),
-                __FUNCTION__,
-                'integer'
-            );
-        }
-
-        $this->options->set(__FUNCTION__, $columnIndex);
-
-        return $this;
-    }
 
     /**
-     * The label of the column the filter should operate upon.
+     * Allows for access to options as properties of the Filter.
      *
-     * It is mandatory to provide either this option or filterColumnIndex.
-     * If both present, filterColumnIndex takes precedence.
-     *
-     * @param  integer $label Column label
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function filterColumnLabel($columnLabel)
-    {
-        if (Utils::nonEmptyString($columnLabel) === false) {
-            throw new InvalidConfigValue(
-                get_class(),
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        $this->options->set(__FUNCTION__, $columnLabel);
-
-        return $this;
-    }
-
-    protected function setOption($option, $value)
-    {
-        $this->options->set($option, $value);
-
-        return $this;
-    }
-
-    /**
-     * @param $option
-     * @return null
-     * @throws InvalidConfigProperty
+     * @param  $option Name of option to get.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @return mixed
      */
     public function __get($option)
     {
@@ -161,11 +112,73 @@ class Filter implements \JsonSerializable
     }
 
     /**
+     * The column of the datatable the filter should operate upon.
+     *
+     * It is mandatory to provide either this option or filterColumnLabel.
+     * If both present, this option takes precedence.
+     *
+     * @param  integer $index Column index
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
+     */
+    public function filterColumnIndex($columnIndex)
+    {
+        if (is_int($columnIndex) === false) {
+            throw new InvalidConfigValue(
+                get_class(),
+                __FUNCTION__,
+                'integer'
+            );
+        }
+
+        return $this->setOption(__FUNCTION__, $columnIndex);
+    }
+
+    /**
+     * The label of the column the filter should operate upon.
+     *
+     * It is mandatory to provide either this option or filterColumnIndex.
+     * If both present, filterColumnIndex takes precedence.
+     *
+     * @param  integer $label Column label
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
+     */
+    public function filterColumnLabel($columnLabel)
+    {
+        if (Utils::nonEmptyString($columnLabel) === false) {
+            throw new InvalidConfigValue(
+                get_class(),
+                __FUNCTION__,
+                'string'
+            );
+        }
+
+        return $this->setOption(__FUNCTION__, $columnLabel);
+    }
+
+    /**
+     * Sets the value of an option.
+     *
+     * Used internally to check the values for their respective types and validity.
+     *
+     * @param  string $option Option to set.
+     * @param  mixed $value Value of the option.
+     * @return self
+     */
+    protected function setOption($option, $value)
+    {
+        $this->options->set($option, $value);
+
+        return $this;
+    }
+
+    /**
      * Custom serialization of the Filter object.
      *
      * @return array
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return $this->options->getValues();
     }
