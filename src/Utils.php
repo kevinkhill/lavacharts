@@ -5,30 +5,6 @@ namespace Khill\Lavacharts;
 class Utils
 {
     /**
-     * Magic method as an alias to is_a($object, $type)
-     *
-     * @param string $function
-     * @param object $configObject
-     * @return bool
-     */
-    public static function __callStatic($function, $configObject)
-    {
-        if (preg_match('/^is/', $function)) {
-            $is_a = substr($function, 2);
-
-            if (is_object($configObject[0])) {
-                $class = new \ReflectionClass($configObject[0]);
-
-                return preg_match("/{$is_a}/", $class->getShortname()) ? true : false;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Takes an array of values and ouputs them as a string between
      * brackets and separated by a pipe.
      *
@@ -38,15 +14,9 @@ class Utils
     public static function arrayToPipedString($defaultValues)
     {
         if (is_array($defaultValues)) {
-            $output = '[ ';
-
             natcasesort($defaultValues);
 
-            foreach ($defaultValues as $value) {
-                $output .= $value . ' | ';
-            }
-
-            return substr_replace($output, "", -2) . ']';
+            return '[ ' . implode(' | ', $defaultValues) . ' ]';
         } else {
             return false;
         }

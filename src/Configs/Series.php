@@ -79,7 +79,7 @@ class Series extends ConfigObject
      */
     public function annotation(Annotation $annotation)
     {
-        if (Utils::isAnnotation($annotation)) {
+        if ($annotation instanceof Annotation) {
             $this->annotation = $annotation;
         } else {
             throw new InvalidConfigValue(

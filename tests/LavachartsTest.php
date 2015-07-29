@@ -13,36 +13,36 @@ class LavachartsTest extends ProvidersTestCase
 
         $this->lava = new Lavacharts;
 
-        $this->mockLabel = m::mock('\Khill\Lavacharts\Values\Label', ['MockLabel'])->makePartial();
+        $this->mockLabel = m::mock('\\Khill\\Lavacharts\\Values\\Label', ['MockLabel'])->makePartial();
 
-        $this->partialDataTableWithReceives = m::mock('\Khill\Lavacharts\Configs\DataTable')
+        $this->partialDataTableWithReceives = m::mock('\\Khill\\Lavacharts\\DataTables\\DataTable')
                                           ->shouldReceive('toJson')
                                           ->atMost(1)
                                           ->shouldReceive('hasFormats')
                                           ->atLeast(1)
                                           ->getMock();
 
-        $this->mockLineChart = m::mock('\Khill\Lavacharts\Charts\LineChart');
+        $this->mockLineChart = m::mock('\\Khill\\Lavacharts\\Charts\\LineChart');
     }
 
     public function testIfInstanceOfVolcano()
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Volcano', $this->lava->volcano);
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\Volcano', $this->lava->volcano);
     }
 
     public function testIfInstanceOfJavascriptFactory()
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Javascript\JavascriptFactory', $this->lava->jsFactory);
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\Javascript\\JavascriptFactory', $this->lava->jsFactory);
     }
 
     public function testCreateDataTableViaAlias()
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\DataTable', $this->lava->DataTable());
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\DataTables\\DataTable', $this->lava->DataTable());
     }
 
     public function testCreateDataTableViaAliasWithTimezone()
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\DataTable', $this->lava->DataTable('America/Los_Angeles'));
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\DataTables\\DataTable', $this->lava->DataTable('America/Los_Angeles'));
     }
 
     public function testExistsWithExistingChartInVolcano()
@@ -92,7 +92,7 @@ class LavachartsTest extends ProvidersTestCase
      */
     public function testCreateChartsViaAlias($chartType)
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\\'.$chartType, $this->lava->$chartType('testchart', $this->partialDataTable));
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\Charts\\'.$chartType, $this->lava->$chartType('testchart', $this->partialDataTable));
     }
 
     /**
@@ -100,7 +100,7 @@ class LavachartsTest extends ProvidersTestCase
      */
     public function testCreateConfigObjectsViaAlias($configType)
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\\'.$configType, $this->lava->$configType());
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\Configs\\'.$configType, $this->lava->$configType());
     }
 
     /**
@@ -108,7 +108,7 @@ class LavachartsTest extends ProvidersTestCase
      */
     public function testCreateEventObjectsViaAliasWithCallback($eventType)
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Events\\'.$eventType, $this->lava->$eventType('jsCallback'));
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\Events\\'.$eventType, $this->lava->$eventType('jsCallback'));
     }
 
     /**
@@ -134,7 +134,7 @@ class LavachartsTest extends ProvidersTestCase
      */
     public function testCreateFormatObjectsViaAlias($formatType)
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Formats\\'.$formatType, $this->lava->$formatType());
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\DataTables\\Formats\\'.$formatType, $this->lava->$formatType());
     }
 
     public function testCreateConfigObjectViaAliasWithParam()
@@ -144,7 +144,7 @@ class LavachartsTest extends ProvidersTestCase
             'fontName' => 'Arial'
         ];
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $this->lava->TextStyle($params));
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\Configs\TextStyle', $this->lava->TextStyle($params));
     }
 
     /**
@@ -291,13 +291,13 @@ class LavachartsTest extends ProvidersTestCase
 
     public function testStoreChartIntoVolcano()
     {
-        $mockPieChart = m::mock('\Khill\Lavacharts\Charts\PieChart', [
+        $mockPieChart = m::mock('\\Khill\\Lavacharts\\Charts\PieChart', [
             $this->mockLabel,
             $this->partialDataTable
         ])->shouldReceive('getLabel')->andReturn('MockLabel')->getMock();
 
         $this->assertTrue($this->lava->store($mockPieChart));
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\PieChart', $this->lava->fetch('PieChart', 'MockLabel'));
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\Charts\PieChart', $this->lava->fetch('PieChart', 'MockLabel'));
     }
 
     public function testJsapiMethodWithCoreJsTracking()

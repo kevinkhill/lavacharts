@@ -116,7 +116,6 @@ class ChartFactory extends JavascriptFactory
      * Builds the javascript for the datatable column formatters.
      *
      * @access private
-     * @param  Chart  $chart
      * @return string Javascript code block.
      */
     private function buildFormatters()
@@ -126,14 +125,14 @@ class ChartFactory extends JavascriptFactory
 
         foreach ($formats as $index => $format) {
             $output .= sprintf(
-                'lavachart.formats["col%s"] = new google.visualization.%s(%s);',
+                '$this.formats["col%s"] = new google.visualization.%s(%s);',
                 $index,
                 $format::TYPE,
                 $format->toJson()
             ).PHP_EOL;
 
             $output .= sprintf(
-                'lavachart.formats["col%1$s"].format(lavachart.data, %1$s);',
+                '$this.formats["col%1$s"].format($this.data, %1$s);',
                 $index
             ).PHP_EOL.PHP_EOL;
         }

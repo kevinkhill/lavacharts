@@ -2,9 +2,9 @@
 
 namespace Khill\Lavacharts\Tests;
 
-
-use \Khill\Lavacharts\Javascript\JavascriptFactory;
 use \Mockery as m;
+use \Khill\Lavacharts\DataTables\DataTable;
+use \Khill\Lavacharts\Javascript\JavascriptFactory;
 
 class JavascriptFactoryTest extends ProvidersTestCase
 {
@@ -15,24 +15,22 @@ class JavascriptFactoryTest extends ProvidersTestCase
         $this->jsf = new JavascriptFactory;
 
         $this->mockChartLabel = m::mock('\Khill\Lavacharts\Values\Label', ['TestChart'])->makePartial();
-        $this->mockElementId = m::mock('\Khill\Lavacharts\Values\ElementId', ['chart'])->makePartial();
+        $this->mockElementId = m::mock('\Khill\Lavacharts\Values\ElementId', ['my-chart'])->makePartial();
 
-        $this->mdt = m::mock('Khill\Lavacharts\Configs\DataTable')->makePartial();
-        $this->mdt->addColumn('number')
-                  ->addColumn('number')
-                  ->addColumn('number')
-                  ->addRow([10101, 12345, 67890]);
+        $this->datatable = new DataTable();
+        $this->datatable->addColumn('number')
+                        ->addColumn('number')
+                        ->addColumn('number')
+                        ->addRow([10101, 12345, 67890]);
 
-        $this->mlc = m::mock('Khill\Lavacharts\Charts\LineChart', [$this->mockChartLabel, $this->mdt])->makePartial();
+        $this->mlc = m::mock('Khill\Lavacharts\Charts\LineChart', [$this->mockChartLabel, $this->datatable])->makePartial();
     }
 
     public function testGetChartJsOutput()
     {
-        $this->mlc->datatable($this->mdt);
-
         $js = $this->jsf->getChartJs($this->mlc, $this->mockElementId);
 
-        $this->assertTrue(strpos($js, 'chart') > 0 ? true : false);
+        $this->assertTrue(strpos($js, 'my-chart') > 0 ? true : false);
     }
 
     /**
@@ -49,8 +47,6 @@ class JavascriptFactoryTest extends ProvidersTestCase
      */
     public function testGetChartJsWithBadElementIdTypes($badTypes)
     {
-        $this->mlc->datatable($this->mdt);
-
         $this->jsf->getChartJs($this->mlc, $badTypes);
     }
 }

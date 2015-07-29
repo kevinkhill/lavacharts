@@ -185,7 +185,7 @@ class Axis extends ConfigObject
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return Axis
      */
-    public function baseline($baseline) //@TODO convert to carbon
+    public function baseline($baseline) //@TODO convert to Carbon
     {
         if (Utils::isJsDate($baseline)) {
             $this->baseline = $baseline->toString();
