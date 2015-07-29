@@ -5,6 +5,8 @@ namespace Khill\Lavacharts\Datatables;
 use \Carbon\Carbon;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\InvalidDate;
+use \Khill\Lavacharts\Exceptions\FailedCarbonParsing;
+use \Khill\Lavacharts\Exceptions\InvalidDateTimeString;
 
 /**
  * DateCell Class
@@ -43,22 +45,27 @@ class DateCell implements \JsonSerializable
     /**
      * @param  string $dateTimeString
      * @param  string $dateTimeFormat
-     * @throws InvalidDate
+     * @throws FailedCarbonParsing
+     * @throws InvalidDateTimeString
      * @return DateCell
      */
     public static function parseString($dateTimeString, $dateTimeFormat)
     {
+        if (Utils::nonEmptyString($dateTimeString) === false) {
+            throw new InvalidDateTimeString($dateTimeString);
+        }
+
         try {
             if (Utils::nonEmptyString($dateTimeFormat) === true) {
                 $carbon = Carbon::createFromFormat($dateTimeFormat, $dateTimeString);
             } else {
                 $carbon = Carbon::parse($dateTimeString);
             }
-
-            return new DateCell($carbon);
         } catch (\Exception $e) {
-            throw new InvalidDate;
+            throw new FailedCarbonParsing($dateTimeString);
         }
+
+        return new DateCell($carbon);
     }
 
     /**

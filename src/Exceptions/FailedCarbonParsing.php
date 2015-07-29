@@ -2,11 +2,11 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidDate extends \Exception
+class FailedCarbonParsing extends \Exception
 {
     public function __construct($badString)
     {
-        $message = 'Must be a Carbon instance or a datetime string able to be parsed by Carbon.';
+        $message = (string) $badString . ' failed to be parsed by Carbon.';
 
         parent::__construct($message);
     }

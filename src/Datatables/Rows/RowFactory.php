@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables\Rows;
 
+use Carbon\Carbon;
 use \Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Datatables\DateCell;
 use \Khill\Lavacharts\Exceptions\InvalidCellCount;
@@ -66,7 +67,11 @@ class RowFactory
 
         foreach ($valueArray as $index => $cell) {
             if ((bool) preg_match('/date|datetime|timeofday/', $columnTypes[$index]) === true) {
-               $rowData[] = DateCell::parseString($cell, $dateTimeFormat);
+                if ($cell instanceof Carbon) {
+                    $rowData[] = new DateCell($cell);
+                } else {
+                    $rowData[] = DateCell::parseString($cell, $dateTimeFormat);
+                }
             } else {
                 $rowData[] = $cell;
             }

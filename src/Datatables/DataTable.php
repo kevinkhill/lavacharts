@@ -527,6 +527,8 @@ class DataTable implements \JsonSerializable
      *
      * @access public
      * @param  mixed $optCellArray Array of values or DataCells.
+     * @throws InvalidRowDefinition
+     * @throws InvalidRowProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      * @return self
      */

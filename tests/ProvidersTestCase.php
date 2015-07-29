@@ -29,6 +29,17 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function nonCarbonOrDateStringProvider()
+    {
+        return [
+            [9],
+            [14.6342],
+            [true],
+            [false],
+            [new \stdClass()]
+        ];
+    }
+
     public function nonCarbonOrDateOrEmptyArrayProvider()
     {
         return [

@@ -261,10 +261,10 @@ class DataTableTest extends ProvidersTestCase
 
     /**
      * @depends testAddColumnWithTypeAndDescription
-     * @dataProvider nonCarbonOrDateOrEmptyArrayProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidDate
+     * @dataProvider nonCarbonOrDateStringProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidDateTimeString
      */
-    public function testAddingRowWithBadDateType($badDate)
+    public function testAddingRowWithBadDateTypes($badDate)
     {
         $this->dt->addColumn('date');
         $this->dt->addRow([$badDate]);
