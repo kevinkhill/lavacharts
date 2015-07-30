@@ -2,8 +2,6 @@
 
 namespace Khill\Lavacharts\Values;
 
-use Khill\Lavacharts\Exceptions\InvalidElementId;
-
 /**
  * Role Value Object
  *
@@ -31,12 +29,19 @@ class Role extends String
         'tooltip'
     ];
 
-    public function __construct($value)
+    /**
+     * Creates a new Role object.
+     *
+     * @param  $type
+     * @throws \Exception
+     * @throws \Khill\Lavacharts\Values\InvalidRole
+     */
+    public function __construct($type)
     {
-        parent::__construct($value);
+        parent::__construct($type);
 
-        if (in_array($value, $this->valideRoles) === false) {
-            throw new InvalidRole($value);
+        if (in_array($type, $this->validRoles) === false) {
+            throw new InvalidRole($type);
         }
     }
 }

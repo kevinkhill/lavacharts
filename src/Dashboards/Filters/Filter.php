@@ -50,15 +50,14 @@ class Filter implements \JsonSerializable
      * created internally, so no need to set defaults. The child filter objects will set them.
      *
      * @param  mixed $columnLabelOrIndex Either column index or label of the column to filter.
-     * @param  Options $options Options object with defaults and values.
      * @param  array $config Array of options to set.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
-    public function __construct($columnLabelOrIndex, Options $options, $config)
+    public function __construct($columnLabelOrIndex, $defaults, $config)
     {
-        $this->options = $options->extend($this->baseDefaults);
+        $this->options = (new Options($this->baseDefaults))->extend($defaults);
 
         if (is_string($columnLabelOrIndex) === false && is_int($columnLabelOrIndex) === false) {
             throw new InvalidConfigValue(
@@ -76,6 +75,11 @@ class Filter implements \JsonSerializable
             $config['filterColumnIndex'] = $columnLabelOrIndex;
         }
 
+        $this->parseConfig($config);
+    }
+
+    public function parseConfig($config)
+    {
         foreach ($config as $option => $value) {
             if ($this->options->has($option) === false) {
                 throw new InvalidConfigProperty(
@@ -90,10 +94,11 @@ class Filter implements \JsonSerializable
         }
     }
 
+
     /**
      * Allows for access to options as properties of the Filter.
      *
-     * @param  $option Name of option to get.
+     * @param  string $option Name of option to get.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return mixed
      */

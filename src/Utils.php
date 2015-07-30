@@ -45,10 +45,10 @@ class Utils
     /**
      * Simple test to see if array values are of specified type.
      *
-     * @param array Array of values.
-     * @param string Type to check
-     * @param string Named class, if type == 'class'
-     * @return bool Returns true is all values match type, otherwise false.
+     * @param  array $array Array of values.
+     * @param  string $type Type to check
+     * @param  string $className Named class, if type == 'class'
+     * @return boolean Returns true is all values match type, otherwise false.
      */
     public static function arrayValuesCheck($array, $type, $className = '')
     {

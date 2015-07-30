@@ -2,10 +2,8 @@
 
 namespace Khill\Lavacharts\Dashboards\Bindings;
 
-use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Dashboards\ChartWrapper;
 use \Khill\Lavacharts\Dashboards\ControlWrapper;
-use \Khill\Lavacharts\Exceptions\InvalidLabel;
 
 /**
  * Binding Class

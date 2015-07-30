@@ -5,7 +5,6 @@ namespace Khill\Lavacharts\DataTables\Columns;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\DataTables\Formats\Format;
 use \Khill\Lavacharts\Exceptions\InvalidColumnType;
-use \Khill\Lavacharts\Exceptions\InvalidColumnFormat;
 
 /**
  * ColumnFactory Class
@@ -53,7 +52,7 @@ class ColumnFactory
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnFormat
      * @return \Khill\Lavacharts\DataTables\Columns\Column
      */
-    public static function create($type, $label='', Format $format=null, $role='')
+    public static function create($type, $label = '', Format $format = null, $role = '')
     {
         if (Utils::nonEmptyStringInArray($type, self::$columnTypes) === false) {
             throw new InvalidColumnType($type, self::$columnTypes);

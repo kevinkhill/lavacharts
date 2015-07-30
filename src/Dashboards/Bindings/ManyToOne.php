@@ -31,7 +31,7 @@ class ManyToOne extends Binding
      * Creates the new Binding.
      *
      * @param  array $controlWrappers
-     * @param  \Khill\Lavacharts\Dashboard\ChartWrapper $chartWrapper
+     * @param  \Khill\Lavacharts\Dashboards\ChartWrapper $chartWrapper
      * @return self
      */
     public function __construct($controlWrappers, ChartWrapper $chartWrapper)

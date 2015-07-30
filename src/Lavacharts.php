@@ -324,7 +324,7 @@ class Lavacharts
      * @param  mixed  $divDimensions Set true for div creation, or pass an array with height & width
      * @return string
      */
-    private function renderChart($type, Label $label, ElementId $elementId, $divDimensions=false)
+    private function renderChart($type, Label $label, ElementId $elementId, $divDimensions = false)
     {
         $jsOutput = '';
 
@@ -394,7 +394,7 @@ class Lavacharts
      * @uses   \Khill\Lavacharts\Values\Label
      * @param  string $type Type of object to check.
      * @param  string $label Label of the object to check.
-     * @return bool
+     * @return boolean
      */
     public function exists($type, $label)
     {
@@ -413,7 +413,8 @@ class Lavacharts
      * @access public
      * @since  3.0.0
      * @uses   \Khill\Lavacharts\Values\Label
-     * @param  string $lavaObj Chart or Dashboard.
+     * @param  string $type Type of Chart or Dashboard.
+     * @param  string $label Label of the Chart or Dashboard.
      * @return mixed
      */
     public function fetch($type, $label)
@@ -432,16 +433,16 @@ class Lavacharts
      *
      * @access public
      * @since  3.0.0
-     * @param  string $lavaObj Chart or Dashboard.
+     * @param  Chart|Dashboard $lavaObj Chart or Dashboard.
      * @return boolean
      */
     public function store($lavaObj)
     {
-        if (is_a($lavaObj, 'Khill\Lavacharts\Dashboards\Dashboard')) {
+        if ($lavaObj instanceof Dashboard) {
             return $this->volcano->storeDashboard($lavaObj);
         }
 
-        if (is_a($lavaObj, 'Khill\Lavacharts\Charts\Chart')) {
+        if ($lavaObj instanceof Chart) {
             return $this->volcano->storeChart($lavaObj);
         }
 
@@ -454,7 +455,7 @@ class Lavacharts
      * Calling with no arguments will return a div with the ID set to what was
      * given to the outputInto() function.
      *
-     * Passing two (int)s will set the width and height respectivly and the div
+     * Passing two (int)s will set the width and height respectively and the div
      * ID will be set via the string given in the outputInto() function.
      *
      *
@@ -467,8 +468,9 @@ class Lavacharts
      * @access private
      * @since  1.0.0
      * @param  \Khill\Lavacharts\Values\ElementId $elementId  Element id to apply to the div.
-     * @param  array  $dimensions Height & width of the div.
+     * @param  array|boolean $dimensions Height & width of the div.
      * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return string HTML div element.
      */
     private function div(ElementId $elementId, $dimensions = true)

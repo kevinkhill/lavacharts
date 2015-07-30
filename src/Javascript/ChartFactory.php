@@ -10,7 +10,7 @@ use \Khill\Lavacharts\DataTables\DataTable;
  * ChartFactory Class
  *
  * This class takes Charts and uses all of the info to build the complete
- * javascript blocks for outputing into the page.
+ * javascript blocks for outputting into the page.
  *
  * @category   Class
  * @package    Lavacharts
@@ -149,8 +149,7 @@ class ChartFactory extends JavascriptFactory
      */
     private function getTemplate()
     {
-        return
-<<<'CHART'
+        return <<<'CHART'
         /**
          * If the object does not exist for a given chart type, initialize it.
          * This will prevent overriding keys when multiple charts of the same

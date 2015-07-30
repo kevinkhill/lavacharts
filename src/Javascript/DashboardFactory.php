@@ -85,20 +85,6 @@ class DashboardFactory extends JavascriptFactory
     }
 
     /**
-     * Process the charts to retrieve the datatables for a Dashboard.
-     *
-     * Turns the charts' datatables into new Google DataTable Objects.
-     *
-     * @access public
-     * @param  \Khill\Lavacharts\Dashboards\Dashboard $dashboard
-     * @return string
-     */
-    public function processCharts(Dashboard $dashboard)
-    {
-        $output = '';
-    }
-
-    /**
      * Process all the bindings for a Dashboard.
      *
      * Turns the chart and control wrappers into new Google Visualization Objects.
@@ -116,22 +102,22 @@ class DashboardFactory extends JavascriptFactory
                 case 'OneToOne':
                     $controls = $binding->getControlWrappers()[0]->toJavascript();
                     $charts   = $binding->getChartWrappers()[0]->toJavascript();
-                break;
+                    break;
 
                 case 'OneToMany':
                     $controls = $binding->getControlWrappers()[0]->toJavascript();
                     $charts   = $this->mapWrapperArray($binding->getChartWrappers());
-                break;
+                    break;
 
                 case 'ManyToOne':
                     $controls = $this->mapWrapperArray($binding->getControlWrappers());
                     $charts   = $binding->getChartWrappers()[0]->toJavascript();
-                break;
+                    break;
 
                 case 'ManyToMany':
                     $controls = $this->mapWrapperArray($binding->getControlWrappers());
                     $charts   = $this->mapWrapperArray($binding->getChartWrappers());
-                break;
+                    break;
             }
 
             $output .= sprintf('$this.dashboard.bind(%s, %s);', $controls, $charts);
@@ -164,8 +150,7 @@ class DashboardFactory extends JavascriptFactory
      */
     private function getTemplate()
     {
-        return
-<<<'DASH'
+        return <<<'DASH'
         //Checking if dashboard div exists
         if (! document.getElementById("<elemId>")) {
             throw new Error('[Lavacharts] No matching element was found with ID "<elemId>"');

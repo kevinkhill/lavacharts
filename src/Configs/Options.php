@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Configs;
 
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Options
 {
@@ -25,25 +26,37 @@ class Options
     }
 
     /**
-     * @param $defaults
-     * @return $this
+     * Extends the default options with more options.
+     *
+     * @param  array $defaults Array of options to extend the defaults.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function extend($defaults)
     {
+        if (is_array($defaults) === false) {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'array'
+            );
+        }
+
         $this->defaults = array_merge($this->defaults, $defaults);
 
         return $this;
     }
 
     /**
-     * @param $name
-     * @param $value
-     * @return $this
-     * @throws InvalidConfigProperty
+     * Set the value of an option.
+     *
+     * @param  string $option Name of option to set.
+     * @param  mixed $value Value to set the option to.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @return self
      */
     public function set($option, $value)
     {
-        if(in_array($option, $this->defaults) === false) {
+        if (in_array($option, $this->defaults) === false) {
             throw new InvalidConfigProperty(
                 get_class(),
                 __FUNCTION__,

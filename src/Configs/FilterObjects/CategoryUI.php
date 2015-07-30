@@ -207,7 +207,7 @@ class CategoryUI extends ConfigObject
      *
      * If false the user must choose at least one value from the available ones.
      * During control initialization, if the option is set to false and no
-     * selectedValues state is given, the first value from the avaiable ones
+     * selectedValues state is given, the first value from the available ones
      * is automatically seleted.
      *
      * @param  boolean $allowNone

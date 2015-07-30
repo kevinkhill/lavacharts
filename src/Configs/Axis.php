@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Configs;
 
 use \Khill\Lavacharts\Utils;
-
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * Axis Properties Parent Object
@@ -26,7 +26,7 @@ class Axis extends ConfigObject
      * The baseline for the axis.
      *
      * @TODO: FIX THIS
-     * @var int|Carbon
+     * @var int|\Carbon\Carbon
      */
     public $baseline;
 
@@ -166,10 +166,9 @@ class Axis extends ConfigObject
      *
      * @param  VerticalAxis|HorizontalAxis $child  The axis object
      * @param  array                       $config Associative array containing key => value pairs for the various configuration options.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws InvalidConf
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValuerty
-     * @return Axis
+     * @throws InvalidConfigValue
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function __construct($child, $config)
     {
@@ -181,9 +180,9 @@ class Axis extends ConfigObject
      *
      * This option is only supported for a continuous axis.
      *
-     * @param  mixed Must match type defined for the column, [ number | jsDate ].
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @param  mixed $baseline Must match type defined for the column, [ number | Carbon ].
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function baseline($baseline) //@TODO convert to Carbon
     {
@@ -211,9 +210,9 @@ class Axis extends ConfigObject
      *
      * This option is only supported for a continuous axis.
      *
-     * @param  string Valid HTML color.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @param  string $color Valid HTML color.
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function baselineColor($color)
     {
@@ -236,8 +235,8 @@ class Axis extends ConfigObject
      * specify 1 for normal, -1 to reverse the order of the values.
      *
      * @param  integer $direction
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function direction($direction)
     {
@@ -266,8 +265,8 @@ class Axis extends ConfigObject
      * This option is only supported for a continuous axis.
      *
      * @param  string $format format string for numeric or date axis labels.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function format($format)
     {
@@ -295,8 +294,8 @@ class Axis extends ConfigObject
      * This option is only supported for a continuous axis.
      *
      * @param  array $gridlines
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function gridlines($gridlines)
     {
@@ -338,8 +337,8 @@ class Axis extends ConfigObject
      * This option is only supported for a continuous axis.
      *
      * @param  bool $logScale
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function logScale($logScale)
     {
@@ -365,8 +364,8 @@ class Axis extends ConfigObject
      * This option is only supported for a continuous axis.
      *
      * @param  array $minorGridlines
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function minorGridlines($minorGridlines)
     {
@@ -413,8 +412,8 @@ class Axis extends ConfigObject
      * This option is only supported for a discrete axis.
      *
      * @param  integer $alternation
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function maxAlternation($alternation)
     {
@@ -434,14 +433,14 @@ class Axis extends ConfigObject
      * Maximum number of lines allowed for the text labels.
      *
      * Labels can span multiple lines if they are too long,
-     * and the nuber of lines is, by default, limited by
+     * and the number of lines is, by default, limited by
      * the height of the available space.
      *
      * This option is only supported for a discrete axis.
      *
      * @param  integer $maxTextLines
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function maxTextLines($maxTextLines)
     {
@@ -462,14 +461,14 @@ class Axis extends ConfigObject
      *
      * If the labels are spaced too densely, or they are too long,
      * the spacing can drop below this threshold, and in this case one of the
-     * label-unclutter measures will be applied (e.g, truncating the lables or
+     * label-unclutter measures will be applied (e.g, truncating the labels or
      * dropping some of them).
      *
      * This option is only supported for a discrete axis.
      *
      * @param  integer $minTextSpacing
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function minTextSpacing($minTextSpacing)
     {
@@ -493,8 +492,8 @@ class Axis extends ConfigObject
      * This option is only supported for a continuous axis.
      *
      * @param  integer $max
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function maxValue($max)
     {
@@ -518,8 +517,8 @@ class Axis extends ConfigObject
      * This option is only supported for a continuous axis.
      *
      * @param  integer $min
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function minValue($min)
     {
@@ -545,8 +544,8 @@ class Axis extends ConfigObject
      * This option is only supported for a discrete axis.
      *
      * @param  integer $showTextEvery
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function showTextEvery($showTextEvery)
     {
@@ -567,8 +566,8 @@ class Axis extends ConfigObject
      * Supported values: 'out', 'in', 'none'.
      *
      * @param  string $position Setting the position of the text.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function textPosition($position)
     {
@@ -595,8 +594,8 @@ class Axis extends ConfigObject
      * Sets the textstyle for the axis
      *
      * @param  TextStyle $textStyle
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function textStyle(TextStyle $textStyle)
     {
@@ -609,8 +608,8 @@ class Axis extends ConfigObject
      * Axis property that specifies the title of the axis.
      *
      * @param  string $title
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function title($title)
     {
@@ -630,8 +629,8 @@ class Axis extends ConfigObject
      * An object that specifies the axis title text style.
      *
      * @param  TextStyle $titleTextStyle
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function titleTextStyle(TextStyle $titleTextStyle)
     {
@@ -657,12 +656,12 @@ class Axis extends ConfigObject
      * 'max' - The zero-based row index where the cropping window ends. Data
      * points at this index and higher will be cropped out. In conjunction with
      * VerticalAxis->viewWindow['min'], it defines a half-opened range (min, max)
-     * that denotes the element i(ndices to display. In other words, every index
+     * that denotes the element indices to display. In other words, every index
      * such that min <= index < max will be displayed.
      *
      * @param  array $viewWindow
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function viewWindow($viewWindow)
     {
@@ -702,8 +701,8 @@ class Axis extends ConfigObject
      * This option is only supported for a continuous axis.
      *
      * @param  string $viewMode
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return Axis
+     * @throws InvalidConfigValue
+     * @return self
      */
     public function viewWindowMode($viewMode)
     {

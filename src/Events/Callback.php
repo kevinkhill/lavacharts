@@ -2,9 +2,6 @@
 
 namespace Khill\Lavacharts\Events;
 
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
 /**
  * Callback Object
  *

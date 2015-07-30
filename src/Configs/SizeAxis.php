@@ -36,7 +36,7 @@ class SizeAxis extends ConfigObject
     public $maxValue;
 
     /**
-     * Mininum radius of the smallest possible bubble, in pixels.
+     * Minimum radius of the smallest possible bubble, in pixels.
      *
      * @var int
      */
@@ -57,7 +57,7 @@ class SizeAxis extends ConfigObject
      * values for option => value, or by chaining together the functions once
      * an object has been created.
      *
-     * @param  array                 $config An array containing configuration options.
+     * @param  array $config An array containing configuration options.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return self
@@ -68,9 +68,10 @@ class SizeAxis extends ConfigObject
     }
 
     /**
-     * Sets maximum radius of the largest possible bubble, in pixels
+     * Sets maximum radius of the largest possible bubble, in pixels.
      *
-     * @param  integer      $maxSize
+     * @param  int|float $maxSize
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
     public function maxSize($maxSize)
@@ -91,7 +92,8 @@ class SizeAxis extends ConfigObject
      * Set the size value (as appears in the chart data) to be mapped to
      * $this->maxSize. Larger values will be cropped to this value.
      *
-     * @param  integer      $maxValue
+     * @param  int|float $maxValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
     public function maxValue($maxValue)
@@ -109,9 +111,10 @@ class SizeAxis extends ConfigObject
     }
 
     /**
-     * Sets mininum radius of the smallest possible bubble, in pixels
+     * Sets minimum radius of the smallest possible bubble, in pixels
      *
-     * @param  integer      $minSize
+     * @param  int|float $minSize
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
     public function minSize($minSize)
@@ -132,7 +135,8 @@ class SizeAxis extends ConfigObject
      * Set the size value (as appears in the chart data) to be mapped to
      * $this->minSize. Larger values will be cropped to this value.
      *
-     * @param  integer      $minValue
+     * @param  int|float $minValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
     public function minValue($minValue)

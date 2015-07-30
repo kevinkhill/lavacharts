@@ -2,8 +2,6 @@
 
 namespace Khill\Lavacharts\Configs;
 
-
-
 /**
  * Text Style ConfigObject
  *

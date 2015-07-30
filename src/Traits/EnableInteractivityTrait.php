@@ -2,8 +2,6 @@
 
 namespace Khill\Lavacharts\Traits;
 
-
-
 trait EnableInteractivityTrait
 {
     /**

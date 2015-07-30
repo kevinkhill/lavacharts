@@ -2,9 +2,6 @@
 
 namespace Khill\Lavacharts\DataTables\Columns;
 
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Formats\Format;
-
 /**
  * TimeOfDayColumn Object
  *
@@ -36,7 +33,7 @@ class TimeOfDayColumn extends DateColumn
      * @param  string $label Label for the column.
      * @return self
      */
-    public function __construct(Label $label=null)
+    public function __construct($label = '')
     {
         parent::__construct($label);
     }

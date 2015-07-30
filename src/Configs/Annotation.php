@@ -45,7 +45,7 @@ class Annotation extends ConfigObject
     /**
      * Builds the Annotation object.
      *
-     * @param  array Associative array containing key => value pairs for the various configuration options.
+     * @param  array $config Associative array containing key => value pairs for the various configuration options.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return self

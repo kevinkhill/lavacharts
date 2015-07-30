@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use \Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Datatables\DateCell;
 use \Khill\Lavacharts\Exceptions\InvalidCellCount;
-use Khill\Lavacharts\Utils;
 
 /**
  * RowFactory Class

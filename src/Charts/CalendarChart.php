@@ -126,7 +126,7 @@ class CalendarChart extends Chart
     {
         if (is_string($o) && array_key_exists($o, $this->options['calendar'])) {
             return $this->options['calendar'][$o];
-        } else if (is_string($o) && array_key_exists($o, $this->options)) {
+        } elseif (is_string($o) && array_key_exists($o, $this->options)) {
             return $this->options[$o];
         } else {
             $calendarOptions = $this->options['calendar'];

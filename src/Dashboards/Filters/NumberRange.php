@@ -46,11 +46,9 @@ class NumberRange extends Filter
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
-    public function __construct($columnLabelOrIndex, $config=[])
+    public function __construct($columnLabelOrIndex, $config = [])
     {
-        $options = new Options($this->defaults);
-
-        parent::__construct($columnLabelOrIndex, $options, $config);
+        parent::__construct($columnLabelOrIndex, $this->defaults, $config);
     }
 
     /**
@@ -58,7 +56,7 @@ class NumberRange extends Filter
      *
      * If undefined, the value will be inferred from the contents of the DataTable managed by the control.
      *
-     * @param  numeric $minValue
+     * @param  int|float $minValue
      * @throws InvalidConfigValue
      * @return self
      */
@@ -79,7 +77,7 @@ class NumberRange extends Filter
      *
      * If undefined, the value will be inferred from the contents of the DataTable managed by the control.
      *
-     * @param  numeric $maxValue
+     * @param  int|float $maxValue
      * @throws InvalidConfigValue
      * @return self
      */

@@ -36,7 +36,7 @@ class Dashboard implements \JsonSerializable
     private $label = null;
 
     /**
-     * Arry of Binding objects, mapping controls to charts.
+     * Array of Binding objects, mapping controls to charts.
      *
      * @var array
      */
@@ -138,5 +138,4 @@ class Dashboard implements \JsonSerializable
             $this->bind($binding[0], $binding[1]);
         }
     }
-
 }

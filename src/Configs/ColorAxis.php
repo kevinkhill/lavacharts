@@ -68,7 +68,7 @@ class ColorAxis extends ConfigObject
      * values of this value and lower will be rendered as the first color in
      * the $this->colors range.
      *
-     * @param  numeric            $minValue
+     * @param  int|float $minValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
@@ -91,7 +91,7 @@ class ColorAxis extends ConfigObject
      * values of this value and higher will be rendered as the last color in
      * the $this->colors range.
      *
-     * @param  numeric            $maxValue
+     * @param  int|float $maxValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */

@@ -31,7 +31,7 @@ class DateRange extends Filter
      *
      * @var array
      */
-    private $childDefaults = [
+    private $defaults = [
         'minValue',
         'maxValue'
     ];
@@ -44,10 +44,8 @@ class DateRange extends Filter
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function __construct($columnLabelOrIndex, $config=[])
+    public function __construct($columnLabelOrIndex, $config = [])
     {
-        $options = new Options($this->defaults);
-
-        parent::__construct($columnLabelOrIndex, $options, $config);
+        parent::__construct($columnLabelOrIndex, $this->defaults, $config);
     }
 }

@@ -4,7 +4,6 @@ namespace Khill\Lavacharts\Datatables;
 
 use \Carbon\Carbon;
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidDate;
 use \Khill\Lavacharts\Exceptions\FailedCarbonParsing;
 use \Khill\Lavacharts\Exceptions\InvalidDateTimeString;
 
@@ -91,7 +90,7 @@ class DateCell implements \JsonSerializable
      *
      * @return string
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return (string) $this;
     }

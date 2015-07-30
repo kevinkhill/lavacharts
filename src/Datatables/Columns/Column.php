@@ -56,7 +56,7 @@ class Column implements \JsonSerializable
      * @param  string $label Column label (optional).
      * @return self
      */
-    public function __construct($label='')
+    public function __construct($label = '')
     {
         $this->label = $label;
     }
@@ -164,4 +164,3 @@ class Column implements \JsonSerializable
         return $values;
     }
 }
-

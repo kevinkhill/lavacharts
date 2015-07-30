@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Dashboards;
 
-use \Khill\Lavacharts\Values\ElementId;;
 use \Khill\Lavacharts\Charts\Chart;
+use \Khill\Lavacharts\Values\ElementId;
 
 /**
  * ChartWrapper Class
@@ -65,7 +65,8 @@ class ChartWrapper extends Wrapper
      *
      * @return array
      */
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return [
             'chartType'   => $this->type,
             'containerId' => (string) $this->containerId,

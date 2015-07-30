@@ -4,7 +4,6 @@ namespace Khill\Lavacharts\Configs;
 
 use \Khill\Lavacharts\Utils;
 
-
 /**
  * Horizontal Axis ConfigObject
  *
@@ -109,7 +108,8 @@ class HorizontalAxis extends Axis
      *
      * This option is only supported for a discrete axis.
      *
-     * @param bool Status of allowing label cutoff
+     * @param  boolean $cutoff Status of allowing label cutoff
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
     public function allowContainerBoundaryTextCutoff($cutoff)
@@ -137,7 +137,8 @@ class HorizontalAxis extends Axis
      *
      * This option is only supported for a discrete axis.
      *
-     * @param bool Status of label slant
+     * @param  boolean $slant Status of label slant
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
     public function slantedText($slant)
@@ -162,7 +163,8 @@ class HorizontalAxis extends Axis
      *
      * This option is only supported for a discrete axis.
      *
-     * @param int Angle of labels
+     * @param  int $angle Angle of labels
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
     public function slantedTextAngle($angle)
@@ -191,7 +193,8 @@ class HorizontalAxis extends Axis
      *
      * This option is only supported for a discrete axis.
      *
-     * @param int Number of levels
+     * @param  int Number of levels
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
     public function maxAlternation($alternation)
@@ -211,12 +214,12 @@ class HorizontalAxis extends Axis
     /**
      * Sets the maximum number of lines allowed for the text labels.
      *
-     * Labels can span multiple lines if they are too long, and the nuber of
+     * Labels can span multiple lines if they are too long, and the number of
      * lines is, by default, limited by the height of the available space.
-     *
      * This option is only supported for a discrete axis.
      *
-     * @param int Number of lines
+     * @param  int $maxTextLines
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
     public function maxTextLines($maxTextLines)
@@ -244,7 +247,8 @@ class HorizontalAxis extends Axis
      *
      * This option is only supported for a discrete axis.
      *
-     * @param int Amount in pixels
+     * @param  int $minTextSpacing Amount in pixels
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
     public function minTextSpacing($minTextSpacing)
@@ -269,7 +273,8 @@ class HorizontalAxis extends Axis
      *
      * This option is only supported for a discrete axis.
      *
-     * @param int Number of labels
+     * @param  int Number of labels
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
     public function showTextEvery($showTextEvery)

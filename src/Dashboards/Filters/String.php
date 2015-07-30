@@ -1,8 +1,10 @@
 <?php
 
 namespace Khill\Lavacharts\Dashboards\Filters;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use Khill\Lavacharts\Utils;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * String Filter Class
@@ -46,11 +48,9 @@ class String extends Filter
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
-    public function __construct($columnLabelOrIndex, $config=[])
+    public function __construct($columnLabelOrIndex, $config = [])
     {
-        $options = new ConfigOptions($this->defaults);
-
-        parent::__construct($columnLabelOrIndex, $options, $config);
+        parent::__construct($columnLabelOrIndex, $this->defaults, $config);
     }
 
     /**

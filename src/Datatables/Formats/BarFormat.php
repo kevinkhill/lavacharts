@@ -302,5 +302,4 @@ class BarFormat extends Format
 
         return $this;
     }
-
 }

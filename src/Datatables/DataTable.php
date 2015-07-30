@@ -2,14 +2,12 @@
 
 namespace Khill\Lavacharts\DataTables;
 
-use \Carbon\Carbon;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\DataTables\Rows\RowFactory;
 use \Khill\Lavacharts\DataTables\Columns\Role;
 use \Khill\Lavacharts\DataTables\Columns\Column;
 use \Khill\Lavacharts\DataTables\Columns\ColumnFactory;
 use \Khill\Lavacharts\DataTables\Formats\Format;
-use \Khill\Lavacharts\Exceptions\InvalidDate;
 use \Khill\Lavacharts\Exceptions\InvalidJson;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
@@ -289,7 +287,7 @@ class DataTable implements \JsonSerializable
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return self
      */
-    public function addColumn($typeOrDescArr, $label='', /*$optId='',*/ Format $format=null, $role='')
+    public function addColumn($typeOrDescArr, $label = '', /*$optId = '',*/ Format $format = null, $role = '')
     {
         if (is_array($typeOrDescArr)) {
             call_user_func_array([$this, 'createColumnFromStrings'], $typeOrDescArr);
@@ -335,11 +333,12 @@ class DataTable implements \JsonSerializable
      * @access public
      * @param  string $label A label for the column.
      * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object. (Optional)
+     * @param  string $role A role for the column. (Optional)
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      * @return self
      */
-    public function addStringColumn($label='', Format $format=null, $role='')
+    public function addStringColumn($label = '', Format $format = null, $role = '')
     {
         $column = ColumnFactory::create('string', $label, $format, $role);
 
@@ -353,11 +352,12 @@ class DataTable implements \JsonSerializable
      * @access public
      * @param  string $label A label for the column.
      * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object. (Optional)
+     * @param  string $role A role for the column. (Optional)
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      * @return self
      */
-    public function addDateColumn($label='', Format $format=null, $role='')
+    public function addDateColumn($label = '', Format $format = null, $role = '')
     {
         $column = ColumnFactory::create('date', $label, $format, $role);
 
@@ -371,11 +371,12 @@ class DataTable implements \JsonSerializable
      * @access public
      * @param  string $label A label for the column.
      * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object. (Optional)
+     * @param  string $role A role for the column. (Optional)
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      * @return self
      */
-    public function addNumberColumn($label='', Format $format=null, $role='')
+    public function addNumberColumn($label = '', Format $format = null, $role = '')
     {
         $column = ColumnFactory::create('number', $label, $format, $role);
 
@@ -426,13 +427,13 @@ class DataTable implements \JsonSerializable
      * Supplemental function to create columns from strings.
      *
      * @access protected
-     * @param  string  $type
-     * @param  string  $label
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format
-     * @param  string $role
+     * @param  string $type Type of column to create
+     * @param  string $label Label for the column. (Optional)
+     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object. (Optional)
+     * @param  string $role A role for the column. (Optional)
      * @return self
      */
-    protected function createColumnFromStrings($type, $label='', $format=null, $role='')
+    protected function createColumnFromStrings($type, $label = '', $format = null, $role = '')
     {
         $column = ColumnFactory::create($type, $label, $format, $role);
 
@@ -491,7 +492,7 @@ class DataTable implements \JsonSerializable
         if (is_array($colFormatArr) && ! empty($colFormatArr)) {
             foreach ($colFormatArr as $index => $format) {
                 if (is_subclass_of($format, 'Format')) {
-                    $this->formats[$colIndex] = $format->toArray();
+                    $this->formats[$index] = $format->toArray();
                 }
             }
         }
@@ -546,12 +547,12 @@ class DataTable implements \JsonSerializable
             $timeOfDayIndex = $this->getColumnIndexByType('timeofday');
 
             if ($timeOfDayIndex !== false) {
-                $rowVals = $this->parseTimeOfDayRow($optCellArray);
+                $rowValues = $this->parseTimeOfDayRow($optCellArray);
             } else {
-                $rowVals = $this->parseExtendedCellArray($optCellArray);
+                $rowValues = $this->parseExtendedCellArray($optCellArray);
             }
 
-            $this->rows[] = ['c' => $rowVals];
+            $this->rows[] = ['c' => $rowValues];
         } else {
             $this->rows[] = $this->rowFactory->create($optCellArray);
         }
@@ -699,7 +700,7 @@ class DataTable implements \JsonSerializable
      */
     public function getColumnTypes()
     {
-        foreach($this->cols as $column) {
+        foreach ($this->cols as $column) {
             $colTypes[] = $column->getType();
         }
 
@@ -715,7 +716,7 @@ class DataTable implements \JsonSerializable
      */
     public function getColumnLabels()
     {
-        foreach($this->cols as $column) {
+        foreach ($this->cols as $column) {
             $colTypes[] = $column->getLabel();
         }
 
@@ -754,7 +755,11 @@ class DataTable implements \JsonSerializable
      */
     public function hasFormats()
     {
-        return count($this->formats) > 0 ? true : false;
+        if (count($this->formats) > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -773,7 +778,8 @@ class DataTable implements \JsonSerializable
      *
      * @return array
      */
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return [
             'cols' => $this->cols,
             'rows' => $this->rows,
@@ -795,10 +801,10 @@ class DataTable implements \JsonSerializable
                 throw new InvalidRowProperty;
             }
 
-            $rowVals[] = [$prop => $value];
+            $rowValues[] = [$prop => $value];
         }
 
-        return $rowVals;
+        return $rowValues;
     }
 
     /**
@@ -811,9 +817,9 @@ class DataTable implements \JsonSerializable
     protected function parseTimeOfDayRow($cellArray)
     {
         foreach ($cellArray as $cell) {
-            $rowVals[] = ['v' => $cell];
+            $rowValues[] = ['v' => $cell];
         }
 
-        return $rowVals;
+        return $rowValues;
     }
 }

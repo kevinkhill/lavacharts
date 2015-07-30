@@ -1,8 +1,6 @@
 <?php
 
 namespace Khill\Lavacharts\Configs;
-use Carbon\Carbon;
-use Khill\Lavacharts\Datatables\DateCell;
 
 /**
  * DataCell Object

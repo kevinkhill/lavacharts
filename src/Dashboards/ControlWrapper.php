@@ -45,9 +45,8 @@ class ControlWrapper extends Wrapper
     /**
      * Builds a ControlWrapper object.
      *
-     * @param  \Khill\Lavacharts\Charts\Chart $chart
      * @param  \Khill\Lavacharts\Dashboards\Filters\Filter $filter
-     * @param  string $containerId
+     * @param  \Khill\Lavacharts\Values\ElementId $containerId
      * @return self
      */
     public function __construct(Filter $filter, ElementId $containerId)
@@ -63,7 +62,8 @@ class ControlWrapper extends Wrapper
      *
      * @return array
      */
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return [
             'controlType' => $this->type,
             'containerId' => (string) $this->containerId,

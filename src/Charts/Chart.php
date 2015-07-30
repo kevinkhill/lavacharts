@@ -93,7 +93,7 @@ class Chart
      * @param  array $options Array of options to set on the chart.
      * @return self
      */
-    public function __construct(Label $chartLabel, DataTable $datatable, $options=[])
+    public function __construct(Label $chartLabel, DataTable $datatable, $options = [])
     {
         if (empty($options) === false) {
             $this->setOptions($options);
@@ -114,9 +114,8 @@ class Chart
      * Takes an array with option => value, or an object created by
      * one of the configOptions child objects.
      *
-     * @param mixed $o
-     *
-     * @return this
+     * @param  mixed $o
+     * @return self
      */
     protected function addOption($o)
     {
@@ -171,7 +170,7 @@ class Chart
     /**
      * Gets a specific option from the array.
      *
-     * @param  string             $option Which option to fetch
+     * @param  string $option Which option to fetch
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return mixed
      */
@@ -215,13 +214,17 @@ class Chart
      */
     public function hasEvents()
     {
-        return count($this->events) > 0 ? true : false;
+        if (count($this->events) > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
      * Checks if any events have been assigned to the chart.
      *
-     * @return bool
+     * @return array
      */
     public function getEvents()
     {
@@ -468,7 +471,7 @@ class Chart
      * @param  string           $elemId The id of an HTML element to render the chart into.
      * @throws InvalidElementId
      *
-     * @return string Javscript code blocks
+     * @return string Javascript code blocks
      */
     public function render($elemId)
     {
@@ -480,9 +483,8 @@ class Chart
     /**
      * Text to display above the chart.
      *
-     * @param  string             $title
+     * @param  string $title
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
      * @return self
      */
     public function title($title)
@@ -498,14 +500,15 @@ class Chart
     }
 
     /**
-     * Where to place the chart title, compared to the chart area. Supported values:
-     * 'in' - Draw the title inside the chart area.
-     * 'out' - Draw the title outside the chart area.
+     * Where to place the chart title, compared to the chart area.
+     *
+     * Supported values:
+     * 'in'   - Draw the title inside the chart area.
+     * 'out'  - Draw the title outside the chart area.
      * 'none' - Omit the title.
      *
-     * @param  string             $titlePosition
+     * @param  string $titlePosition
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
      * @return self
      */
     public function titlePosition($titlePosition)
@@ -532,9 +535,8 @@ class Chart
      * object, set the values then pass it to this function or to the constructor.
      *
      * @uses   TextStyle
-     * @param  TextStyle          $textStyle
+     * @param  TextStyle $textStyle
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
      * @return self
      */
     public function titleTextStyle(TextStyle $textStyle)
@@ -548,9 +550,8 @@ class Chart
      * then pass it to this function or to the constructor.
      *
      * @uses   Tooltip
-     * @param  Tooltip            $tooltip
+     * @param  Tooltip $tooltip
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
      * @return self
      */
     public function tooltip(Tooltip $tooltip)
@@ -561,9 +562,8 @@ class Chart
     /**
      * Width of the chart, in pixels.
      *
-     * @param  integer                $width
+     * @param  integer $width
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
      * @return self
      */
     public function width($width)

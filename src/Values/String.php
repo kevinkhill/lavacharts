@@ -2,8 +2,6 @@
 
 namespace Khill\Lavacharts\Values;
 
-use Khill\Lavacharts\Exceptions\InvalidLabel;
-
 /**
  * String Value Object
  *

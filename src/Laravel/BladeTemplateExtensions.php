@@ -44,7 +44,7 @@ $charts = [
  */
 if (method_exists($blade, 'directive')) {
     foreach ($charts as $chart) {
-        $blade->directive(strtolower($chart), function($expression) use ($chart) {
+        $blade->directive(strtolower($chart), function ($expression) use ($chart) {
             return '<?php echo Lava::render'. $chart . $expression . '; ?>';
         });
     }

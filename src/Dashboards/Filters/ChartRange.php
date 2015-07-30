@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
+use \Khill\Lavacharts\Configs\Options;
+
 /**
  * Chart Range Filter Class
  *
@@ -35,10 +37,8 @@ class ChartRange extends Filter
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function __construct($columnLabelOrIndex, $config=[])
+    public function __construct($columnLabelOrIndex, $config = [])
     {
-        $options = new ConfigOptions($this->defaults);
-
-        parent::__construct($columnLabelOrIndex, $options, $config);
+        parent::__construct($columnLabelOrIndex, [], $config);
     }
 }

@@ -70,7 +70,7 @@ class LineChart extends Chart
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
      * @return self
      */
-    public function __construct(Label $chartLabel, DataTable $datatable, $options=[])
+    public function __construct(Label $chartLabel, DataTable $datatable, $options = [])
     {
         parent::__construct($chartLabel, $datatable, $options);
 

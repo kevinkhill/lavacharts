@@ -73,7 +73,7 @@ class Series extends ConfigObject
      * An object to be applied to annotations for this series.
      * This can be used to control, for instance, the textStyle for the series.
      *
-     * @param  Annotation Style of the series annotations
+     * @param  \Khill\Lavacharts\Configs\Annotation $annotation Style of the series annotations
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
