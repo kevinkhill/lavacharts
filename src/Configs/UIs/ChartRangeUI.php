@@ -4,7 +4,7 @@ namespace Khill\Lavacharts\Configs;
 
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
-class UI
+class ChartRangeUI extends UI
 {
     /**
      * Allowed options to set for the UI.
@@ -19,15 +19,23 @@ class UI
      * @var array
      */
     private $defaults = [
-        'label',
-        'labelSeparator',
-        'labelStacking',
-        'cssClass'
+        'chartType',
+        'chartOptions',
+        'chartView',
+        'minRangeSize',
+        'snapToData'
     ];
 
     public function __construct($config)
     {
-        $this->options = new Options($this->defaults);
+        $this->options = new Options(parent::$defaults);
+        $this->options->extend($this->defaults);
+        $this->options->remove([
+            'label',
+            'labelSeparator',
+            'labelStacking',
+            'cssClass'
+        ]);
 
         $this->parseConfig($config);
     }
