@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Configs;
 
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class Options
 {
@@ -18,7 +18,9 @@ class Options
     private $values = [];
 
     /**
-     * @param $defaults
+     * Create a new Options object with a set of defaults.
+     *
+     * @param array $defaults
      */
     public function __construct($defaults)
     {
@@ -47,6 +49,27 @@ class Options
     }
 
     /**
+     * Removes options from the default options.
+     *
+     * @param  array $options Array of options to remove from the defaults.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
+     */
+    public function remove($options)
+    {
+        if (is_array($options) === false) {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'array'
+            );
+        }
+
+        $this->defaults = array_diff($this->defaults, $options);
+
+        return $this;
+    }
+
+    /**
      * Set the value of an option.
      *
      * @param  string $option Name of option to set.
@@ -70,15 +93,23 @@ class Options
         return $this;
     }
 
+    /**
+     * Checks to see if a given option is available to set.
+     *
+     * @param  $option string Name of option.
+     * @return boolean
+     */
     public function has($option)
     {
         return in_array($option, $this->defaults);
     }
 
     /**
-     * @param $option
-     * @return null
-     * @throws InvalidConfigProperty
+     * Get the value of a set option.
+     *
+     * @param  string $option Name of option.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @return mixed
      */
     public function get($option)
     {
@@ -94,13 +125,18 @@ class Options
         return $this->values[$option];
     }
 
+    /**
+     * Returns the array of options that can be set.
+     *
+     * @return array
+     */
     public function getDefaults()
     {
         return $this->defaults;
     }
 
     /**
-     * Returns an array representation of the object.
+     * Returns an array representation of the options.
      *
      * @return array Array of the defined options.
      */
