@@ -17,13 +17,14 @@ class JavascriptFactoryTest extends ProvidersTestCase
         $this->mockChartLabel = m::mock('\Khill\Lavacharts\Values\Label', ['TestChart'])->makePartial();
         $this->mockElementId = m::mock('\Khill\Lavacharts\Values\ElementId', ['my-chart'])->makePartial();
 
-        $this->datatable = new DataTable();
-        $this->datatable->addColumn('number')
-                        ->addColumn('number')
-                        ->addColumn('number')
-                        ->addRow([10101, 12345, 67890]);
+        $datatable = new DataTable();
 
-        $this->mlc = m::mock('Khill\Lavacharts\Charts\LineChart', [$this->mockChartLabel, $this->datatable])->makePartial();
+        $datatable->addColumn('number')
+                  ->addColumn('number')
+                  ->addColumn('number')
+                  ->addRow([10101, 12345, 67890]);
+
+        $this->mlc = m::mock('Khill\Lavacharts\Charts\LineChart', [$this->mockChartLabel, $datatable])->makePartial();
     }
 
     public function testGetChartJsOutput()

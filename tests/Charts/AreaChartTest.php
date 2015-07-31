@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
-use \Khill\Lavacharts\Charts\AreaChart;
 use \Mockery as m;
+use \Khill\Lavacharts\Charts\AreaChart;
 
 class AreaChartTest extends ChartTestCase
 {

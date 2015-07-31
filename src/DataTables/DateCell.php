@@ -1,8 +1,8 @@
 <?php
 
-namespace Khill\Lavacharts\Datatables;
+namespace Khill\Lavacharts\DataTables;
 
-use \Carbon\Carbon;
+use Carbon\Carbon;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\FailedCarbonParsing;
 use \Khill\Lavacharts\Exceptions\InvalidDateTimeString;
@@ -24,7 +24,7 @@ use \Khill\Lavacharts\Exceptions\InvalidDateTimeString;
 class DateCell implements \JsonSerializable
 {
     /**
-     * Carbon object of the date value in the Datatable row.
+     * Carbon object of the date value in the DataTable row.
      *
      * @var \Carbon\Carbon
      */

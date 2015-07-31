@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Values;
 
-use Khill\Lavacharts\Exceptions\InvalidLabel;
+use \Khill\Lavacharts\Exceptions\InvalidLabel;
 
 /**
  * Label Value Object

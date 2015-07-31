@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Configs;
+namespace Khill\Lavacharts\DataTables;
 
 /**
  * DataCell Object

@@ -4,7 +4,7 @@ namespace Khill\Lavacharts\DataTables\Rows;
 
 use Carbon\Carbon;
 use \Khill\Lavacharts\DataTables\DataTable;
-use Khill\Lavacharts\Datatables\DateCell;
+use \Khill\Lavacharts\DataTables\DateCell;
 use \Khill\Lavacharts\Exceptions\InvalidCellCount;
 
 /**

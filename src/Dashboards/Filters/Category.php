@@ -52,7 +52,7 @@ class Category extends Filter
     }
 
     /**
-     * Selects whether to use the Datatable values or the formatted values.
+     * Selects whether to use the DataTable values or the formatted values.
      *
      * When populating the list of selectable values automatically from the DataTable
      * column this filter operates on, whether to use the actual cell values or their formatted values.

@@ -4,7 +4,7 @@ namespace Khill\Lavacharts\Tests\DataTables;
 
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Carbon\Carbon;
+use Carbon\Carbon;
 use \Mockery as m;
 
 class DataTableTest extends ProvidersTestCase
@@ -297,7 +297,7 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testAddBadColumnFromat()
     {
-        $mockDateFormat = m::mock('Khill\Lavacharts\Datatables\Formats\DateFormat');
+        $mockDateFormat = m::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
 
         $this->dt->addColumn('date');
         $this->dt->formatColumn('grizzly', $mockDateFormat);

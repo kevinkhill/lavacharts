@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Values;
 
-use Khill\Lavacharts\Exceptions\InvalidElementId;
+use \Khill\Lavacharts\Exceptions\InvalidElementId;
 
 /**
  * ElementId Value Object

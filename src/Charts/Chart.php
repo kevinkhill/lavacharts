@@ -246,7 +246,7 @@ class Chart
      * Assigns a datatable to use for the Chart.
      *
      * @deprecated
-     * @uses   Datatable
+     * @uses   DataTable
      * @param  DataTable $datatable
      * @return self
      */

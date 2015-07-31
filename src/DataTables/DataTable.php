@@ -4,7 +4,6 @@ namespace Khill\Lavacharts\DataTables;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\DataTables\Rows\RowFactory;
-use \Khill\Lavacharts\DataTables\Columns\Role;
 use \Khill\Lavacharts\DataTables\Columns\Column;
 use \Khill\Lavacharts\DataTables\Columns\ColumnFactory;
 use \Khill\Lavacharts\DataTables\Formats\Format;
@@ -111,9 +110,9 @@ class DataTable implements \JsonSerializable
      */
     public function __construct($timezone = null)
     {
-        $this->setTimezone($timezone);
-
         $this->rowFactory = new RowFactory($this);
+
+        $this->setTimezone($timezone);
     }
 
     /**

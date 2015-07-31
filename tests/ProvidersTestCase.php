@@ -15,7 +15,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->partialDataTable = m::mock('Khill\Lavacharts\DataTables\Datatable')->makePartial();
+        $this->partialDataTable = m::mock('Khill\Lavacharts\DataTables\DataTable')->makePartial();
     }
 
     public function nonIntOrPercentProvider()

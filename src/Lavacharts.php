@@ -640,7 +640,7 @@ class Lavacharts
      * @param  string $type Type of format to create.
      * @param  string $args Arguments from __call
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
-     * @return \Khill\Lavacharts\Datatables\Formats\Format
+     * @return \Khill\Lavacharts\DataTables\Formats\Format
      */
     private function formatFactory($type, $args)
     {

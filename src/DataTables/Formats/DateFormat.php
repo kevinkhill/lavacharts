@@ -19,8 +19,8 @@ namespace Khill\Lavacharts\DataTables\Formats;
  * @see        https://developers.google.com/chart/interactive/docs/reference#dateformatter
  */
 
-use Khill\Lavacharts\Utils;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class DateFormat extends Format
 {

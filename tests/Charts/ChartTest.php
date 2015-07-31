@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
-use \Carbon\Carbon;
+use Carbon\Carbon;
 use \Mockery as m;
 
 class ChartTest extends ChartTestCase
@@ -27,7 +27,7 @@ class ChartTest extends ChartTestCase
     {
         $this->mockLineChart->datatable($this->partialDataTable);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Datatable', $this->mockLineChart->getDatatable());
+        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\DataTable', $this->mockLineChart->getDataTable());
     }
 
     public function testBackgroundColorWithValidValues()

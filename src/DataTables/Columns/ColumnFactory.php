@@ -58,6 +58,14 @@ class ColumnFactory
             throw new InvalidColumnType($type, self::$columnTypes);
         }
 
+        if ($type == 'datetime') {
+            $type = 'dateTime';
+        }
+
+        if ($type == 'timeofday') {
+            $type = 'timeOfDay';
+        }
+
         $columnType = __NAMESPACE__ . '\\' . ucfirst($type) . 'Column';
 
         $column = new $columnType($label);

@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Laravel;
 
-use \Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\Facade;
 
 /**
  * Lavacharts Facade
