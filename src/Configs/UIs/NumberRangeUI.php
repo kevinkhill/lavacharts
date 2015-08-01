@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Configs;
+namespace Khill\Lavacharts\Configs\UIs;
 
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
@@ -33,22 +33,20 @@ class NumberRangeUI extends UI
         $this->options = new Options(parent::$defaults);
         $this->options->extend($this->defaults);
 
-        $this->parseConfig($config);
+        parent::__construct($config);
     }
 
-    public function parseConfig($config)
+    /**
+     * Sets the column formatter.
+     *
+     * @access public
+     * @param  \Khill\Lavacharts\DataTables\Formats\Format
+     * @return self
+     */
+    public function format(Format $format)
     {
-        foreach ($config as $option => $value) {
-            if ($this->options->has($option) === false) {
-                throw new InvalidConfigProperty(
-                    static::TYPE,
-                    __FUNCTION__,
-                    $option,
-                    $this->options->toArray()
-                );
-            }
+        $this->format = $format;
 
-            call_user_func([$this, $option], $value);
-        }
+        return $this;
     }
 }

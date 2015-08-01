@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Configs;
+namespace Khill\Lavacharts\Configs\UIs;
 
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
@@ -32,22 +32,6 @@ class CategoryUI extends UI
         $this->options = new Options(parent::$defaults);
         $this->options->extend($this->defaults);
 
-        $this->parseConfig($config);
-    }
-
-    public function parseConfig($config)
-    {
-        foreach ($config as $option => $value) {
-            if ($this->options->has($option) === false) {
-                throw new InvalidConfigProperty(
-                    static::TYPE,
-                    __FUNCTION__,
-                    $option,
-                    $this->options->toArray()
-                );
-            }
-
-            call_user_func([$this, $option], $value);
-        }
+        parent::__construct($config);
     }
 }
