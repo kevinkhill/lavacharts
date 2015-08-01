@@ -25,12 +25,25 @@ class NumberRangeUITest extends ProvidersTestCase
     public function testConstructorValuesAssignment()
     {
         $ui = new NumberRangeUI([
-            'label'          => 'Tacos',
-            'labelSeparator' => ':',
-            'labelStacking'  => 'horizontal',
-            'cssClass'       => 'fancy'
+            //'format',
+            'step'            => 1,
+            'ticks'           => 2,
+            'unitIncrement'   => 5,
+            'blockIncrement'  => 10,
+            'showRangeValues' => true,
+            'orientation'     => 'vertical',
+            'label'           => 'Tacos',
+            'labelSeparator'  => ':',
+            'labelStacking'   => 'horizontal',
+            'cssClass'        => 'fancy'
         ]);
 
+        $this->assertEquals($ui->step, 1);
+        $this->assertEquals($ui->ticks, 2);
+        $this->assertEquals($ui->unitIncrement, 5);
+        $this->assertEquals($ui->blockIncrement, 10);
+        $this->assertTrue(  $ui->showRangeValues);
+        $this->assertEquals($ui->orientation, 'vertical');
         $this->assertEquals($ui->label, 'Tacos');
         $this->assertEquals($ui->labelSeparator, ':');
         $this->assertEquals($ui->labelStacking, 'horizontal');
@@ -46,28 +59,47 @@ class NumberRangeUITest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider nonBoolProvider
+     * @dataProvider nonNumericProvider
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
-    public function testAlwaysOutsideWithBadParams($badVals)
+     */
+    public function testStepWithBadParams($badVals)
     {
-        $this->a->alwaysOutside($badVals);
+        $this->NumberRangeUI->step($badVals);
+    }
+
+    /**
+     * @dataProvider nonNumericProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testTicksWithBadParams($badVals)
+    {
+        $this->NumberRangeUI->ticks($badVals);
+    }
+
+    /**
+     * @dataProvider nonNumericProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testUnitIncrementWithBadParams($badVals)
+    {
+        $this->NumberRangeUI->unitIncrement($badVals);
+    }
+
+    /**
+     * @dataProvider nonNumericProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testBlockIncrementWithBadParams($badVals)
+    {
+        $this->NumberRangeUI->blockIncrement($badVals);
     }
 
     /**
      * @dataProvider nonBoolProvider
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
-    public function testHighContrastWithBadParams($badVals)
+     */
+    public function testShowRangeValuesWithBadParams($badVals)
     {
-        $this->a->highContrast($badVals);
+        $this->NumberRangeUI->showRangeValues($badVals);
     }
-
-    /**
-     * @expectedException PHPUnit_Framework_Error
-     *
-    public function testTextStyleWithNonTextStyle()
-    {
-        $this->a->textStyle('This is not a TextStyle Object');
-    }*/
 }
