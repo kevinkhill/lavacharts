@@ -8,11 +8,15 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class Options
 {
     /**
+     * Default options that can be set.
+     *
      * @var array
      */
     private $defaults = [];
 
     /**
+     * Set options as key => value pairs.
+     *
      * @var array
      */
     private $values = [];
@@ -113,7 +117,7 @@ class Options
      */
     public function get($option)
     {
-        if(in_array($option, $this->values) === false) {
+        if(array_key_exists($option, $this->values) === false) {
             throw new InvalidConfigProperty(
                 get_class(),
                 __FUNCTION__,

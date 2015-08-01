@@ -13,7 +13,7 @@ class UI implements \JsonSerializable
      *
      * @var \Khill\Lavacharts\Configs\Options
      */
-    private $options;
+    protected $options;
 
     /**
      * Default options available.
@@ -32,20 +32,37 @@ class UI implements \JsonSerializable
         $this->parseConfig($config);
     }
 
+    /**
+     * Get the value of a set option via magic method through UI.
+     *
+     * @param  string $option Name of option.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @return mixed
+     */
+    public function __get($option)
+    {
+        return $this->options->get($option);
+    }
+
     private function parseConfig($config)
     {
         foreach ($config as $option => $value) {
             if ($this->options->has($option) === false) {
                 throw new InvalidConfigProperty(
-                    static::TYPE,
+                    get_class(), //TODO: static type class name?
                     __FUNCTION__,
                     $option,
-                    $this->options->toArray()
+                    $this->options->getDefaults()
                 );
             }
 
             call_user_func([$this, $option], $value);
         }
+    }
+
+    protected function getType() //TODO: look at this again
+    {
+        return static::$TYPE;
     }
 
     /**
@@ -80,14 +97,14 @@ class UI implements \JsonSerializable
      */
     public function label($label)
     {
-        if (Utils::nonEmptyString($cssClass) === false) {
+        if (Utils::nonEmptyString($label) === false) {
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'string'
             );
         }
 
-        return $this->setOption(__FUNCTION__, $cssClass);
+        return $this->setOption(__FUNCTION__, $label);
     }
 
     /**
