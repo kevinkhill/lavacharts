@@ -7,13 +7,6 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 class ChartRangeUI extends UI
 {
     /**
-     * Allowed options to set for the UI.
-     *
-     * @var \Khill\Lavacharts\Configs\Options
-     */
-    private $options;
-
-    /**
      * Default options available.
      *
      * @var array

@@ -2,17 +2,11 @@
 
 namespace Khill\Lavacharts\Configs\UIs;
 
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class StringUI extends UI
 {
-    /**
-     * Allowed options to set for the UI.
-     *
-     * @var \Khill\Lavacharts\Configs\Options
-     */
-    private $options;
-
     /**
      * Default options available.
      *
@@ -29,4 +23,27 @@ class StringUI extends UI
 
         parent::__construct($options, $config);
     }
+
+
+    /**
+     * Whether the control should match any time a key is pressed or only when
+     * the input field 'changes' (loss of focus or pressing the Enter key).
+     *
+     * @access public
+     * @param  string $realtimeTrigger
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
+     */
+    public function realtimeTrigger($realtimeTrigger)
+    {
+        if (is_bool($realtimeTrigger) === false) {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'boolean'
+            );
+        }
+
+        return $this->setOption(__FUNCTION__, $realtimeTrigger);
+    }
+
 }
