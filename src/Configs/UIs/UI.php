@@ -186,6 +186,6 @@ class UI implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return $this->options->getValues();
+        return ['ui' => $this->options->getValues()];
     }
 }

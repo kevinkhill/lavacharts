@@ -1,33 +1,24 @@
 <?php
 
 namespace Khill\Lavacharts\Configs\UIs;
+use \Khill\Lavacharts\Configs\Options;
 
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
-
-class DateRangeUI extends UI
+class DateRangeUI extends DataRange
 {
     /**
-     * Allowed options to set for the UI.
+     * Type of UI config object
      *
-     * @var \Khill\Lavacharts\Configs\Options
+     * @var string
      */
-    private $options;
+    const TYPE = 'DateRangeUI';
 
     /**
-     * Default options available.
+     * Builds a new DateRangeUI object.
      *
-     * @var array
+     * @param array $config Array of options to set
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
-    private $extDefaults = [
-        'format',
-        'step',
-        'ticks',
-        'unitIncrement',
-        'blockIncrement',
-        'showRangeValues',
-        'orientation'
-       ];
-
     public function __construct($config = [])
     {
         $options = new Options($this->defaults);

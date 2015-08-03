@@ -26,6 +26,13 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 class Filter implements \JsonSerializable
 {
     /**
+     * Allowed keys for the Options child objects.
+     *
+     * @var \Khill\Lavacharts\Configs\Options
+     */
+    protected $options;
+
+    /**
      * Default configuration options.
      *
      * @var array
@@ -35,13 +42,6 @@ class Filter implements \JsonSerializable
         'filterColumnLabel',
         'ui'
     ];
-
-    /**
-     * Allowed keys for the Options child objects.
-     *
-     * @var \Khill\Lavacharts\Configs\Options
-     */
-    protected $options;
 
     /**
      * Builds a new Filter Object

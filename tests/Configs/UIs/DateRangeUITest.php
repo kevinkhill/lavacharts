@@ -4,7 +4,7 @@ namespace Khill\Lavacharts\Tests\Configs;
 
 use \Mockery as m;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Configs\UIs\NumberRangeUI;
+use \Khill\Lavacharts\Configs\UIs\DateRangeUI;
 
 class DateRangeUITest extends ProvidersTestCase
 {
@@ -12,12 +12,12 @@ class DateRangeUITest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->NumberRangeUI = new NumberRangeUI;
+        $this->DateRangeUI = new DateRangeUI;
     }
 
     public function testConstructorValuesAssignment()
     {
-        $ui = new NumberRangeUI([
+        $ui = new DateRangeUI([
             //'format',
             'step'            => 1,
             'ticks'           => 2,
@@ -40,7 +40,7 @@ class DateRangeUITest extends ProvidersTestCase
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        new NumberRangeUI(['Pickles' => 'tasty']);
+        new DateRangeUI(['Chrome' => 'metal']);
     }
 
     /**
@@ -49,7 +49,7 @@ class DateRangeUITest extends ProvidersTestCase
      */
     public function testStepWithBadParams($badVals)
     {
-        $this->NumberRangeUI->step($badVals);
+        $this->DateRangeUI->step($badVals);
     }
 
     /**
@@ -58,7 +58,7 @@ class DateRangeUITest extends ProvidersTestCase
      */
     public function testTicksWithBadParams($badVals)
     {
-        $this->NumberRangeUI->ticks($badVals);
+        $this->DateRangeUI->ticks($badVals);
     }
 
     /**
@@ -67,7 +67,7 @@ class DateRangeUITest extends ProvidersTestCase
      */
     public function testUnitIncrementWithBadParams($badVals)
     {
-        $this->NumberRangeUI->unitIncrement($badVals);
+        $this->DateRangeUI->unitIncrement($badVals);
     }
 
     /**
@@ -76,7 +76,7 @@ class DateRangeUITest extends ProvidersTestCase
      */
     public function testBlockIncrementWithBadParams($badVals)
     {
-        $this->NumberRangeUI->blockIncrement($badVals);
+        $this->DateRangeUI->blockIncrement($badVals);
     }
 
     /**
@@ -85,6 +85,6 @@ class DateRangeUITest extends ProvidersTestCase
      */
     public function testShowRangeValuesWithBadParams($badVals)
     {
-        $this->NumberRangeUI->showRangeValues($badVals);
+        $this->DateRangeUI->showRangeValues($badVals);
     }
 }
