@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\Configs\UIs;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\DataTables\Formats\Format;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class NumberRangeUI extends UI
@@ -30,16 +31,23 @@ class NumberRangeUI extends UI
         'orientation'
     ];
 
-    public function __construct($config=[])
+    /**
+     * Builds a new NumberRangeUI object.
+     *
+     * @param array $config Array of options to set
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
+     */
+    public function __construct($config = [])
     {
-        $this->options = new Options($this->defaults);
-        $this->options->extend($this->extDefaults);
+        $options = new Options($this->defaults);
+        $options->extend($this->extDefaults);
 
-        parent::__construct($config);
+        parent::__construct($options, $config);
     }
 
     /**
-     * Sets the column formatter.
+     * Sets the format for the control.
      *
      * @access public
      * @param  \Khill\Lavacharts\DataTables\Formats\Format
@@ -47,15 +55,16 @@ class NumberRangeUI extends UI
      */
     public function format(Format $format)
     {
-        $this->format = $format;
-
-        return $this;
+        return $this->setOption(__FUNCTION__, $format);
     }
 
     /**
      * The minimum possible change when dragging the slider thumbs.
      *
-     *
+     * @access public
+     * @param  int|float $step
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function step($step)
     {
@@ -66,13 +75,16 @@ class NumberRangeUI extends UI
             );
         }
 
-        $this->setOption(__FUNCTION__, $step);
+        return $this->setOption(__FUNCTION__, $step);
     }
 
     /**
      * The number of ticks (fixed positions in the range bar) the slider thumbs can occupy.
      *
-     *
+     * @access public
+     * @param  int|float $ticks
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function ticks($ticks)
     {
@@ -83,7 +95,7 @@ class NumberRangeUI extends UI
             );
         }
 
-        $this->setOption(__FUNCTION__, $ticks);
+        return $this->setOption(__FUNCTION__, $ticks);
     }
 
     /**
@@ -91,7 +103,10 @@ class NumberRangeUI extends UI
      *
      * A unit increment is equivalent to using the arrow keys to move a slider thumb.
      *
-     *
+     * @access public
+     * @param  int|float $unitIncrement
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function unitIncrement($unitIncrement)
     {
@@ -102,7 +117,7 @@ class NumberRangeUI extends UI
             );
         }
 
-        $this->setOption(__FUNCTION__, $unitIncrement);
+        return $this->setOption(__FUNCTION__, $unitIncrement);
     }
 
     /**
@@ -110,7 +125,10 @@ class NumberRangeUI extends UI
      *
      * A block increment is equivalent to using the pgUp and pgDown keys to move the slider thumbs.
      *
-     *
+     * @access public
+     * @param  int|float $blockIncrement
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function blockIncrement($blockIncrement)
     {
@@ -121,13 +139,16 @@ class NumberRangeUI extends UI
             );
         }
 
-        $this->setOption(__FUNCTION__, $blockIncrement);
+        return $this->setOption(__FUNCTION__, $blockIncrement);
     }
 
     /**
      * Whether to have labels next to the slider displaying extents of the selected range.
      *
-     *
+     * @access public
+     * @param  string $showRangeValues
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function showRangeValues($showRangeValues)
     {
@@ -138,13 +159,16 @@ class NumberRangeUI extends UI
             );
         }
 
-        $this->setOption(__FUNCTION__, $showRangeValues);
+        return $this->setOption(__FUNCTION__, $showRangeValues);
     }
 
     /**
      * The slider orientation. Either 'horizontal' or 'vertical'.
      *
-     *
+     * @access public
+     * @param  string $orientation
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
      */
     public function orientation($orientation)
     {

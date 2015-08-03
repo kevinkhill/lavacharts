@@ -25,9 +25,18 @@ class Options
      * Create a new Options object with a set of defaults.
      *
      * @param array $defaults
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * return self
      */
     public function __construct($defaults)
     {
+        if (is_array($defaults) === false) {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'array'
+            );
+        }
+
         $this->defaults = $defaults;
     }
 

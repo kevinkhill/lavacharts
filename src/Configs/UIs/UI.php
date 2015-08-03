@@ -2,9 +2,10 @@
 
 namespace Khill\Lavacharts\Configs\UIs;
 
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use Khill\Lavacharts\Utils;
 
 class UI implements \JsonSerializable
 {
@@ -27,9 +28,13 @@ class UI implements \JsonSerializable
         'cssClass'
     ];
 
-    public function __construct($config)
+    public function __construct(Options $options, $config = [])
     {
-        $this->parseConfig($config);
+        $this->options = $options;
+
+        if (is_array($config) === true && empty($config) === false) {
+            $this->parseConfig($config);
+        }
     }
 
     /**

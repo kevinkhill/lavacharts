@@ -18,7 +18,7 @@ class DateRangeUI extends UI
      *
      * @var array
      */
-    private $defaults = [
+    private $extDefaults = [
         'format',
         'step',
         'ticks',
@@ -28,11 +28,11 @@ class DateRangeUI extends UI
         'orientation'
        ];
 
-    public function __construct($config)
+    public function __construct($config = [])
     {
-        $this->options = new Options(parent::$defaults);
-        $this->options->extend($this->defaults);
+        $options = new Options($this->defaults);
+        $options->extend($this->extDefaults);
 
-        parent::__construct($config);
+        parent::__construct($options, $config);
     }
 }

@@ -6,7 +6,7 @@ use \Mockery as m;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Configs\UIs\NumberRangeUI;
 
-class NumberRangeUITest extends ProvidersTestCase
+class DateRangeUITest extends ProvidersTestCase
 {
     public function setUp()
     {

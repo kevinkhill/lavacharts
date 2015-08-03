@@ -18,7 +18,7 @@ class ChartRangeUI extends UI
      *
      * @var array
      */
-    private $defaults = [
+    private $extDefaults = [
         'chartType',
         'chartOptions',
         'chartView',
@@ -26,17 +26,17 @@ class ChartRangeUI extends UI
         'snapToData'
     ];
 
-    public function __construct($config)
+    public function __construct($config = [])
     {
-        $this->options = new Options(parent::$defaults);
-        $this->options->extend($this->defaults);
-        $this->options->remove([
+        $options = new Options($this->defaults);
+        $options->extend($this->extDefaults);
+        $options->remove([
             'label',
             'labelSeparator',
             'labelStacking',
             'cssClass'
         ]);
 
-        parent::__construct($config);
+        parent::__construct($options, $config);
     }
 }
