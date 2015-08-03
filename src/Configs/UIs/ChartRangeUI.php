@@ -32,4 +32,48 @@ class ChartRangeUI extends UI
 
         parent::__construct($options, $config);
     }
+
+    /**
+     *
+     */
+    public function chartType()
+    {
+
+    }
+
+    /**
+     *
+     */
+    public function chartOptions()
+    {
+
+    }
+
+    /**
+     *
+     */
+    public function chartView()
+    {
+
+    }
+
+    /**
+     *
+     */
+    public function minRangeSize()
+    {
+
+    }
+
+    /**
+     *
+     */
+    public function snapToData()
+    {
+
+    }
+
+    /**
+     *
+     */
 }
