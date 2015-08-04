@@ -17,8 +17,10 @@ class DateRangeUITest extends ProvidersTestCase
 
     public function testConstructorValuesAssignment()
     {
+        $mockDateFormat = m::mock('\Khill\Lavacharts\DataTables\Formats\DateFormat');
+
         $ui = new DateRangeUI([
-            //'format',
+            'format'          => $mockDateFormat,
             'step'            => 1,
             'ticks'           => 2,
             'unitIncrement'   => 5,

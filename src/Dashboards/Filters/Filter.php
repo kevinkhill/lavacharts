@@ -81,7 +81,7 @@ class Filter implements \JsonSerializable
     public function parseConfig($config)
     {
         foreach ($config as $option => $value) {
-            if ($this->options->has($option) === false) {
+            if ($this->options->hasOption($option) === false) {
                 throw new InvalidConfigProperty(
                     static::TYPE,
                     __FUNCTION__,

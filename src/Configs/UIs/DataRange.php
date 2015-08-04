@@ -3,8 +3,6 @@
 namespace Khill\Lavacharts\Configs\UIs;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Configs\Options;
-use \Khill\Lavacharts\DataTables\Formats\Format;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class DataRange extends UI
@@ -23,29 +21,6 @@ class DataRange extends UI
         'showRangeValues',
         'orientation'
     ];
-
-    /**
-     * Builds a new DataRange object.
-     *
-     * @param \Khill\Lavacharts\Configs\Options $options
-     * @param array $config Array of options to set
-     */
-    public function __construct(Options $options, $config = [])
-    {
-        parent::__construct($options, $config);
-    }
-
-    /**
-     * Sets the format for the control.
-     *
-     * @access public
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format
-     * @return self
-     */
-    public function format(Format $format)
-    {
-        return $this->setOption(__FUNCTION__, $format);
-    }
 
     /**
      * The minimum possible change when dragging the slider thumbs.

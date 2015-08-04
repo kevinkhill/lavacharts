@@ -6,7 +6,7 @@ use \Mockery as m;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Configs\UIs\StringUI;
 
-class DateRangeUITest extends ProvidersTestCase
+class StringUITest extends ProvidersTestCase
 {
     public function setUp()
     {

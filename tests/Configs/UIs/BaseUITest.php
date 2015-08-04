@@ -110,6 +110,11 @@ class BaseUITest extends ProvidersTestCase
         $this->UI->cssClass($badVals);
     }
 
+    public function testGetOptions()
+    {
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Options', $this->UI->getOptions());
+    }
+
     public function testJsonSerialization()
     {
         $ui = new UI($this->mockOptions, [

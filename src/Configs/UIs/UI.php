@@ -52,7 +52,7 @@ class UI implements \JsonSerializable
     private function parseConfig($config)
     {
         foreach ($config as $option => $value) {
-            if ($this->options->has($option) === false) {
+            if ($this->options->hasOption($option) === false) {
                 throw new InvalidConfigProperty(
                     get_class(), //TODO: static type class name?
                     __FUNCTION__,
@@ -63,11 +63,6 @@ class UI implements \JsonSerializable
 
             call_user_func([$this, $option], $value);
         }
-    }
-
-    protected function getType() //TODO: look at this again
-    {
-        return static::$TYPE;
     }
 
     /**
@@ -86,9 +81,19 @@ class UI implements \JsonSerializable
         return $this;
     }
 
+    public function getType() //TODO: look at this again
+    {
+        return static::$TYPE;
+    }
+
+    /**
+     * Gets the Options object for the UI
+     *
+     * @return \Khill\Lavacharts\Configs\Options
+     */
     public function getOptions()
     {
-        return $this->options();
+        return $this->options;
     }
 
     /**

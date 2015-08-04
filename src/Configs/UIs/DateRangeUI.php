@@ -1,7 +1,9 @@
 <?php
 
 namespace Khill\Lavacharts\Configs\UIs;
+
 use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\DataTables\Formats\DateFormat;
 
 class DateRangeUI extends DataRange
 {
@@ -25,5 +27,17 @@ class DateRangeUI extends DataRange
         $options->extend($this->extDefaults);
 
         parent::__construct($options, $config);
+    }
+
+    /**
+     * Sets the format for dates in the control.
+     *
+     * @access public
+     * @param  \Khill\Lavacharts\DataTables\Formats\DateFormat
+     * @return self
+     */
+    public function format(DateFormat $format)
+    {
+        return $this->setOption(__FUNCTION__, $format);
     }
 }

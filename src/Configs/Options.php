@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\Configs;
 
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidOption;
 
 class Options
 {
@@ -38,6 +39,52 @@ class Options
         }
 
         $this->defaults = $defaults;
+    }
+
+    /**
+     * Returns the array of options that can be set.
+     *
+     * @return array
+     */
+    public function getDefaults()
+    {
+        return $this->defaults;
+    }
+
+    /**
+     * Returns an array representation of the options.
+     *
+     * @return array Array of the defined options.
+     */
+    public function getValues()
+    {
+        return $this->values;
+    }
+
+    /**
+     * Checks to see if a given option is available to set.
+     *
+     * @param  $option string Name of option.
+     * @return boolean
+     */
+    public function hasOption($option)
+    {
+        return in_array($option, $this->defaults, true);
+    }
+
+    /**
+     * Checks to see if a given option is set.
+     *
+     * @param  $option string Name of option.
+     * @return boolean
+     */
+    public function hasValue($option)
+    {
+        if (is_string($option)) {
+            return array_key_exists($option, $this->values);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -77,7 +124,7 @@ class Options
             );
         }
 
-        $this->defaults = array_diff($this->defaults, $options);
+        $this->defaults = array_merge(array_diff($this->defaults, $options));
 
         return $this;
     }
@@ -87,18 +134,13 @@ class Options
      *
      * @param  string $option Name of option to set.
      * @param  mixed $value Value to set the option to.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      * @return self
      */
     public function set($option, $value)
     {
-        if (in_array($option, $this->defaults) === false) {
-            throw new InvalidConfigProperty(
-                get_class(),
-                __FUNCTION__,
-                $option,
-                $this->defaults
-            );
+        if ($this->hasOption($option) === false) {
+            throw new InvalidOption($option);
         }
 
         $this->values[$option] = $value;
@@ -107,54 +149,18 @@ class Options
     }
 
     /**
-     * Checks to see if a given option is available to set.
-     *
-     * @param  $option string Name of option.
-     * @return boolean
-     */
-    public function has($option)
-    {
-        return in_array($option, $this->defaults);
-    }
-
-    /**
      * Get the value of a set option.
      *
      * @param  string $option Name of option.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      * @return mixed
      */
     public function get($option)
     {
-        if(array_key_exists($option, $this->values) === false) {
-            throw new InvalidConfigProperty(
-                get_class(),
-                __FUNCTION__,
-                $option,
-                array_keys($this->values)
-            );
+        if ($this->hasValue($option) === false) {
+            throw new InvalidOption($option);
         }
 
         return $this->values[$option];
-    }
-
-    /**
-     * Returns the array of options that can be set.
-     *
-     * @return array
-     */
-    public function getDefaults()
-    {
-        return $this->defaults;
-    }
-
-    /**
-     * Returns an array representation of the options.
-     *
-     * @return array Array of the defined options.
-     */
-    public function getValues()
-    {
-        return $this->values;
     }
 }

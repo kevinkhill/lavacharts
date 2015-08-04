@@ -2,10 +2,8 @@
 
 namespace Khill\Lavacharts\Configs\UIs;
 
-use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Configs\Options;
-use \Khill\Lavacharts\DataTables\Formats\Format;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\DataTables\Formats\NumberFormat;
 
 class NumberRangeUI extends DataRange
 {
@@ -29,5 +27,17 @@ class NumberRangeUI extends DataRange
         $options->extend($this->extDefaults);
 
         parent::__construct($options, $config);
+    }
+
+    /**
+     * Sets the format for numbers in the control.
+     *
+     * @access public
+     * @param  \Khill\Lavacharts\DataTables\Formats\NumberFormat
+     * @return self
+     */
+    public function format(NumberFormat $format)
+    {
+        return $this->setOption(__FUNCTION__, $format);
     }
 }

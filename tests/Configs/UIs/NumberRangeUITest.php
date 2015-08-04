@@ -17,8 +17,10 @@ class NumberRangeUITest extends ProvidersTestCase
 
     public function testConstructorValuesAssignment()
     {
+        $mockNumberFormat = m::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat');
+
         $ui = new NumberRangeUI([
-            //'format',
+            'format'          => $mockNumberFormat,
             'step'            => 1,
             'ticks'           => 2,
             'unitIncrement'   => 5,
