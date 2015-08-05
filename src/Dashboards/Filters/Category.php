@@ -33,7 +33,7 @@ class Category extends Filter
      *
      * @var array
      */
-    private $defaults = [
+    private $extDefaults = [
         'values',
         'useFormattedValue'
     ];
@@ -48,7 +48,10 @@ class Category extends Filter
      */
     public function __construct($columnLabelOrIndex, $config = [])
     {
-        parent::__construct($columnLabelOrIndex, $this->defaults, $config);
+        $options = new Options($this->defaults);
+        $options->extend($this->extDefaults);
+
+        parent::__construct($options, $columnLabelOrIndex, $config);
     }
 
     /**

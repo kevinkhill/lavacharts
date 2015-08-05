@@ -39,6 +39,8 @@ class ChartRange extends Filter
      */
     public function __construct($columnLabelOrIndex, $config = [])
     {
-        parent::__construct($columnLabelOrIndex, [], $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $columnLabelOrIndex, $config);
     }
 }

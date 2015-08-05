@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\Dashboards\Filters;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Configs\UIs\UI;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
@@ -37,7 +38,7 @@ class Filter implements \JsonSerializable
      *
      * @var array
      */
-    protected $baseDefaults = [
+    protected $defaults = [
         'filterColumnIndex',
         'filterColumnLabel',
         'ui'
@@ -49,17 +50,17 @@ class Filter implements \JsonSerializable
      * Takes either a column label or a column index to filter. The options object will be
      * created internally, so no need to set defaults. The child filter objects will set them.
      *
-     * @param  mixed $columnLabelOrIndex Either column index or label of the column to filter.
-     * @param  array $config Array of options to set.
+     * @param \Khill\Lavacharts\Configs\Options $options
+     * @param  mixed                            $columnLabelOrIndex Either column index or label of the column to filter.
+     * @param  array                            $config Array of options to set.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function __construct($columnLabelOrIndex, $defaults, $config)
+    public function __construct(Options $options, $columnLabelOrIndex, $config)
     {
-        $this->options = (new Options($this->baseDefaults))->extend($defaults);
+        $this->options = $options;
 
-        if (is_string($columnLabelOrIndex) === false && is_int($columnLabelOrIndex) === false) {
+        if (Utils::nonEmptyString($columnLabelOrIndex) === false && is_int($columnLabelOrIndex) === false) {
             throw new InvalidConfigValue(
                 static::TYPE,
                 __FUNCTION__,
@@ -75,7 +76,9 @@ class Filter implements \JsonSerializable
             $config['filterColumnIndex'] = $columnLabelOrIndex;
         }
 
-        $this->parseConfig($config);
+        if (is_array($config) === true && empty($config) === false) {
+            $this->parseConfig($config);
+        }
     }
 
     public function parseConfig($config)
@@ -122,7 +125,7 @@ class Filter implements \JsonSerializable
      * It is mandatory to provide either this option or filterColumnLabel.
      * If both present, this option takes precedence.
      *
-     * @param  integer $index Column index
+     * @param  integer $columnIndex Column index
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
@@ -145,7 +148,7 @@ class Filter implements \JsonSerializable
      * It is mandatory to provide either this option or filterColumnIndex.
      * If both present, filterColumnIndex takes precedence.
      *
-     * @param  integer $label Column label
+     * @param  string $columnLabel Column label
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
@@ -163,9 +166,28 @@ class Filter implements \JsonSerializable
     }
 
     /**
+     * Assigns custom attributes to the controls that the filter is attached to.
+     *
+     * @param  \Khill\Lavacharts\Configs\UIs\UI $ui
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return self
+     */
+    public function ui($config)
+    {
+        $uiClass  = '\\Khill\\Lavacharts\\Configs\\UIs\\';
+        $uiClass .= str_replace('Filter', 'UI', static::TYPE);
+
+        $ui = new $uiClass($config);
+
+        var_dump($ui);
+
+        return $this->setOption(__FUNCTION__, $ui);
+    }
+
+    /**
      * Sets the value of an option.
      *
-     * Used internally to check the values for their respective types and validity.
+     * Wrapper for the set method on the options object to avoid return $this in every function.
      *
      * @param  string $option Option to set.
      * @param  mixed $value Value of the option.

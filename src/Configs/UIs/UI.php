@@ -4,8 +4,8 @@ namespace Khill\Lavacharts\Configs\UIs;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Exceptions\InvalidUIProperty;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 class UI implements \JsonSerializable
 {
@@ -53,9 +53,7 @@ class UI implements \JsonSerializable
     {
         foreach ($config as $option => $value) {
             if ($this->options->hasOption($option) === false) {
-                throw new InvalidConfigProperty(
-                    get_class(), //TODO: static type class name?
-                    __FUNCTION__,
+                throw new InvalidUIProperty(
                     $option,
                     $this->options->getDefaults()
                 );
@@ -191,6 +189,6 @@ class UI implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return ['ui' => $this->options->getValues()];
+        return $this->options->getValues();
     }
 }

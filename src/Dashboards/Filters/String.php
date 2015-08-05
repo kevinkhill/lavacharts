@@ -33,7 +33,7 @@ class String extends Filter
      *
      * @var array
      */
-    private $defaults = [
+    private $extDefaults = [
         'matchType',
         'caseSensitive',
         'useFormattedValue'
@@ -50,7 +50,10 @@ class String extends Filter
      */
     public function __construct($columnLabelOrIndex, $config = [])
     {
-        parent::__construct($columnLabelOrIndex, $this->defaults, $config);
+        $options = new Options($this->defaults);
+        $options->extend($this->extDefaults);
+
+        parent::__construct($options, $columnLabelOrIndex, $config);
     }
 
     /**

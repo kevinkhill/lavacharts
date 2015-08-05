@@ -716,7 +716,11 @@ class Lavacharts
 
         $filter = __NAMESPACE__ . '\\Dashboards\\Filters\\' . str_replace('Filter', '', $type);
 
-        return new $filter($args[0]);
+        if (is_array($args[1])) {
+            return new $filter($args[0], $args[1]);
+        } else {
+            return new $filter($args[0]);
+        }
     }
 
     /**
