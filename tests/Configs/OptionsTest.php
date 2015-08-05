@@ -18,14 +18,23 @@ class OptionsTest extends ProvidersTestCase
         ]);
     }
 
-    public function testHasMethod()
+    /**
+     * @dataProvider nonArrayProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testConstructorWithBadTypes($badTypes)
+    {
+        new Options($badTypes);
+    }
+
+    public function testHasOptionMethod()
     {
         $this->assertTrue($this->Options->hasOption('fakeOption1'));
         $this->assertTrue($this->Options->hasOption('fakeOption2'));
         $this->assertTrue($this->Options->hasOption('fakeOption3'));
     }
 
-    public function testHasMethodWithNonDefinedOption()
+    public function testHasOptionWithNonDefinedOption()
     {
         $this->assertFalse($this->Options->hasOption('notRealOption'));
     }
@@ -33,7 +42,7 @@ class OptionsTest extends ProvidersTestCase
     /**
      * @dataProvider nonStringProvider
      */
-    public function testHasMethodWithBadTypes($badTypes)
+    public function testHasOptionMethodWithBadTypes($badTypes)
     {
         $this->assertFalse($this->Options->hasOption($badTypes));
     }
@@ -47,6 +56,19 @@ class OptionsTest extends ProvidersTestCase
         $this->assertTrue($this->Options->get('fakeOption1', true));
         $this->assertEquals($this->Options->get('fakeOption2'), 1);
         $this->assertEquals($this->Options->get('fakeOption3'), 'Hamburger');
+    }
+
+    public function testGetValues()
+    {
+        $this->Options->set('fakeOption1', true);
+        $this->Options->set('fakeOption2', 1);
+        $this->Options->set('fakeOption3', 'Hamburger');
+
+        $this->assertEquals($this->Options->getValues(), [
+            'fakeOption1' => true,
+            'fakeOption2' => 1,
+            'fakeOption3' => 'Hamburger'
+        ]);
     }
 
     /**
