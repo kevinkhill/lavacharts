@@ -14,6 +14,13 @@ class JsonConfig implements \JsonSerializable
      */
     protected $options;
 
+    /**
+     * Creates a new JsonConfig object
+     *
+     * @param  \Khill\Lavacharts\Configs\Options $options
+     * @param  array                             $config
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     */
     public function __construct(Options $options, $config = [])
     {
         $this->options = $options;

@@ -124,7 +124,7 @@ class BaseUITest extends ProvidersTestCase
             'cssClass'       => 'fancy'
         ]);
 
-        $jsonSerialization = '{"ui":{"label":"Tacos","labelSeparator":"|","labelStacking":"horizontal","cssClass":"fancy"}}';
+        $jsonSerialization = '{"label":"Tacos","labelSeparator":"|","labelStacking":"horizontal","cssClass":"fancy"}';
 
         $this->assertEquals(json_encode($ui), $jsonSerialization);
     }

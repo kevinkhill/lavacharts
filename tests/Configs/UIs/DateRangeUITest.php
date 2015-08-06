@@ -38,7 +38,7 @@ class DateRangeUITest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidUIProperty
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
