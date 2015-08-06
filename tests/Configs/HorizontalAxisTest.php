@@ -13,10 +13,12 @@ class HorizontalAxisTest extends ProvidersTestCase
 
         $this->ha = new HorizontalAxis([]);
 
-        $this->mockTextStyle = $this->getMock(
-            '\Khill\Lavacharts\Configs\TextStyle',
-            ['__construct']
-        );
+        $this->textStyleOptions = [
+            'color'    => 'red',
+            'fontName' => 'Arial',
+            'fontSize' => 12,
+            'italic'   => true
+        ];
     }
 
     public function testConstructorValuesAssignment()
@@ -42,8 +44,8 @@ class HorizontalAxisTest extends ProvidersTestCase
             'showTextEvery'  => 3,
             'textPosition'   => 'in',
             'title'          => 'Taco Graph',
-            'titleTextStyle' => $this->mockTextStyle,
-            'textStyle'      => $this->mockTextStyle,
+            'titleTextStyle' => $this->textStyleOptions,
+            'textStyle'      => $this->textStyleOptions,
             'viewWindow'     => [
                 'min' => 100,
                 'max' => 400
@@ -66,9 +68,9 @@ class HorizontalAxisTest extends ProvidersTestCase
         $this->assertEquals(50, $ha->minValue);
         $this->assertEquals(3, $ha->showTextEvery);
         $this->assertEquals('in', $ha->textPosition);
-        $this->assertTrue(is_array($ha->textStyle));
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $ha->textStyle);
         $this->assertEquals('Taco Graph', $ha->title);
-        $this->assertTrue(is_array($ha->titleTextStyle));
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $ha->titleTextStyle);
         $this->assertEquals(100, $ha->viewWindow['viewWindowMin']);
         $this->assertEquals(400, $ha->viewWindow['viewWindowMax']);
         $this->assertEquals('explicit', $ha->viewWindowMode);
@@ -411,11 +413,12 @@ class HorizontalAxisTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error
+     * @dataProvider nonArrayProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function testTextStyleWithBadParams()
+    public function testTextStyleWithBadParams($badParams)
     {
-        $this->ha->textStyle('not a TextStyle object');
+        $this->ha->textStyle($badParams);
     }
 
     /**
@@ -428,11 +431,12 @@ class HorizontalAxisTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error
+     * @dataProvider nonArrayProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function testTitleTextStyleWithBadParams()
+    public function testTitleTextStyleWithBadParams($badParams)
     {
-        $this->ha->titleTextStyle('not a TextStyle object');
+        $this->ha->titleTextStyle($badParams);
     }
 
     public function testViewWindowModeWithValidValues()

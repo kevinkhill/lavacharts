@@ -1,6 +1,7 @@
 <?php
 
 namespace Khill\Lavacharts\Configs;
+use Khill\Lavacharts\Utils;
 
 /**
  * Text Style ConfigObject
@@ -17,47 +18,30 @@ namespace Khill\Lavacharts\Configs;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class TextStyle extends ConfigObject
+class TextStyle extends JsonConfig
 {
-
     /**
-     * Text is bold.
-     *
-     * @var bool
-     */
-    public $bold;
-
-    /**
-     * Color of the text.
+     * Type of JsonConfig object
      *
      * @var string
      */
-    public $color;
+    const TYPE = 'TextStyle';
 
     /**
-     * Font name.
+     * Default options for TextStyles
      *
-     * @var string
+     * @var array
      */
-    public $fontName;
+    private $defaults = [
+        'bold',
+        'color',
+        'fontName',
+        'fontSize',
+        'italic'
+    ];
 
     /**
-     * Size of font, in pixels.
-     *
-     * @var int
-     */
-    public $fontSize;
-
-    /**
-     * Text is italic.
-     *
-     * @var bool
-     */
-    public $italic;
-
-
-    /**
-     * Builds the textStyle object when passed an array of configuration options.
+     * Builds the TextStyle object when passed an array of configuration options.
      *
      * @param  array                 $config Options for the TextStyle
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
@@ -66,7 +50,9 @@ class TextStyle extends ConfigObject
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
@@ -78,16 +64,14 @@ class TextStyle extends ConfigObject
      */
     public function bold($bold)
     {
-        if (is_bool($bold)) {
-            $this->bold = $bold;
-        } else {
+        if (is_bool($bold) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string'
             );
         }
 
-        return $this;
+        return $this->setOption(__FUNCTION__, $bold);
     }
 
     /**
@@ -101,9 +85,7 @@ class TextStyle extends ConfigObject
      */
     public function color($color)
     {
-        if (is_string($color)) {
-            $this->color = $color;
-        } else {
+        if (Utils::nonEmptyString($color) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string',
@@ -111,7 +93,7 @@ class TextStyle extends ConfigObject
             );
         }
 
-        return $this;
+        return $this->setOption(__FUNCTION__, $color);
     }
 
     /**
@@ -125,37 +107,33 @@ class TextStyle extends ConfigObject
      */
     public function fontName($fontName)
     {
-        if (is_string($fontName)) {
-            $this->fontName = $fontName;
-        } else {
+        if (Utils::nonEmptyString($fontName) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'string'
             );
         }
 
-        return $this;
+        return $this->setOption(__FUNCTION__, $fontName);
     }
 
     /**
      * Sets the font size to the textStyle.
      *
-     * @param  integer                $fontSize Font size in pixels
+     * @param  integer $fontSize Font size in pixels
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
     public function fontSize($fontSize)
     {
-        if (is_int($fontSize)) {
-            $this->fontSize = $fontSize;
-        } else {
+        if (is_int($fontSize) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
         }
 
-        return $this;
+        return $this->setOption(__FUNCTION__, $fontSize);
     }
 
     /**
@@ -167,15 +145,13 @@ class TextStyle extends ConfigObject
      */
     public function italic($italic)
     {
-        if (is_bool($italic)) {
-            $this->italic = $italic;
-        } else {
+        if (is_bool($italic) === false) {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'bool'
             );
         }
 
-        return $this;
+        return $this->setOption(__FUNCTION__, $italic);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Configs;
 
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Utils;
 
 /**
  * backgroundColor Object
@@ -19,29 +19,25 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class BackgroundColor extends ConfigObject
+class BackgroundColor extends JsonConfig
 {
     /**
-     * The color of the chart border, as an HTML color string.
+     * Type of JsonConfig object
      *
-     * @var string Valid HTML color.
+     * @var string
      */
-    public $stroke;
+    const TYPE = 'TextStyle';
 
     /**
-     * The border width, in pixels.
+     * Default options for TextStyles
      *
-     * @var int Width in number of pixels.
+     * @var array
      */
-    public $strokeWidth;
-
-    /**
-     * The chart fill color, as an HTML color string.
-     *
-     * @var string Valid HTML color.
-     */
-    public $fill;
-
+    private $defaults = [
+        'stroke',
+        'strokeWidth',
+        'fill'
+    ];
 
     /**
      * Builds the backgroundColor object with specified options
@@ -49,73 +45,52 @@ class BackgroundColor extends ConfigObject
      * Pass an associative array with values for the keys
      * [ stroke | strokeWidth | fill ]
      *
-     * @param  array                 $config Configuration options
+     * @param  array $config Configuration options
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return self
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
-     * Sets the chart border color. Example: 'red' or '#A2A2A2'
+     * Sets the chart border color.
      *
-     * @param  string          $stroke Valid HTML color string.
+     * Example: 'red' or '#A2A2A2'
+     *
+     * @param  string $stroke Valid HTML color string.
      * @return self
      */
     public function stroke($stroke)
     {
-        if (is_string($stroke)) {
-            $this->stroke = $stroke;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $stroke);
     }
 
     /**
      * Sets the chart border width.
      *
-     * @param  integer             $strokeWidth Border width, in pixels.
+     * @param  integer $strokeWidth Border width, in pixels.
      * @return self
      */
     public function strokeWidth($strokeWidth)
     {
-        if (is_int($strokeWidth)) {
-            $this->strokeWidth = $strokeWidth;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this;
+        return $this->setIntOption(__FUNCTION__, $strokeWidth);
     }
 
     /**
-     * Sets the chart color fill, Example: 'blue' or '#C5C5C5'
+     * Sets the chart color fill.
      *
-     * @param  string          $fill Valid HTML color string.
+     * Example: 'blue' or '#C5C5C5'
+     *
+     * @param  string $fill Valid HTML color string.
      * @return self
      */
     public function fill($fill)
     {
-        if (is_string($fill)) {
-            $this->fill = $fill;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $fill);
     }
 }

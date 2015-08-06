@@ -597,9 +597,10 @@ class Axis extends ConfigObject
      * @throws InvalidConfigValue
      * @return self
      */
-    public function textStyle(TextStyle $textStyle)
+    public function textStyle($textStyle)
     {
-        $this->textStyle = $textStyle->getValues();
+        $this->titleTextStyle = new TextStyle($textStyle);
+        //$this->textStyle = $textStyle->getValues();
 
         return $this;
     }
@@ -632,9 +633,10 @@ class Axis extends ConfigObject
      * @throws InvalidConfigValue
      * @return self
      */
-    public function titleTextStyle(TextStyle $titleTextStyle)
+    public function titleTextStyle($titleTextStyle)
     {
-        $this->titleTextStyle = $titleTextStyle->getValues();
+        $this->titleTextStyle = new TextStyle($titleTextStyle);
+        //$this->titleTextStyle = $titleTextStyle->getValues();
 
         return $this;
     }

@@ -2,7 +2,9 @@
 
 namespace Khill\Lavacharts\Configs;
 
+use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 class JsonConfig implements \JsonSerializable
@@ -42,12 +44,32 @@ class JsonConfig implements \JsonSerializable
         return $this->options->get($option);
     }
 
+    /**
+     * function for easy creation of exceptions
+     * TODO: deprecate this
+     */
+    protected function invalidConfigValue($func, $type, $extra = '')
+    {
+        if (! empty($extra)) {
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . $func,
+                $type,
+                $extra
+            );
+        } else {
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . $func,
+                $type
+            );
+        }
+    }
+
     private function parseConfig($config)
     {
         foreach ($config as $option => $value) {
             if ($this->options->hasOption($option) === false) {
                 throw new InvalidConfigProperty(
-                    get_class(), //TODO: static type class name?
+                    static::TYPE,
                     __FUNCTION__,
                     $option,
                     $this->options->getDefaults()
@@ -59,10 +81,57 @@ class JsonConfig implements \JsonSerializable
     }
 
     /**
+     * Sets the value of a string option.
+     *
+     * @param  string $option Option to set.
+     * @param  string $value Value of the option.
+     * @param  array  $validValues Array of valid values
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
+     * @return self
+     */
+    protected function setStringOption($option, $value, $validValues = [])
+    {
+        if (Utils::nonEmptyString($value) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . $option,
+                empty($validValues) ? 'string' : 'string. Whose value is one of '.Utils::arrayToPipedString($validValues)
+            );
+        }
+
+        $this->options->set($option, $value);
+
+        return $this;
+    }
+
+    /**
+     * Sets the value of an integer option.
+     *
+     * @param  string $option Option to set.
+     * @param  int    $value Value of the option.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
+     * @return self
+     */
+    protected function setIntOption($option, $value)
+    {
+        if (is_int($value) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . $option,
+                'int'
+            );
+        }
+
+        return $this->setOptions->set($option, $value);
+
+        return $this;
+    }
+
+    /**
      * Sets the value of an option.
      *
      * Used internally to check the values for their respective types and validity.
-     *
+     * TODO: deprecate this
      * @param  string $option Option to set.
      * @param  mixed $value Value of the option.
      * @return self
