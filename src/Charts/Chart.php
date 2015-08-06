@@ -313,7 +313,7 @@ class Chart
     /**
      * An object with members to configure the placement and size of the chart area
      * (where the chart itself is drawn, excluding axis and legends).
-     * 
+     *
      * Two formats are supported: a number, or a number followed by %.
      * A simple number is a value in pixels; a number followed by % is a percentage.
      *

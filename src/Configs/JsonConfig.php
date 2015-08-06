@@ -90,12 +90,36 @@ class JsonConfig implements \JsonSerializable
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      * @return self
      */
-    protected function setStringOption($option, $value, $validValues = [])
+    protected function setStringOption($option, $value)
     {
         if (Utils::nonEmptyString($value) === false) {
             throw new InvalidConfigValue(
                 static::TYPE . '->' . $option,
-                empty($validValues) ? 'string' : 'string. Whose value is one of '.Utils::arrayToPipedString($validValues)
+                'string'
+            );
+        }
+
+        $this->options->set($option, $value);
+
+        return $this;
+    }
+
+    /**
+     * Sets the value of a string option from an array of choices.
+     *
+     * @param  string $option Option to set.
+     * @param  string $value Value of the option.
+     * @param  array  $validValues Array of valid values
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
+     * @return self
+     */
+    protected function setStringInArrayOption($option, $value, $validValues = [])
+    {
+        if (Utils::nonEmptyStringInArray($value, $validValues) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . $option,
+                'string. Whose value is one of '.Utils::arrayToPipedString($validValues)
             );
         }
 
@@ -119,6 +143,30 @@ class JsonConfig implements \JsonSerializable
             throw new InvalidConfigValue(
                 static::TYPE . '->' . $option,
                 'int'
+            );
+        }
+
+        return $this->setOptions->set($option, $value);
+
+        return $this;
+    }
+
+
+    /**
+     * Sets the value of an boolean option.
+     *
+     * @param  string $option Option to set.
+     * @param  bool   $value Value of the option.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
+     * @return self
+     */
+    protected function setBoolOption($option, $value)
+    {
+        if (is_int($value) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . $option,
+                'bool'
             );
         }
 

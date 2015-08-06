@@ -21,28 +21,25 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Animation extends ConfigObject
+class Animation extends JsonConfig
 {
     /**
-     * The duration of the animation, in milliseconds.
-     *
-     * @var int
-     */
-    public $duration;
-
-    /**
-     * The easing function applied to the animation.
+     * Type of JsonConfig object
      *
      * @var string
      */
-    public $easing;
+    const TYPE = 'TextStyle';
 
     /**
-     * Determines if the chart will animate on the initial draw.
+     * Default options for TextStyles
      *
-     * @var bool
+     * @var array
      */
-    public $startup;
+    private $defaults = [
+        'duration',
+        'easing',
+        'startup'
+    ];
 
     /**
      * Builds the Animation object.
@@ -54,7 +51,9 @@ class Animation extends ConfigObject
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
@@ -63,21 +62,12 @@ class Animation extends ConfigObject
      * For details, see the animation documentation.
      *
      * @see    https://developers.google.com/chart/interactive/docs/animation
-     * @param  integer       $d
+     * @param  integer $duration
      * @return self
      */
-    public function duration($d)
+    public function duration($duration)
     {
-        if (is_int($d)) {
-            $this->duration = $d;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this;
+        return $this->setIntOption(__FUNCTION__, $duration);
     }
 
     /**
@@ -89,10 +79,10 @@ class Animation extends ConfigObject
      * 'out' - Ease out - Start fast and slow down.
      * 'inAndOut' - Ease in and out - Start slow, speed up, then slow down.
      *
-     * @param  string    $e
+     * @param  string $easing
      * @return self
      */
-    public function easing($e)
+    public function easing($easing)
     {
         $values = [
             'linear',
@@ -101,17 +91,7 @@ class Animation extends ConfigObject
             'inAndOut'
         ];
 
-        if (in_array($e, $values, true)) {
-            $this->easing = $e;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this;
+        return $this->setStringInArrayOption(__FUNCTION__, $easing, $values);
     }
 
     /**
@@ -119,20 +99,11 @@ class Animation extends ConfigObject
      *
      * If true, the chart will start at the baseline and animate to its final state.
      *
-     * @param  bool       $s
+     * @param  bool $startup
      * @return self
      */
-    public function startup($s)
+    public function startup($startup)
     {
-        if (is_bool($s)) {
-            $this->startup = $s;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this;
+        return $this->setBoolOption(__FUNCTION__, $startup);
     }
 }

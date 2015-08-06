@@ -64,14 +64,7 @@ class TextStyle extends JsonConfig
      */
     public function bold($bold)
     {
-        if (is_bool($bold) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $bold);
+        return $this->setBoolOption(__FUNCTION__, $bold);
     }
 
     /**
@@ -85,15 +78,7 @@ class TextStyle extends JsonConfig
      */
     public function color($color)
     {
-        if (Utils::nonEmptyString($color) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'representing a valid HTML color'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $color);
+        return $this->setStringOption(__FUNCTION__, $color);
     }
 
     /**
@@ -107,14 +92,7 @@ class TextStyle extends JsonConfig
      */
     public function fontName($fontName)
     {
-        if (Utils::nonEmptyString($fontName) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $fontName);
+        return $this->setStringOption(__FUNCTION__, $fontName);
     }
 
     /**
@@ -126,14 +104,7 @@ class TextStyle extends JsonConfig
      */
     public function fontSize($fontSize)
     {
-        if (is_int($fontSize) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $fontSize);
+        return $this->setIntOption(__FUNCTION__, $fontSize);
     }
 
     /**
@@ -145,13 +116,6 @@ class TextStyle extends JsonConfig
      */
     public function italic($italic)
     {
-        if (is_bool($italic) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $italic);
+        return $this->setBoolOption(__FUNCTION__, $italic);
     }
 }
