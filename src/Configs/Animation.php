@@ -28,7 +28,7 @@ class Animation extends JsonConfig
      *
      * @var string
      */
-    const TYPE = 'TextStyle';
+    const TYPE = 'Animation';
 
     /**
      * Default options for TextStyles

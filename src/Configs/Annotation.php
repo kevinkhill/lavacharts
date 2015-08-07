@@ -19,28 +19,25 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Annotation extends ConfigObject
+class Annotation extends JsonConfig
 {
     /**
-     * Where to draw annotations.
+     * Type of JsonConfig object
      *
-     * @var bool
+     * @var string
      */
-    public $alwaysOutside;
+    const TYPE = 'Annotation';
 
     /**
-     * The highContrast state.
+     * Default options for Annotation
      *
-     * @var bool
+     * @var array
      */
-    public $highContrast;
-
-    /**
-     * Style of the annotation.
-     *
-     * @var TextStyle
-     */
-    public $textStyle;
+    private $defaults = [
+        'alwaysOutside',
+        'highContrast',
+        'textStyle'
+    ];
 
     /**
      * Builds the Annotation object.
@@ -52,7 +49,9 @@ class Annotation extends ConfigObject
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
@@ -63,16 +62,7 @@ class Annotation extends ConfigObject
      */
     public function alwaysOutside($alwaysOutside)
     {
-        if (is_bool($alwaysOutside)) {
-            $this->alwaysOutside = $alwaysOutside;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this;
+        return $this->setBoolOption(__FUNCTION__, $alwaysOutside);
     }
 
     /**
@@ -88,28 +78,17 @@ class Annotation extends ConfigObject
      */
     public function highContrast($highContrast)
     {
-        if (is_bool($highContrast)) {
-            $this->highContrast = $highContrast;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this;
+        return $this->setBoolOption(__FUNCTION__, $highContrast);
     }
 
     /**
      * An object that specifies the annotation text style.
      *
-     * @param  TextStyle  $textStyle Style of the annotation
+     * @param  array $textStyleConfig Style of the annotation text.
      * @return self
      */
-    public function textStyle(TextStyle $textStyle)
+    public function textStyle($textStyleConfig)
     {
-        $this->textStyle = $textStyle;
-
-        return $this;
+        return $this->options->set(__FUNCTION__, new TextStyle($textStyleConfig));
     }
 }

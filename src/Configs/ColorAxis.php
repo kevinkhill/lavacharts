@@ -11,7 +11,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * An object that specifies a mapping between color column values and colors
  * or a gradient scale.
  *
- *
+ * TODO: look at this
  * @package    Lavacharts
  * @subpackage Configs
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -20,35 +20,26 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class ColorAxis extends ConfigObject
+class ColorAxis extends JsonConfig
 {
     /**
-     * Minimum value for chart color data.
+     * Type of JsonConfig object
      *
-     * @var int
+     * @var string
      */
-    public $minValue;
+    const TYPE = 'ColorAxis';
 
     /**
-     * Maximum value for chart color data.
-     *
-     * @var int
-     */
-    public $maxValue;
-
-    /**
-     * Controls how values are associated with colors.
+     * Default options for the ColorAxis
      *
      * @var array
      */
-    public $values;
-
-    /**
-     * Colors to assign to values in the visualization.
-     *
-     * @var array
-     */
-    public $colors;
+    private $defaults = [
+        'minValue',
+        'maxValue',
+        'values',,
+        'colors'
+    ];
 
     /**
      * Builds the ColorAxis object with specified options
@@ -60,7 +51,9 @@ class ColorAxis extends ConfigObject
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**

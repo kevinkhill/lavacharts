@@ -19,55 +19,41 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class BoxStyle extends ConfigObject
+class BoxStyle extends JsonConfig
 {
     /**
-     * Color of the box outline.
+     * Type of JsonConfig object
      *
      * @var string
      */
-    public $stroke;
+    const TYPE = 'BoxStyle';
 
     /**
-     * Thickness of the box outline.
+     * Default options for BoxStyle
      *
-     * @var int|string
+     * @var array
      */
-    public $strokeWidth;
-
-    /**
-     * X radius of the corner curvature.
-     *
-     * @var int|string
-     */
-    public $rx;
-
-    /**
-     * Y radius of the corner curvature.
-     *
-     * @var int|string
-     */
-    public $ry;
-
-    /**
-     * Attributes for linear gradient fill.
-     *
-     * @var Gradient
-     */
-    public $gradient;
+    private $defaults = [
+        'stroke',
+        'strokeWidth',
+        'rx',
+        'ry',
+        'gradient'
+    ];
 
     /**
      * Builds the boxStyle object with specified options
      *
      * @param array $config
-     *
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return self
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
@@ -79,16 +65,7 @@ class BoxStyle extends ConfigObject
      */
     public function stroke($stroke)
     {
-        if (is_string($stroke)) {
-            $this->stroke = $stroke;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $stroke);
     }
 
     /**
@@ -99,16 +76,7 @@ class BoxStyle extends ConfigObject
      */
     public function strokeWidth($strokeWidth)
     {
-        if (is_numeric($strokeWidth)) {
-            $this->strokeWidth = (int) $strokeWidth;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'numeric'
-            );
-        }
-
-        return $this;
+        return $this->setIntOption(__FUNCTION__, $strokeWidth);
     }
 
     /**
@@ -119,16 +87,7 @@ class BoxStyle extends ConfigObject
      */
     public function rx($rx)
     {
-        if (is_numeric($rx)) {
-            $this->rx = (int) $rx;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'numeric'
-            );
-        }
-
-        return $this;
+        return $this->setIntOption(__FUNCTION__, $rx);
     }
 
     /**
@@ -139,28 +98,17 @@ class BoxStyle extends ConfigObject
      */
     public function ry($ry)
     {
-        if (is_numeric($ry)) {
-            $this->ry = (int) $ry;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setIntOption(__FUNCTION__, $ry);
     }
 
     /**
      * Sets the attributes for linear gradient fill.
      *
-     * @param  Gradient $gradient
+     * @param  array $gradientConfig
      * @return self
      */
-    public function gradient(Gradient $gradient)
+    public function gradient(Gradient $gradientConfig)
     {
-        $this->gradient = $gradient;
-
-        return $this;
+        return $this->setOption(__FUNCTION__, new Gradient($gradientConfig));
     }
 }

@@ -26,10 +26,10 @@ class BackgroundColor extends JsonConfig
      *
      * @var string
      */
-    const TYPE = 'TextStyle';
+    const TYPE = 'BackgroundColor';
 
     /**
-     * Default options for TextStyles
+     * Default options for BackgroundColor
      *
      * @var array
      */

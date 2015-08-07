@@ -1,6 +1,7 @@
 <?php
 
 namespace Khill\Lavacharts\Configs;
+
 use Khill\Lavacharts\Utils;
 
 /**

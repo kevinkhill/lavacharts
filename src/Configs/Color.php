@@ -21,28 +21,25 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Color extends ConfigObject
+class Color extends JsonConfig
 {
     /**
-     * Foreground color.
+     * Type of JsonConfig object
      *
      * @var string
      */
-    public $color;
+    const TYPE = 'Color';
 
     /**
-     * Background color.
+     * Default options for Color
      *
-     * @var string
+     * @var array
      */
-    public $backgroundColor;
-
-    /**
-     * Opacity.
-     *
-     * @var float
-     */
-    public $opacity;
+    private $defaults = [
+        'color',
+        'backgroundColor',
+        'opacity'
+    ];
 
     /**
      * Builds the Color object with specified options
@@ -54,7 +51,9 @@ class Color extends ConfigObject
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
@@ -66,16 +65,7 @@ class Color extends ConfigObject
      */
     public function color($fgColor)
     {
-        if (is_string($fgColor)) {
-            $this->color = $fgColor;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $fgColor);
     }
 
     /**
@@ -87,16 +77,7 @@ class Color extends ConfigObject
      */
     public function backgroundColor($bgColor)
     {
-        if (is_string($bgColor)) {
-            $this->backgroundColor = $bgColor;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $bgColor);
     }
 
     /**
@@ -107,9 +88,7 @@ class Color extends ConfigObject
      */
     public function opacity($opacity)
     {
-        if (Utils::between(0.0, $opacity, 1.0, true)) {
-            $this->opacity = $opacity;
-        } else {
+        if (Utils::between(0.0, $opacity, 1.0, true) === false) {
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'float',
@@ -117,6 +96,6 @@ class Color extends ConfigObject
             );
         }
 
-        return $this;
+        return $this->options->set(__FUNCTION__, $opacity);
     }
 }

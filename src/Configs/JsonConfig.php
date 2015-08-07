@@ -52,13 +52,13 @@ class JsonConfig implements \JsonSerializable
     {
         if (! empty($extra)) {
             throw new InvalidConfigValue(
-                static::TYPE . '->' . $func,
+                static::TYPE . '#' . $func,
                 $type,
                 $extra
             );
         } else {
             throw new InvalidConfigValue(
-                static::TYPE . '->' . $func,
+                static::TYPE . '#' . $func,
                 $type
             );
         }
@@ -94,7 +94,7 @@ class JsonConfig implements \JsonSerializable
     {
         if (Utils::nonEmptyString($value) === false) {
             throw new InvalidConfigValue(
-                static::TYPE . '->' . $option,
+                static::TYPE . '#' . $option,
                 'string'
             );
         }
@@ -118,8 +118,8 @@ class JsonConfig implements \JsonSerializable
     {
         if (Utils::nonEmptyStringInArray($value, $validValues) === false) {
             throw new InvalidConfigValue(
-                static::TYPE . '->' . $option,
-                'string. Whose value is one of '.Utils::arrayToPipedString($validValues)
+                static::TYPE . '#' . $option,
+                'string. Whose value is one of ' . Utils::arrayToPipedString($validValues)
             );
         }
 
@@ -141,16 +141,39 @@ class JsonConfig implements \JsonSerializable
     {
         if (is_int($value) === false) {
             throw new InvalidConfigValue(
-                static::TYPE . '->' . $option,
+                static::TYPE . '#' . $option,
                 'int'
             );
         }
 
-        return $this->setOptions->set($option, $value);
+        $this->options->set($option, $value);
 
         return $this;
     }
 
+    /**
+     * Sets the value of an integer or percent option.
+     *
+     * @param  string $option Option to set.
+     * @param  int|string $value Value of the option.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
+     * @return self
+     */
+    protected function setIntOrPercentOption($option, $value)
+    {
+        if (Utils::isIntOrPercent($value) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE . '#' . $option,
+                'int | string',
+                'where the value represents an amount in pixels or percent.'
+            );
+        }
+
+        $this->options->set($option, $value);
+
+        return $this;
+    }
 
     /**
      * Sets the value of an boolean option.
@@ -165,12 +188,12 @@ class JsonConfig implements \JsonSerializable
     {
         if (is_int($value) === false) {
             throw new InvalidConfigValue(
-                static::TYPE . '->' . $option,
+                static::TYPE . '#' . $option,
                 'bool'
             );
         }
 
-        return $this->setOptions->set($option, $value);
+        $this->options->set($option, $value);
 
         return $this;
     }
@@ -179,7 +202,7 @@ class JsonConfig implements \JsonSerializable
      * Sets the value of an option.
      *
      * Used internally to check the values for their respective types and validity.
-     * TODO: deprecate this
+     *
      * @param  string $option Option to set.
      * @param  mixed $value Value of the option.
      * @return self

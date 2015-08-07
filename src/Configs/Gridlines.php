@@ -21,14 +21,14 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Animation extends JsonConfig
+class Gridlines extends JsonConfig
 {
     /**
      * Type of JsonConfig object
      *
      * @var string
      */
-    const TYPE = 'Animation';
+    const TYPE = 'Gridlines';
 
     /**
      * Default options for TextStyles
@@ -36,9 +36,8 @@ class Animation extends JsonConfig
      * @var array
      */
     private $defaults = [
-        'duration',
-        'easing',
-        'startup'
+        'color',
+        'count'
     ];
 
     /**
@@ -57,53 +56,30 @@ class Animation extends JsonConfig
     }
 
     /**
-     * The duration of the animation, in milliseconds.
      *
-     * For details, see the animation documentation.
-     *
-     * @see    https://developers.google.com/chart/interactive/docs/animation
-     * @param  integer $duration
+     * @param  string $duration
      * @return self
      */
-    public function duration($duration)
+    public function color($color)
     {
-        return $this->setIntOption(__FUNCTION__, $duration);
+        return $this->setStringOption(__FUNCTION__, $color);
     }
 
     /**
-     * The easing function applied to the animation.
      *
-     * The following options are available:
-     * 'linear' - Constant speed.
-     * 'in' - Ease in - Start slow and speed up.
-     * 'out' - Ease out - Start fast and slow down.
-     * 'inAndOut' - Ease in and out - Start slow, speed up, then slow down.
-     *
-     * @param  string $easing
+     * @param  int $count
      * @return self
      */
-    public function easing($easing)
+    public function count($count)
     {
-        $values = [
-            'linear',
-            'in',
-            'out',
-            'inAndOut'
-        ];
+        if (is_int($count) === false && $count < 2 || $count != -1) {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'int',
+                'with the value of the == -1 || >= 2'
+            );
+        }
 
-        return $this->setStringInArrayOption(__FUNCTION__, $easing, $values);
-    }
-
-    /**
-     * Determines if the chart will animate on the initial draw.
-     *
-     * If true, the chart will start at the baseline and animate to its final state.
-     *
-     * @param  bool $startup
-     * @return self
-     */
-    public function startup($startup)
-    {
-        return $this->setBoolOption(__FUNCTION__, $startup);
+        return $this->setIntOption(__FUNCTION__, $count);
     }
 }
