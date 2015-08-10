@@ -44,10 +44,10 @@ class TextStyle extends JsonConfig
     /**
      * Builds the TextStyle object when passed an array of configuration options.
      *
-     * @param  array                 $config Options for the TextStyle
+     * @param  array $config Options for the TextStyle
+     * @return \Khill\Lavacharts\Configs\TextStyle
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {
@@ -59,9 +59,9 @@ class TextStyle extends JsonConfig
     /**
      * Set bold on/off for the text element.
      *
-     * @param  boolean  $bold
+     * @param  bool $bold
+     * @return \Khill\Lavacharts\Configs\TextStyle
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function bold($bold)
     {
@@ -73,9 +73,9 @@ class TextStyle extends JsonConfig
      *
      * valid HTML color string, for example: 'red' OR '#004411'
      *
-     * @param  string             $color Valid HTML color
+     * @param  string $color Valid HTML color
+     * @return \Khill\Lavacharts\Configs\TextStyle
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function color($color)
     {
@@ -87,9 +87,9 @@ class TextStyle extends JsonConfig
      *
      * Must be a valid font name.
      *
-     * @param  string             $fontName Valid font name
+     * @param  string $fontName Valid font name
+     * @return \Khill\Lavacharts\Configs\TextStyle
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function fontName($fontName)
     {

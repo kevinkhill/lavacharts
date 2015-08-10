@@ -30,6 +30,6 @@ class VerticalAxis extends Axis
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        parent::__construct($config);
     }
 }

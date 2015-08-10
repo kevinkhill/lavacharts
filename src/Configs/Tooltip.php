@@ -20,86 +20,74 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Tooltip extends ConfigObject
+class Tooltip extends JsonConfig
 {
     /**
-     * Show color code for the tooltip.
-     *
-     * @var bool
-     */
-    public $showColorCode;
-
-    /**
-     * Tooltip text style
-     *
-     * @var TextStyle
-     */
-    public $textStyle;
-
-    /**
-     * Trigger Action of the tooltip.
+     * Type of JsonConfig object
      *
      * @var string
      */
-    public $trigger;
+    const TYPE = 'Tooltip';
 
+    /**
+     * Default options for Tooltips
+     *
+     * @var array
+     */
+    private $defaults = [
+        'showColorCode',
+        'textStyle',
+        'trigger'
+    ];
 
     /**
      * Builds the tooltip object with specified options.
      *
-     * @param  array                 $config Configuration options for the tooltip
+     * @param  array $config Configuration options for the tooltip
+     * @return \Khill\Lavacharts\Configs\Tooltip
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
      * Sets whether to show the color code.
      *
-     * @param  bool               $showColorCode State of showing the color code.
+     * @param  bool $showColorCode State of showing the color code.
+     * @return \Khill\Lavacharts\Configs\Tooltip
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function showColorCode($showColorCode)
     {
-        if (is_bool($showColorCode)) {
-            $this->showColorCode = $showColorCode;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this;
+        return $this->setBoolOption(__FUNCTION__, $showColorCode);
     }
 
     /**
      * Sets the text style of the tooltip.
      *
-     * @param  TextStyle $textStyle A valid TextStyle object.
-     * @return self
+     * @param  array $textStyleConfig
+     * @return \Khill\Lavacharts\Configs\Tooltip
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function textStyle(TextStyle $textStyle)
+    public function textStyle($textStyleConfig)
     {
-        $this->textStyle = $textStyle->getValues();
-
-        return $this;
+        return $this->setOption(__FUNCTION__, new TextStyle($textStyleConfig));
     }
 
     /**
-     * Sets The user interaction that causes the tooltip to be displayed.
+     * Sets the user interaction that causes the tooltip to be displayed.
      *
      * 'focus' - The tooltip will be displayed when the user hovers over an element.
      * 'none'  - The tooltip will not be displayed.
      *
-     * @param  string             $trigger Type of trigger.
+     * @param  string $trigger Type of trigger.
+     * @return \Khill\Lavacharts\Configs\Tooltip
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function trigger($trigger)
     {
@@ -108,16 +96,6 @@ class Tooltip extends ConfigObject
             'none'
         ];
 
-        if (in_array($trigger, $values)) {
-            $this->trigger = $trigger;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this;
+        return $this->setStringInArrayOption(__FUNCTION__, $trigger, $values);
     }
 }

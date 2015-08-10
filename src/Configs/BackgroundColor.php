@@ -34,9 +34,9 @@ class BackgroundColor extends JsonConfig
      * @var array
      */
     private $defaults = [
+        'fill',
         'stroke',
-        'strokeWidth',
-        'fill'
+        'strokeWidth'
     ];
 
     /**
@@ -46,9 +46,9 @@ class BackgroundColor extends JsonConfig
      * [ stroke | strokeWidth | fill ]
      *
      * @param  array $config Configuration options
+     * @return \Khill\Lavacharts\Configs\BackgroundColor
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {
@@ -58,12 +58,27 @@ class BackgroundColor extends JsonConfig
     }
 
     /**
+     * Sets the chart color fill.
+     *
+     * Example: 'blue' or '#C5C5C5'
+     *
+     * @param  string $fill Valid HTML color string.
+     * @return \Khill\Lavacharts\Configs\BackgroundColor
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function fill($fill)
+    {
+        return $this->setStringOption(__FUNCTION__, $fill);
+    }
+
+    /**
      * Sets the chart border color.
      *
      * Example: 'red' or '#A2A2A2'
      *
      * @param  string $stroke Valid HTML color string.
-     * @return self
+     * @return \Khill\Lavacharts\Configs\BackgroundColor
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function stroke($stroke)
     {
@@ -74,23 +89,11 @@ class BackgroundColor extends JsonConfig
      * Sets the chart border width.
      *
      * @param  integer $strokeWidth Border width, in pixels.
-     * @return self
+     * @return \Khill\Lavacharts\Configs\BackgroundColor
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function strokeWidth($strokeWidth)
     {
         return $this->setIntOption(__FUNCTION__, $strokeWidth);
-    }
-
-    /**
-     * Sets the chart color fill.
-     *
-     * Example: 'blue' or '#C5C5C5'
-     *
-     * @param  string $fill Valid HTML color string.
-     * @return self
-     */
-    public function fill($fill)
-    {
-        return $this->setStringOption(__FUNCTION__, $fill);
     }
 }

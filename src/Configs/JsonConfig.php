@@ -52,13 +52,13 @@ class JsonConfig implements \JsonSerializable
     {
         if (! empty($extra)) {
             throw new InvalidConfigValue(
-                static::TYPE . '#' . $func,
+                static::TYPE . '->' . $func,
                 $type,
                 $extra
             );
         } else {
             throw new InvalidConfigValue(
-                static::TYPE . '#' . $func,
+                static::TYPE . '->' . $func,
                 $type
             );
         }
@@ -94,7 +94,7 @@ class JsonConfig implements \JsonSerializable
     {
         if (Utils::nonEmptyString($value) === false) {
             throw new InvalidConfigValue(
-                static::TYPE . '#' . $option,
+                static::TYPE . '->' . $option,
                 'string'
             );
         }
@@ -118,8 +118,8 @@ class JsonConfig implements \JsonSerializable
     {
         if (Utils::nonEmptyStringInArray($value, $validValues) === false) {
             throw new InvalidConfigValue(
-                static::TYPE . '#' . $option,
-                'string. Whose value is one of ' . Utils::arrayToPipedString($validValues)
+                static::TYPE . '->' . $option,
+                'string. Whose value is one of '.Utils::arrayToPipedString($validValues)
             );
         }
 
@@ -141,7 +141,7 @@ class JsonConfig implements \JsonSerializable
     {
         if (is_int($value) === false) {
             throw new InvalidConfigValue(
-                static::TYPE . '#' . $option,
+                static::TYPE . '->' . $option,
                 'int'
             );
         }
@@ -152,10 +152,10 @@ class JsonConfig implements \JsonSerializable
     }
 
     /**
-     * Sets the value of an integer or percent option.
+     * Sets the value of an integer option.
      *
      * @param  string $option Option to set.
-     * @param  int|string $value Value of the option.
+     * @param  int    $value Value of the option.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      * @return self
@@ -164,9 +164,8 @@ class JsonConfig implements \JsonSerializable
     {
         if (Utils::isIntOrPercent($value) === false) {
             throw new InvalidConfigValue(
-                static::TYPE . '#' . $option,
-                'int | string',
-                'where the value represents an amount in pixels or percent.'
+                static::TYPE . '->' . $option,
+                'int or a string representing a percent.'
             );
         }
 
@@ -188,7 +187,7 @@ class JsonConfig implements \JsonSerializable
     {
         if (is_int($value) === false) {
             throw new InvalidConfigValue(
-                static::TYPE . '#' . $option,
+                static::TYPE . '->' . $option,
                 'bool'
             );
         }
@@ -202,7 +201,7 @@ class JsonConfig implements \JsonSerializable
      * Sets the value of an option.
      *
      * Used internally to check the values for their respective types and validity.
-     *
+     * TODO: deprecate this
      * @param  string $option Option to set.
      * @param  mixed $value Value of the option.
      * @return self

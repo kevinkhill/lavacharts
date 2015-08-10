@@ -23,11 +23,18 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class Axis extends JsonConfig
 {
     /**
+     * Type of JsonConfig object
+     *
+     * @var string
+     */
+    const TYPE = 'Axis';
+
+    /**
      * Default options for Axis
      *
      * @var array
      */
-    protected $defaults = [
+    private $defaults = [
         'baseline',
         'baselineColor',
         'direction',
@@ -46,7 +53,7 @@ class Axis extends JsonConfig
         'title',
         'titleTextStyle',
         'viewWindow',
-        'viewWindowMode',
+        'viewWindowMode'
     ];
 
     /**
@@ -56,11 +63,10 @@ class Axis extends JsonConfig
      * values for option => value, or by chaining together the functions once
      * an object has been created.
      *
-     * @param  VerticalAxis|HorizontalAxis $child  The axis object
-     * @param  array                       $config Associative array containing key => value pairs for the various configuration options.
+     * @param  array $config Associative array containing key => value pairs for the various configuration options.
      * @throws InvalidConfigValue
-     * @throws InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function __construct($config = [])
     {
@@ -75,10 +81,10 @@ class Axis extends JsonConfig
      * This option is only supported for a continuous axis.
      *
      * @param  mixed $baseline Must match type defined for the column, [ number | Carbon ].
-     * @throws InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function baseline($baseline) //@TODO convert to Carbon
+    public function baseline($baseline) //@TODO convert to Carbon
     {
         if (Utils::isJsDate($baseline)) {
             $this->baseline = $baseline->toString();
@@ -86,7 +92,7 @@ class Axis extends JsonConfig
             if (is_int($baseline)) {
                 $this->baseline = $baseline;
             } else {
-                throw $this->invalidConfigValue(
+                throw new InvalidConfigValue(
                     __FUNCTION__,
                     'int | jsDate',
                     'int if column is "number", jsDate if column is "date"'
@@ -105,10 +111,10 @@ class Axis extends JsonConfig
      * This option is only supported for a continuous axis.
      *
      * @param  string $color Valid HTML color.
-     * @throws InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function baselineColor($color)
+    public function baselineColor($color)
     {
         return $this->setStringOption(__FUNCTION__, $color);
     }
@@ -118,21 +124,21 @@ class Axis extends JsonConfig
      *
      * specify 1 for normal, -1 to reverse the order of the values.
      *
-     * @param  integer $direction
-     * @throws InvalidConfigValue
-     * @return self
+     * @param  int $direction
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function direction($direction)
+    public function direction($direction)
     {
-        if (is_int($direction) && ($direction == 1 || $direction == -1)) {
+        if (is_int($direction) === false || ($direction != 1 && $direction != -1)) {
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'int',
-                '1 || -1'
+                '1 or -1'
             );
         }
 
-        return $this->setIntOption(__FUNCTION__, $direction);
+        return $this->setOption(__FUNCTION__, $direction);
     }
 
     /**
@@ -147,10 +153,10 @@ class Axis extends JsonConfig
      * This option is only supported for a continuous axis.
      *
      * @param  string $format format string for numeric or date axis labels.
-     * @throws InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function format($format)
+    public function format($format)
     {
         return $this->setStringOption(__FUNCTION__, $format);
     }
@@ -166,13 +172,41 @@ class Axis extends JsonConfig
      *
      * This option is only supported for a continuous axis.
      *
-     * @param  array $gridlinesConfig
-     * @throws InvalidConfigValue
-     * @return self
+     * @param  array $gridlines
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function gridlines($gridlinesConfig)
+    public function gridlines($gridlines) //TODO: Fix to use gridlines object
     {
-        return $this->setOption(__FUNCTION__, new Gridlines($gridlinesConfig));
+        if (is_array($gridlines) && array_key_exists('count', $gridlines) && array_key_exists('color', $gridlines)) {
+            if (Utils::nonEmptyString($gridlines['color'])) {
+                $this->gridlines['color'] = $gridlines['color'];
+            } else {
+                throw new InvalidConfigValue(
+                    __FUNCTION__,
+                    'array',
+                    'with the value of the key "color" being a valid HTML color'
+                );
+            }
+
+            if (is_int($gridlines['count']) && $gridlines['count'] >= 2 || $gridlines['count'] == -1) {
+                $this->gridlines['count'] = $gridlines['count'];
+            } else {
+                throw new InvalidConfigValue(
+                    __FUNCTION__,
+                    'array',
+                    'with the value of the key "count" == -1 || >= 2'
+                );
+            }
+        } else {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'array',
+                'with keys for count & color'
+            );
+        }
+
+        return $this;
     }
 
     /**
@@ -182,10 +216,10 @@ class Axis extends JsonConfig
      * This option is only supported for a continuous axis.
      *
      * @param  bool $logScale
-     * @throws InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function logScale($logScale)
+    public function logScale($logScale)
     {
         return $this->setBoolOption(__FUNCTION__, $logScale);
     }
@@ -200,12 +234,40 @@ class Axis extends JsonConfig
      * This option is only supported for a continuous axis.
      *
      * @param  array $minorGridlines
-     * @throws InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function minorGridlines($minorGridlines)
+    public function minorGridlines($minorGridlines) //TODO: use gridline object
     {
-        return $this->setOption(__FUNCTION__, new Gridlines($minorGridlines));
+        if (is_array($minorGridlines) && array_key_exists('count', $minorGridlines) && array_key_exists('color', $minorGridlines)) {
+            if (Utils::nonEmptyString($minorGridlines['color'])) {
+                $this->minorGridlines['color'] = $minorGridlines['color'];
+            } else {
+                throw new InvalidConfigValue(
+                    __FUNCTION__,
+                    'array',
+                    'with the value of the key "color" being a valid HTML color'
+                );
+            }
+
+            if (is_int($minorGridlines['count']) && $minorGridlines['count'] >= 2 || $minorGridlines['count'] == -1) {
+                $this->minorGridlines['count'] = $minorGridlines['count'];
+            } else {
+                throw new InvalidConfigValue(
+                    __FUNCTION__,
+                    'array',
+                    'with the value of the key "count" == -1 || >= 2'
+                );
+            }
+        } else {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'array',
+                'with keys for count & color'
+            );
+        }
+
+        return $this;
     }
 
     /**
@@ -219,11 +281,11 @@ class Axis extends JsonConfig
      *
      * This option is only supported for a discrete axis.
      *
-     * @param  integer $alternation
-     * @throws InvalidConfigValue
-     * @return self
+     * @param  int $alternation
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function maxAlternation($alternation)
+    public function maxAlternation($alternation)
     {
         return $this->setIntOption(__FUNCTION__, $alternation);
     }
@@ -237,11 +299,11 @@ class Axis extends JsonConfig
      *
      * This option is only supported for a discrete axis.
      *
-     * @param  integer $maxTextLines
-     * @throws InvalidConfigValue
-     * @return self
+     * @param  int $maxTextLines
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function maxTextLines($maxTextLines)
+    public function maxTextLines($maxTextLines)
     {
         return $this->setIntOption(__FUNCTION__, $maxTextLines);
     }
@@ -256,11 +318,11 @@ class Axis extends JsonConfig
      *
      * This option is only supported for a discrete axis.
      *
-     * @param  integer $minTextSpacing
-     * @throws InvalidConfigValue
-     * @return self
+     * @param  int $minTextSpacing
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function minTextSpacing($minTextSpacing)
+    public function minTextSpacing($minTextSpacing)
     {
         return $this->setIntOption(__FUNCTION__, $minTextSpacing);
     }
@@ -272,11 +334,11 @@ class Axis extends JsonConfig
      *
      * This option is only supported for a continuous axis.
      *
-     * @param  integer $max
-     * @throws InvalidConfigValue
-     * @return self
+     * @param  int $max
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function maxValue($max)
+    public function maxValue($max)
     {
         return $this->setIntOption(__FUNCTION__, $max);
     }
@@ -288,11 +350,11 @@ class Axis extends JsonConfig
      *
      * This option is only supported for a continuous axis.
      *
-     * @param  integer $min
-     * @throws InvalidConfigValue
-     * @return self
+     * @param  int $min
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function minValue($min)
+    public function minValue($min)
     {
         return $this->setIntOption(__FUNCTION__, $min);
     }
@@ -306,24 +368,26 @@ class Axis extends JsonConfig
      *
      * This option is only supported for a discrete axis.
      *
-     * @param  integer $showTextEvery
-     * @throws InvalidConfigValue
-     * @return self
+     * @param  int $showTextEvery
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function showTextEvery($showTextEvery)
+    public function showTextEvery($showTextEvery)
     {
         return $this->setIntOption(__FUNCTION__, $showTextEvery);
     }
 
     /**
      * Position of the axis text, relative to the chart area.
-     * Supported values: 'out', 'in', 'none'.
+     *
+     * Supported values:
+     * 'out', 'in', 'none'.
      *
      * @param  string $position Setting the position of the text.
-     * @throws InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function textPosition($position)
+    public function textPosition($position)
     {
         $values = [
             'out',
@@ -335,13 +399,13 @@ class Axis extends JsonConfig
     }
 
     /**
-     * Sets the TextStyle for the axis
+     * Sets the TextStyle options for the axis
      *
      * @param  array $textStyleConfig
-     * @throws InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function textStyle($textStyleConfig)
+    public function textStyle($textStyleConfig)
     {
         return $this->setOption(__FUNCTION__, new TextStyle($textStyleConfig));
     }
@@ -350,22 +414,22 @@ class Axis extends JsonConfig
      * Axis property that specifies the title of the axis.
      *
      * @param  string $title
-     * @throws InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function title($title)
+    public function title($title)
     {
-        return $this->setStringInArrayOption(__FUNCTION__, $title);
+        return $this->setStringOption(__FUNCTION__, $title);
     }
 
     /**
      * An object that specifies the axis title text style.
      *
      * @param  array $titleTextStyleConfig
-     * @throws InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function titleTextStyle($titleTextStyleConfig)
+    public function titleTextStyle($titleTextStyleConfig)
     {
         return $this->setOption(__FUNCTION__, new TextStyle($titleTextStyleConfig));
     }
@@ -391,10 +455,10 @@ class Axis extends JsonConfig
      * such that min <= index < max will be displayed.
      *
      * @param  array $viewWindow
-     * @throws InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function viewWindow($viewWindow)
+    public function viewWindow($viewWindow) //TODO: fix the logic in this
     {
         if (is_array($viewWindow) &&
             array_key_exists('min', $viewWindow) &&
@@ -402,9 +466,10 @@ class Axis extends JsonConfig
             is_int($viewWindow['min']) &&
             is_int($viewWindow['max'])
         ) {
-            $this->options->set('viewWindowMin',  $viewWindow['min']);
-            $this->options->set('viewWindowMax',  $viewWindow['max']);
-            $this->options->set('viewWindowMode', 'explicit');
+            $this->viewWindow['viewWindowMin'] = $viewWindow['min'];
+            $this->viewWindow['viewWindowMax'] = $viewWindow['max'];
+
+            $this->viewWindowMode('explicit');
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
@@ -431,10 +496,10 @@ class Axis extends JsonConfig
      * This option is only supported for a continuous axis.
      *
      * @param  string $viewMode
-     * @throws InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    protected function viewWindowMode($viewMode)
+    public function viewWindowMode($viewMode)
     {
         $values = [
             'pretty',

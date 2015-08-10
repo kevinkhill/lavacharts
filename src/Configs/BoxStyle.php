@@ -44,10 +44,10 @@ class BoxStyle extends JsonConfig
     /**
      * Builds the boxStyle object with specified options
      *
-     * @param array $config
+     * @param  array $config
+     * @return \Khill\Lavacharts\Configs\BoxStyle
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {
@@ -60,8 +60,9 @@ class BoxStyle extends JsonConfig
      * If present, specifies the color for the box outline.
      * If undefined, a random color will be used.
      *
-     * @param  string   $stroke Valid HTML color.
-     * @return self
+     * @param  string $stroke Valid HTML color.
+     * @return \Khill\Lavacharts\Configs\BoxStyle
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function stroke($stroke)
     {
@@ -72,7 +73,8 @@ class BoxStyle extends JsonConfig
      * Sets the thickness of the box outline.
      *
      * @param  integer|string $strokeWidth
-     * @return self
+     * @return \Khill\Lavacharts\Configs\BoxStyle
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function strokeWidth($strokeWidth)
     {
@@ -83,7 +85,8 @@ class BoxStyle extends JsonConfig
      * Sets the x-radius of the corner curvature.
      *
      * @param  integer|string $rx
-     * @return self
+     * @return \Khill\Lavacharts\Configs\BoxStyle
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function rx($rx)
     {
@@ -94,7 +97,8 @@ class BoxStyle extends JsonConfig
      * Sets the y-radius of the corner curvature.
      *
      * @param  integer|string $ry
-     * @return self
+     * @return \Khill\Lavacharts\Configs\BoxStyle
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function ry($ry)
     {
@@ -105,9 +109,10 @@ class BoxStyle extends JsonConfig
      * Sets the attributes for linear gradient fill.
      *
      * @param  array $gradientConfig
-     * @return self
+     * @return \Khill\Lavacharts\Configs\BoxStyle
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function gradient(Gradient $gradientConfig)
+    public function gradient($gradientConfig)
     {
         return $this->setOption(__FUNCTION__, new Gradient($gradientConfig));
     }

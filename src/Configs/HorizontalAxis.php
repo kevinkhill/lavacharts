@@ -19,57 +19,25 @@ use \Khill\Lavacharts\Utils;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class HorizontalAxis extends Axis
+class HorizontalAxis extends Axis //TODO: Fix this to jsonconfig style
 {
     /**
-     * Allow container to cutoff labels.
+     * Type of JsonConfig object
      *
-     * @var bool
+     * @var string
      */
-    public $allowContainerBoundaryTextCutoff;
+    const TYPE = 'HorizontalAxis';
 
     /**
-     * Slanted or normal labels.
+     * Default options for HorizontalAxis
      *
-     * @var bool
+     * @var array
      */
-    public $slantedText;
-
-    /**
-     * Angle of labels.
-     *
-     * @var int
-     */
-    public $slantedTextAngle;
-
-    /**
-     * Number of levels of alternation.
-     *
-     * @var int
-     */
-    public $maxAlternation;
-
-    /**
-     * Maximum number of labels.
-     *
-     * @var int
-     */
-    public $maxTextLines;
-
-    /**
-     * Minimum amount in pixels of space between labels.
-     *
-     * @var int
-     */
-    public $minTextSpacing;
-
-    /**
-     * Amount of labels to show.
-     *
-     * @var int
-     */
-    public $showTextEvery;
-
+    private $extDefaults = [
+        'allowContainerBoundaryTextCutoff',
+        'slantedText',
+        'slantedTextAngle'
+    ];
 
     /**
      * Stores all the information about the horizontal axis. All options can be
@@ -91,11 +59,7 @@ class HorizontalAxis extends Axis
             [
                 'allowContainerBoundaryTextCutoff',
                 'slantedText',
-                'slantedTextAngle',
-                'maxAlternation',
-                'maxTextLines',
-                'minTextSpacing',
-                'showTextEvery',
+                'slantedTextAngle'
             ]
         );
     }
@@ -176,115 +140,6 @@ class HorizontalAxis extends Axis
                 __FUNCTION__,
                 'int',
                 'between 1 - 90'
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Sets the horizontal axis maximum alternation.
-     *
-     * Maximum number of levels of axis text. If axis text labels
-     * become too crowded, the server might shift neighboring labels up or down
-     * in order to fit labels closer together. This value specifies the most
-     * number of levels to use; the server can use fewer levels, if labels can
-     * fit without overlapping.
-     *
-     * This option is only supported for a discrete axis.
-     *
-     * @param  int Number of levels
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
-     */
-    public function maxAlternation($alternation)
-    {
-        if (is_int($alternation)) {
-            $this->maxAlternation = $alternation;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Sets the maximum number of lines allowed for the text labels.
-     *
-     * Labels can span multiple lines if they are too long, and the number of
-     * lines is, by default, limited by the height of the available space.
-     * This option is only supported for a discrete axis.
-     *
-     * @param  int $maxTextLines
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
-     */
-    public function maxTextLines($maxTextLines)
-    {
-        if (is_int($maxTextLines)) {
-            $this->maxTextLines = $maxTextLines;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Sets the minimum spacing, in pixels, allowed between two adjacent text
-     * labels.
-     *
-     * If the labels are spaced too densely, or they are too long,
-     * the spacing can drop below this threshold, and in this case one of the
-     * label-unclutter measures will be applied (e.g, truncating the lables or
-     * dropping some of them).
-     *
-     * This option is only supported for a discrete axis.
-     *
-     * @param  int $minTextSpacing Amount in pixels
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
-     */
-    public function minTextSpacing($minTextSpacing)
-    {
-        if (is_int($minTextSpacing)) {
-            $this->minTextSpacing = $minTextSpacing;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Sets how many axis labels to show.
-     *
-     * 1 means show every label, 2 means show every other label, and so on.
-     * Default is to try to show as many labels as possible without overlapping.
-     *
-     * This option is only supported for a discrete axis.
-     *
-     * @param  int Number of labels
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
-     */
-    public function showTextEvery($showTextEvery)
-    {
-        if (is_int($showTextEvery)) {
-            $this->showTextEvery = $showTextEvery;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
             );
         }
 

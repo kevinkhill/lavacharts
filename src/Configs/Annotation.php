@@ -43,9 +43,9 @@ class Annotation extends JsonConfig
      * Builds the Annotation object.
      *
      * @param  array $config Associative array containing key => value pairs for the various configuration options.
+     * @return \Khill\Lavacharts\Configs\Annotation
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {
@@ -57,8 +57,9 @@ class Annotation extends JsonConfig
     /**
      * In Bar and Column charts, if set to true, draws all annotations outside of the Bar/Column.
      *
-     * @param  bool       $alwaysOutside
-     * @return self
+     * @param  bool $alwaysOutside
+     * @return \Khill\Lavacharts\Configs\Annotation
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function alwaysOutside($alwaysOutside)
     {
@@ -73,8 +74,9 @@ class Annotation extends JsonConfig
      * If you set highContrast to false and don't specify your own annotation color, Google Charts
      * will use the default series color for the annotation
      *
-     * @param  bool       $highContrast
-     * @return self
+     * @param  bool $highContrast
+     * @return \Khill\Lavacharts\Configs\Annotation
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function highContrast($highContrast)
     {
@@ -84,11 +86,12 @@ class Annotation extends JsonConfig
     /**
      * An object that specifies the annotation text style.
      *
-     * @param  array $textStyleConfig Style of the annotation text.
-     * @return self
+     * @param  array $textStyle Style of the annotation
+     * @return \Khill\Lavacharts\Configs\Annotation
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function textStyle($textStyleConfig)
     {
-        return $this->options->set(__FUNCTION__, new TextStyle($textStyleConfig));
+        return $this->setOption(__FUNCTION__, new TextStyle($textStyleConfig));
     }
 }

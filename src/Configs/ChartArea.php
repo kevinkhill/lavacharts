@@ -41,12 +41,13 @@ class ChartArea extends JsonConfig
         'height'
     ];
 
-
     /**
-     * Builds the chartArea object when passed an array of configuration options.
+     * Builds the ChartArea object when passed an array of configuration options.
      *
-     * @param  array     $config
-     * @return self
+     * @param  array $config
+     * @return \Khill\Lavacharts\Configs\ChartArea
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function __construct($config = [])
     {
@@ -58,9 +59,9 @@ class ChartArea extends JsonConfig
     /**
      * Sets the left padding of the chart in the container.
      *
-     * @param  int|string $left Amount in pixels
+     * @param  int|string $left Amount in pixels as integer or percent
+     * @return \Khill\Lavacharts\Configs\ChartArea
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function left($left)
     {
@@ -70,9 +71,9 @@ class ChartArea extends JsonConfig
     /**
      * Sets the top padding of the chart in the container.
      *
-     * @param  int|string $top Amount in pixels
+     * @param  int|string $top Amount in pixels as integer or percent
+     * @return \Khill\Lavacharts\Configs\ChartArea
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function top($top)
     {
@@ -82,7 +83,7 @@ class ChartArea extends JsonConfig
     /**
      * Sets the width of the chart in the container.
      *
-     * @param  int|string $width Amount in pixels
+     * @param  int|string $width Amount in pixels as integer or percent
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
@@ -94,9 +95,9 @@ class ChartArea extends JsonConfig
     /**
      * Sets the height of the chart in the container.
      *
-     * @param  integer                $height Amount in pixels
+     * @param  int|string $height Amount in pixels as integer or percent
+     * @return \Khill\Lavacharts\Configs\ChartArea
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function height($height)
     {

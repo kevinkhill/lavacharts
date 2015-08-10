@@ -31,7 +31,7 @@ class Animation extends JsonConfig
     const TYPE = 'Animation';
 
     /**
-     * Default options for TextStyles
+     * Default options for Animation
      *
      * @var array
      */
@@ -63,7 +63,8 @@ class Animation extends JsonConfig
      *
      * @see    https://developers.google.com/chart/interactive/docs/animation
      * @param  integer $duration
-     * @return self
+     * @return \Khill\Lavacharts\Configs\Animation
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function duration($duration)
     {
@@ -80,7 +81,8 @@ class Animation extends JsonConfig
      * 'inAndOut' - Ease in and out - Start slow, speed up, then slow down.
      *
      * @param  string $easing
-     * @return self
+     * @return \Khill\Lavacharts\Configs\Animation
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function easing($easing)
     {
@@ -100,7 +102,8 @@ class Animation extends JsonConfig
      * If true, the chart will start at the baseline and animate to its final state.
      *
      * @param  bool $startup
-     * @return self
+     * @return \Khill\Lavacharts\Configs\Animation
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function startup($startup)
     {

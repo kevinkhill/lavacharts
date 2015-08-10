@@ -44,10 +44,10 @@ class Color extends JsonConfig
     /**
      * Builds the Color object with specified options
      *
-     * @param  array                 $config
+     * @param  array $config
+     * @return \Khill\Lavacharts\Configs\Color
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {
@@ -59,9 +59,9 @@ class Color extends JsonConfig
     /**
      * Specifies the foreground color.
      *
-     * @param  string             $fgColor
+     * @param  string $fgColor
+     * @return \Khill\Lavacharts\Configs\Color
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function color($fgColor)
     {
@@ -71,9 +71,9 @@ class Color extends JsonConfig
     /**
      * Specifies the background color.
      *
-     * @param  string             $bgColor
+     * @param  string $bgColor
+     * @return \Khill\Lavacharts\Configs\Color
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function backgroundColor($bgColor)
     {
@@ -84,7 +84,8 @@ class Color extends JsonConfig
      * Opacity, with 0.0 being fully transparent and 1.0 fully opaque.
      *
      * @param  float $opacity
-     * @return self
+     * @return \Khill\Lavacharts\Configs\Color
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function opacity($opacity)
     {
@@ -96,6 +97,6 @@ class Color extends JsonConfig
             );
         }
 
-        return $this->options->set(__FUNCTION__, $opacity);
+        return $this->setOption(__FUNCTION__, $opacity);
     }
 }

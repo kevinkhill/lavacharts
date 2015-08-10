@@ -20,98 +20,83 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Slice extends ConfigObject
+class Slice extends JsonConfig
 {
     /**
-     * The slice fill color.
+     * Type of JsonConfig object
      *
      * @var string
      */
-    public $color;
+    const TYPE = 'Slice';
 
     /**
-     * Offset amount.
+     * Default options for Slices
      *
-     * @var string
+     * @var array
      */
-    public $offset;
-
-    /**
-     * Slice text style.
-     *
-     * @var TextStyle
-     */
-    public $textStyle;
-
+    private $defaults = [
+        'color',
+        'offset',
+        'textStyle'
+    ];
 
     /**
      * Builds the slice object with specified options.
      *
-     * @param  array                 $config Configuration options for the Slice
+     * @param  array $config Configuration options for the Slice
+     * @return \Khill\Lavacharts\Configs\Slice
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
      * The color to use for this slice. Specify a valid HTML color string.
      *
-     * @param  string             $color
+     * @param  string $color
+     * @return \Khill\Lavacharts\Configs\Slice
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function color($color)
     {
-        if (is_string($color)) {
-            $this->color = $color;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'as a valid HTML color code'
-            );
-        }
-
-        return $this;
+        return $this->setString(__FUNCTION__, $color);
     }
 
     /**
      * How far to separate the slice from the rest of the pie.
      * from 0.0 (not at all) to 1.0 (the pie's radius).
      *
-     * @param  float              $offset
+     * @param  float $offset
+     * @return \Khill\Lavacharts\Configs\Slice
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function offset($offset)
     {
-        if (Utils::between(0.0, $offset, 1.0)) {
-            $this->offset = $offset;
-        } else {
+        if (Utils::between(0.0, $offset, 1.0) === false) {
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'float',
-                'where 0.0 < $offset < 0.1'
+                'where 0.0 < $offset < 1.0'
             );
         }
 
-        return $this;
+        return $this->setOption(__FUNCTION__, $offset);
     }
 
     /**
-     * Overrides the global pieSliceTextSlice for this slice.
+     * Overrides the global pieSliceTextStyle for this slice.
      *
-     * @param  TextStyle $textStyle A valid textStyle object.
-     * @return self
+     * @param  array $textStyleConfig
+     * @return \Khill\Lavacharts\Configs\Slice
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function textStyle(TextStyle $textStyle)
+    public function textStyle($textStyleConfig)
     {
-        $this->textStyle = $textStyle->getValues();
-
-        return $this;
+        return $this->setOption(__FUNCTION__, $textStyleConfig);
     }
 }

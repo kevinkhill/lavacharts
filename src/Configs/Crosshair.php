@@ -21,49 +21,28 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Crosshair extends ConfigObject
+class Crosshair extends JsonConfig
 {
     /**
-     * Foreground color.
+     * Type of JsonConfig object
      *
      * @var string
      */
-    public $color;
+    const TYPE = 'Crosshair';
 
     /**
-     * Focused color.
+     * Default options for Crosshair
      *
-     * @var
+     * @var array
      */
-    public $focused;
-
-    /**
-     * Crosshair opacity.
-     *
-     * @var float
-     */
-    public $opacity;
-
-    /**
-     * Crosshair orientation.
-     *
-     * @var string
-     */
-    public $orientation;
-
-    /**
-     * Focused color.
-     *
-     * @var
-     */
-    public $selected;
-
-    /**
-     * Crosshair trigger.
-     *
-     * @var string
-     */
-    public $trigger;
+    private $defaults = [
+        'color',
+        'focused',
+        'opacity',
+        'orientation',
+        'selected',
+        'trigger'
+    ];
 
     /**
      * Stores all the information about the crosshair.
@@ -72,73 +51,52 @@ class Crosshair extends ConfigObject
      * values for option => value, or by chaining together the functions
      * once an object has been created.
      *
-     * @param  array                 $config
+     * @param  array $config
+     * @return \Khill\Lavacharts\Configs\Crosshair
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
 
-        $this->options = array_merge(
-            $this->options,
-            [
-                'color',
-                'focused',
-                'opacity',
-                'orientation',
-                'selected',
-                'trigger'
-            ]
-        );
+        parent::__construct($options, $config);
     }
 
     /**
      * Specifies the crosshair color.
      *
-     * @param  string             $color
+     * @param  string $color
+     * @return \Khill\Lavacharts\Configs\Crosshair
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function color($color)
     {
-        if (is_string($color)) {
-            $this->color = $color;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $color);
     }
 
     /**
      * An object that specifies the crosshair focused color.
      *
-     * @param  Color     $color
-     * @return self
+     * @param  array $color
+     * @return \Khill\Lavacharts\Configs\Crosshair
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function focused(Color $color)
+    public function focused($colorConfig)
     {
-        $this->focused = $color->getValues();
-
-        return $this;
+        return $this->setOption(__FUNCTION__, new Color($colorConfig));
     }
 
     /**
      * The crosshair opacity, with 0.0 being fully transparent and 1.0 fully opaque.
      *
-     * @param  float     $opacity
-     * @return self
+     * @param  float $opacity
+     * @return \Khill\Lavacharts\Configs\Crosshair
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function opacity($opacity)
     {
-        if (Utils::between(0.0, $opacity, 1.0, true)) {
-            $this->opacity = $opacity;
-        } else {
+        if (Utils::between(0.0, $opacity, 1.0, true) === false) {
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'float',
@@ -146,16 +104,16 @@ class Crosshair extends ConfigObject
             );
         }
 
-        return $this;
+        return $this->setOption(__FUNCTION__, $opacity);
     }
 
     /**
      * The crosshair orientation, which can be 'vertical' for vertical hairs only,
      * 'horizontal' for horizontal hairs only, or 'both' for traditional crosshairs.
      *
-     * @param  string             $orientation
+     * @param  string $orientation
+     * @return \Khill\Lavacharts\Configs\Crosshair
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function orientation($orientation)
     {
@@ -165,38 +123,27 @@ class Crosshair extends ConfigObject
             'vertical'
         ];
 
-        if (in_array($orientation, $values, true)) {
-            $this->orientation = $orientation;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this;
+        return $this->setStringInArrayOption(__FUNCTION__, $orientation, $values);
     }
 
     /**
      * An object that specifies the crosshair selected color.
      *
-     * @param  Color     $color
-     * @return self
+     * @param  array $colorConfig
+     * @return \Khill\Lavacharts\Configs\Crosshair
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function selected(Color $color)
+    public function selected($colorConfig)
     {
-        $this->selected = $color->getValues();
-
-        return $this;
+        return $this->setOption(__FUNCTION__, new Color($colorConfig));
     }
 
     /**
      * When to display crosshairs: on 'focus', 'selection', or 'both'.
      *
-     * @param  string             $trigger
+     * @param  string $trigger
+     * @return \Khill\Lavacharts\Configs\Crosshair
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function trigger($trigger)
     {
@@ -206,16 +153,6 @@ class Crosshair extends ConfigObject
             'selection'
         ];
 
-        if (in_array($trigger, $values, true)) {
-            $this->trigger = $trigger;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this;
+        return $this->setStringInArrayOption(__FUNCTION__, $trigger, $values);
     }
 }

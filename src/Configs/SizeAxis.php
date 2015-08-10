@@ -19,36 +19,26 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class SizeAxis extends ConfigObject
+class SizeAxis extends JsonConfig
 {
     /**
-     * Maximum radius of the largest possible bubble, in pixels.
+     * Type of JsonConfig object
      *
-     * @var int
+     * @var string
      */
-    public $maxSize;
+    const TYPE = 'SizeAxis';
 
     /**
-     * The size value to be mapped to $this->maxSize.
+     * Default options for SizeAxis
      *
-     * @var int
+     * @var array
      */
-    public $maxValue;
-
-    /**
-     * Minimum radius of the smallest possible bubble, in pixels.
-     *
-     * @var int
-     */
-    public $minSize;
-
-    /**
-     * The size value to be mapped to $this->minSize.
-     *
-     * @var int
-     */
-    public $minValue;
-
+    private $defaults = [
+        'maxSize',
+        'maxValue',
+        'minSize',
+        'minValue'
+    ];
 
     /**
      * Builds the configuration when passed an array of options.
@@ -58,98 +48,68 @@ class SizeAxis extends ConfigObject
      * an object has been created.
      *
      * @param  array $config An array containing configuration options.
+     * @return \Khill\Lavacharts\Configs\SizeAxis
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
      * Sets maximum radius of the largest possible bubble, in pixels.
      *
-     * @param  int|float $maxSize
+     * @param  int $maxSize
+     * @return \Khill\Lavacharts\Configs\SizeAxis
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function maxSize($maxSize)
     {
-        if (is_numeric($maxSize)) {
-            $this->maxSize = $maxSize;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'int | float'
-            );
-        }
-
-        return $this;
+        return $this->setIntOption(__FUNCTION__, $maxSize);
     }
 
     /**
      * Set the size value (as appears in the chart data) to be mapped to
-     * $this->maxSize. Larger values will be cropped to this value.
+     * $this->maxSize.
      *
-     * @param  int|float $maxValue
+     * Larger values will be cropped to this value.
+     *
+     * @param  int $maxValue
+     * @return \Khill\Lavacharts\Configs\SizeAxis
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function maxValue($maxValue)
     {
-        if (is_numeric($maxValue)) {
-            $this->maxValue = $maxValue;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'int | float'
-            );
-        }
-
-        return $this;
+        return $this->setIntOption(__FUNCTION__, $maxValue);
     }
 
     /**
      * Sets minimum radius of the smallest possible bubble, in pixels
      *
-     * @param  int|float $minSize
+     * @param  int $minSize
+     * @return \Khill\Lavacharts\Configs\SizeAxis
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function minSize($minSize)
     {
-        if (is_numeric($minSize)) {
-            $this->minSize = $minSize;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'int | float'
-            );
-        }
-
-        return $this;
+        return $this->setIntOption(__FUNCTION__, $minSize);
     }
 
     /**
      * Set the size value (as appears in the chart data) to be mapped to
-     * $this->minSize. Larger values will be cropped to this value.
+     * $this->minSize.
      *
-     * @param  int|float $minValue
+     * Larger values will be cropped to this value.
+     *
+     * @param  int
+     * @return \Khill\Lavacharts\Configs\SizeAxis
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function minValue($minValue)
     {
-        if (is_numeric($minValue)) {
-            $this->minValue = $minValue;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'int | float'
-            );
-        }
-
-        return $this;
+        return $this->setIntOption(__FUNCTION__, $minValue);
     }
 }
