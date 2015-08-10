@@ -11,7 +11,7 @@ class HorizontalAxisTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->ha = new HorizontalAxis([]);
+        $this->ha = new HorizontalAxis;
 
         $this->textStyleOptions = [
             'color'    => 'red',

@@ -165,7 +165,7 @@ class JsonConfig implements \JsonSerializable
      */
     protected function setBoolOption($option, $value)
     {
-        if (is_int($value) === false) {
+        if (is_bool($value) === false) {
             throw new InvalidConfigValue(
                 static::TYPE . '->' . $option,
                 'bool'

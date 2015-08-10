@@ -13,16 +13,6 @@ class GradientTest extends \PHPUnit_Framework_TestCase
         $this->g = new Gradient;
     }
 
-    public function testConstructorDefaults()
-    {
-        $this->assertNull($this->g->color1);
-        $this->assertNull($this->g->color2);
-        $this->assertNull($this->g->x1);
-        $this->assertNull($this->g->y1);
-        $this->assertNull($this->g->x2);
-        $this->assertNull($this->g->y2);
-    }
-
     public function testConstructorValuesAssignment()
     {
         $gradient = new Gradient([

@@ -12,17 +12,10 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
 
         $this->tt = new Tooltip();
 
-        $this->mockTextStyle = $this->getMock(
+        $this->mockTextStyle = $this->getMock( //TODO no mocks!
             '\Khill\Lavacharts\Configs\TextStyle',
             ['__construct']
         );
-    }
-
-    public function testConstructorDefaults()
-    {
-        $this->assertNull($this->tt->showColorCode);
-        $this->assertNull($this->tt->textStyle);
-        $this->assertNull($this->tt->trigger);
     }
 
     public function testConstructorValuesAssignment()

@@ -13,19 +13,10 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
 
         $this->bs = new BoxStyle;
 
-        $this->mockGradient = $this->getMock(
+        $this->mockGradient = $this->getMock(  //TODO no mocks!
             '\Khill\Lavacharts\Configs\Gradient',
             ['__construct']
         );
-    }
-
-    public function testConstructorDefaults()
-    {
-        $this->assertNull($this->bs->stroke);
-        $this->assertNull($this->bs->strokeWidth);
-        $this->assertNull($this->bs->rx);
-        $this->assertNull($this->bs->ry);
-        $this->assertNull($this->bs->gradient);
     }
 
     public function testConstructorValuesAssignment()
@@ -35,7 +26,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
             'strokeWidth' => '5',
             'rx'          => '10',
             'ry'          => '10',
-            'gradient'    => $this->mockGradient
+            'gradient'    => $this->mockGradient //TODO no mock!
         ]);
 
         $this->assertEquals('#5B5B5B', $boxStyle->stroke);

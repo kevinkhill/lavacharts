@@ -12,19 +12,7 @@ class AnnotationTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->a = new Annotation;
-
-        $this->mockTextStyle = $this->getMock(
-            '\Khill\Lavacharts\Configs\TextStyle',
-            ['__construct']
-        );
-    }
-
-    public function testConstructorDefaults()
-    {
-        $this->assertNull($this->a->alwaysOutside);
-        $this->assertNull($this->a->highContrast);
-        $this->assertNull($this->a->textStyle);
+        $this->Annotation = new Annotation;
     }
 
     public function testConstructorValuesAssignment()
@@ -32,7 +20,10 @@ class AnnotationTest extends ProvidersTestCase
         $annotation = new Annotation([
             'alwaysOutside' => true,
             'highContrast'  => false,
-            'textStyle'     => $this->mockTextStyle
+            'textStyle'     => [
+                'fontName' => 'Arial',
+                'fontSize' => 20
+            ]
         ]);
 
         $this->assertTrue($annotation->alwaysOutside);
@@ -54,7 +45,7 @@ class AnnotationTest extends ProvidersTestCase
      */
     public function testAlwaysOutsideWithBadParams($badVals)
     {
-        $this->a->alwaysOutside($badVals);
+        $this->Annotation->alwaysOutside($badVals);
     }
 
     /**
@@ -63,7 +54,7 @@ class AnnotationTest extends ProvidersTestCase
      */
     public function testHighContrastWithBadParams($badVals)
     {
-        $this->a->highContrast($badVals);
+        $this->Annotation->highContrast($badVals);
     }
 
     /**
@@ -71,6 +62,6 @@ class AnnotationTest extends ProvidersTestCase
      */
     public function testTextStyleWithNonTextStyle()
     {
-        $this->a->textStyle('This is not a TextStyle Object');
+        $this->Annotation->textStyle('This is not a TextStyle Object');
     }
 }
