@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Configs;
 
-use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Utils;
 
 /**
  * Animation ConfigObject
@@ -31,7 +31,7 @@ class Gridlines extends JsonConfig
     const TYPE = 'Gridlines';
 
     /**
-     * Default options for TextStyles
+     * Default options for Gridlines
      *
      * @var array
      */
@@ -41,12 +41,12 @@ class Gridlines extends JsonConfig
     ];
 
     /**
-     * Builds the Animation object.
+     * Builds the Gridlines object.
      *
      * @param  array $config Associative array containing key => value pairs for the various configuration options.
+     * @return \Khill\Lavacharts\Configs\Gridlines
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {
@@ -56,9 +56,11 @@ class Gridlines extends JsonConfig
     }
 
     /**
+     * Set the color of the gridlines.
      *
-     * @param  string $duration
-     * @return self
+     * @param  string $color
+     * @return \Khill\Lavacharts\Configs\Gridlines
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function color($color)
     {
@@ -66,9 +68,11 @@ class Gridlines extends JsonConfig
     }
 
     /**
+     * Sets the number of gridlines.
      *
      * @param  int $count
-     * @return self
+     * @return \Khill\Lavacharts\Configs\Gridlines
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function count($count)
     {
@@ -81,5 +85,56 @@ class Gridlines extends JsonConfig
         }
 
         return $this->setIntOption(__FUNCTION__, $count);
+    }
+
+    /**
+     * Overrides the default format for various aspects of date/datetime/timeofday data types.
+     *
+     * Allows formatting for years, months, days, hours, minutes, seconds, and milliseconds.
+     *
+     * @param  array $units
+     * @return \Khill\Lavacharts\Configs\Gridlines
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function units($units)
+    {
+        $unitFormats = [];
+        $unitValues  = [
+            'years',
+            'months',
+            'days',
+            'hours',
+            'minutes',
+            'seconds',
+            'milliseconds'
+        ];
+
+        if (is_array($units) === false) {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'array'
+            );
+        }
+
+        foreach ($units as $unit => $format) {
+            if (is_string($unit) === false || in_array($unit, $unitValues) === false) {
+                throw new InvalidConfigValue(
+                    __FUNCTION__,
+                    'string',
+                    'Valid unit values are '.Utils::arrayToPipedString($unitValues)
+                );
+            }
+
+            if (Utils::nonEmptyString($format) === false) {
+                throw new InvalidConfigValue(
+                    __FUNCTION__,
+                    'string'
+                );
+            }
+
+            $unitFormats[$unit] = $format;
+        }
+
+        return $this->setOption(__FUNCTION__, $unitFormats);
     }
 }

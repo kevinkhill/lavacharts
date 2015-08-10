@@ -19,7 +19,7 @@ use \Khill\Lavacharts\Utils;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class HorizontalAxis extends Axis //TODO: Fix this to jsonconfig style
+class HorizontalAxis extends Axis
 {
     /**
      * Type of JsonConfig object
@@ -45,23 +45,17 @@ class HorizontalAxis extends Axis //TODO: Fix this to jsonconfig style
      * value, or by chaining together the functions once an object has been
      * created.
      *
-     * @param  array                 $config
+     * @param  array $config
+     * @return \Khill\Lavacharts\Configs\HorizontalAxis
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+        $options->merge($this->extDefaults);
 
-        $this->options = array_merge(
-            $this->options,
-            [
-                'allowContainerBoundaryTextCutoff',
-                'slantedText',
-                'slantedTextAngle'
-            ]
-        );
+        parent::__construct($options, $config);
     }
 
     /**
@@ -73,21 +67,12 @@ class HorizontalAxis extends Axis //TODO: Fix this to jsonconfig style
      * This option is only supported for a discrete axis.
      *
      * @param  boolean $cutoff Status of allowing label cutoff
+     * @return \Khill\Lavacharts\Configs\HorizontalAxis
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function allowContainerBoundaryTextCutoff($cutoff)
     {
-        if (is_bool($cutoff)) {
-            $this->allowContainerBoundaryTextCutoff = $cutoff;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this;
+        return $this->setBoolOption(__FUNCTION__, $cutoff);
     }
 
     /**
@@ -102,16 +87,14 @@ class HorizontalAxis extends Axis //TODO: Fix this to jsonconfig style
      * This option is only supported for a discrete axis.
      *
      * @param  boolean $slant Status of label slant
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Configs\HorizontalAxis
+     * @throws \Khill\Lavacharts\Configs\InvalidConfigValue
      */
     public function slantedText($slant)
     {
-        if (is_bool($slant) && $this->textPosition == 'out') {
-            $this->slantedText = $slant;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
+        if (is_bool($slant) === false || $this->options->get('textPosition') != 'out') {
+            throw new InvalidConfigValue(
+                self::TYPE . '->' . __FUNCTION__,
                 'bool',
                 'and textPosition must be "out"'
             );
@@ -121,28 +104,25 @@ class HorizontalAxis extends Axis //TODO: Fix this to jsonconfig style
     }
 
     /**
-     * Sets the angle of the axis text, if it's drawn slanted. Ignored if
-     * axis.slantedText is false, or is in auto mode, and the chart decided to
-     * draw the text horizontally.
+     * Sets the angle of the axis text, if it's drawn slanted.
      *
-     * This option is only supported for a discrete axis.
+     * Ignored if "slantedText" is false, or is in auto mode, and the chart decided to
+     * draw the text horizontally. This option is only supported for a discrete axis.
      *
      * @param  int $angle Angle of labels
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Configs\HorizontalAxis
+     * @throws \Khill\Lavacharts\Configs\InvalidConfigValue
      */
     public function slantedTextAngle($angle)
     {
-        if (is_int($angle) && Utils::between(1, $angle, 90)) {
-            $this->slantedTextAngle = $angle;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
+        if (is_int($angle) === false || Utils::between(1, $angle, 90) == false) {
+            throw new InvalidConfigValue(
+                self::TYPE . '->' . __FUNCTION__,
                 'int',
                 'between 1 - 90'
             );
         }
 
-        return $this;
+        return $this->setOption(__FUNCTION__, $angle);
     }
 }

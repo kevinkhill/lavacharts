@@ -44,26 +44,6 @@ class JsonConfig implements \JsonSerializable
         return $this->options->get($option);
     }
 
-    /**
-     * function for easy creation of exceptions
-     * TODO: deprecate this
-     */
-    protected function invalidConfigValue($func, $type, $extra = '')
-    {
-        if (! empty($extra)) {
-            throw new InvalidConfigValue(
-                static::TYPE . '->' . $func,
-                $type,
-                $extra
-            );
-        } else {
-            throw new InvalidConfigValue(
-                static::TYPE . '->' . $func,
-                $type
-            );
-        }
-    }
-
     private function parseConfig($config)
     {
         foreach ($config as $option => $value) {
@@ -198,10 +178,8 @@ class JsonConfig implements \JsonSerializable
     }
 
     /**
-     * Sets the value of an option.
+     * Shortcut method to set the value of an option and return $this.
      *
-     * Used internally to check the values for their respective types and validity.
-     * TODO: deprecate this
      * @param  string $option Option to set.
      * @param  mixed $value Value of the option.
      * @return self

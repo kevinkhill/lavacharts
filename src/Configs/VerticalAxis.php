@@ -26,10 +26,12 @@ class VerticalAxis extends Axis
      * created.
      *
      * @param  array $config Configuration options for the VerticalAxis
-     * @return self
+     * @return \Khill\Lavacharts\Configs\VerticalAxis
      */
     public function __construct($config = [])
     {
-        parent::__construct($config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Configs;
 
+use \Carbon\Carbon;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
@@ -78,29 +79,31 @@ class Axis extends JsonConfig
     /**
      * Sets the baseline for the axis.
      *
+     * If the column that the baseline is defining is "number", then the baseline
+     * needs to be an integer.
+     * If the column that the baseline is defining is "date|datetime|timeofday", then
+     * the baseline needs to be a Carbon object or a string, parseable by Carbon.
      * This option is only supported for a continuous axis.
      *
-     * @param  mixed $baseline Must match type defined for the column, [ number | Carbon ].
+     * @param  int|\Carbon\Carbon $baseline
      * @return \Khill\Lavacharts\Configs\Axis
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function baseline($baseline) //@TODO convert to Carbon
+    public function baseline($baseline)
     {
-        if (Utils::isJsDate($baseline)) {
-            $this->baseline = $baseline->toString();
-        } else {
-            if (is_int($baseline)) {
-                $this->baseline = $baseline;
-            } else {
-                throw new InvalidConfigValue(
-                    __FUNCTION__,
-                    'int | jsDate',
-                    'int if column is "number", jsDate if column is "date"'
-                );
-            }
+        if ($baseline instanceof Carbon === false || is_int($baseline) === false || is_string($baseline) === false) {
+            throw new InvalidConfigValue(
+                self::TYPE . '->' . __FUNCTION__,
+                'int | Carbon',
+                'int if column is "number", Carbon if column is "date"'
+            );
         }
 
-        return $this;
+        if (is_string($baseline) === true) {
+            $baseline = Carbon::parse($baseline);
+        }
+
+        return $this->setOption(__FUNCTION__, $baseline);
     }
 
     /**
@@ -172,41 +175,13 @@ class Axis extends JsonConfig
      *
      * This option is only supported for a continuous axis.
      *
-     * @param  array $gridlines
+     * @param  array $gridlinesConfig
      * @return \Khill\Lavacharts\Configs\Axis
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function gridlines($gridlines) //TODO: Fix to use gridlines object
+    public function gridlines($gridlinesConfig)
     {
-        if (is_array($gridlines) && array_key_exists('count', $gridlines) && array_key_exists('color', $gridlines)) {
-            if (Utils::nonEmptyString($gridlines['color'])) {
-                $this->gridlines['color'] = $gridlines['color'];
-            } else {
-                throw new InvalidConfigValue(
-                    __FUNCTION__,
-                    'array',
-                    'with the value of the key "color" being a valid HTML color'
-                );
-            }
-
-            if (is_int($gridlines['count']) && $gridlines['count'] >= 2 || $gridlines['count'] == -1) {
-                $this->gridlines['count'] = $gridlines['count'];
-            } else {
-                throw new InvalidConfigValue(
-                    __FUNCTION__,
-                    'array',
-                    'with the value of the key "count" == -1 || >= 2'
-                );
-            }
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'array',
-                'with keys for count & color'
-            );
-        }
-
-        return $this;
+        return $this->setOption(__FUNCTION__, new Gridlines($gridlinesConfig));
     }
 
     /**
@@ -233,41 +208,13 @@ class Axis extends JsonConfig
      *
      * This option is only supported for a continuous axis.
      *
-     * @param  array $minorGridlines
+     * @param  array $minorGridlinesConfig
      * @return \Khill\Lavacharts\Configs\Axis
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function minorGridlines($minorGridlines) //TODO: use gridline object
+    public function minorGridlines($minorGridlinesConfig)
     {
-        if (is_array($minorGridlines) && array_key_exists('count', $minorGridlines) && array_key_exists('color', $minorGridlines)) {
-            if (Utils::nonEmptyString($minorGridlines['color'])) {
-                $this->minorGridlines['color'] = $minorGridlines['color'];
-            } else {
-                throw new InvalidConfigValue(
-                    __FUNCTION__,
-                    'array',
-                    'with the value of the key "color" being a valid HTML color'
-                );
-            }
-
-            if (is_int($minorGridlines['count']) && $minorGridlines['count'] >= 2 || $minorGridlines['count'] == -1) {
-                $this->minorGridlines['count'] = $minorGridlines['count'];
-            } else {
-                throw new InvalidConfigValue(
-                    __FUNCTION__,
-                    'array',
-                    'with the value of the key "count" == -1 || >= 2'
-                );
-            }
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'array',
-                'with keys for count & color'
-            );
-        }
-
-        return $this;
+        return $this->setOption(__FUNCTION__, new Gridlines($minorGridlinesConfig));
     }
 
     /**
@@ -458,19 +405,12 @@ class Axis extends JsonConfig
      * @return \Khill\Lavacharts\Configs\Axis
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function viewWindow($viewWindow) //TODO: fix the logic in this
+    public function viewWindow($viewWindow)
     {
-        if (is_array($viewWindow) &&
-            array_key_exists('min', $viewWindow) &&
-            array_key_exists('max', $viewWindow) &&
-            is_int($viewWindow['min']) &&
-            is_int($viewWindow['max'])
-        ) {
-            $this->viewWindow['viewWindowMin'] = $viewWindow['min'];
-            $this->viewWindow['viewWindowMax'] = $viewWindow['max'];
+        $minCheck = (array_key_exists('min', $viewWindow) && is_int($viewWindow['min']));
+        $maxCheck = (array_key_exists('max', $viewWindow) && is_int($viewWindow['max']));
 
-            $this->viewWindowMode('explicit');
-        } else {
+        if (is_array($viewWindow) === false || $minCheck === false || $maxCheck === false) {
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'array',
@@ -478,7 +418,12 @@ class Axis extends JsonConfig
             );
         }
 
-        return $this;
+        $this->viewWindowMode('explicit');
+
+        $this->setOption(__FUNCTION__, [
+            'viewWindowMin' => $viewWindow['min'],
+            'viewWindowMax' => $viewWindow['max']
+        ]);
     }
 
     /**
