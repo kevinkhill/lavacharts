@@ -22,12 +22,20 @@ class JsonConfig implements \JsonSerializable
      * @param  \Khill\Lavacharts\Configs\Options $options
      * @param  array                             $config
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function __construct(Options $options, $config = [])
     {
+        if (is_array($config) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
+                'array'
+            );
+        }
+
         $this->options = $options;
 
-        if (is_array($config) === true && empty($config) === false) {
+        if (empty($config) === false) {
             $this->parseConfig($config);
         }
     }
@@ -55,7 +63,7 @@ class JsonConfig implements \JsonSerializable
                     $this->options->getDefaults()
                 );
             }
-
+//var_dump($option, $value);
             call_user_func([$this, $option], $value);
         }
     }
@@ -65,7 +73,6 @@ class JsonConfig implements \JsonSerializable
      *
      * @param  string $option Option to set.
      * @param  string $value Value of the option.
-     * @param  array  $validValues Array of valid values
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      * @return self
@@ -123,6 +130,29 @@ class JsonConfig implements \JsonSerializable
             throw new InvalidConfigValue(
                 static::TYPE . '->' . $option,
                 'int'
+            );
+        }
+
+        $this->options->set($option, $value);
+
+        return $this;
+    }
+
+    /**
+     * Sets the value of an integer or float option.
+     *
+     * @param  string $option Option to set.
+     * @param  int|float $value Value of the option.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
+     * @return self
+     */
+    protected function setNumericOption($option, $value)
+    {
+        if (is_numeric($value) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . $option,
+                'int|float'
             );
         }
 
@@ -196,7 +226,7 @@ class JsonConfig implements \JsonSerializable
      *
      * @return \Khill\Lavacharts\Configs\Options
      */
-    public function getOptions()
+    protected function getOptions()
     {
         return $this->options;
     }

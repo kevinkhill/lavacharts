@@ -86,7 +86,7 @@ class Annotation extends JsonConfig
     /**
      * An object that specifies the annotation text style.
      *
-     * @param  array $textStyle Style of the annotation
+     * @param  array $textStyleConfig Style of the annotation
      * @return \Khill\Lavacharts\Configs\Annotation
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */

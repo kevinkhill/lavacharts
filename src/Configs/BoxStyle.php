@@ -72,37 +72,37 @@ class BoxStyle extends JsonConfig
     /**
      * Sets the thickness of the box outline.
      *
-     * @param  integer|string $strokeWidth
+     * @param  int|float $strokeWidth
      * @return \Khill\Lavacharts\Configs\BoxStyle
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function strokeWidth($strokeWidth)
     {
-        return $this->setIntOption(__FUNCTION__, $strokeWidth);
+        return $this->setNumericOption(__FUNCTION__, $strokeWidth);
     }
 
     /**
      * Sets the x-radius of the corner curvature.
      *
-     * @param  integer|string $rx
+     * @param  int|float $rx
      * @return \Khill\Lavacharts\Configs\BoxStyle
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function rx($rx)
     {
-        return $this->setIntOption(__FUNCTION__, $rx);
+        return $this->setNumericOption(__FUNCTION__, $rx);
     }
 
     /**
      * Sets the y-radius of the corner curvature.
      *
-     * @param  integer|string $ry
+     * @param  int|float $ry
      * @return \Khill\Lavacharts\Configs\BoxStyle
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function ry($ry)
     {
-        return $this->setIntOption(__FUNCTION__, $ry);
+        return $this->setNumericOption(__FUNCTION__, $ry);
     }
 
     /**

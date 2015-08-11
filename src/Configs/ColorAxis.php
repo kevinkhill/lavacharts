@@ -67,7 +67,7 @@ class ColorAxis extends JsonConfig
      */
     public function minValue($minValue)
     {
-        return $this->setIntOption(__FUNCTION__, $minValue);
+        return $this->setNumericOption(__FUNCTION__, $minValue);
     }
 
     /**
@@ -81,7 +81,7 @@ class ColorAxis extends JsonConfig
      */
     public function maxValue($maxValue)
     {
-        return $this->setIntOption(__FUNCTION__, $maxValue);
+        return $this->setNumericOption(__FUNCTION__, $maxValue);
     }
 
     /**

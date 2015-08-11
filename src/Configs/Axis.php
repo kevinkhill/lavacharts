@@ -24,18 +24,11 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class Axis extends JsonConfig
 {
     /**
-     * Type of JsonConfig object
-     *
-     * @var string
-     */
-    const TYPE = 'Axis';
-
-    /**
      * Default options for Axis
      *
      * @var array
      */
-    private $defaults = [
+    protected $defaults = [
         'baseline',
         'baselineColor',
         'direction',
@@ -69,10 +62,8 @@ class Axis extends JsonConfig
      * @return \Khill\Lavacharts\Configs\Axis
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function __construct($config = [])
+    public function __construct($options, $config = [])
     {
-        $options = new Options($this->defaults);
-
         parent::__construct($options, $config);
     }
 

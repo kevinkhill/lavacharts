@@ -37,7 +37,8 @@ class Gridlines extends JsonConfig
      */
     private $defaults = [
         'color',
-        'count'
+        'count',
+        'units'
     ];
 
     /**
@@ -76,15 +77,15 @@ class Gridlines extends JsonConfig
      */
     public function count($count)
     {
-        if (is_int($count) === false && $count < 2 || $count != -1) {
+        if (is_int($count) === false || ($count < 2 && $count != -1)) {
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'int',
-                'with the value of the == -1 || >= 2'
+                'with the value >= 2 or -1 for auto.'
             );
         }
 
-        return $this->setIntOption(__FUNCTION__, $count);
+        return $this->setOption(__FUNCTION__, $count);
     }
 
     /**

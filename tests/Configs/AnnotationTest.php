@@ -8,6 +8,8 @@ use \Mockery as m;
 
 class AnnotationTest extends ProvidersTestCase
 {
+    public $Annotation;
+
     public function setUp()
     {
         parent::setUp();
@@ -58,10 +60,19 @@ class AnnotationTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error
+     * @dataProvider nonArrayProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function testTextStyleWithNonTextStyle()
+    public function testTextStyleWithBadParams($badVals)
     {
-        $this->Annotation->textStyle('This is not a TextStyle Object');
+        $this->Annotation->textStyle($badVals);
+    }
+
+    /**
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     */
+    public function testTextStyleWithBadArrayConfig()
+    {
+        $this->Annotation->textStyle(['NotAReal'=>'ConfigOption']);
     }
 }

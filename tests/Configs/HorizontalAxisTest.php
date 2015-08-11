@@ -56,14 +56,12 @@ class HorizontalAxisTest extends ProvidersTestCase
         $this->assertEquals('#F4D4E7', $ha->baselineColor);
         $this->assertEquals(1, $ha->direction);
         $this->assertEquals('999.99', $ha->format);
-        $this->assertEquals('#123ABC', $ha->gridlines['color']);
-        $this->assertEquals(4, $ha->gridlines['count']);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Gridline', $ha->gridlines);
         $this->assertTrue($ha->logScale);
         $this->assertEquals(2, $ha->maxAlternation);
         $this->assertEquals(3, $ha->maxTextLines);
         $this->assertEquals(5000, $ha->maxValue);
-        $this->assertEquals('#456EFF', $ha->minorGridlines['color']);
-        $this->assertEquals(7, $ha->minorGridlines['count']);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Gridline', $ha->minorGridlines);
         $this->assertEquals(2, $ha->minTextSpacing);
         $this->assertEquals(50, $ha->minValue);
         $this->assertEquals(3, $ha->showTextEvery);
@@ -147,8 +145,8 @@ class HorizontalAxisTest extends ProvidersTestCase
             'count' => 7
         ]);
 
-        $this->assertEquals('#123ABC', $this->ha->gridlines['color']);
-        $this->assertEquals(7, $this->ha->gridlines['count']);
+        $this->assertEquals('#123ABC', $this->ha->gridlines->color);
+        $this->assertEquals(7, $this->ha->gridlines->count);
     }
 
     public function testGridlinesWithAutoCount()

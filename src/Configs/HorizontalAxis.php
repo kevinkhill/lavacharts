@@ -53,7 +53,7 @@ class HorizontalAxis extends Axis
     public function __construct($config = [])
     {
         $options = new Options($this->defaults);
-        $options->merge($this->extDefaults);
+        $options->extend($this->extDefaults);
 
         parent::__construct($options, $config);
     }
