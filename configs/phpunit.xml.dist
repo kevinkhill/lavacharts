@@ -20,8 +20,8 @@
     <testsuite name="configs">
       <directory>../tests/Configs/</directory>
     </testsuite>
-    <testsuite name="dashboard">
-      <directory>../tests/Dashboard/</directory>
+    <testsuite name="dashboards">
+      <directory>../tests/Dashboards/</directory>
     </testsuite>
     <testsuite name="datatables">
       <directory>../tests/DataTables/</directory>

@@ -33,6 +33,15 @@ class ChartWrapperTest extends ProvidersTestCase
             ->getMock();
     }
 
+    public function testGetContainerId()
+    {
+        $areaChart = m::mock('\Khill\Lavacharts\Charts\AreaChart')->makePartial();
+
+        $chartWrapper = new ChartWrapper($areaChart, $this->mockElementId);
+
+        $this->assertEquals('TestId', $chartWrapper->getContainerId());
+    }
+
     public function testGetChart()
     {
         $areaChart = m::mock('\Khill\Lavacharts\Charts\AreaChart')->makePartial();
