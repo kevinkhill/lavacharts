@@ -59,7 +59,7 @@ class ControlWrapper extends Wrapper
         return [
             'controlType' => $this->filter->getType(),
             'containerId' => (string) $this->containerId,
-            'options'     => $this->filter->getOptions()
+            'options'     => $this->filter
         ];
     }
 }

@@ -113,7 +113,7 @@ class Filter implements \JsonSerializable
     }
 
     /**
-     * Returns the Filter type.
+     * Returns the Filter's options.
      *
      * @return \Khill\Lavacharts\Configs\Options
      */
