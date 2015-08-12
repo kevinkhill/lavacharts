@@ -58,7 +58,6 @@ class Axis extends JsonConfig
      * an object has been created.
      *
      * @param  array $config Associative array containing key => value pairs for the various configuration options.
-     * @throws InvalidConfigValue
      * @return \Khill\Lavacharts\Configs\Axis
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
@@ -398,10 +397,9 @@ class Axis extends JsonConfig
      */
     public function viewWindow($viewWindow)
     {
-        $minCheck = (array_key_exists('min', $viewWindow) && is_int($viewWindow['min']));
-        $maxCheck = (array_key_exists('max', $viewWindow) && is_int($viewWindow['max']));
-
-        if (is_array($viewWindow) === false || $minCheck === false || $maxCheck === false) {
+        if (is_array($viewWindow) === false ||
+            (array_key_exists('min', $viewWindow) && is_int($viewWindow['min'])) === false ||
+            (array_key_exists('max', $viewWindow) && is_int($viewWindow['max'])) === false) {
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'array',

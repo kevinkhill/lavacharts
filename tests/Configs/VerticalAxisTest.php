@@ -11,12 +11,14 @@ class VerticalAxisTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->va = new VerticalAxis([]);
+        $this->va = new VerticalAxis;
 
-        $this->mockTextStyle = $this->getMock(  //TODO no mocks!
-            '\Khill\Lavacharts\Configs\TextStyle',
-            ['__construct']
-        );
+        $this->textStyleOptions = [
+            'color'    => 'red',
+            'fontName' => 'Arial',
+            'fontSize' => 12,
+            'italic'   => true
+        ];
     }
 
     public function testConstructorValuesAssignment()
@@ -42,8 +44,8 @@ class VerticalAxisTest extends ProvidersTestCase
             'showTextEvery'  => 3,
             'textPosition'   => 'in',
             'title'          => 'Taco Graph',
-            'titleTextStyle' => $this->mockTextStyle,
-            'textStyle'      => $this->mockTextStyle,
+            'titleTextStyle' => $this->textStyleOptions,
+            'textStyle'      => $this->textStyleOptions,
             'viewWindow'     => [
                 'min' => 100,
                 'max' => 400
@@ -54,21 +56,19 @@ class VerticalAxisTest extends ProvidersTestCase
         $this->assertEquals('#F4D4E7', $va->baselineColor);
         $this->assertEquals(1, $va->direction);
         $this->assertEquals('999.99', $va->format);
-        $this->assertEquals('#123ABC', $va->gridlines['color']);
-        $this->assertEquals(4, $va->gridlines['count']);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Gridlines', $va->gridlines);
         $this->assertTrue($va->logScale);
         $this->assertEquals(2, $va->maxAlternation);
         $this->assertEquals(3, $va->maxTextLines);
         $this->assertEquals(5000, $va->maxValue);
-        $this->assertEquals('#456EFF', $va->minorGridlines['color']);
-        $this->assertEquals(7, $va->minorGridlines['count']);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Gridlines', $va->minorGridlines);
         $this->assertEquals(2, $va->minTextSpacing);
         $this->assertEquals(50, $va->minValue);
         $this->assertEquals(3, $va->showTextEvery);
         $this->assertEquals('in', $va->textPosition);
-        $this->assertTrue(is_array($va->textStyle));
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $va->textStyle);
         $this->assertEquals('Taco Graph', $va->title);
-        $this->assertTrue(is_array($va->titleTextStyle));
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $va->titleTextStyle);
         $this->assertEquals(100, $va->viewWindow['viewWindowMin']);
         $this->assertEquals(400, $va->viewWindow['viewWindowMax']);
         $this->assertEquals('explicit', $va->viewWindowMode);
@@ -130,8 +130,8 @@ class VerticalAxisTest extends ProvidersTestCase
             'count' => 7
         ]);
 
-        $this->assertEquals('#123ABC', $this->va->gridlines['color']);
-        $this->assertEquals(7, $this->va->gridlines['count']);
+        $this->assertEquals('#123ABC', $this->va->gridlines->color);
+        $this->assertEquals(7, $this->va->gridlines->count);
     }
 
     public function testGridlinesWithAutoCount()
@@ -140,11 +140,11 @@ class VerticalAxisTest extends ProvidersTestCase
             'color' => '#123ABC',
             'count' => -1
         ]);
-        $this->assertEquals(-1, $this->va->gridlines['count']);
+        $this->assertEquals(-1, $this->va->gridlines->count);
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testGridlinesWithBadKeys()
     {
@@ -227,11 +227,11 @@ class VerticalAxisTest extends ProvidersTestCase
             'color' => '#123ABC',
             'count' => -1
         ]);
-        $this->assertEquals(-1, $this->va->minorGridlines['count']);
+        $this->assertEquals(-1, $this->va->minorGridlines->count);
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testMinorGridlinesWithBadKeys()
     {
@@ -329,7 +329,7 @@ class VerticalAxisTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testTextStyleWithBadParams()
     {
@@ -346,7 +346,7 @@ class VerticalAxisTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testTitleTextStyleWithBadParams()
     {

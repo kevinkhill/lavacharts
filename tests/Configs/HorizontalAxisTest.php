@@ -56,12 +56,12 @@ class HorizontalAxisTest extends ProvidersTestCase
         $this->assertEquals('#F4D4E7', $ha->baselineColor);
         $this->assertEquals(1, $ha->direction);
         $this->assertEquals('999.99', $ha->format);
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Gridline', $ha->gridlines);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Gridlines', $ha->gridlines);
         $this->assertTrue($ha->logScale);
         $this->assertEquals(2, $ha->maxAlternation);
         $this->assertEquals(3, $ha->maxTextLines);
         $this->assertEquals(5000, $ha->maxValue);
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Gridline', $ha->minorGridlines);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Gridlines', $ha->minorGridlines);
         $this->assertEquals(2, $ha->minTextSpacing);
         $this->assertEquals(50, $ha->minValue);
         $this->assertEquals(3, $ha->showTextEvery);
@@ -155,11 +155,11 @@ class HorizontalAxisTest extends ProvidersTestCase
             'color' => '#123ABC',
             'count' => -1
         ]);
-        $this->assertEquals(-1, $this->ha->gridlines['count']);
+        $this->assertEquals(-1, $this->ha->gridlines->count);
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testGridlinesWithBadKeys()
     {
@@ -242,11 +242,11 @@ class HorizontalAxisTest extends ProvidersTestCase
             'color' => '#123ABC',
             'count' => -1
         ]);
-        $this->assertEquals(-1, $this->ha->minorGridlines['count']);
+        $this->assertEquals(-1, $this->ha->minorGridlines->count);
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testMinorGridlinesWithBadKeys()
     {
@@ -332,8 +332,8 @@ class HorizontalAxisTest extends ProvidersTestCase
     public function testSlantedText()
     {
         $this->ha->textPosition('out');
-
         $this->ha->slantedText(true);
+
         $this->assertTrue($this->ha->slantedText);
     }
 
@@ -344,8 +344,8 @@ class HorizontalAxisTest extends ProvidersTestCase
     public function testSlantedTextWithTextPositionNotOut()
     {
         $this->ha->textPosition('in');
-
         $this->ha->slantedText(true);
+
         $this->assertTrue($this->ha->slantedText);
     }
 
@@ -357,8 +357,8 @@ class HorizontalAxisTest extends ProvidersTestCase
     public function testSlantedTextWithBadParams($badParams)
     {
         $this->ha->textPosition('out');
-
         $this->ha->slantedText($badParams);
+
         $this->assertTrue($this->ha->slantedText);
     }
 

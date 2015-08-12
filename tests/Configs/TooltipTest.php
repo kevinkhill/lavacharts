@@ -3,31 +3,32 @@
 namespace Khill\Lavacharts\Tests\Configs;
 
 use \Khill\Lavacharts\Configs\Tooltip;
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
-class TooltipTest extends \PHPUnit_Framework_TestCase
+class TooltipTest extends ProvidersTestCase
 {
+    public $Tooltip;
+
     public function setUp()
     {
         parent::setUp();
 
-        $this->tt = new Tooltip();
-
-        $this->mockTextStyle = $this->getMock( //TODO no mocks!
-            '\Khill\Lavacharts\Configs\TextStyle',
-            ['__construct']
-        );
+        $this->Tooltip = new Tooltip();
     }
 
     public function testConstructorValuesAssignment()
     {
         $tooltip = new Tooltip([
             'showColorCode' => true,
-            'textStyle'     => $this->mockTextStyle,
-            'trigger'       => 'focus'
+            'textStyle'     => [
+                'fontSize' => 12,
+                'bold' => true
+            ],
+            'trigger' => 'focus'
         ]);
 
         $this->assertTrue($tooltip->showColorCode);
-        $this->assertTrue(is_array($tooltip->textStyle));
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\TextStyle', $tooltip->textStyle);
         $this->assertEquals('focus', $tooltip->trigger);
     }
 
@@ -36,46 +37,41 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        new Tooltip(['Fruits' => []]);
+        new Tooltip(['Fruits' => 3]);
     }
 
     /**
+     * @dataProvider nonBoolProvider
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @dataProvider badParamsProvider
      */
     public function testShowColorCodeWithBadParams($badVals)
     {
-        $this->tt->showColorCode($badVals);
+        $this->Tooltip->showColorCode($badVals);
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error
-     * @dataProvider badParamsProvider
+     * @dataProvider nonArrayProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testTextStyleWithBadParams($badVals)
     {
-        $this->tt->textStyle($badVals);
+        $this->Tooltip->textStyle($badVals);
     }
 
     /**
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @dataProvider badParamsProvider
+     */
+    public function testTriggerWithInvalidOption()
+    {
+        $this->Tooltip->trigger('Apples');
+    }
+
+    /**
+     * @dataProvider nonStringProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testTriggerWithBadParams($badVals)
     {
-        $this->tt->trigger($badVals);
-    }
-
-
-    public function badParamsProvider()
-    {
-        return [
-            ['stringy'],
-            [123],
-            [123.456],
-            [[]],
-            [new \stdClass()],
-            [null]
-        ];
+        $this->Tooltip->trigger($badVals);
     }
 }

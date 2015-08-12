@@ -20,6 +20,13 @@ namespace Khill\Lavacharts\Configs;
 class VerticalAxis extends Axis
 {
     /**
+     * Type of JsonConfig object
+     *
+     * @var string
+     */
+    const TYPE = 'VerticalAxis';
+
+    /**
      * Stores all the information about the vertical axis. All options can be
      * set either by passing an array with associative values for option =>
      * value, or by chaining together the functions once an object has been

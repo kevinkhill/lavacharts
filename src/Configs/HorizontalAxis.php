@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Configs;
 
 use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * Horizontal Axis ConfigObject
@@ -100,7 +101,7 @@ class HorizontalAxis extends Axis
             );
         }
 
-        return $this;
+        return $this->setBoolOption(__FUNCTION__, $slant);
     }
 
     /**

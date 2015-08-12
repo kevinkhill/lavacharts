@@ -96,14 +96,6 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider configObjectProvider
-     */
-    public function testCreateConfigObjectsViaAlias($configType)
-    {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Configs\\'.$configType, $this->lava->$configType());
-    }
-
-    /**
      * @dataProvider eventObjectProvider
      */
     public function testCreateEventObjectsViaAliasWithCallback($eventType)
@@ -135,16 +127,6 @@ class LavachartsTest extends ProvidersTestCase
     public function testCreateFormatObjectsViaAlias($formatType)
     {
         $this->assertInstanceOf('\\Khill\\Lavacharts\\DataTables\\Formats\\'.$formatType, $this->lava->$formatType());
-    }
-
-    public function testCreateConfigObjectViaAliasWithParam()
-    {
-        $params = [
-            'fontSize' => 4,
-            'fontName' => 'Arial'
-        ];
-
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Configs\TextStyle', $this->lava->TextStyle($params));
     }
 
     /**
@@ -240,7 +222,6 @@ class LavachartsTest extends ProvidersTestCase
 
     /**
      * @depends testCreateDataTableViaAlias
-     * @depends testCreateConfigObjectViaAliasWithParam
      */
     public function testCreateFormatObjectViaAliasWithConsructorConfig()
     {

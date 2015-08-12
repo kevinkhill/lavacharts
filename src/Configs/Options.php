@@ -140,7 +140,7 @@ class Options
     public function set($option, $value)
     {
         if ($this->hasOption($option) === false) {
-            throw new InvalidOption($option);
+            throw new InvalidOption($option, $this->defaults);
         }
 
         $this->values[$option] = $value;
@@ -158,7 +158,7 @@ class Options
     public function get($option)
     {
         if ($this->hasValue($option) === false) {
-            throw new InvalidOption($option);
+            throw new InvalidOption($option, $this->defaults);
         }
 
         return $this->values[$option];

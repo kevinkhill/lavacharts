@@ -68,33 +68,6 @@ class Lavacharts
     ];
 
     /**
-     * Holds all of the defined configuration class names.
-     *
-     * @var array
-     */
-    private $configClasses = [
-        'Animation',
-        'Annotation',
-        'BackgroundColor',
-        'BoxStyle',
-        'ChartArea',
-        'Color',
-        'ColorAxis',
-        'Crosshair',
-        'Gradient',
-        'HorizontalAxis',
-        'Legend',
-        'MagnifyingGlass',
-        'Series',
-        'SizeAxis',
-        'Slice',
-        'Stroke',
-        'TextStyle',
-        'Tooltip',
-        'VerticalAxis'
-    ];
-
-    /**
      * Types of column formatters.
      *
      * @var array
@@ -184,12 +157,7 @@ class Lavacharts
             $lavaClass = $this->chartFactory($method, $arguments);
         }
 
-        //ConfigObjects
-        if (in_array($method, $this->configClasses)) {
-            $lavaClass = $this->configFactory($method, $arguments);
-        }
-
-        //Formatters
+        //Formats
         if (in_array($method, $this->formatClasses)) {
             $lavaClass = $this->formatFactory($method, $arguments);
         }
