@@ -31,7 +31,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Chart
+class Chart implements \JsonSerializable
 {
     /**
      * The chart's unique label.
@@ -196,6 +196,16 @@ class Chart
     public function getType()
     {
         return static::TYPE;
+    }
+
+    /**
+     * TODO: this is a shim!!!
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->options;
     }
 
     /**

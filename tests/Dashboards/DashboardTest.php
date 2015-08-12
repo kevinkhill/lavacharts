@@ -123,4 +123,39 @@ class DashboardTest extends ProvidersTestCase
         $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\ControlWrapper', $bindings[0]->getControlWrappers()[0]);
         $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\ChartWrapper', $bindings[0]->getChartWrappers()[0]);
     }
+    /**
+     * @depends testGetBindings
+     * @depends testBindWithOneToMany
+     */
+    public function testGetBoundChartsWithOneToMany()
+    {
+        $mockElementId = m::mock('\Khill\Lavacharts\Values\ElementId', ['TestId'])->makePartial();
+
+        $mockLineChartWrapper = m::mock('\Khill\Lavacharts\Dashboards\ChartWrapper', [
+            m::mock('\Khill\Lavacharts\Charts\LineChart')->makePartial(),
+            $mockElementId
+        ])->makePartial();
+            //->shouldReceive('unwrap')
+            //->once()->getMock();
+            //->andReturn();
+
+        $mockAreaChartWrapper = m::mock('\Khill\Lavacharts\Dashboards\ChartWrapper', [
+            m::mock('\Khill\Lavacharts\Charts\AreaChart')->makePartial(),
+            $mockElementId
+        ])->makePartial();
+            //->shouldReceive('unwrap')
+            //->once()->getMock();
+            //->andReturn();
+
+        $this->Dashboard->bind(
+            $this->mockControlWrapper,
+            [$mockLineChartWrapper, $mockAreaChartWrapper]
+        );
+
+        $charts = $this->Dashboard->getBoundCharts();
+
+        $this->assertTrue(is_array($charts));
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $charts['LineChart']);
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\AreaChart', $charts['AreaChart']);
+    }
 }

@@ -7,7 +7,7 @@ use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Dashboards\Dashboard;
 
 /**
- * DashboardGenerator Class
+ * DashboardFactory Class
  *
  * This class takes Chart and Control Wrappers and uses all of the info to build the complete
  * javascript blocks for outputting into the page.
@@ -33,12 +33,11 @@ class DashboardFactory extends JavascriptFactory
 
 
     /**
-     * Creates a new ChartFactory with the javascript template.
+     * Creates a new DashboardFactory with the javascript template.
      *
      * @access public
-     * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to process
-     * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to output into.
-     * @return self
+     * @param \Khill\Lavacharts\Dashboards\Dashboard $dashboard
+     * @param  \Khill\Lavacharts\Values\ElementId    $elementId HTML element id to output into.
      */
     public function __construct(Dashboard $dashboard, ElementId $elementId)
     {
@@ -52,7 +51,6 @@ class DashboardFactory extends JavascriptFactory
      * Builds the Javascript code block for a Dashboard
      *
      * @access private
-     * @param  \Khill\Lavacharts\Dashboards\Dashboard $dashboard
      * @return string Javascript code block.
      */
     private function getTemplateVars()

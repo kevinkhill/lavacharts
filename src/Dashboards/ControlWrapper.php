@@ -29,37 +29,15 @@ class ControlWrapper extends Wrapper
     const VIZ_CLASS = 'google.visualization.ControlWrapper';
 
     /**
-     * Filter used in the Control.
-     *
-     * @var \Khill\Lavacharts\Dashboards\Filters\Filter
-     */
-    private $filter;
-
-    /**
      * Builds a ControlWrapper object.
      *
      * @param  \Khill\Lavacharts\Dashboards\Filters\Filter $filter
-     * @param  \Khill\Lavacharts\Values\ElementId $containerId
-     * @return self
+     * @param  \Khill\Lavacharts\Values\ElementId          $containerId
      */
     public function __construct(Filter $filter, ElementId $containerId)
     {
         parent::__construct($containerId);
 
-        $this->filter = $filter;
-    }
-
-    /**
-     * Custom serialization of the ControlWrapper.
-     *
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        return [
-            'controlType' => $this->filter->getType(),
-            'containerId' => (string) $this->containerId,
-            'options'     => $this->filter
-        ];
+        $this->wrappedObject = $filter;
     }
 }

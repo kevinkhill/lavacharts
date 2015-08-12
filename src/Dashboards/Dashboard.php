@@ -84,7 +84,7 @@ class Dashboard implements \JsonSerializable
     }
 
     /**
-     * Fetch the dashboard's bindings.
+     * Fetch the dashboard's bound charts from the wrappers.
      *
      * @return array
      */
@@ -94,7 +94,7 @@ class Dashboard implements \JsonSerializable
 
         foreach ($this->bindings as $binding) {
             foreach ($binding->getChartWrappers() as $chartWrapper) {
-                $chart = $chartWrapper->getChart();
+                $chart = $chartWrapper->unwrap();
 
                 $charts[$chart::TYPE] = $chart;
             }
@@ -118,7 +118,7 @@ class Dashboard implements \JsonSerializable
      *
      * Returns the JSON serialization of the bindings
      *
-     * @return string JSON rep
+     * @return string JSON
      */
     public function jsonSerialize()
     {
