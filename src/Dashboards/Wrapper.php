@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Dashboards;
 
+use \Khill\Lavacharts\Charts\Chart;
+use \Khill\Lavacharts\Dashboards\Filters\Filter;
 use \Khill\Lavacharts\Values\ElementId;
 
 /**
@@ -72,8 +74,16 @@ class Wrapper implements \JsonSerializable
      */
     public function jsonSerialize()
     {
+        if ($this->wrappedObject instanceof Chart) {
+            $type = 'chartType';
+        }
+
+        if ($this->wrappedObject instanceof Filter) {
+            $type = 'controlType';
+        }
+
         return [
-            'chartType'   => $this->wrappedObject->getType(),
+            $type         => $this->wrappedObject->getType(),
             'containerId' => (string) $this->containerId,
             'options'     => $this->wrappedObject
         ];
