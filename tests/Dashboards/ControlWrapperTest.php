@@ -9,17 +9,21 @@ use \Mockery as m;
 class ControlWrapperTest extends ProvidersTestCase
 {
     public $ControlWrapper;
+    public $mockElementId;
+    public $jsonOutput;
 
     public function setUp()
     {
         parent::setUp();
 
-        $mockElementId    = m::mock('\Khill\Lavacharts\Values\ElementId', ['TestId'])->makePartial();
+        $this->mockElementId = m::mock('\Khill\Lavacharts\Values\ElementId', ['TestId'])->makePartial();
+        $this->jsonOutput = '{"controlType":"NumberRangeFilter","containerId":"TestId","options":{"Option1":5,"Option2":true}}';
+
         $mockNumberFilter = m::mock('\Khill\Lavacharts\Dashboards\Filters\NumberRange')
             ->shouldReceive('getType')
             ->once()
             ->andReturn('NumberRangeFilter')
-            ->shouldReceive('getOptions')
+            ->shouldReceive('jsonSerialize')
             ->once()
             ->andReturn([
                 'Option1' => 5,
@@ -27,20 +31,17 @@ class ControlWrapperTest extends ProvidersTestCase
             ])
             ->getMock();
 
-        $this->ControlWrapper = new ControlWrapper($mockNumberFilter, $mockElementId);
+        $this->ControlWrapper = new ControlWrapper($mockNumberFilter, $this->mockElementId);
     }
 
-    public function testJsonSerialization()
+    public function testJsonSerializationOutput()
     {
-        $json = '{"controlType":"NumberRangeFilter","containerId":"TestId","options":{"Option1":5,"Option2":true}}';
-
-        $this->assertEquals($json, json_encode($this->ControlWrapper));
+        $this->assertEquals($this->jsonOutput, json_encode($this->ControlWrapper));
     }
 
-    public function testToJavascript()
+    public function testToJavascriptOutput()
     {
-        $json = '{"controlType":"NumberRangeFilter","containerId":"TestId","options":{"Option1":5,"Option2":true}}';
-        $javascript = "new google.visualization.ControlWrapper($json)";
+        $javascript = 'new google.visualization.ControlWrapper('.$this->jsonOutput.')';
 
         $this->assertEquals($javascript, $this->ControlWrapper->toJavascript());
     }

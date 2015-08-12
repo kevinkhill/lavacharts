@@ -10,12 +10,14 @@ class ChartWrapperTest extends ProvidersTestCase
 {
     public $ChartWrapper;
     public $mockElementId;
+    public $jsonOutput;
 
     public function setUp()
     {
         parent::setUp();
 
         $this->mockElementId = m::mock('\Khill\Lavacharts\Values\ElementId', ['TestId'])->makePartial();
+        $this->jsonOutput = '{"chartType":"LineChart","containerId":"TestId","options":{"Option1":5,"Option2":true}}';
     }
 
     public function getMockLineChart()
@@ -33,6 +35,9 @@ class ChartWrapperTest extends ProvidersTestCase
             ->getMock();
     }
 
+    /**
+     * @covers \Khill\Lavacharts\Dashboards\Wrapper::getContainerId
+     */
     public function testGetContainerId()
     {
         $areaChart = m::mock('\Khill\Lavacharts\Charts\AreaChart')->makePartial();
@@ -55,17 +60,14 @@ class ChartWrapperTest extends ProvidersTestCase
     {
         $this->ChartWrapper = new ChartWrapper($this->getMockLineChart(), $this->mockElementId);
 
-        $json = '{"chartType":"LineChart","containerId":"TestId","options":{"Option1":5,"Option2":true}}';
-
-        $this->assertEquals($json, json_encode($this->ChartWrapper));
+        $this->assertEquals($this->jsonOutput, json_encode($this->ChartWrapper));
     }
 
     public function testToJavascript()
     {
         $this->ChartWrapper = new ChartWrapper($this->getMockLineChart(), $this->mockElementId);
 
-        $json = '{"chartType":"LineChart","containerId":"TestId","options":{"Option1":5,"Option2":true}}';
-        $javascript = "new google.visualization.ChartWrapper($json)";
+        $javascript = 'new google.visualization.ChartWrapper('.$this->jsonOutput.')';
 
         $this->assertEquals($javascript, $this->ChartWrapper->toJavascript());
     }
