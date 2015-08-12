@@ -7,6 +7,21 @@ use \Khill\Lavacharts\Configs\Options;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
+/**
+ * JsonConfig Object
+ *
+ * The parent object for all config objects. Adds JsonSerializable and methods for setting options.
+ *
+ *
+ * @package    Lavacharts
+ * @subpackage Configs
+ * @since      3.0.0
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2015, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
+ * @license    http://opensource.org/licenses/MIT MIT
+ */
 class JsonConfig implements \JsonSerializable
 {
     /**
@@ -63,7 +78,7 @@ class JsonConfig implements \JsonSerializable
                     $this->options->getDefaults()
                 );
             }
-//var_dump($option, $value);
+
             call_user_func([$this, $option], $value);
         }
     }
