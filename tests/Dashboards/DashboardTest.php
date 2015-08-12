@@ -3,23 +3,24 @@
 namespace Khill\Lavacharts\Tests\Dashboards;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Values\ElementId;
+use \Khill\Lavacharts\Dashboards\Dashboard;
+use \Mockery as m;
 
 class DashboardTest extends ProvidersTestCase
 {
-    public function testElementIdWithString()
-    {
-        $elementId = new ElementId('chart');
+    public $Dashboard;
 
-        $this->assertEquals('chart', (string) $elementId);
+    public function setUp()
+    {
+        parent::setUp();
+
+        $mockLabel = m::mock('\Khill\Lavacharts\Values\Label', ['myDash'])->makePartial();
+
+        $this->Dashboard = new Dashboard($mockLabel);
     }
 
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidElementId
-     */
-    public function testElementIdWithBadTypes($badTypes)
+    public function testGetLabel()
     {
-        new ElementId($badTypes);
+        $this->assertEquals('myDash', (string) $this->Dashboard->getLabel());
     }
 }

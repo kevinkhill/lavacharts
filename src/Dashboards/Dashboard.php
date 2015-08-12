@@ -45,8 +45,7 @@ class Dashboard implements \JsonSerializable
     /**
      * Builds a new Dashboard with identifying label.
      *
-     * @param  string $label
-     * @return self
+     * @param \Khill\Lavacharts\Values\Label $label
      */
     public function __construct(Label $label)
     {
@@ -107,7 +106,6 @@ class Dashboard implements \JsonSerializable
     /**
      * Returns the dashboard label.
      *
-     * @since  3.0.0
      * @return \Khill\Lavacharts\Values\Label
      */
     public function getLabel()
@@ -126,13 +124,13 @@ class Dashboard implements \JsonSerializable
     }
 
     /**
-     * Add array of bindings.
+     * Batch add an array of bindings.
      *
-     * bind will use this method if there are OneToMany or ManyToOne bindings
+     * This method can set all bindings at once instead of chaining multiple bind methods.
      *
      * @param array $bindings
      */
-    private function addArrayOfBindings($bindings)
+    public function setBindings($bindings)
     {
         foreach ($bindings as $binding) {
             $this->bind($binding[0], $binding[1]);
