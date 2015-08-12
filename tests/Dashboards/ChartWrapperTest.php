@@ -26,7 +26,7 @@ class ChartWrapperTest extends ProvidersTestCase
             ->shouldReceive('getType')
             ->once()
             ->andReturn('LineChart')
-            ->shouldReceive('getOptions')
+            ->shouldReceive('jsonSerialize')
             ->once()
             ->andReturn([
                 'Option1' => 5,
@@ -53,7 +53,7 @@ class ChartWrapperTest extends ProvidersTestCase
 
         $chartWrapper = new ChartWrapper($areaChart, $this->mockElementId);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\AreaChart', $chartWrapper->getChart());
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\AreaChart', $chartWrapper->unwrap());
     }
 
     public function testJsonSerialization()

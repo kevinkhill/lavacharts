@@ -41,6 +41,19 @@ class DashboardTest extends ProvidersTestCase
     }
 
     /**
+     * 
+     * @covers \Khill\Lavacharts\Dashboards\Bindings\BindingFactory::create
+     */
+    public function testBindingFactoryWithBadTypes()
+    {
+        $this->Dashboard->bind($this->mockControlWrapper, $this->mockChartWrapper);
+
+        $bindings = $this->Dashboard->getBindings();
+
+        $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Bindings\OneToOne', $bindings[0]);
+    }
+
+    /**
      * @depends testGetBindings
      * @covers \Khill\Lavacharts\Dashboards\Dashboard::getBindings
      * @covers \Khill\Lavacharts\Dashboards\Bindings\OneToOne
@@ -126,6 +139,7 @@ class DashboardTest extends ProvidersTestCase
     /**
      * @depends testGetBindings
      * @depends testBindWithOneToMany
+     * @covers \Khill\Lavacharts\Dashboards\Dashboard::getBoundCharts
      */
     public function testGetBoundChartsWithOneToMany()
     {
@@ -157,5 +171,23 @@ class DashboardTest extends ProvidersTestCase
         $this->assertTrue(is_array($charts));
         $this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $charts['LineChart']);
         $this->assertInstanceOf('\Khill\Lavacharts\Charts\AreaChart', $charts['AreaChart']);
+    }
+
+    /**
+     * @depends testGetBindings
+     * @depends testBindWithOneToOne
+     * @covers \Khill\Lavacharts\Dashboards\Dashboard::setBindings
+     */
+    public function testSetBindingsWithMultipleOneToOne()
+    {
+        $this->Dashboard->setBindings([
+           [$this->mockControlWrapper, $this->mockChartWrapper],
+           [$this->mockControlWrapper, $this->mockChartWrapper]
+        ]);
+
+        $bindings = $this->Dashboard->getBindings();
+
+        $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Bindings\OneToOne', $bindings[0]);
+        $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Bindings\OneToOne', $bindings[1]);
     }
 }
