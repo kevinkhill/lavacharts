@@ -8,13 +8,17 @@ use \Mockery as m;
 
 class ControlWrapperTest extends ProvidersTestCase
 {
-    public function testJsonSerialization()
+    public $ControlWrapper;
+
+    public function setUp()
     {
+        parent::setUp();
+
         $mockElementId    = m::mock('\Khill\Lavacharts\Values\ElementId', ['TestId'])->makePartial();
         $mockNumberFilter = m::mock('\Khill\Lavacharts\Dashboards\Filters\NumberRange')
             ->shouldReceive('getType')
             ->once()
-            ->andReturn('LineChart')
+            ->andReturn('NumberRangeFilter')
             ->shouldReceive('getOptions')
             ->once()
             ->andReturn([
@@ -23,8 +27,21 @@ class ControlWrapperTest extends ProvidersTestCase
             ])
             ->getMock();
 
-        $chartWrapper = new ControlWrapper($mockNumberFilter, $mockElementId);
+        $this->ChartWrapper = new ControlWrapper($mockNumberFilter, $mockElementId);
+    }
 
-        $this->assertEquals('{"controlType":"LineChart","containerId":"TestId","options":{"Option1":5,"Option2":true}}', json_encode($chartWrapper));
+    public function testJsonSerialization()
+    {
+        $json = '{"controlType":"NumberRangeFilter","containerId":"TestId","options":{"Option1":5,"Option2":true}}';
+
+        $this->assertEquals($json, json_encode($this->ControlWrapper));
+    }
+
+    public function testToJavascript()
+    {
+        $json = '{"controlType":"NumberRangeFilter","containerId":"TestId","options":{"Option1":5,"Option2":true}}';
+        $javascript = "new google.visualization.ControlWrapper($json)";
+
+        $this->assertEquals($javascript, $this->ControlWrapper->toJavascript());
     }
 }
