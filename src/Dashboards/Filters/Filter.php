@@ -81,23 +81,6 @@ class Filter implements \JsonSerializable
         }
     }
 
-    public function parseConfig($config)
-    {
-        foreach ($config as $option => $value) {
-            if ($this->options->hasOption($option) === false) {
-                throw new InvalidConfigProperty(
-                    static::TYPE,
-                    __FUNCTION__,
-                    $option,
-                    $this->options->toArray()
-                );
-            }
-
-            call_user_func([$this, $option], $value);
-        }
-    }
-
-
     /**
      * Allows for access to options as properties of the Filter.
      *
@@ -117,6 +100,37 @@ class Filter implements \JsonSerializable
         }
 
         return $this->options->get($option);
+    }
+
+    /**
+     * Returns the Filter type.
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return static::TYPE;
+    }
+
+    /**
+     * TODO: it might be possible to make a master class for JsonSerializing and Options for filters, configs, charts
+     * @param $config
+     * @throws InvalidConfigProperty
+     */
+    public function parseConfig($config)
+    {
+        foreach ($config as $option => $value) {
+            if ($this->options->hasOption($option) === false) {
+                throw new InvalidConfigProperty(
+                    static::TYPE,
+                    __FUNCTION__,
+                    $option,
+                    $this->options->toArray()
+                );
+            }
+
+            call_user_func([$this, $option], $value);
+        }
     }
 
     /**
@@ -178,8 +192,6 @@ class Filter implements \JsonSerializable
         $uiClass .= str_replace('Filter', 'UI', static::TYPE);
 
         $ui = new $uiClass($config);
-
-        var_dump($ui);
 
         return $this->setOption(__FUNCTION__, $ui);
     }

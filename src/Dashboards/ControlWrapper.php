@@ -29,18 +29,11 @@ class ControlWrapper extends Wrapper
     const VIZ_CLASS = 'google.visualization.ControlWrapper';
 
     /**
-     * Array of options for the Control.
-     *
-     * @var array
-     */
-    private $options;
-
-    /**
      * Filter used in the Control.
      *
      * @var \Khill\Lavacharts\Dashboards\Filters\Filter
      */
-    private $controlType;
+    private $filter;
 
     /**
      * Builds a ControlWrapper object.
@@ -53,8 +46,7 @@ class ControlWrapper extends Wrapper
     {
         parent::__construct($containerId);
 
-        $this->type        = $filter::TYPE;
-        $this->controlType = $filter;
+        $this->filter = $filter;
     }
 
     /**
@@ -65,9 +57,9 @@ class ControlWrapper extends Wrapper
     public function jsonSerialize()
     {
         return [
-            'controlType' => $this->type,
+            'controlType' => $this->filter->getType(),
             'containerId' => (string) $this->containerId,
-            'options' => $this->controlType
+            'options' => $this->filter->getOptions()
         ];
     }
 }
