@@ -30,7 +30,6 @@ class ManyToMany extends Binding
      *
      * @param  array $chartWrappers
      * @param  array $controlWrappers
-     * @return self
      */
     public function __construct($controlWrappers, $chartWrappers)
     {

@@ -19,25 +19,24 @@ namespace Khill\Lavacharts\Dashboards\Bindings;
 class Binding
 {
     /**
-     * ControlWrappers to bind to ChartWrappers.
+     * Array of ControlWrappers.
      *
      * @var array
      */
     protected $controlWrappers;
 
     /**
-     * ChartWrappers with to bound ControlWrappers.
+     * Array of ChartWrappers.
      *
      * @var array
      */
     protected $chartWrappers;
 
     /**
-     * Creates the new Binding.
+     * Assigns the wrappers and creates the new Binding.
      *
-     * @param  array $chartWrappers
-     * @param  array $controlWrappers
-     * @return self
+     * @param array $chartWrappers
+     * @param array $controlWrappers
      */
     public function __construct($controlWrappers, $chartWrappers)
     {
@@ -48,7 +47,7 @@ class Binding
     /**
      * Get the ChartWrappers
      *
-     * @return mixed
+     * @return array
      */
     public function getChartWrappers()
     {
@@ -58,7 +57,7 @@ class Binding
     /**
      * Get the ControlWrappers
      *
-     * @return mixed
+     * @return array
      */
     public function getControlWrappers()
     {

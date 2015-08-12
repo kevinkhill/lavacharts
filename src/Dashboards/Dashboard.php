@@ -61,9 +61,9 @@ class Dashboard implements \JsonSerializable
      * - If an array of ControlWrappers is passed with one ChartWrapper, then
      *   a ManyToOne binding is created.
      *
-     * @uses \Khill\Lavacharts\Dashboard\Bindings\BindingFactory
-     * @param  mixed $controlWraps
-     * @param  mixed $chartWraps
+     * @uses  \Khill\Lavacharts\Dashboard\Bindings\BindingFactory
+     * @param \Khill\Lavacharts\Dashboards\ControlWrapper|array $controlWraps
+     * @param \Khill\Lavacharts\Dashboards\ChartWrapper|array $chartWraps
      * @return self
      */
     public function bind($controlWraps, $chartWraps)
@@ -116,7 +116,9 @@ class Dashboard implements \JsonSerializable
     /**
      * Custom JSON serialization of the Dashboard.
      *
-     * @return string JSON
+     * Returns the JSON serialization of the bindings
+     *
+     * @return string JSON rep
      */
     public function jsonSerialize()
     {

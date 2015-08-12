@@ -113,6 +113,16 @@ class Filter implements \JsonSerializable
     }
 
     /**
+     * Returns the Filter type.
+     *
+     * @return \Khill\Lavacharts\Configs\Options
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
      * TODO: it might be possible to make a master class for JsonSerializing and Options for filters, configs, charts
      * @param $config
      * @throws InvalidConfigProperty
@@ -147,9 +157,8 @@ class Filter implements \JsonSerializable
     {
         if (is_int($columnIndex) === false) {
             throw new InvalidConfigValue(
-                get_class(),
-                __FUNCTION__,
-                'integer'
+                static::TYPE . '->' . __FUNCTION__,
+                'int'
             );
         }
 
@@ -170,8 +179,7 @@ class Filter implements \JsonSerializable
     {
         if (Utils::nonEmptyString($columnLabel) === false) {
             throw new InvalidConfigValue(
-                get_class(),
-                __FUNCTION__,
+                static::TYPE . '->' . __FUNCTION__,
                 'string'
             );
         }
@@ -182,18 +190,27 @@ class Filter implements \JsonSerializable
     /**
      * Assigns custom attributes to the controls that the filter is attached to.
      *
-     * @param  \Khill\Lavacharts\Configs\UIs\UI $ui
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
+     * @param  array $uiConfig Array of options for configuring the UI
+     * @return \Khill\Lavacharts\Dashboards\Filters\Filter
      */
-    public function ui($config)
+    public function ui($uiConfig)
     {
         $uiClass  = '\\Khill\\Lavacharts\\Configs\\UIs\\';
         $uiClass .= str_replace('Filter', 'UI', static::TYPE);
 
-        $ui = new $uiClass($config);
+        $ui = new $uiClass($uiConfig);
 
         return $this->setOption(__FUNCTION__, $ui);
+    }
+
+    /**
+     * Custom serialization of the Filter object.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->options->getValues();
     }
 
     /**
@@ -210,15 +227,5 @@ class Filter implements \JsonSerializable
         $this->options->set($option, $value);
 
         return $this;
-    }
-
-    /**
-     * Custom serialization of the Filter object.
-     *
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        return $this->options->getValues();
     }
 }
