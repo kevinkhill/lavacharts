@@ -102,7 +102,7 @@ class Chart
         $this->label     = $chartLabel;
         $this->datatable = $datatable;
     }
-/* @TODO: see if child charts can have defaults as properties and the parent constructor merge them.
+/* @TODO: convert to use options object
     public function mergeDefaultOptions($childDefaults)
     {
         $this->defaults = array_merge($childDefaults, $this->defaults);
@@ -185,6 +185,17 @@ class Chart
         }
 
         return $this->options[$option];
+    }
+
+    /**
+     * Returns the chart type.
+     *
+     * @since 3.0.0
+     * @return string
+     */
+    public function getType()
+    {
+        return static::TYPE;
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\Values;
+namespace Khill\Lavacharts\Tests\Dashboards;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Values\ElementId;
@@ -20,6 +20,6 @@ class DashboardTest extends ProvidersTestCase
      */
     public function testElementIdWithBadTypes($badTypes)
     {
-        $elementId = new ElementId($badTypes);
+        new ElementId($badTypes);
     }
 }

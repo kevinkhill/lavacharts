@@ -1,25 +1,30 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\Values;
+namespace Khill\Lavacharts\Tests\Dashboards;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Values\ElementId;
+use \Khill\Lavacharts\Dashboards\ChartWrapper;
+use \Mockery as m;
 
-class DashboardTest extends ProvidersTestCase
+class ChartWrapperTest extends ProvidersTestCase
 {
-    public function testElementIdWithString()
+    public function testJsonSerialization()
     {
-        $elementId = new ElementId('chart');
+        $mockElementId = m::mock('\Khill\Lavacharts\Values\ElementId', ['TestId'])->makePartial();
+        $mockLineChart = m::mock('\Khill\Lavacharts\Charts\LineChart')
+            ->shouldReceive('getType')
+            ->once()
+            ->andReturn('LineChart')
+            ->shouldReceive('getOptions')
+            ->once()
+            ->andReturn([
+                'Option1' => 5,
+                'Option2' => true
+            ])
+            ->getMock();
 
-        $this->assertEquals('chart', (string) $elementId);
-    }
+        $chartWrapper = new ChartWrapper($mockLineChart, $mockElementId);
 
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidElementId
-     */
-    public function testElementIdWithBadTypes($badTypes)
-    {
-        $elementId = new ElementId($badTypes);
+        $this->assertEquals('{"chartType":"LineChart","containerId":"TestId","options":{"Option1":5,"Option2":true}}', json_encode($chartWrapper));
     }
 }

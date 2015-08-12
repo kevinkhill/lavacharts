@@ -47,7 +47,6 @@ class ChartWrapper extends Wrapper
         parent::__construct($containerId);
 
         $this->chart = $chart;
-        $this->type  = $chart::TYPE;
     }
 
     /**
@@ -68,7 +67,7 @@ class ChartWrapper extends Wrapper
     public function jsonSerialize()
     {
         return [
-            'chartType'   => $this->type,
+            'chartType'   => $this->chart->getType(),
             'containerId' => (string) $this->containerId,
             'options'     => $this->chart->getOptions()
         ];
