@@ -27,7 +27,7 @@ class ControlWrapperTest extends ProvidersTestCase
             ])
             ->getMock();
 
-        $this->ChartWrapper = new ControlWrapper($mockNumberFilter, $mockElementId);
+        $this->ControlWrapper = new ControlWrapper($mockNumberFilter, $mockElementId);
     }
 
     public function testJsonSerialization()
