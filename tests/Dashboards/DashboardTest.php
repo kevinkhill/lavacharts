@@ -41,20 +41,19 @@ class DashboardTest extends ProvidersTestCase
     }
 
     /**
-     * 
      * @covers \Khill\Lavacharts\Dashboards\Bindings\BindingFactory::create
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidBindings
      */
     public function testBindingFactoryWithBadTypes()
     {
-        $this->Dashboard->bind($this->mockControlWrapper, $this->mockChartWrapper);
-
-        $bindings = $this->Dashboard->getBindings();
-
-        $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Bindings\OneToOne', $bindings[0]);
+        $this->Dashboard->bind(612345, 'tacos');
+        $this->Dashboard->bind(61.345, []);
+        $this->Dashboard->bind([], false);
     }
 
     /**
      * @depends testGetBindings
+     * @covers \Khill\Lavacharts\Dashboards\Dashboard::bind
      * @covers \Khill\Lavacharts\Dashboards\Dashboard::getBindings
      * @covers \Khill\Lavacharts\Dashboards\Bindings\OneToOne
      * @covers \Khill\Lavacharts\Dashboards\Bindings\BindingFactory::create
@@ -70,6 +69,7 @@ class DashboardTest extends ProvidersTestCase
 
     /**
      * @depends testGetBindings
+     * @covers \Khill\Lavacharts\Dashboards\Dashboard::bind
      * @covers \Khill\Lavacharts\Dashboards\Dashboard::getBindings
      * @covers \Khill\Lavacharts\Dashboards\Bindings\OneToMany
      * @covers \Khill\Lavacharts\Dashboards\Bindings\BindingFactory::create
@@ -88,6 +88,7 @@ class DashboardTest extends ProvidersTestCase
 
     /**
      * @depends testGetBindings
+     * @covers \Khill\Lavacharts\Dashboards\Dashboard::bind
      * @covers \Khill\Lavacharts\Dashboards\Dashboard::getBindings
      * @covers \Khill\Lavacharts\Dashboards\Bindings\ManyToOne
      * @covers \Khill\Lavacharts\Dashboards\Bindings\BindingFactory::create
@@ -106,6 +107,7 @@ class DashboardTest extends ProvidersTestCase
 
     /**
      * @depends testGetBindings
+     * @covers \Khill\Lavacharts\Dashboards\Dashboard::bind
      * @covers \Khill\Lavacharts\Dashboards\Dashboard::getBindings
      * @covers \Khill\Lavacharts\Dashboards\Bindings\ManyToMany
      * @covers \Khill\Lavacharts\Dashboards\Bindings\BindingFactory::create
@@ -124,6 +126,7 @@ class DashboardTest extends ProvidersTestCase
 
     /**
      * @depends testGetBindings
+     * @covers \Khill\Lavacharts\Dashboards\Dashboard::bind
      * @covers \Khill\Lavacharts\Dashboards\Bindings\Binding
      */
     public function testGettingComponentsFromBinding()

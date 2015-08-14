@@ -5,7 +5,7 @@ namespace Khill\Lavacharts\Dashboards;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
 
-class Dashboard implements \JsonSerializable
+class Dashboard
 {
     /**
      * Google's dashboard version
@@ -111,18 +111,6 @@ class Dashboard implements \JsonSerializable
     public function getLabel()
     {
         return $this->label;
-    }
-
-    /**
-     * Custom JSON serialization of the Dashboard.
-     *
-     * Returns the JSON serialization of the bindings
-     *
-     * @return string JSON
-     */
-    public function jsonSerialize()
-    {
-        return $this->bindings;
     }
 
     /**
