@@ -67,7 +67,14 @@ class JsonConfig implements \JsonSerializable
         return $this->options->get($option);
     }
 
-    private function parseConfig($config)
+    /**
+     * Parses the config array by passing the values through each method to check
+     * validity against if the option exists.
+     *
+     * @param  array $config
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     */
+    protected function parseConfig($config)
     {
         foreach ($config as $option => $value) {
             if ($this->options->hasOption($option) === false) {

@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
+use \Khill\Lavacharts\Configs\Options;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
@@ -34,8 +35,8 @@ class Category extends Filter
      * @var array
      */
     private $extDefaults = [
-        'values',
-        'useFormattedValue'
+        'useFormattedValue',
+        'values'
     ];
 
     /**
@@ -51,7 +52,7 @@ class Category extends Filter
         $options = new Options($this->defaults);
         $options->extend($this->extDefaults);
 
-        parent::__construct($options, $columnLabelOrIndex, $config);
+        parent::__construct($options, $config, $columnLabelOrIndex);
     }
 
     /**
@@ -66,14 +67,7 @@ class Category extends Filter
      */
     public function useFormattedValue($useFormattedValue)
     {
-        if (is_bool($useFormattedValue) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'boolean'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $useFormattedValue);
+        return $this->setBoolOption(__FUNCTION__, $useFormattedValue);
     }
     /**
      * List of values to choose from.
@@ -88,10 +82,10 @@ class Category extends Filter
      */
     public function values($values)
     {
-        if (is_bool($values) === false) {
+        if (is_array($values) === false) {
             throw new InvalidConfigValue(
-                __FUNCTION__,
-                'boolean'
+                static::TYPE . '->' . __FUNCTION__,
+                'array'
             );
         }
 

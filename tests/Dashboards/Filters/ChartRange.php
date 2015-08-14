@@ -5,7 +5,10 @@ namespace Khill\Lavacharts\Dashboards\Filters;
 use \Khill\Lavacharts\Configs\Options;
 
 /**
- * Date Range Class
+ * Chart Range Filter Class
+ *
+ * A slider with two thumbs superimposed onto a chart, to select a range of values
+ * from the continuous axis of the chart.
  *
  * @package    Lavacharts
  * @subpackage Dashboards\Filters
@@ -15,40 +18,29 @@ use \Khill\Lavacharts\Configs\Options;
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
- * @see        https://developers.google.com/chart/interactive/docs/gallery/controls#googlevisualizationdaterangefilter
+ * @see        https://developers.google.com/chart/interactive/docs/gallery/controls#googlevisualizationchartrangefilter
  */
-class DateRange extends Filter
+class ChartRange extends Filter
 {
     /**
      * Type of Filter.
      *
      * @var string
      */
-    const TYPE = 'DateRangeFilter';
-
-    /**
-     * DateRange specific default options.
-     *
-     * @var array
-     */
-    private $extDefaults = [
-        'minValue',
-        'maxValue'
-    ];
+    const TYPE = 'ChartRangeFilter';
 
     /**
      * Creates the new Filter object to filter the given column label or index.
      *
-     * @param $columnLabelOrIndex
-     * @param array $config
+     * @param  string|int $columnLabelOrIndex The column label or index to filter.
+     * @param  array $config Array of options to set.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function __construct($columnLabelOrIndex, $config = [])
     {
         $options = new Options($this->defaults);
-        $options->extend($this->extDefaults);
 
-        parent::__construct($options, $config, $columnLabelOrIndex);
+        parent::__construct($options, $columnLabelOrIndex, $config);
     }
 }
