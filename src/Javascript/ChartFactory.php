@@ -76,7 +76,7 @@ class ChartFactory extends JavascriptFactory
         if ($this->chart->getDataTable()->hasFormats()) {
             $vars['formats'] = $this->buildFormatters();
         }
-
+        var_dump($this->chart);
         if ($this->chart->hasEvents()) {
             $vars['events'] = $this->buildEventCallbacks();
         }

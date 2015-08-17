@@ -61,15 +61,14 @@ class CategoryFilterTest extends ProvidersTestCase
 
     /**
      * @depends testSettingColumnLabelWithConstructor
-     *
      */
     public function testJsonSerialization()
     {
         $categoryFilter = new Category('age', [
             'useFormattedValue' => true,
             'ui' => [
-                'caption'=>'Ages',
-                'allowTyping'=>true
+                'caption'     => 'Ages',
+                'allowTyping' => true
             ]
         ]);
 
