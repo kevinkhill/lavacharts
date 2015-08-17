@@ -73,12 +73,13 @@ class BarChart extends Chart
      */
     const VIZ_CLASS = 'google.visualization.BarChart';
 
+
     /**
-     * Extended options for BarChart
+     * Default configuration options for the chart.
      *
      * @var array
      */
-    private $extDefaults = [
+    private $barDefaults = [
         'annotations',
         'axisTitlesPosition',
         'barGroupWidth',
@@ -104,14 +105,13 @@ class BarChart extends Chart
     /**
      * Builds a new BarChart with the given label, datatable and options.
      *
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
+     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param  array $config Array of options to set for the chart.
+     * @param array                                   $config
      */
     public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
     {
-        $options = new Options($this->defaults);
-        $options->extend($this->extDefaults);
+        $options = new Options($this->barDefaults);
 
         parent::__construct($chartLabel, $datatable, $options, $config);
     }

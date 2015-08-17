@@ -64,7 +64,7 @@ class DonutChart extends PieChart
     {
         parent::__construct($chartLabel, $datatable, $options);
 
-        $this->defaults = array_merge($this->defaults, [
+        $this->defaults = array_merge($this->defaults, [ //TODO: FIX ME!
             'pieHole'
         ]);
 

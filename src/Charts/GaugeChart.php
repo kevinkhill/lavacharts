@@ -52,33 +52,39 @@ class GaugeChart extends Chart
     const VIZ_CLASS = 'google.visualization.Gauge';
 
     /**
-     * Builds a new chart with the given label.
+     * Default configuration options for the chart.
      *
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param  array $options Array of options to set for the chart.
-     * @return \Khill\Lavacharts\Charts\GaugeChart
+     * @var array
      */
-    public function __construct(Label $chartLabel, DataTable $datatable, $options = [])
-    {
-        parent::__construct($chartLabel, $datatable, $options);
+    private $gaugeDefaults = [
+        'forceIFrame',
+        'greenColor',
+        'greenFrom',
+        'greenTo',
+        'majorTicks',
+        'max',
+        'min',
+        'minorTicks',
+        'redColor',
+        'redFrom',
+        'redTo',
+        'yellowColor',
+        'yellowFrom',
+        'yellowTo'
+    ];
 
-        $this->defaults = array_merge([
-            'forceIFrame',
-            'greenColor',
-            'greenFrom',
-            'greenTo',
-            'majorTicks',
-            'max',
-            'min',
-            'minorTicks',
-            'redColor',
-            'redFrom',
-            'redTo',
-            'yellowColor',
-            'yellowFrom',
-            'yellowTo'
-        ], $this->defaults);
+    /**
+     * Builds a new GaugeChart with the given label, datatable and options.
+     *
+     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @param array                                   $config
+     */
+    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
+    {
+        $options = new Options($this->gaugeDefaults);
+
+        parent::__construct($chartLabel, $datatable, $options, $config);
     }
 
     /**

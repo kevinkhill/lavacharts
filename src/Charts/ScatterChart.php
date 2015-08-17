@@ -76,35 +76,41 @@ class ScatterChart extends Chart
     const VIZ_CLASS = 'google.visualization.ScatterChart';
 
     /**
-     * Builds a new chart with the given label.
+     * Default configuration options for the chart.
      *
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param  array $options Array of options to set for the chart.
-     * @return \Khill\Lavacharts\Charts\ScatterChart
+     * @var array
      */
-    public function __construct(Label $chartLabel, DataTable $datatable, $options = [])
-    {
-        parent::__construct($chartLabel, $datatable, $options);
+    private $scatterDefaults = [
+        'annotations',
+        'axisTitlesPosition',
+        'crosshair',
+        'curveType',
+        'dataOpacity',
+        'enableInteractivity',
+        'forceIFrame',
+        'hAxis',
+        'lineWidth',
+        'orientation',
+        'pointShape',
+        'pointSize',
+        'reverseCategories',
+        'selectionMode',
+        'series',
+        'theme',
+        'vAxis'
+    ];
 
-        $this->extraOptions = [
-            'annotations',
-            'axisTitlesPosition',
-            'crosshair',
-            'curveType',
-            'dataOpacity',
-            'enableInteractivity',
-            'forceIFrame',
-            'hAxis',
-            'lineWidth',
-            'orientation',
-            'pointShape',
-            'pointSize',
-            'reverseCategories',
-            'selectionMode',
-            'series',
-            'theme',
-            'vAxis'
-        ];
+    /**
+     * Builds a new ScatterChart with the given label, datatable and options.
+     *
+     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @param array                                   $config
+     */
+    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
+    {
+        $options = new Options($this->scatterDefaults);
+
+        parent::__construct($chartLabel, $datatable, $options, $config);
     }
 }

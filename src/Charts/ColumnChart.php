@@ -62,25 +62,31 @@ class ColumnChart extends Chart
     const VIZ_CLASS = 'google.visualization.ColumnChart';
 
     /**
-     * Builds a new chart with the given label.
+     * Default configuration options for the chart.
      *
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param  array $options Array of options to set for the chart.
-     * @return \Khill\Lavacharts\Charts\ColumnChart
+     * @var array
      */
-    public function __construct(Label $chartLabel, DataTable $datatable, $options = [])
-    {
-        parent::__construct($chartLabel, $datatable, $options);
+    private $columnDefaults = [
+        'axisTitlesPosition',
+        'barGroupWidth',
+        'focusTarget',
+        'hAxis',
+        'isHtml',
+        //'vAxes',
+        'vAxis'
+    ];
 
-        $this->defaults = array_merge([
-            'axisTitlesPosition',
-            'barGroupWidth',
-            'focusTarget',
-            'hAxis',
-            'isHtml',
-            //'vAxes',
-            'vAxis'
-        ], $this->defaults);
+    /**
+     * Builds a new ColumnChart with the given label, datatable and options.
+     *
+     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @param array                                   $config
+     */
+    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
+    {
+        $options = new Options($this->columnDefaults);
+
+        parent::__construct($chartLabel, $datatable, $options, $config);
     }
 }

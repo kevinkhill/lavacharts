@@ -58,11 +58,11 @@ class Chart extends JsonConfig
     protected $events = [];
 
     /**
-     * The chart's default options.
+     * Default configuration options for the chart.
      *
      * @var array
      */
-    protected $defaults = [
+    protected $chartDefaults = [
         'animation',
         'backgroundColor',
         'chartArea',
@@ -94,6 +94,8 @@ class Chart extends JsonConfig
     {
         $this->label     = $chartLabel;
         $this->datatable = $datatable;
+
+        $options->extend($this->chartDefaults);
 
         parent::__construct($options, $config);
     }

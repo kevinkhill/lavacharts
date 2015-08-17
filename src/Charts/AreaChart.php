@@ -65,29 +65,30 @@ class AreaChart extends Chart
      */
     const VIZ_CLASS = 'google.visualization.AreaChart';
 
-    /**
-     * Builds a new chart with the given label.
-     *
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param  array $options Array of options to set for the chart.
-     * @return \Khill\Lavacharts\Charts\AreaChart
-     */
-    public function __construct(Label $chartLabel, DataTable $datatable, $options = [])
-    {
-        parent::__construct($chartLabel, $datatable, $options);
+    private $areaDefaults = [
+        'areaOpacity',
+        'axisTitlesPosition',
+        'focusTarget',
+        'hAxis',
+        'isStacked',
+        'interpolateNulls',
+        'lineWidth',
+        'pointSize',
+        'vAxes',
+        'vAxis'
+    ];
 
-        $this->defaults = array_merge([
-            'areaOpacity',
-            'axisTitlesPosition',
-            'focusTarget',
-            'hAxis',
-            'isStacked',
-            'interpolateNulls',
-            'lineWidth',
-            'pointSize',
-            'vAxes',
-            'vAxis'
-        ], $this->defaults);
+    /**
+     * Builds a new AreaChart with the given label, datatable and options.
+     *
+     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @param array                                   $config
+     */
+    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
+    {
+        $options = new Options($this->areaDefaults);
+
+        parent::__construct($chartLabel, $datatable, $options, $config);
     }
 }

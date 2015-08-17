@@ -63,29 +63,35 @@ class GeoChart extends Chart
     const VIZ_CLASS = 'google.visualization.GeoChart';
 
     /**
-     * Builds a new chart with the given label.
+     * Default configuration options for the chart.
      *
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param  array $options Array of options to set for the chart.
-     * @return \Khill\Lavacharts\Charts\GeoChart
+     * @var array
      */
-    public function __construct(Label $chartLabel, DataTable $datatable, $options = [])
-    {
-        parent::__construct($chartLabel, $datatable, $options);
+    private $geoDefaults = [
+        'colorAxis',
+        'datalessRegionColor',
+        'displayMode',
+        'enableRegionInteractivity',
+        'keepAspectRatio',
+        'region',
+        'magnifyingGlass',
+        'markerOpacity',
+        'resolution',
+        'sizeAxis'
+    ];
 
-        $this->defaults = array_merge([
-            'colorAxis',
-            'datalessRegionColor',
-            'displayMode',
-            'enableRegionInteractivity',
-            'keepAspectRatio',
-            'region',
-            'magnifyingGlass',
-            'markerOpacity',
-            'resolution',
-            'sizeAxis'
-        ], $this->defaults);
+    /**
+     * Builds a new GeoChart with the given label, datatable and options.
+     *
+     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @param array                                   $config
+     */
+    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
+    {
+        $options = new Options($this->geoDefaults);
+
+        parent::__construct($chartLabel, $datatable, $options, $config);
     }
 
     /**

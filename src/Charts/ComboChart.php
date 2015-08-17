@@ -83,43 +83,49 @@ class ComboChart extends Chart
     const VIZ_CLASS = 'google.visualization.ComboChart';
 
     /**
-     * Builds a new chart with the given label.
+     * Default configuration options for the chart.
      *
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param  array $options Array of options to set for the chart.
-     * @return \Khill\Lavacharts\Charts\ComboChart
+     * @var array
      */
-    public function __construct(Label $chartLabel, DataTable $datatable, $options = [])
-    {
-        parent::__construct($chartLabel, $datatable, $options);
+    private $comboDefaults = [
+        'annotations',
+        'areaOpacity',
+        'axisTitlesPosition',
+        'barGroupWidth',
+        'crosshair',
+        'curveType',
+        'dataOpacity',
+        'enableInteractivity',
+        'focusTarget',
+        'forceIFrame',
+        'hAxis',
+        'interpolateNulls',
+        'isStacked',
+        'lineWidth',
+        'orientation',
+        'pointShape',
+        'pointSize',
+        'reverseCategories',
+        'selectionMode',
+        'series',
+        'seriesType',
+        'theme',
+        'vAxes',
+        'vAxis'
+    ];
 
-        $this->defaults = array_merge([
-            'annotations',
-            'areaOpacity',
-            'axisTitlesPosition',
-            'barGroupWidth',
-            'crosshair',
-            'curveType',
-            'dataOpacity',
-            'enableInteractivity',
-            'focusTarget',
-            'forceIFrame',
-            'hAxis',
-            'interpolateNulls',
-            'isStacked',
-            'lineWidth',
-            'orientation',
-            'pointShape',
-            'pointSize',
-            'reverseCategories',
-            'selectionMode',
-            'series',
-            'seriesType',
-            'theme',
-            'vAxes',
-            'vAxis'
-        ], $this->defaults);
+    /**
+     * Builds a new ComboChart with the given label, datatable and options.
+     *
+     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @param array                                   $config
+     */
+    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
+    {
+        $options = new Options($this->comboDefaults);
+
+        parent::__construct($chartLabel, $datatable, $options, $config);
     }
 
     /**

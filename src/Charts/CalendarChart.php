@@ -73,7 +73,7 @@ class CalendarChart extends Chart
     {
         parent::__construct($chartLabel, $datatable, $options);
 
-        $this->options = [
+        $this->options = [ //TODO: FIX ME!
             'calendar' => []
         ];
 
