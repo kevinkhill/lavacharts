@@ -80,11 +80,12 @@ class ScatterChart extends Chart
      *
      * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @return self
+     * @param  array $options Array of options to set for the chart.
+     * @return \Khill\Lavacharts\Charts\ScatterChart
      */
-    public function __construct(Label $chartLabel, DataTable $datatable)
+    public function __construct(Label $chartLabel, DataTable $datatable, $options = [])
     {
-        parent::__construct($chartLabel, $datatable);
+        parent::__construct($chartLabel, $datatable, $options);
 
         $this->extraOptions = [
             'annotations',

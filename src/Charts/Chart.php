@@ -153,7 +153,7 @@ class Chart implements \JsonSerializable
 
         foreach ($options as $option => $value) {
             if (in_array($option, $this->defaults)) {
-                $this->$option($value);
+                call_user_func([$this, $option], $value);
             } else {
                 throw new InvalidConfigProperty(
                     static::TYPE,

@@ -59,11 +59,12 @@ class PieChart extends Chart
      *
      * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @return self
+     * @param  array $options Array of options to set for the chart.
+     * @return \Khill\Lavacharts\Charts\PieChart
      */
-    public function __construct(Label $chartLabel, DataTable $datatable)//, $options = [])
+    public function __construct(Label $chartLabel, DataTable $datatable, $options = [])
     {
-        parent::__construct($chartLabel, $datatable);
+        parent::__construct($chartLabel, $datatable, $options);
 
         $this->defaults = array_merge($this->defaults, [
             'is3D',
