@@ -1,46 +1,35 @@
 <?php
 
-namespace Khill\Lavacharts\Dashboards\Filters;
+namespace Khill\Lavacharts\Tests\Dashboards\Filters;
 
-use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Dashboards\Filters\ChartRange;
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
-/**
- * Chart Range Filter Class
- *
- * A slider with two thumbs superimposed onto a chart, to select a range of values
- * from the continuous axis of the chart.
- *
- * @package    Lavacharts
- * @subpackage Dashboards\Filters
- * @since      3.0.0
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2015, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
- * @see        https://developers.google.com/chart/interactive/docs/gallery/controls#googlevisualizationchartrangefilter
- */
-class ChartRange extends Filter
+class ChartRangeFilterTest extends ProvidersTestCase
 {
-    /**
-     * Type of Filter.
-     *
-     * @var string
-     */
-    const TYPE = 'ChartRangeFilter';
-
-    /**
-     * Creates the new Filter object to filter the given column label or index.
-     *
-     * @param  string|int $columnLabelOrIndex The column label or index to filter.
-     * @param  array $config Array of options to set.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function __construct($columnLabelOrIndex, $config = [])
+    public function testSettingColumnIndexWithConstructor()
     {
-        $options = new Options($this->defaults);
+        $chartRangeFilter = new ChartRange(2);
 
-        parent::__construct($options, $columnLabelOrIndex, $config);
+        $this->assertEquals(2, $chartRangeFilter->filterColumnIndex);
+    }
+
+    public function testSettingColumnLabelWithConstructor()
+    {
+        $chartRangeFilter = new ChartRange('lines');
+
+        $this->assertEquals('lines', $chartRangeFilter->filterColumnLabel);
+    }
+
+    /**
+     * @depends testSettingColumnLabelWithConstructor
+     */
+    public function testGetTypeMethodAndStaticReferences()
+    {
+        $chartRangeFilter = new ChartRange('donuts');
+
+        $this->assertEquals('ChartRangeFilter', ChartRange::TYPE);
+        $this->assertEquals('ChartRangeFilter', $chartRangeFilter::TYPE);
+        $this->assertEquals('ChartRangeFilter', $chartRangeFilter->getType());
     }
 }

@@ -1,54 +1,35 @@
 <?php
 
-namespace Khill\Lavacharts\Dashboards\Filters;
+namespace Khill\Lavacharts\Tests\Dashboards\Filters;
 
-use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Dashboards\Filters\DateRange;
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
-/**
- * Date Range Class
- *
- * @package    Lavacharts
- * @subpackage Dashboards\Filters
- * @since      3.0.0
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2015, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
- * @see        https://developers.google.com/chart/interactive/docs/gallery/controls#googlevisualizationdaterangefilter
- */
-class DateRange extends Filter
+class DateRangeFilterTest extends ProvidersTestCase
 {
-    /**
-     * Type of Filter.
-     *
-     * @var string
-     */
-    const TYPE = 'DateRangeFilter';
-
-    /**
-     * DateRange specific default options.
-     *
-     * @var array
-     */
-    private $extDefaults = [
-        'minValue',
-        'maxValue'
-    ];
-
-    /**
-     * Creates the new Filter object to filter the given column label or index.
-     *
-     * @param $columnLabelOrIndex
-     * @param array $config
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function __construct($columnLabelOrIndex, $config = [])
+    public function testSettingColumnIndexWithConstructor()
     {
-        $options = new Options($this->defaults);
-        $options->extend($this->extDefaults);
+        $dateRangeFilter = new DateRange(2);
 
-        parent::__construct($options, $columnLabelOrIndex, $config);
+        $this->assertEquals(2, $dateRangeFilter->filterColumnIndex);
+    }
+
+    public function testSettingColumnLabelWithConstructor()
+    {
+        $dateRangeFilter = new DateRange('revenue');
+
+        $this->assertEquals('revenue', $dateRangeFilter->filterColumnLabel);
+    }
+
+    /**
+     * @depends testSettingColumnLabelWithConstructor
+     */
+    public function testGetTypeMethodAndStaticReferences()
+    {
+        $dateRangeFilter = new DateRange('donuts');
+
+        $this->assertEquals('DateRangeFilter', DateRange::TYPE);
+        $this->assertEquals('DateRangeFilter', $dateRangeFilter::TYPE);
+        $this->assertEquals('DateRangeFilter', $dateRangeFilter->getType());
     }
 }

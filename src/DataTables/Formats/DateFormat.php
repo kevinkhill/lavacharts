@@ -24,6 +24,11 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class DateFormat extends Format
 {
+    /**
+     * Type of format object
+     *
+     * @var string
+     */
     const TYPE = 'DateFormat';
 
     /**

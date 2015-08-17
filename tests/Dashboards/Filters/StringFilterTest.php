@@ -1,127 +1,141 @@
 <?php
 
-namespace Khill\Lavacharts\Dashboards\Filters;
+namespace Khill\Lavacharts\Tests\Dashboards\Filters;
 
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Configs\Options;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Dashboards\Filters\String;
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
+use \Mockery as m;
 
-/**
- * String Filter Class
- *
- * @package    Lavacharts
- * @subpackage Dashboards\Filters
- * @since      3.0.0
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2015, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
- * @see        https://developers.google.com/chart/interactive/docs/gallery/controls#googlevisualizationstringfilter
- */
-class String extends Filter
+class StringFilterTest extends ProvidersTestCase
 {
-    /**
-     * Type of Filter.
-     *
-     * @var string
-     */
-    const TYPE = 'StringFilter';
-
-    /**
-     * NumberRange specific default options.
-     *
-     * @var array
-     */
-    private $extDefaults = [
-        'matchType',
-        'caseSensitive',
-        'useFormattedValue'
-    ];
-
-    /**
-     * Creates the new Filter object to filter the given column label or index.
-     *
-     * @param  string|int $columnLabelOrIndex The column label or index to filter.
-     * @param  array $config Array of options to set.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
-     */
-    public function __construct($columnLabelOrIndex, $config = [])
+    public function testSettingColumnIndexWithConstructor()
     {
-        $options = new Options($this->defaults);
-        $options->extend($this->extDefaults);
+        $stringFilter = new String(2);
 
-        parent::__construct($options, $columnLabelOrIndex, $config);
+        $this->assertEquals(2, $stringFilter->filterColumnIndex);
+    }
+
+    public function testSettingColumnLabelWithConstructor()
+    {
+        $stringFilter = new String('cities');
+
+        $this->assertEquals('cities', $stringFilter->filterColumnLabel);
     }
 
     /**
-     * What type of string the control should match.
-     *
-     * Allowed types:
-     * - exact  : Match exact values only
-     * - prefix : Prefixes starting from the beginning of the value ('prefix')
-     * - any    : Any substring
-     *
-     * @param  string $matchType
-     * @throws InvalidConfigValue
-     * @return self
+     * @depends testSettingColumnLabelWithConstructor
      */
-    public function matchType($matchType)
+    public function testGetTypeMethodAndStaticReferences()
     {
-        $matchTypes = [
-            'exact',
-            'prefix',
-            'any'
-        ];
+        $stringFilter = new String('cities');
 
-        if (Utils::nonEmptyStringInArray($matchType, $matchTypes) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'whose value is one of '.Utils::arrayToPipedString($matchTypes)
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $matchType);
+        $this->assertEquals('StringFilter', String::TYPE);
+        $this->assertEquals('StringFilter', $stringFilter::TYPE);
+        $this->assertEquals('StringFilter', $stringFilter->getType());
     }
 
     /**
-     * Whether matching should be case sensitive or not.
-     *
-     * @param  boolean $caseSensitive
-     * @throws InvalidConfigValue
-     * @return self
+     * @depends testSettingColumnLabelWithConstructor
      */
-    public function caseSensitive($caseSensitive)
+    public function testMatchTypeWithValidValues($matchType)
     {
-        if (is_bool($caseSensitive) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'boolean'
-            );
-        }
+        $stringFilter = new String('cities');
 
-        return $this->setOption(__FUNCTION__, $caseSensitive);
+        $stringFilter->matchType('exact');
+        $this->assertEquals('exact', $stringFilter->matchType);
+
+        $stringFilter->matchType('prefix');
+        $this->assertEquals('prefix', $stringFilter->matchType);
+
+        $stringFilter->matchType('any');
+        $this->assertEquals('any', $stringFilter->matchType);
     }
 
     /**
-     * Whether the control should match against cell formatted values or against actual values.
-     *
-     * @param  boolean $useFormattedValue
-     * @throws InvalidConfigValue
-     * @return self
+     * @depends testSettingColumnLabelWithConstructor
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function useFormattedValue($useFormattedValue)
+    public function testMatchTypeWithInvalidValue()
     {
-        if (is_bool($useFormattedValue) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'boolean'
-            );
-        }
+        $stringFilter = new String('cities');
 
-        return $this->setOption(__FUNCTION__, $useFormattedValue);
+        $stringFilter->matchType('Taco Bell');
+    }
+
+    /**
+     * @depends testSettingColumnLabelWithConstructor
+     * @dataProvider nonStringProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testMatchTypeWithBadTypes($badVals)
+    {
+        $stringFilter = new String('cities');
+
+        $stringFilter->matchType($badVals);
+    }
+
+    /**
+     * @depends testSettingColumnIndexWithConstructor
+     */
+    public function testCaseSensitive()
+    {
+        $stringFilter = new String(2);
+
+        $stringFilter->caseSensitive(true);
+        $this->assertTrue($stringFilter->caseSensitive);
+
+        $stringFilter->caseSensitive(false);
+        $this->assertFalse($stringFilter->caseSensitive);
+    }
+
+    /**
+     * @depends testSettingColumnIndexWithConstructor
+     * @dataProvider nonBoolProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testCaseSensitiveWithBadTypes($badVals)
+    {
+        $stringFilter = new String(2);
+
+        $stringFilter->caseSensitive($badVals);
+    }
+
+    /**
+     * @depends testSettingColumnIndexWithConstructor
+     */
+    public function testUseFormattedValue()
+    {
+        $stringFilter = new String(2);
+
+        $stringFilter->useFormattedValue(true);
+        $this->assertTrue($stringFilter->useFormattedValue);
+
+        $stringFilter->useFormattedValue(false);
+        $this->assertFalse($stringFilter->useFormattedValue);
+    }
+
+    /**
+     * @depends testSettingColumnIndexWithConstructor
+     * @dataProvider nonBoolProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testUseFormattedValueWithBadTypes($badVals)
+    {
+        $stringFilter = new String(2);
+
+        $stringFilter->useFormattedValue($badVals);
+    }
+
+    /**
+     * @depends testSettingColumnIndexWithConstructor
+     */
+    public function testUi()
+    {
+        $stringFilter = new String(2);
+        $stringFilter->ui([
+            'realtimeTrigger' => true
+        ]);
+
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\UIs\StringUI', $stringFilter->ui);
     }
 }

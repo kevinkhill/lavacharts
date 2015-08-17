@@ -4,7 +4,6 @@ namespace Khill\Lavacharts\Tests\Dashboards\Filters;
 
 use \Khill\Lavacharts\Dashboards\Filters\Category;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Mockery as m;
 
 class CategoryFilterTest extends ProvidersTestCase
 {
@@ -48,8 +47,8 @@ class CategoryFilterTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider nonBoolProvider
      * @depends testSettingColumnIndexWithConstructor
+     * @dataProvider nonBoolProvider
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testUseFormattedValueWithBadTypes($badVals)
@@ -57,6 +56,32 @@ class CategoryFilterTest extends ProvidersTestCase
         $categoryFilter = new Category(2);
 
         $categoryFilter->useFormattedValue($badVals);
+    }
+
+    /**
+     * @depends testSettingColumnLabelWithConstructor
+     */
+    public function testValues()
+    {
+        $categoryFilter = new Category('age');
+        $categoryFilter->values([20,30,40]);
+
+        $this->assertTrue(is_array($categoryFilter->values));
+        $this->assertEquals([20,30,40], $categoryFilter->values);
+    }
+
+    /**
+     * @depends testSettingColumnLabelWithConstructor
+     */
+    public function testUi()
+    {
+        $categoryFilter = new Category('age');
+        $categoryFilter->ui([
+            'caption'     => 'Ages',
+            'allowTyping' => true
+        ]);
+
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\UIs\CategoryUI', $categoryFilter->ui);
     }
 
     /**

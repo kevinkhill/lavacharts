@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Events\Event;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Javascript\JavascriptFactory;
 use \Khill\Lavacharts\DataTables\DataTable;
@@ -382,24 +383,30 @@ class Chart implements \JsonSerializable
      *
      * @return self
      */
-    public function events($e)
+    public function events($events)
     {
-        if (is_array($e)) {
-            foreach ($e as $event) {
-                if (is_subclass_of($event, 'Khill\Lavacharts\Events\Event')) {
-                    $this->events[] = $event;
-                } else {
-                    throw $this->invalidConfigValue(
-                        __FUNCTION__,
+        if (is_array($events) === false && $events instanceof Event === false) {
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
+                'array|Event'
+            );
+        }
+
+        if ($events instanceof Event) {
+            $this->events[] = $events;
+        }
+
+        if (is_array($events)) {
+            foreach ($events as $event) {
+                if ($event instanceof Event === false) {
+                    throw new InvalidConfigValue(
+                        static::TYPE . '->' . __FUNCTION__,
                         'Event'
                     );
                 }
+
+                $this->events[] = $event;
             }
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'array'
-            );
         }
 
         return $this;

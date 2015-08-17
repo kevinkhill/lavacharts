@@ -23,6 +23,11 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  */
 class ArrowFormat extends Format
 {
+    /**
+     * Type of format object
+     *
+     * @var string
+     */
     const TYPE = 'ArrowFormat';
 
     /**
