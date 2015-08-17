@@ -92,7 +92,6 @@ class Chart implements \JsonSerializable
      * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
      * @param  array $options Array of options to set on the chart.
-     * @return self
      */
     public function __construct(Label $chartLabel, DataTable $datatable, $options = [])
     {
@@ -111,12 +110,12 @@ class Chart implements \JsonSerializable
 */
     /**
      * Sets a configuration option
-     *
      * Takes an array with option => value, or an object created by
      * one of the configOptions child objects.
      *
      * @param  mixed $o
-     * @return self
+     * @return \Khill\Lavacharts\Charts\Chart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     protected function addOption($o)
     {
@@ -139,9 +138,9 @@ class Chart implements \JsonSerializable
      * or chaining the functions from the chart objects.
      *
      * @param  array $options
+     * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function setOptions($options)
     {
@@ -172,8 +171,8 @@ class Chart implements \JsonSerializable
      * Gets a specific option from the array.
      *
      * @param  string $option Which option to fetch
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return mixed
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function getOption($option)
     {
@@ -200,7 +199,7 @@ class Chart implements \JsonSerializable
     }
 
     /**
-     * TODO: this is a shim!!!
+     * TODO: this is a shim, filling in for the options object
      *
      * @return array
      */
@@ -261,16 +260,15 @@ class Chart implements \JsonSerializable
      */
     public function getLabel()
     {
-        return (string) $this->label;
+        return $this->label;
     }
 
     /**
      * Assigns a datatable to use for the Chart.
      *
      * @deprecated
-     * @uses   DataTable
-     * @param  DataTable $datatable
-     * @return self
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function datatable(DataTable $datatable)
     {
@@ -280,11 +278,11 @@ class Chart implements \JsonSerializable
     }
 
     /**
-     * Returns the DataTable if set, false if not set.
+     * Returns the DataTable
      *
      * @since  3.0.0
-     * @throws DataTableNotFound
-     * @return bool|DataTable
+     * @throws \Khill\Lavacharts\Exceptions\DataTableNotFound
+     * @return \Khill\Lavacharts\DataTables\DataTable
      */
     public function getDataTable()
     {
@@ -299,7 +297,7 @@ class Chart implements \JsonSerializable
      * Returns a JSON string representation of the datatable.
      *
      * @since  2.5.0
-     * @throws DataTableNotFound
+     * @throws \Khill\Lavacharts\Exceptions\DataTableNotFound
      * @return string
      */
     public function getDataTableJson()
@@ -311,7 +309,7 @@ class Chart implements \JsonSerializable
      * Set the animation options for a chart
      *
      * @param  Animation $animation Animation config object
-     * @return self
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function animation(Animation $animation)
     {
@@ -322,10 +320,8 @@ class Chart implements \JsonSerializable
      * The background color for the main area of the chart. Can be either a simple
      * HTML color string, for example: 'red' or '#00cc00', or a backgroundColor object
      *
-     * @uses  BackgroundColor
-     * @param BackgroundColor $backgroundColor
-     *
-     * @return self
+     * @param  BackgroundColor $backgroundColor
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function backgroundColor(BackgroundColor $backgroundColor)
     {
@@ -341,8 +337,7 @@ class Chart implements \JsonSerializable
      *
      * @uses  ChartArea
      * @param ChartArea $chartArea
-     *
-     * @return self
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function chartArea(ChartArea $chartArea)
     {
@@ -354,9 +349,8 @@ class Chart implements \JsonSerializable
      * element is an HTML color string, for example: colors:['red','#004411'].
      *
      * @param  array              $cArr
+     * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
-     * @return self
      */
     public function colors($cArr)
     {
@@ -378,17 +372,17 @@ class Chart implements \JsonSerializable
      * [ animationfinish | error | onmouseover | onmouseout | ready | select ]
      * associated to a respective pre-defined javascript function as the callback.
      *
-     * @param  array              $e Array of events associated to a callback
+     * @param  array $events Array of events associated to a callback
+     * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
-     * @return self
      */
     public function events($events)
     {
         if (is_array($events) === false && $events instanceof Event === false) {
             throw new InvalidConfigValue(
                 static::TYPE . '->' . __FUNCTION__,
-                'array|Event'
+                'array',
+                ' with Event objects or a single Event object.'
             );
         }
 
@@ -416,10 +410,9 @@ class Chart implements \JsonSerializable
      * The default font size, in pixels, of all text in the chart. You can
      * override this using properties for specific chart elements.
      *
-     * @param  integer                $fontSize
+     * @param  integer $fontSize
+     * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
-     * @return self
      */
     public function fontSize($fontSize)
     {
@@ -437,10 +430,9 @@ class Chart implements \JsonSerializable
      * The default font face for all text in the chart. You can override this
      * using properties for specific chart elements.
      *
-     * @param  string             $fontName
+     * @param  string $fontName
+     * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
-     * @return self
      */
     public function fontName($fontName)
     {
@@ -457,10 +449,9 @@ class Chart implements \JsonSerializable
     /**
      * Height of the chart, in pixels.
      *
-     * @param  integer                $h
+     * @param  integer $h
+     * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
-     * @return self
      */
     public function height($h)
     {
@@ -480,10 +471,9 @@ class Chart implements \JsonSerializable
      * values then pass it to this function or to the constructor.
      *
      * @uses   Legend
-     * @param  Legend             $legend
+     * @param  Legend $legend
+     * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
-     * @return self
      */
     public function legend(Legend $legend)
     {
@@ -497,10 +487,10 @@ class Chart implements \JsonSerializable
      * rendered into.
      *
      * @since  2.0.0
-     * @param  string           $elemId The id of an HTML element to render the chart into.
-     * @throws InvalidElementId
-     *
+     * @param  string $elemId The id of an HTML element to render the chart into.
      * @return string Javascript code blocks
+     * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
+     *
      */
     public function render($elemId)
     {
@@ -513,8 +503,8 @@ class Chart implements \JsonSerializable
      * Text to display above the chart.
      *
      * @param  string $title
+     * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function title($title)
     {
@@ -537,8 +527,8 @@ class Chart implements \JsonSerializable
      * 'none' - Omit the title.
      *
      * @param  string $titlePosition
+     * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function titlePosition($titlePosition)
     {
@@ -565,8 +555,8 @@ class Chart implements \JsonSerializable
      *
      * @uses   TextStyle
      * @param  TextStyle $textStyle
+     * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function titleTextStyle(TextStyle $textStyle)
     {
@@ -592,8 +582,8 @@ class Chart implements \JsonSerializable
      * Width of the chart, in pixels.
      *
      * @param  integer $width
+     * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function width($width)
     {
