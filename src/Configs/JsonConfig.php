@@ -25,7 +25,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 class JsonConfig implements \JsonSerializable
 {
     /**
-     * Allowed options to set for the UI.
+     * Allowed options to set for the LavaObject.
      *
      * @var \Khill\Lavacharts\Configs\Options
      */

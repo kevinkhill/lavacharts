@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use Khill\Lavacharts\Configs\Options;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\DataTables\DataTable;
 
@@ -73,38 +74,45 @@ class BarChart extends Chart
     const VIZ_CLASS = 'google.visualization.BarChart';
 
     /**
-     * Builds a new chart with the given label.
+     * Extended options for BarChart
+     *
+     * @var array
+     */
+    private $extDefaults = [
+        'annotations',
+        'axisTitlesPosition',
+        'barGroupWidth',
+        //'bars',
+        //'chart.subtitle',
+        //'chart.title',
+        'dataOpacity',
+        'enableInteractivity',
+        'focusTarget',
+        'forceIFrame',
+        'hAxes',
+        'hAxis',
+        'isStacked',
+        'orientation',
+        'reverseCategories',
+        'series',
+        'theme',
+        //'trendlines',
+        'vAxes',
+        'vAxis'
+    ];
+
+    /**
+     * Builds a new BarChart with the given label, datatable and options.
      *
      * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param  array $options Array of options to set for the chart.
-     * @return \Khill\Lavacharts\Charts\BarChart
+     * @param  array $config Array of options to set for the chart.
      */
-    public function __construct(Label $chartLabel, DataTable $datatable, $options = [])
+    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
     {
-        parent::__construct($chartLabel, $datatable, $options);
+        $options = new Options($this->defaults);
+        $options->extend($this->extDefaults);
 
-        $this->defaults = array_merge([
-            'annotations',
-            'axisTitlesPosition',
-            'barGroupWidth',
-            //'bars',
-            //'chart.subtitle',
-            //'chart.title',
-            'dataOpacity',
-            'enableInteractivity',
-            'focusTarget',
-            'forceIFrame',
-            'hAxes',
-            'hAxis',
-            'isStacked',
-            'orientation',
-            'reverseCategories',
-            'series',
-            'theme',
-            //'trendlines',
-            'vAxes',
-            'vAxis'
-        ], $this->defaults);
+        parent::__construct($chartLabel, $datatable, $options, $config);
     }
 }

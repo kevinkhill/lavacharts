@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use \Khill\Lavacharts\Configs\JsonConfig;
+use Khill\Lavacharts\Configs\Options;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Events\Event;
 use \Khill\Lavacharts\Values\Label;
@@ -32,7 +34,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Chart implements \JsonSerializable
+class Chart extends JsonConfig
 {
     /**
      * The chart's unique label.
@@ -56,13 +58,6 @@ class Chart implements \JsonSerializable
     protected $events = [];
 
     /**
-     * The chart's user set options.
-     *
-     * @var array
-     */
-    protected $options = [];
-
-    /**
      * The chart's default options.
      *
      * @var array
@@ -72,8 +67,8 @@ class Chart implements \JsonSerializable
         'backgroundColor',
         'chartArea',
         'colors',
-        'datatable',
-        'events',
+        //'datatable',
+        //'events',
         'fontSize',
         'fontName',
         'height',
@@ -89,25 +84,20 @@ class Chart implements \JsonSerializable
     /**
      * Builds a new chart with the given label.
      *
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
+     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param  array $options Array of options to set on the chart.
+     * @param  \Khill\Lavacharts\Configs\Options      $options Options fot the chart.
+     * @param  array                                  $config Array of options to set on the chart.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function __construct(Label $chartLabel, DataTable $datatable, $options = [])
+    public function __construct(Label $chartLabel, DataTable $datatable, Options $options, $config = [])
     {
-        if (empty($options) === false) {
-            $this->setOptions($options);
-        }
-
         $this->label     = $chartLabel;
         $this->datatable = $datatable;
+
+        parent::__construct($options, $config);
     }
-/* @TODO: convert to use options object
-    public function mergeDefaultOptions($childDefaults)
-    {
-        $this->defaults = array_merge($childDefaults, $this->defaults);
-    }
-*/
+
     /**
      * Sets a configuration option
      * Takes an array with option => value, or an object created by
@@ -116,7 +106,7 @@ class Chart implements \JsonSerializable
      * @param  mixed $o
      * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
+     *
     protected function addOption($o)
     {
         if (is_array($o)) {
@@ -129,7 +119,7 @@ class Chart implements \JsonSerializable
         }
 
         return $this;
-    }
+    }*/
 
     /**
      * Sets configuration options from array of values
@@ -141,7 +131,7 @@ class Chart implements \JsonSerializable
      * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
+     *
     public function setOptions($options)
     {
         if (is_array($options) === false || count($options) == 0) {
@@ -165,7 +155,7 @@ class Chart implements \JsonSerializable
         }
 
         return $this;
-    }
+    }*/
 
     /**
      * Gets a specific option from the array.
@@ -173,7 +163,7 @@ class Chart implements \JsonSerializable
      * @param  string $option Which option to fetch
      * @return mixed
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
+     *
     public function getOption($option)
     {
         if (is_string($option) === false || array_key_exists($option, $this->options) === false) {
@@ -185,7 +175,7 @@ class Chart implements \JsonSerializable
         }
 
         return $this->options[$option];
-    }
+    }*/
 
     /**
      * Returns the chart type.
@@ -202,31 +192,31 @@ class Chart implements \JsonSerializable
      * TODO: this is a shim, filling in for the options object
      *
      * @return array
-     */
+     *
     public function jsonSerialize()
     {
         return $this->options;
-    }
+    }*/
 
     /**
      * Gets the current chart options.
      *
      * @return array
-     */
+     *
     public function getOptions()
     {
         return $this->options;
-    }
+    }*/
 
     /**
      * Returns a JSON string representation of the chart's properties.
      *
      * @return string
-     */
+     *
     public function optionsToJson()
     {
         return json_encode($this->options);
-    }
+    }*/
 
     /**
      * Checks if any events have been assigned to the chart.
@@ -266,7 +256,7 @@ class Chart implements \JsonSerializable
     /**
      * Assigns a datatable to use for the Chart.
      *
-     * @deprecated
+     * @deprecated Apply the DataTable to the chart in the constructor.
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable
      * @return \Khill\Lavacharts\Charts\Chart
      */
@@ -306,26 +296,49 @@ class Chart implements \JsonSerializable
     }
 
     /**
-     * Set the animation options for a chart
+     * Outputs the chart javascript into the page
      *
-     * @param  Animation $animation Animation config object
+     * Pass in a string of the html elementID that you want the chart to be
+     * rendered into.
+     *
+     * @since  2.0.0
+     * @param  string $elemId The id of an HTML element to render the chart into.
+     * @return string Javascript code blocks
+     * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
+     *
+     */
+    public function render($elemId)
+    {
+        $jsf = new JavascriptFactory;
+
+        return $jsf->getChartJs($this, $elemId);
+    }
+
+    /*************************
+     * Options
+     *************************/
+
+    /**
+     * Set the animation options for a chart.
+     *
+     * @param  array $animationConfig Animation options
      * @return \Khill\Lavacharts\Charts\Chart
      */
-    public function animation(Animation $animation)
+    public function animation($animationConfig)
     {
-        return $this->addOption($animation->toArray());
+        return $this->addOption(__FUNCTION__, new Animation($animationConfig));
     }
 
     /**
      * The background color for the main area of the chart. Can be either a simple
      * HTML color string, for example: 'red' or '#00cc00', or a backgroundColor object
      *
-     * @param  BackgroundColor $backgroundColor
+     * @param  array $backgroundColorConfig Options for the chart's background color
      * @return \Khill\Lavacharts\Charts\Chart
      */
-    public function backgroundColor(BackgroundColor $backgroundColor)
+    public function backgroundColor($backgroundColorConfig)
     {
-        return $this->addOption($backgroundColor->toArray());
+        return $this->addOption(__FUNCTION__, new BackgroundColor($backgroundColorConfig));
     }
 
     /**
@@ -335,34 +348,33 @@ class Chart implements \JsonSerializable
      * Two formats are supported: a number, or a number followed by %.
      * A simple number is a value in pixels; a number followed by % is a percentage.
      *
-     * @uses  ChartArea
-     * @param ChartArea $chartArea
+     * @param  array $chartAreaConfig Options for the chart area.
      * @return \Khill\Lavacharts\Charts\Chart
      */
-    public function chartArea(ChartArea $chartArea)
+    public function chartArea( $chartAreaConfig)
     {
-        return $this->addOption($chartArea->toArray());
+        return $this->addOption(__FUNCTION__, new ChartArea($chartAreaConfig));
     }
 
     /**
      * The colors to use for the chart elements. An array of strings, where each
      * element is an HTML color string, for example: colors:['red','#004411'].
      *
-     * @param  array              $cArr
+     * @param  array              $colorArray
      * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function colors($cArr)
+    public function colors($colorArray)
     {
-        if (Utils::arrayValuesCheck($cArr, 'string') === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
+        if (Utils::arrayValuesCheck($colorArray, 'string') === false) {
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
                 'array',
                 'with valid HTML colors'
             );
         }
 
-        return $this->addOption([__FUNCTION__ => $cArr]);
+        return $this->addOption(__FUNCTION__, $colorArray);
     }
 
     /**
@@ -376,7 +388,7 @@ class Chart implements \JsonSerializable
      * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function events($events)
+    public function events($events) //TODO come back to this
     {
         if (is_array($events) === false && $events instanceof Event === false) {
             throw new InvalidConfigValue(
@@ -416,14 +428,7 @@ class Chart implements \JsonSerializable
      */
     public function fontSize($fontSize)
     {
-        if (is_int($fontSize) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $fontSize]);
+        return $this->addIntOption(__FUNCTION__, $fontSize);
     }
 
     /**
@@ -436,33 +441,19 @@ class Chart implements \JsonSerializable
      */
     public function fontName($fontName)
     {
-        if (Utils::nonEmptyString($fontName) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $fontName]);
+        return $this->addStringOption(__FUNCTION__, $fontName);
     }
 
     /**
      * Height of the chart, in pixels.
      *
-     * @param  integer $h
+     * @param  int $height
      * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function height($h)
+    public function height($height)
     {
-        if (is_int($h) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $h]);
+        return $this->addIntOption(__FUNCTION__, $height);
     }
 
     /**
@@ -470,33 +461,13 @@ class Chart implements \JsonSerializable
      * specify properties of this object, create a new legend() object, set the
      * values then pass it to this function or to the constructor.
      *
-     * @uses   Legend
-     * @param  Legend $legend
+     * @param  array $legendConfig Options for the chart's legend.
      * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function legend(Legend $legend)
+    public function legend($legendConfig)
     {
-        return $this->addOption($legend->toArray());
-    }
-
-    /**
-     * Outputs the chart javascript into the page
-     *
-     * Pass in a string of the html elementID that you want the chart to be
-     * rendered into.
-     *
-     * @since  2.0.0
-     * @param  string $elemId The id of an HTML element to render the chart into.
-     * @return string Javascript code blocks
-     * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
-     *
-     */
-    public function render($elemId)
-    {
-        $jsf = new JavascriptFactory;
-
-        return $jsf->getChartJs($this, $elemId);
+        return $this->addOption(__FUNCTION__, new Legend($legendConfig));
     }
 
     /**
@@ -508,14 +479,7 @@ class Chart implements \JsonSerializable
      */
     public function title($title)
     {
-        if (Utils::nonEmptyString($title) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $title]);
+        return $this->addStringOption(__FUNCTION__, $title);
     }
 
     /**
@@ -538,15 +502,7 @@ class Chart implements \JsonSerializable
             'none'
         ];
 
-        if (in_array($titlePosition, $values, true) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $titlePosition]);
+        return $this->addStringInArrayOption(__FUNCTION__, $titlePosition, $values);
     }
 
     /**
@@ -558,9 +514,9 @@ class Chart implements \JsonSerializable
      * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function titleTextStyle(TextStyle $textStyle)
+    public function titleTextStyle($textStyle)
     {
-        return $this->addOption($textStyle->toArray(__FUNCTION__));
+        return $this->addOption(__FUNCTION__, new TextStyle($textStyle));
     }
 
     /**
@@ -568,38 +524,31 @@ class Chart implements \JsonSerializable
      * properties of this object, create a new tooltip() object, set the values
      * then pass it to this function or to the constructor.
      *
-     * @uses   Tooltip
-     * @param  Tooltip $tooltip
+     * @param  array $tooltip Options for the tooltips
+     * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function tooltip(Tooltip $tooltip)
+    public function tooltip($tooltip)
     {
-        return $this->addOption($tooltip->toArray());
+        return $this->addOption(__FUNCTION__, new Tooltip($tooltip));
     }
 
     /**
      * Width of the chart, in pixels.
      *
-     * @param  integer $width
+     * @param  int $width
      * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function width($width)
     {
-        if (is_int($width) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $width]);
+        return $this->addIntOption(__FUNCTION__, $width);
     }
 
     /**
      * function for easy creation of exceptions
      *
+     * @TODO REMOVE THIS!
      * @return InvalidConfigValue
      */
     protected function invalidConfigValue($func, $type, $extra = '')
