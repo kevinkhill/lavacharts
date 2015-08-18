@@ -91,6 +91,30 @@ class JsonConfig implements \JsonSerializable
     }
 
     /**
+     * Gets the Options object for the JsonConfig
+     *
+     * @return \Khill\Lavacharts\Configs\Options
+     */
+    protected function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Shortcut method to set the value of an option and return $this.
+     *
+     * @param  string $option Option to set.
+     * @param  mixed $value Value of the option.
+     * @return self
+     */
+    protected function setOption($option, $value)
+    {
+        $this->options->set($option, $value);
+
+        return $this;
+    }
+
+    /**
      * Sets the value of a string option.
      *
      * @param  string $option Option to set.
@@ -227,30 +251,6 @@ class JsonConfig implements \JsonSerializable
         $this->options->set($option, $value);
 
         return $this;
-    }
-
-    /**
-     * Shortcut method to set the value of an option and return $this.
-     *
-     * @param  string $option Option to set.
-     * @param  mixed $value Value of the option.
-     * @return self
-     */
-    protected function setOption($option, $value)
-    {
-        $this->options->set($option, $value);
-
-        return $this;
-    }
-
-    /**
-     * Gets the Options object for the JsonConfig
-     *
-     * @return \Khill\Lavacharts\Configs\Options
-     */
-    protected function getOptions()
-    {
-        return $this->options;
     }
 
     /**

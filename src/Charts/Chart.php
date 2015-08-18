@@ -16,8 +16,7 @@ use \Khill\Lavacharts\Configs\TextStyle;
 use \Khill\Lavacharts\Configs\ChartArea;
 use \Khill\Lavacharts\Configs\BackgroundColor;
 use \Khill\Lavacharts\Exceptions\DataTableNotFound;
-use \Khill\Lavacharts\Exceptions\InvalidElementId;
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+use \Khill\Lavacharts\Exceptions\InvalidConfigProperty
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
@@ -46,7 +45,7 @@ class Chart extends JsonConfig
     /**
      * The chart's datatable.
      *
-     * @var DataTable
+     * @var \Khill\Lavacharts\DataTables\DataTable
      */
     protected $datatable = null;
 
@@ -101,39 +100,16 @@ class Chart extends JsonConfig
     }
 
     /**
-     * Sets a configuration option
-     * Takes an array with option => value, or an object created by
-     * one of the configOptions child objects.
-     *
-     * @param  mixed $o
-     * @return \Khill\Lavacharts\Charts\Chart
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
-    protected function addOption($o)
-    {
-        if (is_array($o)) {
-            $this->options = array_merge($this->options, $o);
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'array'
-            );
-        }
-
-        return $this;
-    }*/
-
-    /**
      * Sets configuration options from array of values
-     *
      * You can set the options all at once instead of passing them individually
      * or chaining the functions from the chart objects.
      *
+     * @deprecated Pass the chart options into the constructor.
      * @param  array $options
      * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
+     */
     public function setOptions($options)
     {
         if (is_array($options) === false || count($options) == 0) {
@@ -143,41 +119,10 @@ class Chart extends JsonConfig
             );
         }
 
-        foreach ($options as $option => $value) {
-            if (in_array($option, $this->defaults)) {
-                call_user_func([$this, $option], $value);
-            } else {
-                throw new InvalidConfigProperty(
-                    static::TYPE,
-                    __FUNCTION__,
-                    $option,
-                    $this->defaults
-                );
-            }
-        }
+        $this->parseConfig($options);
 
         return $this;
-    }*/
-
-    /**
-     * Gets a specific option from the array.
-     *
-     * @param  string $option Which option to fetch
-     * @return mixed
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     *
-    public function getOption($option)
-    {
-        if (is_string($option) === false || array_key_exists($option, $this->options) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'must be one of '.Utils::arrayToPipedString($this->defaults)
-            );
-        }
-
-        return $this->options[$option];
-    }*/
+    }
 
     /**
      * Returns the chart type.
@@ -189,37 +134,7 @@ class Chart extends JsonConfig
     {
         return static::TYPE;
     }
-
-    /**
-     * TODO: this is a shim, filling in for the options object
-     *
-     * @return array
-     *
-    public function jsonSerialize()
-    {
-        return $this->options;
-    }*/
-
-    /**
-     * Gets the current chart options.
-     *
-     * @return array
-     *
-    public function getOptions()
-    {
-        return $this->options;
-    }*/
-
-    /**
-     * Returns a JSON string representation of the chart's properties.
-     *
-     * @return string
-     *
-    public function optionsToJson()
-    {
-        return json_encode($this->options);
-    }*/
-
+    
     /**
      * Checks if any events have been assigned to the chart.
      *
@@ -253,6 +168,47 @@ class Chart extends JsonConfig
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     * Register javascript callbacks for specific events.
+     *
+     * Valid values include:
+     * [ animationfinish | error | onmouseover | onmouseout | ready | select ]
+     * associated to a respective pre-defined javascript function as the callback.
+     *
+     * @param  array $events Array of events associated to a callback
+     * @return \Khill\Lavacharts\Charts\Chart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function events($events) //TODO come back to this
+    {
+        if (is_array($events) === false && $events instanceof Event === false) {
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
+                'array',
+                ' with Event objects or a single Event object.'
+            );
+        }
+
+        if ($events instanceof Event) {
+            $this->events[] = $events;
+        }
+
+        if (is_array($events)) {
+            foreach ($events as $event) {
+                if ($event instanceof Event === false) {
+                    throw new InvalidConfigValue(
+                        static::TYPE . '->' . __FUNCTION__,
+                        'Event'
+                    );
+                }
+
+                $this->events[] = $event;
+            }
+        }
+
+        return $this;
     }
 
     /**
@@ -316,9 +272,9 @@ class Chart extends JsonConfig
         return $jsf->getChartJs($this, $elemId);
     }
 
-    /*************************
-     * Options
-     *************************/
+    /*****************************************************************************************************************
+     ** Options
+     *****************************************************************************************************************/
 
     /**
      * Set the animation options for a chart.
@@ -353,7 +309,7 @@ class Chart extends JsonConfig
      * @param  array $chartAreaConfig Options for the chart area.
      * @return \Khill\Lavacharts\Charts\Chart
      */
-    public function chartArea( $chartAreaConfig)
+    public function chartArea($chartAreaConfig)
     {
         return $this->addOption(__FUNCTION__, new ChartArea($chartAreaConfig));
     }
@@ -377,47 +333,6 @@ class Chart extends JsonConfig
         }
 
         return $this->addOption(__FUNCTION__, $colorArray);
-    }
-
-    /**
-     * Register javascript callbacks for specific events.
-     *
-     * Valid values include:
-     * [ animationfinish | error | onmouseover | onmouseout | ready | select ]
-     * associated to a respective pre-defined javascript function as the callback.
-     *
-     * @param  array $events Array of events associated to a callback
-     * @return \Khill\Lavacharts\Charts\Chart
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function events($events) //TODO come back to this
-    {
-        if (is_array($events) === false && $events instanceof Event === false) {
-            throw new InvalidConfigValue(
-                static::TYPE . '->' . __FUNCTION__,
-                'array',
-                ' with Event objects or a single Event object.'
-            );
-        }
-
-        if ($events instanceof Event) {
-            $this->events[] = $events;
-        }
-
-        if (is_array($events)) {
-            foreach ($events as $event) {
-                if ($event instanceof Event === false) {
-                    throw new InvalidConfigValue(
-                        static::TYPE . '->' . __FUNCTION__,
-                        'Event'
-                    );
-                }
-
-                $this->events[] = $event;
-            }
-        }
-
-        return $this;
     }
 
     /**
