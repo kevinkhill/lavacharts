@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Configs\Options;
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Configs\SizeAxis;
 use \Khill\Lavacharts\Configs\MagnifyingGlass;
