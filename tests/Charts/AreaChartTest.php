@@ -37,7 +37,7 @@ class AreaChartTest extends ChartTestCase
     {
         $this->AreaChart->areaOpacity(0.6);
 
-        $this->assertEquals(0.6, $this->AreaChart->getOption('areaOpacity'));
+        $this->assertEquals(0.6, $this->AreaChart->areaOpacity);
     }
 
     /**
@@ -52,13 +52,13 @@ class AreaChartTest extends ChartTestCase
     public function testAxisTitlesPositionValidValues()
     {
         $this->AreaChart->axisTitlesPosition('in');
-        $this->assertEquals('in', $this->AreaChart->getOption('axisTitlesPosition'));
+        $this->assertEquals('in', $this->AreaChart->axisTitlesPosition);
 
         $this->AreaChart->axisTitlesPosition('out');
-        $this->assertEquals('out', $this->AreaChart->getOption('axisTitlesPosition'));
+        $this->assertEquals('out', $this->AreaChart->axisTitlesPosition);
 
         $this->AreaChart->axisTitlesPosition('none');
-        $this->assertEquals('none', $this->AreaChart->getOption('axisTitlesPosition'));
+        $this->assertEquals('none', $this->AreaChart->axisTitlesPosition);
     }
 
     /**
@@ -81,10 +81,10 @@ class AreaChartTest extends ChartTestCase
     public function testFocusTarget()
     {
         $this->AreaChart->focusTarget('datum');
-        $this->assertEquals('datum', $this->AreaChart->getOption('focusTarget'));
+        $this->assertEquals('datum', $this->AreaChart->focusTarget);
 
         $this->AreaChart->focusTarget('category');
-        $this->assertEquals('category', $this->AreaChart->getOption('focusTarget'));
+        $this->assertEquals('category', $this->AreaChart->focusTarget);
     }
 
     /**
@@ -100,14 +100,14 @@ class AreaChartTest extends ChartTestCase
     {
         $this->AreaChart->hAxis($this->getMockHorizontalAxis());
 
-        $this->assertTrue(is_array($this->AreaChart->getOption('hAxis')));
+        $this->assertTrue(is_array($this->AreaChart->hAxis));
     }
 
     public function testIsStacked()
     {
         $this->AreaChart->isStacked(true);
 
-        $this->assertTrue($this->AreaChart->getOption('isStacked'));
+        $this->assertTrue($this->AreaChart->isStacked);
     }
 
     /**
@@ -123,7 +123,7 @@ class AreaChartTest extends ChartTestCase
     {
         $this->AreaChart->interpolateNulls(true);
 
-        $this->assertTrue($this->AreaChart->getOption('interpolateNulls'));
+        $this->assertTrue($this->AreaChart->interpolateNulls);
     }
 
     /**
@@ -139,7 +139,7 @@ class AreaChartTest extends ChartTestCase
     {
         $this->AreaChart->lineWidth(22);
 
-        $this->assertEquals(22, $this->AreaChart->getOption('lineWidth'));
+        $this->assertEquals(22, $this->AreaChart->lineWidth);
     }
 
     /**
@@ -155,7 +155,7 @@ class AreaChartTest extends ChartTestCase
     {
         $this->AreaChart->pointSize(3);
 
-        $this->assertEquals(3, $this->AreaChart->getOption('pointSize'));
+        $this->assertEquals(3, $this->AreaChart->pointSize);
     }
 
     /**
@@ -171,6 +171,6 @@ class AreaChartTest extends ChartTestCase
     {
         $this->AreaChart->vAxis($this->getMockVerticalAxis());
 
-        $this->assertTrue(is_array($this->AreaChart->getOption('vAxis')));
+        $this->assertTrue(is_array($this->AreaChart->vAxis));
     }
 }

@@ -29,66 +29,7 @@ class BarChartTest extends ChartTestCase
         $this->assertEquals('MyTestChart', (string) $this->BarChart->getLabel());
     }
 
-    public function testAnnotations()
-    {
-        $this->BarChart->annotations([
-            'alwaysOutside' => true
-        ]);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Annotation', $this->BarChart->annotations);
-    }
-
-    public function testAxisTitlesPositionWithValidValues()
-    {
-        $this->BarChart->axisTitlesPosition('in');
-        $this->assertEquals('in', $this->BarChart->axisTitlesPosition);
-
-        $this->BarChart->axisTitlesPosition('out');
-        $this->assertEquals('out', $this->BarChart->axisTitlesPosition);
-
-        $this->BarChart->axisTitlesPosition('none');
-        $this->assertEquals('none', $this->BarChart->axisTitlesPosition);
-    }
-
-    /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testAxisTitlesPositionWithBadValue()
-    {
-        $this->BarChart->axisTitlesPosition('stapler');
-    }
-
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testAxisTitlesPositionWithBadType($badTypes)
-    {
-        $this->BarChart->axisTitlesPosition($badTypes);
-    }
-
-    public function testBarGroupWidthWithInt()
-    {
-        $this->BarChart->barGroupWidth(200);
-
-        $this->assertEquals(200, $this->BarChart->barGroupWidth['groupWidth']);
-    }
-
-    public function testBarGroupWidthWithPercent()
-    {
-        $this->BarChart->barGroupWidth('33%');
-
-        $this->assertEquals('33%', $this->BarChart->barGroupWidth['groupWidth']);
-    }
-
-    /**
-     * @dataProvider nonIntOrPercentProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testBarGroupWidthWithBadTypes($badTypes)
-    {
-        $this->BarChart->barGroupWidth($badTypes);
-    }
 
     public function testDataOpacity()
     {
