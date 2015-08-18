@@ -13,24 +13,14 @@ trait BarGroupWidthTrait
      * - Percentage of the available width for each group (e.g. '20%'),
      *   where '100%' means that groups have no space between them.
      *
-     * @param  integer|string $barGroupWidth
+     * @param  int|string $barGroupWidth
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return \Khill\Lavacharts\Charts\Chart
      */
     public function barGroupWidth($barGroupWidth)
     {
-        if (Utils::isIntOrPercent($barGroupWidth) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string | int',
-                'must be a valid int or percent [ 50 | 65% ]'
-            );
-        }
-
-        return $this->addOption([
-            __FUNCTION__ => [
-                'groupWidth' => $barGroupWidth
-            ]
+        return $this->setIntOrPercentOption(__FUNCTION__, [
+            'groupWidth' => $barGroupWidth
         ]);
     }
 }

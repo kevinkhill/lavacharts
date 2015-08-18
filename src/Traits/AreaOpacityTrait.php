@@ -26,6 +26,6 @@ trait AreaOpacityTrait
             );
         }
 
-        return $this->addOption([__FUNCTION__ => $areaOpacity]);
+        return $this->setOption(__FUNCTION__, $areaOpacity);
     }
 }

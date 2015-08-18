@@ -19,7 +19,7 @@ trait HorizontalAxesTrait
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return \Khill\Lavacharts\Charts\Chart
      */
-    public function hAxes($arr)
+    public function hAxes($arr) //TODO: look into this function
     {
         if (Utils::arrayValuesCheck($arr, 'class', 'HorizontalAxis') === false) {
             throw $this->invalidConfigValue(
@@ -29,6 +29,6 @@ trait HorizontalAxesTrait
             );
         }
 
-        return $this->addOption([__FUNCTION__ => $arr]);
+        return $this->setOption(__FUNCTION__, $arr);
     }
 }

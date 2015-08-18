@@ -20,7 +20,7 @@ trait VerticalAxesTrait
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return \Khill\Lavacharts\Charts\Chart
      */
-    public function vAxes($axes)
+    public function vAxes($axes) //TODO: look into this function
     {
         if (Utils::arrayValuesCheck($axes, 'class', 'VerticalAxis') === false) {
             throw $this->invalidConfigValue(

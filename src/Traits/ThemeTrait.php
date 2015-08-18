@@ -29,14 +29,6 @@ trait ThemeTrait
             'maximized'
         ];
 
-        if (in_array($theme, $values, true) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'must be one of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $theme]);
+        return $this->setStringInArrayOption(__FUNCTION__, $theme, $values);
     }
 }

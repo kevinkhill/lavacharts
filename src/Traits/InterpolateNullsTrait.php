@@ -17,13 +17,6 @@ trait InterpolateNullsTrait
      */
     public function interpolateNulls($interpolateNulls)
     {
-        if (is_bool($interpolateNulls) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $interpolateNulls]);
+        return $this->setBoolOption(__FUNCTION__, $interpolateNulls);
     }
 }

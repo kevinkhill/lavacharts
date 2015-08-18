@@ -17,7 +17,7 @@ trait SeriesTrait
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return \Khill\Lavacharts\Charts\Chart
      */
-    public function series($arr)
+    public function series($arr) //TODO: look into this function
     {
         if (Utils::arrayValuesCheck($arr, 'class', 'Series') === false) {
             throw $this->invalidConfigValue(

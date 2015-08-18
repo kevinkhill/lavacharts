@@ -25,6 +25,6 @@ trait DataOpacityTrait
             );
         }
 
-        return $this->addOption([__FUNCTION__ => $dataOpacity]);
+        return $this->setOption(__FUNCTION__, $dataOpacity);
     }
 }
