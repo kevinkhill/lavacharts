@@ -43,7 +43,6 @@ class Options
      *
      * @param array $defaults
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * return self
      */
     public function __construct($defaults)
     {
@@ -107,8 +106,8 @@ class Options
      * Extends the default options with more options.
      *
      * @param  array $defaults Array of options to extend the defaults.
+     * @return \Khill\Lavacharts\Configs\Options
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function extend($defaults)
     {
@@ -128,8 +127,8 @@ class Options
      * Removes options from the default options.
      *
      * @param  array $options Array of options to remove from the defaults.
+     * @return \Khill\Lavacharts\Configs\Options
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function remove($options)
     {
@@ -150,8 +149,8 @@ class Options
      *
      * @param  string $option Name of option to set.
      * @param  mixed $value Value to set the option to.
+     * @return \Khill\Lavacharts\Configs\Options
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
-     * @return self
      */
     public function set($option, $value)
     {
@@ -168,8 +167,8 @@ class Options
      * Get the value of a set option.
      *
      * @param  string $option Name of option.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      * @return mixed
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      */
     public function get($option)
     {

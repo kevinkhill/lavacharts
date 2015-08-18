@@ -59,8 +59,8 @@ class JsonConfig implements \JsonSerializable
      * Get the value of a set option via magic method through UI.
      *
      * @param  string $option Name of option.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @return mixed
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function __get($option)
     {
@@ -103,9 +103,11 @@ class JsonConfig implements \JsonSerializable
     /**
      * Shortcut method to set the value of an option and return $this.
      *
+     * In order to maintain backwards compatibility, ConfigObjects will be unwrapped.
+     *
      * @param  string $option Option to set.
-     * @param  mixed $value Value of the option.
-     * @return self
+     * @param  mixed  $value Value of the option.
+     * @return \Khill\Lavacharts\Configs\JsonConfig
      */
     protected function setOption($option, $value)
     {
@@ -119,9 +121,9 @@ class JsonConfig implements \JsonSerializable
      *
      * @param  string $option Option to set.
      * @param  string $value Value of the option.
+     * @return \Khill\Lavacharts\Configs\JsonConfig
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
-     * @return self
      */
     protected function setStringOption($option, $value)
     {
@@ -143,9 +145,9 @@ class JsonConfig implements \JsonSerializable
      * @param  string $option Option to set.
      * @param  string $value Value of the option.
      * @param  array  $validValues Array of valid values
+     * @return \Khill\Lavacharts\Configs\JsonConfig
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
-     * @return self
      */
     protected function setStringInArrayOption($option, $value, $validValues = [])
     {
@@ -166,9 +168,9 @@ class JsonConfig implements \JsonSerializable
      *
      * @param  string $option Option to set.
      * @param  int    $value Value of the option.
+     * @return \Khill\Lavacharts\Configs\JsonConfig
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
-     * @return self
      */
     protected function setIntOption($option, $value)
     {
@@ -189,9 +191,9 @@ class JsonConfig implements \JsonSerializable
      *
      * @param  string $option Option to set.
      * @param  int|float $value Value of the option.
+     * @return \Khill\Lavacharts\Configs\JsonConfig
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
-     * @return self
      */
     protected function setNumericOption($option, $value)
     {
@@ -212,16 +214,17 @@ class JsonConfig implements \JsonSerializable
      *
      * @param  string $option Option to set.
      * @param  int    $value Value of the option.
+     * @return \Khill\Lavacharts\Configs\JsonConfig
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
-     * @return self
      */
     protected function setIntOrPercentOption($option, $value)
     {
         if (Utils::isIntOrPercent($value) === false) {
             throw new InvalidConfigValue(
                 static::TYPE . '->' . $option,
-                'int or a string representing a percent.'
+                'int|string',
+                'String only if representing a percent. "50%"'
             );
         }
 
@@ -235,9 +238,9 @@ class JsonConfig implements \JsonSerializable
      *
      * @param  string $option Option to set.
      * @param  bool   $value Value of the option.
+     * @return \Khill\Lavacharts\Configs\JsonConfig
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
-     * @return self
      */
     protected function setBoolOption($option, $value)
     {

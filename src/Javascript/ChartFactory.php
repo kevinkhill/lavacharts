@@ -88,7 +88,6 @@ class ChartFactory extends JavascriptFactory
      * Builds the javascript object of event callbacks.
      *
      * @access private
-     * @param  Chart  $chart
      * @return string Javascript code block.
      */
     private function buildEventCallbacks()

@@ -16,7 +16,6 @@ use \Khill\Lavacharts\Configs\TextStyle;
 use \Khill\Lavacharts\Configs\ChartArea;
 use \Khill\Lavacharts\Configs\BackgroundColor;
 use \Khill\Lavacharts\Exceptions\DataTableNotFound;
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
@@ -107,7 +106,6 @@ class Chart extends JsonConfig
      * @deprecated Pass the chart options into the constructor.
      * @param  array $options
      * @return \Khill\Lavacharts\Charts\Chart
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function setOptions($options)
@@ -134,7 +132,7 @@ class Chart extends JsonConfig
     {
         return static::TYPE;
     }
-    
+
     /**
      * Checks if any events have been assigned to the chart.
      *
@@ -229,8 +227,8 @@ class Chart extends JsonConfig
      * Returns the DataTable
      *
      * @since  3.0.0
-     * @throws \Khill\Lavacharts\Exceptions\DataTableNotFound
      * @return \Khill\Lavacharts\DataTables\DataTable
+     * @throws \Khill\Lavacharts\Exceptions\DataTableNotFound
      */
     public function getDataTable()
     {
@@ -259,6 +257,7 @@ class Chart extends JsonConfig
      * Pass in a string of the html elementID that you want the chart to be
      * rendered into.
      *
+     * @deprecated
      * @since  2.0.0
      * @param  string $elemId The id of an HTML element to render the chart into.
      * @return string Javascript code blocks
@@ -267,6 +266,7 @@ class Chart extends JsonConfig
      */
     public function render($elemId)
     {
+        trigger_error("Rendering directly from charts is deprecated. Use the render method off your main Lavacharts object.", E_USER_DEPRECATED);
         $jsf = new JavascriptFactory;
 
         return $jsf->getChartJs($this, $elemId);
