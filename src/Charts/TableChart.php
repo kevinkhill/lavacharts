@@ -3,7 +3,7 @@
 /**
  * Table Chart Class
  *
- * A table chart is rendered within the browser. Displays a data from either an array or datatable in an easily sortable form.
+ * A table chart is rendered within the browser. Displays a data from a DataTable in an easily sortable form.
  * Can be searched by rendering as a wrapper and binding to a control within a dashboard.
  *
  *
@@ -17,14 +17,14 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use \Khill\Lavacharts\Configs\JsonConfig;
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Configs\CssClassNames;
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Configs\CssClassNames;
-use \Khill\Lavacharts\Values\Label;
 
-class TableChart extends JsonConfig
+class TableChart extends Chart
 {
     /**
      * Javascript chart type.
