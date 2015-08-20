@@ -36,13 +36,13 @@ class ColumnChartTest extends ChartTestCase
     public function testAxisTitlesPositionValidValues()
     {
         $this->ColumnChart->axisTitlesPosition('in');
-        $this->assertEquals('in', $this->ColumnChart->getOption('axisTitlesPosition'));
+        $this->assertEquals('in', $this->ColumnChart->axisTitlesPosition);
 
         $this->ColumnChart->axisTitlesPosition('out');
-        $this->assertEquals('out', $this->ColumnChart->getOption('axisTitlesPosition'));
+        $this->assertEquals('out', $this->ColumnChart->axisTitlesPosition);
 
         $this->ColumnChart->axisTitlesPosition('none');
-        $this->assertEquals('none', $this->ColumnChart->getOption('axisTitlesPosition'));
+        $this->assertEquals('none', $this->ColumnChart->axisTitlesPosition);
     }
 
     /**
@@ -66,7 +66,7 @@ class ColumnChartTest extends ChartTestCase
     {
         $this->ColumnChart->barGroupWidth(200);
 
-        $bar = $this->ColumnChart->getOption('barGroupWidth');
+        $bar = $this->ColumnChart->barGroupWidth;
 
         $this->assertEquals(200, $bar['groupWidth']);
     }
@@ -75,7 +75,7 @@ class ColumnChartTest extends ChartTestCase
     {
         $this->ColumnChart->barGroupWidth('33%');
 
-        $bar = $this->ColumnChart->getOption('barGroupWidth');
+        $bar = $this->ColumnChart->barGroupWidth;
 
         $this->assertEquals('33%', $bar['groupWidth']);
     }
@@ -93,14 +93,14 @@ class ColumnChartTest extends ChartTestCase
     {
         $this->ColumnChart->hAxis($this->getMockHorizontalAxis());
 
-        $this->assertTrue(is_array($this->ColumnChart->getOption('hAxis')));
+        $this->assertTrue(is_array($this->ColumnChart->hAxis));
     }
 
     public function testIsStacked()
     {
         $this->ColumnChart->isStacked(true);
 
-        $this->assertTrue($this->ColumnChart->getOption('isStacked'));
+        $this->assertTrue($this->ColumnChart->isStacked);
     }
 
     /**
@@ -116,6 +116,6 @@ class ColumnChartTest extends ChartTestCase
     {
         $this->ColumnChart->vAxis($this->getMockVerticalAxis());
 
-        $this->assertTrue(is_array($this->ColumnChart->getOption('vAxis')));
+        $this->assertTrue(is_array($this->ColumnChart->vAxis));
     }
 }

@@ -25,8 +25,8 @@ Check here for notes on how to  [upgrade from 2.5.x to 3.0.x](https://github.com
 - DataTable column formatters
 - [Carbon](https://github.com/briannesbitt/Carbon) support for date columns
 - Supports string, number, date, and timeofday columns
-- Now supporting 10 Charts!
-  - Area, Bar, Calendar, Column, Combo, Donut, Gauge, Geo, Line, Pie
+- Now supporting 12 Charts!
+  - Area, Bar, Calendar, Column, Combo, Donut, Gauge, Geo, Line, Pie, Scatter, Table
 - [DataTablePlus](https://github.com/kevinkhill/datatableplus) package can be added to parse CSV files or Eloquent collections into DataTables.
 
 ## For complete documentation, please visit [lavacharts.com](http://lavacharts.com/)

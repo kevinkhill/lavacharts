@@ -64,7 +64,8 @@ class Lavacharts
         'GaugeChart',
         'GeoChart',
         'LineChart',
-        'ScatterChart'
+        'ScatterChart',
+        'TableChart'
     ];
 
     /**

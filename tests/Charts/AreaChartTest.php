@@ -98,9 +98,9 @@ class AreaChartTest extends ChartTestCase
 
     public function testHorizontalAxis()
     {
-        $this->AreaChart->hAxis($this->getMockHorizontalAxis());
+        $this->AreaChart->hAxis([]);
 
-        $this->assertTrue(is_array($this->AreaChart->hAxis));
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\HorizontalAxis', $this->AreaChart->hAxis);
     }
 
     public function testIsStacked()
@@ -169,8 +169,8 @@ class AreaChartTest extends ChartTestCase
 
     public function testVerticalAxis()
     {
-        $this->AreaChart->vAxis($this->getMockVerticalAxis());
+        $this->AreaChart->vAxis([]);
 
-        $this->assertTrue(is_array($this->AreaChart->vAxis));
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\VerticalAxis', $this->AreaChart->vAxis);
     }
 }
