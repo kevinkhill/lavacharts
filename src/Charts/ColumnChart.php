@@ -73,6 +73,7 @@ class ColumnChart extends Chart
         'focusTarget',
         'hAxis',
         'isHtml',
+        'isStacked',
         //'vAxes',
         'vAxis'
     ];
