@@ -65,8 +65,8 @@ class Chart extends JsonConfig
         'backgroundColor',
         'chartArea',
         'colors',
-        //'datatable',
-        //'events',
+        'datatable',
+        'events',
         'fontSize',
         'fontName',
         'height',
@@ -284,7 +284,7 @@ class Chart extends JsonConfig
      */
     public function animation($animationConfig)
     {
-        return $this->addOption(__FUNCTION__, new Animation($animationConfig));
+        return $this->setOption(__FUNCTION__, new Animation($animationConfig));
     }
 
     /**
@@ -296,7 +296,7 @@ class Chart extends JsonConfig
      */
     public function backgroundColor($backgroundColorConfig)
     {
-        return $this->addOption(__FUNCTION__, new BackgroundColor($backgroundColorConfig));
+        return $this->setOption(__FUNCTION__, new BackgroundColor($backgroundColorConfig));
     }
 
     /**
@@ -311,7 +311,7 @@ class Chart extends JsonConfig
      */
     public function chartArea($chartAreaConfig)
     {
-        return $this->addOption(__FUNCTION__, new ChartArea($chartAreaConfig));
+        return $this->setOption(__FUNCTION__, new ChartArea($chartAreaConfig));
     }
 
     /**
@@ -332,7 +332,7 @@ class Chart extends JsonConfig
             );
         }
 
-        return $this->addOption(__FUNCTION__, $colorArray);
+        return $this->setOption(__FUNCTION__, $colorArray);
     }
 
     /**
@@ -384,7 +384,7 @@ class Chart extends JsonConfig
      */
     public function legend($legendConfig)
     {
-        return $this->addOption(__FUNCTION__, new Legend($legendConfig));
+        return $this->setOption(__FUNCTION__, new Legend($legendConfig));
     }
 
     /**
@@ -433,7 +433,7 @@ class Chart extends JsonConfig
      */
     public function titleTextStyle($textStyle)
     {
-        return $this->addOption(__FUNCTION__, new TextStyle($textStyle));
+        return $this->setOption(__FUNCTION__, new TextStyle($textStyle));
     }
 
     /**
@@ -447,7 +447,7 @@ class Chart extends JsonConfig
      */
     public function tooltip($tooltip)
     {
-        return $this->addOption(__FUNCTION__, new Tooltip($tooltip));
+        return $this->setOption(__FUNCTION__, new Tooltip($tooltip));
     }
 
     /**

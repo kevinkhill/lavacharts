@@ -59,6 +59,7 @@ class Options
     /**
      * Returns the array of options that can be set.
      *
+     * @access public
      * @return array
      */
     public function getDefaults()
@@ -69,6 +70,7 @@ class Options
     /**
      * Returns an array representation of the options.
      *
+     * @access public
      * @return array Array of the defined options.
      */
     public function getValues()
@@ -79,6 +81,7 @@ class Options
     /**
      * Checks to see if a given option is available to set.
      *
+     * @access public
      * @param  $option string Name of option.
      * @return boolean
      */
@@ -90,6 +93,7 @@ class Options
     /**
      * Checks to see if a given option is set.
      *
+     * @access public
      * @param  $option string Name of option.
      * @return boolean
      */
@@ -103,8 +107,49 @@ class Options
     }
 
     /**
+     * Batch set options from an array
+     *
+     * @access public
+     * @param  array $options
+     * @return \Khill\Lavacharts\Configs\Options
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
+     */
+    public function setOptions($options)
+    {
+        if (is_array($options) === false) {
+            throw new InvalidConfigValue(
+                'Options->setOptions',
+                'array'
+            );
+        }
+
+        foreach ($options as $option => $value) {
+            $this->set($option, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Merges two Options objects and combines the defaults and values.
+     *
+     * @access public
+     * @param  \Khill\Lavacharts\Configs\Options $options
+     * @return \Khill\Lavacharts\Configs\Options
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function merge(Options $options)
+    {
+        $this->extend($options->getDefaults());
+
+        return $this->setOptions($options->getValues());
+    }
+
+    /**
      * Extends the default options with more options.
      *
+     * @access public
      * @param  array $defaults Array of options to extend the defaults.
      * @return \Khill\Lavacharts\Configs\Options
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
@@ -126,6 +171,7 @@ class Options
     /**
      * Removes options from the default options.
      *
+     * @access public
      * @param  array $options Array of options to remove from the defaults.
      * @return \Khill\Lavacharts\Configs\Options
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
@@ -147,6 +193,7 @@ class Options
     /**
      * Set the value of an option.
      *
+     * @access public
      * @param  string $option Name of option to set.
      * @param  mixed $value Value to set the option to.
      * @return \Khill\Lavacharts\Configs\Options
@@ -166,6 +213,7 @@ class Options
     /**
      * Get the value of a set option.
      *
+     * @access public
      * @param  string $option Name of option.
      * @return mixed
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption

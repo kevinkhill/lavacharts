@@ -64,6 +64,7 @@ class JsonConfig implements \JsonSerializable
      */
     public function __get($option)
     {
+        var_dump($this);die;
         return $this->options->get($option);
     }
 

@@ -2,8 +2,6 @@
 
 namespace Khill\Lavacharts\Configs;
 
-use \Khill\Lavacharts\Utils;
-
 /**
  * backgroundColor Object
  *
