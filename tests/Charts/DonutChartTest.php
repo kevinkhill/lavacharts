@@ -24,9 +24,7 @@ class DonutChartTest extends ProvidersTestCase
 
     public function testTypeDonutChart()
     {
-        $chart = $this->DonutChart;
-
-        $this->assertEquals('DonutChart', $chart::TYPE);
+        $this->assertEquals('DonutChart', $this->DonutChart->getType());
     }
 
     public function testLabelAssignedViaConstructor()
@@ -38,7 +36,7 @@ class DonutChartTest extends ProvidersTestCase
     {
         $this->DonutChart->pieHole(0.23);
 
-        $this->assertEquals(0.23, $this->DonutChart->getOption('pieHole'));
+        $this->assertEquals(0.23, $this->DonutChart->pieHole);
     }
 
     /**
