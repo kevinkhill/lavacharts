@@ -3,8 +3,8 @@
 namespace Khill\Lavacharts\Dashboards\Filters;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Configs\Options;
-use \Khill\Lavacharts\Configs\JsonConfig;
+use \Khill\Lavacharts\Options;
+use \Khill\Lavacharts\JsonConfig;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
@@ -43,7 +43,7 @@ class Filter extends JsonConfig
      * Takes either a column label or a column index to filter. The options object will be
      * created internally, so no need to set defaults. The child filter objects will set them.
      *
-     * @param  \Khill\Lavacharts\Configs\Options $options
+     * @param  \Khill\Lavacharts\Options $options
      * @param  array                            $config Array of options to set.
      * @param  mixed                            $columnLabelOrIndex Column index or label of the to filter.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty

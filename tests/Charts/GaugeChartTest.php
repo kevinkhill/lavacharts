@@ -2,10 +2,11 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\GaugeChart;
 use \Mockery as m;
 
-class GaugeChartTest extends ChartTestCase
+class GaugeChartTest extends ProvidersTestCase
 {
     public function setUp()
     {
@@ -31,22 +32,6 @@ class GaugeChartTest extends ChartTestCase
     public function testLabelAssignedViaConstructor()
     {
         $this->assertEquals('Temps', (string) $this->GaugeChart->getLabel());
-    }
-
-    public function testForceIFrame()
-    {
-        $this->GaugeChart->forceIFrame(true);
-
-        $this->assertTrue($this->GaugeChart->getOption('forceIFrame'));
-    }
-
-    /**
-     * @dataProvider nonBoolProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testForceIFrameWithBadType($badTypes)
-    {
-        $this->GaugeChart->forceIFrame($badTypes);
     }
 
     public function testGreenColor()

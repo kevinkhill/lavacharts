@@ -2,10 +2,11 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\DonutChart;
 use \Mockery as m;
 
-class DonutChartTest extends ChartTestCase
+class DonutChartTest extends ProvidersTestCase
 {
     public function setUp()
     {

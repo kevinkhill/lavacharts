@@ -2,38 +2,42 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Mockery as m;
 
-class ChartTest extends ChartTestCase
+class ChartAndTraitsTest extends ProvidersTestCase
 {
+    public $mockChart;
+
     public function setUp()
     {
         parent::setUp();
 
         $label = m::mock('\Khill\Lavacharts\Values\Label', ['TestChart'])->makePartial();
 
-        $this->mockLineChart = m::mock(new \Khill\Lavacharts\Charts\LineChart($label, $this->partialDataTable));
+        $this->mockChart = new MockChart($label, $this->partialDataTable);
     }
 
     public function testLabelAssignedViaConstructor()
     {
-        $this->assertEquals('TestChart', (string) $this->mockLineChart->getLabel());
+        $this->assertEquals('TestChart', (string) $this->mockChart->getLabel());
     }
 
     public function testDataTable()
     {
-        $this->mockLineChart->datatable($this->partialDataTable);
+        $this->mockChart->datatable($this->partialDataTable);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\DataTable', $this->mockLineChart->getDataTable());
+        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\DataTable', $this->mockChart->getDataTable());
     }
 
     public function testBackgroundColorWithValidValues()
     {
-        $this->mockLineChart->backgroundColor([
+        $this->mockChart->backgroundColor([
             'fill' => '#CCC'
         ]);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\BackgroundColor', $this->mockLineChart->backgroundColor);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\BackgroundColor', $this->mockChart->backgroundColor);
+        $this->assertEquals('#CCC', $this->mockChart->backgroundColor->fill);
     }
 
     /**
@@ -42,14 +46,14 @@ class ChartTest extends ChartTestCase
      */
     public function testBackgroundColorWithBadTypes($badTypes)
     {
-        $this->mockLineChart->backgroundColor($badTypes);
+        $this->mockChart->backgroundColor($badTypes);
     }
 
     public function testChartAreaWithValidValues()
     {
-        $this->mockLineChart->chartArea([]);
+        $this->mockChart->chartArea([]);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\ChartArea', $this->mockLineChart->chartArea);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\ChartArea', $this->mockChart->chartArea);
     }
 
     /**
@@ -58,16 +62,16 @@ class ChartTest extends ChartTestCase
      */
     public function testChartAreaWithBadTypes($badTypes)
     {
-        $this->mockLineChart->chartArea($badTypes);
+        $this->mockChart->chartArea($badTypes);
     }
 
     public function testColorsWithValidValue()
     {
         $colors = ['green', 'red'];
 
-        $this->mockLineChart->colors($colors);
+        $this->mockChart->colors($colors);
 
-        $this->assertEquals($colors, $this->mockLineChart->colors);
+        $this->assertEquals($colors, $this->mockChart->colors);
     }
 
     /**
@@ -76,14 +80,14 @@ class ChartTest extends ChartTestCase
      */
     public function testColorsWithBadTypes($badTypes)
     {
-        $this->mockLineChart->colors($badTypes);
+        $this->mockChart->colors($badTypes);
     }
 
     public function testFontNameWithValidValue()
     {
-        $this->mockLineChart->fontName('Tahoma');
+        $this->mockChart->fontName('Tahoma');
 
-        $this->assertEquals('Tahoma', $this->mockLineChart->fontName);
+        $this->assertEquals('Tahoma', $this->mockChart->fontName);
     }
 
     /**
@@ -92,13 +96,13 @@ class ChartTest extends ChartTestCase
      */
     public function testFontNameWithBadTypes($badTypes)
     {
-        $this->mockLineChart->fontName($badTypes);
+        $this->mockChart->fontName($badTypes);
     }
 
     public function testFontSizeWithValidValue()
     {
-        $this->mockLineChart->fontSize(34);
-        $this->assertEquals(34, $this->mockLineChart->fontSize);
+        $this->mockChart->fontSize(34);
+        $this->assertEquals(34, $this->mockChart->fontSize);
     }
 
     /**
@@ -107,13 +111,13 @@ class ChartTest extends ChartTestCase
      */
     public function testFontSizeWithBadTypes($badTypes)
     {
-        $this->mockLineChart->fontSize($badTypes);
+        $this->mockChart->fontSize($badTypes);
     }
 
     public function testHeightWithValidValue()
     {
-        $this->mockLineChart->height(500);
-        $this->assertEquals(500, $this->mockLineChart->height);
+        $this->mockChart->height(500);
+        $this->assertEquals(500, $this->mockChart->height);
     }
 
     /**
@@ -122,14 +126,14 @@ class ChartTest extends ChartTestCase
      */
     public function testHeightWithBadTypes($badTypes)
     {
-        $this->mockLineChart->height($badTypes);
+        $this->mockChart->height($badTypes);
     }
 
     public function testLegendWithValidValues()
     {
-        $this->mockLineChart->legend([]);
+        $this->mockChart->legend([]);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Legend', $this->mockLineChart->legend);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Legend', $this->mockChart->legend);
     }
 
     /**
@@ -138,14 +142,14 @@ class ChartTest extends ChartTestCase
      */
     public function testLegendWithBadTypes($badTypes)
     {
-        $this->mockLineChart->legend($badTypes);
+        $this->mockChart->legend($badTypes);
     }
 
     public function testTitleWithValidValue()
     {
-        $this->mockLineChart->title('Fancy Chart');
+        $this->mockChart->title('Fancy Chart');
 
-        $this->assertEquals('Fancy Chart', $this->mockLineChart->title);
+        $this->assertEquals('Fancy Chart', $this->mockChart->title);
     }
 
     /**
@@ -154,19 +158,19 @@ class ChartTest extends ChartTestCase
      */
     public function testTitleWithBadTypes($badTypes)
     {
-        $this->mockLineChart->title($badTypes);
+        $this->mockChart->title($badTypes);
     }
 
     public function testTitlePositionWithValidValues()
     {
-        $this->mockLineChart->titlePosition('in');
-        $this->assertEquals('in', $this->mockLineChart->titlePosition);
+        $this->mockChart->titlePosition('in');
+        $this->assertEquals('in', $this->mockChart->titlePosition);
 
-        $this->mockLineChart->titlePosition('out');
-        $this->assertEquals('out', $this->mockLineChart->titlePosition);
+        $this->mockChart->titlePosition('out');
+        $this->assertEquals('out', $this->mockChart->titlePosition);
 
-        $this->mockLineChart->titlePosition('none');
-        $this->assertEquals('none', $this->mockLineChart->titlePosition);
+        $this->mockChart->titlePosition('none');
+        $this->assertEquals('none', $this->mockChart->titlePosition);
     }
 
     /**
@@ -174,7 +178,7 @@ class ChartTest extends ChartTestCase
      */
     public function testTitlePositionWithBadValue()
     {
-        $this->mockLineChart->titlePosition('underneath');
+        $this->mockChart->titlePosition('underneath');
     }
 
     /**
@@ -183,14 +187,14 @@ class ChartTest extends ChartTestCase
      */
     public function testTitlePositionWithBadTypes($badTypes)
     {
-        $this->mockLineChart->titlePosition($badTypes);
+        $this->mockChart->titlePosition($badTypes);
     }
 
     public function testTitleTextStyleWithValidValues()
     {
-        $this->mockLineChart->titleTextStyle([]);
+        $this->mockChart->titleTextStyle([]);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $this->mockLineChart->titleTextStyle);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $this->mockChart->titleTextStyle);
     }
 
     /**
@@ -199,14 +203,14 @@ class ChartTest extends ChartTestCase
      */
     public function testTitleTextStyleWithBadTypes($badTypes)
     {
-        $this->mockLineChart->titleTextStyle($badTypes);
+        $this->mockChart->titleTextStyle($badTypes);
     }
 
     public function testTooltipWithValidValues()
     {
-        $this->mockLineChart->tooltip([]);
+        $this->mockChart->tooltip([]);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Tooltip', $this->mockLineChart->tooltip);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Tooltip', $this->mockChart->tooltip);
     }
 
     /**
@@ -215,13 +219,13 @@ class ChartTest extends ChartTestCase
      */
     public function testTooltipWithBadTypes($badTypes)
     {
-        $this->mockLineChart->tooltip($badTypes);
+        $this->mockChart->tooltip($badTypes);
     }
 
     public function testWidthWithValidValue()
     {
-        $this->mockLineChart->width(800);
-        $this->assertEquals(800, $this->mockLineChart->width);
+        $this->mockChart->width(800);
+        $this->assertEquals(800, $this->mockChart->width);
     }
 
     /**
@@ -230,7 +234,7 @@ class ChartTest extends ChartTestCase
      */
     public function testWidthWithBadTypes($badTypes)
     {
-        $this->mockLineChart->width($badTypes);
+        $this->mockChart->width($badTypes);
     }
 
     /**
@@ -246,9 +250,9 @@ class ChartTest extends ChartTestCase
             'height' => 768
         ];
 
-        $this->mockLineChart->setOptions($expected);
+        $this->mockChart->setOptions($expected);
 
-        $this->assertEquals($expected, $this->mockLineChart->getOptions());
+        $this->assertEquals($expected, $this->mockChart->getOptions()->getValues());
     }
 
     /**
@@ -256,7 +260,7 @@ class ChartTest extends ChartTestCase
      */
     public function testSetOptionsWithArrayOfBadOptions()
     {
-        $this->mockLineChart->setOptions([
+        $this->mockChart->setOptions([
             'tibtle' => 'My Cool Chart',
             'widmth' => 1024,
             'heaight' => 768
@@ -269,24 +273,15 @@ class ChartTest extends ChartTestCase
      */
     public function testSetOptionsWithBadTypes($badTypes)
     {
-        $this->mockLineChart->setOptions($badTypes);
+        $this->mockChart->setOptions($badTypes);
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidOption
      */
-    public function testGettingNonExistantOptionValue()
+    public function testGettingNonExistentOptionValue()
     {
-        $this->mockLineChart->bananas;
-    }
-
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testGetOptionsWithBadTypes($badTypes)
-    {
-        $this->mockLineChart->getOption($badTypes);
+        $this->mockChart->bananas;
     }
 
     /**
@@ -296,12 +291,12 @@ class ChartTest extends ChartTestCase
      */
     public function testOptionsToJson()
     {
-        $this->mockLineChart->title('My Cool Chart');
-        $this->mockLineChart->width(1024);
-        $this->mockLineChart->height(768);
+        $this->mockChart->title('My Cool Chart');
+        $this->mockChart->width(1024);
+        $this->mockChart->height(768);
 
         $expected = '{"title":"My Cool Chart","width":1024,"height":768}';
 
-        $this->assertEquals($expected, $this->mockLineChart->optionsToJson());
+        $this->assertEquals($expected, json_encode($this->mockChart));
     }
 }

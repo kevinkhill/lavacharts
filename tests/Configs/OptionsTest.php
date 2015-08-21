@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Tests\Configs;
 
-use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class OptionsTest extends ProvidersTestCase

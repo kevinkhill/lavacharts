@@ -2,10 +2,11 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
-use \Mockery as m;
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\AreaChart;
+use \Mockery as m;
 
-class AreaChartTest extends ChartTestCase
+class AreaChartTest extends ProvidersTestCase
 {
     public function setUp()
     {
@@ -31,146 +32,5 @@ class AreaChartTest extends ChartTestCase
     public function testLabelAssignedViaConstructor()
     {
         $this->assertEquals('MyTestChart', (string) $this->AreaChart->getLabel());
-    }
-
-    public function testAreaOpacity()
-    {
-        $this->AreaChart->areaOpacity(0.6);
-
-        $this->assertEquals(0.6, $this->AreaChart->areaOpacity);
-    }
-
-    /**
-     * @dataProvider nonNumericProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testAreaOpacityWithBadTypes($badTypes)
-    {
-        $this->AreaChart->areaOpacity($badTypes);
-    }
-
-    public function testAxisTitlesPositionValidValues()
-    {
-        $this->AreaChart->axisTitlesPosition('in');
-        $this->assertEquals('in', $this->AreaChart->axisTitlesPosition);
-
-        $this->AreaChart->axisTitlesPosition('out');
-        $this->assertEquals('out', $this->AreaChart->axisTitlesPosition);
-
-        $this->AreaChart->axisTitlesPosition('none');
-        $this->assertEquals('none', $this->AreaChart->axisTitlesPosition);
-    }
-
-    /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testAxisTitlesPositionWithBadValue()
-    {
-        $this->AreaChart->axisTitlesPosition('happymeal');
-    }
-
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testAxisTitlesPositionWithBadType($badTypes)
-    {
-        $this->AreaChart->axisTitlesPosition($badTypes);
-    }
-
-    public function testFocusTarget()
-    {
-        $this->AreaChart->focusTarget('datum');
-        $this->assertEquals('datum', $this->AreaChart->focusTarget);
-
-        $this->AreaChart->focusTarget('category');
-        $this->assertEquals('category', $this->AreaChart->focusTarget);
-    }
-
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testFocusTargetWithBadType($badTypes)
-    {
-        $this->AreaChart->focusTarget($badTypes);
-    }
-
-    public function testHorizontalAxis()
-    {
-        $this->AreaChart->hAxis([]);
-
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\HorizontalAxis', $this->AreaChart->hAxis);
-    }
-
-    public function testIsStacked()
-    {
-        $this->AreaChart->isStacked(true);
-
-        $this->assertTrue($this->AreaChart->isStacked);
-    }
-
-    /**
-     * @dataProvider nonBoolProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testIsStackedWithBadType($badTypes)
-    {
-        $this->AreaChart->isStacked($badTypes);
-    }
-
-    public function testInterpolateNulls()
-    {
-        $this->AreaChart->interpolateNulls(true);
-
-        $this->assertTrue($this->AreaChart->interpolateNulls);
-    }
-
-    /**
-     * @dataProvider nonBoolProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testInterpolateNullsWithBadType($badTypes)
-    {
-        $this->AreaChart->interpolateNulls($badTypes);
-    }
-
-    public function testLineWidth()
-    {
-        $this->AreaChart->lineWidth(22);
-
-        $this->assertEquals(22, $this->AreaChart->lineWidth);
-    }
-
-    /**
-     * @dataProvider nonIntProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testLineWidthWithBadType($badTypes)
-    {
-        $this->AreaChart->lineWidth($badTypes);
-    }
-
-    public function testPointSize()
-    {
-        $this->AreaChart->pointSize(3);
-
-        $this->assertEquals(3, $this->AreaChart->pointSize);
-    }
-
-    /**
-     * @dataProvider nonIntProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testPointSizeWithBadType($badTypes)
-    {
-        $this->AreaChart->pointSize($badTypes);
-    }
-
-    public function testVerticalAxis()
-    {
-        $this->AreaChart->vAxis([]);
-
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\VerticalAxis', $this->AreaChart->vAxis);
     }
 }

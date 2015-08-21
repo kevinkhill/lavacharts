@@ -2,6 +2,9 @@
 
 namespace Khill\Lavacharts\Configs;
 
+use \Khill\Lavacharts\JsonConfig;
+use \Khill\Lavacharts\Options;
+
 /**
  * backgroundColor Object
  *

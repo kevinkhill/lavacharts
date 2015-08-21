@@ -1,10 +1,9 @@
 <?php
 
-namespace Khill\Lavacharts\Configs;
+namespace Khill\Lavacharts;
 
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use Khill\Lavacharts\Exceptions\InvalidOption;
+use \Khill\Lavacharts\Exceptions\InvalidOption;
 
 /**
  * Options Object
@@ -111,7 +110,7 @@ class Options
      *
      * @access public
      * @param  array $options
-     * @return \Khill\Lavacharts\Configs\Options
+     * @return \Khill\Lavacharts\Options
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      */
@@ -135,8 +134,8 @@ class Options
      * Merges two Options objects and combines the defaults and values.
      *
      * @access public
-     * @param  \Khill\Lavacharts\Configs\Options $options
-     * @return \Khill\Lavacharts\Configs\Options
+     * @param  \Khill\Lavacharts\Options $options
+     * @return \Khill\Lavacharts\Options
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function merge(Options $options)
@@ -151,7 +150,7 @@ class Options
      *
      * @access public
      * @param  array $defaults Array of options to extend the defaults.
-     * @return \Khill\Lavacharts\Configs\Options
+     * @return \Khill\Lavacharts\Options
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function extend($defaults)
@@ -173,7 +172,7 @@ class Options
      *
      * @access public
      * @param  array $options Array of options to remove from the defaults.
-     * @return \Khill\Lavacharts\Configs\Options
+     * @return \Khill\Lavacharts\Options
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function remove($options)
@@ -196,7 +195,7 @@ class Options
      * @access public
      * @param  string $option Name of option to set.
      * @param  mixed $value Value to set the option to.
-     * @return \Khill\Lavacharts\Configs\Options
+     * @return \Khill\Lavacharts\Options
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      */
     public function set($option, $value)

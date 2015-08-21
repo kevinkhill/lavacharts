@@ -1,9 +1,9 @@
 <?php
 
-namespace Khill\Lavacharts\Configs;
+namespace Khill\Lavacharts;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
@@ -27,19 +27,85 @@ class JsonConfig implements \JsonSerializable
     /**
      * Allowed options to set for the LavaObject.
      *
-     * @var \Khill\Lavacharts\Configs\Options
+     * @var \Khill\Lavacharts\Options
      */
     protected $options;
 
     /**
      * Creates a new JsonConfig object
      *
-     * @param  \Khill\Lavacharts\Configs\Options $options
+     * @param  \Khill\Lavacharts\Options $options
      * @param  array                             $config
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function __construct(Options $options, $config = [])
+    {
+        $this->options = $options;
+
+        if (is_array($config) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
+                'array'
+            );
+        }
+
+        if (empty($config) === false) {
+            $this->setOptions($config);
+        }
+    }
+
+    /**
+     * Get the value of a set option via magic method through UI.
+     *
+     * @access public
+     * @param  string $option Name of option.
+     * @return mixed
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     */
+    public function __get($option)
+    {
+        return $this->options->get($option);
+    }
+
+    /**
+     * Gets the Options object for the JsonConfig
+     *
+     * @access public
+     * @return \Khill\Lavacharts\Options
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Shortcut method to set the value of an option and return $this.
+     *
+     * In order to maintain backwards compatibility, ConfigObjects will be unwrapped.
+     *
+     * @access public
+     * @param  string $option Option to set.
+     * @param  mixed  $value Value of the option.
+     * @return \Khill\Lavacharts\JsonConfig
+     */
+    public function setOption($option, $value)
+    {
+        $this->options->set($option, $value);
+
+        return $this;
+    }
+
+    /**
+     * Parses the config array by passing the values through each method to check
+     * validity against if the option exists.
+     *
+     * @access public
+     * @param  array $config
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     */
+    public function setOptions($config)
     {
         if (is_array($config) === false) {
             throw new InvalidConfigValue(
@@ -48,35 +114,6 @@ class JsonConfig implements \JsonSerializable
             );
         }
 
-        $this->options = $options;
-
-        if (empty($config) === false) {
-            $this->parseConfig($config);
-        }
-    }
-
-    /**
-     * Get the value of a set option via magic method through UI.
-     *
-     * @param  string $option Name of option.
-     * @return mixed
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     */
-    public function __get($option)
-    {
-        var_dump($this);die;
-        return $this->options->get($option);
-    }
-
-    /**
-     * Parses the config array by passing the values through each method to check
-     * validity against if the option exists.
-     *
-     * @param  array $config
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     */
-    protected function parseConfig($config)
-    {
         foreach ($config as $option => $value) {
             if ($this->options->hasOption($option) === false) {
                 throw new InvalidConfigProperty(
@@ -92,37 +129,11 @@ class JsonConfig implements \JsonSerializable
     }
 
     /**
-     * Gets the Options object for the JsonConfig
-     *
-     * @return \Khill\Lavacharts\Configs\Options
-     */
-    protected function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
-     * Shortcut method to set the value of an option and return $this.
-     *
-     * In order to maintain backwards compatibility, ConfigObjects will be unwrapped.
-     *
-     * @param  string $option Option to set.
-     * @param  mixed  $value Value of the option.
-     * @return \Khill\Lavacharts\Configs\JsonConfig
-     */
-    protected function setOption($option, $value)
-    {
-        $this->options->set($option, $value);
-
-        return $this;
-    }
-
-    /**
      * Sets the value of a string option.
      *
      * @param  string $option Option to set.
      * @param  string $value Value of the option.
-     * @return \Khill\Lavacharts\Configs\JsonConfig
+     * @return \Khill\Lavacharts\JsonConfig
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      */
@@ -146,7 +157,7 @@ class JsonConfig implements \JsonSerializable
      * @param  string $option Option to set.
      * @param  string $value Value of the option.
      * @param  array  $validValues Array of valid values
-     * @return \Khill\Lavacharts\Configs\JsonConfig
+     * @return \Khill\Lavacharts\JsonConfig
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      */
@@ -155,7 +166,8 @@ class JsonConfig implements \JsonSerializable
         if (Utils::nonEmptyStringInArray($value, $validValues) === false) {
             throw new InvalidConfigValue(
                 static::TYPE . '->' . $option,
-                'string. Whose value is one of '.Utils::arrayToPipedString($validValues)
+                'string',
+                'Whose value is one of '.Utils::arrayToPipedString($validValues)
             );
         }
 
@@ -169,7 +181,7 @@ class JsonConfig implements \JsonSerializable
      *
      * @param  string $option Option to set.
      * @param  int    $value Value of the option.
-     * @return \Khill\Lavacharts\Configs\JsonConfig
+     * @return \Khill\Lavacharts\JsonConfig
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      */
@@ -192,7 +204,7 @@ class JsonConfig implements \JsonSerializable
      *
      * @param  string $option Option to set.
      * @param  int|float $value Value of the option.
-     * @return \Khill\Lavacharts\Configs\JsonConfig
+     * @return \Khill\Lavacharts\JsonConfig
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      */
@@ -215,7 +227,7 @@ class JsonConfig implements \JsonSerializable
      *
      * @param  string $option Option to set.
      * @param  int    $value Value of the option.
-     * @return \Khill\Lavacharts\Configs\JsonConfig
+     * @return \Khill\Lavacharts\JsonConfig
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      */
@@ -239,7 +251,7 @@ class JsonConfig implements \JsonSerializable
      *
      * @param  string $option Option to set.
      * @param  bool   $value Value of the option.
-     * @return \Khill\Lavacharts\Configs\JsonConfig
+     * @return \Khill\Lavacharts\JsonConfig
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      */

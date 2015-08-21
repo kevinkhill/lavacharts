@@ -2,10 +2,11 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\PieChart;
 use \Mockery as m;
 
-class PieChartTest extends ChartTestCase
+class PieChartTest extends ProvidersTestCase
 {
     public function setUp()
     {
@@ -14,11 +15,6 @@ class PieChartTest extends ChartTestCase
         $label = m::mock('\Khill\Lavacharts\Values\Label', ['MyTestChart'])->makePartial();
 
         $this->PieChart = new PieChart($label, $this->partialDataTable);
-    }
-
-    public function testInstanceOfPieChartWithType()
-    {
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\PieChart', $this->PieChart);
     }
 
     public function testTypePieChart()

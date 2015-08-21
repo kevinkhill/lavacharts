@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Configs\JsonConfig;
-use Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\JsonConfig;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Events\Event;
 use \Khill\Lavacharts\Values\Label;
@@ -84,7 +84,7 @@ class Chart extends JsonConfig
      *
      * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param  \Khill\Lavacharts\Configs\Options      $options Options fot the chart.
+     * @param  \Khill\Lavacharts\Options      $options Options fot the chart.
      * @param  array                                  $config Array of options to set on the chart.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
@@ -96,30 +96,6 @@ class Chart extends JsonConfig
         $options->extend($this->chartDefaults);
 
         parent::__construct($options, $config);
-    }
-
-    /**
-     * Sets configuration options from array of values
-     * You can set the options all at once instead of passing them individually
-     * or chaining the functions from the chart objects.
-     *
-     * @deprecated Pass the chart options into the constructor.
-     * @param  array $options
-     * @return \Khill\Lavacharts\Charts\Chart
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function setOptions($options)
-    {
-        if (is_array($options) === false || count($options) == 0) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'array'
-            );
-        }
-
-        $this->parseConfig($options);
-
-        return $this;
     }
 
     /**
@@ -136,6 +112,7 @@ class Chart extends JsonConfig
     /**
      * Checks if any events have been assigned to the chart.
      *
+     * @access public
      * @return bool
      */
     public function hasEvents()
@@ -150,6 +127,7 @@ class Chart extends JsonConfig
     /**
      * Checks if any events have been assigned to the chart.
      *
+     * @access public
      * @return array
      */
     public function getEvents()
@@ -160,6 +138,7 @@ class Chart extends JsonConfig
     /**
      * Returns the chart label.
      *
+     * @access public
      * @since  3.0.0
      * @return \Khill\Lavacharts\Values\Label
      */
@@ -175,6 +154,7 @@ class Chart extends JsonConfig
      * [ animationfinish | error | onmouseover | onmouseout | ready | select ]
      * associated to a respective pre-defined javascript function as the callback.
      *
+     * @access public
      * @param  array $events Array of events associated to a callback
      * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
@@ -213,6 +193,7 @@ class Chart extends JsonConfig
      * Assigns a datatable to use for the Chart.
      *
      * @deprecated Apply the DataTable to the chart in the constructor.
+     * @access public
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable
      * @return \Khill\Lavacharts\Charts\Chart
      */
@@ -226,6 +207,7 @@ class Chart extends JsonConfig
     /**
      * Returns the DataTable
      *
+     * @access public
      * @since  3.0.0
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\DataTableNotFound
@@ -242,6 +224,7 @@ class Chart extends JsonConfig
     /**
      * Returns a JSON string representation of the datatable.
      *
+     * @access public
      * @since  2.5.0
      * @throws \Khill\Lavacharts\Exceptions\DataTableNotFound
      * @return string
@@ -252,12 +235,13 @@ class Chart extends JsonConfig
     }
 
     /**
-     * Outputs the chart javascript into the page
+     * Outputs the chart javascript into the page.
      *
      * Pass in a string of the html elementID that you want the chart to be
      * rendered into.
      *
-     * @deprecated
+     * @deprecated Use the Lavacharts master object to keep track of charts to render.
+     * @access public
      * @since  2.0.0
      * @param  string $elemId The id of an HTML element to render the chart into.
      * @return string Javascript code blocks
@@ -279,6 +263,7 @@ class Chart extends JsonConfig
     /**
      * Set the animation options for a chart.
      *
+     * @access public
      * @param  array $animationConfig Animation options
      * @return \Khill\Lavacharts\Charts\Chart
      */
@@ -288,9 +273,11 @@ class Chart extends JsonConfig
     }
 
     /**
-     * The background color for the main area of the chart. Can be either a simple
-     * HTML color string, for example: 'red' or '#00cc00', or a backgroundColor object
+     * The background color for the main area of the chart.
      *
+     * Can be a simple HTML color string, or hex code, for example: 'red' or '#00cc00'
+     *
+     * @access public
      * @param  array $backgroundColorConfig Options for the chart's background color
      * @return \Khill\Lavacharts\Charts\Chart
      */
@@ -306,6 +293,8 @@ class Chart extends JsonConfig
      * Two formats are supported: a number, or a number followed by %.
      * A simple number is a value in pixels; a number followed by % is a percentage.
      *
+     *
+     * @access public
      * @param  array $chartAreaConfig Options for the chart area.
      * @return \Khill\Lavacharts\Charts\Chart
      */
@@ -315,10 +304,14 @@ class Chart extends JsonConfig
     }
 
     /**
-     * The colors to use for the chart elements. An array of strings, where each
-     * element is an HTML color string, for example: colors:['red','#004411'].
+     * The colors to use for the chart elements.
      *
-     * @param  array              $colorArray
+     * An array of strings, where each element is an HTML color string
+     * for example:['red','#004411']
+     *
+     *
+     * @access public
+     * @param  array $colorArray
      * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
@@ -336,48 +329,58 @@ class Chart extends JsonConfig
     }
 
     /**
-     * The default font size, in pixels, of all text in the chart. You can
-     * override this using properties for specific chart elements.
+     * The default font size, in pixels, of all text in the chart.
      *
+     * You can override this using properties for specific chart elements.
+     *
+     *
+     * @access public
      * @param  integer $fontSize
      * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function fontSize($fontSize)
     {
-        return $this->addIntOption(__FUNCTION__, $fontSize);
+        return $this->setIntOption(__FUNCTION__, $fontSize);
     }
 
     /**
-     * The default font face for all text in the chart. You can override this
-     * using properties for specific chart elements.
+     * The default font face for all text in the chart.
      *
+     * You can override this using properties for specific chart elements.
+     *
+     *
+     * @access public
      * @param  string $fontName
      * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function fontName($fontName)
     {
-        return $this->addStringOption(__FUNCTION__, $fontName);
+        return $this->setStringOption(__FUNCTION__, $fontName);
     }
 
     /**
      * Height of the chart, in pixels.
      *
+     *
+     * @access public
      * @param  int $height
      * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function height($height)
     {
-        return $this->addIntOption(__FUNCTION__, $height);
+        return $this->setIntOption(__FUNCTION__, $height);
     }
 
     /**
-     * An object with members to configure various aspects of the legend. To
-     * specify properties of this object, create a new legend() object, set the
-     * values then pass it to this function or to the constructor.
+     * An object with members to configure various aspects of the legend.
      *
+     * To specify properties of this object, pass in an array of valid options.
+     *
+     *
+     * @access public
      * @param  array $legendConfig Options for the chart's legend.
      * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
@@ -390,13 +393,15 @@ class Chart extends JsonConfig
     /**
      * Text to display above the chart.
      *
+     *
+     * @access public
      * @param  string $title
      * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function title($title)
     {
-        return $this->addStringOption(__FUNCTION__, $title);
+        return $this->setStringOption(__FUNCTION__, $title);
     }
 
     /**
@@ -407,6 +412,8 @@ class Chart extends JsonConfig
      * 'out'  - Draw the title outside the chart area.
      * 'none' - Omit the title.
      *
+     *
+     * @access public
      * @param  string $titlePosition
      * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
@@ -419,13 +426,13 @@ class Chart extends JsonConfig
             'none'
         ];
 
-        return $this->addStringInArrayOption(__FUNCTION__, $titlePosition, $values);
+        return $this->setStringInArrayOption(__FUNCTION__, $titlePosition, $values);
     }
 
     /**
-     * An object that specifies the title text style. create a new textStyle()
-     * object, set the values then pass it to this function or to the constructor.
+     * An array of options for defining the title text style.
      *
+     * @access public
      * @uses   TextStyle
      * @param  TextStyle $textStyle
      * @return \Khill\Lavacharts\Charts\Chart
@@ -437,9 +444,8 @@ class Chart extends JsonConfig
     }
 
     /**
-     * An object with members to configure various tooltip elements. To specify
-     * properties of this object, create a new tooltip() object, set the values
-     * then pass it to this function or to the constructor.
+     * An object with members to configure various tooltip elements.
+     *
      *
      * @param  array $tooltip Options for the tooltips
      * @return \Khill\Lavacharts\Charts\Chart
@@ -459,28 +465,6 @@ class Chart extends JsonConfig
      */
     public function width($width)
     {
-        return $this->addIntOption(__FUNCTION__, $width);
-    }
-
-    /**
-     * function for easy creation of exceptions
-     *
-     * @TODO REMOVE THIS!
-     * @return InvalidConfigValue
-     */
-    protected function invalidConfigValue($func, $type, $extra = '')
-    {
-        if (! empty($extra)) {
-            return new InvalidConfigValue(
-                static::TYPE . '::' . $func,
-                $type,
-                $extra
-            );
-        } else {
-            return new InvalidConfigValue(
-                static::TYPE . '::' . $func,
-                $type
-            );
-        }
+        return $this->setIntOption(__FUNCTION__, $width);
     }
 }

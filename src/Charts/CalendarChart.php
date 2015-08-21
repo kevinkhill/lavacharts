@@ -4,7 +4,7 @@ namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Configs\Stroke;
 use \Khill\Lavacharts\Configs\TextStyle;

@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Configs\UIs;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\Exceptions\InvalidUIProperty;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
@@ -12,7 +12,7 @@ class UI implements \JsonSerializable
     /**
      * Allowed options to set for the UI.
      *
-     * @var \Khill\Lavacharts\Configs\Options
+     * @var \Khill\Lavacharts\Options
      */
     protected $options;
 
@@ -87,7 +87,7 @@ class UI implements \JsonSerializable
     /**
      * Gets the Options object for the UI
      *
-     * @return \Khill\Lavacharts\Configs\Options
+     * @return \Khill\Lavacharts\Options
      */
     public function getOptions()
     {
