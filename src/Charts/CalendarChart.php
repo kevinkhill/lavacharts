@@ -63,6 +63,28 @@ class CalendarChart extends Chart
     const VIZ_CLASS = 'google.visualization.Calendar';
 
     /**
+     * Default options for CalendarCharts
+     *
+     * @var array
+     */
+    private $calendarDefaults = [
+        'cellColor',
+        'cellSize',
+        'dayOfWeekLabel',
+        'dayOfWeekRightSpace',
+        'daysOfWeek',
+        'focusedCellColor',
+        'monthLabel',
+        'monthOutlineColor',
+        'underMonthSpace',
+        'underYearSpace',
+        'unusedMonthOutlineColor',
+        'colorAxis',
+        'forceIFrame',
+        'noDataPattern'
+    ];
+
+    /**
      * Builds a new chart with the given label.
      *
      * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
@@ -70,30 +92,17 @@ class CalendarChart extends Chart
      * @param  array $options Array of options to set for the chart.
      * @return \Khill\Lavacharts\Charts\CalendarChart
      */
-    public function __construct(Label $chartLabel, DataTable $datatable, $options = [])
+    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
     {
-        parent::__construct($chartLabel, $datatable, $options);
+        $options = new Options($this->calendarDefaults);
+
+        $options->set('calendar', new Options($this->calendarDefaults));
+
+        parent::__construct($chartLabel, $datatable, $options, $config);
 
         $this->options = [ //TODO: FIX ME!
             'calendar' => []
         ];
-
-        $this->defaults = array_merge([
-            'cellColor',
-            'cellSize',
-            'dayOfWeekLabel',
-            'dayOfWeekRightSpace',
-            'daysOfWeek',
-            'focusedCellColor',
-            'monthLabel',
-            'monthOutlineColor',
-            'underMonthSpace',
-            'underYearSpace',
-            'unusedMonthOutlineColor',
-            'colorAxis',
-            'forceIFrame',
-            'noDataPattern'
-        ], $this->defaults);
     }
 
     /**
