@@ -49,8 +49,15 @@ class Filter extends JsonConfig
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function __construct(Options $options, $config, $columnLabelOrIndex)
+    public function __construct(Options $options, $config = [], $columnLabelOrIndex)
     {
+        if (is_array($config) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
+                'array'
+            );
+        }
+
         if (Utils::nonEmptyString($columnLabelOrIndex) === false && is_int($columnLabelOrIndex) === false) {
             throw new InvalidConfigValue(
                 static::TYPE . '->' . __FUNCTION__,
@@ -59,11 +66,11 @@ class Filter extends JsonConfig
         }
 
         if (is_string($columnLabelOrIndex) === true) {
-            $config['filterColumnLabel'] = $columnLabelOrIndex;
+            $config = array_merge($config, ['filterColumnLabel' => $columnLabelOrIndex]);
         }
 
         if (is_int($columnLabelOrIndex) === true) {
-            $config['filterColumnIndex'] = $columnLabelOrIndex;
+            $config = array_merge($config, ['filterColumnIndex' => $columnLabelOrIndex]);
         }
 
         parent::__construct($options, $config);
