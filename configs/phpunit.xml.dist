@@ -35,6 +35,9 @@
     <testsuite name="filters">
       <directory>../tests/Filters/</directory>
     </testsuite>
+    <testsuite name="javascript">
+      <directory>../tests/Javascript/</directory>
+    </testsuite>
     <testsuite name="utils">
       <directory>../tests/Utils/</directory>
     </testsuite>
@@ -49,6 +52,7 @@
     </whitelist>
     <blacklist>
       <directory>../vendor/</directory>
+      <directory>../src/Laravel/</directory>
     </blacklist>
   </filter>
 

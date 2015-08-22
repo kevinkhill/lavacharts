@@ -27,14 +27,6 @@ trait PointShapeTrait
             'polygon'
         ];
 
-        if (in_array($shape, $values, true) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'Accepted values include '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return  $this->addOption([__FUNCTION__ => $shape]);
+        return  $this->setStringInArrayOption(__FUNCTION__, $shape, $values);
     }
 }

@@ -12,11 +12,11 @@ trait HorizontalAxisTrait
      * To specify properties of this property, create a new HorizontalAxis object,
      * set the values then pass it to this function or to the constructor.
      *
-     * @param  \Khill\Lavacharts\Configs\HorizontalAxis $hAxis
+     * @param  array $horizontalAxisConfig
      * @return \Khill\Lavacharts\Charts\Chart
      */
-    public function hAxis(HorizontalAxis $hAxis)
+    public function hAxis($horizontalAxisConfig)
     {
-        return $this->addOption($hAxis->toArray(__FUNCTION__));
+        return $this->setOption(__FUNCTION__, new HorizontalAxis($horizontalAxisConfig));
     }
 }

@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Configs\UIs;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 class ChartRangeUI extends UI

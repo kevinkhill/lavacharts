@@ -23,6 +23,11 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  */
 class NumberFormat extends Format
 {
+    /**
+     * Type of format object
+     *
+     * @var string
+     */
     const TYPE = 'NumberFormat';
 
     /**

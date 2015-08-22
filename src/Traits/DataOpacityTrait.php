@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Traits;
 
 use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 trait DataOpacityTrait
 {
@@ -18,13 +19,13 @@ trait DataOpacityTrait
     public function dataOpacity($dataOpacity)
     {
         if (Utils::between(0.0, $dataOpacity, 1.0) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
                 'float',
                 'between 0.0 - 1.0'
             );
         }
 
-        return $this->addOption([__FUNCTION__ => $dataOpacity]);
+        return $this->setOption(__FUNCTION__, $dataOpacity);
     }
 }

@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Configs;
 
 use \Carbon\Carbon;
-use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\JsonConfig;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**

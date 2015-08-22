@@ -1,19 +1,16 @@
 <?php
 
-namespace Khill\Lavacharts\Charts;
+namespace Khill\Lavacharts\Tests\Charts;
 
-use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Charts\Chart;
 use \Khill\Lavacharts\Options;
+use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\DataTables\DataTable;
 
 /**
- * ScatterChart Class
+ * MockChart Class
  *
- * A chart that lets you render each series as a different marker type from the following list:
- * line, area, bars, candlesticks and stepped area.
- *
- * To assign a default marker type for series, specify the seriesType property.
- * Use the series property to specify properties of each series individually.
+ * This is used to apply all the traits for testing, as well as testing the parent methods for all the charts.
  *
  *
  * @package    Lavacharts
@@ -25,19 +22,23 @@ use \Khill\Lavacharts\DataTables\DataTable;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class ScatterChart extends Chart
+class MockChart extends Chart
 {
-    /**
-     * Common Methods
-     */
     use \Khill\Lavacharts\Traits\AnnotationsTrait;
+    use \Khill\Lavacharts\Traits\AreaOpacityTrait;
     use \Khill\Lavacharts\Traits\AxisTitlesPositionTrait;
+    use \Khill\Lavacharts\Traits\BarGroupWidthTrait;
+    use \Khill\Lavacharts\Traits\ColorAxisTrait;
     use \Khill\Lavacharts\Traits\CrosshairTrait;
     use \Khill\Lavacharts\Traits\CurveTypeTrait;
     use \Khill\Lavacharts\Traits\DataOpacityTrait;
     use \Khill\Lavacharts\Traits\EnableInteractivityTrait;
+    use \Khill\Lavacharts\Traits\FocusTargetTrait;
     use \Khill\Lavacharts\Traits\ForceIFrameTrait;
+    use \Khill\Lavacharts\Traits\HorizontalAxesTrait;
     use \Khill\Lavacharts\Traits\HorizontalAxisTrait;
+    use \Khill\Lavacharts\Traits\InterpolateNullsTrait;
+    use \Khill\Lavacharts\Traits\IsStackedTrait;
     use \Khill\Lavacharts\Traits\LineWidthTrait;
     use \Khill\Lavacharts\Traits\OrientationTrait;
     use \Khill\Lavacharts\Traits\PointShapeTrait;
@@ -46,50 +47,33 @@ class ScatterChart extends Chart
     use \Khill\Lavacharts\Traits\SelectionModeTrait;
     use \Khill\Lavacharts\Traits\SeriesTrait;
     use \Khill\Lavacharts\Traits\ThemeTrait;
+    use \Khill\Lavacharts\Traits\VerticalAxesTrait;
     use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
-    /**
-     * Javascript chart type.
-     *
-     * @var string
-     */
-    const TYPE = 'ScatterChart';
+    const TYPE = 'MockChart';
 
-    /**
-     * Javascript chart version.
-     *
-     * @var string
-     */
     const VERSION = '1';
 
-    /**
-     * Javascript chart package.
-     *
-     * @var string
-     */
-    const VIZ_PACKAGE = 'corechart';
+    const VIZ_PACKAGE = 'mockchart';
 
-    /**
-     * Google's visualization class name.
-     *
-     * @var string
-     */
-    const VIZ_CLASS = 'google.visualization.ScatterChart';
+    const VIZ_CLASS = 'google.visualization.MockChart';
 
-    /**
-     * Default configuration options for the chart.
-     *
-     * @var array
-     */
-    private $scatterDefaults = [
+    private $mockDefaults = [
         'annotations',
+        'areaOpacity',
         'axisTitlesPosition',
+        'barGroupWidth',
+        'colorAxis',
         'crosshair',
         'curveType',
         'dataOpacity',
         'enableInteractivity',
+        'focusTarget',
         'forceIFrame',
+        'hAxes',
         'hAxis',
+        'interpolateNulls',
+        'isStacked',
         'lineWidth',
         'orientation',
         'pointShape',
@@ -98,19 +82,13 @@ class ScatterChart extends Chart
         'selectionMode',
         'series',
         'theme',
+        'vAxes',
         'vAxis'
     ];
 
-    /**
-     * Builds a new ScatterChart with the given label, datatable and options.
-     *
-     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param array                                   $config
-     */
     public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
     {
-        $options = new Options($this->scatterDefaults);
+        $options = new Options($this->mockDefaults);
 
         parent::__construct($chartLabel, $datatable, $options, $config);
     }

@@ -2,7 +2,8 @@
 
 namespace Khill\Lavacharts\Configs;
 
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\JsonConfig;
+use \Khill\Lavacharts\Options;
 
 /**
  * BoxStyle Object

@@ -2,8 +2,9 @@
 
 namespace Khill\Lavacharts\Configs;
 
+use \Khill\Lavacharts\JsonConfig;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\Utils;
-
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
@@ -78,7 +79,7 @@ class Crosshair extends JsonConfig
     /**
      * An object that specifies the crosshair focused color.
      *
-     * @param  array $color
+     * @param  array $colorConfig
      * @return \Khill\Lavacharts\Configs\Crosshair
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
@@ -96,9 +97,9 @@ class Crosshair extends JsonConfig
      */
     public function opacity($opacity)
     {
-        if (Utils::between(0.0, $opacity, 1.0, true) === false) {
+        if (Utils::between(0.0, $opacity, 1.0) === false) {
             throw new InvalidConfigValue(
-                __FUNCTION__,
+                static::TYPE . '->' . __FUNCTION__,
                 'float',
                 'between 0.0 - 1.0'
             );

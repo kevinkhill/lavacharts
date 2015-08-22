@@ -56,7 +56,7 @@ class ChartFactory extends JavascriptFactory
      */
     private function getTemplateVars()
     {
-        $chart = $this->chart; //stupid no :: on member vars
+        $chart = $this->chart; // Workaround for no :: on member vars in php54
 
         $vars = [
             'chartLabel'   => (string) $this->chart->getLabel(),
@@ -64,8 +64,8 @@ class ChartFactory extends JavascriptFactory
             'chartVer'     => $chart::VERSION,
             'chartClass'   => $chart::VIZ_CLASS,
             'chartPackage' => $chart::VIZ_PACKAGE,
-            'chartData'    => $this->chart->getDataTableJson(),
-            'chartOptions' => $this->chart->optionsToJson(),
+            'chartData'    => json_encode($this->chart->getDataTable()),
+            'chartOptions' => json_encode($this->chart),
             'elemId'       => (string) $this->elementId,
             'dataVer'      => DataTable::VERSION,
             'dataClass'    => DataTable::VIZ_CLASS,
@@ -88,7 +88,6 @@ class ChartFactory extends JavascriptFactory
      * Builds the javascript object of event callbacks.
      *
      * @access private
-     * @param  Chart  $chart
      * @return string Javascript code block.
      */
     private function buildEventCallbacks()
@@ -98,12 +97,12 @@ class ChartFactory extends JavascriptFactory
 
         foreach ($events as $event) {
             $callback = sprintf(
-                'function (event) {return lava.event(event, lavachart.chart, %s);}',
+                'function (event) {return lava.event(event, $this.chart, %s);}',
                 $event->callback
             );
 
             $output .= sprintf(
-                'google.visualization.events.addListener(lavachart.chart, "%s", %s);',
+                'google.visualization.events.addListener($this.chart, "%s", %s);',
                 $event::TYPE,
                 $callback
             ).PHP_EOL.PHP_EOL;

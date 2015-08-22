@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
-use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
@@ -44,7 +44,6 @@ class NumberRange extends Filter
      * @param  array $config Array of options to set.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function __construct($columnLabelOrIndex, $config = [])
     {
@@ -56,23 +55,15 @@ class NumberRange extends Filter
 
     /**
      * Minimum allowed value for the range lower extent.
-     *
      * If undefined, the value will be inferred from the contents of the DataTable managed by the control.
      *
      * @param  int|float $minValue
-     * @throws InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Dashboards\Filters\NumberRange
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function minValue($minValue)
     {
-        if (is_numeric($minValue) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'int|float'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $minValue);
+        return $this->setNumericOption(__FUNCTION__, $minValue);
     }
 
     /**
@@ -81,18 +72,11 @@ class NumberRange extends Filter
      * If undefined, the value will be inferred from the contents of the DataTable managed by the control.
      *
      * @param  int|float $maxValue
-     * @throws InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Dashboards\Filters\NumberRange
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function maxValue($maxValue)
     {
-        if (is_numeric($maxValue) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'int|float'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $maxValue);
+        return $this->setNumericOption(__FUNCTION__, $maxValue);
     }
 }

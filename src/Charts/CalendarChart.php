@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Configs\Stroke;
 use \Khill\Lavacharts\Configs\TextStyle;
@@ -66,13 +67,14 @@ class CalendarChart extends Chart
      *
      * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @return self
+     * @param  array $options Array of options to set for the chart.
+     * @return \Khill\Lavacharts\Charts\CalendarChart
      */
-    public function __construct(Label $chartLabel, DataTable $datatable)
+    public function __construct(Label $chartLabel, DataTable $datatable, $options = [])
     {
-        parent::__construct($chartLabel, $datatable);
+        parent::__construct($chartLabel, $datatable, $options);
 
-        $this->options = [
+        $this->options = [ //TODO: FIX ME!
             'calendar' => []
         ];
 

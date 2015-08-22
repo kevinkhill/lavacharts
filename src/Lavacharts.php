@@ -64,7 +64,8 @@ class Lavacharts
         'GaugeChart',
         'GeoChart',
         'LineChart',
-        'ScatterChart'
+        'ScatterChart',
+        'TableChart'
     ];
 
     /**
@@ -496,10 +497,8 @@ class Lavacharts
      */
     private function chartFactory($type, $args)
     {
-        $chartLabel = "";
-        $datatable  = null;
-        $options    = [];
-        $chart      = null;
+        $chart     = null;
+        $datatable = null;
 
         if (isset($args[0]) === false) {
             throw new InvalidLabel;
@@ -508,7 +507,7 @@ class Lavacharts
         }
 
         if ($this->volcano->checkChart($type, $chartLabel) === true) {
-            $chart = $this->volcano->getChart($type, $chartLabel);
+            return $this->volcano->getChart($type, $chartLabel);
         }
 
         if (isset($args[1]) === false) {

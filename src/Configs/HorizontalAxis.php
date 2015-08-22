@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Configs;
 
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
@@ -78,18 +79,17 @@ class HorizontalAxis extends Axis
 
     /**
      * Sets whether the labels are slanted or not.
-     *
      * If true, draw the axis text at an angle, to help fit more text
      * along the axis; if false, draw axis text upright. Default
      * behavior is to slant text if it cannot all fit when drawn upright.
      * Notice that this option is available only when the $this->textPosition is
      * set to 'out' (which is the default).
-     *
      * This option is only supported for a discrete axis.
      *
      * @param  boolean $slant Status of label slant
      * @return \Khill\Lavacharts\Configs\HorizontalAxis
-     * @throws \Khill\Lavacharts\Configs\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      */
     public function slantedText($slant)
     {
@@ -106,13 +106,12 @@ class HorizontalAxis extends Axis
 
     /**
      * Sets the angle of the axis text, if it's drawn slanted.
-     *
      * Ignored if "slantedText" is false, or is in auto mode, and the chart decided to
      * draw the text horizontally. This option is only supported for a discrete axis.
      *
      * @param  int $angle Angle of labels
      * @return \Khill\Lavacharts\Configs\HorizontalAxis
-     * @throws \Khill\Lavacharts\Configs\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function slantedTextAngle($angle)
     {

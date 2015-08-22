@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\DataTables\DataTable;
 
 /**
@@ -72,38 +73,46 @@ class BarChart extends Chart
      */
     const VIZ_CLASS = 'google.visualization.BarChart';
 
-    /**
-     * Builds a new chart with the given label.
-     *
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @return self
-     */
-    public function __construct(Label $chartLabel, DataTable $datatable)
-    {
-        parent::__construct($chartLabel, $datatable);
 
-        $this->defaults = array_merge([
-            'annotations',
-            'axisTitlesPosition',
-            'barGroupWidth',
-            //'bars',
-            //'chart.subtitle',
-            //'chart.title',
-            'dataOpacity',
-            'enableInteractivity',
-            'focusTarget',
-            'forceIFrame',
-            'hAxes',
-            'hAxis',
-            'isStacked',
-            'orientation',
-            'reverseCategories',
-            'series',
-            'theme',
-            //'trendlines',
-            'vAxes',
-            'vAxis'
-        ], $this->defaults);
+    /**
+     * Default configuration options for the chart.
+     *
+     * @var array
+     */
+    private $barDefaults = [
+        'annotations',
+        'axisTitlesPosition',
+        'barGroupWidth',
+        //'bars',
+        //'chart.subtitle',
+        //'chart.title',
+        'dataOpacity',
+        'enableInteractivity',
+        'focusTarget',
+        'forceIFrame',
+        'hAxes',
+        'hAxis',
+        'isStacked',
+        'orientation',
+        'reverseCategories',
+        'series',
+        'theme',
+        //'trendlines',
+        'vAxes',
+        'vAxis'
+    ];
+
+    /**
+     * Builds a new BarChart with the given label, datatable and options.
+     *
+     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @param array                                   $config
+     */
+    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
+    {
+        $options = new Options($this->barDefaults);
+
+        parent::__construct($chartLabel, $datatable, $options, $config);
     }
 }

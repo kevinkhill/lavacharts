@@ -20,14 +20,6 @@ trait SelectionModeTrait
             'single'
         ];
 
-        if (in_array($selectionMode, $values, true) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'must be one of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $selectionMode]);
+        return $this->setStringInArrayOption(__FUNCTION__, $selectionMode, $values);
     }
 }

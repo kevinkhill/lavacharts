@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\DataTables\DataTable;
 
 /**
@@ -63,37 +64,44 @@ class TreeMap extends Chart
     const VIZ_CLASS = 'google.visualization.TreeMap';
 
     /**
-     * Builds a new chart with the given label.
+     * Default configuration options for the chart.
      *
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @return self
+     * @var array
      */
-    public function __construct(Label $chartLabel, DataTable $datatable)
-    {
-        parent::__construct($chartLabel, $datatable);
+    private $treeMapDefaults = [
+        'fontColor',
+        'fontFamily',
+        'headerColor',
+        'headerHeight',
+        'headerHighlightColor',
+        'maxColor',
+        'maxDepth',
+        'maxHighlightColor',
+        'maxPostDepth',
+        'maxColorValue',
+        'midColor',
+        'midHighlightColor',
+        'minColor',
+        'minHighlightColor',
+        'minColorValue',
+        'noColor',
+        'noHighlightColor',
+        'showScale',
+        'showTooltips'
+    ];
 
-        $this->defaults = array_merge([
-            'fontColor',
-            'fontFamily',
-            'headerColor',
-            'headerHeight',
-            'headerHighlightColor',
-            'maxColor',
-            'maxDepth',
-            'maxHighlightColor',
-            'maxPostDepth',
-            'maxColorValue',
-            'midColor',
-            'midHighlightColor',
-            'minColor',
-            'minHighlightColor',
-            'minColorValue',
-            'noColor',
-            'noHighlightColor',
-            'showScale',
-            'showTooltips'
-        ], $this->defaults);
+    /**
+     * Builds a new TreeMapChart with the given label, datatable and options.
+     *
+     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @param array                                   $config
+     */
+    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
+    {
+        $options = new Options($this->treeMapDefaults);
+
+        parent::__construct($chartLabel, $datatable, $options, $config);
     }
 
     /**

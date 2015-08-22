@@ -9,11 +9,11 @@ trait AnnotationsTrait
     /**
      * Defines how chart annotations will be displayed.
      *
-     * @param  \Khill\Lavacharts\Configs\Annotation $annotation
+     * @param  array $annotationConfig
      * @return \Khill\Lavacharts\Charts\Chart
      */
-    public function annotations(Annotation $annotation)
+    public function annotations($annotationConfig)
     {
-        return $this->addOption($annotation->toArray(__FUNCTION__));
+        return $this->setOption(__FUNCTION__, new Annotation($annotationConfig));
     }
 }

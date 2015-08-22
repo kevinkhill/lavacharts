@@ -12,7 +12,7 @@ class BaseUITest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->mockOptions = m::mock('\Khill\Lavacharts\Configs\Options', [[
+        $this->mockOptions = m::mock('\Khill\Lavacharts\Options', [[
             'label',
             'labelSeparator',
             'labelStacking',
@@ -112,7 +112,7 @@ class BaseUITest extends ProvidersTestCase
 
     public function testGetOptions()
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Options', $this->UI->getOptions());
+        $this->assertInstanceOf('\Khill\Lavacharts\Options', $this->UI->getOptions());
     }
 
     public function testJsonSerialization()

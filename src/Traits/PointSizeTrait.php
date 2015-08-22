@@ -16,13 +16,6 @@ trait PointSizeTrait
      */
     public function pointSize($size)
     {
-        if (is_int($size) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return  $this->addOption([__FUNCTION__ => $size]);
+        return  $this->setIntOption(__FUNCTION__, $size);
     }
 }

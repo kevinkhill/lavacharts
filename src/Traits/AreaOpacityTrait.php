@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Traits;
 
 use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 trait AreaOpacityTrait
 {
@@ -19,13 +20,13 @@ trait AreaOpacityTrait
     public function areaOpacity($areaOpacity)
     {
         if (Utils::between(0.0, $areaOpacity, 1.0)  === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
                 'float',
                 'between 0.0 - 1.0'
             );
         }
 
-        return $this->addOption([__FUNCTION__ => $areaOpacity]);
+        return $this->setOption(__FUNCTION__, $areaOpacity);
     }
 }

@@ -7,16 +7,13 @@ use \Khill\Lavacharts\Configs\Crosshair;
 trait CrosshairTrait
 {
     /**
-     * An object containing the crosshair properties for the chart..
+     * An array containing the crosshair properties for the chart.
      *
-     * To specify properties of this property, create a new HorizontalAxis object,
-     * set the values then pass it to this function or to the constructor.
-     *
-     * @param  \Khill\Lavacharts\Configs\Crosshair $crosshair
+     * @param  array $crosshairConfig
      * @return \Khill\Lavacharts\Charts\Chart
      */
-    public function crosshair(Crosshair $crosshair)
+    public function crosshair($crosshairConfig)
     {
-        return $this->addOption($crosshair->toArray());
+        return $this->setOption(__FUNCTION__, new Crosshair($crosshairConfig));
     }
 }

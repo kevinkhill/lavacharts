@@ -2,8 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
@@ -70,21 +69,13 @@ class String extends Filter
      */
     public function matchType($matchType)
     {
-        $matchTypes = [
+        $values = [
             'exact',
             'prefix',
             'any'
         ];
 
-        if (Utils::nonEmptyStringInArray($matchType, $matchTypes) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'whose value is one of '.Utils::arrayToPipedString($matchTypes)
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $matchType);
+        return $this->setStringInArrayOption(__FUNCTION__, $matchType, $values);
     }
 
     /**
@@ -96,14 +87,7 @@ class String extends Filter
      */
     public function caseSensitive($caseSensitive)
     {
-        if (is_bool($caseSensitive) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'boolean'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $caseSensitive);
+        return $this->setBoolOption(__FUNCTION__, $caseSensitive);
     }
 
     /**
@@ -115,13 +99,6 @@ class String extends Filter
      */
     public function useFormattedValue($useFormattedValue)
     {
-        if (is_bool($useFormattedValue) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'boolean'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $useFormattedValue);
+        return $this->setBoolOption(__FUNCTION__, $useFormattedValue);
     }
 }

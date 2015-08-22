@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
-use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Options;
 
 /**
  * Date Range Class
@@ -39,8 +39,8 @@ class DateRange extends Filter
     /**
      * Creates the new Filter object to filter the given column label or index.
      *
-     * @param $columnLabelOrIndex
-     * @param array $config
+     * @param  string|int $columnLabelOrIndex The column label or index to filter.
+     * @param  array $config Array of options to set.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */

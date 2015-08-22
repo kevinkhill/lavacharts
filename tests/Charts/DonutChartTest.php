@@ -2,10 +2,11 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\DonutChart;
 use \Mockery as m;
 
-class DonutChartTest extends ChartTestCase
+class DonutChartTest extends ProvidersTestCase
 {
     public function setUp()
     {
@@ -23,9 +24,7 @@ class DonutChartTest extends ChartTestCase
 
     public function testTypeDonutChart()
     {
-        $chart = $this->DonutChart;
-
-        $this->assertEquals('DonutChart', $chart::TYPE);
+        $this->assertEquals('DonutChart', $this->DonutChart->getType());
     }
 
     public function testLabelAssignedViaConstructor()
@@ -37,7 +36,7 @@ class DonutChartTest extends ChartTestCase
     {
         $this->DonutChart->pieHole(0.23);
 
-        $this->assertEquals(0.23, $this->DonutChart->getOption('pieHole'));
+        $this->assertEquals(0.23, $this->DonutChart->pieHole);
     }
 
     /**

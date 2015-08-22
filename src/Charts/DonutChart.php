@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\DataTables\DataTable;
 
 /**
@@ -57,13 +58,14 @@ class DonutChart extends PieChart
      *
      * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @return self
+     * @param  array $options Array of options to set for the chart.
+     * @return \Khill\Lavacharts\Charts\DonutChart
      */
-    public function __construct(Label $chartLabel, DataTable $datatable)
+    public function __construct(Label $chartLabel, DataTable $datatable, $options = [])
     {
-        parent::__construct($chartLabel, $datatable);
+        parent::__construct($chartLabel, $datatable, $options);
 
-        $this->defaults = array_merge($this->defaults, [
+        $this->defaults = array_merge($this->defaults, [ //TODO: FIX ME!
             'pieHole'
         ]);
 

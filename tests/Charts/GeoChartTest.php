@@ -2,10 +2,11 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\GeoChart;
 use \Mockery as m;
 
-class GeoChartTest extends ChartTestCase
+class GeoChartTest extends ProvidersTestCase
 {
     public function setUp()
     {
@@ -31,13 +32,6 @@ class GeoChartTest extends ChartTestCase
     public function testLabelAssignedViaConstructor()
     {
         $this->assertEquals('MyTestChart', (string) $this->GeoChart->getLabel());
-    }
-
-    public function testColorAxis()
-    {
-        $this->GeoChart->colorAxis($this->getMockColorAxis());
-
-        $this->assertTrue(is_array($this->GeoChart->getOption('colorAxis')));
     }
 
     public function testDatalessRegionColorWithValidValue()

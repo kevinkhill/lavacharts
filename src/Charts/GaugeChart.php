@@ -2,9 +2,10 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\DataTables\DataTable;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * GaugeChart Class
@@ -23,6 +24,11 @@ use \Khill\Lavacharts\DataTables\DataTable;
  */
 class GaugeChart extends Chart
 {
+    /**
+     * Common Methods
+     */
+    use \Khill\Lavacharts\Traits\ForceIFrameTrait;
+
     /**
      * Javascript chart type.
      *
@@ -52,105 +58,72 @@ class GaugeChart extends Chart
     const VIZ_CLASS = 'google.visualization.Gauge';
 
     /**
-     * Builds a new chart with the given label.
+     * Default configuration options for the chart.
      *
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @return self
+     * @var array
      */
-    public function __construct(Label $chartLabel, DataTable $datatable)
-    {
-        parent::__construct($chartLabel, $datatable);
-
-        $this->defaults = array_merge([
-            'forceIFrame',
-            'greenColor',
-            'greenFrom',
-            'greenTo',
-            'majorTicks',
-            'max',
-            'min',
-            'minorTicks',
-            'redColor',
-            'redFrom',
-            'redTo',
-            'yellowColor',
-            'yellowFrom',
-            'yellowTo'
-        ], $this->defaults);
-    }
+    private $gaugeDefaults = [
+        'forceIFrame',
+        'greenColor',
+        'greenFrom',
+        'greenTo',
+        'majorTicks',
+        'max',
+        'min',
+        'minorTicks',
+        'redColor',
+        'redFrom',
+        'redTo',
+        'yellowColor',
+        'yellowFrom',
+        'yellowTo'
+    ];
 
     /**
-     * Draws the chart inside an inline frame.
-     * Note that on IE8, this option is ignored; all IE8 charts are drawn in i-frames.
+     * Builds a new GaugeChart with the given label, datatable and options.
      *
-     * @param  bool $iframe
-     * @return GaugeChart
+     * @param \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
+     * @param \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @param array                                  $config
      */
-    public function forceIFrame($iframe)
+    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
     {
-        if (is_bool($iframe) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
+        $options = new Options($this->gaugeDefaults);
 
-        return $this->addOption([__FUNCTION__ => $iframe]);
+        parent::__construct($chartLabel, $datatable, $options, $config);
     }
 
     /**
      * The color to use for the green section, in HTML color notation.
      *
      * @param  string $greenColor
-     * @return GaugeChart
+     * @return \Khill\Lavacharts\Charts\GaugeChart
      */
     public function greenColor($greenColor)
     {
-        if (Utils::nonEmptyString($greenColor) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $greenColor]);
+        return $this->setStringOption(__FUNCTION__, $greenColor);
     }
 
     /**
      * The lowest value for a range marked by a green color.
      *
      * @param  integer $greenFrom
-     * @return GaugeChart
+     * @return \Khill\Lavacharts\Charts\GaugeChart
      */
     public function greenFrom($greenFrom)
     {
-        if (is_int($greenFrom) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $greenFrom]);
+        return $this->setIntOption(__FUNCTION__, $greenFrom);
     }
 
     /**
      * The highest value for a range marked by a green color.
      *
      * @param  integer $greenTo
-     * @return GaugeChart
+     * @return \Khill\Lavacharts\Charts\GaugeChart
      */
     public function greenTo($greenTo)
     {
-        if (is_int($greenTo) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $greenTo]);
+        return $this->setIntOption(__FUNCTION__, $greenTo);
     }
 
     /**
@@ -158,179 +131,117 @@ class GaugeChart extends Chart
      * The default is five major ticks, with the labels of the minimal and maximal gauge value.
      *
      * @param  array $majorTicks
-     * @return GaugeChart
+     * @return \Khill\Lavacharts\Charts\GaugeChart
+     * @throws \Khill\Lavacharts\Charts\InvalidConfigValue
      */
     public function majorTicks($majorTicks)
     {
         if (is_array($majorTicks) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
                 'array'
             );
         }
 
-        return $this->addOption([__FUNCTION__ => $majorTicks]);
+        return $this->setOption(__FUNCTION__, $majorTicks);
     }
 
     /**
      * The maximal value of a gauge.
      *
      * @param  integer $max
-     * @return GaugeChart
+     * @return \Khill\Lavacharts\Charts\GaugeChart
      */
     public function max($max)
     {
-        if (is_int($max) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $max]);
+        return $this->setIntOption(__FUNCTION__, $max);
     }
 
     /**
      * The minimal value of a gauge.
      *
      * @param  integer $min
-     * @return GaugeChart
+     * @return \Khill\Lavacharts\Charts\GaugeChart
      */
     public function min($min)
     {
-        if (is_int($min) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $min]);
+        return $this->setIntOption(__FUNCTION__, $min);
     }
 
     /**
      * The number of minor tick section in each major tick section.
      *
      * @param  integer $minorTicks
-     * @return GaugeChart
+     * @return \Khill\Lavacharts\Charts\GaugeChart
      */
     public function minorTicks($minorTicks)
     {
-        if (is_int($minorTicks) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $minorTicks]);
+        return $this->setIntOption(__FUNCTION__, $minorTicks);
     }
 
     /**
      * The color to use for the red section, in HTML color notation.
      *
      * @param  string $redColor
-     * @return GaugeChart
+     * @return \Khill\Lavacharts\Charts\GaugeChart
      */
     public function redColor($redColor)
     {
-        if (Utils::nonEmptyString($redColor) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $redColor]);
+        return $this->setStringOption(__FUNCTION__, $redColor);
     }
 
     /**
      * The lowest value for a range marked by a red color.
      *
      * @param  integer $redFrom
-     * @return GaugeChart
+     * @return \Khill\Lavacharts\Charts\GaugeChart
      */
     public function redFrom($redFrom)
     {
-        if (is_int($redFrom) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $redFrom]);
+        return $this->setIntOption(__FUNCTION__, $redFrom);
     }
 
     /**
      * The highest value for a range marked by a red color.
      *
      * @param  integer $redTo
-     * @return GaugeChart
+     * @return \Khill\Lavacharts\Charts\GaugeChart
      */
     public function redTo($redTo)
     {
-        if (is_int($redTo) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $redTo]);
+        return $this->setIntOption(__FUNCTION__, $redTo);
     }
 
     /**
      * The color to use for the yellow section, in HTML color notation.
      *
      * @param  string $yellowColor
-     * @return GaugeChart
+     * @return \Khill\Lavacharts\Charts\GaugeChart
      */
     public function yellowColor($yellowColor)
     {
-        if (Utils::nonEmptyString($yellowColor) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $yellowColor]);
+        return $this->setStringOption(__FUNCTION__, $yellowColor);
     }
 
     /**
      * The lowest value for a range marked by a yellow color.
      *
      * @param  integer $yellowFrom
-     * @return GaugeChart
+     * @return \Khill\Lavacharts\Charts\GaugeChart
      */
     public function yellowFrom($yellowFrom)
     {
-        if (is_int($yellowFrom) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $yellowFrom]);
+        return $this->setIntOption(__FUNCTION__, $yellowFrom);
     }
 
     /**
      * The highest value for a range marked by a yellow color.
      *
      * @param  integer $yellowTo
-     * @return GaugeChart
+     * @return \Khill\Lavacharts\Charts\GaugeChart
      */
     public function yellowTo($yellowTo)
     {
-        if (is_int($yellowTo) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $yellowTo]);
+        return $this->setIntOption(__FUNCTION__, $yellowTo);
     }
 }

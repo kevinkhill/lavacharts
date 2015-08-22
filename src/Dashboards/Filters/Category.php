@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
-use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
@@ -62,8 +62,8 @@ class Category extends Filter
      * column this filter operates on, whether to use the actual cell values or their formatted values.
      *
      * @param  boolean $useFormattedValue
+     * @return \Khill\Lavacharts\Dashboards\Filters\Category
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function useFormattedValue($useFormattedValue)
     {
@@ -76,9 +76,9 @@ class Category extends Filter
      * for display to the user. If null or undefined, the list of values will be automatically
      * computed from the values present in the DataTable column this control operates on.
      *
-     * @param  boolean $values
+     * @param  array $values
+     * @return \Khill\Lavacharts\Dashboards\Filters\Category
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function values($values)
     {

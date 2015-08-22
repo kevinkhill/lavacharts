@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Configs;
 
+use \Khill\Lavacharts\Options;
+
 /**
  * Vertical Axis ConfigObject
  *

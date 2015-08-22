@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Configs;
 
+use \Khill\Lavacharts\JsonConfig;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
