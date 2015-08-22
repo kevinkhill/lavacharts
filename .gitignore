@@ -8,6 +8,7 @@ docs/
 .idea/
 
 *.sublime-*
+npm-debug.log
 
 bootstrap/compiled.php
 composer.phar
