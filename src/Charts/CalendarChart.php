@@ -9,6 +9,7 @@ use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Configs\Stroke;
 use \Khill\Lavacharts\Configs\TextStyle;
 use \Khill\Lavacharts\Configs\Color;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * CalendarChart Class
@@ -63,6 +64,16 @@ class CalendarChart extends Chart
     const VIZ_CLASS = 'google.visualization.Calendar';
 
     /**
+     * Default options for the Chart
+     *
+     * @var array
+     */
+    private $extChartDefaults = [
+        'calendar',
+        'noDataPattern'
+    ];
+
+    /**
      * Default options for CalendarCharts
      *
      * @var array
@@ -80,8 +91,7 @@ class CalendarChart extends Chart
         'underYearSpace',
         'unusedMonthOutlineColor',
         'colorAxis',
-        'forceIFrame',
-        'noDataPattern'
+        'forceIFrame'
     ];
 
     /**
@@ -94,33 +104,22 @@ class CalendarChart extends Chart
      */
     public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
     {
-        $options = new Options($this->calendarDefaults);
+        $options = new Options($this->extChartDefaults);
 
         $options->set('calendar', new Options($this->calendarDefaults));
 
         parent::__construct($chartLabel, $datatable, $options, $config);
-
-        $this->options = [ //TODO: FIX ME!
-            'calendar' => []
-        ];
     }
 
     /**
      * Tweaking addOption function for wrapping all options into the calendar config option.
      *
-     * @param  array         $option Array of config options
-     * @return CalendarChart
+     * @param  array $option Array of config options
+     * @return \Khill\Lavacharts\Charts\CalendarChart
      */
-    protected function addCalendarOption($o)
+    protected function setCalendarOption($option, $value)
     {
-        if (is_array($o)) {
-            $this->options['calendar'] = array_merge($this->options['calendar'], $o);
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'array'
-            );
-        }
+        $this->options->get('calendar')->set($option, $value);
 
         return $this;
     }
@@ -129,25 +128,26 @@ class CalendarChart extends Chart
      * Overriding getOption function to pull config options from calendar array.
      * (Thanks google)
      *
-     * @param  string             $o Which option to fetch
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @param  string $option Which option to fetch
      * @return mixed
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function getOption($o)
+    public function __get($option)
     {
-        if (is_string($o) && array_key_exists($o, $this->options['calendar'])) {
-            return $this->options['calendar'][$o];
-        } elseif (is_string($o) && array_key_exists($o, $this->options)) {
-            return $this->options[$o];
+        if ($this->options->get('calendar')->hasOption($option)) {
+            return $this->options->get('calendar')->get($option);
+        } elseif ($this->options->hasOption($option)) {
+            return $this->options->get($option);
         } else {
-            $calendarOptions = $this->options['calendar'];
-            $nonCalendarOptions = array_diff($this->options, $calendarOptions);
+            $calendarOptions = $this->options->get('calendar')->getOptions();
+            $nonCalendarOptions = $this->options->getOptions();
+
             $options = array_merge($calendarOptions, $nonCalendarOptions);
 
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
                 'string',
-                'must be one of '.Utils::arrayToPipedString(array_keys($options))
+                'must be one of '.Utils::arrayToPipedString($options)
             );
         }
     }
@@ -155,41 +155,40 @@ class CalendarChart extends Chart
     /**
      * The cellColor option lets you customize the border of the calendar day squares
      *
-     * @param  Stroke        $stroke
-     * @return CalendarChart
+     * @param  array  $strokeConfig
      */
-    public function cellColor(Stroke $stroke)
+    public function cellColor($strokeConfig)
     {
-        return $this->addCalendarOption($stroke->toArray(__FUNCTION__));
+        return $this->setCalendarOption(__FUNCTION__, new Stroke($strokeConfig));
     }
 
     /**
      * Sets the size of the calendar day squares
      *
      * @param  integer           $cellSize
-     * @return CalendarChart
+     * @return \Khill\Lavacharts\Charts\CalendarChart
      */
     public function cellSize($cellSize)
     {
         if (is_int($cellSize) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
                 'int'
             );
         }
 
-        return $this->addCalendarOption([__FUNCTION__ => $cellSize]);
+        return $this->setCalendarOption(__FUNCTION__, $cellSize);
     }
 
     /**
      * Controls the font style of the week labels at the top of the chart.
      *
-     * @param  TextStyle     $label
-     * @return CalendarChart
+     * @param  TextStyle     $labelConfig
+     * @return \Khill\Lavacharts\Charts\CalendarChart
      */
-    public function dayOfWeekLabel(TextStyle $label)
+    public function dayOfWeekLabel($labelConfig)
     {
-        $this->addCalendarOption($label->toArray(__FUNCTION__));
+        $this->setCalendarOption(__FUNCTION__, new TextStyle($labelConfig));
     }
 
     /**
@@ -197,89 +196,89 @@ class CalendarChart extends Chart
      * the left edge of the chart day squares.
      *
      * @param  integer           $space
-     * @return CalendarChart
+     * @return \Khill\Lavacharts\Charts\CalendarChart
      */
     public function dayOfWeekRightSpace($space)
     {
         if (is_int($space) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
                 'int'
             );
         }
 
-        return $this->addCalendarOption([__FUNCTION__ => $space]);
+        return $this->setCalendarOption(__FUNCTION__, $space);
     }
 
     /**
      * The single-letter labels to use for Sunday through Saturday.
      *
-     * @param  string        $days
-     * @return CalendarChart
+     * @param  string $days
+     * @return \Khill\Lavacharts\Charts\CalendarChart
      */
     public function daysOfWeek($days)
     {
         if (is_string($days) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
                 'string'
             );
         }
 
-        return $this->addCalendarOption([__FUNCTION__ => $days]);
+        return $this->setCalendarOption(__FUNCTION__, $days);
     }
 
     /**
      * When the user focuses (say, by hovering) over a day square,
      * calendar charts will highlight the square.
      *
-     * @param  Stroke        $stroke
-     * @return CalendarChart
+     * @param  Stroke $strokeConfig
+     * @return \Khill\Lavacharts\Charts\CalendarChart
      */
-    public function focusedCellColor(Stroke $stroke)
+    public function focusedCellColor($strokeConfig)
     {
-        return $this->addCalendarOption($stroke->toArray(__FUNCTION__));
+        return $this->setCalendarOption(__FUNCTION__, new Stroke($strokeConfig));
     }
 
     /**
      * Sets the style for the month labels.
      *
-     * @param  TextStyle     $label
-     * @return CalendarChart
+     * @param  array $labelConfig
+     * @return \Khill\Lavacharts\Charts\CalendarChart
      */
-    public function monthLabel(TextStyle $label)
+    public function monthLabel($labelConfig)
     {
-        return $this->addCalendarOption($label->toArray(__FUNCTION__));
+        return $this->setCalendarOption(__FUNCTION__, new TextStyle($labelConfig));
     }
 
     /**
      * Months with data values are delineated from others using a border in this style.
      *
-     * @param  Stroke        $stroke
-     * @return CalendarChart
+     * @param  array $strokeConfig
+     * @return \Khill\Lavacharts\Charts\CalendarChart
      */
-    public function monthOutlineColor(Stroke $stroke)
+    public function monthOutlineColor($strokeConfig)
     {
-        return $this->addCalendarOption($stroke->toArray(__FUNCTION__));
+        return $this->setCalendarOption(__FUNCTION__, new Stroke($strokeConfig));
     }
 
     /**
      * The number of pixels between the bottom of the month labels and
      * the top of the day squares.
      *
-     * @param  integer           $space
-     * @return CalendarChart
+     * @param  int $space
+     * @return \Khill\Lavacharts\Charts\CalendarChart
      */
     public function underMonthSpace($space)
     {
         if (is_int($space) === false) {
-            throw $this->invalidConfigValue(
+            throw new InvalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
         }
 
-        return $this->addCalendarOption([__FUNCTION__ => $space]);
+        return $this->setCalendarOption(__FUNCTION__, $space);
     }
 
     /**
@@ -287,58 +286,58 @@ class CalendarChart extends Chart
      * the bottom of the chart.
      *
      * @param  integer           $space
-     * @return CalendarChart
+     * @return \Khill\Lavacharts\Charts\CalendarChart
      */
     public function underYearSpace($space)
     {
         if (is_int($space) === false) {
-            throw $this->invalidConfigValue(
+            throw new InvalidConfigValue(
                 __FUNCTION__,
                 'int'
             );
         }
 
-        return $this->addCalendarOption([__FUNCTION__ => $space]);
+        return $this->setCalendarOption(__FUNCTION__, $space);
     }
 
     /**
      * Months without data values are delineated from others using a border in this style.
      *
-     * @param  Stroke        $stroke
-     * @return CalendarChart
+     * @param  array $strokeConfig
+     * @return \Khill\Lavacharts\Charts\CalendarChart
      */
-    public function unusedMonthOutlineColor(Stroke $stroke)
+    public function unusedMonthOutlineColor($strokeConfig)
     {
-        return $this->addCalendarOption($stroke->toArray(__FUNCTION__));
+        return $this->setCalendarOption(__FUNCTION__, new Stroke($strokeConfig));
     }
 
     /**
      * Draws the chart inside an inline frame.
      * Note that on IE8, this option is ignored; all IE8 charts are drawn in i-frames.
      *
-     * @param  bool          $iframe
-     * @return CalendarChart
+     * @param  bool $iframe
+     * @return \Khill\Lavacharts\Charts\CalendarChart
      */
     public function forceIFrame($iframe)
     {
         if (is_bool($iframe) === false) {
-            throw $this->invalidConfigValue(
+            throw new InvalidConfigValue(
                 __FUNCTION__,
                 'bool'
             );
         }
 
-        return $this->addCalendarOption([__FUNCTION__ => $iframe]);
+        return $this->setCalendarOption(__FUNCTION__, $iframe);
     }
 
     /**
      * An object that specifies a mapping between color column values and colors or a gradient scale.
      *
-     * @param  Color         $color
-     * @return CalendarChart
+     * @param  array $colorConfig
+     * @return \Khill\Lavacharts\Charts\CalendarChart
      */
-    public function noDataPattern(Color $color)
+    public function noDataPattern($colorConfig)
     {
-        return $this->addOption($color->toArray(__FUNCTION__));
+        return $this->setOption(__FUNCTION__, new Color($colorConfig));
     }
 }

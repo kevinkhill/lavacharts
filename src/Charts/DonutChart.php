@@ -53,28 +53,31 @@ class DonutChart extends PieChart
      */
     const VIZ_CLASS = 'google.visualization.PieChart';
 
+    private $donutDefaults = [
+        'pieHole'
+    ];
+
     /**
-     * Builds a new chart with the given label.
+     * Builds a new chart with the given label and DataTable.
      *
      * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
      * @param  array $options Array of options to set for the chart.
      * @return \Khill\Lavacharts\Charts\DonutChart
      */
-    public function __construct(Label $chartLabel, DataTable $datatable, $options = [])
+    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
     {
-        parent::__construct($chartLabel, $datatable, $options);
+        $options = new Options($this->donutDefaults);
+        $options->set('pieHole', 0.5);
 
-        $this->defaults = array_merge($this->defaults, [ //TODO: FIX ME!
-            'pieHole'
-        ]);
-
-        $this->pieHole(0.5);
+        parent::__construct($chartLabel, $datatable, $options, $config);
     }
 
     /**
-     * If between 0 and 1, displays a donut chart. The hole with have a radius
-     * equal to $pieHole times the radius of the chart.
+     * If between 0 and 1, displays a donut chart.
+     *
+     * The hole with have a radius equal to $pieHole times the radius of the chart.
+     *
      *
      * @param  integer|float  $pieHole Size of the pie hole.
      * @return DonutChart
@@ -89,6 +92,6 @@ class DonutChart extends PieChart
             );
         }
 
-        return $this->addOption([__FUNCTION__ => $pieHole]);
+        return $this->setOption(__FUNCTION__, $pieHole);
     }
 }

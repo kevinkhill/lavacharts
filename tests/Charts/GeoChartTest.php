@@ -37,7 +37,7 @@ class GeoChartTest extends ProvidersTestCase
     public function testDatalessRegionColorWithValidValue()
     {
         $this->GeoChart->datalessRegionColor('#F6B0C3');
-        $this->assertEquals('#F6B0C3', $this->GeoChart->getOption('datalessRegionColor'));
+        $this->assertEquals('#F6B0C3', $this->GeoChart->datalessRegionColor);
     }
 
     /**
@@ -52,13 +52,13 @@ class GeoChartTest extends ProvidersTestCase
     public function testDisplayModeValidValues()
     {
         $this->GeoChart->displayMode('auto');
-        $this->assertEquals('auto', $this->GeoChart->getOption('displayMode'));
+        $this->assertEquals('auto', $this->GeoChart->displayMode);
 
         $this->GeoChart->displayMode('regions');
-        $this->assertEquals('regions', $this->GeoChart->getOption('displayMode'));
+        $this->assertEquals('regions', $this->GeoChart->displayMode);
 
         $this->GeoChart->displayMode('markers');
-        $this->assertEquals('markers', $this->GeoChart->getOption('displayMode'));
+        $this->assertEquals('markers', $this->GeoChart->displayMode);
     }
 
     /**
@@ -81,10 +81,10 @@ class GeoChartTest extends ProvidersTestCase
     public function testEnableRegionInteractivityWithValidValues()
     {
         $this->GeoChart->enableRegionInteractivity(true);
-        $this->assertTrue($this->GeoChart->getOption('enableRegionInteractivity'));
+        $this->assertTrue($this->GeoChart->enableRegionInteractivity);
 
         $this->GeoChart->enableRegionInteractivity(false);
-        $this->assertFalse($this->GeoChart->getOption('enableRegionInteractivity'));
+        $this->assertFalse($this->GeoChart->enableRegionInteractivity);
     }
 
     /**
@@ -99,10 +99,10 @@ class GeoChartTest extends ProvidersTestCase
     public function testKeepAspectRatioWithValidValues()
     {
         $this->GeoChart->keepAspectRatio(true);
-        $this->assertTrue($this->GeoChart->getOption('keepAspectRatio'));
+        $this->assertTrue($this->GeoChart->keepAspectRatio);
 
         $this->GeoChart->keepAspectRatio(false);
-        $this->assertFalse($this->GeoChart->getOption('keepAspectRatio'));
+        $this->assertFalse($this->GeoChart->keepAspectRatio);
     }
 
     /**
@@ -117,22 +117,22 @@ class GeoChartTest extends ProvidersTestCase
     public function testmarkerOpacityWithValidIntValues()
     {
         $this->GeoChart->markerOpacity(0);
-        $this->assertEquals(0, $this->GeoChart->getOption('markerOpacity'));
+        $this->assertEquals(0, $this->GeoChart->markerOpacity);
 
         $this->GeoChart->markerOpacity(1);
-        $this->assertEquals(1, $this->GeoChart->getOption('markerOpacity'));
+        $this->assertEquals(1, $this->GeoChart->markerOpacity);
     }
 
     public function testmarkerOpacityWithValidFloatValues()
     {
         $this->GeoChart->markerOpacity(0.0);
-        $this->assertEquals(0.0, $this->GeoChart->getOption('markerOpacity'));
+        $this->assertEquals(0.0, $this->GeoChart->markerOpacity);
 
         $this->GeoChart->markerOpacity(0.5);
-        $this->assertEquals(0.5, $this->GeoChart->getOption('markerOpacity'));
+        $this->assertEquals(0.5, $this->GeoChart->markerOpacity);
 
         $this->GeoChart->markerOpacity(1.0);
-        $this->assertEquals(1.0, $this->GeoChart->getOption('markerOpacity'));
+        $this->assertEquals(1.0, $this->GeoChart->markerOpacity);
     }
 
     /**
@@ -163,7 +163,7 @@ class GeoChartTest extends ProvidersTestCase
     public function testRegionWithValidValue()
     {
         $this->GeoChart->region('#F6B0C3');
-        $this->assertEquals('#F6B0C3', $this->GeoChart->getOption('region'));
+        $this->assertEquals('#F6B0C3', $this->GeoChart->region);
     }
 
     /**
@@ -185,19 +185,19 @@ class GeoChartTest extends ProvidersTestCase
 
         $this->GeoChart->magnifyingGlass($mockMagnifyingGlass);
 
-        $this->assertTrue(is_array($this->GeoChart->getOption('magnifyingGlass')));
+        $this->assertTrue(is_array($this->GeoChart->magnifyingGlass));
     }
 
     public function testResolutionValidValues()
     {
         $this->GeoChart->resolution('countries');
-        $this->assertEquals('countries', $this->GeoChart->getOption('resolution'));
+        $this->assertEquals('countries', $this->GeoChart->resolution);
 
         $this->GeoChart->resolution('provinces');
-        $this->assertEquals('provinces', $this->GeoChart->getOption('resolution'));
+        $this->assertEquals('provinces', $this->GeoChart->resolution);
 
         $this->GeoChart->resolution('metros');
-        $this->assertEquals('metros', $this->GeoChart->getOption('resolution'));
+        $this->assertEquals('metros', $this->GeoChart->resolution);
     }
 
     /**
@@ -221,6 +221,6 @@ class GeoChartTest extends ProvidersTestCase
     {
         $this->GeoChart->sizeAxis($this->getMockSizeAxis());
 
-        $this->assertTrue(is_array($this->GeoChart->getOption('sizeAxis')));
+        $this->assertTrue(is_array($this->GeoChart->sizeAxis));
     }
 }
