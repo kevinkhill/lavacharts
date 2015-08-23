@@ -177,15 +177,18 @@ class GeoChartTest extends ProvidersTestCase
 
     public function testMagnifiyingGlass()
     {
-        $mockMagnifyingGlass = m::mock('Khill\Lavacharts\Configs\MagnifyingGlass', function ($mock) {
-            $mock->shouldReceive('toArray')->once()->andReturn([
-                'magnifyingGlass' => []
-            ]);
-        });
+        $this->GeoChart->magnifyingGlass([]);
 
-        $this->GeoChart->magnifyingGlass($mockMagnifyingGlass);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\MagnifyingGlass', $this->GeoChart->magnifyingGlass);
+    }
 
-        $this->assertTrue(is_array($this->GeoChart->magnifyingGlass));
+    /**
+     * @dataProvider nonArrayProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testMagnifiyingGlassWithBadTypes($badVals)
+    {
+        $this->GeoChart->magnifyingGlass($badVals);
     }
 
     public function testResolutionValidValues()
@@ -219,8 +222,17 @@ class GeoChartTest extends ProvidersTestCase
 
     public function testSizeAxis()
     {
-        $this->GeoChart->sizeAxis($this->getMockSizeAxis());
+        $this->GeoChart->sizeAxis([]);
 
-        $this->assertTrue(is_array($this->GeoChart->sizeAxis));
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\SizeAxis', $this->GeoChart->sizeAxis);
+    }
+
+    /**
+     * @dataProvider nonArrayProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testSizeAxisWithBadTypes($badVals)
+    {
+        $this->GeoChart->sizeAxis($badVals);
     }
 }

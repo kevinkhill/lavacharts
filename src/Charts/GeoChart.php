@@ -8,6 +8,7 @@ use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Configs\SizeAxis;
 use \Khill\Lavacharts\Configs\MagnifyingGlass;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * GeoChart Class
@@ -204,7 +205,7 @@ class GeoChart extends Chart
      */
     public function magnifyingGlass($magnifyingGlassConfig)
     {
-        return $this->addOption(__FUNCTION__, new MagnifyingGlass($magnifyingGlassConfig));
+        return $this->setOption(__FUNCTION__, new MagnifyingGlass($magnifyingGlassConfig));
     }
 
     /**
@@ -218,7 +219,7 @@ class GeoChart extends Chart
     public function markerOpacity($markerOpacity)
     {
         if (Utils::between(0, $markerOpacity, 1) === false) {
-            throw $this->invalidConfigValue(
+            throw new InvalidConfigValue(
                 __FUNCTION__,
                 'float',
                 'between 0.0 - 1.0'

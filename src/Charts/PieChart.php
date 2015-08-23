@@ -90,20 +90,13 @@ class PieChart extends Chart
     /**
      * If set to true, displays a three-dimensional chart.
      *
-     * @param  bool               $is3D
+     * @param  bool $is3D
+     * @return \Khill\Lavacharts\Charts\PieChart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return PieChart
      */
     public function is3D($is3D)
     {
-        if (is_bool($is3D) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $is3D]);
+        return $this->setBoolOption(__FUNCTION__, $is3D);
     }
 
     /**
@@ -123,15 +116,15 @@ class PieChart extends Chart
      *          );
      *
      *
-     * @param  array              $slices Array of slice objects
+     * @param  array $slices Array of slice objects
+     * @return \Khill\Lavacharts\Charts\PieChart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return PieChart
      */
     public function slices($slices)
     {
         if (is_array($slices) === false || empty($slices) === true) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
                 'array',
                 'as (int) => (Slice)'
             );
@@ -143,7 +136,7 @@ class PieChart extends Chart
             $pie[$key] = $this->addSlice($slice);
         }
 
-        return $this->addOption([__FUNCTION__ => $pie]);
+        return $this->setOption(__FUNCTION__, $pie);
     }
 
     /**
@@ -152,7 +145,7 @@ class PieChart extends Chart
      * @param  Slice $slice
      * @return array
      */
-    private function addSlice(Slice $slice)
+    private function addSlice(Slice $slice) //TODO: fix this logic
     {
         return $slice->getValues();
     }
@@ -161,20 +154,13 @@ class PieChart extends Chart
      * The color of the slice borders. Only applicable when the chart is
      * two-dimensional; is3D == false || null
      *
-     * @param  string             $pieSliceBorderColor Valid HTML color
+     * @param  string $pieSliceBorderColor Valid HTML color
+     * @return \Khill\Lavacharts\Charts\PieChart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return PieChart
      */
     public function pieSliceBorderColor($pieSliceBorderColor)
     {
-        if (Utils::nonEmptyString($pieSliceBorderColor) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $pieSliceBorderColor]);
+        return $this->setStringOption(__FUNCTION__, $pieSliceBorderColor);
     }
 
     /**
@@ -185,9 +171,10 @@ class PieChart extends Chart
      * 'label' - The name of the slice.
      * 'none' - No text is displayed.
      *
-     * @param  string             $pieSliceText
+     *
+     * @param  string $pieSliceText
+     * @return \Khill\Lavacharts\Charts\PieChart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return PieChart
      */
     public function pieSliceText($pieSliceText)
     {
@@ -198,68 +185,46 @@ class PieChart extends Chart
             'none'
         ];
 
-        if (in_array($pieSliceText, $values, true) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $pieSliceText]);
+        return $this->setStringInArrayOption(__FUNCTION__, $pieSliceText, $values);
     }
 
     /**
      * An object that specifies the slice text style. create a new textStyle()
      * object, set the values then pass it to this function or to the constructor.
      *
-     * @param  TextStyle          $textStyle
+     * @param  array $textStyleConfig
+     * @return \Khill\Lavacharts\Charts\PieChart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return PieChart
      */
-    public function pieSliceTextStyle(TextStyle $textStyle)
+    public function pieSliceTextStyle($textStyleConfig)
     {
-        return $this->addOption($textStyle->toArray(__FUNCTION__));
+        return $this->setOption(__FUNCTION__, new TextStyle($textStyleConfig));
     }
 
     /**
      * The angle, in degrees, to rotate the chart by. The default of 0 will
      * orient the leftmost edge of the first slice directly up.
      *
-     * @param  integer                $pieStartAngle Starting angle
+     * @param  int $pieStartAngle Starting angle
+     * @return \Khill\Lavacharts\Charts\PieChart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return PieChart
      */
     public function pieStartAngle($pieStartAngle)
     {
-        if (is_int($pieStartAngle) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $pieStartAngle]);
+        return $this->setIntOption(__FUNCTION__, $pieStartAngle);
     }
 
     /**
      * If set to true, will draw slices counterclockwise. The default is to
      * draw clockwise.
      *
-     * @param  bool               $reverseCategories
+     * @param  bool $reverseCategories
+     * @return \Khill\Lavacharts\Charts\PieChart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return PieChart
      */
     public function reverseCategories($reverseCategories)
     {
-        if (is_bool($reverseCategories) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $reverseCategories]);
+        return $this->setBoolOption(__FUNCTION__, $reverseCategories);
     }
 
     /**
@@ -268,60 +233,38 @@ class PieChart extends Chart
      * single slice, whose size is the sum of all their sizes. Default is not
      * to show individually any slice which is smaller than half a degree.
      *
-     * @param  integer|float          $sliceVizThreshold
+     * @param  integer|float $sliceVizThreshold
+     * @return \Khill\Lavacharts\Charts\PieChart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return PieChart
      */
     public function sliceVisibilityThreshold($sliceVizThreshold)
     {
-        if (is_numeric($sliceVizThreshold) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'numeric'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $sliceVizThreshold]);
+        return $this->setNumericOption(__FUNCTION__, $sliceVizThreshold);
     }
 
     /**
      * Color for the combination slice that holds all slices below
      * sliceVisibilityThreshold.
      *
-     * @param  string             $pieResidueSliceColor
+     * @param  string $pieResidueSliceColor
+     * @return \Khill\Lavacharts\Charts\PieChart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return PieChart
      */
     public function pieResidueSliceColor($pieResidueSliceColor)
     {
-        if (Utils::nonEmptyString($pieResidueSliceColor) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'representing a valid HTML color'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $pieResidueSliceColor]);
+        return $this->setStringOption(__FUNCTION__, $pieResidueSliceColor);
     }
 
     /**
      * A label for the combination slice that holds all slices below
      * sliceVisibilityThreshold.
      *
-     * @param  string             $pieResidueSliceLabel
+     * @param  string $pieResidueSliceLabel
+     * @return \Khill\Lavacharts\Charts\PieChart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return PieChart
      */
     public function pieResidueSliceLabel($pieResidueSliceLabel)
     {
-        if (Utils::nonEmptyString($pieResidueSliceLabel) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $pieResidueSliceLabel]);
+        return $this->setStringOption(__FUNCTION__, $pieResidueSliceLabel);
     }
 }
