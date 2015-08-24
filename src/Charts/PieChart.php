@@ -2,12 +2,12 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Configs\Slice;
 use \Khill\Lavacharts\Configs\TextStyle;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * PieChart Class

@@ -135,9 +135,9 @@ class PieChartTest extends ProvidersTestCase
 
     public function testPieSliceTextStyle()
     {
-        $this->PieChart->pieSliceTextStyle($this->getMockTextStyle('pieSliceTextStyle'));
+        $this->PieChart->pieSliceTextStyle([]);
 
-        $this->assertTrue(is_array($this->PieChart->pieSliceTextStyle));
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $this->PieChart->pieSliceTextStyle);
     }
 
     public function testPieStartAngle()

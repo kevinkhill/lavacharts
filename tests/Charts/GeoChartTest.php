@@ -175,7 +175,7 @@ class GeoChartTest extends ProvidersTestCase
         $this->GeoChart->region($badTypes);
     }
 
-    public function testMagnifiyingGlass()
+    public function testMagnifyingGlass()
     {
         $this->GeoChart->magnifyingGlass([]);
 
@@ -186,7 +186,7 @@ class GeoChartTest extends ProvidersTestCase
      * @dataProvider nonArrayProvider
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function testMagnifiyingGlassWithBadTypes($badVals)
+    public function testMagnifyingGlassWithBadTypes($badVals)
     {
         $this->GeoChart->magnifyingGlass($badVals);
     }

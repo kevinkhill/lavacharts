@@ -6,6 +6,7 @@ use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\DataTables\DataTable;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * DonutChart Class
@@ -62,7 +63,7 @@ class DonutChart extends PieChart
      *
      * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param  array $options Array of options to set for the chart.
+     * @param  array $config Array of options to set for the chart.
      * @return \Khill\Lavacharts\Charts\DonutChart
      */
     public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
@@ -70,7 +71,9 @@ class DonutChart extends PieChart
         $options = new Options($this->donutDefaults);
         $options->set('pieHole', 0.5);
 
-        parent::__construct($chartLabel, $datatable, $options, $config);
+        parent::__construct($chartLabel, $datatable, $config);
+
+        $this->options->merge($options);
     }
 
     /**
@@ -85,8 +88,8 @@ class DonutChart extends PieChart
     public function pieHole($pieHole)
     {
         if (Utils::between(0.0, $pieHole, 1.0) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
                 'float',
                 'while, 0 < pieHole < 1 '
             );

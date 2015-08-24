@@ -46,22 +46,35 @@ class MagnifyingGlass extends JsonConfig
     /**
      * Builds the MagnifyingGlass object.
      *
-     * If created with no parameter, it defaults to enabled with a zoom factor
-     * of 5. Passing a number in upon creation, then the zoomFactor will be set.
-     *
-     * @param  int $zoomFactor
+     * @param  array $config
      * @return \Khill\Lavacharts\Configs\MagnifyingGlass
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
-    public function __construct($zoomFactor = 5)
+    public function __construct($config = [])
     {
         $options = new Options($this->defaults);
 
-        parent::__construct($options, [
-            'enable' => true,
-            'zoomFactor' => $zoomFactor
-        ]);
+        if (is_array($config) === true && count($config) == 0) {
+            $config = [
+                'enable'     => true,
+                'zoomFactor' => 5
+            ];
+        };
+
+        parent::__construct($options, $config);
+    }
+
+    /**
+     * Sets whether the magnifying glass is enabled or not.
+     *
+     * @param  bool $enable
+     * @return \Khill\Lavacharts\Configs\MagnifyingGlass
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function enable($enable)
+    {
+        $this->setBoolOption(__FUNCTION__, $enable);
     }
 
     /**
