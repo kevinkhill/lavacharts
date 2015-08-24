@@ -29,6 +29,7 @@ module.exports = function(config) {
         plugins: [
             'karma-jasmine',
             'karma-detect-browsers',
+            'karma-ie-launcher',
             'karma-chrome-launcher',
             'karma-firefox-launcher',
             'karma-phantomjs-launcher'
@@ -38,7 +39,7 @@ module.exports = function(config) {
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
         reporters: [
-            'progress'
+            'dots'
         ],
 
         // web server port
@@ -49,7 +50,7 @@ module.exports = function(config) {
 
         // level of logging
         // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-        logLevel: config.LOG_INFO,
+        logLevel: config.LOG_ERROR,
 
         // enable / disable watching file and executing tests whenever any file changes
         autoWatch: true,
@@ -58,31 +59,36 @@ module.exports = function(config) {
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
         browsers: ['Chrome'],
 
+        customLaunchers: {
+            IE10: {
+                base: 'IE',
+                'x-ua-compatible': 'IE=EmulateIE10',
+                flags: ['-extoff']
+            },
+            IE9: {
+                base: 'IE',
+                'x-ua-compatible': 'IE=EmulateIE9',
+                flags: ['-extoff']
+            },
+            IE8: {
+                base: 'IE',
+                'x-ua-compatible': 'IE=EmulateIE8',
+                flags: ['-extoff']
+            }
+        },
+
         // detectBrowsers Configuration
         detectBrowsers: {
-            // enable/disable, default is true
-            enabled: true,
-
-            // enable/disable phantomjs support, default is true
-            usePhantomJS: true,
-
             // post processing of browsers list
             // here you can edit the list of browsers used by karma
             postDetection: function(availableBrowser) {
-                /* Karma configuration with custom launchers
-                 customLaunchers: {
-                 IE9: {
-                 base: 'IE',
-                 'x-ua-compatible': 'IE=EmulateIE9'
-                 }
-                 }
-                 */
-
                 //Add IE Emulation
                 var result = availableBrowser;
 
                 if (availableBrowser.indexOf('IE')>-1) {
+                    result.push('IE8');
                     result.push('IE9');
+                    result.push('IE10');
                 }
 
                 //Remove PhantomJS if another browser has been detected

@@ -8,15 +8,12 @@ var gulp = require('gulp'),
 
 
 gulp.task('karma', function (done) {
-    var conf = {
-      configFile: __dirname + '/configs/karma.conf.js'
-    };
-
-    if (argv.dev) {
-      conf.singleRun = false;
-    }
-
-    karma.start(conf, done);
+    karma.start({
+        configFile: __dirname + '/configs/karma.conf.js',
+        singleRun: argv.dev ? false : true
+    }, function(exitStatus) {
+        done(exitStatus ? "There are failing unit tests" : undefined);
+    });
 });
 
 gulp.task('php:test', function (done) {
