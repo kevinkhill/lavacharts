@@ -25,6 +25,7 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "phantomjs": "^1.9.17",
     "sh": "^0.0.3",
+    "webshot": "^0.16.0",
     "yargs": "^3.6.0"
   },
   "repository": {

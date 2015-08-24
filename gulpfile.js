@@ -1,10 +1,12 @@
 var gulp = require('gulp'),
+   spawn = require('child_process').spawn,
       sh = require('sh'),
     bump = require('gulp-bump'),
   jshint = require('gulp-jshint'),
  replace = require('gulp-replace'),
     argv = require('yargs').array('browsers').argv,
-   karma = require('karma').server;
+   karma = require('karma').server,
+    page = require('webpage').create();
 
 
 gulp.task('karma', function (done) {
@@ -13,6 +15,30 @@ gulp.task('karma', function (done) {
         singleRun: argv.dev ? false : true
     }, function(exitStatus) {
         done(exitStatus ? "There are failing unit tests" : undefined);
+    });
+});
+
+gulp.task('render', function (done) {
+    var phpserver = spawn('php', ['-S', 'localhost:8946', '-t', 'tests/Renders']);
+
+    phpserver.stdout.on('data', function (data) {
+        console.log('stdout: ' + data);
+    });
+
+    phpserver.stderr.on('data', function (data) {
+        console.log('stderr: ' + data);
+    });
+
+    var page = require('webpage').create();
+
+    page.open('localhost:8946/TableChart.php', function () {
+        page.render(__dirname + '/build/renders/tablechart.png')
+
+        phantom.exit();
+        phpserver.kill('SIGINT');
+        phpserver.on('close', function (code) {
+            console.log('child process exited with code ' + code);
+        });
     });
 });
 

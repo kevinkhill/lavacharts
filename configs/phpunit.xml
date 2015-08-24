@@ -47,6 +47,7 @@
       <directory>../src/</directory>
     </whitelist>
     <blacklist>
+      <directory>../tests/Renders/</directory>
       <directory>../vendor/</directory>
       <directory>../src/Laravel/</directory>
     </blacklist>
