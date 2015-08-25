@@ -1,10 +1,6 @@
-<?php
+<?php require('../../vendor/autoload.php');
 
-require('vendor/autoload.php');
-
-use \Khill\Lavacharts\Lavacharts;
-
-$lava = new Lavacharts;
+$lava = new \Khill\Lavacharts\Lavacharts;
 
 $data = $lava->DataTable();
 $data->addDateColumn('Month')
@@ -24,16 +20,8 @@ $lava->TableChart('Sales', $data);
 
 <doctype html>
     <html>
-    <head>
-        <title>Test</title>
-    </head>
     <body>
-    <div style="float:left;width:50%">
-        <?= var_dump($lava->TableChart('Sales')); ?>
-    </div>
-    <div id="sales" style="float:left;width:50%"></div>
-    <div id="img" style="float:left;width:50%"></div>
-
-    <?= $lava->render('TableChart', 'Sales', 'sales'); ?>
+        <div id="chart"></div>
+        <?= $lava->render('TableChart', 'Sales', 'chart'); ?>
     </body>
 </html>

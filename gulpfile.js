@@ -5,40 +5,54 @@ var gulp = require('gulp'),
   jshint = require('gulp-jshint'),
  replace = require('gulp-replace'),
     argv = require('yargs').array('browsers').argv,
-   karma = require('karma').server,
-    page = require('webpage').create();
-
+   karma = require('karma');
 
 gulp.task('karma', function (done) {
-    karma.start({
+    var server = new karma.Server({
         configFile: __dirname + '/configs/karma.conf.js',
         singleRun: argv.dev ? false : true
     }, function(exitStatus) {
         done(exitStatus ? "There are failing unit tests" : undefined);
     });
+
+    server.start();
 });
 
-gulp.task('render', function (done) {
-    var phpserver = spawn('php', ['-S', 'localhost:8946', '-t', 'tests/Renders']);
+gulp.task('render', function (done) {gulp.src(['file.txt'])
+    gulp.src([__dirname + '/screenshot.js'])
+        .pipe(replace('{TYPE}', 'TableChart'))
+        .pipe(gulp.dest(__dirname + '/build'));
+
+    var phpserver = spawn('php', ['-S', '127.0.0.1:8946', '-t', 'tests/Examples'], {cwd: __dirname});
 
     phpserver.stdout.on('data', function (data) {
-        console.log('stdout: ' + data);
+        console.log('[PHP]: ' + data);
     });
 
     phpserver.stderr.on('data', function (data) {
-        console.log('stderr: ' + data);
+        console.log('[PHP]: ' + data);
     });
 
-    var page = require('webpage').create();
+    phpserver.on('close', function (err) {
+        console.log('[PHP]: Stopping Server...');
+    });
 
-    page.open('localhost:8946/TableChart.php', function () {
-        page.render(__dirname + '/build/renders/tablechart.png')
+    var phantom = spawn('phantomjs', ['build/screenshot.js'], {cwd: __dirname});
 
-        phantom.exit();
+    phantom.stdout.on('data', function (data) {
+        console.log('[PHANTOMJS]: ' + data);
+    });
+
+    phantom.stderr.on('data', function (data) {
+        console.log('[PHANTOMJS]: ' + data);
+    });
+
+    phantom.on('close', function (code) {
         phpserver.kill('SIGINT');
-        phpserver.on('close', function (code) {
-            console.log('child process exited with code ' + code);
-        });
+    });
+
+    phantom.on('error', function (err) {
+        console.log('[PHANTOMJS]: ' + err);
     });
 });
 
