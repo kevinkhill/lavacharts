@@ -30,7 +30,7 @@ gulp.task('render', function (done) {gulp.src(['file.txt'])
     });
 
     phpserver.stderr.on('data', function (data) {
-        console.log('[PHP]: ' + data);
+        console.error('[PHP]: ' + data);
     });
 
     phpserver.on('close', function (err) {
@@ -40,11 +40,11 @@ gulp.task('render', function (done) {gulp.src(['file.txt'])
     var phantom = spawn('phantomjs', ['build/screenshot.js'], {cwd: __dirname});
 
     phantom.stdout.on('data', function (data) {
-        console.log('[PHANTOMJS]: ' + data);
+        console.log('[PHANTOM]: ' + data);
     });
 
     phantom.stderr.on('data', function (data) {
-        console.log('[PHANTOMJS]: ' + data);
+        console.log('[PHANTOM]: ' + data);
     });
 
     phantom.on('close', function (code) {
@@ -52,7 +52,7 @@ gulp.task('render', function (done) {gulp.src(['file.txt'])
     });
 
     phantom.on('error', function (err) {
-        console.log('[PHANTOMJS]: ' + err);
+        console.error('[PHANTOM]: ' + err);
     });
 });
 
