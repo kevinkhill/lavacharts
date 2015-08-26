@@ -10,6 +10,7 @@
     "node": "10.*"
   },
   "devDependencies": {
+    "async": "^1.4.2",
     "gulp": "^3.9.0",
     "gulp-bump": "^0.3.0",
     "gulp-jshint": "^1.10.0",

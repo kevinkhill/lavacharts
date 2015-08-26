@@ -4,10 +4,11 @@ var gulp = require('gulp'),
     bump = require('gulp-bump'),
   jshint = require('gulp-jshint'),
  replace = require('gulp-replace'),
-    argv = require('yargs').array('browsers').argv,
-   karma = require('karma');
+    argv = require('yargs').array('browsers').argv;
 
 gulp.task('karma', function (done) {
+    var karma = require('karma');
+
     var server = new karma.Server({
         configFile: __dirname + '/configs/karma.conf.js',
         singleRun: argv.dev ? false : true
@@ -18,10 +19,16 @@ gulp.task('karma', function (done) {
     server.start();
 });
 
+
 gulp.task('render', function (done) {gulp.src(['file.txt'])
-    gulp.src([__dirname + '/screenshot.js'])
-        .pipe(replace('{TYPE}', 'TableChart'))
-        .pipe(gulp.dest(__dirname + '/build'));
+    var webshot = require('webshot'),
+          async = require('async');
+
+    var charts = [
+        'LineChart',
+        'TableChart',
+        'Dashboard'
+    ];
 
     var phpserver = spawn('php', ['-S', '127.0.0.1:8946', '-t', 'tests/Examples'], {cwd: __dirname});
 
@@ -37,23 +44,22 @@ gulp.task('render', function (done) {gulp.src(['file.txt'])
         console.log('[PHP]: Stopping Server...');
     });
 
-    var phantom = spawn('phantomjs', ['build/screenshot.js'], {cwd: __dirname});
+    async.series([
+        function (callback) {
+            charts.forEach(function (chart) {
+                gulp.src([__dirname + '/screenshot.js'])
+                    .pipe(replace('{TYPE}', chart))
+                    .pipe(gulp.dest(__dirname + '/build'));
 
-    phantom.stdout.on('data', function (data) {
-        console.log('[PHANTOM]: ' + data);
-    });
-
-    phantom.stderr.on('data', function (data) {
-        console.log('[PHANTOM]: ' + data);
-    });
-
-    phantom.on('close', function (code) {
-        phpserver.kill('SIGINT');
-    });
-
-    phantom.on('error', function (err) {
-        console.error('[PHANTOM]: ' + err);
-    });
+                webshot('http://127.0.0.1:8946/index.php?chart=' + chart, 'build/renders/' + chart + '.png', function (err) {
+                    //
+                });
+            });
+        },
+        function (callback) {
+            phpserver.kill('SIGINT');
+        }
+    ]);
 });
 
 gulp.task('php:test', function (done) {

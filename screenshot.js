@@ -2,12 +2,17 @@ var WebPage = require('webpage');
 
 page = WebPage.create();
 
+page.viewportSize = {
+    width: 1024,
+    height: 768
+};
+
 page.open('http://127.0.0.1:8946/{TYPE}.php');
-/*
+
 page.onResourceRequested = function (request) {
     console.log(request.method + ' => ' + request.url);
 };
-*/
+
 page.onError = function (msg, trace) {
     console.log(msg);
 
@@ -17,7 +22,10 @@ page.onError = function (msg, trace) {
 };
 
 page.onLoadFinished = function() {
-    console.log('Saving Chart...');
-    page.render('build/renders/{TYPE}.png');
-    phantom.exit();
+    console.log('Saving Screenshot...');
+
+    setTimeout(function () {
+        page.render('build/renders/{TYPE}.png');
+        phantom.exit();
+    }, 1000);
 };
