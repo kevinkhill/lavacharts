@@ -6,6 +6,7 @@ var gulp = require('gulp'),
  replace = require('gulp-replace'),
     argv = require('yargs').array('browsers').argv;
 
+
 gulp.task('karma', function (done) {
     var karma = require('karma');
 
@@ -32,34 +33,29 @@ gulp.task('render', function (done) {gulp.src(['file.txt'])
 
     var phpserver = spawn('php', ['-S', '127.0.0.1:8946', '-t', 'tests/Examples'], {cwd: __dirname});
 
-    phpserver.stdout.on('data', function (data) {
-        console.log('[PHP]: ' + data);
-    });
+    var render = function (chart, callback) {
+        webshot('http://127.0.0.1:8946/index.php?chart=' + chart, 'build/renders/' + chart + '.png', function (err) {
+            if (err) { callback(err); }
 
-    phpserver.stderr.on('data', function (data) {
-        console.error('[PHP]: ' + data);
+            console.log('Rendered ' + chart);
+            return callback();
+        });
+    };
+
+    phpserver.on('data', function (data) {
+        console.log(data);
     });
 
     phpserver.on('close', function (err) {
-        console.log('[PHP]: Stopping Server...');
+        console.log('Done');
     });
 
-    async.series([
-        function (callback) {
-            charts.forEach(function (chart) {
-                gulp.src([__dirname + '/screenshot.js'])
-                    .pipe(replace('{TYPE}', chart))
-                    .pipe(gulp.dest(__dirname + '/build'));
+    async.forEach(charts, render, function (error) {
+        if (error) { console.log(error); }
 
-                webshot('http://127.0.0.1:8946/index.php?chart=' + chart, 'build/renders/' + chart + '.png', function (err) {
-                    //
-                });
-            });
-        },
-        function (callback) {
-            phpserver.kill('SIGINT');
-        }
-    ]);
+        console.log('Stopping PHP Server');
+        phpserver.kill('SIGINT');
+    });
 });
 
 gulp.task('php:test', function (done) {
