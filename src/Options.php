@@ -106,6 +106,43 @@ class Options
     }
 
     /**
+     * Set the value of an option.
+     *
+     * @access public
+     * @param  string $option Name of option to set.
+     * @param  mixed $value Value to set the option to.
+     * @return \Khill\Lavacharts\Options
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
+     */
+    public function set($option, $value)
+    {
+        if ($this->hasOption($option) === false) {
+            throw new InvalidOption($option, $this->defaults);
+        }
+
+        $this->values[$option] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of a set option.
+     *
+     * @access public
+     * @param  string $option Name of option.
+     * @return mixed
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
+     */
+    public function get($option)
+    {
+        if ($this->hasValue($option) === false) {
+            throw new InvalidOption($option, $this->defaults);
+        }
+
+        return $this->values[$option];
+    }
+
+    /**
      * Batch set options from an array
      *
      * @access public
@@ -187,42 +224,5 @@ class Options
         $this->defaults = array_merge(array_diff($this->defaults, $options));
 
         return $this;
-    }
-
-    /**
-     * Set the value of an option.
-     *
-     * @access public
-     * @param  string $option Name of option to set.
-     * @param  mixed $value Value to set the option to.
-     * @return \Khill\Lavacharts\Options
-     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
-     */
-    public function set($option, $value)
-    {
-        if ($this->hasOption($option) === false) {
-            throw new InvalidOption($option, $this->defaults);
-        }
-
-        $this->values[$option] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of a set option.
-     *
-     * @access public
-     * @param  string $option Name of option.
-     * @return mixed
-     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
-     */
-    public function get($option)
-    {
-        if ($this->hasValue($option) === false) {
-            throw new InvalidOption($option, $this->defaults);
-        }
-
-        return $this->values[$option];
     }
 }

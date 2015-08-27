@@ -18,6 +18,15 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         $this->partialDataTable = m::mock('Khill\Lavacharts\DataTables\DataTable')->makePartial();
     }
 
+    public function getPrivateProperty($obj, $prop)
+    {
+        $refObj = new \ReflectionClass($obj);
+        $refProp = $refObj->getProperty($prop);
+        $refProp->setAccessible(true);
+
+        return $refProp->getValue($obj);
+    }
+
     public function nonIntOrPercentProvider()
     {
         return [

@@ -1,9 +1,8 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\Configs;
+namespace Khill\Lavacharts\Tests;
 
 use \Khill\Lavacharts\Options;
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class OptionsTest extends ProvidersTestCase
 {
@@ -47,7 +46,50 @@ class OptionsTest extends ProvidersTestCase
         $this->assertFalse($this->Options->hasOption($badTypes));
     }
 
-    public function testSetAndGetOption()
+    public function testSetSingleOption()
+    {
+        $this->Options->set('fakeOption1', true);
+        $this->Options->set('fakeOption2', 1);
+        $this->Options->set('fakeOption3', 'Hamburger');
+
+        $optionValues = $this->getPrivateProperty($this->Options, 'values');
+
+        $this->assertTrue($optionValues['fakeOption1'], true);
+        $this->assertEquals($optionValues['fakeOption2'], 1);
+        $this->assertEquals($optionValues['fakeOption3'], 'Hamburger');
+    }
+
+    /**
+     * @depends testSetSingleOption
+     */
+    public function testSetMultipleOptions()
+    {
+        $this->Options->setOptions([
+            'fakeOption1' => true,
+            'fakeOption2' => 1,
+            'fakeOption3' => 'Hamburger'
+        ]);
+
+        $optionValues = $this->getPrivateProperty($this->Options, 'values');
+
+        $this->assertTrue($optionValues['fakeOption1'], true);
+        $this->assertEquals($optionValues['fakeOption2'], 1);
+        $this->assertEquals($optionValues['fakeOption3'], 'Hamburger');
+    }
+
+    /**
+     * @depends testSetSingleOption
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testSetMultipleOptionsWithBadTypes($badVals)
+    {
+        $this->Options->setOptions($badVals);
+    }
+
+    /**
+     * @depends testSetSingleOption
+     */
+    public function testGetOption()
     {
         $this->Options->set('fakeOption1', true);
         $this->Options->set('fakeOption2', 1);
@@ -58,6 +100,9 @@ class OptionsTest extends ProvidersTestCase
         $this->assertEquals($this->Options->get('fakeOption3'), 'Hamburger');
     }
 
+    /**
+     * @depends testSetSingleOption
+     */
     public function testGetValues()
     {
         $this->Options->set('fakeOption1', true);
@@ -163,5 +208,33 @@ class OptionsTest extends ProvidersTestCase
     public function testRemoveWithBadTypes($badTypes)
     {
         $this->Options->remove($badTypes);
+    }
+
+    /**
+     * @depends testExtendWithMoreOptions
+     * @depends testSetMultipleOptions
+     */
+    public function testMergingTwoOptionsObjects()
+    {
+        $options = new Options([
+            'fakeOption1',
+            'fakeOption2',
+            'fakeOption3'
+        ]);
+
+        $moreOptions = new Options([
+            'fakeOption4',
+            'fakeOption5'
+        ]);
+
+        $options->merge($moreOptions);
+
+        $this->assertEquals($options->getDefaults(), [
+            'fakeOption1',
+            'fakeOption2',
+            'fakeOption3',
+            'fakeOption4',
+            'fakeOption5'
+        ]);
     }
 }
