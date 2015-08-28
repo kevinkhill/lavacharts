@@ -13,7 +13,7 @@ use \Khill\Lavacharts\Exceptions\InvalidColumnType;
  * the type of column to create, all others are optional.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage DataTables\Columns
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs

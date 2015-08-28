@@ -7,7 +7,7 @@
  * Can be searched by rendering as a wrapper and binding to a control within a dashboard.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Charts
  * @since      v3.0.0
  * @author     Peter Draznik <peter.draznik@38thStreetStudios.com>

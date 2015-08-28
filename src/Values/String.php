@@ -9,7 +9,7 @@ namespace Khill\Lavacharts\Values;
  * Creates a new String object while checking if it is a non empty and actually a string.
  *
  * @category   Class
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Values
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs

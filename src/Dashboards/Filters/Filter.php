@@ -15,7 +15,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
  * functions to the child objects.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Dashbaords\Filters
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

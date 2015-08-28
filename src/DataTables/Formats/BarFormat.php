@@ -12,7 +12,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * is above or below a specified base value.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Formats
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

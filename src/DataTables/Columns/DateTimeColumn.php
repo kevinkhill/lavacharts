@@ -8,7 +8,7 @@ namespace Khill\Lavacharts\DataTables\Columns;
  * DateTime columns are for Carbon objects or strings representing datetimes in the DataTable.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage DataTables\Columns
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

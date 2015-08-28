@@ -12,7 +12,7 @@ use \Khill\Lavacharts\Options;
  * passed into the Table's options.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Configs
  * @author     Peter Draznik <peter.draznik@38thStreetStudios.com>
  * @since	   v.2.6.0

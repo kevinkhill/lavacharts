@@ -7,7 +7,7 @@ use \Khill\Lavacharts\Options;
 /**
  * Date Range Class
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Dashboards\Filters
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

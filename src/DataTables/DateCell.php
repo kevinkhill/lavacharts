@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables;
 
-use Carbon\Carbon;
+use \Carbon\Carbon;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\FailedCarbonParsing;
 use \Khill\Lavacharts\Exceptions\InvalidDateTimeString;
@@ -12,7 +12,7 @@ use \Khill\Lavacharts\Exceptions\InvalidDateTimeString;
  *
  * Wrapper object to implement JsonSerializable on the Carbon object.
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage DataTables
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -44,9 +44,9 @@ class DateCell implements \JsonSerializable
     /**
      * @param  string $dateTimeString
      * @param  string $dateTimeFormat
-     * @throws FailedCarbonParsing
-     * @throws InvalidDateTimeString
-     * @return DateCell
+     * @return \Khill\Lavacharts\DataTables\DateCell
+     * @throws \Khill\Lavacharts\Exceptions\FailedCarbonParsing
+     * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeString
      */
     public static function parseString($dateTimeString, $dateTimeFormat)
     {

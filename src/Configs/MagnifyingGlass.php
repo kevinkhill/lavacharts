@@ -16,7 +16,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * Passing a number in upon creation, then the zoomFactor will be set.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Configs
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs

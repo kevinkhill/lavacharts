@@ -19,7 +19,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * depending on the day of the week, or how it trends over time.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Charts
  * @since      2.1.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

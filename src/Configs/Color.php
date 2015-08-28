@@ -14,7 +14,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * Use this object with backgroundColor and color options to override the grayscale defaults.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Configs
  * @since      2.1.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

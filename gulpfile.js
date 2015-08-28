@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
    spawn = require('child_process').spawn,
+    exec = require('child_process').exec,
       sh = require('sh'),
     bump = require('gulp-bump'),
   jshint = require('gulp-jshint'),
@@ -59,7 +60,15 @@ gulp.task('render', function (done) {gulp.src(['file.txt'])
 });
 
 gulp.task('php:test', function (done) {
-    sh('./vendor/bin/phpunit -c configs/phpunit.xml');
+    var paratest = spawn('./vendor/bin/paratest.bat', ['-c', 'configs/phpunit.xml']);
+
+    paratest.on('data', function (data) {
+        console.log(data);
+    });
+});
+
+gulp.task('php:coverage', function (done) {
+    sh('./vendor/bin/phpunit -c configs/phpunit.xml.coverage');
 });
 
 gulp.task('php:doc', function (done) {

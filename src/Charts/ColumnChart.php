@@ -14,7 +14,7 @@ use \Khill\Lavacharts\DataTables\DataTable;
  * chart, see the Bar Chart.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Charts
  * @since      1.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

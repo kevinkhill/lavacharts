@@ -12,7 +12,7 @@ use \Khill\Lavacharts\Exceptions\InvalidBindings;
  *
  * Creates new bindings for dashboards.
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Dashboards\Bindings
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

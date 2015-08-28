@@ -12,8 +12,8 @@ use Illuminate\Foundation\AliasLoader;
  * Registers Lavacharts with Laravel while also registering the Facade and Template extensions.
  * The Alias is also automatically loaded so you can access Lavacharts with the "Lava::" syntax
  *
- * @category   Class
- * @package    Lavacharts
+ *
+ * @package    Khill\Lavacharts
  * @subpackage Laravel
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs

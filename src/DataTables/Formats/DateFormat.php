@@ -9,7 +9,7 @@ namespace Khill\Lavacharts\DataTables\Formats;
  * Added to columns during column definition.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Formats
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs

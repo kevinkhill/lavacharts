@@ -13,7 +13,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * An object containing the crosshair properties for the chart.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Configs
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

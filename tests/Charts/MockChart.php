@@ -13,7 +13,7 @@ use \Khill\Lavacharts\DataTables\DataTable;
  * This is used to apply all the traits for testing, as well as testing the parent methods for all the charts.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Charts
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

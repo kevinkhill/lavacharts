@@ -25,7 +25,7 @@ use \Khill\Lavacharts\DataTables\DataTable;
  * long to show, the name will be truncated with an ellipsis (...).
  *
  * @codeCoverageIgnore
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Charts
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs

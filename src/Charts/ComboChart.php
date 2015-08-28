@@ -17,7 +17,7 @@ use \Khill\Lavacharts\DataTables\DataTable;
  * Use the series property to specify properties of each series individually.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Charts
  * @since      2.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

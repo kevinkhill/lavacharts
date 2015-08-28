@@ -13,7 +13,7 @@ use \Khill\Lavacharts\Dashboards\Dashboard;
  * javascript blocks for outputting into the page.
  *
  * @category   Class
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Javascript
  * @since      2.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

@@ -10,7 +10,7 @@ use \Khill\Lavacharts\Values\ElementId;
  *
  * Used for wrapping charts to use in dashboards.
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Dashboards
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

@@ -18,6 +18,13 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         $this->partialDataTable = m::mock('Khill\Lavacharts\DataTables\DataTable')->makePartial();
     }
 
+    /**
+     * Uses reflection to retrieve private member variables from objects.
+     *
+     * @param  Class $obj
+     * @param  string $prop
+     * @return mixed
+     */
     public function getPrivateProperty($obj, $prop)
     {
         $refObj = new \ReflectionClass($obj);

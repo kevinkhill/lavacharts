@@ -25,7 +25,7 @@ use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
  *
  *
  * @category  Class
- * @package   Lavacharts
+ * @package   Khill\Lavacharts
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2015, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page

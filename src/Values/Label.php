@@ -11,7 +11,7 @@ use \Khill\Lavacharts\Exceptions\InvalidLabel;
  * Creates a new label for a chart or dashboard while checking if it is a non empty string.
  *
  * @category  Class
- * @package   Lavacharts
+ * @package   Khill\Lavacharts
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2015, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page

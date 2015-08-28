@@ -8,7 +8,7 @@ namespace Khill\Lavacharts\DataTables\Rows;
  * The null row object is used to add an empty row to the datatable.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage DataTables\Rows
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

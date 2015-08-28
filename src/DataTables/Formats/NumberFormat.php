@@ -13,7 +13,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  *
  * @see        https://developers.google.com/chart/interactive/docs/reference#numberformatter
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Formats
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs

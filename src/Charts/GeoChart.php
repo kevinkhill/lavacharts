@@ -20,7 +20,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  *   according to a value that you specify.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Charts
  * @since      1.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

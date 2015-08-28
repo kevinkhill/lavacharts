@@ -29,6 +29,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~4.5",
+        "brianium/paratest": "~0.12",
         "mybuilder/phpunit-accelerator": "~1.1",
         "mockery/mockery": "~0.9",
         "squizlabs/php_codesniffer": "~2.3",

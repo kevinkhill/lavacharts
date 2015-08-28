@@ -11,7 +11,7 @@ use \Khill\Lavacharts\Exceptions\InvalidColumnRole;
  * The ColumnRole object is used to define the role that a column plays in a DataTable.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage DataTables\Columns
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

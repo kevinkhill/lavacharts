@@ -8,7 +8,7 @@ namespace Khill\Lavacharts\DataTables\Columns;
  * Number columns are for int|float type data in the DataTable.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage DataTables\Columns
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

@@ -13,7 +13,7 @@ use \Khill\Lavacharts\Exceptions\InvalidCellCount;
  * The RowFactory creates new rows for the DataTables.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage DataTables\Rows
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

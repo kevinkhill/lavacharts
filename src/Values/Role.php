@@ -9,7 +9,7 @@ namespace Khill\Lavacharts\Values;
  * Creates a new Role object for a column roles while checking if it is a non empty string.
  *
  * @category  Class
- * @package   Lavacharts
+ * @package   Khill\Lavacharts
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2015, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page

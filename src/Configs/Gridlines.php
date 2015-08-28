@@ -15,7 +15,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * be passed into the chart's options.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Configs
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

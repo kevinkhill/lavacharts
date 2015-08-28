@@ -10,7 +10,7 @@ use \Khill\Lavacharts\Dashboards\Filters\Filter;
  *
  * Used for building controls for dashboards.
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Dashboards
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

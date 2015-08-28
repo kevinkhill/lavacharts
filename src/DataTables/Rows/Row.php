@@ -12,7 +12,7 @@ use \Khill\Lavacharts\Exceptions\InvalidColumnIndex;
  * The row object contains all the data for a row, stored in an array, indexed by columns.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage DataTables\Rows
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

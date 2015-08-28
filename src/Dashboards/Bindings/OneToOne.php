@@ -10,7 +10,7 @@ use \Khill\Lavacharts\Dashboards\ControlWrapper;
  *
  * Binds a single ControlWrapper to a single ChartWrapper for use in dashboards.
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Dashboards\Bindings
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

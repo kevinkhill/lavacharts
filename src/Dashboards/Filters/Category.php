@@ -10,7 +10,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  *
  * A picker to choose one or more between a set of defined values.
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Dashboards\Filters
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

@@ -16,7 +16,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * tooltips when hovering over slices.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Charts
  * @since      1.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

@@ -13,7 +13,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * A gauge with a dial, rendered within the browser using SVG or VML.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Charts
  * @since      2.2.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

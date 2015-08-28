@@ -12,7 +12,7 @@ use \Khill\Lavacharts\Exceptions\InvalidOption;
  * values for these set options.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Configs
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

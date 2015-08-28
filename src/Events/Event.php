@@ -12,7 +12,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * functions to the child objects.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Events
  * @since      2.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

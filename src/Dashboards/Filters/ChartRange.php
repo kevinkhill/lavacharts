@@ -10,7 +10,7 @@ use \Khill\Lavacharts\Options;
  * A slider with two thumbs superimposed onto a chart, to select a range of values
  * from the continuous axis of the chart.
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Dashboards\Filters
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

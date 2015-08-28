@@ -10,9 +10,9 @@
 >
   <testsuites>
     <testsuite name="core">
-      <file>../tests/JavascriptFactoryTest.php</file>
       <file>../tests/LavachartsTest.php</file>
       <file>../tests/VolcanoTest.php</file>
+      <file>../tests/OptionsTest.php</file>
     </testsuite>
     <testsuite name="charts">
       <directory>../tests/Charts/</directory>

@@ -13,7 +13,7 @@ use \Khill\Lavacharts\DataTables\DataTable;
  * tips when hovering over points.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Charts
  * @since      1.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

@@ -24,7 +24,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * Has common properties and methods used between all the different charts.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Charts
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs

@@ -13,7 +13,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * An object that specifies a the color, thickness and opacity of borders in charts.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Configs
  * @since      2.1.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

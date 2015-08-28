@@ -29,7 +29,7 @@ use \Khill\Lavacharts\Exceptions\InvalidRowProperty;
  * arbitrary class names or styles to individual cells.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage DataTables
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs

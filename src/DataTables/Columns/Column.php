@@ -10,7 +10,7 @@ use \Khill\Lavacharts\DataTables\Formats\Format;
  * The Column object is used to define the different columns for a DataTable.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage DataTables\Columns
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

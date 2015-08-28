@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Facade;
  *
  * Enables member methods via static accessor for Lavacharts in Laravel.
  *
- * @category   Class
- * @package    Lavacharts
+ *
+ * @package    Khill\Lavacharts
  * @subpackage Laravel
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs

@@ -8,7 +8,7 @@ namespace Khill\Lavacharts\Events;
  * A generic callback class used to define javascript callbacks to be used within charts.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Events
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

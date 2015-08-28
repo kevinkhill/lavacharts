@@ -13,7 +13,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
  * The parent object for all config objects. Adds JsonSerializable and methods for setting options.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Configs
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
