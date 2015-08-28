@@ -33,11 +33,30 @@ class DataTableTest extends ProvidersTestCase
         $this->assertEquals($dt->timezone, 'America/New_York');
     }
 
-    public function testSetTimezoneWithMethod()
+    public function testSetTimezoneMethod()
     {
         $this->dt->setTimezone('America/New_York');
 
         $this->assertEquals($this->dt->timezone, 'America/New_York');
+    }
+
+    public function testSetDateTimeFormat()
+    {
+        $this->dt->setDateTimeFormat('YYYY-mm-dd');
+
+        $format = $this->getPrivateProperty($this->dt, 'dateTimeFormat');
+
+        $this->assertEquals($format, 'YYYY-mm-dd');
+    }
+
+    /**
+     * @depends testSetDateTimeFormat
+     */
+    public function testGetDateTimeFormat()
+    {
+        $this->dt->setDateTimeFormat('YYYY-mm-dd');
+
+        $this->assertEquals($this->dt->getDateTimeFormat(), 'YYYY-mm-dd');
     }
 
     /**
@@ -353,26 +372,48 @@ class DataTableTest extends ProvidersTestCase
      **********************************************************************************/
 
     /**
-     * @depends testAddColumnWithType
+     * @depends testAddDateColumn
      * @covers \Khill\Lavacharts\DataTables\DateCell::parseString
      */
     public function testDateCellParseString()
     {
-        $this->dt->addColumn('date');
+        $this->dt->addDateColumn();
 
-        $this->dt->addRow([Carbon::parse('March 24th, 1988 8:01:05')]);
+        $this->dt->addRow(['March 24th, 1988 8:01:05']);
 
         $row = $this->getPrivateProperty($this->dt, 'rows')[0];
 
-        $this->assertEquals(json_encode($row->getColumnValue(0)), '"Date(1988,2,24,8,1,5)"');
+        $this->assertEquals($row->getColumnValue(0), 'Date(1988,2,24,8,1,5)');
     }
 
     /**
+     * @depends testAddDateColumn
+     * @depends testSetDateTimeFormat
+     * @covers \Khill\Lavacharts\DataTables\DateCell::parseString
+     */
+    public function testDateCellParseStringWithFormat()
+    {
+        $this->dt->setDateTimeFormat('YYYY-mm')->addDateColumn();
+
+        $this->dt->addRows([
+            ['1988-03'],
+            ['1988-04']
+        ]);
+
+        $rows = $this->getPrivateProperty($this->dt, 'rows');
+
+        $this->assertEquals($rows->getColumnValue(0), 'Date(1988,2,0,0,0,0)');
+        $this->assertEquals($rows->getColumnValue(0), 'Date(1988,3,0,0,0,0)');
+    }
+
+    /**
+     * @depends testAddDateColumn
+     * @depends testAddRowWithDate
      * @covers \Khill\Lavacharts\DataTables\DateCell::jsonSerialize
      */
     public function testJsonSerializationOfDateCells()
     {
-        $this->dt->addColumn('date');
+        $this->dt->addDateColumn();
 
         $this->dt->addRow([Carbon::parse('March 24th, 1988 8:01:05')]);
 
@@ -381,3 +422,4 @@ class DataTableTest extends ProvidersTestCase
         $this->assertEquals(json_encode($row->getColumnValue(0)), '"Date(1988,2,24,8,1,5)"');
     }
 }
+
