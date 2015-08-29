@@ -9,44 +9,89 @@ use \Mockery as m;
 
 class DataTableTest extends ProvidersTestCase
 {
-    /**
-     * @var \Khill\Lavacharts\DataTables\DataTable
-     */
-    public $dt;
+    public $DataTable;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->dt = new DataTable();
+        date_default_timezone_set('America/Los_Angeles');
+
+        $this->DataTable = new DataTable();
     }
 
     public function testDefaultTimezoneUponCreation()
     {
-        $this->assertEquals($this->dt->timezone, 'America/Los_Angeles');
+        $tz = $this->getPrivateProperty($this->DataTable, 'timezone');
+
+        $this->assertEquals('America/Los_Angeles', $tz->getName());
     }
 
     public function testSetTimezoneWithConstructor()
     {
-        $dt = new DataTable('America/New_York');
+        $datatable = new DataTable('America/New_York');
 
-        $this->assertEquals($dt->timezone, 'America/New_York');
+        $tz = $this->getPrivateProperty($datatable, 'timezone');
+
+        $this->assertEquals('America/New_York', $tz->getName());
     }
 
     public function testSetTimezoneMethod()
     {
-        $this->dt->setTimezone('America/New_York');
+        $this->DataTable->setTimezone('America/New_York');
 
-        $this->assertEquals($this->dt->timezone, 'America/New_York');
+        $tz = $this->getPrivateProperty($this->DataTable, 'timezone');
+
+        $this->assertEquals('America/New_York', $tz->getName());
+    }
+
+    /**
+     * @depends testSetTimezoneMethod
+     * @dataProvider nonStringProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidTimeZone
+     */
+    public function testSetTimezoneWithBadType($badVals)
+    {
+        $this->DataTable->setTimezone($badVals);
+    }
+
+    /**
+     * @depends testSetTimezoneMethod
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidTimeZone
+     */
+    public function testSetTimezoneWithInvalidTimezone($badVals)
+    {
+        $this->DataTable->setTimezone('Murica');
+    }
+
+    /**
+     * @depends testSetTimezoneMethod
+     */
+    public function testGetTimezoneMethod()
+    {
+        $this->DataTable->setTimezone('America/New_York');
+
+        $this->assertInstanceOf('DateTimeZone', $this->DataTable->getTimezone());
+        $this->assertEquals('America/New_York', $this->DataTable->getTimezone()->getName());
     }
 
     public function testSetDateTimeFormat()
     {
-        $this->dt->setDateTimeFormat('YYYY-mm-dd');
+        $this->DataTable->setDateTimeFormat('YYYY-mm-dd');
 
-        $format = $this->getPrivateProperty($this->dt, 'dateTimeFormat');
+        $format = $this->getPrivateProperty($this->DataTable, 'dateTimeFormat');
 
-        $this->assertEquals($format, 'YYYY-mm-dd');
+        $this->assertEquals('YYYY-mm-dd', $format);
+    }
+
+    /**
+     * @depends testSetDateTimeFormat
+     * @dataProvider nonStringProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testSetDateTimeFormatWithBadTypes($badVals)
+    {
+        $this->DataTable->setDateTimeFormat($badVals);
     }
 
     /**
@@ -54,106 +99,139 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testGetDateTimeFormat()
     {
-        $this->dt->setDateTimeFormat('YYYY-mm-dd');
+        $this->DataTable->setDateTimeFormat('YYYY-mm-dd');
 
-        $this->assertEquals($this->dt->getDateTimeFormat(), 'YYYY-mm-dd');
+        $this->assertEquals('YYYY-mm-dd', $this->DataTable->getDateTimeFormat());
     }
 
-    /**
-     * @dataProvider nonStringProvider
-     */
-    public function testIniDefaultTimezoneWithBadValues($badValues)
+    public function testGetClone()
     {
-        date_default_timezone_set('America/Los_Angeles');
+        $datatable = $this->DataTable->getClone();
 
-        $dt = new DataTable($badValues);
-
-        $this->assertEquals($dt->timezone, 'America/Los_Angeles');
+        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\DataTable', $datatable);
+        $this->assertEquals($this->DataTable, $datatable);
     }
 
     public function testAddColumnWithType()
     {
-        $this->dt->addColumn('date');
+        $this->DataTable->addColumn('date');
 
-        $column = $this->getPrivateProperty($this->dt, 'cols')[0];
+        $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
 
-        $this->assertEquals($column->getType(), 'date');
+        $this->assertEquals('date', $column->getType());
+    }
+
+    /**
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testAddColumnWithBadTypes()
+    {
+        $this->DataTable->addColumn(1);
+        $this->DataTable->addColumn(1.1);
+        $this->DataTable->addColumn(false);
+        $this->DataTable->addColumn(new \stdClass());
     }
 
     public function testAddDateColumn()
     {
-        $this->dt->addDateColumn();
+        $this->DataTable->addDateColumn();
 
-        $column = $this->getPrivateProperty($this->dt, 'cols')[0];
+        $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
 
-        $this->assertEquals($column->getType(), 'date');
+        $this->assertEquals('date', $column->getType());
     }
 
     public function testAddNumberColumn()
     {
-        $this->dt->addNumberColumn();
+        $this->DataTable->addNumberColumn();
 
-        $column = $this->getPrivateProperty($this->dt, 'cols')[0];
+        $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
 
-        $this->assertEquals($column->getType(), 'number');
+        $this->assertEquals('number', $column->getType());
     }
 
     public function testAddStringColumn()
     {
-        $this->dt->addStringColumn();
+        $this->DataTable->addStringColumn();
 
-        $column = $this->getPrivateProperty($this->dt, 'cols')[0];
+        $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
 
-        $this->assertEquals($column->getType(), 'string');
+        $this->assertEquals('string', $column->getType());
     }
 
     public function testAddColumnWithArrayOfType()
     {
-        $this->dt->addColumn(['date']);
+        $this->DataTable->addColumn(['date']);
 
-        $column = $this->getPrivateProperty($this->dt, 'cols')[0];
+        $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
 
-        $this->assertEquals($column->getType(), 'date');
+        $this->assertEquals('date', $column->getType());
     }
 
     public function testAddColumnWithTypeAndDescription()
     {
-        $this->dt->addColumn('date', 'Days in March');
+        $this->DataTable->addColumn('date', 'Days in March');
 
-        $column = $this->getPrivateProperty($this->dt, 'cols')[0];
+        $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
 
-        $this->assertEquals($column->getType(), 'date');
-        $this->assertEquals($column->getLabel(), 'Days in March');
+        $this->assertEquals('date', $column->getType());
+        $this->assertEquals('Days in March', $column->getLabel());
     }
 
     public function testAddColumnWithArrayOfTypeAndDescription()
     {
-        $this->dt->addColumn(['date', 'Days in March']);
+        $this->DataTable->addColumn(['date', 'Days in March']);
 
-        $column = $this->getPrivateProperty($this->dt, 'cols')[0];
+        $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
 
-        $this->assertEquals($column->getType(), 'date');
-        $this->assertEquals($column->getLabel(), 'Days in March');
+        $this->assertEquals('date', $column->getType());
+        $this->assertEquals('Days in March', $column->getLabel());
     }
 
     public function testAddColumnsWithArrayOfTypeAndDescription()
     {
-        $this->dt->addColumns([
+        $this->DataTable->addColumns([
             ['date', 'Days in March'],
             ['number', 'Day of the Week'],
             ['number', 'Temperature'],
         ]);
 
-        $columns = $this->getPrivateProperty($this->dt, 'cols');
+        $columns = $this->getPrivateProperty($this->DataTable, 'cols');
 
-        $this->assertEquals($columns[0]->getType(), 'date');
-        $this->assertEquals($columns[0]->getLabel(), 'Days in March');
+        $this->assertEquals('date', $columns[0]->getType());
+        $this->assertEquals('Days in March', $columns[0]->getLabel());
 
-        $this->assertEquals($columns[1]->getType(), 'number');
-        $this->assertEquals($columns[1]->getLabel(), 'Day of the Week');
+        $this->assertEquals('number', $columns[1]->getType());
+        $this->assertEquals('Day of the Week', $columns[1]->getLabel());
 
-        $this->assertEquals($columns[2]->getType(), 'number');
-        $this->assertEquals($columns[2]->getLabel(), 'Temperature');
+        $this->assertEquals('number', $columns[2]->getType());
+        $this->assertEquals('Temperature', $columns[2]->getLabel());
+    }
+
+    /**
+     * @depends testAddDateColumn
+     */
+    public function testAddRowWithEmptyArrayForNull()
+    {
+        $this->DataTable->addDateColumn();
+        $this->DataTable->addRow([]);
+
+        $row = $this->getPrivateProperty($this->DataTable, 'rows')[0];
+
+        $this->assertEquals(null, $row->getColumnValue(0));
+    }
+
+    /**
+     * @depends testAddDateColumn
+     */
+    public function testAddRowWithNull()
+    {
+        $this->DataTable->addDateColumn();
+        $this->DataTable->addRow(null);
+
+        $row = $this->getPrivateProperty($this->DataTable, 'rows')[0];
+
+        $this->assertEquals(null, $row->getColumnValue(0));
     }
 
     /**
@@ -161,14 +239,14 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testAddRowWithDate()
     {
-        $this->dt->addColumn('date');
-        $this->dt->addRow([Carbon::parse('March 24th, 1988')]);
+        $this->DataTable->addColumn('date');
+        $this->DataTable->addRow([Carbon::parse('March 24th, 1988')]);
 
-        $column = $this->getPrivateProperty($this->dt, 'cols')[0];
-        $row    = $this->getPrivateProperty($this->dt, 'rows')[0];
+        $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
+        $row    = $this->getPrivateProperty($this->DataTable, 'rows')[0];
 
-        $this->assertEquals($column->getType(), 'date');
-        $this->assertEquals($row->getColumnValue(0), 'Date(1988,2,24,0,0,0)');
+        $this->assertEquals('date', $column->getType());
+        $this->assertEquals('Date(1988,2,24,0,0,0)', $row->getColumnValue(0));
     }
 
     /**
@@ -176,22 +254,22 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testAddRowWithMultipleColumnsWithDateAndNumbers()
     {
-        $this->dt->addColumn('date');
-        $this->dt->addColumn('number');
-        $this->dt->addColumn('number');
+        $this->DataTable->addColumn('date');
+        $this->DataTable->addColumn('number');
+        $this->DataTable->addColumn('number');
 
-        $this->dt->addRow([Carbon::parse('March 24th, 1988'), 12345, 67890]);
+        $this->DataTable->addRow([Carbon::parse('March 24th, 1988'), 12345, 67890]);
 
-        $columns = $this->getPrivateProperty($this->dt, 'cols');
-        $row     = $this->getPrivateProperty($this->dt, 'rows')[0];
+        $columns = $this->getPrivateProperty($this->DataTable, 'cols');
+        $row     = $this->getPrivateProperty($this->DataTable, 'rows')[0];
 
-        $this->assertEquals($columns[0]->getType(), 'date');
-        $this->assertEquals($columns[1]->getType(), 'number');
-        $this->assertEquals($columns[2]->getType(), 'number');
+        $this->assertEquals('date', $columns[0]->getType());
+        $this->assertEquals('number', $columns[1]->getType());
+        $this->assertEquals('number', $columns[2]->getType());
 
-        $this->assertEquals($row->getColumnValue(0), 'Date(1988,2,24,0,0,0)');
-        $this->assertEquals($row->getColumnValue(1), 12345);
-        $this->assertEquals($row->getColumnValue(2), 67890);
+        $this->assertEquals('Date(1988,2,24,0,0,0)', $row->getColumnValue(0));
+        $this->assertEquals(12345, $row->getColumnValue(1));
+        $this->assertEquals(67890, $row->getColumnValue(2));
     }
 
     /**
@@ -199,31 +277,31 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testAddRowsWithMultipleColumnsWithDateAndNumbers()
     {
-        $this->dt->addColumn('date');
-        $this->dt->addColumn('number');
-        $this->dt->addColumn('number');
+        $this->DataTable->addColumn('date');
+        $this->DataTable->addColumn('number');
+        $this->DataTable->addColumn('number');
 
         $rows = [
             [Carbon::parse('March 24th, 1988'), 12345, 67890],
             [Carbon::parse('March 25th, 1988'), 1122, 3344]
         ];
 
-        $this->dt->addRows($rows);
+        $this->DataTable->addRows($rows);
 
-        $columns = $this->getPrivateProperty($this->dt, 'cols');
-        $rows    = $this->getPrivateProperty($this->dt, 'rows');
+        $columns = $this->getPrivateProperty($this->DataTable, 'cols');
+        $rows    = $this->getPrivateProperty($this->DataTable, 'rows');
 
-        $this->assertEquals($columns[0]->getType(), 'date');
-        $this->assertEquals($columns[1]->getType(), 'number');
-        $this->assertEquals($columns[2]->getType(), 'number');
+        $this->assertEquals('date', $columns[0]->getType());
+        $this->assertEquals('number', $columns[1]->getType());
+        $this->assertEquals('number', $columns[2]->getType());
 
-        $this->assertEquals($rows[0]->getColumnValue(0), 'Date(1988,2,24,0,0,0)');
-        $this->assertEquals($rows[0]->getColumnValue(1), 12345);
-        $this->assertEquals($rows[0]->getColumnValue(2), 67890);
+        $this->assertEquals('Date(1988,2,24,0,0,0)', $rows[0]->getColumnValue(0));
+        $this->assertEquals(12345, $rows[0]->getColumnValue(1));
+        $this->assertEquals(67890, $rows[0]->getColumnValue(2));
 
-        $this->assertEquals($rows[1]->getColumnValue(0), 'Date(1988,2,25,0,0,0)');
-        $this->assertEquals($rows[1]->getColumnValue(1), 1122);
-        $this->assertEquals($rows[1]->getColumnValue(2), 3344);
+        $this->assertEquals('Date(1988,2,25,0,0,0)', $rows[1]->getColumnValue(0));
+        $this->assertEquals(1122, $rows[1]->getColumnValue(1));
+        $this->assertEquals(3344, $rows[1]->getColumnValue(2));
     }
 
     /**
@@ -233,15 +311,15 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testAddRowsWithBadColumnValue()
     {
-        $this->dt->addColumn('date');
-        $this->dt->addColumn('number');
+        $this->DataTable->addColumn('date');
+        $this->DataTable->addColumn('number');
 
         $rows = [
             [Carbon::parse('March 24th, 1988'), 12345],
             234.234
         ];
 
-        $this->dt->addRows($rows);
+        $this->DataTable->addRows($rows);
     }
 
     /**
@@ -250,10 +328,10 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testAddRowWithMoreCellsThanColumns()
     {
-        $this->dt->addColumn('date');
-        $this->dt->addColumn('number');
+        $this->DataTable->addColumn('date');
+        $this->DataTable->addColumn('number');
 
-        $this->dt->addRow([Carbon::parse('March 24th, 1988'), 12345, 67890]);
+        $this->DataTable->addRow([Carbon::parse('March 24th, 1988'), 12345, 67890]);
     }
 
     /**
@@ -263,9 +341,9 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testAddRowWithBadDateTypes($badDate)
     {
-        $this->dt->addColumn('date');
+        $this->DataTable->addColumn('date');
 
-        $this->dt->addRow([$badDate]);
+        $this->DataTable->addRow([$badDate]);
     }
 
     /**
@@ -274,9 +352,20 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testAddRowWithEmptyArray()
     {
-        $this->dt->addColumn('date');
+        $this->DataTable->addColumn('date');
 
-        $this->dt->addRow([[]]);
+        $this->DataTable->addRow([[]]);
+    }
+
+    /**
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testAddColumnsWithBadTypesInArray()
+    {
+        $this->DataTable->addColumns([
+            'hotdogs',
+            15.6244
+        ]);
     }
 
     /**
@@ -284,7 +373,7 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testAddColumnsWithBadValuesInArray()
     {
-        $this->dt->addColumns([
+        $this->DataTable->addColumns([
             [5, 'falcons'],
             [false, 'tacos']
         ]);
@@ -298,9 +387,9 @@ class DataTableTest extends ProvidersTestCase
     {
         $mockDateFormat = m::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
 
-        $this->dt->addColumn('date');
+        $this->DataTable->addColumn('date');
 
-        $this->dt->formatColumn('grizzly', $mockDateFormat);
+        $this->DataTable->formatColumn('grizzly', $mockDateFormat);
     }
 
      /**
@@ -308,7 +397,7 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testAddRowsWithMultipleColumnsWithDateTimeAndNumbers()
     {
-        $this->dt->addColumns([
+        $this->DataTable->addColumns([
             ['datetime'],
             ['number'],
             ['number']
@@ -317,20 +406,20 @@ class DataTableTest extends ProvidersTestCase
             [Carbon::parse('March 25th, 1988 8:02:06'), 1122, 3344]
         ]);
 
-        $columns = $this->getPrivateProperty($this->dt, 'cols');
-        $rows    = $this->getPrivateProperty($this->dt, 'rows');
+        $columns = $this->getPrivateProperty($this->DataTable, 'cols');
+        $rows    = $this->getPrivateProperty($this->DataTable, 'rows');
 
-        $this->assertEquals($columns[0]->getType(), 'datetime');
-        $this->assertEquals($columns[1]->getType(), 'number');
-        $this->assertEquals($columns[2]->getType(), 'number');
+        $this->assertEquals('datetime', $columns[0]->getType());
+        $this->assertEquals('number', $columns[1]->getType());
+        $this->assertEquals('number', $columns[2]->getType());
 
-        $this->assertEquals($rows[0]->getColumnValue(0), 'Date(1988,2,24,8,1,5)');
-        $this->assertEquals($rows[0]->getColumnValue(1), 12345);
-        $this->assertEquals($rows[0]->getColumnValue(2), 67890);
+        $this->assertEquals('Date(1988,2,24,8,1,5)', $rows[0]->getColumnValue(0));
+        $this->assertEquals(12345, $rows[0]->getColumnValue(1));
+        $this->assertEquals(67890, $rows[0]->getColumnValue(2));
 
-        $this->assertEquals($rows[1]->getColumnValue(0), 'Date(1988,2,25,8,2,6)');
-        $this->assertEquals($rows[1]->getColumnValue(1), 1122);
-        $this->assertEquals($rows[1]->getColumnValue(2), 3344);
+        $this->assertEquals('Date(1988,2,25,8,2,6)', $rows[1]->getColumnValue(0));
+        $this->assertEquals(1122, $rows[1]->getColumnValue(1));
+        $this->assertEquals(3344, $rows[1]->getColumnValue(2));
     }
 
     /**
@@ -338,13 +427,13 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testGetColumns()
     {
-        $this->dt->addColumn('date', 'Test1');
-        $this->dt->addColumn('number', 'Test2');
+        $this->DataTable->addColumn('date', 'Test1');
+        $this->DataTable->addColumn('number', 'Test2');
 
-        $cols = $this->dt->getColumns();
+        $cols = $this->DataTable->getColumns();
 
-        $this->assertEquals($cols[0]->getType(), 'date');
-        $this->assertEquals($cols[1]->getType(), 'number');
+        $this->assertEquals('date', $cols[0]->getType());
+        $this->assertEquals('number', $cols[1]->getType());
     }
 
     /**
@@ -355,15 +444,15 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testGetRows()
     {
-        $this->dt->addColumn('date');
+        $this->DataTable->addColumn('date');
 
-        $this->dt->addRow([Carbon::parse('March 24th, 1988')]);
-        $this->dt->addRow([Carbon::parse('March 25th, 1988')]);
+        $this->DataTable->addRow([Carbon::parse('March 24th, 1988')]);
+        $this->DataTable->addRow([Carbon::parse('March 25th, 1988')]);
 
-        $rows = $this->dt->getRows();
+        $rows = $this->DataTable->getRows();
 
-        $this->assertEquals($rows[0]->getColumnValue(0), 'Date(1988,2,24,0,0,0)');
-        $this->assertEquals($rows[1]->getColumnValue(0), 'Date(1988,2,25,0,0,0)');
+        $this->assertEquals('Date(1988,2,24,0,0,0)', $rows[0]->getColumnValue(0));
+        $this->assertEquals('Date(1988,2,25,0,0,0)', $rows[1]->getColumnValue(0));
     }
 
 
@@ -377,33 +466,51 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testDateCellParseString()
     {
-        $this->dt->addDateColumn();
+        $this->DataTable->addDateColumn();
 
-        $this->dt->addRow(['March 24th, 1988 8:01:05']);
+        $this->DataTable->addRow(['March 24th, 1988 8:01:05']);
 
-        $row = $this->getPrivateProperty($this->dt, 'rows')[0];
+        $row = $this->getPrivateProperty($this->DataTable, 'rows')[0];
 
-        $this->assertEquals($row->getColumnValue(0), 'Date(1988,2,24,8,1,5)');
+        $this->assertEquals('Date(1988,2,24,8,1,5)', $row->getColumnValue(0));
     }
 
     /**
      * @depends testAddDateColumn
      * @depends testSetDateTimeFormat
+     * @depends testAddRowWithDate
      * @covers \Khill\Lavacharts\DataTables\DateCell::parseString
      */
     public function testDateCellParseStringWithFormat()
     {
-        $this->dt->setDateTimeFormat('YYYY-mm')->addDateColumn();
+        $this->DataTable->setDateTimeFormat('d/m/Y')->addDateColumn();
 
-        $this->dt->addRows([
-            ['1988-03'],
-            ['1988-04']
+        $this->DataTable->addRows([
+            ['11/06/1990'],
+            ['12/06/1990']
         ]);
 
-        $rows = $this->getPrivateProperty($this->dt, 'rows');
+        $rows = $this->getPrivateProperty($this->DataTable, 'rows');
 
-        $this->assertEquals($rows->getColumnValue(0), 'Date(1988,2,0,0,0,0)');
-        $this->assertEquals($rows->getColumnValue(0), 'Date(1988,3,0,0,0,0)');
+        $this->assertEquals('Date(1990,5,11', substr((string) $rows[0]->getColumnValue(0), 0, 14));
+        $this->assertEquals('Date(1990,5,12', substr((string) $rows[1]->getColumnValue(0), 0, 14));
+    }
+
+    /**
+     * @depends testAddDateColumn
+     * @depends testSetDateTimeFormat
+     * @depends testAddRowWithDate
+     * @expectedException \Khill\Lavacharts\Exceptions\FailedCarbonParsing
+     * @covers \Khill\Lavacharts\DataTables\DateCell::parseString
+     */
+    public function testDateCellParseStringWithBadString()
+    {
+        $this->DataTable->addDateColumn();
+
+        $this->DataTable->addRows([
+            ['11/046/1990'],
+            ['12/06/199210']
+        ]);
     }
 
     /**
@@ -413,13 +520,13 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testJsonSerializationOfDateCells()
     {
-        $this->dt->addDateColumn();
+        $this->DataTable->addDateColumn();
 
-        $this->dt->addRow([Carbon::parse('March 24th, 1988 8:01:05')]);
+        $this->DataTable->addRow([Carbon::parse('March 24th, 1988 8:01:05')]);
 
-        $row = $this->getPrivateProperty($this->dt, 'rows')[0];
+        $row = $this->getPrivateProperty($this->DataTable, 'rows')[0];
 
-        $this->assertEquals(json_encode($row->getColumnValue(0)), '"Date(1988,2,24,8,1,5)"');
+        $this->assertEquals('"Date(1988,2,24,8,1,5)"', json_encode($row->getColumnValue(0)));
     }
 }
 
