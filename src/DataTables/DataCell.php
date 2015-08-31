@@ -16,7 +16,7 @@ namespace Khill\Lavacharts\DataTables;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class DataCell
+class DataCell implements \JsonSerializable
 {
     /**
      * The cell value.
@@ -42,8 +42,7 @@ class DataCell
     /**
      * Defines a DataCell for a DataTable
      *
-     * Each cell in the table holds a value. Cells can have a null value, or a
-     * value of the type specified by its column. Cells optionally can take a
+     * Each cell in the table holds a value. Cells optionally can take a
      * "formatted" version of the data; this is a string version of the data,
      * formatted for display by a visualization. A visualization can (but is
      * not required to) use the formatted version for display, but will always
@@ -52,11 +51,9 @@ class DataCell
      * assigning the values "low" "medium", and "high" as formatted values to
      * numeric cell values of 1, 2, and 3.
      *
-     * @see    DataTable
      * @param  string $v The cell value
      * @param  string $f A string version of the v value
      * @param  string $p An object that is a map of custom values applied to the cell
-     * @return self
      */
     public function __construct($v = null, $f = null, $p = null)
     {
@@ -77,11 +74,41 @@ class DataCell
     }
 
     /**
-     * Converts the DataCell object to JSON notation.
+     * Returns the value.
      *
-     * @return string JSON string representation of the data cell
+     * @return mixed
      */
-    public function toJson()
+    public function getValue()
+    {
+        return $this->v;
+    }
+
+    /**
+     * Returns the string format of the value.
+     *
+     * @return string
+     */
+    public function getFormat()
+    {
+        return $this->f;
+    }
+
+    /**
+     * Returns the cell customization options.
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->p;
+    }
+
+    /**
+     * Custom serialization of the DataCell
+     *
+     * @return array
+     */
+    public function jsonSerialize()
     {
         $output = [];
 
@@ -95,6 +122,6 @@ class DataCell
             $output['p'] = $this->p;
         }
 
-        return json_encode($output);
+        return $output;
     }
 }

@@ -54,7 +54,6 @@ class Column implements \JsonSerializable
      *
      * @access public
      * @param  string $label Column label (optional).
-     * @return self
      */
     public function __construct($label = '')
     {
@@ -83,6 +82,12 @@ class Column implements \JsonSerializable
         return $this->label;
     }
 
+    /**
+     * Returns the column id.
+     *
+     * @access public
+     * @return string Column id.
+     */
     public function getId()
     {
         return $this->id;
@@ -92,8 +97,8 @@ class Column implements \JsonSerializable
      * Sets the column formatter.
      *
      * @access public
+     * @return \Khill\Lavacharts\DataTables\Columns\Column
      * @param  \Khill\Lavacharts\DataTables\Formats\Format
-     * @return self
      */
     public function setFormat(Format $format)
     {
@@ -117,8 +122,8 @@ class Column implements \JsonSerializable
      * Sets the column formatter.
      *
      * @access public
+     * @return \Khill\Lavacharts\DataTables\Columns\Column
      * @param  \Khill\Lavacharts\DataTables\Columns\ColumnRole
-     * @return self
      */
     public function setRole(ColumnRole $role)
     {

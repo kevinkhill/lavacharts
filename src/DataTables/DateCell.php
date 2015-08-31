@@ -21,24 +21,16 @@ use \Khill\Lavacharts\Exceptions\InvalidDateTimeString;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class DateCell implements \JsonSerializable
+class DateCell extends DataCell
 {
-    /**
-     * Carbon object of the date value in the DataTable row.
-     *
-     * @var \Carbon\Carbon
-     */
-    private $date;
-
     /**
      * Creates a new DateCell object from a Carbon object.
      *
-     * @param  Carbon $carbon
-     * @return self
+     * @param Carbon $carbon
      */
     public function __construct(Carbon $carbon)
     {
-        $this->date = $carbon;
+        parent::__construct($carbon);
     }
 
     /**
@@ -76,12 +68,12 @@ class DateCell implements \JsonSerializable
     {
         return sprintf(
             'Date(%d,%d,%d,%d,%d,%d)',
-            isset($this->date->year)   ? $this->date->year      : 'null',
-            isset($this->date->month)  ? $this->date->month - 1 : 'null', //silly javascript
-            isset($this->date->day)    ? $this->date->day       : 'null',
-            isset($this->date->hour)   ? $this->date->hour      : 'null',
-            isset($this->date->minute) ? $this->date->minute    : 'null',
-            isset($this->date->second) ? $this->date->second    : 'null'
+            isset($this->v->year)   ? $this->v->year      : 'null',
+            isset($this->v->month)  ? $this->v->month - 1 : 'null', //silly javascript
+            isset($this->v->day)    ? $this->v->day       : 'null',
+            isset($this->v->hour)   ? $this->v->hour      : 'null',
+            isset($this->v->minute) ? $this->v->minute    : 'null',
+            isset($this->v->second) ? $this->v->second    : 'null'
         );
     }
 

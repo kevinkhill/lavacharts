@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\DataTables\DateCell;
 use \Khill\Lavacharts\Exceptions\InvalidCellCount;
+use Khill\Lavacharts\Exceptions\InvalidRowDefinition;
 
 /**
  * RowFactory Class
@@ -47,11 +48,22 @@ class RowFactory
      * Creates a new Row object.
      *
      * @param  array $valueArray Array of values to assign to the row.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      * @return \Khill\Lavacharts\DataTables\Rows\Row
+     * @throws \Khill\Lavacharts\Exceptions\FailedCarbonParsing
+     * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
+     * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeString
+     * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
      */
     public function create($valueArray)
     {
+        if ($valueArray !== null && is_array($valueArray) === false) {
+            throw new InvalidRowDefinition($valueArray);
+        }
+
+        if ($valueArray === null || is_array($valueArray) === true && empty($valueArray) === true) {
+            return $this->getNullRow();
+        }
+
         $cellCount   = count($valueArray);
         $columnCount = $this->datatable->getColumnCount();
 
@@ -84,7 +96,7 @@ class RowFactory
      *
      * @return \Khill\Lavacharts\DataTables\Rows\NullRow
      */
-    public function null()
+    public function getNullRow()
     {
         return new NullRow($this->datatable->getColumnCount());
     }

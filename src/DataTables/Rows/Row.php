@@ -34,7 +34,6 @@ class Row implements \JsonSerializable
      * Creates a new Row object with the given values.
      *
      * @param  array $valueArray Array of row values.
-     * @return self
      */
     public function __construct($valueArray)
     {

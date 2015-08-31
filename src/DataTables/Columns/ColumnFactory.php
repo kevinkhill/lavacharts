@@ -39,6 +39,19 @@ class ColumnFactory
     ];
 
     /**
+     * Valid column descriptions
+     *
+     * @var array
+     */
+    private static $columnDesc = [
+        'type',
+        'label',
+        'id',
+        'role',
+        'pattern'
+    ];
+
+    /**
      * Creates a new column object.
      *
      * @access public

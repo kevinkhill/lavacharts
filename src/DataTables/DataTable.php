@@ -4,14 +4,11 @@ namespace Khill\Lavacharts\DataTables;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\DataTables\Rows\RowFactory;
-use \Khill\Lavacharts\DataTables\Columns\Column;
 use \Khill\Lavacharts\DataTables\Columns\ColumnFactory;
 use \Khill\Lavacharts\DataTables\Formats\Format;
 use \Khill\Lavacharts\Exceptions\InvalidJson;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
 use \Khill\Lavacharts\Exceptions\InvalidColumnIndex;
-use \Khill\Lavacharts\Exceptions\InvalidRowDefinition;
 use \Khill\Lavacharts\Exceptions\InvalidRowProperty;
 use \Khill\Lavacharts\Exceptions\InvalidTimeZone;
 
@@ -82,26 +79,6 @@ class DataTable implements \JsonSerializable
     protected $rows = [];
 
     /**
-     * Holds the formatting information for each column.
-     *
-     * @var array
-     */
-    protected $formats = [];
-
-    /**
-     * Valid column descriptions
-     *
-     * @var array
-     */
-    protected $columnDesc = [
-        'type',
-        'label',
-        'id',
-        'role',
-        'pattern'
-    ];
-
-    /**
      * Creates a new DataTable
      *
      * @access public
@@ -117,6 +94,37 @@ class DataTable implements \JsonSerializable
         $this->rowFactory = new RowFactory($this);
 
         $this->setTimezone($timezone);
+    }
+
+    /**
+     * Create a new DataCell for a value in a Row
+     *
+     * v: The cell value. The data type should match the column data type.
+     * If null, the whole object should be empty and have neither v nor f properties.
+     *
+     * f: [Optional] A string version of the v value, formatted for display. The
+     * values should match, so if you specify Date(2008, 0, 1) for v, you should
+     * specify "January 1, 2008" or some such string for this property. This value
+     * is not checked against the v value. The visualization will not use this value
+     * for calculation, only as a label for display. If omitted, a string version
+     * of v will be used.
+     *
+     * p: [Optional] An object that is a map of custom values applied to the cell.
+     * These values can be of any JavaScript type. If your visualization supports
+     * any cell-level properties, it will describe them; otherwise, this property
+     * will be ignored. Example: p:{style: 'border: 1px solid green;'}.
+     *
+     *
+     * @access public
+     * @since  3.0.0
+     * @param  mixed $v Value of the Cell
+     * @param  null  $f Formatted version of the cell, as a string
+     * @param  null  $p Cell specific customization options
+     * @return \Khill\Lavacharts\DataTables\DataCell
+     */
+    public static function cell($v, $f = null, $p = null)
+    {
+        return new DataCell($v, $f, $p);
     }
 
     /**
@@ -245,21 +253,6 @@ class DataTable implements \JsonSerializable
     }
 
     /**
-     * Adds a column object to the datatable.
-     *
-     * @access private
-     * @since  3.0.0
-     * @param  \Khill\Lavacharts\DataTables\Columns\Column $column;
-     * @return \Khill\Lavacharts\DataTables\DataTable
-     */
-    private function addColumnToTable(Column $column)
-    {
-        $this->cols[] = $column;
-
-        return $this;
-    }
-
-    /**
      * Adds a column to the DataTable
      *
      * First signature has the following parameters:
@@ -324,6 +317,26 @@ class DataTable implements \JsonSerializable
         return $this;
     }
 
+
+    /**
+     * Supplemental function to add a boolean column with less params.
+     *
+     * @access public
+     * @since  3.0.0.
+     * @param  string $label A label for the column.
+     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object. (Optional)
+     * @param  string $role A role for the column. (Optional)
+     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
+     */
+    public function addBooleanColumn($label = '', Format $format = null, $role = '')
+    {
+        $this->cols[] = ColumnFactory::create('boolean', $label, $format, $role);
+
+        return $this;
+    }
+
     /**
      * Supplemental function to add a string column with less params.
      *
@@ -337,10 +350,9 @@ class DataTable implements \JsonSerializable
      */
     public function addStringColumn($label = '', Format $format = null, $role = '')
     {
-        $column = ColumnFactory::create('string', $label, $format, $role);
+        $this->cols[] = ColumnFactory::create('string', $label, $format, $role);
 
-        return $this->addColumnToTable($column);
-        //return $this->addColumn('string', $label, 'col_' . (count($this->cols) + 1), $format);
+        return $this;
     }
 
     /**
@@ -356,10 +368,47 @@ class DataTable implements \JsonSerializable
      */
     public function addDateColumn($label = '', Format $format = null, $role = '')
     {
-        $column = ColumnFactory::create('date', $label, $format, $role);
+        $this->cols[] = ColumnFactory::create('date', $label, $format, $role);
 
-        return $this->addColumnToTable($column);
-        //return $this->addColumn('date', $label, 'col_' . (count($this->cols) + 1), $format);
+        return $this;
+    }
+
+    /**
+     * Supplemental function to add a datetime column with less params.
+     *
+     * @access public
+     * @since  3.0.0
+     * @param  string $label A label for the column.
+     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object. (Optional)
+     * @param  string $role A role for the column. (Optional)
+     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
+     */
+    public function addDateTimeColumn($label = '', Format $format = null, $role = '')
+    {
+        $this->cols[] = ColumnFactory::create('datetime', $label, $format, $role);
+
+        return $this;
+    }
+
+    /**
+     * Supplemental function to add a timeofday column with less params.
+     *
+     * @access public
+     * @since  3.0.0
+     * @param  string $label A label for the column.
+     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object. (Optional)
+     * @param  string $role A role for the column. (Optional)
+     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
+     */
+    public function addTimeOfDayColumn($label = '', Format $format = null, $role = '')
+    {
+        $this->cols[] = ColumnFactory::create('timeofday', $label, $format, $role);
+
+        return $this;
     }
 
     /**
@@ -375,11 +424,9 @@ class DataTable implements \JsonSerializable
      */
     public function addNumberColumn($label = '', Format $format = null, $role = '')
     {
-        $column = ColumnFactory::create('number', $label, $format, $role);
+        $this->cols[] = ColumnFactory::create('number', $label, $format, $role);
 
-        return $this->addColumnToTable($column);
-
-        //return $this->addColumn('number', $label, 'col_' . (count($this->cols) + 1), $format);
+        return $this;
     }
 
     /**
@@ -391,13 +438,12 @@ class DataTable implements \JsonSerializable
      * @param  string $role Type of role that the data will represent.
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
-     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnRole
      */
     public function addRoleColumn($type, $role)
     {
-        $column = ColumnFactory::create($type, '', null, $role);
+        $this->cols[] = ColumnFactory::create($type, '', null, $role);
 
-        return $this->addColumnToTable($column);
+        return $this;
     }
 
     /**
@@ -412,14 +458,16 @@ class DataTable implements \JsonSerializable
      */
     protected function createColumnFromStrings($type, $label = '', $format = null, $role = '')
     {
-        $column = ColumnFactory::create($type, $label, $format, $role);
+        $this->cols[] = ColumnFactory::create($type, $label, $format, $role);
 
-        return $this->addColumnToTable($column);
+        return $this;
     }
 
     /**
      * Drops a column and its data from the DataTable
      *
+     * @access public
+     * @since  3.0.0
      * @param  int $colIndex
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
@@ -441,18 +489,16 @@ class DataTable implements \JsonSerializable
      * Sets the format of the column.
      *
      * @access public
-     * @param  integer $colIndex
+     * @param  integer $columnIndex
      * @param  \Khill\Lavacharts\DataTables\Formats\Format $format
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
-    public function formatColumn($colIndex, Format $format)
+    public function formatColumn($columnIndex, Format $format)
     {
-        if (is_int($colIndex) == false || Utils::between(0, $colIndex, $this->getColumnCount()-1)) {
-            throw new InvalidColumnIndex($colIndex, count($this->cols));
-        }
+        $this->indexCheck($columnIndex);
 
-        $this->formats[$colIndex] = $format->toArray();
+        $this->cols[$columnIndex]->setFormat($format);
 
         return $this;
     }
@@ -468,7 +514,7 @@ class DataTable implements \JsonSerializable
     {
         if (is_array($colFormatArr) && ! empty($colFormatArr)) {
             foreach ($colFormatArr as $index => $format) {
-                if (is_subclass_of($format, 'Format')) {
+                if ($format instanceof Format) {
                     $this->formats[$index] = $format->toArray();
                 }
             }
@@ -499,8 +545,7 @@ class DataTable implements \JsonSerializable
      *
      *
      * Cells in the row array should be in the same order as their column descriptions
-     * in cols. To indicate a null cell, you can specify null, leave a blank for
-     * a cell in an array, or omit trailing array members. So, to indicate a row
+     * in cols. To indicate a null cell, you can specify null. To indicate a row
      * with null for the first two cells, you would specify [null, null, {cell_val}].
      *
      * @access public
@@ -512,26 +557,18 @@ class DataTable implements \JsonSerializable
      */
     public function addRow($cellArray = null)
     {
-        if ($cellArray !== null && is_array($cellArray) === false) {
-            throw new InvalidRowDefinition($cellArray);
-        }
+        if (Utils::arrayIsMulti($cellArray) === false) {
+            $this->rows[] = $this->rowFactory->create($cellArray);
+        } else {//TODO: timeofday cells
+            $timeOfDayIndex = $this->getColumnIndexByType('timeofday');
 
-        if ($cellArray === null || is_array($cellArray) === true && empty($cellArray) === true) {
-            $this->rows[] = $this->rowFactory->null();
-        } else {
-            if (Utils::arrayIsMulti($cellArray)) { //TODO: timeofday cells
-                $timeOfDayIndex = $this->getColumnIndexByType('timeofday');
-
-                if ($timeOfDayIndex !== false) {
-                    $rowValues = $this->parseTimeOfDayRow($cellArray);
-                } else {
-                    $rowValues = $this->parseExtendedCellArray($cellArray);
-                }
-
-                $this->rows[] = ['c' => $rowValues];
+            if ($timeOfDayIndex !== false) {
+                $rowValues = $this->parseTimeOfDayRow($cellArray);
             } else {
-                $this->rows[] = $this->rowFactory->create($cellArray);
+                $rowValues = $this->parseExtendedCellArray($cellArray);
             }
+
+            $this->rows[] = ['c' => $rowValues];
         }
 
         return $this;
@@ -590,17 +627,15 @@ class DataTable implements \JsonSerializable
      *
      * @since  3.0.0
      * @access public
-     * @param  integer $index
-     * @return string
+     * @param  int $columnIndex
+     * @return \Khill\Lavacharts\DataTables\Columns\Column
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
-    public function getColumn($index)
+    public function getColumn($columnIndex)
     {
-        if (is_int($index) === false || isset($this->cols[$index]) === false) {
-            throw new InvalidColumnIndex($index, count($this->cols));
-        }
+        $this->indexCheck($columnIndex);
 
-        return $this->cols[$index];
+        return $this->cols[$columnIndex];
     }
 
     /**
@@ -798,5 +833,18 @@ class DataTable implements \JsonSerializable
         }
 
         return $rowValues;
+    }
+
+    /**
+     * Used to check if a number is a valid column index of the DataTable
+     *
+     * @param  int $columnIndex
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
+     */
+    protected function indexCheck($columnIndex)
+    {
+        if (is_int($columnIndex) === false || isset($this->cols[$columnIndex]) === false) {
+            throw new InvalidColumnIndex($columnIndex, count($this->cols));
+        }
     }
 }
