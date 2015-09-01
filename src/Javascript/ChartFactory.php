@@ -73,7 +73,7 @@ class ChartFactory extends JavascriptFactory
             'events'       => ''
         ];
 
-        if ($this->chart->getDataTable()->hasFormats()) {
+        if ($this->chart->getDataTable()->hasFormattedColumns()) {
             $vars['formats'] = $this->buildFormatters();
         }
 
@@ -120,20 +120,18 @@ class ChartFactory extends JavascriptFactory
     private function buildFormatters()
     {
         $output = '';
-        $formats = $this->chart->getDataTable()->getFormats();
+        $columns = $this->chart->getDataTable()->getFormattedColumns();
 
-        foreach ($formats as $index => $format) {
-            $output .= sprintf(
-                '$this.formats["col%s"] = new google.visualization.%s(%s);',
-                $index,
-                $format::TYPE,
-                $format->toJson()
-            ).PHP_EOL;
+        foreach ($columns as $index => $column) {
+            $format = $column->getFormat();
 
             $output .= sprintf(
+                '$this.formats["col%1$s"] = new google.visualization.%2$s(%3$s);' .
                 '$this.formats["col%1$s"].format($this.data, %1$s);',
-                $index
-            ).PHP_EOL.PHP_EOL;
+                $index,
+                $format->getType(),
+                json_encode($format)
+            ).PHP_EOL;
         }
 
         return $output;

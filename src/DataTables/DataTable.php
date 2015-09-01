@@ -697,17 +697,17 @@ class DataTable implements \JsonSerializable
      * @return string
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
-/*
+
     public function getColumnId($index)
     {
         return $this->getColumn($index)['id'];
     }
-*/
+
     /**
      * Returns the types of columns currently defined.
      *
-     * @since  2.5.2
      * @access public
+     * @since  2.5.2
      * @return array
      */
     public function getColumnTypes()
@@ -722,8 +722,8 @@ class DataTable implements \JsonSerializable
     /**
      * Returns the labels of columns currently defined.
      *
-     * @since  3.0.0
      * @access public
+     * @since  3.0.0
      * @return array
      */
     public function getColumnLabels()
@@ -738,8 +738,8 @@ class DataTable implements \JsonSerializable
     /**
      * Returns the column number from the type of columns currently defined.
      *
-     * @since  2.5.2
      * @access public
+     * @since  2.5.2
      * @param  string $type
      * @return bool|int Column index on success, false on failure.
      */
@@ -749,29 +749,34 @@ class DataTable implements \JsonSerializable
     }
 
     /**
-     * Returns the formats array from the DataTable
+     * Returns the column array from the DataTable
      *
      * @access public
+     * @since  3.0.0
      * @return array
      */
-    public function getFormats()
+    public function getFormattedColumns()
     {
-        return $this->formats;
+        $columns = [];
+
+        foreach ($this->cols as $index => $column) {
+            if ($column->isFormatted()) {
+                $columns[$index] = $column;
+            }
+        }
+
+        return $columns;
     }
 
     /**
-     * Boolean value if there are defined formatters
+     * Boolean value if there are any formatted columns
      *
      * @access public
      * @return bool
      */
-    public function hasFormats()
+    public function hasFormattedColumns()
     {
-        if (count($this->formats) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return ! empty($this->getFormattedColumns());
     }
 
     /**

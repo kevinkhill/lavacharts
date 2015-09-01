@@ -119,6 +119,17 @@ class Column implements \JsonSerializable
     }
 
     /**
+     * Returns the status of if the column is formatted.
+     *
+     * @access public
+     * @return boolean
+     */
+    public function isFormatted()
+    {
+        return ($this->format instanceof Format);
+    }
+
+    /**
      * Sets the column formatter.
      *
      * @access public
