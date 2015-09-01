@@ -1,38 +1,51 @@
 - 3.0.0
   - Dropping support for PHP 5.3
     - Minimum version PHP 5.4+
-  - Assign DataTable to chart via constructor.
-  - Added Format#formatColumn method to format datatable columns.
-  -Added new formats.
-   - ArrowFormat
-   - BarFormat
   - Added Dashboards
-    - ChartWrappers
-    - ControlWrappers
-    - Added filters for Dashboard ControlWrappers
-     - Category
-     - ChartRange
-     - DateRange
-     - NumberRange
-     - String
-  - Added support for csv file read/write and collection parsing into DataTables
-    - Add the separate package to composer "khill/datatableplus":"dev-master"
-    - Lavacharts will seamlessly create DataTablePlus if autoloaded by composer
-  - Added ScatterChart (WIP)
-  - Added Material Charts (WIP)
+      - ChartWrappers
+      - ControlWrappers
+      - Added filters for Dashboard ControlWrappers
+       - Category
+       - ChartRange
+       - DateRange
+       - NumberRange
+       - String
+  - Chart Improvements
+    - Assign DataTable and options via constructor.
+    - Refactored all ConfigObject creation into the classes, no more manually instantiation.
+    - Removed Event classes in favor of associative array definitions of events.
+  - DataTable Improvements
+    - Added support for csv file read/write and Laravel collection parsing into DataTables, 
+      just add the separate package to composer "khill/datatableplus":"dev-master".
+      DataTablePlus extends the DataTable to add the extra functions and Lavacharts will seamlessly
+      create DataTablePluses over DataTables if available via composer.
+  - Added ScatterChart & TableChart
+  - Added Format#formatColumn method to format datatable columns.
+  - Added new formats.
+   - ArrowFormat
+   - BarFormat 
   - lava.js has been refactored:
     - lava.get() replaced with:
       - getChart(label, callback) -> callback(Google chartObj, Lava chartObj)
-        - Google chart object allows for using chart methods
-        - Lava chart object contains all relevent info about the chart
+        - Google chart object allows for using google's documented chart methods
+        - Lava chart object contains all relevant info about the chart
          - chart, data, options, formats etc...
       - getDashboard(label, callback) -> callback(Google dashboardObj, Lava dashboardObj)
-        - Google dashboard object allows for using dashboard methods
-        - Lava dashboard object contains all relevent info about the dashboard
+        - Google dashboard object allows for using google's documented dashboard methods
+        - Lava dashboard object contains all relevant info about the dashboard
          - dashboard, control bindings, chart wrapper, data, options, etc...
     - lava.ready() used to wrap other lava.js interaction.
       - Called after all of the google jsapi is loaded and the charts are rendered.
 
+- 2.5.7
+ - AJAX data loading bugfixes
+
+- 2.5.6
+  - Fixes for AJAX chart loading
+  
+- 2.5.5
+  - Blade extensions fix
+  
 - 2.5.4
   - Fixed namespace bug
 
