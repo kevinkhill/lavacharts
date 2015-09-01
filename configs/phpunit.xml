@@ -28,9 +28,6 @@
     <testsuite name="datatables">
       <directory>../tests/DataTables/</directory>
     </testsuite>
-    <testsuite name="events">
-      <directory>../tests/Events/</directory>
-    </testsuite>
     <testsuite name="javascript">
       <directory>../tests/Javascript/</directory>
     </testsuite>

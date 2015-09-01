@@ -37,15 +37,15 @@ class ParentFormatTest extends ProvidersTestCase
         new DateFormat(['baked'=>'beans']);
     }
 
-    public function testGetValues()
+    public function testGetOptions()
     {
-        $this->assertEquals($this->options, $this->dateFormat->getValues());
+        $this->assertInstanceOf('\Khill\Lavacharts\Options', $this->dateFormat->getOptions());
     }
 
-    public function testToJson()
+    public function testJsonSerialize()
     {
         $json = '{"formatType":"short","pattern":"Y-m-d","timeZone":"PST"}';
 
-        $this->assertEquals($json, $this->dateFormat->toJson());
+        $this->assertEquals($json, json_encode($this->dateFormat));
     }
 }

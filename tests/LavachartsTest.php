@@ -96,32 +96,6 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider eventObjectProvider
-     */
-    public function testCreateEventObjectsViaAliasWithCallback($eventType)
-    {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Events\\'.$eventType, $this->lava->$eventType('jsCallback'));
-    }
-
-    /**
-     * @dataProvider eventObjectProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidEventCallback
-     */
-    public function testCreateEventObjectsViaAliasWithMissingCallback($eventType)
-    {
-        $this->lava->$eventType();
-    }
-
-    /**
-     * @dataProvider eventObjectProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidEventCallback
-     */
-    public function testCreateEventObjectsViaAliasWithBadTypeCallback($eventType)
-    {
-        $this->lava->$eventType(2372);
-    }
-
-    /**
      * @dataProvider formatObjectProvider
      */
     public function testCreateFormatObjectsViaAlias($formatType)
@@ -301,7 +275,8 @@ class LavachartsTest extends ProvidersTestCase
             ['GeoChart'],
             ['LineChart'],
             ['PieChart'],
-            ['ScatterChart']
+            ['ScatterChart'],
+            ['TableChart']
         ];
     }
 
@@ -330,21 +305,11 @@ class LavachartsTest extends ProvidersTestCase
         ];
     }
 
-    public function eventObjectProvider()
-    {
-        return [
-            ['AnimationFinish'],
-            ['Error'],
-            ['MouseOut'],
-            ['MouseOver'],
-            ['Ready'],
-            ['Select']
-        ];
-    }
-
     public function formatObjectProvider()
     {
         return [
+            ['ArrowFormat'],
+            ['BarFormat'],
             ['DateFormat'],
             ['NumberFormat']
         ];

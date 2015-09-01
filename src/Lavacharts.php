@@ -81,21 +81,6 @@ class Lavacharts
     ];
 
     /**
-     * Types of events.
-     *
-     * @var array
-     */
-    private $eventClasses = [
-        'AnimationFinish',
-        'Callback',
-        'Error',
-        'MouseOut',
-        'MouseOver',
-        'Ready',
-        'Select'
-    ];
-
-    /**
      * Types of filters.
      *
      * @var array
@@ -161,11 +146,6 @@ class Lavacharts
         //Formats
         if (in_array($method, $this->formatClasses)) {
             $lavaClass = $this->formatFactory($method, $arguments);
-        }
-
-        //Events
-        if (in_array($method, $this->eventClasses)) {
-            $lavaClass = $this->eventFactory($method, $arguments);
         }
 
         //Filters
@@ -626,31 +606,6 @@ class Lavacharts
         }
 
         return new $format($args[0]);
-    }
-
-    /**
-     * Creates Event Objects
-     *
-     * @access private
-     * @since  2.0.0
-     * @param  string $type Type of event to create.
-     * @param  string $args Arguments from __call
-     * @throws \Khill\Lavacharts\Exceptions\InvalidEventCallback
-     * @return \Khill\Lavacharts\Events\Event
-     */
-    private function eventFactory($type, $args)
-    {
-        if (isset($args[0]) === false) {
-            throw new InvalidEventCallback;
-        }
-
-        if (Utils::nonEmptyString($args[0]) === false) {
-            throw new InvalidEventCallback($args[0]);
-        }
-
-        $event = __NAMESPACE__ . '\\Events\\' . $type;
-
-        return new $event($args[0]);
     }
 
     /**
