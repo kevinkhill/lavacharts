@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\DataTables\Formats;
 
 use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
@@ -30,96 +31,48 @@ class NumberFormat extends Format
      */
     const TYPE = 'NumberFormat';
 
-    /**
-     * Character to use as the decimal marker.
-     *
-     * @var string
-     */
-    public $decimalSymbol;
 
     /**
-     * How many digits to display after the decimal.
+     * Default options for NumberFormat
      *
-     * @var int
+     * @var array
      */
-    public $fractionDigits;
-
-    /**
-     * Character to be used to group digits.
-     *
-     * @var string
-     */
-    public $groupingSymbol;
-
-    /**
-     * Text color for negative values.
-     *
-     * @var string
-     */
-    public $negativeColor;
-
-    /**
-     * Indicates that negative values should be surrounded by parentheses
-     *
-     * @var boolean
-     */
-    public $negativeParens;
-
-    /**
-     * Format string, as a subset of the ICU pattern set.
-     *
-     * @var string
-     */
-    public $pattern;
-
-    /**
-     * prefix to assign to values in the visualization.
-     *
-     * @var string
-     */
-    public $prefix;
-
-    /**
-     * suffix to assign to values in the visualization.
-     *
-     * @var string
-     */
-    public $suffix;
+    private $defaults = [
+        'decimalSymbol',
+        'fractionDigits',
+        'groupingSymbol',
+        'negativeColor',
+        'negativeParens',
+        'pattern',
+        'prefix',
+        'suffix'
+    ];
 
     /**
      * Builds the NumberFormat object with specified options
      *
-     * @param  array                 $config
+     * @param  array $config
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
      * Sets the character to use as the decimal marker.
-     *
      * The default is a dot (.)
      *
-     * @param  string $ds
+     * @param  string $decimalSymbol
+     * @return \Khill\Lavacharts\DataTables\Formats\NumberFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function decimalSymbol($ds)
+    public function decimalSymbol($decimalSymbol)
     {
-        if (Utils::nonEmptyString($ds)) {
-            $this->decimalSymbol = $ds;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $decimalSymbol);
     }
 
     /**
@@ -130,44 +83,26 @@ class NumberFormat extends Format
      * it will display zeros for the smaller values.
      * Truncated values will be rounded (5 rounded up).
      *
-     * @param  integer $fd
+     * @param  integer $fractionDigits
+     * @return \Khill\Lavacharts\DataTables\Formats\NumberFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function fractionDigits($fd)
+    public function fractionDigits($fractionDigits)
     {
-        if (is_numeric($fd)) {
-            $this->fractionDigits = (int) $fd;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'numeric'
-            );
-        }
-
-        return $this;
+        return $this->setNumericOption(__FUNCTION__, $fractionDigits);
     }
 
     /**
      * A character to be used to group digits to the left of the decimal into sets of three.
      * Default is a comma (,)
      *
-     * @param  string $gs
+     * @param  string $groupingSymbol
+     * @return \Khill\Lavacharts\DataTables\Formats\NumberFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function groupingSymbol($gs)
+    public function groupingSymbol($groupingSymbol)
     {
-        if (Utils::nonEmptyString($gs)) {
-            $this->groupingSymbol = $gs;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $groupingSymbol);
     }
 
     /**
@@ -176,22 +111,13 @@ class NumberFormat extends Format
      * No default value & values can be any acceptable HTML color value,
      * such as "red" or "#FF0000".
      *
-     * @param  string $nc Valid HTML color
+     * @param  string $negativeColor Valid HTML color
+     * @return \Khill\Lavacharts\DataTables\Formats\NumberFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function negativeColor($nc)
+    public function negativeColor($negativeColor)
     {
-        if (Utils::nonEmptyString($nc)) {
-            $this->negativeColor = $nc;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $negativeColor);
     }
 
     /**
@@ -199,22 +125,13 @@ class NumberFormat extends Format
      *
      * Default is true.
      *
-     * @param  boolean $np
+     * @param  boolean $negativeParens
+     * @return \Khill\Lavacharts\DataTables\Formats\NumberFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function negativeParens($np)
+    public function negativeParens($negativeParens)
     {
-        if (is_bool($np)) {
-            $this->negativeParens = $np;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this;
+        return $this->setBoolOption(__FUNCTION__, $negativeParens);
     }
 
     /**
@@ -225,63 +142,36 @@ class NumberFormat extends Format
      * "1,000%", "750%", and "50%" for values 10, 7.5, and 0.5.
      *
      * @see    http://icu-project.org/apiref/icu4c/classDecimalFormat.html#_details
-     * @param  string $p
+     * @param  string $pattern
+     * @return \Khill\Lavacharts\DataTables\Formats\NumberFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function pattern($p)
+    public function pattern($pattern)
     {
-        if (Utils::nonEmptyString($p)) {
-            $this->pattern = $p;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $pattern);
     }
 
     /**
      * Sets the string prefix for the value.
      *
-     * @param  string $p
+     * @param  string $prefix
+     * @return \Khill\Lavacharts\DataTables\Formats\NumberFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function prefix($p)
+    public function prefix($prefix)
     {
-        if (Utils::nonEmptyString($p)) {
-            $this->prefix = $p;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $prefix);
     }
 
     /**
      * Sets the string suffix for the value.
      *
-     * @param  string $s
+     * @param  string $suffix
+     * @return \Khill\Lavacharts\DataTables\Formats\NumberFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function suffix($s)
+    public function suffix($suffix)
     {
-        if (Utils::nonEmptyString($s)) {
-            $this->suffix = $s;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $suffix);
     }
 }
