@@ -19,8 +19,7 @@ namespace Khill\Lavacharts\DataTables\Formats;
  * @see        https://developers.google.com/chart/interactive/docs/reference#dateformatter
  */
 
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Options;
 
 class DateFormat extends Format
 {
@@ -32,57 +31,44 @@ class DateFormat extends Format
     const TYPE = 'DateFormat';
 
     /**
-     * A quick formatting option for the date.
+     * Default options for DateFormat
      *
-     * @var string
+     * @var array
      */
-    public $formatType;
+    private $defaults = [
+        'formatType',
+        'pattern',
+        'timeZone'
+    ];
 
     /**
-     * Format string, as a subset of the ICU pattern set.
-     *
-     * @var string
-     */
-    public $pattern;
-
-    /**
-     * timeZone to assign to values in the visualization.
-     *
-     * @var string
-     */
-    public $timeZone;
-
-
-    /**
-     * Builds the NumberFormat object with specified options
+     * Builds the DateFormat object with specified options
      *
      * @param  array $config
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
      * Sets a quick formatting option for the date.
-     *
      * The following string values are supported,
      * reformatting the date February 28, 2008 as shown:
-     *
      * 'short'  - Short format: e.g., "2/28/08"
      * 'medium' - Medium format: e.g., "Feb 28, 2008"
      * 'long'   - Long format: e.g., "February 28, 2008"
-     *
      * You cannot specify both formatType and pattern.
      *
-     * @param  string $ft
+     * @param  string $formatType
+     * @return \Khill\Lavacharts\DataTables\Formats\DateFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function formatType($ft)
+    public function formatType($formatType)
     {
         $values = [
             'short',
@@ -90,41 +76,24 @@ class DateFormat extends Format
             'long'
         ];
 
-        if (Utils::nonEmptyStringInArray($ft, $values)) {
-            $this->formatType = $ft;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringInArrayOption(__FUNCTION__, $formatType, $values);
     }
 
     /**
      * A custom format pattern to apply to the value, similar to the ICU date and time format.
-     * For example: new DateFormat({pattern: "EEE, MMM d, ''yy"});
      *
-     * You cannot specify both formatType and pattern.
+     * For example: "EEE, MMM d, 'yy"
+     * Also, you cannot specify both formatType and pattern.
+     *
      *
      * @see    http://userguide.icu-project.org/formatparse/datetime#TOC-Date-Field-Symbol-Table
-     * @param  string $p
+     * @param  string $pattern
+     * @return \Khill\Lavacharts\DataTables\Formats\DateFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function pattern($p)
+    public function pattern($pattern)
     {
-        if (Utils::nonEmptyString($p)) {
-            $this->pattern = $p;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $pattern);
     }
 
     /**
@@ -139,21 +108,12 @@ class DateFormat extends Format
      * the value displayed would be 12 noon.
      *
      *
-     * @param  string $tz
+     * @param  string $timeZone
+     * @return \Khill\Lavacharts\DataTables\Formats\DateFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function timeZone($tz)
+    public function timeZone($timeZone)
     {
-        if (Utils::nonEmptyString($tz)) {
-            $this->timeZone = $tz;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $timeZone);
     }
 }

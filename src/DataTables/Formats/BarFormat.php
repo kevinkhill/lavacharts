@@ -2,8 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables\Formats;
 
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Options;
 
 /**
  * BarFormat Object
@@ -20,7 +19,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
- * @see        https://developers.google.com/chart/interactive/docs/reference#dateformatter
+ * @see        https://developers.google.com/chart/interactive/docs/reference#barformatter
  */
 class BarFormat extends Format
 {
@@ -32,60 +31,20 @@ class BarFormat extends Format
     const TYPE = 'BarFormat';
 
     /**
-     * A number indicating the base value.
+     * Default options for BarFormat
      *
-     * @var int|float
+     * @var array
      */
-    public $base;
-
-    /**
-     * Negative value color.
-     *
-     * @var int|float
-     */
-    public $colorNegative;
-
-    /**
-     * Positive value color.
-     *
-     * @var int|float
-     */
-    public $colorPositive;
-
-    /**
-     * Draw dark base line when negative values are present.
-     *
-     * @var boolean
-     */
-    public $drawZeroLine;
-
-    /**
-     * Maximum number value.
-     *
-     * @var int|float
-     */
-    public $max;
-
-    /**
-     * Minimum number value.
-     *
-     * @var int|float
-     */
-    public $min;
-
-    /**
-     * Show value or only bars.
-     *
-     * @var boolean
-     */
-    public $showValue;
-
-    /**
-     * Thickness of bar.
-     *
-     * @var int
-     */
-    public $width;
+    private $defaults = [
+        'base',
+        'colorNegative',
+        'colorPositive',
+        'drawZeroLine',
+        'max',
+        'min',
+        'showValue',
+        'width'
+    ];
 
     /**
      * Builds the BarFormat object with specified options
@@ -93,11 +52,12 @@ class BarFormat extends Format
      * @param  array $config
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
@@ -108,21 +68,12 @@ class BarFormat extends Format
      * If the same, no arrow.
      *
      * @param  int|float $base
+     * @return \Khill\Lavacharts\DataTables\Formats\BarFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function base($base)
     {
-        if (is_numeric($base) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'numeric'
-            );
-        }
-
-        $this->base = $base;
-
-        return $this;
+        return $this->setNumericOption($base);
     }
 
     /**
@@ -132,8 +83,8 @@ class BarFormat extends Format
      *
      * @access public
      * @param  string $colorNegative
+     * @return \Khill\Lavacharts\DataTables\Formats\BarFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function colorNegative($colorNegative)
     {
@@ -143,18 +94,7 @@ class BarFormat extends Format
             'blue'
         ];
 
-        if (in_array($shape, $values, true) === false) {
-            throw new InvalidConfigValue(
-                self::TYPE,
-                __FUNCTION__,
-                'string',
-                'Possible values are '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        $this->colorNegative = $colorNegative;
-
-        return $this;
+        return $this->setStringInArrayOption(__FUNCTION__, $colorNegative, $values);
     }
 
     /**
@@ -164,8 +104,8 @@ class BarFormat extends Format
      *
      * @access public
      * @param  string $colorPositive
+     * @return \Khill\Lavacharts\DataTables\Formats\BarFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function colorPositive($colorPositive)
     {
@@ -175,18 +115,7 @@ class BarFormat extends Format
             'blue'
         ];
 
-        if (in_array($shape, $values, true) === false) {
-            throw new InvalidConfigValue(
-                self::TYPE,
-                __FUNCTION__,
-                'string',
-                'Possible values are '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        $this->colorPositive = $colorPositive;
-
-        return $this;
+        return $this->setStringInArrayOption(__FUNCTION__, $colorPositive, $values);
     }
 
     /**
@@ -196,22 +125,12 @@ class BarFormat extends Format
      *
      * @access public
      * @param  boolean $drawZeroLine
+     * @return \Khill\Lavacharts\DataTables\Formats\BarFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function drawZeroLine($drawZeroLine)
     {
-        if (is_bool($drawZeroLine) === false) {
-            throw new InvalidConfigValue(
-                self::TYPE,
-                __FUNCTION__,
-                'boolean'
-            );
-        }
-
-        $this->drawZeroLine = $drawZeroLine;
-
-        return $this;
+        return $this->setBoolOption($drawZeroLine);
     }
 
     /**
@@ -221,21 +140,12 @@ class BarFormat extends Format
      *
      * @access public
      * @param  int|float $max
+     * @return \Khill\Lavacharts\DataTables\Formats\BarFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function max($max)
     {
-        if (is_numeric($max) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'numeric'
-            );
-        }
-
-        $this->max = $max;
-
-        return $this;
+        return $this->setNumericOption($max);
     }
 
     /**
@@ -245,21 +155,12 @@ class BarFormat extends Format
      *
      * @access public
      * @param  int|float $min
+     * @return \Khill\Lavacharts\DataTables\Formats\BarFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function min($min)
     {
-        if (is_numeric($min) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'numeric'
-            );
-        }
-
-        $this->min = $min;
-
-        return $this;
+        return $this->setNumericOption($min);
     }
 
     /**
@@ -267,22 +168,12 @@ class BarFormat extends Format
      *
      * @access public
      * @param  boolean $drawZeroLine
+     * @return \Khill\Lavacharts\DataTables\Formats\BarFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function showValue($showValue)
     {
-        if (is_bool($showValue) === false) {
-            throw new InvalidConfigValue(
-                self::TYPE,
-                __FUNCTION__,
-                'boolean'
-            );
-        }
-
-        $this->showValue = $showValue;
-
-        return $this;
+        return $this->setBoolOption($showValue);
     }
 
     /**
@@ -290,21 +181,11 @@ class BarFormat extends Format
      *
      * @access public
      * @param  boolean $width
+     * @return \Khill\Lavacharts\DataTables\Formats\BarFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function width($width)
     {
-        if (is_int($width) === false) {
-            throw new InvalidConfigValue(
-                self::TYPE,
-                __FUNCTION__,
-                'integer'
-            );
-        }
-
-        $this->width = $width;
-
-        return $this;
+        $this->setIntOption($width);
     }
 }

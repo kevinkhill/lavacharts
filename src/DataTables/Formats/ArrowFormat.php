@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables\Formats;
 
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Options;
 
 /**
  * ArrowFormat Object
@@ -19,7 +19,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
- * @see        https://developers.google.com/chart/interactive/docs/reference#dateformatter
+ * @see        https://developers.google.com/chart/interactive/docs/reference#arrowformatter
  */
 class ArrowFormat extends Format
 {
@@ -31,11 +31,13 @@ class ArrowFormat extends Format
     const TYPE = 'ArrowFormat';
 
     /**
-     * A number indicating the base value.
+     * Default options for ArrowFormat
      *
-     * @var int|float
+     * @var array
      */
-    public $formatType;
+    private $defaults = [
+        'base'
+    ];
 
     /**
      * Builds the ArrowFormat object with specified options
@@ -43,11 +45,12 @@ class ArrowFormat extends Format
      * @param  array $config
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
@@ -58,18 +61,11 @@ class ArrowFormat extends Format
      * If the same, no arrow.
      *
      * @param  int|float $base
+     * @return \Khill\Lavacharts\DataTables\Formats\ArrowFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function base($base)
     {
-        if (is_numeric($base) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'numeric'
-            );
-        }
-
-        return $this;
+        return $this->setNumericOption(__FUNCTION__, $base);
     }
 }

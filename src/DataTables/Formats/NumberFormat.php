@@ -2,9 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables\Formats;
 
-use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Options;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * NumberFormat Object
@@ -12,7 +10,6 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * Formats number values in the datatable for display.
  * Added to columns during column definition.
  *
- * @see        https://developers.google.com/chart/interactive/docs/reference#numberformatter
  *
  * @package    Khill\Lavacharts
  * @subpackage Formats
@@ -21,6 +18,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
+ * @see        https://developers.google.com/chart/interactive/docs/reference#numberformatter
  */
 class NumberFormat extends Format
 {
@@ -30,7 +28,6 @@ class NumberFormat extends Format
      * @var string
      */
     const TYPE = 'NumberFormat';
-
 
     /**
      * Default options for NumberFormat
