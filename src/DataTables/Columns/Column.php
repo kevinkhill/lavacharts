@@ -55,9 +55,10 @@ class Column implements \JsonSerializable
      * @access public
      * @param  string $label Column label (optional).
      */
-    public function __construct($label = '')
+    public function __construct($label = '', $id = '')
     {
         $this->label = $label;
+        $this->id    = $id;
     }
 
     /**

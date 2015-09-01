@@ -7,102 +7,79 @@ use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Carbon\Carbon;
 use \Mockery as m;
 
-class DataTableTest extends ProvidersTestCase
+class ColumnTest extends ProvidersTestCase
 {
-    public $DataTable;
-
-    public $columnClassNames = [
-        'BooleanColumn',
-        'NumberColumn',
-        'StringColumn',
-        'DateColumn',
-        'DateTimeColumn',
-        'TimeOfDayColumn'
-    ];
-
-    public $columnTypes = [
-        'boolean',
-        'number',
-        'string',
-        'date',
-        'datetime',
-        'timeofday'
-    ];
-
-    public $columnLabels = [
-        'Admin',
-        'Unique Visitors',
-        'People In Group',
-        'Most Commits',
-        'Entries Edited',
-        'Peak Usage Hours'
-    ];
-
-    public $tzLA = 'America/Los_Angeles';
-
-    public $tzNY = 'America/New_York';
+    public $MockColumn;
 
     public function setUp()
     {
         parent::setUp();
 
-        date_default_timezone_set($this->tzLA);
-
-        $this->DataTable = new DataTable();
+        $this->MockColumn = new MockColumn('MyLabel', 'new_col_1');
     }
 
-    public function columnTypeProvider()
+    /**
+     * @covers \Khill\Lavacharts\DataTables\Columns\Column::getType
+     */
+    public function testGetType()
     {
-        return array_map(function ($columnType) {
-            return [$columnType];
-        }, $this->columnTypes);
+        $this->assertEquals('mock', $this->MockColumn->getType());
     }
 
-    public function columnClassProvider()
+    /**
+     * @covers \Khill\Lavacharts\DataTables\Columns\Column::getLabel
+     */
+    public function testGetLabel()
     {
-        return array_map(function ($columnType) {
-            return [$columnType];
-        }, $this->columnClassNames);
+        $this->assertEquals('MyLabel', $this->MockColumn->getLabel());
     }
 
-    public function columnTypeAndLabelProvider()
+    /**
+     * @covers \Khill\Lavacharts\DataTables\Columns\Column::getId
+     */
+    public function testGetId()
     {
-        $columns = [];
-
-        foreach ($this->columnTypes as $index => $type) {
-            $columns[] = [$type, $this->columnLabels[$index]];
-        }
-
-        return $columns;
+        $this->assertEquals('new_col_1', $this->MockColumn->getId());
     }
 
-    public function getClassName($columnType)
+    /**
+     * @covers \Khill\Lavacharts\DataTables\Columns\Column::setFormat
+     */
+    public function testSetFormat()
     {
-        $namespace = '\\Khill\\Lavacharts\\DataTables\\Columns\\';
+        $mockFormat = m::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat');
 
-        switch ($columnType) {
-            case 'boolean':
-                return $namespace . 'BooleanColumn';
-            case 'string':
-                return $namespace . 'StringColumn';
-            case 'number':
-                return $namespace . 'NumberColumn';
-            case 'date':
-                return $namespace . 'DateColumn';
-            case 'datetime':
-                return $namespace . 'DateTimeColumn';
-            case 'timeofday':
-                return $namespace . 'TimeOfDayColumn';
-            default:
-                return false;
-        }
+        $this->MockColumn->setFormat($mockFormat);
+
+        $format = $this->getPrivateProperty($this->MockColumn, 'format');
+
+        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Formats\Format', $format);
     }
 
-    public function testDefaultTimezoneUponCreation()
+    /**
+     * @depends testSetFormat
+     * @covers \Khill\Lavacharts\DataTables\Columns\Column::getFormat
+     */
+    public function testIsFormatted()
     {
-        $tz = $this->getPrivateProperty($this->DataTable, 'timezone');
+        $mockFormat = m::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat');
 
-        $this->assertEquals($this->tzLA, $tz->getName());
+        $this->MockColumn->setFormat($mockFormat);
+
+        $this->assertTrue($this->MockColumn->isFormatted());
+    }
+
+    /**
+     * @depends testSetFormat
+     * @covers \Khill\Lavacharts\DataTables\Columns\Column::getFormat
+     */
+    public function testGetFormat()
+    {
+        $mockFormat = m::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat');
+
+        $this->MockColumn->setFormat($mockFormat);
+
+        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Formats\Format', $this->MockColumn->getFormat());
     }
 
     public function testSetTimezoneWithConstructor()

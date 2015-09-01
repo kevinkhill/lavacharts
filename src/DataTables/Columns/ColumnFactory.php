@@ -87,7 +87,6 @@ class ColumnFactory
             $column->setFormat($format);
         }
 
-
         if (Utils::nonEmptyString($role)) {
             $column->setRole(new ColumnRole($role));
         }
