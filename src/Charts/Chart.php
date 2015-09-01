@@ -2,19 +2,19 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\JsonConfig;
-use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Events\Event;
+use \Khill\Lavacharts\Options;
+use \Khill\Lavacharts\JsonConfig;
 use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Javascript\JavascriptFactory;
-use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Configs\Animation;
 use \Khill\Lavacharts\Configs\Legend;
 use \Khill\Lavacharts\Configs\Tooltip;
 use \Khill\Lavacharts\Configs\TextStyle;
 use \Khill\Lavacharts\Configs\ChartArea;
+use \Khill\Lavacharts\Configs\Animation;
+use \Khill\Lavacharts\Configs\EventManager;
 use \Khill\Lavacharts\Configs\BackgroundColor;
+use \Khill\Lavacharts\DataTables\DataTable;
+use \Khill\Lavacharts\Javascript\JavascriptFactory;
 use \Khill\Lavacharts\Exceptions\DataTableNotFound;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
@@ -39,21 +39,21 @@ class Chart extends JsonConfig
      *
      * @var \Khill\Lavacharts\Values\Label
      */
-    protected $label = null;
+    protected $label;
 
     /**
      * The chart's datatable.
      *
      * @var \Khill\Lavacharts\DataTables\DataTable
      */
-    protected $datatable = null;
+    protected $datatable;
 
     /**
-     * The chart's defined events.
+     * Enabled chart events with callbacks.
      *
-     * @var array
+     * @var \Khill\Lavacharts\Configs\EventManager
      */
-    protected $events = [];
+    protected $events;
 
     /**
      * Default configuration options for the chart.
@@ -92,6 +92,7 @@ class Chart extends JsonConfig
     {
         $this->label     = $chartLabel;
         $this->datatable = $datatable;
+        $this->events    = new EventManager;
 
         $options->extend($this->chartDefaults);
 
@@ -125,7 +126,7 @@ class Chart extends JsonConfig
     }
 
     /**
-     * Checks if any events have been assigned to the chart.
+     * Retrieves the events if any have been assigned to the chart.
      *
      * @access public
      * @return array
@@ -150,40 +151,36 @@ class Chart extends JsonConfig
     /**
      * Register javascript callbacks for specific events.
      *
-     * Valid values include:
-     * [ animationfinish | error | onmouseover | onmouseout | ready | select ]
-     * associated to a respective pre-defined javascript function as the callback.
+     * Set with an associative array where the keys are events and the values are the
+     * javascript callback functions.
+     *
+     * Valid events are:
+     * [ animationfinish | error | onmouseover | onmouseout | ready | select | statechange ]
      *
      * @access public
      * @param  array $events Array of events associated to a callback
      * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function events($events) //TODO come back to this
+    public function events($events)
     {
-        if (is_array($events) === false && $events instanceof Event === false) {
+        if (is_array($events) === false) {
             throw new InvalidConfigValue(
                 static::TYPE . '->' . __FUNCTION__,
                 'array',
-                ' with Event objects or a single Event object.'
+                'who\'s keys are one of '.Utils::arrayToPipedString($this->defaultEvents)
             );
         }
 
-        if ($events instanceof Event) {
-            $this->events[] = $events;
-        }
-
-        if (is_array($events)) {
-            foreach ($events as $event) {
-                if ($event instanceof Event === false) {
-                    throw new InvalidConfigValue(
-                        static::TYPE . '->' . __FUNCTION__,
-                        'Event'
-                    );
-                }
-
-                $this->events[] = $event;
+        foreach ($events as $event => $callback) {
+            if (Utils::nonEmptyString($callback) === false) {
+                throw new InvalidConfigValue(
+                    static::TYPE . '->' . __FUNCTION__,
+                    'string'
+                );
             }
+
+            $this->events->set($event, $callback);
         }
 
         return $this;

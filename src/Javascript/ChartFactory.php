@@ -95,15 +95,12 @@ class ChartFactory extends JavascriptFactory
         $output = '';
         $events = $this->chart->getEvents();
 
-        foreach ($events as $event) {
-            $callback = sprintf(
-                'function (event) {return lava.event(event, $this.chart, %s);}',
-                $event->callback
-            );
-
+        foreach ($events as $event => $callback) {
             $output .= sprintf(
-                'google.visualization.events.addListener($this.chart, "%s", %s);',
-                $event::TYPE,
+                'google.visualization.events.addListener($this.chart, "%1$s", function (event) {'.
+                '    return lava.event(event, $this.chart, %2$s);'.
+                '});',
+                $event,
                 $callback
             ).PHP_EOL.PHP_EOL;
         }

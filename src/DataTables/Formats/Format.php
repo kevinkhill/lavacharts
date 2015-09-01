@@ -18,11 +18,8 @@ namespace Khill\Lavacharts\DataTables\Formats;
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use Khill\Lavacharts\Options;
-use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\JsonConfig;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
 class Format extends JsonConfig
 {
@@ -40,6 +37,12 @@ class Format extends JsonConfig
         parent::__construct($options, $config);
     }
 
+    /**
+     * Returns the chart type.
+     *
+     * @since 3.0.0
+     * @return string
+     */
     public function getType()
     {
         return static::TYPE;
