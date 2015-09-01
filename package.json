@@ -10,19 +10,23 @@
     "node": "10.*"
   },
   "devDependencies": {
-    "gulp": "^3.8.11",
+    "async": "^1.4.2",
+    "gulp": "^3.9.0",
     "gulp-bump": "^0.3.0",
     "gulp-jshint": "^1.10.0",
-    "gulp-replace": "^0.5.3",
+    "gulp-replace": "^0.5.4",
     "gulp-watch": "^4.2.4",
     "jasmine-core": "^2.2.0",
-    "karma": "^0.12.37",
-    "karma-chrome-launcher": "^0.1.8",
+    "karma": "^0.13.0",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-detect-browsers": "^2.0.1",
     "karma-firefox-launcher": "^0.1.6",
+    "karma-ie-launcher": "^0.2.0",
     "karma-jasmine": "^0.3.5",
     "karma-phantomjs-launcher": "^0.1.4",
     "phantomjs": "^1.9.17",
-    "sh": "0.0.3",
+    "sh": "^0.0.3",
+    "webshot": "^0.16.0",
     "yargs": "^3.6.0"
   },
   "repository": {

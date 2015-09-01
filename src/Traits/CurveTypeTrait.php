@@ -24,14 +24,6 @@ trait CurveTypeTrait
             'function'
         ];
 
-        if (in_array($curveType, $values, true) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $curveType]);
+        return $this->setStringInArrayOption(__FUNCTION__, $curveType, $values);
     }
 }

@@ -4,9 +4,11 @@ namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Configs\DataTable;
+use \Khill\Lavacharts\Options;
+use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Configs\SizeAxis;
 use \Khill\Lavacharts\Configs\MagnifyingGlass;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * GeoChart Class
@@ -18,7 +20,7 @@ use \Khill\Lavacharts\Configs\MagnifyingGlass;
  *   according to a value that you specify.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Charts
  * @since      1.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -63,61 +65,65 @@ class GeoChart extends Chart
     const VIZ_CLASS = 'google.visualization.GeoChart';
 
     /**
-     * Builds a new chart with the given label.
+     * Default configuration options for the chart.
      *
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\Configs\DataTable $datatable Datatable used for the chart.
-     * @return self
+     * @var array
      */
-    public function __construct(Label $chartLabel, DataTable $datatable)
-    {
-        parent::__construct($chartLabel, $datatable);
+    private $geoDefaults = [
+        'colorAxis',
+        'datalessRegionColor',
+        'displayMode',
+        'enableRegionInteractivity',
+        'keepAspectRatio',
+        'region',
+        'magnifyingGlass',
+        'markerOpacity',
+        'resolution',
+        'sizeAxis'
+    ];
 
-        $this->defaults = array_merge([
-            'colorAxis',
-            'datalessRegionColor',
-            'displayMode',
-            'enableRegionInteractivity',
-            'keepAspectRatio',
-            'region',
-            'magnifyingGlass',
-            'markerOpacity',
-            'resolution',
-            'sizeAxis'
-        ], $this->defaults);
+    /**
+     * Builds a new GeoChart with the given label, datatable and options.
+     *
+     * @param \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
+     * @param \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @param array                                  $config
+     */
+    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
+    {
+        $options = new Options($this->geoDefaults);
+
+        parent::__construct($chartLabel, $datatable, $options, $config);
     }
 
     /**
      * Color to assign to regions with no associated data.
      *
      * @param  string             $drc
+     * @return \Khill\Lavacharts\Charts\GeoChart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function datalessRegionColor($drc)
     {
-        if (Utils::nonEmptyString($drc) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $drc]);
+        return $this->setStringOption(__FUNCTION__, $drc);
     }
 
     /**
-     * Which type of map this is. The DataTable format must match the value specified. The following values are supported:
+     * Which type of map this is.
      *
+     * The DataTable format must match the value specified.
+     *
+     * The following values are supported:
      * 'auto' - Choose based on the format of the DataTable.
      * 'regions' - This is a region map
      * 'markers' - This is a marker map
      *
-     * @param  string             $dm
+     *
+     * @param  string $displayMode
+     * @return \Khill\Lavacharts\Charts\GeoChart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function displayMode($dm)
+    public function displayMode($displayMode)
     {
         $values = [
             'auto',
@@ -125,15 +131,7 @@ class GeoChart extends Chart
             'markers',
         ];
 
-        if (in_array($dm, $values, true) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $dm]);
+        return $this->setStringInArrayOption(__FUNCTION__, $displayMode, $values);
     }
 
     /**
@@ -143,111 +141,92 @@ class GeoChart extends Chart
      *
      * The default is true in region mode, and false in marker mode.
      *
-     * @param  bool               $eri
+     *
+     * @param  bool $eri
+     * @return \Khill\Lavacharts\Charts\GeoChart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function enableRegionInteractivity($eri)
     {
-        if (is_bool($eri) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $eri]);
+        return $this->setBoolOption(__FUNCTION__, $eri);
     }
 
     /**
      * If true, the map will be drawn at the largest size that can fit inside
-     * the chart area at its natural aspect ratio. If only one of the width
+     * the chart area at its natural aspect ratio.
+     *
+     * If only one of the width
      * and height options is specified, the other one will be calculated
      * according to the aspect ratio.
      *
      * If false, the map will be stretched to the exact size of the chart as
      * specified by the width and height options.
      *
-     * @param  bool               $kar
+     *
+     * @param  bool $kar
+     * @return \Khill\Lavacharts\Charts\GeoChart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function keepAspectRatio($kar)
     {
-        if (is_bool($kar) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $kar]);
+        return $this->setBoolOption(__FUNCTION__, $kar);
     }
 
     /**
-     * The area to display on the map. (Surrounding areas will be displayed
-     * as well.) Can be one of the following:
+     * The area to display on the map. (Surrounding areas will be displayed as well.)
+     * Can be one of the following:
      *
      * 'world' - A map of the entire world.
-     * A continent or a sub-continent, specified by its 3-digit code, e.g., '011' for Western Africa.
-     * A country, specified by its ISO 3166-1 alpha-2 code, e.g., 'AU' for Australia.
-     * A state in the United States, specified by its ISO 3166-2:US code, e.g., 'US-AL' for Alabama. Note that the resolution option must be set to either 'provinces' or 'metros'.
      *
-     * @param  string             $r
+     * A continent or a sub-continent, specified by its 3-digit code, e.g., '011' for Western Africa.
+     *
+     * A country, specified by its ISO 3166-1 alpha-2 code, e.g., 'AU' for Australia.
+     *
+     * A state in the United States, specified by its ISO 3166-2:US code, e.g., 'US-AL' for Alabama.
+     * Note that the resolution option must be set to either 'provinces' or 'metros'.
+     *
+     *
+     * @param  string $region
+     * @return \Khill\Lavacharts\Charts\GeoChart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function region($r)
+    public function region($region)
     {
-        if (Utils::nonEmptyString($r) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $r]);
+        return $this->setStringOption(__FUNCTION__, $region);
     }
 
     /**
      * Sets up the magnifying glass, so when the user lingers over a cluttered
      * marker, a magnifiying glass will be opened.
      *
-     * @uses   MagnifyingGlass
-     * @param  MagnifyingGlass $mg
-     * @return self
+     * @param  array $magnifyingGlassConfig
+     * @return \Khill\Lavacharts\Charts\GeoChart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function magnifyingGlass(MagnifyingGlass $mg)
+    public function magnifyingGlass($magnifyingGlassConfig)
     {
-        return $this->addOption($mg->toArray());
+        return $this->setOption(__FUNCTION__, new MagnifyingGlass($magnifyingGlassConfig));
     }
 
     /**
      * The opacity of the markers, where 0.0 is fully transparent and 1.0
      * is fully opaque.
      *
-     * @param  float|int          $mo
+     * @param  float $markerOpacity
+     * @return \Khill\Lavacharts\Charts\GeoChart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function markerOpacity($mo)
+    public function markerOpacity($markerOpacity)
     {
-        if (is_int($mo) === false && is_float($mo) === false) {
-            throw $this->invalidConfigValue(
+        if (Utils::between(0, $markerOpacity, 1) === false) {
+            throw new InvalidConfigValue(
                 __FUNCTION__,
-                'float|int'
+                'float',
+                'between 0.0 - 1.0'
             );
         }
 
-        if (Utils::between(0, $mo, 1) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'float|int',
-                'between 0 - 1'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $mo]);
+        return $this->setOption(__FUNCTION__, $markerOpacity);
     }
 
     /**
@@ -259,11 +238,11 @@ class GeoChart extends Chart
      *               see whether this option is supported.
      * 'metros' - Supported for the US country region and US state regions only.
      *
-     * @param  string             $r
+     * @param  string $resolution
+     * @return \Khill\Lavacharts\Charts\GeoChart
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function resolution($r)
+    public function resolution($resolution)
     {
         $values = [
             'countries',
@@ -271,27 +250,18 @@ class GeoChart extends Chart
             'metros',
         ];
 
-        if (in_array($r, $values, true) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $r]);
+        return $this->setStringInArrayOption(__FUNCTION__, $resolution, $values);
     }
 
     /**
-     * An object with members to configure how values are associated with
-     * bubble sizes.
+     * An object with members to configure how values are associated with bubble sizes.
      *
-     * @uses   \Khill\Lavacharts\Configs\Sizeaxis
-     * @param  \Khill\Lavacharts\Configs\SizeAxis $sa
-     * @return self
+     * @param  array $sizeAxisConfig
+     * @return \Khill\Lavacharts\Charts\GeoChart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function sizeAxis(SizeAxis $sa)
+    public function sizeAxis($sizeAxisConfig)
     {
-        return $this->addOption($sa->toArray(__FUNCTION__));
+        return $this->setOption(__FUNCTION__, new SizeAxis($sizeAxisConfig));
     }
 }

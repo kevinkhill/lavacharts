@@ -13,7 +13,7 @@ Dev:
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/3.0.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=3.0)
 
 ## Version 3.0 is still a work in progress, but mostly stable.
-Check here for notes on how to  [upgrade from 2.5.x to 3.0.x](https://github.com/kevinkhill/lavacharts/wiki/Upgrading-from-2.5-to-3.0)  
+Check here for notes on how to  [upgrade from 2.5.x to 3.0.x](https://github.com/kevinkhill/lavacharts/wiki/Upgrading-from-2.5-to-3.0)
 
 ## Package Features
 - Blade template extensions for laravel
@@ -21,12 +21,12 @@ Check here for notes on how to  [upgrade from 2.5.x to 3.0.x](https://github.com
   - AJAX data reloading
   - Fetching charts
   - Events integration
-- Datatable addColumn aliases
-- Datatable column formatters
+- DataTable addColumn aliases
+- DataTable column formatters
 - [Carbon](https://github.com/briannesbitt/Carbon) support for date columns
 - Supports string, number, date, and timeofday columns
-- Now supporting 10 Charts!
-  - Area, Bar, Calendar, Column, Combo, Donut, Gauge, Geo, Line, Pie
+- Now supporting 12 Charts!
+  - Area, Bar, Calendar, Column, Combo, Donut, Gauge, Geo, Line, Pie, Scatter, Table
 - [DataTablePlus](https://github.com/kevinkhill/datatableplus) package can be added to parse CSV files or Eloquent collections into DataTables.
 
 ## For complete documentation, please visit [lavacharts.com](http://lavacharts.com/)
@@ -52,7 +52,7 @@ Register Lavacharts in your app by adding this line to the end of the providers 
   ```
   'providers' => [
       ...
-      
+
       Khill\Lavacharts\Laravel\LavachartsServiceProvider::class
   ],
   ```

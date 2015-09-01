@@ -15,14 +15,6 @@ class ColorAxisTest extends ProvidersTestCase
         $this->ca = new ColorAxis;
     }
 
-    public function testConstructorDefaults()
-    {
-        $this->assertNull($this->ca->minValue);
-        $this->assertNull($this->ca->maxValue);
-        $this->assertNull($this->ca->values);
-        $this->assertNull($this->ca->colors);
-    }
-
     public function testConstructorValuesAssignment()
     {
         $colorAxis = new ColorAxis([

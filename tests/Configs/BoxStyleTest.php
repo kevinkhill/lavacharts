@@ -5,27 +5,15 @@ namespace Khill\Lavacharts\Tests\Configs;
 use \Khill\Lavacharts\Configs\BoxStyle;
 use \Mockery as m;
 
-class BoxStyleTest extends \PHPUnit_Framework_TestCase
+class BoxStyleTest extends \PHPUnit_Framework_TestCase //TODO fix this to use providerclass
 {
+    public $BoxStyle;
+
     public function setUp()
     {
         parent::setUp();
 
-        $this->bs = new BoxStyle;
-
-        $this->mockGradient = $this->getMock(
-            '\Khill\Lavacharts\Configs\Gradient',
-            ['__construct']
-        );
-    }
-
-    public function testConstructorDefaults()
-    {
-        $this->assertNull($this->bs->stroke);
-        $this->assertNull($this->bs->strokeWidth);
-        $this->assertNull($this->bs->rx);
-        $this->assertNull($this->bs->ry);
-        $this->assertNull($this->bs->gradient);
+        $this->BoxStyle = new BoxStyle;
     }
 
     public function testConstructorValuesAssignment()
@@ -35,7 +23,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
             'strokeWidth' => '5',
             'rx'          => '10',
             'ry'          => '10',
-            'gradient'    => $this->mockGradient
+            'gradient'    => []
         ]);
 
         $this->assertEquals('#5B5B5B', $boxStyle->stroke);
@@ -55,9 +43,9 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
 
     public function testStokeWithNumericParams()
     {
-        $this->bs->stroke('#DE02FB');
+        $this->BoxStyle->stroke('#DE02FB');
 
-        $this->assertEquals('#DE02FB', $this->bs->stroke);
+        $this->assertEquals('#DE02FB', $this->BoxStyle->stroke);
     }
 
     /**
@@ -65,9 +53,9 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testStokeWidthWithNumericParams($testNum)
     {
-        $this->bs->strokeWidth($testNum);
+        $this->BoxStyle->strokeWidth($testNum);
 
-        $this->assertEquals($testNum, $this->bs->strokeWidth);
+        $this->assertEquals($testNum, $this->BoxStyle->strokeWidth);
     }
 
     /**
@@ -75,9 +63,9 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testRxWithNumericParams($testNum)
     {
-        $this->bs->rx($testNum);
+        $this->BoxStyle->rx($testNum);
 
-        $this->assertEquals($testNum, $this->bs->rx);
+        $this->assertEquals($testNum, $this->BoxStyle->rx);
     }
 
     /**
@@ -85,9 +73,9 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testRyWithNumericParams($testNum)
     {
-        $this->bs->ry($testNum);
+        $this->BoxStyle->ry($testNum);
 
-        $this->assertEquals($testNum, $this->bs->ry);
+        $this->assertEquals($testNum, $this->BoxStyle->ry);
     }
 
     /**
@@ -96,7 +84,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testStrokeWithBadParams($badVals)
     {
-        $this->bs->stroke($badVals);
+        $this->BoxStyle->stroke($badVals);
     }
 
     /**
@@ -105,7 +93,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testStokeWidthWithBadParams($badVals)
     {
-        $this->bs->strokeWidth($badVals);
+        $this->BoxStyle->strokeWidth($badVals);
     }
 
     /**
@@ -114,7 +102,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testRxWithBadParams($badVals)
     {
-        $this->bs->rx($badVals);
+        $this->BoxStyle->rx($badVals);
     }
 
     /**
@@ -123,7 +111,7 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testRyWithBadParams($badVals)
     {
-        $this->bs->ry($badVals);
+        $this->BoxStyle->ry($badVals);
     }
 
 

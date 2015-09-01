@@ -3,7 +3,8 @@
 namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Configs\DataTable;
+use \Khill\Lavacharts\Options;
+use \Khill\Lavacharts\DataTables\DataTable;
 
 /**
  * LineChart Class
@@ -12,7 +13,7 @@ use \Khill\Lavacharts\Configs\DataTable;
  * tips when hovering over points.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Charts
  * @since      1.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -64,26 +65,33 @@ class LineChart extends Chart
     const VIZ_CLASS = 'google.visualization.LineChart';
 
     /**
-     * Builds a new chart with the given label.
+     * Default configuration options for the chart.
      *
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\Configs\DataTable $datatable Datatable used for the chart.
-     * @return self
+     * @var array
      */
-    public function __construct(Label $chartLabel, DataTable $datatable, $options=[])
-    {
-        parent::__construct($chartLabel, $datatable, $options);
+    private $lineDefaults = [
+        'axisTitlesPosition',
+        'curveType',
+        'focusTarget',
+        'hAxis',
+        'interpolateNulls',
+        'lineWidth',
+        'pointSize',
+        //'vAxes',
+        'vAxis'
+    ];
 
-        $this->defaults = array_merge([
-            'axisTitlesPosition',
-            'curveType',
-            'focusTarget',
-            'hAxis',
-            'interpolateNulls',
-            'lineWidth',
-            'pointSize',
-            //'vAxes',
-            'vAxis'
-        ], $this->defaults);
+    /**
+     * Builds a new LineChart with the given label, datatable and options.
+     *
+     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @param array                                   $config
+     */
+    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
+    {
+        $options = new Options($this->lineDefaults);
+
+        parent::__construct($chartLabel, $datatable, $options, $config);
     }
 }

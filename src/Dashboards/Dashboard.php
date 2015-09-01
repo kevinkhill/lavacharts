@@ -5,7 +5,7 @@ namespace Khill\Lavacharts\Dashboards;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
 
-class Dashboard implements \JsonSerializable
+class Dashboard
 {
     /**
      * Google's dashboard version
@@ -36,7 +36,7 @@ class Dashboard implements \JsonSerializable
     private $label = null;
 
     /**
-     * Arry of Binding objects, mapping controls to charts.
+     * Array of Binding objects, mapping controls to charts.
      *
      * @var array
      */
@@ -45,8 +45,7 @@ class Dashboard implements \JsonSerializable
     /**
      * Builds a new Dashboard with identifying label.
      *
-     * @param  string $label
-     * @return self
+     * @param \Khill\Lavacharts\Values\Label $label
      */
     public function __construct(Label $label)
     {
@@ -62,9 +61,9 @@ class Dashboard implements \JsonSerializable
      * - If an array of ControlWrappers is passed with one ChartWrapper, then
      *   a ManyToOne binding is created.
      *
-     * @uses \Khill\Lavacharts\Dashboard\Bindings\BindingFactory
-     * @param  mixed $controlWraps
-     * @param  mixed $chartWraps
+     * @uses  \Khill\Lavacharts\Dashboard\Bindings\BindingFactory
+     * @param \Khill\Lavacharts\Dashboards\ControlWrapper|array $controlWraps
+     * @param \Khill\Lavacharts\Dashboards\ChartWrapper|array $chartWraps
      * @return self
      */
     public function bind($controlWraps, $chartWraps)
@@ -85,7 +84,7 @@ class Dashboard implements \JsonSerializable
     }
 
     /**
-     * Fetch the dashboard's bindings.
+     * Fetch the dashboard's bound charts from the wrappers.
      *
      * @return array
      */
@@ -95,7 +94,7 @@ class Dashboard implements \JsonSerializable
 
         foreach ($this->bindings as $binding) {
             foreach ($binding->getChartWrappers() as $chartWrapper) {
-                $chart = $chartWrapper->getChart();
+                $chart = $chartWrapper->unwrap();
 
                 $charts[$chart::TYPE] = $chart;
             }
@@ -107,7 +106,6 @@ class Dashboard implements \JsonSerializable
     /**
      * Returns the dashboard label.
      *
-     * @since  3.0.0
      * @return \Khill\Lavacharts\Values\Label
      */
     public function getLabel()
@@ -116,27 +114,16 @@ class Dashboard implements \JsonSerializable
     }
 
     /**
-     * Custom JSON serialization of the Dashboard.
+     * Batch add an array of bindings.
      *
-     * @return string JSON
-     */
-    public function jsonSerialize()
-    {
-        return $this->bindings;
-    }
-
-    /**
-     * Add array of bindings.
-     *
-     * bind will use this method if there are OneToMany or ManyToOne bindings
+     * This method can set all bindings at once instead of chaining multiple bind methods.
      *
      * @param array $bindings
      */
-    private function addArrayOfBindings($bindings)
+    public function setBindings($bindings)
     {
         foreach ($bindings as $binding) {
-            $this->bind($binding[0], $binding[1], $binding[2]);
+            $this->bind($binding[0], $binding[1]);
         }
     }
-
 }

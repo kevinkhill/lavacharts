@@ -12,14 +12,7 @@ class AnimationTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->a = new Animation;
-    }
-
-    public function testConstructorDefaults()
-    {
-        $this->assertNull($this->a->duration);
-        $this->assertNull($this->a->easing);
-        $this->assertNull($this->a->startup);
+        $this->Animation = new Animation;
     }
 
     public function testConstructorValuesAssignment()
@@ -49,7 +42,7 @@ class AnimationTest extends ProvidersTestCase
      */
     public function testDurationWithBadParams($badParams)
     {
-        $this->a->duration($badParams);
+        $this->Animation->duration($badParams);
     }
 
     /**
@@ -57,8 +50,8 @@ class AnimationTest extends ProvidersTestCase
      */
     public function testEasingWithAcceptedValues($easingVals)
     {
-        $this->a->easing($easingVals);
-        $this->assertEquals($easingVals, $this->a->easing);
+        $this->Animation->easing($easingVals);
+        $this->assertEquals($easingVals, $this->Animation->easing);
     }
 
     /**
@@ -67,7 +60,7 @@ class AnimationTest extends ProvidersTestCase
      */
     public function testEasingWithNonAcceptableValue()
     {
-        $this->a->easing('fast');
+        $this->Animation->easing('fast');
     }
 
     /**
@@ -76,7 +69,7 @@ class AnimationTest extends ProvidersTestCase
      */
     public function testEasingWithBadParams($badParams)
     {
-        $this->a->easing($badParams);
+        $this->Animation->easing($badParams);
     }
 
     /**
@@ -85,7 +78,7 @@ class AnimationTest extends ProvidersTestCase
      */
     public function testStartupWithBadParams($badParams)
     {
-        $this->a->startup($badParams);
+        $this->Animation->startup($badParams);
     }
 
     public function easingVals()

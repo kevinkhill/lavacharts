@@ -2,7 +2,8 @@
 
 namespace Khill\Lavacharts\Configs;
 
-
+use \Khill\Lavacharts\JsonConfig;
+use \Khill\Lavacharts\Options;
 
 /**
  * Text Style ConfigObject
@@ -11,7 +12,7 @@ namespace Khill\Lavacharts\Configs;
  * passed into the chart's options.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Configs
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
@@ -19,77 +20,53 @@ namespace Khill\Lavacharts\Configs;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class TextStyle extends ConfigObject
+class TextStyle extends JsonConfig
 {
-
     /**
-     * Text is bold.
-     *
-     * @var bool
-     */
-    public $bold;
-
-    /**
-     * Color of the text.
+     * Type of JsonConfig object
      *
      * @var string
      */
-    public $color;
+    const TYPE = 'TextStyle';
 
     /**
-     * Font name.
+     * Default options for TextStyles
      *
-     * @var string
+     * @var array
      */
-    public $fontName;
+    private $defaults = [
+        'bold',
+        'color',
+        'fontName',
+        'fontSize',
+        'italic'
+    ];
 
     /**
-     * Size of font, in pixels.
+     * Builds the TextStyle object when passed an array of configuration options.
      *
-     * @var int
-     */
-    public $fontSize;
-
-    /**
-     * Text is italic.
-     *
-     * @var bool
-     */
-    public $italic;
-
-
-    /**
-     * Builds the textStyle object when passed an array of configuration options.
-     *
-     * @param  array                 $config Options for the TextStyle
+     * @param  array $config Options for the TextStyle
+     * @return \Khill\Lavacharts\Configs\TextStyle
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
      * Set bold on/off for the text element.
      *
-     * @param  boolean  $bold
+     * @param  bool $bold
+     * @return \Khill\Lavacharts\Configs\TextStyle
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function bold($bold)
     {
-        if (is_bool($bold)) {
-            $this->bold = $bold;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setBoolOption(__FUNCTION__, $bold);
     }
 
     /**
@@ -97,23 +74,13 @@ class TextStyle extends ConfigObject
      *
      * valid HTML color string, for example: 'red' OR '#004411'
      *
-     * @param  string             $color Valid HTML color
+     * @param  string $color Valid HTML color
+     * @return \Khill\Lavacharts\Configs\TextStyle
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function color($color)
     {
-        if (is_string($color)) {
-            $this->color = $color;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'representing a valid HTML color'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $color);
     }
 
     /**
@@ -121,43 +88,25 @@ class TextStyle extends ConfigObject
      *
      * Must be a valid font name.
      *
-     * @param  string             $fontName Valid font name
+     * @param  string $fontName Valid font name
+     * @return \Khill\Lavacharts\Configs\TextStyle
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function fontName($fontName)
     {
-        if (is_string($fontName)) {
-            $this->fontName = $fontName;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $fontName);
     }
 
     /**
      * Sets the font size to the textStyle.
      *
-     * @param  integer                $fontSize Font size in pixels
+     * @param  integer $fontSize Font size in pixels
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return self
      */
     public function fontSize($fontSize)
     {
-        if (is_int($fontSize)) {
-            $this->fontSize = $fontSize;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this;
+        return $this->setIntOption(__FUNCTION__, $fontSize);
     }
 
     /**
@@ -169,15 +118,6 @@ class TextStyle extends ConfigObject
      */
     public function italic($italic)
     {
-        if (is_bool($italic)) {
-            $this->italic = $italic;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this;
+        return $this->setBoolOption(__FUNCTION__, $italic);
     }
 }

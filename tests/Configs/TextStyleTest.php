@@ -11,7 +11,7 @@ class TextStyleTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->ts = new TextStyle;
+        $this->TextStyle = new TextStyle;
     }
 
     public function testConstructorValuesAssignment()
@@ -45,7 +45,7 @@ class TextStyleTest extends ProvidersTestCase
      */
     public function testBoldWithBadParams($badParams)
     {
-        $this->ts->bold($badParams);
+        $this->TextStyle->bold($badParams);
     }
 
     /**
@@ -54,7 +54,7 @@ class TextStyleTest extends ProvidersTestCase
      */
     public function testColorWithBadParams($badParams)
     {
-        $this->ts->color($badParams);
+        $this->TextStyle->color($badParams);
     }
 
     /**
@@ -63,7 +63,7 @@ class TextStyleTest extends ProvidersTestCase
      */
     public function testFontNameWithBadParams($badParams)
     {
-        $this->ts->fontName($badParams);
+        $this->TextStyle->fontName($badParams);
     }
 
     /**
@@ -72,7 +72,7 @@ class TextStyleTest extends ProvidersTestCase
      */
     public function testFontSizeWithBadParams($badParams)
     {
-        $this->ts->fontSize($badParams);
+        $this->TextStyle->fontSize($badParams);
     }
 
     /**
@@ -81,6 +81,20 @@ class TextStyleTest extends ProvidersTestCase
      */
     public function testItalicWithBadParams($badParams)
     {
-        $this->ts->italic($badParams);
+        $this->TextStyle->italic($badParams);
+    }
+
+    public function testJsonSerialization()
+    {
+        $textStyle = new TextStyle([
+            'color'    => 'red',
+            'fontName' => 'Arial',
+            'fontSize' => 12,
+            'italic'   => true
+        ]);
+
+        $jsonSerialization = '{"color":"red","fontName":"Arial","fontSize":12,"italic":true}';
+
+        $this->assertEquals(json_encode($textStyle), $jsonSerialization);
     }
 }

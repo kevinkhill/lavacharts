@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Configs;
 
+use \Khill\Lavacharts\JsonConfig;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
@@ -12,7 +14,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * Use this object with backgroundColor and color options to override the grayscale defaults.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Configs
  * @since      2.1.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -21,95 +23,75 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Color extends ConfigObject
+class Color extends JsonConfig
 {
     /**
-     * Foreground color.
+     * Type of JsonConfig object
      *
      * @var string
      */
-    public $color;
+    const TYPE = 'Color';
 
     /**
-     * Background color.
+     * Default options for Color
      *
-     * @var string
+     * @var array
      */
-    public $backgroundColor;
-
-    /**
-     * Opacity.
-     *
-     * @var float
-     */
-    public $opacity;
+    private $defaults = [
+        'color',
+        'backgroundColor',
+        'opacity'
+    ];
 
     /**
      * Builds the Color object with specified options
      *
-     * @param  array                 $config
+     * @param  array $config
+     * @return \Khill\Lavacharts\Configs\Color
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
      * Specifies the foreground color.
      *
-     * @param  string             $fgColor
+     * @param  string $fgColor
+     * @return \Khill\Lavacharts\Configs\Color
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function color($fgColor)
     {
-        if (is_string($fgColor)) {
-            $this->color = $fgColor;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $fgColor);
     }
 
     /**
      * Specifies the background color.
      *
-     * @param  string             $bgColor
+     * @param  string $bgColor
+     * @return \Khill\Lavacharts\Configs\Color
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function backgroundColor($bgColor)
     {
-        if (is_string($bgColor)) {
-            $this->backgroundColor = $bgColor;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $bgColor);
     }
 
     /**
      * Opacity, with 0.0 being fully transparent and 1.0 fully opaque.
      *
      * @param  float $opacity
-     * @return self
+     * @return \Khill\Lavacharts\Configs\Color
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function opacity($opacity)
     {
-        if (Utils::between(0.0, $opacity, 1.0, true)) {
-            $this->opacity = $opacity;
-        } else {
+        if (Utils::between(0.0, $opacity, 1.0, true) === false) {
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'float',
@@ -117,6 +99,6 @@ class Color extends ConfigObject
             );
         }
 
-        return $this;
+        return $this->setOption(__FUNCTION__, $opacity);
     }
 }

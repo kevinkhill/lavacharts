@@ -2,10 +2,11 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\PieChart;
 use \Mockery as m;
 
-class PieChartTest extends ChartTestCase
+class PieChartTest extends ProvidersTestCase
 {
     public function setUp()
     {
@@ -14,11 +15,6 @@ class PieChartTest extends ChartTestCase
         $label = m::mock('\Khill\Lavacharts\Values\Label', ['MyTestChart'])->makePartial();
 
         $this->PieChart = new PieChart($label, $this->partialDataTable);
-    }
-
-    public function testInstanceOfPieChartWithType()
-    {
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\PieChart', $this->PieChart);
     }
 
     public function testTypePieChart()
@@ -37,7 +33,7 @@ class PieChartTest extends ChartTestCase
     {
         $this->PieChart->is3D(true);
 
-        $this->assertTrue($this->PieChart->getOption('is3D'));
+        $this->assertTrue($this->PieChart->is3D);
     }
 
     /**
@@ -74,7 +70,7 @@ class PieChartTest extends ChartTestCase
 
         $this->PieChart->slices([$mockSlice1, $mockSlice2]);
 
-        $slices = $this->PieChart->getOption('slices');
+        $slices = $this->PieChart->slices;
 
         $this->assertEquals($sliceVals, $slices[0]);
         $this->assertEquals($sliceVals, $slices[1]);
@@ -93,7 +89,7 @@ class PieChartTest extends ChartTestCase
     {
         $this->PieChart->pieSliceBorderColor('green');
 
-        $this->assertEquals('green', $this->PieChart->getOption('pieSliceBorderColor'));
+        $this->assertEquals('green', $this->PieChart->pieSliceBorderColor);
     }
 
     /**
@@ -108,16 +104,16 @@ class PieChartTest extends ChartTestCase
     public function testPieSliceTextWithValidValues()
     {
         $this->PieChart->pieSliceText('percentage');
-        $this->assertEquals('percentage', $this->PieChart->getOption('pieSliceText'));
+        $this->assertEquals('percentage', $this->PieChart->pieSliceText);
 
         $this->PieChart->pieSliceText('value');
-        $this->assertEquals('value', $this->PieChart->getOption('pieSliceText'));
+        $this->assertEquals('value', $this->PieChart->pieSliceText);
 
         $this->PieChart->pieSliceText('label');
-        $this->assertEquals('label', $this->PieChart->getOption('pieSliceText'));
+        $this->assertEquals('label', $this->PieChart->pieSliceText);
 
         $this->PieChart->pieSliceText('none');
-        $this->assertEquals('none', $this->PieChart->getOption('pieSliceText'));
+        $this->assertEquals('none', $this->PieChart->pieSliceText);
     }
 
     /**
@@ -139,16 +135,16 @@ class PieChartTest extends ChartTestCase
 
     public function testPieSliceTextStyle()
     {
-        $this->PieChart->pieSliceTextStyle($this->getMockTextStyle('pieSliceTextStyle'));
+        $this->PieChart->pieSliceTextStyle([]);
 
-        $this->assertTrue(is_array($this->PieChart->getOption('pieSliceTextStyle')));
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $this->PieChart->pieSliceTextStyle);
     }
 
     public function testPieStartAngle()
     {
         $this->PieChart->pieStartAngle(12);
 
-        $this->assertEquals(12, $this->PieChart->getOption('pieStartAngle'));
+        $this->assertEquals(12, $this->PieChart->pieStartAngle);
     }
 
     /**
@@ -164,7 +160,7 @@ class PieChartTest extends ChartTestCase
     {
         $this->PieChart->reverseCategories(true);
 
-        $this->assertTrue($this->PieChart->getOption('reverseCategories'));
+        $this->assertTrue($this->PieChart->reverseCategories);
     }
 
     /**
@@ -180,7 +176,7 @@ class PieChartTest extends ChartTestCase
     {
         $this->PieChart->sliceVisibilityThreshold(23);
 
-        $this->assertEquals(23, $this->PieChart->getOption('sliceVisibilityThreshold'));
+        $this->assertEquals(23, $this->PieChart->sliceVisibilityThreshold);
     }
 
     /**
@@ -196,7 +192,7 @@ class PieChartTest extends ChartTestCase
     {
         $this->PieChart->pieResidueSliceColor('red');
 
-        $this->assertEquals('red', $this->PieChart->getOption('pieResidueSliceColor'));
+        $this->assertEquals('red', $this->PieChart->pieResidueSliceColor);
     }
 
     /**
@@ -212,7 +208,7 @@ class PieChartTest extends ChartTestCase
     {
         $this->PieChart->pieResidueSliceLabel('leftovers');
 
-        $this->assertEquals('leftovers', $this->PieChart->getOption('pieResidueSliceLabel'));
+        $this->assertEquals('leftovers', $this->PieChart->pieResidueSliceLabel);
     }
 
     /**

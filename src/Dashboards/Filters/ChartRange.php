@@ -2,10 +2,15 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
+use \Khill\Lavacharts\Options;
+
 /**
  * Chart Range Filter Class
  *
- * @package    Lavacharts
+ * A slider with two thumbs superimposed onto a chart, to select a range of values
+ * from the continuous axis of the chart.
+ *
+ * @package    Khill\Lavacharts
  * @subpackage Dashboards\Filters
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -13,6 +18,7 @@ namespace Khill\Lavacharts\Dashboards\Filters;
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
+ * @see        https://developers.google.com/chart/interactive/docs/gallery/controls#googlevisualizationchartrangefilter
  */
 class ChartRange extends Filter
 {
@@ -24,12 +30,17 @@ class ChartRange extends Filter
     const TYPE = 'ChartRangeFilter';
 
     /**
-     * Creates the new Filter object to filter the given column label.
+     * Creates the new Filter object to filter the given column label or index.
      *
-     * @param string $columnLabel
+     * @param  string|int $columnLabelOrIndex The column label or index to filter.
+     * @param  array $config Array of options to set.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function __construct($columnLabel)
+    public function __construct($columnLabelOrIndex, $config = [])
     {
-        parent::__construct($columnLabel);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config, $columnLabelOrIndex);
     }
 }

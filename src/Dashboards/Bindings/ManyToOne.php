@@ -9,7 +9,7 @@ use \Khill\Lavacharts\Dashboards\ChartWrapper;
  *
  * Binds multiple ControlWrappers to a single ChartWrapper for use in dashboards.
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Dashboards\Bindings
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -30,9 +30,8 @@ class ManyToOne extends Binding
     /**
      * Creates the new Binding.
      *
-     * @param  array $controlWrappers
-     * @param  \Khill\Lavacharts\Dashboard\ChartWrapper $chartWrapper
-     * @return self
+     * @param  array                                     $controlWrappers
+     * @param  \Khill\Lavacharts\Dashboards\ChartWrapper $chartWrapper
      */
     public function __construct($controlWrappers, ChartWrapper $chartWrapper)
     {

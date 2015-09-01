@@ -12,7 +12,7 @@ use \Khill\Lavacharts\Exceptions\InvalidBindings;
  *
  * Creates new bindings for dashboards.
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Dashboards\Bindings
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -29,28 +29,22 @@ class BindingFactory
      * @param  mixed $arg1 One or array of many ControlWrappers
      * @param  mixed $arg2 One or array of many ChartWrappers
      * @throws \Khill\Lavacharts\Exceptions\InvalidBindings
-     * @return \Khill\Lavacharts\Dashboards\Binding
+     * @return \Khill\Lavacharts\Dashboards\Bindings\Binding
      */
     public static function create($arg1, $arg2)
     {
-        if ($arg1 instanceof ControlWrapper && $arg2 instanceof ChartWrapper)
-        {
+        $chartWrapperArrayCheck   = Utils::arrayValuesCheck($arg2, 'class', 'ChartWrapper');
+        $controlWrapperArrayCheck = Utils::arrayValuesCheck($arg1, 'class', 'ControlWrapper');
+
+        if ($arg1 instanceof ControlWrapper && $arg2 instanceof ChartWrapper) {
             return new OneToOne($arg1, $arg2);
-        }
-        else if ($arg1 instanceof ControlWrapper && Utils::arrayValuesCheck($arg2, 'class', 'ChartWrapper'))
-        {
+        } elseif ($arg1 instanceof ControlWrapper && $chartWrapperArrayCheck) {
             return new OneToMany($arg1, $arg2);
-        }
-        else if (Utils::arrayValuesCheck($arg1, 'class', 'ControlWrapper') && $arg2 instanceof ChartWrapper)
-        {
+        } elseif ($controlWrapperArrayCheck && $arg2 instanceof ChartWrapper) {
             return new ManyToOne($arg1, $arg2);
-        }
-        else if (Utils::arrayValuesCheck($arg1, 'class', 'ControlWrapper') && Utils::arrayValuesCheck($arg2, 'class', 'ChartWrapper'))
-        {
+        } elseif ($controlWrapperArrayCheck && $chartWrapperArrayCheck) {
             return new ManyToMany($arg1, $arg2);
-        }
-        else
-        {
+        } else {
             throw new InvalidBindings;
         }
     }

@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Configs;
 
+use \Khill\Lavacharts\JsonConfig;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
@@ -12,7 +14,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * set chart, which can be passed into the series property of the chart's options.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Configs
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
@@ -20,77 +22,89 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Series extends ConfigObject
+class Series extends JsonConfig
 {
     /**
-     * Alignment of the series.
-     *
-     * @var Annotation
-     */
-    public $annotation;
-
-    /**
-     * Overrides the global curveType value for this series.
+     * Type of JsonConfig object
      *
      * @var string
      */
-    public $curveType;
+    const TYPE = 'Series';
 
     /**
-     * Which axis is the target of the series definition.
+     * Default options for Series
      *
-     * @var string
+     * @var array
      */
-    public $targetAxisIndex;
-
-    /**
-     * Text style of the series.
-     *
-     * @var TextStyle
-     */
-    public $textStyle;
-
-    /**
-     * The type of marker for this series.
-     *
-     * @var string
-     */
-    public $type;
-
+    private $defaults = [
+        'annotation',
+        'areaOpacity',
+        'curveType',
+        'targetAxisIndex',
+        'textStyle',
+        'type'
+    ];
 
     /**
      * Builds the series object when passed an array of configuration options.
      *
-     * @param  array  $config Options for the series
-     * @return self
+     * @param  array $config Options for the series
+     * @return \Khill\Lavacharts\Configs\Series
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
      * An object to be applied to annotations for this series.
+     *
      * This can be used to control, for instance, the textStyle for the series.
      *
-     * @param  Annotation Style of the series annotations
+     * @param  array $annotationConfig Style of the series annotations
+     * @return \Khill\Lavacharts\Configs\Series
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function annotation(Annotation $annotation)
+    public function annotation($annotationConfig)
     {
-        if (Utils::isAnnotation($annotation)) {
-            $this->annotation = $annotation;
-        } else {
+        return $this->setOption(__FUNCTION__, new Annotation($annotationConfig));
+    }
+
+    /**
+     * Opacity, with 0.0 being fully transparent and 1.0 fully opaque.
+     *
+     * @param  float $areaOpacity
+     * @return \Khill\Lavacharts\Configs\Color
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function areaOpacity($areaOpacity)
+    {
+        if (Utils::between(0.0, $areaOpacity, 1.0, true) === false) {
             throw new InvalidConfigValue(
                 __FUNCTION__,
-                'annotation'
+                'float',
+                'between 0.0 - 1.0'
             );
         }
 
-        return $this;
+        return $this->setOption(__FUNCTION__, $areaOpacity);
     }
 
+    /**
+     * The color to use for this series.
+     *
+     * @param  string $color Valid HTML color string.
+     * @return \Khill\Lavacharts\Configs\Series
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function color($color)
+    {
+        return $this->setStringOption(__FUNCTION__, $color);
+    }
 
     /**
      * Controls the curve of the lines when the line width is not zero.
@@ -99,9 +113,9 @@ class Series extends ConfigObject
      * 'none'     - Straight lines without curve.
      * 'function' - The angles of the line will be smoothed.
      *
-     * @param  string             $curveType
+     * @param  string $curveType
+     * @return \Khill\Lavacharts\Configs\Series
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function curveType($curveType)
     {
@@ -110,19 +124,97 @@ class Series extends ConfigObject
             'function'
         ];
 
-        if (is_string($curveType) && in_array($curveType, $values)) {
-            $this->curveType = $curveType;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this;
+        return $this->setStringInArrayOption(__FUNCTION__, $curveType, $values);
     }
 
+    /**
+     * Overrides for the global Candlestick falling color options.
+     *
+     * @param  array $fallingColorConfig
+     * @return \Khill\Lavacharts\Configs\Series
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function fallingColor($fallingColorConfig)
+    {
+        return $this->setOption(__FUNCTION__, new BackgroundColor($fallingColorConfig));
+    }
+
+    public function labelInLegend($labelInLegend)
+    {
+        //TODO: what is this?
+    }
+
+    public function lineDashStyle($lineDashStyle)
+    {
+        //TODO: what is this?
+    }
+
+    /**
+     * Overrides the global lineWidth value for this series.
+     *
+     * Use zero to hide all lines and show only the points.
+     * You can override values for individual series using the series property.
+     *
+     * @param  int $width
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return \Khill\Lavacharts\Charts\Chart
+     */
+    public function lineWidth($width)
+    {
+        return $this->sestIntOption(__FUNCTION__, $width);
+    }
+
+    /**
+     * Overrides the global pointShape value for this series.
+     *
+     * Available values are:
+     * 'circle', 'triangle', 'square', 'diamond', 'star', or 'polygon'.
+     *
+     * @see    https://developers.google.com/chart/interactive/docs/points
+     * @param  string $shape Accepted values [circle|triangle|square|diamond|star|polygon]
+     * @return \Khill\Lavacharts\Configs\Series
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function pointShape($shape)
+    {
+        $values = [
+            'circle',
+            'triangle',
+            'square',
+            'diamond',
+            'star',
+            'polygon'
+        ];
+
+        return $this->setStringInArrayOption(__FUNCTION__, $shape, $values);
+    }
+
+    /**
+     * Overrides the global pointSize value for this series.
+     *
+     * Use zero to hide all points. You can override values for individual
+     * series using the series property.
+     *
+     * @param  int $size
+     * @return \Khill\Lavacharts\Configs\Series
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function pointSize($size)
+    {
+        return  $this->setIntOption(__FUNCTION__, $size);
+    }
+
+    /**
+     * Overrides for the global Candlestick color options.
+     *
+     * @param  array $risingColorConfig
+     * @return \Khill\Lavacharts\Configs\Series
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function risingColor($risingColorConfig)
+    {
+        return $this->setOption(__FUNCTION__, new BackgroundColor($risingColorConfig));
+    }
     /**
      * Which axis to assign this series to.
      *
@@ -134,32 +226,24 @@ class Series extends ConfigObject
      * At least one series much be allocated to the default axis.
      * You can define a different scale for different axes.
      *
-     * @param  integer                $index
+     * @param  int $index
+     * @return \Khill\Lavacharts\Configs\Series
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function targetAxisIndex($index)
     {
-        if (is_int($index)) {
-            $this->targetAxisIndex = $index;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this;
+        return $this->setIntOption(__FUNCTION__, $index);
     }
 
     /**
      * The default line type for any series not specified in the series property.
+     *
      * Available values are:
      * 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'
      *
-     * @param  string             $type
+     * @param  string $type
+     * @return \Khill\Lavacharts\Configs\Series
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function type($type)
     {
@@ -171,59 +255,31 @@ class Series extends ConfigObject
             'steppedArea'
         ];
 
-        if (in_array($type, $values)) {
-            $this->type = $type;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this;
+        return $this->setStringInArrayOption(__FUNCTION__, $type, $values);
     }
 
     /**
      * An object that specifies the series text style.
      *
-     * @param  TextStyle          $textStyle
+     * @deprecated
+     * @param  array $textStyleConfig
+     * @return \Khill\Lavacharts\Configs\Series
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
-    public function textStyle(TextStyle $textStyle)
+    public function textStyle($textStyleConfig)
     {
-        $this->textStyle = $textStyle;
+        return $this->addOption(__FUNCTION__, new TextStyle($textStyleConfig));
+    }
 
-        return $this;
+    /**
+     * Whether the series should have a legend entry or not.
+     *
+     * @param bool $visibleInLegend
+     * @return \Khill\Lavacharts\Configs\Series
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function visibleInLegend($visibleInLegend)
+    {
+        return $this->setBoolOption(__FUNCTION__, $visibleInLegend);
     }
 }
-
-/*
-
-[x] annotations - :An object to be applied to annotations for this series. This can be used to control, for instance, the textStyle for the series
-series: {
-  0: {
-    annotations: {
-      textStyle: {fontSize: 12, color: 'red' }
-    }
-  }
-}   See the various annotations options for a more complete list of what can be customized.
-
-[ ] areaOpacity - Overrides the global areaOpacity for this series.
-[ ] color - The color to use for this series. Specify a valid HTML color string.
-[x] curveType - Overrides the global curveType value for this series.
-[ ] fallingColor.fill - Overrides the global candlestick.fallingColor.fill value for this series.
-[ ] fallingColor.stroke - Overrides the global candlestick.fallingColor.stroke value for this series.
-[ ] fallingColor.strokeWidth - Overrides the global candlestick.fallingColor.strokeWidth value for this series.
-[ ] lineWidth - Overrides the global lineWidth value for this series.
-[ ] pointShape - Overrides the global pointShape value for this series.
-[ ] pointSize - Overrides the global pointSize value for this series.
-[ ] risingColor.fill - Overrides the global candlestick.risingColor.fill value for this series.
-[ ] risingColor.stroke - Overrides the global candlestick.risingColor.stroke value for this series.
-[ ] risingColor.strokeWidth - Overrides the global candlestick.risingColor.strokeWidth value for this series.
-[x] targetAxisIndex - Which axis to assign this series to, where 0 is the default axis, and 1 is the opposite axis. Default value is 0; set to 1 to define a chart where different series are rendered against different axes. At least one series much be allocated to the default axis. You can define a different scale for different axes.
-[x] type - The type of marker for this series. Valid values are 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'. Note that bars are actually vertical bars (columns). The default value is specified by the chart's seriesType option.
-[ ] visibleInLegend - A bool value, where true means that the series should have a legend entry, and false means that it should not. Default is true.
-
-*/

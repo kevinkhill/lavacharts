@@ -2,17 +2,12 @@
 
 namespace Khill\Lavacharts\Dashboards\Bindings;
 
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Dashboards\ChartWrapper;
-use \Khill\Lavacharts\Dashboards\ControlWrapper;
-use \Khill\Lavacharts\Exceptions\InvalidLabel;
-
 /**
  * Parent Binding Class
  *
  * Binds a ControlWrapper to a ChartWrapper to use in dashboards.
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Dashboards\Bindings
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -24,25 +19,24 @@ use \Khill\Lavacharts\Exceptions\InvalidLabel;
 class Binding
 {
     /**
-     * ControlWrappers to bind to ChartWrappers.
+     * Array of ControlWrappers.
      *
      * @var array
      */
     protected $controlWrappers;
 
     /**
-     * ChartWrappers with to bound ControlWrappers.
+     * Array of ChartWrappers.
      *
      * @var array
      */
     protected $chartWrappers;
 
     /**
-     * Creates the new Binding.
+     * Assigns the wrappers and creates the new Binding.
      *
-     * @param  array $chartWrappers
-     * @param  array $controlWrappers
-     * @return self
+     * @param array $chartWrappers
+     * @param array $controlWrappers
      */
     public function __construct($controlWrappers, $chartWrappers)
     {
@@ -53,7 +47,7 @@ class Binding
     /**
      * Get the ChartWrappers
      *
-     * @return mixed
+     * @return array
      */
     public function getChartWrappers()
     {
@@ -63,7 +57,7 @@ class Binding
     /**
      * Get the ControlWrappers
      *
-     * @return mixed
+     * @return array
      */
     public function getControlWrappers()
     {

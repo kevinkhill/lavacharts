@@ -7,7 +7,7 @@ namespace Khill\Lavacharts\Dashboards\Bindings;
  *
  * Binds multiple ControlWrappers to a multiple ChartWrapper for use in dashboards.
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Dashboards\Bindings
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -30,7 +30,6 @@ class ManyToMany extends Binding
      *
      * @param  array $chartWrappers
      * @param  array $controlWrappers
-     * @return self
      */
     public function __construct($controlWrappers, $chartWrappers)
     {

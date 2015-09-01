@@ -13,12 +13,6 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
         $this->bgc = new BackgroundColor;
     }
 
-    public function testConstructorDefaults()
-    {
-        $this->assertNull($this->bgc->stroke);
-        $this->assertNull($this->bgc->strokeWidth);
-    }
-
     public function testConstructorValuesAssignment()
     {
         $backgroundColor = new BackgroundColor([
@@ -28,7 +22,7 @@ class BackgroundColorTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->assertEquals('#E3D5F2', $backgroundColor->stroke);
-        $this->assertEquals(6, $backgroundColor->strokeWidth);
+        $this->assertEquals(6,         $backgroundColor->strokeWidth);
         $this->assertEquals('#B0C9E3', $backgroundColor->fill);
     }
 

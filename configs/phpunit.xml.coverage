@@ -11,27 +11,27 @@
 >
   <testsuites>
     <testsuite name="core">
-      <file>../tests/JavascriptFactoryTest.php</file>
       <file>../tests/LavachartsTest.php</file>
       <file>../tests/VolcanoTest.php</file>
+      <file>../tests/OptionsTest.php</file>
     </testsuite>
     <testsuite name="charts">
       <directory>../tests/Charts/</directory>
     </testsuite>
-    <testsuite name="dashboard">
-      <directory>../tests/Dashboard/</directory>
-    </testsuite>
     <testsuite name="configs">
       <directory>../tests/Configs/</directory>
+    </testsuite>
+    <testsuite name="dashboards">
+      <directory>../tests/Dashboards/</directory>
+    </testsuite>
+    <testsuite name="datatables">
+      <directory>../tests/DataTables/</directory>
     </testsuite>
     <testsuite name="events">
       <directory>../tests/Events/</directory>
     </testsuite>
-    <testsuite name="formats">
-      <directory>../tests/Formats/</directory>
-    </testsuite>
-    <testsuite name="filters">
-      <directory>../tests/Filters/</directory>
+    <testsuite name="javascript">
+      <directory>../tests/Javascript/</directory>
     </testsuite>
     <testsuite name="utils">
       <directory>../tests/Utils/</directory>
@@ -42,8 +42,13 @@
   </testsuites>
 
   <filter>
+    <whitelist>
+      <directory>../src/</directory>
+    </whitelist>
     <blacklist>
+      <directory>../tests/Renders/</directory>
       <directory>../vendor/</directory>
+      <directory>../src/Laravel/</directory>
     </blacklist>
   </filter>
 

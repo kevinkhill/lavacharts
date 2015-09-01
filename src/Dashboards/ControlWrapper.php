@@ -10,7 +10,7 @@ use \Khill\Lavacharts\Dashboards\Filters\Filter;
  *
  * Used for building controls for dashboards.
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Dashboards
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -29,50 +29,15 @@ class ControlWrapper extends Wrapper
     const VIZ_CLASS = 'google.visualization.ControlWrapper';
 
     /**
-     * Array of options for the Control.
-     *
-     * @var array
-     */
-    private $options;
-
-    /**
-     * Filter used in the Control.
-     *
-     * @var \Khill\Lavacharts\Dashboards\Filters\Filter
-     */
-    private $controlType;
-
-    /**
      * Builds a ControlWrapper object.
      *
-     * @param  \Khill\Lavacharts\Charts\Chart $chart
      * @param  \Khill\Lavacharts\Dashboards\Filters\Filter $filter
-     * @param  string $containerId
-     * @return self
+     * @param  \Khill\Lavacharts\Values\ElementId          $containerId
      */
     public function __construct(Filter $filter, ElementId $containerId)
     {
         parent::__construct($containerId);
 
-        $this->type        = $filter::TYPE;
-        $this->controlType = $filter;
-    }
-
-    /**
-     * Custom serialization of the ControlWrapper.
-     *
-     * @return array
-     */
-    public function jsonSerialize() {
-        return [
-            'controlType' => $this->type,
-            'containerId' => (string) $this->containerId,
-            'options' => [ //@TODO: make options classes
-                'filterColumnLabel' => $this->controlType->columnLabel,
-                /*'ui' => [
-                    'labelStacking' => 'vertical'
-                ]*/
-            ]
-        ];
+        $this->wrappedObject = $filter;
     }
 }

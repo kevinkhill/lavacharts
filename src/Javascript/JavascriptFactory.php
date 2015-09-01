@@ -10,10 +10,10 @@ use \Khill\Lavacharts\Dashboards\Dashboard;
  * JavascriptFactory Class
  *
  * This class takes charts and uses all the info to build the complete
- * javascript blocks for outputing into the page.
+ * javascript blocks for outputting into the page.
  *
  * @category   Class
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Javascript
  * @since      2.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>

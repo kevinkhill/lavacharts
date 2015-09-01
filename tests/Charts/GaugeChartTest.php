@@ -2,10 +2,11 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\GaugeChart;
 use \Mockery as m;
 
-class GaugeChartTest extends ChartTestCase
+class GaugeChartTest extends ProvidersTestCase
 {
     public function setUp()
     {
@@ -23,9 +24,7 @@ class GaugeChartTest extends ChartTestCase
 
     public function testTypeGaugeChart()
     {
-        $chart = $this->GaugeChart;
-
-        $this->assertEquals('GaugeChart', $chart::TYPE);
+        $this->assertEquals('GaugeChart', $this->GaugeChart->getType());
     }
 
     public function testLabelAssignedViaConstructor()
@@ -33,27 +32,11 @@ class GaugeChartTest extends ChartTestCase
         $this->assertEquals('Temps', (string) $this->GaugeChart->getLabel());
     }
 
-    public function testForceIFrame()
-    {
-        $this->GaugeChart->forceIFrame(true);
-
-        $this->assertTrue($this->GaugeChart->getOption('forceIFrame'));
-    }
-
-    /**
-     * @dataProvider nonBoolProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testForceIFrameWithBadType($badTypes)
-    {
-        $this->GaugeChart->forceIFrame($badTypes);
-    }
-
     public function testGreenColor()
     {
         $this->GaugeChart->greenColor('#FE9BC5');
 
-        $this->assertEquals('#FE9BC5', $this->GaugeChart->getOption('greenColor'));
+        $this->assertEquals('#FE9BC5', $this->GaugeChart->greenColor);
     }
 
     /**
@@ -69,7 +52,7 @@ class GaugeChartTest extends ChartTestCase
     {
         $this->GaugeChart->greenFrom(0);
 
-        $this->assertEquals(0, $this->GaugeChart->getOption('greenFrom'));
+        $this->assertEquals(0, $this->GaugeChart->greenFrom);
     }
 
     /**
@@ -85,7 +68,7 @@ class GaugeChartTest extends ChartTestCase
     {
         $this->GaugeChart->greenTo(100);
 
-        $this->assertEquals(100, $this->GaugeChart->getOption('greenTo'));
+        $this->assertEquals(100, $this->GaugeChart->greenTo);
     }
 
     /**
@@ -108,7 +91,7 @@ class GaugeChartTest extends ChartTestCase
 
         $this->GaugeChart->majorTicks($ticks);
 
-        $this->assertEquals($ticks, $this->GaugeChart->getOption('majorTicks'));
+        $this->assertEquals($ticks, $this->GaugeChart->majorTicks);
     }
 
     /**
@@ -124,7 +107,7 @@ class GaugeChartTest extends ChartTestCase
     {
         $this->GaugeChart->max(100);
 
-        $this->assertEquals(100, $this->GaugeChart->getOption('max'));
+        $this->assertEquals(100, $this->GaugeChart->max);
     }
 
     /**
@@ -140,7 +123,7 @@ class GaugeChartTest extends ChartTestCase
     {
         $this->GaugeChart->min(1);
 
-        $this->assertEquals(1, $this->GaugeChart->getOption('min'));
+        $this->assertEquals(1, $this->GaugeChart->min);
     }
 
     /**
@@ -156,7 +139,7 @@ class GaugeChartTest extends ChartTestCase
     {
         $this->GaugeChart->minorTicks(5);
 
-        $this->assertEquals(5, $this->GaugeChart->getOption('minorTicks'));
+        $this->assertEquals(5, $this->GaugeChart->minorTicks);
     }
 
     /**
@@ -172,7 +155,7 @@ class GaugeChartTest extends ChartTestCase
     {
         $this->GaugeChart->redColor('#43F9C1');
 
-        $this->assertEquals('#43F9C1', $this->GaugeChart->getOption('redColor'));
+        $this->assertEquals('#43F9C1', $this->GaugeChart->redColor);
     }
 
     /**
@@ -188,7 +171,7 @@ class GaugeChartTest extends ChartTestCase
     {
         $this->GaugeChart->redFrom(0);
 
-        $this->assertEquals(0, $this->GaugeChart->getOption('redFrom'));
+        $this->assertEquals(0, $this->GaugeChart->redFrom);
     }
 
     /**
@@ -204,7 +187,7 @@ class GaugeChartTest extends ChartTestCase
     {
         $this->GaugeChart->redTo(100);
 
-        $this->assertEquals(100, $this->GaugeChart->getOption('redTo'));
+        $this->assertEquals(100, $this->GaugeChart->redTo);
     }
 
     /**
@@ -220,7 +203,7 @@ class GaugeChartTest extends ChartTestCase
     {
         $this->GaugeChart->yellowColor('#00FB3C');
 
-        $this->assertEquals('#00FB3C', $this->GaugeChart->getOption('yellowColor'));
+        $this->assertEquals('#00FB3C', $this->GaugeChart->yellowColor);
     }
 
     /**
@@ -236,7 +219,7 @@ class GaugeChartTest extends ChartTestCase
     {
         $this->GaugeChart->yellowFrom(0);
 
-        $this->assertEquals(0, $this->GaugeChart->getOption('yellowFrom'));
+        $this->assertEquals(0, $this->GaugeChart->yellowFrom);
     }
 
     /**
@@ -252,7 +235,7 @@ class GaugeChartTest extends ChartTestCase
     {
         $this->GaugeChart->yellowTo(100);
 
-        $this->assertEquals(100, $this->GaugeChart->getOption('yellowTo'));
+        $this->assertEquals(100, $this->GaugeChart->yellowTo);
     }
 
     /**

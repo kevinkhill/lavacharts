@@ -2,17 +2,15 @@
 
 namespace Khill\Lavacharts\Dashboards\Bindings;
 
-use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Dashboards\ChartWrapper;
 use \Khill\Lavacharts\Dashboards\ControlWrapper;
-use \Khill\Lavacharts\Exceptions\InvalidLabel;
 
 /**
  * Binding Class
  *
  * Binds a single ControlWrapper to a single ChartWrapper for use in dashboards.
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Dashboards\Bindings
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -33,9 +31,8 @@ class OneToOne extends Binding
     /**
      * Creates the new Binding.
      *
-     * @param  \Khill\Lavacharts\Dashboards\ChartWrapper   $chartWrap
-     * @param  \Khill\Lavacharts\Dashboards\ControlWrapper $controlWrap
-     * @return self
+     * @param \Khill\Lavacharts\Dashboards\ControlWrapper $controlWrapper
+     * @param \Khill\Lavacharts\Dashboards\ChartWrapper   $chartWrapper
      */
     public function __construct(ControlWrapper $controlWrapper, ChartWrapper $chartWrapper)
     {

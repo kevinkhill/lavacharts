@@ -30,14 +30,6 @@ trait FocusTargetTrait
             'category'
         ];
 
-        if (in_array($focusTarget, $values, true) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'must be one of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $focusTarget]);
+        return $this->setStringInArrayOption(__FUNCTION__, $focusTarget, $values);
     }
 }

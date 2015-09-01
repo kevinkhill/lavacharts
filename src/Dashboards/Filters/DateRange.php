@@ -2,10 +2,12 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
+use \Khill\Lavacharts\Options;
+
 /**
  * Date Range Class
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Dashboards\Filters
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -13,6 +15,7 @@ namespace Khill\Lavacharts\Dashboards\Filters;
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
+ * @see        https://developers.google.com/chart/interactive/docs/gallery/controls#googlevisualizationdaterangefilter
  */
 class DateRange extends Filter
 {
@@ -24,12 +27,28 @@ class DateRange extends Filter
     const TYPE = 'DateRangeFilter';
 
     /**
-     * Creates the new Filter object to filter the given column label.
+     * DateRange specific default options.
      *
-     * @param string $columnLabel
+     * @var array
      */
-    public function __construct($columnLabel)
+    private $extDefaults = [
+        'minValue',
+        'maxValue'
+    ];
+
+    /**
+     * Creates the new Filter object to filter the given column label or index.
+     *
+     * @param  string|int $columnLabelOrIndex The column label or index to filter.
+     * @param  array $config Array of options to set.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function __construct($columnLabelOrIndex, $config = [])
     {
-        parent::__construct($columnLabel);
+        $options = new Options($this->defaults);
+        $options->extend($this->extDefaults);
+
+        parent::__construct($options, $config, $columnLabelOrIndex);
     }
 }

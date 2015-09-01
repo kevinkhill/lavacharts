@@ -15,13 +15,6 @@ class ColorTest extends ProvidersTestCase
         $this->c = new Color;
     }
 
-    public function testConstructorDefaults()
-    {
-        $this->assertNull($this->c->color);
-        $this->assertNull($this->c->backgroundColor);
-        $this->assertNull($this->c->opacity);
-    }
-
     public function testConstructorValuesAssignment()
     {
         $colorAxis = new Color([

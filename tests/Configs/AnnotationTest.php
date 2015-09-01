@@ -8,23 +8,13 @@ use \Mockery as m;
 
 class AnnotationTest extends ProvidersTestCase
 {
+    public $Annotation;
+
     public function setUp()
     {
         parent::setUp();
 
-        $this->a = new Annotation;
-
-        $this->mockTextStyle = $this->getMock(
-            '\Khill\Lavacharts\Configs\TextStyle',
-            ['__construct']
-        );
-    }
-
-    public function testConstructorDefaults()
-    {
-        $this->assertNull($this->a->alwaysOutside);
-        $this->assertNull($this->a->highContrast);
-        $this->assertNull($this->a->textStyle);
+        $this->Annotation = new Annotation;
     }
 
     public function testConstructorValuesAssignment()
@@ -32,7 +22,10 @@ class AnnotationTest extends ProvidersTestCase
         $annotation = new Annotation([
             'alwaysOutside' => true,
             'highContrast'  => false,
-            'textStyle'     => $this->mockTextStyle
+            'textStyle'     => [
+                'fontName' => 'Arial',
+                'fontSize' => 20
+            ]
         ]);
 
         $this->assertTrue($annotation->alwaysOutside);
@@ -54,7 +47,7 @@ class AnnotationTest extends ProvidersTestCase
      */
     public function testAlwaysOutsideWithBadParams($badVals)
     {
-        $this->a->alwaysOutside($badVals);
+        $this->Annotation->alwaysOutside($badVals);
     }
 
     /**
@@ -63,14 +56,23 @@ class AnnotationTest extends ProvidersTestCase
      */
     public function testHighContrastWithBadParams($badVals)
     {
-        $this->a->highContrast($badVals);
+        $this->Annotation->highContrast($badVals);
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error
+     * @dataProvider nonArrayProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function testTextStyleWithNonTextStyle()
+    public function testTextStyleWithBadParams($badVals)
     {
-        $this->a->textStyle('This is not a TextStyle Object');
+        $this->Annotation->textStyle($badVals);
+    }
+
+    /**
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     */
+    public function testTextStyleWithBadArrayConfig()
+    {
+        $this->Annotation->textStyle(['NotAReal'=>'ConfigOption']);
     }
 }

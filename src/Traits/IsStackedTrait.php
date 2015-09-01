@@ -7,19 +7,12 @@ trait IsStackedTrait
     /**
      * If set to true, series elements are stacked.
      *
-     * @param  boolean $isStacked
+     * @param  bool $isStacked
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return \Khill\Lavacharts\Charts\Chart
      */
     public function isStacked($isStacked)
     {
-        if (is_bool($isStacked) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $isStacked]);
+        return $this->setBoolOption(__FUNCTION__, $isStacked);
     }
 }

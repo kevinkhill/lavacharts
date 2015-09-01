@@ -15,7 +15,23 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->partialDataTable = m::mock('Khill\Lavacharts\Configs\DataTable')->makePartial();
+        $this->partialDataTable = m::mock('Khill\Lavacharts\DataTables\DataTable')->makePartial();
+    }
+
+    /**
+     * Uses reflection to retrieve private member variables from objects.
+     *
+     * @param  Class $obj
+     * @param  string $prop
+     * @return mixed
+     */
+    public function getPrivateProperty($obj, $prop)
+    {
+        $refObj = new \ReflectionClass($obj);
+        $refProp = $refObj->getProperty($prop);
+        $refProp->setAccessible(true);
+
+        return $refProp->getValue($obj);
     }
 
     public function nonIntOrPercentProvider()
@@ -26,6 +42,17 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
             [false],
             [[]],
             [new \stdClass]
+        ];
+    }
+
+    public function nonCarbonOrDateStringProvider()
+    {
+        return [
+            [9],
+            [14.6342],
+            [true],
+            [false],
+            [new \stdClass()]
         ];
     }
 

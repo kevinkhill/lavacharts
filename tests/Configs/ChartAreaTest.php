@@ -13,14 +13,6 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
         $this->ca = new ChartArea;
     }
 
-    public function testConstructorDefaults()
-    {
-        $this->assertNull($this->ca->left);
-        $this->assertNull($this->ca->top);
-        $this->assertNull($this->ca->width);
-        $this->assertNull($this->ca->height);
-    }
-
     public function testConstructorWithIntsValuesAssignment()
     {
         $chartArea = new ChartArea([

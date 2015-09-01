@@ -3,17 +3,17 @@
 namespace Khill\Lavacharts\Javascript;
 
 use \Khill\Lavacharts\Values\ElementId;
-use \Khill\Lavacharts\Configs\DataTable;
+use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Dashboards\Dashboard;
 
 /**
- * DashboardGenerator Class
+ * DashboardFactory Class
  *
  * This class takes Chart and Control Wrappers and uses all of the info to build the complete
  * javascript blocks for outputting into the page.
  *
  * @category   Class
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Javascript
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -33,12 +33,11 @@ class DashboardFactory extends JavascriptFactory
 
 
     /**
-     * Creates a new ChartFactory with the javascript template.
+     * Creates a new DashboardFactory with the javascript template.
      *
      * @access public
-     * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to process
-     * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to output into.
-     * @return self
+     * @param \Khill\Lavacharts\Dashboards\Dashboard $dashboard
+     * @param  \Khill\Lavacharts\Values\ElementId    $elementId HTML element id to output into.
      */
     public function __construct(Dashboard $dashboard, ElementId $elementId)
     {
@@ -52,7 +51,6 @@ class DashboardFactory extends JavascriptFactory
      * Builds the Javascript code block for a Dashboard
      *
      * @access private
-     * @param  \Khill\Lavacharts\Dashboards\Dashboard $dashboard
      * @return string Javascript code block.
      */
     private function getTemplateVars()
@@ -85,20 +83,6 @@ class DashboardFactory extends JavascriptFactory
     }
 
     /**
-     * Process the charts to retrieve the datatables for a Dashboard.
-     *
-     * Turns the charts' datatables into new Google DataTable Objects.
-     *
-     * @access public
-     * @param  \Khill\Lavacharts\Dashboards\Dashboard $dashboard
-     * @return string
-     */
-    public function processCharts(Dashboard $dashboard)
-    {
-        $output = '';
-    }
-
-    /**
      * Process all the bindings for a Dashboard.
      *
      * Turns the chart and control wrappers into new Google Visualization Objects.
@@ -116,22 +100,22 @@ class DashboardFactory extends JavascriptFactory
                 case 'OneToOne':
                     $controls = $binding->getControlWrappers()[0]->toJavascript();
                     $charts   = $binding->getChartWrappers()[0]->toJavascript();
-                break;
+                    break;
 
                 case 'OneToMany':
                     $controls = $binding->getControlWrappers()[0]->toJavascript();
                     $charts   = $this->mapWrapperArray($binding->getChartWrappers());
-                break;
+                    break;
 
                 case 'ManyToOne':
                     $controls = $this->mapWrapperArray($binding->getControlWrappers());
                     $charts   = $binding->getChartWrappers()[0]->toJavascript();
-                break;
+                    break;
 
                 case 'ManyToMany':
                     $controls = $this->mapWrapperArray($binding->getControlWrappers());
                     $charts   = $this->mapWrapperArray($binding->getChartWrappers());
-                break;
+                    break;
             }
 
             $output .= sprintf('$this.dashboard.bind(%s, %s);', $controls, $charts);
@@ -164,8 +148,7 @@ class DashboardFactory extends JavascriptFactory
      */
     private function getTemplate()
     {
-        return
-<<<'DASH'
+        return <<<'DASH'
         //Checking if dashboard div exists
         if (! document.getElementById("<elemId>")) {
             throw new Error('[Lavacharts] No matching element was found with ID "<elemId>"');

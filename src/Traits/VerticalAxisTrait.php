@@ -12,11 +12,11 @@ trait VerticalAxisTrait
      * To specify properties of this property, create a new VerticalAxis object,
      * set the values then pass it to this function or to the constructor.
      *
-     * @param  \Khill\Lavacharts\Configs\VerticalAxis $vAxis
+     * @param  array $verticalAxisConfig
      * @return \Khill\Lavacharts\Charts\Chart
      */
-    public function vAxis(VerticalAxis $vAxis)
+    public function vAxis($verticalAxisConfig)
     {
-        return $this->addOption($vAxis->toArray(__FUNCTION__));
+        return $this->setOption(__FUNCTION__, new VerticalAxis($verticalAxisConfig));
     }
 }

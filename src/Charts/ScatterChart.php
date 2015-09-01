@@ -3,7 +3,8 @@
 namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Configs\DataTable;
+use \Khill\Lavacharts\Options;
+use \Khill\Lavacharts\DataTables\DataTable;
 
 /**
  * ScatterChart Class
@@ -15,7 +16,7 @@ use \Khill\Lavacharts\Configs\DataTable;
  * Use the series property to specify properties of each series individually.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Charts
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -76,34 +77,41 @@ class ScatterChart extends Chart
     const VIZ_CLASS = 'google.visualization.ScatterChart';
 
     /**
-     * Builds a new chart with the given label.
+     * Default configuration options for the chart.
      *
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\Configs\DataTable $datatable Datatable used for the chart.
-     * @return self
+     * @var array
      */
-    public function __construct(Label $chartLabel, DataTable $datatable)
-    {
-        parent::__construct($chartLabel, $datatable);
+    private $scatterDefaults = [
+        'annotations',
+        'axisTitlesPosition',
+        'crosshair',
+        'curveType',
+        'dataOpacity',
+        'enableInteractivity',
+        'forceIFrame',
+        'hAxis',
+        'lineWidth',
+        'orientation',
+        'pointShape',
+        'pointSize',
+        'reverseCategories',
+        'selectionMode',
+        'series',
+        'theme',
+        'vAxis'
+    ];
 
-        $this->extraOptions = [
-            'annotations',
-            'axisTitlesPosition',
-            'crosshair',
-            'curveType',
-            'dataOpacity',
-            'enableInteractivity',
-            'forceIFrame',
-            'hAxis',
-            'lineWidth',
-            'orientation',
-            'pointShape',
-            'pointSize',
-            'reverseCategories',
-            'selectionMode',
-            'series',
-            'theme',
-            'vAxis'
-        ];
+    /**
+     * Builds a new ScatterChart with the given label, datatable and options.
+     *
+     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @param array                                   $config
+     */
+    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
+    {
+        $options = new Options($this->scatterDefaults);
+
+        parent::__construct($chartLabel, $datatable, $options, $config);
     }
 }

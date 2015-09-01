@@ -4,16 +4,16 @@ namespace Khill\Lavacharts\Javascript;
 
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Configs\DataTable;
+use \Khill\Lavacharts\DataTables\DataTable;
 
 /**
  * ChartFactory Class
  *
  * This class takes Charts and uses all of the info to build the complete
- * javascript blocks for outputing into the page.
+ * javascript blocks for outputting into the page.
  *
  * @category   Class
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Javascript
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -56,7 +56,7 @@ class ChartFactory extends JavascriptFactory
      */
     private function getTemplateVars()
     {
-        $chart = $this->chart; //stupid no :: on member vars
+        $chart = $this->chart; // Workaround for no :: on member vars in php54
 
         $vars = [
             'chartLabel'   => (string) $this->chart->getLabel(),
@@ -64,8 +64,8 @@ class ChartFactory extends JavascriptFactory
             'chartVer'     => $chart::VERSION,
             'chartClass'   => $chart::VIZ_CLASS,
             'chartPackage' => $chart::VIZ_PACKAGE,
-            'chartData'    => $this->chart->getDataTableJson(),
-            'chartOptions' => $this->chart->optionsToJson(),
+            'chartData'    => json_encode($this->chart->getDataTable()),
+            'chartOptions' => json_encode($this->chart),
             'elemId'       => (string) $this->elementId,
             'dataVer'      => DataTable::VERSION,
             'dataClass'    => DataTable::VIZ_CLASS,
@@ -73,7 +73,7 @@ class ChartFactory extends JavascriptFactory
             'events'       => ''
         ];
 
-        if ($this->chart->getDataTable()->hasFormats()) {
+        if ($this->chart->getDataTable()->hasFormattedColumns()) {
             $vars['formats'] = $this->buildFormatters();
         }
 
@@ -88,7 +88,6 @@ class ChartFactory extends JavascriptFactory
      * Builds the javascript object of event callbacks.
      *
      * @access private
-     * @param  Chart  $chart
      * @return string Javascript code block.
      */
     private function buildEventCallbacks()
@@ -96,15 +95,12 @@ class ChartFactory extends JavascriptFactory
         $output = '';
         $events = $this->chart->getEvents();
 
-        foreach ($events as $event) {
-            $callback = sprintf(
-                'function (event) {return lava.event(event, lavachart.chart, %s);}',
-                $event->callback
-            );
-
+        foreach ($events as $event => $callback) {
             $output .= sprintf(
-                'google.visualization.events.addListener(lavachart.chart, "%s", %s);',
-                $event::TYPE,
+                'google.visualization.events.addListener($this.chart, "%1$s", function (event) {'.
+                '    return lava.event(event, $this.chart, %2$s);'.
+                '});',
+                $event,
                 $callback
             ).PHP_EOL.PHP_EOL;
         }
@@ -116,26 +112,23 @@ class ChartFactory extends JavascriptFactory
      * Builds the javascript for the datatable column formatters.
      *
      * @access private
-     * @param  Chart  $chart
      * @return string Javascript code block.
      */
     private function buildFormatters()
     {
         $output = '';
-        $formats = $this->chart->getDataTable()->getFormats();
+        $columns = $this->chart->getDataTable()->getFormattedColumns();
 
-        foreach ($formats as $index => $format) {
+        foreach ($columns as $index => $column) {
+            $format = $column->getFormat();
+
             $output .= sprintf(
-                'lavachart.formats["col%s"] = new google.visualization.%s(%s);',
+                '$this.formats["col%1$s"] = new google.visualization.%2$s(%3$s);' .
+                '$this.formats["col%1$s"].format($this.data, %1$s);',
                 $index,
-                $format::TYPE,
-                $format->toJson()
+                $format->getType(),
+                json_encode($format)
             ).PHP_EOL;
-
-            $output .= sprintf(
-                'lavachart.formats["col%1$s"].format(lavachart.data, %1$s);',
-                $index
-            ).PHP_EOL.PHP_EOL;
         }
 
         return $output;
@@ -150,8 +143,7 @@ class ChartFactory extends JavascriptFactory
      */
     private function getTemplate()
     {
-        return
-<<<'CHART'
+        return <<<'CHART'
         /**
          * If the object does not exist for a given chart type, initialize it.
          * This will prevent overriding keys when multiple charts of the same

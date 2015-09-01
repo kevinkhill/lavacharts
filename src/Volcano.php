@@ -14,7 +14,7 @@ use \Khill\Lavacharts\Exceptions\DashboardNotFound;
  * Storage class that holds all defined charts and dashboards.
  *
  * @category  Class
- * @package   Lavacharts
+ * @package   Khill\Lavacharts
  * @since     2.0.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2015, KHill Designs

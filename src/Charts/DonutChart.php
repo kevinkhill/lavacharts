@@ -4,7 +4,9 @@ namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Configs\DataTable;
+use \Khill\Lavacharts\Options;
+use \Khill\Lavacharts\DataTables\DataTable;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * DonutChart Class
@@ -13,7 +15,7 @@ use \Khill\Lavacharts\Configs\DataTable;
  * tooltips when hovering over slices.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Charts
  * @since      1.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -52,27 +54,33 @@ class DonutChart extends PieChart
      */
     const VIZ_CLASS = 'google.visualization.PieChart';
 
+    private $donutDefaults = [
+        'pieHole'
+    ];
+
     /**
-     * Builds a new chart with the given label.
+     * Builds a new chart with the given label and DataTable.
      *
      * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\Configs\DataTable $datatable Datatable used for the chart.
-     * @return self
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @param  array $config Array of options to set for the chart.
+     * @return \Khill\Lavacharts\Charts\DonutChart
      */
-    public function __construct(Label $chartLabel, DataTable $datatable)
+    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
     {
-        parent::__construct($chartLabel, $datatable);
+        $options = new Options($this->donutDefaults);
+        $options->set('pieHole', 0.5);
 
-        $this->defaults = array_merge($this->defaults, [
-            'pieHole'
-        ]);
+        parent::__construct($chartLabel, $datatable, $config);
 
-        $this->pieHole(0.5);
+        $this->options->merge($options);
     }
 
     /**
-     * If between 0 and 1, displays a donut chart. The hole with have a radius
-     * equal to $pieHole times the radius of the chart.
+     * If between 0 and 1, displays a donut chart.
+     *
+     * The hole with have a radius equal to $pieHole times the radius of the chart.
+     *
      *
      * @param  integer|float  $pieHole Size of the pie hole.
      * @return DonutChart
@@ -80,13 +88,13 @@ class DonutChart extends PieChart
     public function pieHole($pieHole)
     {
         if (Utils::between(0.0, $pieHole, 1.0) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
                 'float',
                 'while, 0 < pieHole < 1 '
             );
         }
 
-        return $this->addOption([__FUNCTION__ => $pieHole]);
+        return $this->setOption(__FUNCTION__, $pieHole);
     }
 }

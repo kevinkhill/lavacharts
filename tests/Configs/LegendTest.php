@@ -8,34 +8,31 @@ use \Mockery as m;
 
 class LegendTest extends ProvidersTestCase
 {
+    public $Legend;
+
     public function setUp()
     {
         parent::setUp();
 
-        $this->l = new Legend();
-
-        $this->mockTextStyle = $this->getMock(
-            '\Khill\Lavacharts\Configs\TextStyle',
-            ['__construct']
-        );
+        $this->Legend = new Legend();
     }
 
     public function testPositionWithValidValues()
     {
-        $this->l->position('right');
-        $this->assertEquals('right', $this->l->position);
+        $this->Legend->position('right');
+        $this->assertEquals('right', $this->Legend->position);
 
-        $this->l->position('top');
-        $this->assertEquals('top', $this->l->position);
+        $this->Legend->position('top');
+        $this->assertEquals('top', $this->Legend->position);
 
-        $this->l->position('bottom');
-        $this->assertEquals('bottom', $this->l->position);
+        $this->Legend->position('bottom');
+        $this->assertEquals('bottom', $this->Legend->position);
 
-        $this->l->position('in');
-        $this->assertEquals('in', $this->l->position);
+        $this->Legend->position('in');
+        $this->assertEquals('in', $this->Legend->position);
 
-        $this->l->position('none');
-        $this->assertEquals('none', $this->l->position);
+        $this->Legend->position('none');
+        $this->assertEquals('none', $this->Legend->position);
     }
 
     /**
@@ -43,7 +40,7 @@ class LegendTest extends ProvidersTestCase
      */
     public function testPositionWithBadValue()
     {
-        $this->l->position('underneath');
+        $this->Legend->position('underneath');
     }
 
     /**
@@ -52,19 +49,19 @@ class LegendTest extends ProvidersTestCase
      */
     public function testPositionWithBadTypes($badTypes)
     {
-        $this->l->position($badTypes);
+        $this->Legend->position($badTypes);
     }
 
     public function testAlignmentWithValidValues()
     {
-        $this->l->alignment('start');
-        $this->assertEquals('start', $this->l->alignment);
+        $this->Legend->alignment('start');
+        $this->assertEquals('start', $this->Legend->alignment);
 
-        $this->l->alignment('center');
-        $this->assertEquals('center', $this->l->alignment);
+        $this->Legend->alignment('center');
+        $this->assertEquals('center', $this->Legend->alignment);
 
-        $this->l->alignment('end');
-        $this->assertEquals('end', $this->l->alignment);
+        $this->Legend->alignment('end');
+        $this->assertEquals('end', $this->Legend->alignment);
     }
 
     /**
@@ -72,7 +69,7 @@ class LegendTest extends ProvidersTestCase
      */
     public function testAlignmentWithBadValue()
     {
-        $this->l->alignment('yesterday');
+        $this->Legend->alignment('yesterday');
     }
 
     /**
@@ -81,27 +78,15 @@ class LegendTest extends ProvidersTestCase
      */
     public function testAlignmentWithBadTypes($badTypes)
     {
-        $this->l->alignment($badTypes);
+        $this->Legend->alignment($badTypes);
     }
 
     public function testTextStyleWithValidConfigObject()
     {
-/*
-        $mockTextStyle = $this->getMock(
-            '\Khill\Lavacharts\Configs\TextStyle',
-            array('__construct')
-        );*/
-        $textStyleVals = [
-            'color'    => 'blue',
-            'fontName' => 'Arial',
-            'fontSize' => 16
-        ];
+        $this->Legend->textStyle([
+            'fontSize' => 20
+        ]);
 
-        $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
-        $mockTextStyle->shouldReceive('getValues')->once()->andReturn($textStyleVals);
-
-        $this->l->textStyle($mockTextStyle);
-
-        $this->assertEquals($textStyleVals, $this->l->textStyle);
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\TextStyle', $this->Legend->textStyle);
     }
 }

@@ -4,7 +4,8 @@ namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Configs\DataTable;
+use \Khill\Lavacharts\Options;
+use \Khill\Lavacharts\DataTables\DataTable;
 
 /**
  * ComboChart Class
@@ -16,7 +17,7 @@ use \Khill\Lavacharts\Configs\DataTable;
  * Use the series property to specify properties of each series individually.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Charts
  * @since      2.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -83,42 +84,49 @@ class ComboChart extends Chart
     const VIZ_CLASS = 'google.visualization.ComboChart';
 
     /**
-     * Builds a new chart with the given label.
+     * Default configuration options for the chart.
      *
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\Configs\DataTable $datatable Datatable used for the chart.
-     * @return self
+     * @var array
      */
-    public function __construct(Label $chartLabel, DataTable $datatable)
-    {
-        parent::__construct($chartLabel, $datatable);
+    private $comboDefaults = [
+        'annotations',
+        'areaOpacity',
+        'axisTitlesPosition',
+        'barGroupWidth',
+        'crosshair',
+        'curveType',
+        'dataOpacity',
+        'enableInteractivity',
+        'focusTarget',
+        'forceIFrame',
+        'hAxis',
+        'interpolateNulls',
+        'isStacked',
+        'lineWidth',
+        'orientation',
+        'pointShape',
+        'pointSize',
+        'reverseCategories',
+        'selectionMode',
+        'series',
+        'seriesType',
+        'theme',
+        'vAxes',
+        'vAxis'
+    ];
 
-        $this->defaults = array_merge([
-            'annotations',
-            'areaOpacity',
-            'axisTitlesPosition',
-            'barGroupWidth',
-            'crosshair',
-            'curveType',
-            'dataOpacity',
-            'enableInteractivity',
-            'focusTarget',
-            'forceIFrame',
-            'hAxis',
-            'interpolateNulls',
-            'isStacked',
-            'lineWidth',
-            'orientation',
-            'pointShape',
-            'pointSize',
-            'reverseCategories',
-            'selectionMode',
-            'series',
-            'seriesType',
-            'theme',
-            'vAxes',
-            'vAxis'
-        ], $this->defaults);
+    /**
+     * Builds a new ComboChart with the given label, datatable and options.
+     *
+     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @param array                                   $config
+     */
+    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
+    {
+        $options = new Options($this->comboDefaults);
+
+        parent::__construct($chartLabel, $datatable, $options, $config);
     }
 
     /**

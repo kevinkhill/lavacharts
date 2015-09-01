@@ -4,7 +4,7 @@ namespace Khill\Lavacharts\Exceptions;
 
 class InvalidElementId extends \Exception
 {
-    public function __construct($invalidElementId='', $code = 0)
+    public function __construct($invalidElementId = '', $code = 0)
     {
         if (is_string($invalidElementId)) {
             $message = 'ElementIds cannot be blank, must be a non-empty string.';
