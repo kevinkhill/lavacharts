@@ -37,11 +37,12 @@ before_install:
   - nvm install 0.10
   - nvm use 0.10
   - npm config set spin false
+  - composer selfupdate
 
 install:
   - npm install karma karma-jasmine karma-phantomjs-launcher jasmine-core
-  #- composer install --no-progress
-  - composer update --prefer-lowest
+  - composer install --no-progress
+  #- composer update --prefer-lowest
 
 before_script:
   - echo 'date.timezone = "America/Los_Angeles"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
