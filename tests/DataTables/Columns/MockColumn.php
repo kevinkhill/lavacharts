@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\DataTables;
+namespace Khill\Lavacharts\Tests\DataTables\Columns;
 
 use \Khill\Lavacharts\DataTables\Columns\Column;
 

@@ -61,7 +61,7 @@ class RowFactory
         }
 
         if ($valueArray === null || is_array($valueArray) === true && empty($valueArray) === true) {
-            return $this->getNullRow();
+            return new NullRow($this->datatable->getColumnCount());
         }
 
         $cellCount   = count($valueArray);
@@ -89,15 +89,5 @@ class RowFactory
         }
 
         return new Row($rowData);
-    }
-
-    /**
-     * Creates a new NullRow
-     *
-     * @return \Khill\Lavacharts\DataTables\Rows\NullRow
-     */
-    public function getNullRow()
-    {
-        return new NullRow($this->datatable->getColumnCount());
     }
 }

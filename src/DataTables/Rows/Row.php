@@ -28,7 +28,7 @@ class Row implements \JsonSerializable
      *
      * @var array
      */
-    private $values;
+    protected $values;
 
     /**
      * Creates a new Row object with the given values.
@@ -56,15 +56,15 @@ class Row implements \JsonSerializable
      */
     public function getColumnValue($columnIndex)
     {
-        try {
-            return $this->values[$columnIndex];
-        } catch (\Exception $e) {
+        if (is_int($columnIndex) === false || isset($this->values[$columnIndex]) === false) {
             throw new InvalidColumnIndex($columnIndex, count($this->values));
         }
+
+        return $this->values[$columnIndex];
     }
 
     /**
-     * Custom json serialization of the column.
+     * Custom json serialization of the row.
      *
      * @access public
      * @return array
@@ -73,7 +73,7 @@ class Row implements \JsonSerializable
     {
         return [
             'c' => array_map(function ($cellValue) {
-                return ['v' => $cellValue];
+                return [ 'v' => $cellValue ];
             }, $this->values)
         ];
     }

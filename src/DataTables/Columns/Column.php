@@ -23,6 +23,13 @@ use Khill\Lavacharts\Utils;
 class Column implements \JsonSerializable
 {
     /**
+     * Column type.
+     *
+     * @var string
+     */
+    protected $type = '';
+
+    /**
      * Column label.
      *
      * @var string
@@ -54,11 +61,14 @@ class Column implements \JsonSerializable
      * Creates a new Column with the defined label.
      *
      * @access public
+     * @param  string $type Type of Column
      * @param  string $label Column label (optional).
-     * @param  string $id    Column ID (optional).
+     * @param  string $id Column ID (optional).
+     * @throws \Khill\Lavacharts\DataTables\Columns\InvalidColumnRole
      */
-    public function __construct($label = '', $id = '')
+    public function __construct($type, $label = '', $id = '')
     {
+        $this->type  = $type;
         $this->label = $label;
         $this->id    = $id;
     }
@@ -71,7 +81,7 @@ class Column implements \JsonSerializable
      */
     public function getType()
     {
-        return static::TYPE;
+        return $this->type;
     }
 
     /**
@@ -166,15 +176,15 @@ class Column implements \JsonSerializable
     public function jsonSerialize()
     {
         $values = [
-            'type'  => static::TYPE
+            'type' => $this->type
         ];
 
         if (Utils::nonEmptyString($this->label) === true) {
-            $values['label'] = (string)$this->label;
+            $values['label'] = (string) $this->label;
         }
 
         if (Utils::nonEmptyString($this->id) === true) {
-            $values['id'] = (string)$this->id;
+            $values['id'] = (string) $this->id;
         }
 
         if ($this->role instanceof ColumnRole) {

@@ -55,7 +55,7 @@ class ColumnFactory
      * Creates a new column object.
      *
      * @access public
-     * @since 3.0.0
+     * @since  3.0.0
      * @param  string $type Type of column to create.
      * @param  string $label A label for the column.
      * @param  \Khill\Lavacharts\DataTables\Formats\Format $format Column formatter for the data.
@@ -71,17 +71,7 @@ class ColumnFactory
             throw new InvalidColumnType($type, self::$columnTypes);
         }
 
-        if ($type == 'datetime') {
-            $type = 'dateTime';
-        }
-
-        if ($type == 'timeofday') {
-            $type = 'timeOfDay';
-        }
-
-        $columnType = __NAMESPACE__ . '\\' . ucfirst($type) . 'Column';
-
-        $column = new $columnType($label);
+        $column = new Column($type, $label);
 
         if ($format instanceof Format) {
             $column->setFormat($format);

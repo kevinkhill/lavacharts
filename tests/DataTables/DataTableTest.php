@@ -11,7 +11,7 @@ class DataTableTest extends ProvidersTestCase
 {
     public $DataTable;
 
-    public $columnClassNames = [
+    public $fullColumnNames = [
         'BooleanColumn',
         'NumberColumn',
         'StringColumn',
@@ -58,11 +58,11 @@ class DataTableTest extends ProvidersTestCase
         }, $this->columnTypes);
     }
 
-    public function columnClassProvider()
+    public function columnNameProvider()
     {
-        return array_map(function ($columnType) {
-            return [$columnType];
-        }, $this->columnClassNames);
+        return array_map(function ($columnName) {
+            return [$columnName];
+        }, $this->fullColumnNames);
     }
 
     public function columnTypeAndLabelProvider()
@@ -209,7 +209,7 @@ class DataTableTest extends ProvidersTestCase
 
         $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
 
-        $this->assertInstanceOf($this->getClassName($columnType), $column);
+        $this->assertEquals($columnType, $this->getPrivateProperty($column, 'type'));
     }
 
     /**
@@ -222,7 +222,7 @@ class DataTableTest extends ProvidersTestCase
 
         $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
 
-        $this->assertInstanceOf($this->getClassName($columnType), $column);
+        $this->assertEquals($columnType, $this->getPrivateProperty($column, 'type'));
     }
 
     /**
@@ -237,7 +237,7 @@ class DataTableTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider columnClassProvider
+     * @dataProvider columnNameProvider
      * @covers \Khill\Lavacharts\DataTables\DataTable::addBooleanColumn
      * @covers \Khill\Lavacharts\DataTables\DataTable::addStringColumn
      * @covers \Khill\Lavacharts\DataTables\DataTable::addNumberColumn
@@ -251,7 +251,9 @@ class DataTableTest extends ProvidersTestCase
 
         $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
 
-        $this->assertInstanceOf('\\Khill\Lavacharts\\DataTables\\Columns\\' . $className, $column);
+        $type = strtolower(str_replace('Column', '', $className));
+
+        $this->assertEquals($type, $this->getPrivateProperty($column, 'type'));
     }
 
     /**
@@ -370,7 +372,7 @@ class DataTableTest extends ProvidersTestCase
 
         $row = $this->getPrivateProperty($this->DataTable, 'rows')[0];
 
-        $this->assertEquals(null, $row->getColumnValue(0));
+        $this->assertNull($this->getPrivateProperty($row, 'values')[0]);
     }
 
     /**
@@ -383,7 +385,7 @@ class DataTableTest extends ProvidersTestCase
 
         $row = $this->getPrivateProperty($this->DataTable, 'rows')[0];
 
-        $this->assertEquals(null, $row->getColumnValue(0));
+        $this->assertNull($this->getPrivateProperty($row, 'values')[0]);
     }
 
     /**
@@ -584,7 +586,7 @@ class DataTableTest extends ProvidersTestCase
 
         $column = $this->DataTable->getColumn(1);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Columns\NumberColumn', $column);
+        $this->assertEquals('number', $this->getPrivateProperty($column, 'type'));
     }
 
     /**
@@ -597,8 +599,8 @@ class DataTableTest extends ProvidersTestCase
 
         $columns = $this->DataTable->getColumns();
 
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Columns\DateColumn', $columns[0]);
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Columns\NumberColumn', $columns[1]);
+        $this->assertEquals('date', $this->getPrivateProperty($columns[0], 'type'));
+        $this->assertEquals('number', $this->getPrivateProperty($columns[1], 'type'));
     }
 
     /**
@@ -688,12 +690,6 @@ class DataTableTest extends ProvidersTestCase
 
         $this->assertEquals('"Date(1988,2,24,8,1,5)"', json_encode($row->getColumnValue(0)));
     }
-
-
-
-    /********************************************************************************************
-     * Tests
-     ********************************************************************************************/
 }
 
 

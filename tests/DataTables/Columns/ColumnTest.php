@@ -1,11 +1,10 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\DataTables;
+namespace Khill\Lavacharts\Tests\DataTables\Columns;
 
-use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Carbon\Carbon;
 use \Mockery as m;
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
+use \Khill\Lavacharts\DataTables\Columns\Column;
 
 class ColumnTest extends ProvidersTestCase
 {
@@ -15,7 +14,7 @@ class ColumnTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->MockColumn = new MockColumn('MyLabel', 'new_col_1');
+        $this->MockColumn = new Column('number', 'MyLabel', 'new_col_1');
     }
 
     /**
@@ -23,6 +22,7 @@ class ColumnTest extends ProvidersTestCase
      */
     public function testConstructorForLabelAndId()
     {
+        $this->assertEquals('number', $this->getPrivateProperty($this->MockColumn, 'type'));
         $this->assertEquals('MyLabel', $this->getPrivateProperty($this->MockColumn, 'label'));
         $this->assertEquals('new_col_1', $this->getPrivateProperty($this->MockColumn, 'id'));
     }
@@ -32,7 +32,7 @@ class ColumnTest extends ProvidersTestCase
      */
     public function testGetType()
     {
-        $this->assertEquals('mock', $this->MockColumn->getType());
+        $this->assertEquals('number', $this->MockColumn->getType());
     }
 
     /**
@@ -131,7 +131,7 @@ class ColumnTest extends ProvidersTestCase
 
         $this->MockColumn->setRole($mockRole);
 
-        $json = '{"type":"mock","label":"MyLabel","id":"new_col_1","p":{"role":"interval"}}';
+        $json = '{"type":"number","label":"MyLabel","id":"new_col_1","p":{"role":"interval"}}';
 
         $this->assertEquals($json, json_encode($this->MockColumn));
     }
