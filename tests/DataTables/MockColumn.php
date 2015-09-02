@@ -12,15 +12,4 @@ class MockColumn extends Column
      * @var string
      */
     const TYPE = 'mock';
-
-    /**
-     * Creates a new column object.
-     *
-     * @access public
-     * @param  string $label Label for the column.
-     */
-    public function __construct($label = '')
-    {
-        parent::__construct($label);
-    }
 }

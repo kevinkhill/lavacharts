@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\DataTables\Columns;
 
 use \Khill\Lavacharts\DataTables\Formats\Format;
+use Khill\Lavacharts\Utils;
 
 /**
  * Column Object
@@ -54,6 +55,7 @@ class Column implements \JsonSerializable
      *
      * @access public
      * @param  string $label Column label (optional).
+     * @param  string $id    Column ID (optional).
      */
     public function __construct($label = '', $id = '')
     {
@@ -164,16 +166,17 @@ class Column implements \JsonSerializable
     public function jsonSerialize()
     {
         $values = [
-            'type'  => static::TYPE,
-            'label' => (string) $this->label,
-            'id'    => (string) $this->id,
+            'type'  => static::TYPE
         ];
-/*
-        TODO: fix and check for formatters
-        if ($this->format instanceof Format) {
-            $values['f'] = $this->format;
+
+        if (Utils::nonEmptyString($this->label) === true) {
+            $values['label'] = (string)$this->label;
         }
-*/
+
+        if (Utils::nonEmptyString($this->id) === true) {
+            $values['id'] = (string)$this->id;
+        }
+
         if ($this->role instanceof ColumnRole) {
             $values['p'] = $this->role;
         }
