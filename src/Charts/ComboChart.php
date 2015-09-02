@@ -131,7 +131,7 @@ class ComboChart extends Chart
     public function barGroupWidth($b)
     {
         if (Utils::isIntOrPercent($b)) {
-            return $this->addOption(array(__FUNCTION__ => array('groupWidth' => $b)));
+            return $this->addOption(array('bar' => array('groupWidth' => $b)));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
