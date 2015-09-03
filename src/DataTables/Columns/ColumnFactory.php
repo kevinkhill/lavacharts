@@ -25,11 +25,11 @@ use \Khill\Lavacharts\Exceptions\InvalidColumnType;
 class ColumnFactory
 {
     /**
-     * Valid column roles
+     * Valid column types
      *
      * @var array
      */
-    private static $columnTypes = [
+    public static $TYPES = [
         'role',
         'string',
         'number',
@@ -44,7 +44,7 @@ class ColumnFactory
      *
      * @var array
      */
-    private static $columnRoles = [
+    public static $ROLES = [
         'annotation',
         'annotationText',
         'certainty',
@@ -60,7 +60,7 @@ class ColumnFactory
      *
      * @var array
      */
-    private static $columnDesc = [
+    public static $desc = [
         'type',
         'label',
         'id',
@@ -83,8 +83,8 @@ class ColumnFactory
      */
     public static function create($type, $label = '', Format $format = null, $role = '')
     {
-        if (Utils::nonEmptyStringInArray($type, self::$columnTypes) === false) {
-            throw new InvalidColumnType($type, self::$columnTypes);
+        if (Utils::nonEmptyStringInArray($type, self::$TYPES) === false) {
+            throw new InvalidColumnType($type, self::$TYPES);
         }
 
         $columnArgs = [$type];
@@ -101,8 +101,8 @@ class ColumnFactory
             $columnArgs[] = null;
         }
 
-        if (is_string($role) === false || ($role != '' && in_array($role, self::$columnRoles, true) === false)) {
-            throw new InvalidColumnRole($role, self::$columnRoles);
+        if (is_string($role) === false || ($role != '' && in_array($role, self::$ROLES, true) === false)) {
+            throw new InvalidColumnRole($role, self::$ROLES);
         }
 
         $columnArgs[] = $role;

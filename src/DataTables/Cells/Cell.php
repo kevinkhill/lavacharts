@@ -1,13 +1,12 @@
 <?php
 
-namespace Khill\Lavacharts\DataTables;
+namespace Khill\Lavacharts\DataTables\Cells;
 
 /**
  * DataCell Object
  *
  * Holds the information for a data point
  *
- * @codeCoverageIgnore
  * @package    Khill\Lavacharts
  * @subpackage DataTables
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -16,28 +15,28 @@ namespace Khill\Lavacharts\DataTables;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class DataCell implements \JsonSerializable
+class Cell implements \JsonSerializable
 {
     /**
      * The cell value.
      *
      * @var string
      */
-    public $v;
+    protected $v;
 
     /**
      * A string version of the v value. (Optional)
      *
      * @var string
      */
-    public $f;
+    protected $f;
 
     /**
      * An object that is a map of custom values applied to the cell. (Optional)
      *
      * @var string
      */
-    public $p;
+    protected $p;
 
     /**
      * Defines a DataCell for a DataTable

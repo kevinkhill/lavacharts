@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\DataTables;
+namespace Khill\Lavacharts\DataTables\Cells;
 
 use \Carbon\Carbon;
 use \Khill\Lavacharts\Utils;
@@ -21,7 +21,7 @@ use \Khill\Lavacharts\Exceptions\InvalidDateTimeString;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class DateCell extends DataCell
+class DateCell extends Cell
 {
     /**
      * Creates a new DateCell object from a Carbon object.

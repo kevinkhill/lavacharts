@@ -2,16 +2,17 @@
 
 namespace Khill\Lavacharts\DataTables;
 
-use Khill\Lavacharts\Exceptions\InvalidColumnFormat;
+use Khill\Lavacharts\Exceptions\InvalidColumnType;
 use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\DataTables\Cells\Cell;
+use \Khill\Lavacharts\DataTables\Formats\Format;
 use \Khill\Lavacharts\DataTables\Rows\RowFactory;
 use \Khill\Lavacharts\DataTables\Columns\ColumnFactory;
-use \Khill\Lavacharts\DataTables\Formats\Format;
 use \Khill\Lavacharts\Exceptions\InvalidJson;
+use \Khill\Lavacharts\Exceptions\InvalidTimeZone;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use \Khill\Lavacharts\Exceptions\InvalidRowProperty;
-use \Khill\Lavacharts\Exceptions\InvalidTimeZone;
 
 /**
  * The DataTable object is used to hold the data passed into a visualization.
@@ -118,14 +119,14 @@ class DataTable implements \JsonSerializable
      *
      * @access public
      * @since  3.0.0
-     * @param  mixed $v Value of the Cell
-     * @param  null  $f Formatted version of the cell, as a string
-     * @param  null  $p Cell specific customization options
+     * @param  mixed  $v Value of the Cell
+     * @param  string $f Formatted version of the cell, as a string
+     * @param  string $p Cell specific customization options
      * @return \Khill\Lavacharts\DataTables\DataCell
      */
-    public static function cell($v, $f = null, $p = null)
+    public static function cell($v, $f = '', $p = '')
     {
-        return new DataCell($v, $f, $p);
+        return new Cell($v, $f, $p);
     }
 
     /**
@@ -542,21 +543,23 @@ class DataTable implements \JsonSerializable
      * with null for the first two cells, you would specify [null, null, {cell_val}].
      *
      * @access public
-     * @param  mixed $cellArray Array of values or DataCells.
+     * @param  array $cellArray Array of values or DataCells.
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      */
-    public function addRow($cellArray = null)
+    public function addRow($cellArray = [])
     {
         if (Utils::arrayIsMulti($cellArray) === false) {
             $this->rows[] = $this->rowFactory->create($cellArray);
         } else {//TODO: timeofday cells
-            $timeOfDayIndex = $this->getColumnIndexByType('timeofday');
+            $timeOfDayColumns = $this->getColumnsByType('timeofday');
 
-            if ($timeOfDayIndex !== false) {
-                $rowValues = $this->parseTimeOfDayRow($cellArray);
+            if (count($timeOfDayColumns) > 0) {
+                foreach ($timeOfDayColumns as $cell) {
+                    $rowValues = $this->parseTimeOfDayRow($cellArray);
+                }
             } else {
                 $rowValues = $this->parseExtendedCellArray($cellArray);
             }
@@ -714,16 +717,28 @@ class DataTable implements \JsonSerializable
     }
 
     /**
-     * Returns the column number from the type of columns currently defined.
+     * Returns the columns whos type match the given value.
      *
      * @access public
-     * @since  2.5.2
+     * @since  3.0.0
      * @param  string $type
-     * @return bool|int Column index on success, false on failure.
+     * @return array
      */
-    public function getColumnIndexByType($type)
+    public function getColumnsByType($type)
     {
-        return array_search($type, $this->getColumnTypes());
+        if (Utils::nonEmptyStringInArray($type, ColumnFactory::$TYPES) === false) {
+            throw new InvalidColumnType($type, ColumnFactory::$TYPES);
+        }
+
+        $indices = [];
+
+        foreach ($this->cols as $index => $column) {
+            if ($type === $column->getType()) {
+                $indices[$index] = $column;
+            }
+        }
+
+        return $indices;
     }
 
     /**
@@ -789,7 +804,7 @@ class DataTable implements \JsonSerializable
      * @return array
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowProperty
      */
-    protected function parseExtendedCellArray($cellArray)
+    protected function parseExtendedCellArray($cellArray) //TODO: what is going on here
     {
         foreach ($cellArray as $prop => $value) {
             if (in_array($value, ['v', 'f', 'p']) === false) {
@@ -809,7 +824,7 @@ class DataTable implements \JsonSerializable
      * @param  array $cellArray
      * @return array
      */
-    protected function parseTimeOfDayRow($cellArray)
+    protected function parseTimeOfDayRow($cellArray) //TODO: what is going on here
     {
         foreach ($cellArray as $cell) {
             $rowValues[] = ['v' => $cell];

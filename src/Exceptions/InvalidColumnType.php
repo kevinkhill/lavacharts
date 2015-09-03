@@ -12,7 +12,7 @@ class InvalidColumnType extends \Exception
             $message  = gettype($invalidType) . ' is not a valid column type.';
         }
 
-        $message .= 'Must one of [ ' . implode(' | ', $acceptedTypes) . ']';
+        $message .= ' Must one of [ ' . implode(' | ', $acceptedTypes) . ' ]';
 
         parent::__construct($message, $code);
     }

@@ -159,7 +159,7 @@ class DataTableTest extends ProvidersTestCase
     {
         $cell = DataTable::cell(5);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\DataCell', $cell);
+        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Cells\Cell', $cell);
     }
 
     /**
@@ -537,14 +537,13 @@ class DataTableTest extends ProvidersTestCase
 
     /**
      * @depends testAddColumnViaNamedAlias
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidRowProperty
      * @covers \Khill\Lavacharts\DataTables\DataTable::addRow
      */
     public function testAddRowWithEmptyArray()
     {
         $this->DataTable->addDateColumn();
 
-        $this->DataTable->addRow([[]]);
+        $this->DataTable->addRow([]);
     }
 
     /**
@@ -849,9 +848,9 @@ class DataTableTest extends ProvidersTestCase
 
         $this->assertEquals('date', $this->DataTable->getColumnType(0));
     }
+
     /**
      * @depends testAddColumnByType
-     * @depends testAddColumnByTypeInArray
      * @dataProvider columnTypeProvider
      */
     public function testGetColumnTypeWithIndex($type)
@@ -861,6 +860,30 @@ class DataTableTest extends ProvidersTestCase
         $this->assertEquals($type, $this->DataTable->getColumnType(0));
     }
 
+    /**
+     * @depends testAddColumnViaNamedAlias
+     */
+    public function testGetColumnsByType()
+    {
+        $this->DataTable->addDateColumn();
+        $this->DataTable->addNumberColumn();
+
+        $this->assertEquals([0], array_keys($this->DataTable->getColumnsByType('date')));
+        $this->assertEquals([1], array_keys($this->DataTable->getColumnsByType('number')));
+    }
+
+    /**
+     * @depends testAddColumnViaNamedAlias
+     */
+    public function testGetColumnsByTypeWithDuplicateTypes()
+    {
+        $this->DataTable->addDateColumn();
+        $this->DataTable->addNumberColumn();
+        $this->DataTable->addNumberColumn();
+
+        $this->assertTrue(is_array($this->DataTable->getColumnsByType('number')));
+        $this->assertEquals([1,2], array_keys($this->DataTable->getColumnsByType('number')));
+    }
 
     /**
      * @depends testAddColumnViaNamedAlias
