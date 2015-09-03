@@ -21,7 +21,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
     /**
      * Uses reflection to retrieve private member variables from objects.
      *
-     * @param  Class $obj
+     * @param  object $obj
      * @param  string $prop
      * @return mixed
      */
