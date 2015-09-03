@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\DataTables\Rows;
 
 use Carbon\Carbon;
-use \Khill\Lavacharts\DataTables\DateCell;
+use \Khill\Lavacharts\DataTables\Cells\DateCell;
 use \Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 
 /**

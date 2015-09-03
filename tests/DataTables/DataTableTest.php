@@ -887,7 +887,7 @@ class DataTableTest extends ProvidersTestCase
 
     /**
      * @depends testAddColumnViaNamedAlias
-     * @covers \Khill\Lavacharts\DataTables\DateCell::parseString
+     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::parseString
      */
     public function testDateCellParseString()
     {
@@ -904,7 +904,7 @@ class DataTableTest extends ProvidersTestCase
      * @depends testAddColumnViaNamedAlias
      * @depends testSetDateTimeFormat
      * @depends testAddRowWithDate
-     * @covers \Khill\Lavacharts\DataTables\DateCell::parseString
+     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::parseString
      */
     public function testDateCellParseStringWithFormat()
     {
@@ -926,7 +926,7 @@ class DataTableTest extends ProvidersTestCase
      * @depends testSetDateTimeFormat
      * @depends testAddRowWithDate
      * @expectedException \Khill\Lavacharts\Exceptions\FailedCarbonParsing
-     * @covers \Khill\Lavacharts\DataTables\DateCell::parseString
+     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::parseString
      */
     public function testDateCellParseStringWithBadString()
     {
@@ -941,7 +941,7 @@ class DataTableTest extends ProvidersTestCase
     /**
      * @depends testAddColumnViaNamedAlias
      * @depends testAddRowWithDate
-     * @covers \Khill\Lavacharts\DataTables\DateCell::jsonSerialize
+     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::jsonSerialize
      */
     public function testJsonSerializationOfDateCells()
     {

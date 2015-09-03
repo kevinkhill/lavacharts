@@ -35,7 +35,7 @@ class RowTest extends ProvidersTestCase
 
         $values = $this->getPrivateProperty($row, 'values');
 
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\DateCell', $values[0]);
+        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Cells\DateCell', $values[0]);
         $this->assertEquals(1, $values[1]);
         $this->assertEquals(2.0, $values[2]);
     }
@@ -50,7 +50,7 @@ class RowTest extends ProvidersTestCase
 
         $row = new Row([$mockCarbon, 1, 2.0]);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\DateCell', $row->getColumnValue(0));
+        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Cells\DateCell', $row->getColumnValue(0));
         $this->assertEquals(1, $row->getColumnValue(1));
         $this->assertEquals(2.0, $row->getColumnValue(2));
     }
