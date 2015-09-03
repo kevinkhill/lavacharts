@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables;
 
+use Khill\Lavacharts\Exceptions\InvalidColumnFormat;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\DataTables\Rows\RowFactory;
 use \Khill\Lavacharts\DataTables\Columns\ColumnFactory;
@@ -269,7 +270,7 @@ class DataTable implements \JsonSerializable
      *
      *
      * @access public
-     * @param  mixed $typeOrDescArr Column type or an array describing the column.
+     * @param  mixed $typeOrColDescArr Column type or an array describing the column.
      * @param  string $label A label for the column. (Optional)
      * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object. (Optional)
      * @param  string $role A role for the column. (Optional)
@@ -277,16 +278,16 @@ class DataTable implements \JsonSerializable
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
-    public function addColumn($typeOrDescArr, $label = '', /*$optId = '',*/ Format $format = null, $role = '')
+    public function addColumn($typeOrColDescArr, $label = '', Format $format = null, $role = '')
     {
-        if (is_array($typeOrDescArr)) {
-            call_user_func_array([$this, 'createColumnFromStrings'], $typeOrDescArr);
-        } elseif (is_string($typeOrDescArr)) {
-            $this->createColumnFromStrings($typeOrDescArr, $label, /*$optId,*/ $format, $role);
+        if (is_array($typeOrColDescArr)) {
+            call_user_func_array([$this, 'createColumnWithParams'], $typeOrColDescArr);
+        } elseif (is_string($typeOrColDescArr)) {
+            $this->createColumnWithParams($typeOrColDescArr, $label, $format, $role);
         } else {
             throw new InvalidConfigValue(
                 __FUNCTION__,
-                'string or array'
+                'string|array'
             );
         }
 
@@ -311,7 +312,7 @@ class DataTable implements \JsonSerializable
         }
 
         foreach ($arrayOfColumns as $columnArray) {
-            call_user_func_array([$this, 'createColumnFromStrings'], $columnArray);
+            call_user_func_array([$this, 'createColumnWithParams'], $columnArray);
         }
 
         return $this;
@@ -332,7 +333,7 @@ class DataTable implements \JsonSerializable
      */
     public function addBooleanColumn($label = '', Format $format = null, $role = '')
     {
-        return $this->createColumnFromStrings('boolean', $label, $format, $role);
+        return $this->createColumnWithParams('boolean', $label, $format, $role);
     }
 
     /**
@@ -348,7 +349,7 @@ class DataTable implements \JsonSerializable
      */
     public function addStringColumn($label = '', Format $format = null, $role = '')
     {
-        return $this->createColumnFromStrings('string', $label, $format, $role);
+        return $this->createColumnWithParams('string', $label, $format, $role);
     }
 
     /**
@@ -364,7 +365,7 @@ class DataTable implements \JsonSerializable
      */
     public function addDateColumn($label = '', Format $format = null, $role = '')
     {
-        return $this->createColumnFromStrings('date', $label, $format, $role);
+        return $this->createColumnWithParams('date', $label, $format, $role);
     }
 
     /**
@@ -381,7 +382,7 @@ class DataTable implements \JsonSerializable
      */
     public function addDateTimeColumn($label = '', Format $format = null, $role = '')
     {
-        return $this->createColumnFromStrings('datetime', $label, $format, $role);
+        return $this->createColumnWithParams('datetime', $label, $format, $role);
     }
 
     /**
@@ -398,7 +399,7 @@ class DataTable implements \JsonSerializable
      */
     public function addTimeOfDayColumn($label = '', Format $format = null, $role = '')
     {
-        return $this->createColumnFromStrings('timeofday', $label, $format, $role);
+        return $this->createColumnWithParams('timeofday', $label, $format, $role);
     }
 
     /**
@@ -414,7 +415,7 @@ class DataTable implements \JsonSerializable
      */
     public function addNumberColumn($label = '', Format $format = null, $role = '')
     {
-        return $this->createColumnFromStrings('number', $label, $format, $role);
+        return $this->createColumnWithParams('number', $label, $format, $role);
     }
 
     /**
@@ -426,10 +427,11 @@ class DataTable implements \JsonSerializable
      * @param  string $role Type of role that the data will represent.
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnRole
      */
     public function addRoleColumn($type, $role)
     {
-        return $this->createColumnFromStrings($type, '', null, $role);
+        return $this->createColumnWithParams($type, '', null, $role);
     }
 
     /**
@@ -442,7 +444,7 @@ class DataTable implements \JsonSerializable
      * @param  string $role A role for the column. (Optional)
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
-    protected function createColumnFromStrings($type, $label = '', $format = null, $role = '')
+    protected function createColumnWithParams($type, $label = '', $format = null, $role = '')
     {
         $this->cols[] = ColumnFactory::create($type, $label, $format, $role);
 
@@ -475,16 +477,16 @@ class DataTable implements \JsonSerializable
      * Sets the format of the column.
      *
      * @access public
-     * @param  integer $columnIndex
+     * @param  integer $index
      * @param  \Khill\Lavacharts\DataTables\Formats\Format $format
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
-    public function formatColumn($columnIndex, Format $format)
+    public function formatColumn($index, Format $format)
     {
-        $this->indexCheck($columnIndex);
+        $this->indexCheck($index);
 
-        $this->cols[$columnIndex]->setFormat($format);
+        $this->cols[$index] = ColumnFactory::applyFormat($this->cols[$index], $format);
 
         return $this;
     }
@@ -495,15 +497,20 @@ class DataTable implements \JsonSerializable
      * @access public
      * @param  array $colFormatArr
      * @return \Khill\Lavacharts\DataTables\DataTable
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function formatColumns($colFormatArr)
     {
-        if (is_array($colFormatArr) && ! empty($colFormatArr)) {
-            foreach ($colFormatArr as $index => $format) {
-                if ($format instanceof Format) {
-                    $this->formats[$index] = $format->toArray();
-                }
-            }
+        if (Utils::arrayValuesCheck($colFormatArr, 'class', 'Format') === false) {
+            throw new InvalidConfigValue(
+                'DataTable->' . __FUNCTION__,
+                'array',
+                'Where the keys are column indices and the values Format objects'
+            );
+        }
+
+        foreach ($colFormatArr as $index => $format) {
+            $this->formatColumn($index, $format);
         }
 
         return $this;
@@ -613,15 +620,15 @@ class DataTable implements \JsonSerializable
      *
      * @since  3.0.0
      * @access public
-     * @param  int $columnIndex
+     * @param  int $index
      * @return \Khill\Lavacharts\DataTables\Columns\Column
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
-    public function getColumn($columnIndex)
+    public function getColumn($index)
     {
-        $this->indexCheck($columnIndex);
+        $this->indexCheck($index);
 
-        return $this->cols[$columnIndex];
+        return $this->cols[$index];
     }
 
     /**
@@ -672,21 +679,6 @@ class DataTable implements \JsonSerializable
     public function getColumnType($index)
     {
         return $this->getColumn($index)->getType();
-    }
-
-    /**
-     * Returns the id of a column based on it's index.
-     *
-     * @access public
-     * @since  3.0.0
-     * @param  integer $index
-     * @return string
-     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
-     */
-
-    public function getColumnId($index)
-    {
-        return $this->getColumn($index)['id'];
     }
 
     /**
@@ -829,13 +821,13 @@ class DataTable implements \JsonSerializable
     /**
      * Used to check if a number is a valid column index of the DataTable
      *
-     * @param  int $columnIndex
+     * @param  int $index
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
-    protected function indexCheck($columnIndex)
+    protected function indexCheck($index)
     {
-        if (is_int($columnIndex) === false || isset($this->cols[$columnIndex]) === false) {
-            throw new InvalidColumnIndex($columnIndex, count($this->cols));
+        if (is_int($index) === false || isset($this->cols[$index]) === false) {
+            throw new InvalidColumnIndex($index, count($this->cols));
         }
     }
 }

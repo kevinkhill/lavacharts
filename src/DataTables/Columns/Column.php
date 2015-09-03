@@ -35,21 +35,21 @@ class Column implements \JsonSerializable
      *
      * @var string
      */
-    protected $label;
+    protected $label = '';
 
     /**
      * Column formatter.
      *
      * @var \Khill\Lavacharts\DataTables\Formats\Format
      */
-    protected $format;
+    protected $format = null;
 
     /**
      * Column role.
      *
      * @var string
      */
-    protected $role;
+    protected $role = '';
 
     /**
      * Creates a new Column with the defined label.
@@ -116,7 +116,7 @@ class Column implements \JsonSerializable
      * Returns the column role.
      *
      * @access public
-     * @return \Khill\Lavacharts\DataTables\Columns\ColumnRole
+     * @return string
      */
     public function getRole()
     {

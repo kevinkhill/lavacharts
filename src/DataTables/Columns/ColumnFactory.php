@@ -91,22 +91,36 @@ class ColumnFactory
 
         if (Utils::nonEmptyString($label) === true) {
             $columnArgs[] = $label;
+        } else {
+            $columnArgs[] = '';
         }
 
         if ($format !== null) {
             $columnArgs[] = $format;
+        } else {
+            $columnArgs[] = null;
         }
 
-        if (Utils::nonEmptyString($role) === true) {
-            if (in_array($role, self::$columnRoles) === false) {
-                throw new InvalidColumnRole($type, self::$columnRoles);
-            }
-
-            $columnArgs[] = $role;
+        if (is_string($role) === false || ($role != '' && in_array($role, self::$columnRoles, true) === false)) {
+            throw new InvalidColumnRole($role, self::$columnRoles);
         }
 
-        $columnReflection = new \ReflectionClass('\Khill\Lavacharts\DataTables\Columns\Column');
+        $columnArgs[] = $role;
 
-        return $columnReflection->newInstanceArgs($columnArgs);
+        $column = new \ReflectionClass('\Khill\Lavacharts\DataTables\Columns\Column');
+
+        return $column->newInstanceArgs($columnArgs);
+    }
+
+    /**
+     * Creates a new Column with the same values, while applying the Format.
+     *
+     * @param  \Khill\Lavacharts\DataTables\Columns\Column $column
+     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format
+     * @return \Khill\Lavacharts\DataTables\Columns\Column
+     */
+    public static function applyFormat(Column $column, Format $format)
+    {
+        return ColumnFactory::create($column->getType(), $column->getLabel(), $format, $column->getRole());
     }
 }
