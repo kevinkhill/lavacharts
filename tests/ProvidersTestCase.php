@@ -11,6 +11,15 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
      */
     protected $partialDataTable;
 
+    protected $columnTypes = [
+        'boolean',
+        'number',
+        'string',
+        'date',
+        'datetime',
+        'timeofday'
+    ];
+
     public function setUp()
     {
         parent::setUp();
@@ -32,6 +41,13 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         $refProp->setAccessible(true);
 
         return $refProp->getValue($obj);
+    }
+
+    public function columnTypeProvider()
+    {
+        return array_map(function ($columnType) {
+            return [$columnType];
+        }, $this->columnTypes);
     }
 
     public function nonIntOrPercentProvider()

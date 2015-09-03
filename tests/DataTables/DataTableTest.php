@@ -20,15 +20,6 @@ class DataTableTest extends ProvidersTestCase
         'TimeOfDayColumn'
     ];
 
-    public $columnTypes = [
-        'boolean',
-        'number',
-        'string',
-        'date',
-        'datetime',
-        'timeofday'
-    ];
-
     public $columnLabels = [
         'Admin',
         'Unique Visitors',
@@ -49,13 +40,6 @@ class DataTableTest extends ProvidersTestCase
         date_default_timezone_set($this->tzLA);
 
         $this->DataTable = new DataTable();
-    }
-
-    public function columnTypeProvider()
-    {
-        return array_map(function ($columnType) {
-            return [$columnType];
-        }, $this->columnTypes);
     }
 
     public function columnNameProvider()

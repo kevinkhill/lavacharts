@@ -332,9 +332,7 @@ class DataTable implements \JsonSerializable
      */
     public function addBooleanColumn($label = '', Format $format = null, $role = '')
     {
-        $this->cols[] = ColumnFactory::create('boolean', $label, $format, $role);
-
-        return $this;
+        return $this->createColumnFromStrings('boolean', $label, $format, $role);
     }
 
     /**
@@ -350,9 +348,7 @@ class DataTable implements \JsonSerializable
      */
     public function addStringColumn($label = '', Format $format = null, $role = '')
     {
-        $this->cols[] = ColumnFactory::create('string', $label, $format, $role);
-
-        return $this;
+        return $this->createColumnFromStrings('string', $label, $format, $role);
     }
 
     /**
@@ -368,9 +364,7 @@ class DataTable implements \JsonSerializable
      */
     public function addDateColumn($label = '', Format $format = null, $role = '')
     {
-        $this->cols[] = ColumnFactory::create('date', $label, $format, $role);
-
-        return $this;
+        return $this->createColumnFromStrings('date', $label, $format, $role);
     }
 
     /**
@@ -387,9 +381,7 @@ class DataTable implements \JsonSerializable
      */
     public function addDateTimeColumn($label = '', Format $format = null, $role = '')
     {
-        $this->cols[] = ColumnFactory::create('datetime', $label, $format, $role);
-
-        return $this;
+        return $this->createColumnFromStrings('datetime', $label, $format, $role);
     }
 
     /**
@@ -406,9 +398,7 @@ class DataTable implements \JsonSerializable
      */
     public function addTimeOfDayColumn($label = '', Format $format = null, $role = '')
     {
-        $this->cols[] = ColumnFactory::create('timeofday', $label, $format, $role);
-
-        return $this;
+        return $this->createColumnFromStrings('timeofday', $label, $format, $role);
     }
 
     /**
@@ -424,9 +414,7 @@ class DataTable implements \JsonSerializable
      */
     public function addNumberColumn($label = '', Format $format = null, $role = '')
     {
-        $this->cols[] = ColumnFactory::create('number', $label, $format, $role);
-
-        return $this;
+        return $this->createColumnFromStrings('number', $label, $format, $role);
     }
 
     /**
@@ -441,9 +429,7 @@ class DataTable implements \JsonSerializable
      */
     public function addRoleColumn($type, $role)
     {
-        $this->cols[] = ColumnFactory::create($type, '', null, $role);
-
-        return $this;
+        return $this->createColumnFromStrings($type, '', null, $role);
     }
 
     /**

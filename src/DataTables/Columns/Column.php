@@ -2,8 +2,9 @@
 
 namespace Khill\Lavacharts\DataTables\Columns;
 
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\DataTables\Formats\Format;
-use Khill\Lavacharts\Utils;
 
 /**
  * Column Object
@@ -27,50 +28,44 @@ class Column implements \JsonSerializable
      *
      * @var string
      */
-    protected $type = '';
+    protected $type;
 
     /**
      * Column label.
      *
      * @var string
      */
-    protected $label = '';
-
-    /**
-     * Column ID.
-     *
-     * @var string
-     */
-    protected $id = '';
+    protected $label;
 
     /**
      * Column formatter.
      *
      * @var \Khill\Lavacharts\DataTables\Formats\Format
      */
-    protected $format = null;
+    protected $format;
 
     /**
      * Column role.
      *
      * @var string
      */
-    protected $role = null;
+    protected $role;
 
     /**
      * Creates a new Column with the defined label.
      *
      * @access public
-     * @param  string $type Type of Column
-     * @param  string $label Column label (optional).
-     * @param  string $id Column ID (optional).
-     * @throws \Khill\Lavacharts\DataTables\Columns\InvalidColumnRole
+     * @param  string                                      $type Type of Column
+     * @param  string                                      $label Column label (optional).
+     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format
+     * @param  string                                      $role Column role (optional).
      */
-    public function __construct($type, $label = '', $id = '')
+    public function __construct($type, $label = '', Format $format = null, $role = '')
     {
-        $this->type  = $type;
-        $this->label = $label;
-        $this->id    = $id;
+        $this->type   = $type;
+        $this->label  = $label;
+        $this->format = $format;
+        $this->role   = $role;
     }
 
     /**
@@ -96,31 +91,6 @@ class Column implements \JsonSerializable
     }
 
     /**
-     * Returns the column id.
-     *
-     * @access public
-     * @return string Column id.
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Sets the column formatter.
-     *
-     * @access public
-     * @return \Khill\Lavacharts\DataTables\Columns\Column
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format
-     */
-    public function setFormat(Format $format)
-    {
-        $this->format = $format;
-
-        return $this;
-    }
-
-    /**
      * Returns the column formatter.
      *
      * @access public
@@ -140,20 +110,6 @@ class Column implements \JsonSerializable
     public function isFormatted()
     {
         return ($this->format instanceof Format);
-    }
-
-    /**
-     * Sets the column formatter.
-     *
-     * @access public
-     * @return \Khill\Lavacharts\DataTables\Columns\Column
-     * @param  \Khill\Lavacharts\DataTables\Columns\ColumnRole
-     */
-    public function setRole(ColumnRole $role)
-    {
-        $this->role = $role;
-
-        return $this;
     }
 
     /**
@@ -180,15 +136,11 @@ class Column implements \JsonSerializable
         ];
 
         if (Utils::nonEmptyString($this->label) === true) {
-            $values['label'] = (string) $this->label;
+            $values['label'] = $this->label;
         }
 
-        if (Utils::nonEmptyString($this->id) === true) {
-            $values['id'] = (string) $this->id;
-        }
-
-        if ($this->role instanceof ColumnRole) {
-            $values['p'] = $this->role;
+        if (Utils::nonEmptyString($this->role) === true) {
+            $values['p'] = ['role' => $this->role];
         }
 
         return $values;
