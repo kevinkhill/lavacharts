@@ -121,10 +121,10 @@ class DataTable implements \JsonSerializable
      * @since  3.0.0
      * @param  mixed  $v Value of the Cell
      * @param  string $f Formatted version of the cell, as a string
-     * @param  string $p Cell specific customization options
+     * @param  array  $p Cell specific customization options
      * @return \Khill\Lavacharts\DataTables\DataCell
      */
-    public static function cell($v, $f = '', $p = '')
+    public static function cell($v, $f = '', $p = [])
     {
         return new Cell($v, $f, $p);
     }

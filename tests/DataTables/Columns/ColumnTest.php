@@ -33,7 +33,6 @@ class ColumnTest extends ProvidersTestCase
     {
         $column = new Column('number', 'MyLabel');
 
-        $this->assertEquals('number', $this->getPrivateProperty($column, 'type'));
         $this->assertEquals('MyLabel', $this->getPrivateProperty($column, 'label'));
     }
 
@@ -46,8 +45,6 @@ class ColumnTest extends ProvidersTestCase
         $mockFormat = m::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
         $column = new Column('number', 'MyLabel', $mockFormat);
 
-        $this->assertEquals('number', $this->getPrivateProperty($column, 'type'));
-        $this->assertEquals('MyLabel', $this->getPrivateProperty($column, 'label'));
         $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Formats\NumberFormat', $this->getPrivateProperty($column, 'format'));
     }
 
@@ -60,9 +57,6 @@ class ColumnTest extends ProvidersTestCase
         $mockFormat = m::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
         $column = new Column('number', 'MyLabel', $mockFormat, 'interval');
 
-        $this->assertEquals('number', $this->getPrivateProperty($column, 'type'));
-        $this->assertEquals('MyLabel', $this->getPrivateProperty($column, 'label'));
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Formats\NumberFormat', $this->getPrivateProperty($column, 'format'));
         $this->assertEquals('interval', $this->getPrivateProperty($column, 'role'));
     }
 

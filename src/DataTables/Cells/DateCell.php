@@ -26,11 +26,14 @@ class DateCell extends Cell
     /**
      * Creates a new DateCell object from a Carbon object.
      *
-     * @param Carbon $carbon
+     * @param  \Carbon\Carbon $carbon
+     * @param  string         $format
+     * @param  array          $options
+     * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
      */
-    public function __construct(Carbon $carbon)
+    public function __construct(Carbon $carbon, $format = '', $options = [])
     {
-        parent::__construct($carbon);
+        parent::__construct($carbon, $format, $options);
     }
 
     /**
@@ -40,17 +43,17 @@ class DateCell extends Cell
      * @throws \Khill\Lavacharts\Exceptions\FailedCarbonParsing
      * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeString
      */
-    public static function parseString($dateTimeString, $dateTimeFormat)
+    public static function parseString($dateTimeString, $dateTimeFormat = '')
     {
         if (Utils::nonEmptyString($dateTimeString) === false) {
             throw new InvalidDateTimeString($dateTimeString);
         }
 
         try {
-            if (Utils::nonEmptyString($dateTimeFormat) === true) {
-                $carbon = Carbon::createFromFormat($dateTimeFormat, $dateTimeString);
-            } else {
+            if ($dateTimeFormat === '') {
                 $carbon = Carbon::parse($dateTimeString);
+            } else {
+                $carbon = Carbon::createFromFormat($dateTimeFormat, $dateTimeString);
             }
         } catch (\Exception $e) {
             throw new FailedCarbonParsing($dateTimeString);

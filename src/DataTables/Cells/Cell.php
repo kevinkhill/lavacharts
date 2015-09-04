@@ -1,6 +1,10 @@
 <?php
 
 namespace Khill\Lavacharts\DataTables\Cells;
+use Khill\Lavacharts\Exceptions\InvalidColumnType;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidFunctionParam;
+use Khill\Lavacharts\Utils;
 
 /**
  * DataCell Object
@@ -22,21 +26,21 @@ class Cell implements \JsonSerializable
      *
      * @var string
      */
-    protected $v;
+    protected $v = null;
 
     /**
      * A string version of the v value. (Optional)
      *
      * @var string
      */
-    protected $f;
+    protected $f = '';
 
     /**
      * An object that is a map of custom values applied to the cell. (Optional)
      *
-     * @var string
+     * @var array
      */
-    protected $p;
+    protected $p = [];
 
     /**
      * Defines a DataCell for a DataTable
@@ -50,26 +54,25 @@ class Cell implements \JsonSerializable
      * assigning the values "low" "medium", and "high" as formatted values to
      * numeric cell values of 1, 2, and 3.
      *
-     * @param  string $v The cell value
-     * @param  string $f A string version of the v value
-     * @param  string $p An object that is a map of custom values applied to the cell
+     *
+     * @param  string      $v The cell value
+     * @param  string      $f A string version of the v value
+     * @param array|string $p An object that is a map of custom values applied to the cell
+     * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
      */
-    public function __construct($v = null, $f = null, $p = null)
+    public function __construct($v = null, $f = '', $p = [])
     {
-        $this->v = $v;
-        $this->f = $f;
-
-        if (is_array($p)) {
-            $vals = [];
-            foreach ($p as $k => $v) {
-                $vals[$k] = $v;
-            }
-            $this->p = $vals;
-        } else {
-            $this->p = $p;
+        if (is_string($f) === false) {
+            throw new InvalidFunctionParam($f, __FUNCTION__, 'string');
         }
 
-        return $this;
+        if (is_array($p) === false) {
+            throw new InvalidFunctionParam($p, __FUNCTION__, 'array');
+        }
+
+        $this->v = $v;
+        $this->f = $f;
+        $this->p = $p;
     }
 
     /**
@@ -109,18 +112,18 @@ class Cell implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        $output = [];
+        $json = [];
 
-        if ($this->v != null) {
-            $output['v'] = $this->v;
+        if (is_null($this->v) === false) {
+            $json['v'] = $this->v;
         }
-        if ($this->f != null) {
-            $output['f'] = $this->f;
+        if (empty($this->f) === false) {
+            $json['f'] = $this->f;
         }
-        if ($this->p != null) {
-            $output['p'] = $this->p;
+        if (empty($this->p) === false) {
+            $json['p'] = $this->p;
         }
 
-        return $output;
+        return $json;
     }
 }
