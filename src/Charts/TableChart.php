@@ -17,12 +17,12 @@
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Options;
-use \Khill\Lavacharts\Configs\CssClassNames;
-use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Configs\CssClassNames;
+use Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Options;
+use Khill\Lavacharts\Utils;
+use Khill\Lavacharts\Values\Label;
 
 class TableChart extends Chart
 {
@@ -126,17 +126,18 @@ class TableChart extends Chart
      * To use this property, assign an object, where the property name specifies the
      * table element, and the property value is a string, specifying a class name to assign to that element.
      * You must then define a CSS style for that class on your page. The following property names are supported:
-     * 		headerRow - Assigns a class name to the table header row (<tr> element).
-     *		tableRow - Assigns a class name to the non-header rows (<tr> elements).
-     *		oddTableRow - Assigns a class name to odd table rows (<tr> elements). Note: the alternatingRowStyle option must be set to true.
-     *		selectedTableRow - Assigns a class name to the selected table row (<tr> element).
-     *		hoverTableRow - Assigns a class name to the hovered table row (<tr> element).
-     *		headerCell - Assigns a class name to all cells in the header row (<td> element).
-     *		tableCell - Assigns a class name to all non-header table cells (<td> element).
-     *		rowNumberCell - Assigns a class name to the cells in the row number column (<td> element).
-     *  Note: the showRowNumber option must be set to true.
+     *  headerRow - Assigns a class name to the table header row (<tr> element).
+     *  tableRow - Assigns a class name to the non-header rows (<tr> elements).
+     *  oddTableRow - Assigns a class name to odd table rows (<tr> elements).
+     *    Note: the alternatingRowStyle option must be set to true.
+     *  selectedTableRow - Assigns a class name to the selected table row (<tr> element).
+     *  hoverTableRow - Assigns a class name to the hovered table row (<tr> element).
+     *  headerCell - Assigns a class name to all cells in the header row (<td> element).
+     *  tableCell - Assigns a class name to all non-header table cells (<td> element).
+     *  rowNumberCell - Assigns a class name to the cells in the row number column (<td> element).
+     *    Note: the showRowNumber option must be set to true.
      *
-     *	Example: var cssClassNames = {headerRow: 'bigAndBoldClass', hoverTableRow: 'highlightClass'};
+     *  Example: var cssClassNames = {headerRow: 'bigAndBoldClass', hoverTableRow: 'highlightClass'};
      *
      * @access public
      * @param  array $classNameConfig
@@ -236,12 +237,12 @@ class TableChart extends Chart
 
     /**
      * Sets a specified option for the paging buttons. The options are as follows:
-     *	'both' - enable prev and next buttons
-     *	'prev' - only prev button is enabled
-     *	'next' - only next button is enabled
-     *	'auto' - the buttons are enabled according to the current page. On the first page only next
-     *  			is shown. On the last page only prev is shown. Otherwise both are enabled.
-     *	number - the number of paging buttons to show. This explicit number will override computed number from pageSize.
+     *  both - enable prev and next buttons
+     *  prev - only prev button is enabled
+     *  next - only next button is enabled
+     *  auto - the buttons are enabled according to the current page. On the first page only next
+     *         is shown. On the last page only prev is shown. Otherwise both are enabled.
+     *  number - the number of paging buttons to show. This explicit number will override computed number from pageSize.
      *
      * @access public
      * @param  string|int $paging
@@ -317,12 +318,12 @@ class TableChart extends Chart
     /**
      * If and how to sort columns when the user clicks a column heading. If sorting is enabled, consider setting
      * the sortAscending and sortColumn properties as well. Choose one of the following string values:
-     *		'enable' - [Default] Users can click on column headers to sort by the clicked column. When users click
-     *					on the column header, the rows will be automatically sorted, and a 'sort' event will be triggered.
-     *		'event' - When users click on the column header, a 'sort' event will be triggered, but the rows will not be
-     *  				automatically sorted. This option should be used when the page implements its own sort. See the
-     *					TableQueryWrapper example for an example of how to handle sorting events manually.
-     *		'disable' - Clicking a column header has no effect.
+     *  'enable' - [Default] Users can click on column headers to sort by the clicked column. When users click
+     *             on the column header, the rows will be automatically sorted, and a 'sort' event will be triggered.
+     *  'event' - When users click on the column header, a 'sort' event will be triggered, but the rows will not be
+     *            automatically sorted. This option should be used when the page implements its own sort. See the
+     *            TableQueryWrapper example for an example of how to handle sorting events manually.
+     *  'disable' - Clicking a column header has no effect.
      *
      * @access public
      * @param  string $sort

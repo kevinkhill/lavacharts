@@ -164,5 +164,4 @@ class CategoryUI extends UI
 
         return $this->setOption(__FUNCTION__, $allowTyping);
     }
-
 }

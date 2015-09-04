@@ -80,13 +80,13 @@ class EventManager implements \Countable, \IteratorAggregate
      */
     public function set($event, $callback)
     {
-        if ($this->isValid($event)) {
-            if (Utils::nonEmptyString($callback) === false) {
-                throw new InvalidEventCallback($callback);
-            }
+        $this->validEvent($event);
 
-            $this->events[$event] = $callback;
+        if (Utils::nonEmptyString($callback) === false) {
+            throw new InvalidEventCallback($callback);
         }
+
+        $this->events[$event] = $callback;
     }
 
     /**
@@ -99,9 +99,9 @@ class EventManager implements \Countable, \IteratorAggregate
      */
     public function getCallback($event)
     {
-        if ($this->isValid($event)) {
-            return $this->events[$event];
-        }
+        $this->validEvent($event);
+
+        return $this->events[$event];
     }
 
     /**
@@ -112,12 +112,10 @@ class EventManager implements \Countable, \IteratorAggregate
      * @return bool
      * @throws \Khill\Lavacharts\Exceptions\InvalidEvent
      */
-    private function isValid($event)
+    private function validEvent($event)
     {
         if (in_array($event, static::$defaultEvents) === false) {
             throw new InvalidEvent($event, static::$defaultEvents);
-        } else {
-            return true;
         }
     }
 }

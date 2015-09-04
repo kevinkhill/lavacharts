@@ -15,7 +15,7 @@ use \Khill\Lavacharts\Options;
  * @package    Khill\Lavacharts
  * @subpackage Configs
  * @author     Peter Draznik <peter.draznik@38thStreetStudios.com>
- * @since	   v.2.6.0
+ * @since	   3.0.0
  * @copyright  (c) 2015, 38th Street Studios
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site

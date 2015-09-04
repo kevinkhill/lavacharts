@@ -45,5 +45,4 @@ class StringUI extends UI
 
         return $this->setOption(__FUNCTION__, $realtimeTrigger);
     }
-
 }

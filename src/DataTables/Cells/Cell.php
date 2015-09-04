@@ -1,10 +1,8 @@
 <?php
 
 namespace Khill\Lavacharts\DataTables\Cells;
-use Khill\Lavacharts\Exceptions\InvalidColumnType;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+
 use Khill\Lavacharts\Exceptions\InvalidFunctionParam;
-use Khill\Lavacharts\Utils;
 
 /**
  * DataCell Object

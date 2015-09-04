@@ -49,7 +49,7 @@ class Filter extends JsonConfig
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function __construct(Options $options, $config = [], $columnLabelOrIndex)
+    public function __construct(Options $options, $config = [], $columnLabelOrIndex) //TODO: move parameter order. mandatory first
     {
         if (is_array($config) === false) {
             throw new InvalidConfigValue(
