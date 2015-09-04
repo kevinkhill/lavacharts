@@ -5,7 +5,6 @@ namespace Khill\Lavacharts\Tests\DataTables;
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Carbon\Carbon;
-use \Mockery as m;
 
 class DataTableTest extends ProvidersTestCase
 {
@@ -595,7 +594,7 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testFormatColumn()
     {
-        $mockDateFormat = m::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
+        $mockDateFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
 
         $this->DataTable->addDateColumn();
 
@@ -614,7 +613,7 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testFormatColumnWithBadIndex()
     {
-        $mockDateFormat = m::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
+        $mockDateFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
 
         $this->DataTable->addDateColumn();
 
@@ -628,8 +627,8 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testFormatColumns()
     {
-        $mockDateFormat = m::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
-        $mockNumberFormat = m::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
+        $mockDateFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
+        $mockNumberFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
 
         $this->DataTable->addDateColumn();
         $this->DataTable->addNumberColumn();
@@ -652,8 +651,8 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testGetFormattedColumns()
     {
-        $mockDateFormat = m::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
-        $mockNumberFormat = m::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
+        $mockDateFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
+        $mockNumberFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
 
         $this->DataTable->addDateColumn();
         $this->DataTable->addNumberColumn();
@@ -678,8 +677,8 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testHasFormattedColumns()
     {
-        $mockDateFormat = m::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
-        $mockNumberFormat = m::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
+        $mockDateFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
+        $mockNumberFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
 
         $this->DataTable->addDateColumn();
         $this->DataTable->addNumberColumn();
@@ -701,8 +700,8 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testHasFormattedColumnsWithNoFormattedColumns()
     {
-        $mockDateFormat = m::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
-        $mockNumberFormat = m::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
+        $mockDateFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
+        $mockNumberFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
 
         $this->DataTable->addDateColumn();
         $this->DataTable->addNumberColumn();
@@ -721,8 +720,8 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testFormatColumnsWithBadType($badVals)
     {
-        $mockDateFormat = m::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
-        $mockNumberFormat = m::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
+        $mockDateFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
+        $mockNumberFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
 
         $this->DataTable->addDateColumn();
         $this->DataTable->addNumberColumn();
@@ -738,8 +737,8 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testFormatColumnsWithArrayOfNonFormats()
     {
-        $mockDateFormat = m::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
-        $mockNumberFormat = m::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
+        $mockDateFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
+        $mockNumberFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
 
         $this->DataTable->addDateColumn();
         $this->DataTable->addNumberColumn();
@@ -862,6 +861,7 @@ class DataTableTest extends ProvidersTestCase
 
     /**
      * @depends testAddColumnViaNamedAlias
+     * @covers \Khill\Lavacharts\DataTables\DataTable::getColumnsByType
      */
     public function testGetColumnsByType()
     {
@@ -874,6 +874,7 @@ class DataTableTest extends ProvidersTestCase
 
     /**
      * @depends testAddColumnViaNamedAlias
+     * @covers \Khill\Lavacharts\DataTables\DataTable::getColumnsByType
      */
     public function testGetColumnsByTypeWithDuplicateTypes()
     {

@@ -3,7 +3,6 @@
 namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Mockery as m;
 
 class ChartAndTraitsTest extends ProvidersTestCase
 {
@@ -13,7 +12,7 @@ class ChartAndTraitsTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $label = m::mock('\Khill\Lavacharts\Values\Label', ['TestChart'])->makePartial();
+        $label = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['TestChart'])->makePartial();
 
         $this->mockChart = new MockChart($label, $this->partialDataTable);
     }
@@ -276,12 +275,9 @@ class ChartAndTraitsTest extends ProvidersTestCase
         $this->mockChart->setOptions($badTypes);
     }
 
-    /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidOption
-     */
     public function testGettingNonExistentOptionValue()
     {
-        $this->mockChart->bananas;
+        $this->assertNull($this->mockChart->bananas);
     }
 
     /**

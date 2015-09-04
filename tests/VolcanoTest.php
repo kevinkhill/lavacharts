@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Tests;
 
-use \Mockery as m;
 use \Khill\Lavacharts\Volcano;
 
 class VolcanoTest extends ProvidersTestCase
@@ -13,18 +12,18 @@ class VolcanoTest extends ProvidersTestCase
 
         $this->volcano = new Volcano;
 
-        $this->mockChartLabel = m::mock('\Khill\Lavacharts\Values\Label', ['TestChart'])->makePartial();
+        $this->mockChartLabel = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['TestChart'])->makePartial();
 
-        $this->mockDashLabel = m::mock('\Khill\Lavacharts\Values\Label', ['TestDash'])->makePartial();
+        $this->mockDashLabel = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['TestDash'])->makePartial();
 
-        $this->nonExistentLabel = m::mock('\Khill\Lavacharts\Values\Label', ['Pumpkins'])->makePartial();
+        $this->nonExistentLabel = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['Pumpkins'])->makePartial();
 
-        $this->mockLineChart = m::mock('\Khill\Lavacharts\Charts\LineChart', [
+        $this->mockLineChart = \Mockery::mock('\Khill\Lavacharts\Charts\LineChart', [
             $this->mockChartLabel,
             $this->partialDataTable
         ])->shouldReceive('getLabel')->andReturn('TestChart')->getMock();
 
-        $this->mockDashboard = m::mock('\Khill\Lavacharts\Dashboards\Dashboard', [
+        $this->mockDashboard = \Mockery::mock('\Khill\Lavacharts\Dashboards\Dashboard', [
             $this->mockDashLabel
         ])->shouldReceive('getLabel')->andReturn('TestDash')->getMock();
     }

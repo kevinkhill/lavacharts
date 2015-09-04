@@ -56,7 +56,7 @@ class ChartFactory extends JavascriptFactory
      */
     private function getTemplateVars()
     {
-        $chart = $this->chart; // Workaround for no :: on member vars in php54
+        $chart = $this->chart; // Workaround for no :: on member vars in php5.4
 
         $vars = [
             'chartLabel'   => (string) $this->chart->getLabel(),

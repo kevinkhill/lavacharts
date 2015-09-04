@@ -3,7 +3,6 @@
 namespace Khill\Lavacharts\Tests;
 
 use \Khill\Lavacharts\Lavacharts;
-use \Mockery as m;
 
 class LavachartsTest extends ProvidersTestCase
 {
@@ -13,16 +12,16 @@ class LavachartsTest extends ProvidersTestCase
 
         $this->lava = new Lavacharts;
 
-        $this->mockLabel = m::mock('\\Khill\\Lavacharts\\Values\\Label', ['MockLabel'])->makePartial();
+        $this->mockLabel = \Mockery::mock('\\Khill\\Lavacharts\\Values\\Label', ['MockLabel'])->makePartial();
 
-        $this->partialDataTableWithReceives = m::mock('\\Khill\\Lavacharts\\DataTables\\DataTable')
+        $this->partialDataTableWithReceives = \Mockery::mock('\\Khill\\Lavacharts\\DataTables\\DataTable')
                                           ->shouldReceive('toJson')
                                           ->atMost(1)
                                           ->shouldReceive('hasFormats')
                                           ->atLeast(1)
                                           ->getMock();
 
-        $this->mockLineChart = m::mock('\\Khill\\Lavacharts\\Charts\\LineChart');
+        $this->mockLineChart = \Mockery::mock('\\Khill\\Lavacharts\\Charts\\LineChart');
     }
 
     public function testIfInstanceOfVolcano()
@@ -246,7 +245,7 @@ class LavachartsTest extends ProvidersTestCase
 
     public function testStoreChartIntoVolcano()
     {
-        $mockPieChart = m::mock('\\Khill\\Lavacharts\\Charts\PieChart', [
+        $mockPieChart = \Mockery::mock('\\Khill\\Lavacharts\\Charts\PieChart', [
             $this->mockLabel,
             $this->partialDataTable
         ])->shouldReceive('getLabel')->andReturn('MockLabel')->getMock();

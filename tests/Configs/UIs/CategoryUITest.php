@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Tests\Configs;
 
-use \Mockery as m;
 use \Khill\Lavacharts\Configs\UIs\CategoryUI;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 

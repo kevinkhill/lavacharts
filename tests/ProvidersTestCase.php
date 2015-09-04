@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Tests;
 
-use \Mockery as m;
 
 abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +23,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->partialDataTable = m::mock('Khill\Lavacharts\DataTables\DataTable')->makePartial();
+        $this->partialDataTable = \Mockery::mock('Khill\Lavacharts\DataTables\DataTable')->makePartial();
     }
 
     /**

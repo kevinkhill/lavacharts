@@ -4,7 +4,6 @@ namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\PieChart;
-use \Mockery as m;
 
 class PieChartTest extends ProvidersTestCase
 {
@@ -12,7 +11,7 @@ class PieChartTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $label = m::mock('\Khill\Lavacharts\Values\Label', ['MyTestChart'])->makePartial();
+        $label = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['MyTestChart'])->makePartial();
 
         $this->PieChart = new PieChart($label, $this->partialDataTable);
     }
@@ -53,7 +52,7 @@ class PieChartTest extends ProvidersTestCase
            'fontSize' => 16
         ];
 
-        $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
+        $mockTextStyle = \Mockery::mock('Khill\Lavacharts\Configs\TextStyle');
         //$mockTextStyle->shouldReceive('getValues')->once()->andReturn($textStyleVals);
 
         $sliceVals = [
@@ -62,10 +61,10 @@ class PieChartTest extends ProvidersTestCase
            'textStyle' => $mockTextStyle
         ];
 
-        $mockSlice1 = m::mock('Khill\Lavacharts\Configs\Slice');
+        $mockSlice1 = \Mockery::mock('Khill\Lavacharts\Configs\Slice');
         $mockSlice1->shouldReceive('getValues')->once()->andReturn($sliceVals);
 
-        $mockSlice2 = m::mock('Khill\Lavacharts\Configs\Slice');
+        $mockSlice2 = \Mockery::mock('Khill\Lavacharts\Configs\Slice');
         $mockSlice2->shouldReceive('getValues')->once()->andReturn($sliceVals);
 
         $this->PieChart->slices([$mockSlice1, $mockSlice2]);

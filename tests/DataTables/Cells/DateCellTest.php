@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Tests\DataTables\Cells;
 
-use \Mockery as m;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\DataTables\Cells\DateCell;
 
@@ -20,7 +19,7 @@ class DateCellTest extends ProvidersTestCase
      */
     public function testConstructorArgs()
     {
-        $mockCarbon = m::mock('\Carbon\Carbon[parse]', ['2015-09-04 9:31:00']);
+        $mockCarbon = \Mockery::mock('\Carbon\Carbon[parse]', ['2015-09-04 9:31:00']);
 
         $column = new DateCell($mockCarbon, 'start', ['color'=>'red']);
 
@@ -99,7 +98,7 @@ class DateCellTest extends ProvidersTestCase
      */
     public function testJsonSerialization()
     {
-        $mockCarbon = m::mock('\Carbon\Carbon[parse]', ['2015-09-04 9:31:00']);
+        $mockCarbon = \Mockery::mock('\Carbon\Carbon[parse]', ['2015-09-04 9:31:00']);
 
         $cell = new DateCell($mockCarbon);
 

@@ -28,7 +28,7 @@ class Options
      *
      * @var array
      */
-    private $defaults = [];
+    private $options = [];
 
     /**
      * Set options as key => value pairs.
@@ -38,21 +38,21 @@ class Options
     private $values = [];
 
     /**
-     * Create a new Options object with a set of defaults.
+     * Create a new Options object with a set of options.
      *
-     * @param array $defaults
+     * @param array $options
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function __construct($defaults)
+    public function __construct($options)
     {
-        if (is_array($defaults) === false) {
+        if (is_array($options) === false) {
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'array'
             );
         }
 
-        $this->defaults = $defaults;
+        $this->options = $options;
     }
 
     /**
@@ -63,7 +63,7 @@ class Options
      */
     public function getDefaults()
     {
-        return $this->defaults;
+        return $this->options;
     }
 
     /**
@@ -86,7 +86,7 @@ class Options
      */
     public function hasOption($option)
     {
-        return in_array($option, $this->defaults, true);
+        return in_array($option, $this->options, true);
     }
 
     /**
@@ -117,7 +117,7 @@ class Options
     public function set($option, $value)
     {
         if ($this->hasOption($option) === false) {
-            throw new InvalidOption($option, $this->defaults);
+            throw new InvalidOption($option, $this->options);
         }
 
         $this->values[$option] = $value;
@@ -135,6 +135,10 @@ class Options
      */
     public function get($option)
     {
+        if (Utils::nonEmptyString($option) === false) {
+            throw new InvalidOption($option, $this->options);
+        }
+
         if (array_key_exists($option, $this->values) === false) {
             return null;
         } else {
@@ -168,7 +172,7 @@ class Options
     }
 
     /**
-     * Merges two Options objects and combines the defaults and values.
+     * Merges two Options objects and combines the options and values.
      *
      * @access public
      * @param  \Khill\Lavacharts\Options $options
@@ -186,20 +190,20 @@ class Options
      * Extends the default options with more options.
      *
      * @access public
-     * @param  array $defaults Array of options to extend the defaults.
+     * @param  array $options Array of options to extend the options.
      * @return \Khill\Lavacharts\Options
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function extend($defaults)
+    public function extend($options)
     {
-        if (is_array($defaults) === false) {
+        if (is_array($options) === false) {
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'array'
             );
         }
 
-        $this->defaults = array_merge($this->defaults, $defaults);
+        $this->options = array_merge($this->options, $options);
 
         return $this;
     }
@@ -208,7 +212,7 @@ class Options
      * Removes options from the default options.
      *
      * @access public
-     * @param  array $options Array of options to remove from the defaults.
+     * @param  array $options Array of options to remove from the options.
      * @return \Khill\Lavacharts\Options
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
@@ -221,7 +225,7 @@ class Options
             );
         }
 
-        $this->defaults = array_merge(array_diff($this->defaults, $options));
+        $this->options = array_merge(array_diff($this->options, $options));
 
         return $this;
     }

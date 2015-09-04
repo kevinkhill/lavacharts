@@ -133,12 +133,9 @@ class OptionsTest extends ProvidersTestCase
         $this->Options->set($badTypes, 'option');
     }
 
-    /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidOption
-     */
-    public function testGetWithNonValidOption()
+    public function testGetWithNonExistentOption()
     {
-        $this->Options->get('NotARealOption');
+        $this->assertNull($this->Options->get('NotARealOption'));
     }
 
     /**

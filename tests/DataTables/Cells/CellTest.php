@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Tests\DataTables\Cells;
 
-use \Mockery as m;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\DataTables\Cells\Cell;
 

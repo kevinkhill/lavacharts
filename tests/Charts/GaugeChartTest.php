@@ -4,7 +4,6 @@ namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\GaugeChart;
-use \Mockery as m;
 
 class GaugeChartTest extends ProvidersTestCase
 {
@@ -12,7 +11,7 @@ class GaugeChartTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $label = m::mock('\Khill\Lavacharts\Values\Label', ['Temps'])->makePartial();
+        $label = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['Temps'])->makePartial();
 
         $this->GaugeChart = new GaugeChart($label, $this->partialDataTable);
     }

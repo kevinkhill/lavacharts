@@ -228,7 +228,7 @@ class Chart extends JsonConfig
      */
     public function getDataTableJson()
     {
-        return $this->getDataTable()->toJson();
+        return json_encode($this->getDataTable());
     }
 
     /**
@@ -238,6 +238,7 @@ class Chart extends JsonConfig
      * rendered into.
      *
      * @deprecated Use the Lavacharts master object to keep track of charts to render.
+     * @codeCoverageIgnore
      * @access public
      * @since  2.0.0
      * @param  string $elemId The id of an HTML element to render the chart into.

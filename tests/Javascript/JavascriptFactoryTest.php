@@ -5,7 +5,6 @@ namespace Khill\Lavacharts\Tests\Javascript;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Javascript\JavascriptFactory;
-use \Mockery as m;
 
 class JavascriptFactoryTest extends ProvidersTestCase
 {
@@ -15,8 +14,8 @@ class JavascriptFactoryTest extends ProvidersTestCase
 
         $this->jsf = new JavascriptFactory;
 
-        $this->mockChartLabel = m::mock('\Khill\Lavacharts\Values\Label', ['TestChart'])->makePartial();
-        $this->mockElementId = m::mock('\Khill\Lavacharts\Values\ElementId', ['my-chart'])->makePartial();
+        $this->mockChartLabel = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['TestChart'])->makePartial();
+        $this->mockElementId = \Mockery::mock('\Khill\Lavacharts\Values\ElementId', ['my-chart'])->makePartial();
 
         $datatable = new DataTable();
 
@@ -25,7 +24,7 @@ class JavascriptFactoryTest extends ProvidersTestCase
                   ->addColumn('number')
                   ->addRow([10101, 12345, 67890]);
 
-        $this->mlc = m::mock('Khill\Lavacharts\Charts\LineChart', [$this->mockChartLabel, $datatable])->makePartial();
+        $this->mlc = \Mockery::mock('Khill\Lavacharts\Charts\LineChart', [$this->mockChartLabel, $datatable])->makePartial();
     }
 
     public function testGetChartJsOutput()

@@ -4,7 +4,6 @@ namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\AreaChart;
-use \Mockery as m;
 
 class AreaChartTest extends ProvidersTestCase
 {
@@ -12,7 +11,7 @@ class AreaChartTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $label = m::mock('\Khill\Lavacharts\Values\Label', ['MyTestChart'])->makePartial();
+        $label = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['MyTestChart'])->makePartial();
 
         $this->AreaChart = new AreaChart($label, $this->partialDataTable);
     }

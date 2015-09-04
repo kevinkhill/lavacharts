@@ -4,7 +4,6 @@ namespace Khill\Lavacharts\Tests\Dashboards;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Dashboards\ControlWrapper;
-use \Mockery as m;
 
 class ControlWrapperTest extends ProvidersTestCase
 {
@@ -16,10 +15,10 @@ class ControlWrapperTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->mockElementId = m::mock('\Khill\Lavacharts\Values\ElementId', ['TestId'])->makePartial();
+        $this->mockElementId = \Mockery::mock('\Khill\Lavacharts\Values\ElementId', ['TestId'])->makePartial();
         $this->jsonOutput = '{"controlType":"NumberRangeFilter","containerId":"TestId","options":{"Option1":5,"Option2":true}}';
 
-        $mockNumberFilter = m::mock('\Khill\Lavacharts\Dashboards\Filters\NumberRange')
+        $mockNumberFilter = \Mockery::mock('\Khill\Lavacharts\Dashboards\Filters\NumberRange')
             ->shouldReceive('getType')
             ->once()
             ->andReturn('NumberRangeFilter')

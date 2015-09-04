@@ -4,7 +4,6 @@ namespace Khill\Lavacharts\Tests\Configs;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Configs\Color;
-use \Mockery as m;
 
 class ColorTest extends ProvidersTestCase
 {

@@ -646,6 +646,32 @@ class DataTable implements \JsonSerializable
     }
 
     /**
+     * Returns the columns whos type match the given value.
+     *
+     * @access public
+     * @since  3.0.0
+     * @param  string $type
+     * @return array
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
+     */
+    public function getColumnsByType($type)
+    {
+        if (Utils::nonEmptyStringInArray($type, ColumnFactory::$TYPES) === false) {
+            throw new InvalidColumnType($type, ColumnFactory::$TYPES);
+        }
+
+        $indices = [];
+
+        foreach ($this->cols as $index => $column) {
+            if ($type === $column->getType()) {
+                $indices[$index] = $column;
+            }
+        }
+
+        return $indices;
+    }
+
+    /**
      * Returns the number of columns in the DataTable
      *
      * @access public
@@ -717,31 +743,6 @@ class DataTable implements \JsonSerializable
     }
 
     /**
-     * Returns the columns whos type match the given value.
-     *
-     * @access public
-     * @since  3.0.0
-     * @param  string $type
-     * @return array
-     */
-    public function getColumnsByType($type)
-    {
-        if (Utils::nonEmptyStringInArray($type, ColumnFactory::$TYPES) === false) {
-            throw new InvalidColumnType($type, ColumnFactory::$TYPES);
-        }
-
-        $indices = [];
-
-        foreach ($this->cols as $index => $column) {
-            if ($type === $column->getType()) {
-                $indices[$index] = $column;
-            }
-        }
-
-        return $indices;
-    }
-
-    /**
      * Returns the column array from the DataTable
      *
      * @access public
@@ -775,6 +776,8 @@ class DataTable implements \JsonSerializable
     /**
      * Convert the DataTable to JSON
      *
+     * @deprecated
+     * @codeCoverageIgnore
      * @access public
      * @return string JSON representation of the DataTable.
      */

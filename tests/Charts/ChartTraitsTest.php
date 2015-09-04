@@ -3,7 +3,6 @@
 namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Mockery as m;
 
 class ChartTraitsTest extends ProvidersTestCase
 {
@@ -13,7 +12,7 @@ class ChartTraitsTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $label = m::mock('\Khill\Lavacharts\Values\Label', ['TestChart'])->makePartial();
+        $label = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['TestChart'])->makePartial();
 
         $this->mockChart = new MockChart($label, $this->partialDataTable);
     }

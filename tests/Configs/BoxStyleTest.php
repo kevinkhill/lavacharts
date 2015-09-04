@@ -3,7 +3,6 @@
 namespace Khill\Lavacharts\Tests\Configs;
 
 use \Khill\Lavacharts\Configs\BoxStyle;
-use \Mockery as m;
 
 class BoxStyleTest extends \PHPUnit_Framework_TestCase //TODO fix this to use providerclass
 {

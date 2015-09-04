@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Tests\Configs;
 
-use \Mockery as m;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Configs\UIs\DateRangeUI;
 
@@ -17,7 +16,7 @@ class DateRangeUITest extends ProvidersTestCase
 
     public function testConstructorValuesAssignment()
     {
-        $mockDateFormat = m::mock('\Khill\Lavacharts\DataTables\Formats\DateFormat');
+        $mockDateFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\DateFormat');
 
         $ui = new DateRangeUI([
             'format'          => $mockDateFormat,

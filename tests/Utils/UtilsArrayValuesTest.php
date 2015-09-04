@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Tests\Utils;
 
-use \Mockery as m;
 use \Khill\Lavacharts\Utils;
 
 class UtilsTest extends \PHPUnit_Framework_TestCase
@@ -39,7 +38,7 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayValuesCheckWithConfigObjects()
     {
-        $mca = m::mock('Khill\Lavacharts\Configs\ColorAxis');
+        $mca = \Mockery::mock('Khill\Lavacharts\Configs\ColorAxis');
         //$mca->className = 'ColorAxis';
 
         $testArray = [$mca, $mca, $mca];
@@ -49,7 +48,7 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayValuesCheckWithConfigObjectsAndNulls()
     {
-        $mca = m::mock('Khill\Lavacharts\Configs\ColorAxis');
+        $mca = \Mockery::mock('Khill\Lavacharts\Configs\ColorAxis');
         //$mca->className = 'ColorAxis';
 
         $testArray = [null, $mca, null];
@@ -68,7 +67,7 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
 
     public function badParamsProvider()
     {
-        $mca = m::mock('Khill\Lavacharts\Configs\ColorAxis');
+        $mca = \Mockery::mock('Khill\Lavacharts\Configs\ColorAxis');
 
         return [
             ['string', 'stringy'],

@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Tests\DataTables\Rows;
 
-use \Mockery as m;
 use \Khill\Lavacharts\DataTables\Rows\Row;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
@@ -29,7 +28,7 @@ class RowTest extends ProvidersTestCase
      */
     public function testConstructorWithCarbon()
     {
-        $mockCarbon = m::mock('\Carbon\Carbon')->makePartial();
+        $mockCarbon = \Mockery::mock('\Carbon\Carbon')->makePartial();
 
         $row = new Row([$mockCarbon, 1, 2.0]);
 
@@ -46,7 +45,7 @@ class RowTest extends ProvidersTestCase
      */
     public function testGetColumnValue()
     {
-        $mockCarbon = m::mock('\Carbon\Carbon')->makePartial();
+        $mockCarbon = \Mockery::mock('\Carbon\Carbon')->makePartial();
 
         $row = new Row([$mockCarbon, 1, 2.0]);
 
@@ -63,7 +62,7 @@ class RowTest extends ProvidersTestCase
      */
     public function testGetColumnValueWithBadType($badTypes)
     {
-        $mockCarbon = m::mock('\Carbon\Carbon')->makePartial();
+        $mockCarbon = \Mockery::mock('\Carbon\Carbon')->makePartial();
 
         $row = new Row([$mockCarbon, 1, 2.0]);
 
@@ -88,7 +87,7 @@ class RowTest extends ProvidersTestCase
      */
     public function testJsonSerialization()
     {
-        $mockCarbon = m::mock('\Carbon\Carbon[parse]', ['1988-03-24 1:23:45']);
+        $mockCarbon = \Mockery::mock('\Carbon\Carbon[parse]', ['1988-03-24 1:23:45']);
 
         $row = new Row([$mockCarbon, 1, 2.1]);
 

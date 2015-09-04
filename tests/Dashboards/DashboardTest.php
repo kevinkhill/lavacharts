@@ -4,7 +4,6 @@ namespace Khill\Lavacharts\Tests\Dashboards;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Dashboards\Dashboard;
-use \Mockery as m;
 
 class DashboardTest extends ProvidersTestCase
 {
@@ -16,11 +15,11 @@ class DashboardTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $mockLabel = m::mock('\Khill\Lavacharts\Values\Label', ['myDash'])->makePartial();
+        $mockLabel = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['myDash'])->makePartial();
 
         $this->Dashboard = new Dashboard($mockLabel);
-        $this->mockControlWrapper = m::mock('\Khill\Lavacharts\Dashboards\ControlWrapper');
-        $this->mockChartWrapper   = m::mock('\Khill\Lavacharts\Dashboards\ChartWrapper');
+        $this->mockControlWrapper = \Mockery::mock('\Khill\Lavacharts\Dashboards\ControlWrapper');
+        $this->mockChartWrapper   = \Mockery::mock('\Khill\Lavacharts\Dashboards\ChartWrapper');
     }
 
     public function testGetLabel()
@@ -146,18 +145,18 @@ class DashboardTest extends ProvidersTestCase
      */
     public function testGetBoundChartsWithOneToMany()
     {
-        $mockElementId = m::mock('\Khill\Lavacharts\Values\ElementId', ['TestId'])->makePartial();
+        $mockElementId = \Mockery::mock('\Khill\Lavacharts\Values\ElementId', ['TestId'])->makePartial();
 
-        $mockLineChartWrapper = m::mock('\Khill\Lavacharts\Dashboards\ChartWrapper', [
-            m::mock('\Khill\Lavacharts\Charts\LineChart')->makePartial(),
+        $mockLineChartWrapper = \Mockery::mock('\Khill\Lavacharts\Dashboards\ChartWrapper', [
+            \Mockery::mock('\Khill\Lavacharts\Charts\LineChart')->makePartial(),
             $mockElementId
         ])->makePartial();
             //->shouldReceive('unwrap')
             //->once()->getMock();
             //->andReturn();
 
-        $mockAreaChartWrapper = m::mock('\Khill\Lavacharts\Dashboards\ChartWrapper', [
-            m::mock('\Khill\Lavacharts\Charts\AreaChart')->makePartial(),
+        $mockAreaChartWrapper = \Mockery::mock('\Khill\Lavacharts\Dashboards\ChartWrapper', [
+            \Mockery::mock('\Khill\Lavacharts\Charts\AreaChart')->makePartial(),
             $mockElementId
         ])->makePartial();
             //->shouldReceive('unwrap')

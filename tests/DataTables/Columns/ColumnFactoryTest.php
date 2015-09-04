@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Tests\DataTables\Columns;
 
-use \Mockery as m;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\DataTables\Columns\ColumnFactory;
 
@@ -60,7 +59,7 @@ class ColumnFactoryTest extends ProvidersTestCase
      */
     public function testCreateColumnsWithTypeAndLabelAndFormat($columnType)
     {
-        $mockFormat = m::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
+        $mockFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
 
         $column = ColumnFactory::create($columnType, 'Label', $mockFormat);
 
@@ -77,7 +76,7 @@ class ColumnFactoryTest extends ProvidersTestCase
      */
     public function testCreateColumnsWithTypeAndLabelAndFormatAndRole($columnType)
     {
-        $mockFormat = m::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
+        $mockFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
 
         $column = ColumnFactory::create($columnType, 'Label', $mockFormat, 'interval');
 
@@ -95,7 +94,7 @@ class ColumnFactoryTest extends ProvidersTestCase
      */
     public function testCreateColumnsWithTypeAndLabelAndFormatAndRoleWithBadRole()
     {
-        $mockFormat = m::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
+        $mockFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
 
         ColumnFactory::create('number', 'Label', $mockFormat, 'tacos');
     }

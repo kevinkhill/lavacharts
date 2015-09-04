@@ -4,7 +4,6 @@ namespace Khill\Lavacharts\Tests\Dashboards;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Dashboards\ChartWrapper;
-use \Mockery as m;
 
 class ChartWrapperTest extends ProvidersTestCase
 {
@@ -16,13 +15,13 @@ class ChartWrapperTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->mockElementId = m::mock('\Khill\Lavacharts\Values\ElementId', ['TestId'])->makePartial();
+        $this->mockElementId = \Mockery::mock('\Khill\Lavacharts\Values\ElementId', ['TestId'])->makePartial();
         $this->jsonOutput = '{"chartType":"LineChart","containerId":"TestId","options":{"Option1":5,"Option2":true}}';
     }
 
     public function getMockLineChart()
     {
-        return m::mock('\Khill\Lavacharts\Charts\LineChart')
+        return \Mockery::mock('\Khill\Lavacharts\Charts\LineChart')
             ->shouldReceive('getType')
             ->once()
             ->andReturn('LineChart')
@@ -40,7 +39,7 @@ class ChartWrapperTest extends ProvidersTestCase
      */
     public function testGetContainerId()
     {
-        $areaChart = m::mock('\Khill\Lavacharts\Charts\AreaChart')->makePartial();
+        $areaChart = \Mockery::mock('\Khill\Lavacharts\Charts\AreaChart')->makePartial();
 
         $chartWrapper = new ChartWrapper($areaChart, $this->mockElementId);
 
@@ -49,7 +48,7 @@ class ChartWrapperTest extends ProvidersTestCase
 
     public function testGetChart()
     {
-        $areaChart = m::mock('\Khill\Lavacharts\Charts\AreaChart')->makePartial();
+        $areaChart = \Mockery::mock('\Khill\Lavacharts\Charts\AreaChart')->makePartial();
 
         $chartWrapper = new ChartWrapper($areaChart, $this->mockElementId);
 

@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Tests\Configs;
 
-use \Mockery as m;
 use \Khill\Lavacharts\Configs\UIs\UI;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
@@ -12,7 +11,7 @@ class BaseUITest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->mockOptions = m::mock('\Khill\Lavacharts\Options', [[
+        $this->mockOptions = \Mockery::mock('\Khill\Lavacharts\Options', [[
             'label',
             'labelSeparator',
             'labelStacking',

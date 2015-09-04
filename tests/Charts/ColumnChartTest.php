@@ -4,7 +4,6 @@ namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\ColumnChart;
-use \Mockery as m;
 
 class ColumnChartTest extends ProvidersTestCase
 {
@@ -12,7 +11,7 @@ class ColumnChartTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $label = m::mock('\Khill\Lavacharts\Values\Label', ['MyTestChart'])->makePartial();
+        $label = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['MyTestChart'])->makePartial();
 
         $this->ColumnChart = new ColumnChart($label, $this->partialDataTable);
     }
