@@ -38,7 +38,7 @@ class Format extends JsonConfig
     }
 
     /**
-     * Returns the chart type.
+     * Returns the format type.
      *
      * @since 3.0.0
      * @return string

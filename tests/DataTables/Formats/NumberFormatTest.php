@@ -7,140 +7,37 @@ use \Khill\Lavacharts\DataTables\Formats\NumberFormat;
 
 class NumberFormatTest extends ProvidersTestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->numberFormat = new NumberFormat;
-    }
-
+    /**
+     * @covers \Khill\Lavacharts\DataTables\Formats\NumberFormat
+     */
     public function testInstanceOf()
     {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\DataTables\\Formats\\NumberFormat', $this->numberFormat);
+        $numberFormat = new NumberFormat([
+            'decimalSymbol'  => '.',
+            'fractionDigits' => 2,
+            'groupingSymbol' => ',',
+            'negativeColor'  => 'red',
+            'negativeParens' => true,
+            'pattern'        => '#,###',
+            'prefix'         => '$',
+            'suffix'         => '/hr'
+        ]);
+
+        $this->assertEquals('.', $numberFormat->decimalSymbol);
+        $this->assertEquals(2, $numberFormat->fractionDigits);
+        $this->assertEquals(',', $numberFormat->groupingSymbol);
+        $this->assertEquals('red', $numberFormat->negativeColor);
+        $this->assertTrue($numberFormat->negativeParens);
+        $this->assertEquals('#,###', $numberFormat->pattern);
+        $this->assertEquals('$', $numberFormat->prefix);
+        $this->assertEquals('/hr', $numberFormat->suffix);
     }
 
-    public function testStaticFormatType()
+    public function testGetType()
     {
+        $numberFormat = new NumberFormat;
+
         $this->assertEquals('NumberFormat', NumberFormat::TYPE);
-    }
-
-    public function testDecimalSymbolWithString()
-    {
-        $this->numberFormat->decimalSymbol('.');
-        $this->assertEquals('.', $this->numberFormat->decimalSymbol);
-    }
-
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testDecimalSymbolWithBadTypes($badTypes)
-    {
-        $this->numberFormat->decimalSymbol($badTypes);
-    }
-
-    public function testFractionDigitsWithInt()
-    {
-        $this->numberFormat->fractionDigits(2);
-        $this->assertEquals(2, $this->numberFormat->fractionDigits);
-    }
-
-    /**
-     * @dataProvider nonNumericProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testFractionDigitsWithBadTypes($badTypes)
-    {
-        $this->numberFormat->fractionDigits($badTypes);
-    }
-
-    public function testGroupingSymbolWithString()
-    {
-        $this->numberFormat->groupingSymbol(',');
-        $this->assertEquals(',', $this->numberFormat->groupingSymbol);
-    }
-
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testGroupingSymbolWithBadTypes($badTypes)
-    {
-        $this->numberFormat->groupingSymbol($badTypes);
-    }
-
-    public function testNegativeColorWithString()
-    {
-        $this->numberFormat->negativeColor('red');
-        $this->assertEquals('red', $this->numberFormat->negativeColor);
-    }
-
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testNegativeColorWithBadTypes($badTypes)
-    {
-        $this->numberFormat->negativeColor($badTypes);
-    }
-
-    public function testNegativeParensWithBool()
-    {
-        $this->numberFormat->negativeParens(true);
-        $this->assertTrue($this->numberFormat->negativeParens);
-    }
-
-    /**
-     * @dataProvider nonBoolProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testNegativeParensWithBadTypes($badTypes)
-    {
-        $this->numberFormat->negativeParens($badTypes);
-    }
-
-    public function testPatternWithString()
-    {
-        $this->numberFormat->pattern('#,###');
-        $this->assertEquals('#,###', $this->numberFormat->pattern);
-    }
-
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testPatternWithBadTypes($badTypes)
-    {
-        $this->numberFormat->pattern($badTypes);
-    }
-
-    public function testPrefixWithString()
-    {
-        $this->numberFormat->prefix('$');
-        $this->assertEquals('$', $this->numberFormat->prefix);
-    }
-
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testPrefixWithBadTypes($badTypes)
-    {
-        $this->numberFormat->prefix($badTypes);
-    }
-
-    public function testSuffixWithString()
-    {
-        $this->numberFormat->suffix('%');
-        $this->assertEquals('%', $this->numberFormat->suffix);
-    }
-
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testSuffixWithBadTypes($badTypes)
-    {
-        $this->numberFormat->suffix($badTypes);
+        $this->assertEquals('NumberFormat', $numberFormat->getType());
     }
 }

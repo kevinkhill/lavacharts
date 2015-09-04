@@ -135,11 +135,11 @@ class Options
      */
     public function get($option)
     {
-        if ($this->hasValue($option) === false) {
-            throw new InvalidOption($option, $this->defaults);
+        if (array_key_exists($option, $this->values) === false) {
+            return null;
+        } else {
+            return $this->values[$option];
         }
-
-        return $this->values[$option];
     }
 
     /**

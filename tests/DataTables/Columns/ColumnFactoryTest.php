@@ -21,6 +21,25 @@ class ColumnFactoryTest extends ProvidersTestCase
     }
 
     /**
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnType
+     * @covers \Khill\Lavacharts\DataTables\Columns\ColumnFactory::create
+     */
+    public function testCreateColumnsWithBadValue()
+    {
+        ColumnFactory::create('milkshakes');
+    }
+
+    /**
+     * @dataProvider nonStringProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnType
+     * @covers \Khill\Lavacharts\DataTables\Columns\ColumnFactory::create
+     */
+    public function testCreateColumnsWithBadTypes($badTypes)
+    {
+        ColumnFactory::create($badTypes);
+    }
+
+    /**
      * @dataProvider columnTypeProvider
      * @depends testCreateColumnsWithType
      * @covers \Khill\Lavacharts\DataTables\Columns\ColumnFactory::create

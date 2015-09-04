@@ -73,7 +73,7 @@ class BarFormat extends Format
      */
     public function base($base)
     {
-        return $this->setNumericOption($base);
+        return $this->setNumericOption(__FUNCTION__, $base);
     }
 
     /**
@@ -130,7 +130,7 @@ class BarFormat extends Format
      */
     public function drawZeroLine($drawZeroLine)
     {
-        return $this->setBoolOption($drawZeroLine);
+        return $this->setBoolOption(__FUNCTION__, $drawZeroLine);
     }
 
     /**
@@ -145,7 +145,7 @@ class BarFormat extends Format
      */
     public function max($max)
     {
-        return $this->setNumericOption($max);
+        return $this->setNumericOption(__FUNCTION__, $max);
     }
 
     /**
@@ -160,7 +160,7 @@ class BarFormat extends Format
      */
     public function min($min)
     {
-        return $this->setNumericOption($min);
+        return $this->setNumericOption(__FUNCTION__, $min);
     }
 
     /**
@@ -173,7 +173,7 @@ class BarFormat extends Format
      */
     public function showValue($showValue)
     {
-        return $this->setBoolOption($showValue);
+        return $this->setBoolOption(__FUNCTION__, $showValue);
     }
 
     /**
@@ -186,6 +186,6 @@ class BarFormat extends Format
      */
     public function width($width)
     {
-        $this->setIntOption($width);
+        $this->setIntOption(__FUNCTION__, $width);
     }
 }
