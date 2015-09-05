@@ -770,7 +770,7 @@ class DataTable implements \JsonSerializable
      */
     public function hasFormattedColumns()
     {
-        return ! empty($this->getFormattedColumns());
+        return count($this->getFormattedColumns()) > 0;
     }
 
     /**
