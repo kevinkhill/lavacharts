@@ -82,8 +82,9 @@ class DonutChart extends PieChart
      * The hole with have a radius equal to $pieHole times the radius of the chart.
      *
      *
-     * @param  integer|float  $pieHole Size of the pie hole.
-     * @return DonutChart
+     * @param  integer|float $pieHole Size of the pie hole.
+     * @return \Khill\Lavacharts\Charts\DonutChart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function pieHole($pieHole)
     {

@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Values;
 
+use \Khill\Lavacharts\Exceptions\InvalidColumnRole;
+
 /**
  * Role Value Object
  *
@@ -32,16 +34,15 @@ class Role extends String
     /**
      * Creates a new Role object.
      *
-     * @param  $type
-     * @throws \Exception
-     * @throws \Khill\Lavacharts\Values\InvalidRole
+     * @param  string $type
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnRole
      */
     public function __construct($type)
     {
-        parent::__construct($type);
-
         if (in_array($type, $this->validRoles) === false) {
-            throw new InvalidRole($type);
+            throw new InvalidColumnRole($type);
         }
+
+        parent::__construct($type);
     }
 }

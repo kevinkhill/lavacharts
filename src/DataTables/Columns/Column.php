@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables\Columns;
 
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\DataTables\Formats\Format;
 

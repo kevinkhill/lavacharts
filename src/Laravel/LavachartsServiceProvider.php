@@ -3,8 +3,8 @@
 namespace Khill\Lavacharts\Laravel;
 
 use \Khill\Lavacharts\Lavacharts;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\AliasLoader;
+use \Illuminate\Support\ServiceProvider;
+use \Illuminate\Foundation\AliasLoader;
 
 /**
  * Lavacharts Service Provider

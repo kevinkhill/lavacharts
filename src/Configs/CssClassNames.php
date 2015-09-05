@@ -68,7 +68,7 @@ class CssClassNames extends JsonConfig
      */
     public function headerRow($headerRow)
     {
-         return $this-$this->setStringOption($headerRow);
+         return $this->setStringOption($headerRow);
     }
 
 

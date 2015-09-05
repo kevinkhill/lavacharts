@@ -16,7 +16,7 @@ use \Khill\Lavacharts\Exceptions\InvalidLabel;
 use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidFilterObject;
-use \Khill\Lavacharts\Exceptions\InvalidEventCallback;
+
 use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
 use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
 
@@ -265,13 +265,14 @@ class Lavacharts
      *
      * @access public
      * @since  3.0.0
-     * @uses   \Khill\Lavacharts\Values\Label
-     * @uses   \Khill\Lavacharts\Values\ElementId
-     * @param  string $chartType Type of chart to render.
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel Label of a saved chart.
-     * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to render the chart into.
-     * @param  mixed  $divDimensions Set true for div creation, or pass an array with height & width
-     * @return string
+     * @param  string                             $type
+     * @param  \Khill\Lavacharts\Values\Label     $label
+     * @param  \Khill\Lavacharts\Values\ElementId $elementId     HTML element id to render the chart into.
+     * @param  mixed                              $divDimensions Set true for div creation, or pass an array with height & width
+     * @return string Javascript output
+     * @throws \Khill\Lavacharts\Exceptions\ChartNotFound
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions
      */
     private function renderChart($type, Label $label, ElementId $elementId, $divDimensions = false)
     {
@@ -301,11 +302,10 @@ class Lavacharts
      *
      * @access public
      * @since  3.0.0
-     * @uses   \Khill\Lavacharts\Values\Label
-     * @uses   \Khill\Lavacharts\Values\ElementId
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel Label of a saved chart.
-     * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to render the chart into.
-     * @return string
+     * @param  \Khill\Lavacharts\Values\Label     $chartLabel Label of a saved chart.
+     * @param  \Khill\Lavacharts\Values\ElementId $elementId  HTML element id to render the chart into.
+     * @return string Javascript output
+     * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
      */
     private function renderDashboard(Label $label, ElementId $elementId)
     {
@@ -466,14 +466,12 @@ class Lavacharts
      *
      * @access private
      * @since  2.0.0
-     * @uses   \Khill\Lavacharts\Values\Label
      * @param  string $type Type of chart to fetch or create.
      * @param  string $args Arguments from __call
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @return \Khill\Lavacharts\Charts\Chart
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidDataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
-     * @return \Khill\Lavacharts\Charts\Chart
      */
     private function chartFactory($type, $args)
     {
@@ -547,39 +545,6 @@ class Lavacharts
     }
 
     /**
-     * Creates Config Objects
-     *
-     * If args[0] contains an array of options then they are passed to the
-     * ConfigObject. Otherwise an empty ConfigObject is created.
-     *
-     * @access private
-     * @since  2.0.0
-     * @param  string $type Type of configObject to create.
-     * @param  string $args Arguments from __call
-     * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
-     * @return \Khill\Lavacharts\Configs\ConfigObject
-     */
-    private function configFactory($type, $args)
-    {
-        $configObj = __NAMESPACE__ . '\\Configs\\' . $type;
-
-        if (isset($args[0]) === false) {
-            return new $configObj;
-        }
-
-        if (is_array($args[0]) === false || empty($args[0]) === true) {
-            throw new InvalidFunctionParam(
-                $args[0],
-                __FUNCTION__,
-                'array'
-            );
-        }
-
-        return new $configObj($args[0]);
-
-    }
-
-    /**
      * Creates Format Objects
      *
      * @access private
@@ -615,9 +580,9 @@ class Lavacharts
      * @since  3.0.0
      * @param  string $type Type of filter to create.
      * @param  string $args Arguments from __call
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
-     * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
      * @return \Khill\Lavacharts\Dashboards\Filters\Filter
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidFilterObject
      */
     private function filterFactory($type, $args)
     {

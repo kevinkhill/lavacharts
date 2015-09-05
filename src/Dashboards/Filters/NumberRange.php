@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Dashboards\Filters;
 
 use \Khill\Lavacharts\Options;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+
 
 /**
  * Number Range Filter Class

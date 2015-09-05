@@ -39,7 +39,7 @@ class DateCell extends Cell
     /**
      * @param  string $dateTimeString
      * @param  string $dateTimeFormat
-     * @return \Khill\Lavacharts\DataTables\DateCell
+     * @return \Khill\Lavacharts\DataTables\Cells\Cell
      * @throws \Khill\Lavacharts\Exceptions\FailedCarbonParsing
      * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeString
      */

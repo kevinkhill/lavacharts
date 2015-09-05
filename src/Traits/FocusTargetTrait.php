@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Traits;
 
-use \Khill\Lavacharts\Utils;
+
 
 trait FocusTargetTrait
 {

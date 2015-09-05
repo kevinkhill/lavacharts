@@ -6,7 +6,7 @@ use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\JsonConfig;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
+
 
 /**
  * Filter Parent Class

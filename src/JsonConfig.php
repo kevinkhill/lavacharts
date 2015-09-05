@@ -2,8 +2,7 @@
 
 namespace Khill\Lavacharts;
 
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Options;
+
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
@@ -14,7 +13,6 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
  *
  *
  * @package    Khill\Lavacharts
- * @subpackage Configs
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs

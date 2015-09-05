@@ -132,7 +132,7 @@ class GaugeChart extends Chart
      *
      * @param  array $majorTicks
      * @return \Khill\Lavacharts\Charts\GaugeChart
-     * @throws \Khill\Lavacharts\Charts\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function majorTicks($majorTicks)
     {

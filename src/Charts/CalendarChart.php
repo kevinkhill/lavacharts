@@ -97,10 +97,11 @@ class CalendarChart extends Chart
     /**
      * Builds a new chart with the given label.
      *
-     * @param  \Khill\Lavacharts\Values\Label $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param  array $options Array of options to set for the chart.
-     * @return \Khill\Lavacharts\Charts\CalendarChart
+     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable  DataTable used for the chart.
+     * @param array                                   $config
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
+     * @internal param array $options Array of options to set for the chart.
      */
     public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
     {
@@ -114,8 +115,10 @@ class CalendarChart extends Chart
     /**
      * Tweaking addOption function for wrapping all options into the calendar config option.
      *
-     * @param  array $option Array of config options
+     * @param  string $option Option to set
+     * @param  mixed  $value
      * @return \Khill\Lavacharts\Charts\CalendarChart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      */
     protected function setCalendarOption($option, $value)
     {
@@ -156,6 +159,7 @@ class CalendarChart extends Chart
      * The cellColor option lets you customize the border of the calendar day squares
      *
      * @param  array  $strokeConfig
+     * @return \Khill\Lavacharts\Charts\CalendarChart
      */
     public function cellColor($strokeConfig)
     {
@@ -165,8 +169,9 @@ class CalendarChart extends Chart
     /**
      * Sets the size of the calendar day squares
      *
-     * @param  integer           $cellSize
+     * @param  integer $cellSize
      * @return \Khill\Lavacharts\Charts\CalendarChart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function cellSize($cellSize)
     {
@@ -195,8 +200,9 @@ class CalendarChart extends Chart
      * Sets The distance between the right edge of the week labels and
      * the left edge of the chart day squares.
      *
-     * @param  integer           $space
+     * @param  integer $space
      * @return \Khill\Lavacharts\Charts\CalendarChart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function dayOfWeekRightSpace($space)
     {
@@ -215,6 +221,7 @@ class CalendarChart extends Chart
      *
      * @param  string $days
      * @return \Khill\Lavacharts\Charts\CalendarChart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function daysOfWeek($days)
     {
@@ -268,6 +275,7 @@ class CalendarChart extends Chart
      *
      * @param  int $space
      * @return \Khill\Lavacharts\Charts\CalendarChart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function underMonthSpace($space)
     {
@@ -285,8 +293,9 @@ class CalendarChart extends Chart
      * The number of pixels between the bottom-most year label and
      * the bottom of the chart.
      *
-     * @param  integer           $space
+     * @param  integer $space
      * @return \Khill\Lavacharts\Charts\CalendarChart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function underYearSpace($space)
     {
@@ -317,6 +326,7 @@ class CalendarChart extends Chart
      *
      * @param  bool $iframe
      * @return \Khill\Lavacharts\Charts\CalendarChart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function forceIFrame($iframe)
     {
