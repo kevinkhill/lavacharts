@@ -3,8 +3,23 @@
 namespace Khill\Lavacharts\Configs\UIs;
 
 use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
+/**
+ * DataRangeUI Object
+ *
+ * Parent to the NumberRange and DateRange UI objects.
+ *
+ * @package    Khill\Lavacharts
+ * @subpackage Configs\UIs
+ * @since      3.0.0
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2015, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
+ * @license    http://opensource.org/licenses/MIT MIT
+ */
 class DataRange extends UI
 {
     /**
@@ -12,7 +27,7 @@ class DataRange extends UI
      *
      * @var array
      */
-    protected $extDefaults = [
+    protected $dataRangeDefaults = [
         'format',
         'step',
         'ticks',
@@ -23,23 +38,30 @@ class DataRange extends UI
     ];
 
     /**
+     * Builds a new Date or Number RangeUI object.
+     *
+     * @param array $config Array of options to set
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function __construct($config = [])
+    {
+        $options = new Options($this->defaults);
+        $options->extend($this->dataRangeDefaults);
+
+        parent::__construct($options, $config);
+    }
+
+    /**
      * The minimum possible change when dragging the slider thumbs.
      *
      * @access public
      * @param  int|float $step
+     * @return \Khill\Lavacharts\Configs\UIs\DataRange
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function step($step)
     {
-        if (is_numeric($step) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'int|float'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $step);
+        return $this->setNumericOption(__FUNCTION__, $step);
     }
 
     /**
@@ -47,19 +69,12 @@ class DataRange extends UI
      *
      * @access public
      * @param  int|float $ticks
+     * @return \Khill\Lavacharts\Configs\UIs\DataRange
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function ticks($ticks)
     {
-        if (is_numeric($ticks) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'int|float'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $ticks);
+        return $this->setNumericOption(__FUNCTION__, $ticks);
     }
 
     /**
@@ -69,19 +84,12 @@ class DataRange extends UI
      *
      * @access public
      * @param  int|float $unitIncrement
+     * @return \Khill\Lavacharts\Configs\UIs\DataRange
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function unitIncrement($unitIncrement)
     {
-        if (is_numeric($unitIncrement) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'int|float'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $unitIncrement);
+        return $this->setNumericOption(__FUNCTION__, $unitIncrement);
     }
 
     /**
@@ -91,8 +99,8 @@ class DataRange extends UI
      *
      * @access public
      * @param  int|float $blockIncrement
+     * @return \Khill\Lavacharts\Configs\UIs\DataRange
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function blockIncrement($blockIncrement)
     {

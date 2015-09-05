@@ -5,6 +5,20 @@ namespace Khill\Lavacharts\Configs\UIs;
 use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\DataTables\Formats\NumberFormat;
 
+/**
+ * NumberRangeUI Object
+ *
+ * Customization for NumberRange Filters in Dashboards.
+ *
+ * @package    Khill\Lavacharts
+ * @subpackage Configs\UIs
+ * @since      3.0.0
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2015, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
+ * @license    http://opensource.org/licenses/MIT MIT
+ */
 class NumberRangeUI extends DataRange
 {
     /**
@@ -13,20 +27,6 @@ class NumberRangeUI extends DataRange
      * @var string
      */
     const TYPE = 'NumberRangeUI';
-
-    /**
-     * Builds a new NumberRangeUI object.
-     *
-     * @param  array $config Array of options to set
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function __construct($config = [])
-    {
-        $options = new Options($this->defaults);
-        $options->extend($this->extDefaults);
-
-        parent::__construct($options, $config);
-    }
 
     /**
      * Sets the format for numbers in the control.

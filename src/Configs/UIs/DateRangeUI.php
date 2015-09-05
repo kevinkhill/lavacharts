@@ -5,39 +5,38 @@ namespace Khill\Lavacharts\Configs\UIs;
 use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\DataTables\Formats\DateFormat;
 
+/**
+ * DateRangeUI Object
+ *
+ * Customization for DateRange Filters in Dashboards.
+ *
+ * @package    Khill\Lavacharts
+ * @subpackage Configs\UIs
+ * @since      3.0.0
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2015, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
+ * @license    http://opensource.org/licenses/MIT MIT
+ */
 class DateRangeUI extends DataRange
 {
     /**
-     * Type of UI config object
+     * Type of UI object
      *
      * @var string
      */
     const TYPE = 'DateRangeUI';
 
     /**
-     * Builds a new DateRangeUI object.
-     *
-     * @param array $config Array of options to set
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
-     */
-    public function __construct($config = [])
-    {
-        $options = new Options($this->defaults);
-        $options->extend($this->extDefaults);
-
-        parent::__construct($options, $config);
-    }
-
-    /**
      * Sets the format for dates in the control.
      *
      * @access public
-     * @param  \Khill\Lavacharts\DataTables\Formats\DateFormat
-     * @return self
+     * @param  array $formatConfig
+     * @return \Khill\Lavacharts\Configs\UIs\DateRangeUI
      */
-    public function format(DateFormat $format)
+    public function format($formatConfig)
     {
-        return $this->setOption(__FUNCTION__, $format);
+        return $this->setOption(__FUNCTION__, new DateFormat($formatConfig));
     }
 }

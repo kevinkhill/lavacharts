@@ -2,20 +2,25 @@
 
 namespace Khill\Lavacharts\Configs\UIs;
 
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Options;
-use \Khill\Lavacharts\Exceptions\InvalidUIProperty;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\JsonConfig;
 
-class UI implements \JsonSerializable
+/**
+ * UI Object
+ *
+ * The parent object for all UI config objects. Adds JsonSerializable and methods for setting options.
+ *
+ *
+ * @package    Khill\Lavacharts
+ * @subpackage Configs\UIs
+ * @since      3.0.0
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2015, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
+ * @license    http://opensource.org/licenses/MIT MIT
+ */
+class UI extends JsonConfig
 {
-    /**
-     * Allowed options to set for the UI.
-     *
-     * @var \Khill\Lavacharts\Options
-     */
-    protected $options;
-
     /**
      * Default options available.
      *
@@ -28,70 +33,14 @@ class UI implements \JsonSerializable
         'cssClass'
     ];
 
-    public function __construct(Options $options, $config = [])
-    {
-        $this->options = $options;
-
-        if (is_array($config) === true && empty($config) === false) {
-            $this->parseConfig($config);
-        }
-    }
-
     /**
-     * Get the value of a set option via magic method through UI.
+     * Returns the UI object type
      *
-     * @param  string $option Name of option.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return mixed
+     * @return string
      */
-    public function __get($option)
+    public function getType()
     {
-        return $this->options->get($option);
-    }
-
-    private function parseConfig($config)
-    {
-        foreach ($config as $option => $value) {
-            if ($this->options->hasOption($option) === false) {
-                throw new InvalidUIProperty(
-                    $option,
-                    $this->options->getDefaults()
-                );
-            }
-
-            call_user_func([$this, $option], $value);
-        }
-    }
-
-    /**
-     * Sets the value of an option.
-     *
-     * Used internally to check the values for their respective types and validity.
-     *
-     * @param  string $option Option to set.
-     * @param  mixed $value Value of the option.
-     * @return self
-     */
-    protected function setOption($option, $value)
-    {
-        $this->options->set($option, $value);
-
-        return $this;
-    }
-
-    public function getType() //TODO: look at this again
-    {
-        return static::$TYPE;
-    }
-
-    /**
-     * Gets the Options object for the UI
-     *
-     * @return \Khill\Lavacharts\Options
-     */
-    public function getOptions()
-    {
-        return $this->options;
+        return static::TYPE;
     }
 
     /**
@@ -100,38 +49,24 @@ class UI implements \JsonSerializable
      * If unspecified, the label of the column the control operates on will be used.
      *
      * @param  string $label Label to display
+     * @return \Khill\Lavacharts\Configs\UIs\UI
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function label($label)
     {
-        if (Utils::nonEmptyString($label) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $label);
+        return $this->setStringOption(__FUNCTION__, $label);
     }
 
     /**
      * A separator string appended to the label, to visually separate the label from the control.
      *
-     * @param string $labelSeparator
+     * @param  string $labelSeparator
+     * @return \Khill\Lavacharts\Configs\UIs\UI
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function labelSeparator($labelSeparator)
     {
-        if (Utils::nonEmptyString($labelSeparator) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $labelSeparator);
+        return $this->setStringOption(__FUNCTION__, $labelSeparator);
     }
 
     /**
@@ -141,9 +76,9 @@ class UI implements \JsonSerializable
      *  - 'vertical'
      *  - 'horizontal'
      *
-     * @param string $cssClass
+     * @param  string $labelStacking
+     * @return \Khill\Lavacharts\Configs\UIs\UI
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function labelStacking($labelStacking)
     {
@@ -152,43 +87,18 @@ class UI implements \JsonSerializable
             'horizontal'
         ];
 
-        if (Utils::nonEmptyStringInArray($labelStacking, $values) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string',
-                ' which must be one of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $labelStacking);
+        return $this->setStringInArrayOption(__FUNCTION__, $labelStacking, $values);
     }
 
     /**
      * The CSS class to assign to the control, for custom styling.
      *
-     * @param string $cssClass
+     * @param  string $cssClass
+     * @return \Khill\Lavacharts\Configs\UIs\UI
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function cssClass($cssClass)
     {
-        if (Utils::nonEmptyString($cssClass) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $cssClass);
-    }
-
-    /**
-     * Custom serialization of the UI object.
-     *
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        return $this->options->getValues();
+        return $this->setStringOption(__FUNCTION__, $cssClass);
     }
 }
