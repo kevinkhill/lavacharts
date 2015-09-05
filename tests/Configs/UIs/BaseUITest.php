@@ -1,8 +1,7 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\Configs;
+namespace Khill\Lavacharts\Tests\Configs\UIs;
 
-use \Khill\Lavacharts\Configs\UIs\UI;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class BaseUITest extends ProvidersTestCase
@@ -11,19 +10,12 @@ class BaseUITest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->mockOptions = \Mockery::mock('\Khill\Lavacharts\Options', [[
-            'label',
-            'labelSeparator',
-            'labelStacking',
-            'cssClass'
-        ]])->makePartial();
-
-        $this->UI = new UI($this->mockOptions);
+        $this->MockUI = new MockUI();
     }
 
     public function testConstructorValuesAssignment()
     {
-        $ui = new UI($this->mockOptions, [
+        $ui = new MockUI([
             'label'          => 'Tacos',
             'labelSeparator' => ':',
             'labelStacking'  => 'horizontal',
@@ -36,11 +28,16 @@ class BaseUITest extends ProvidersTestCase
         $this->assertEquals($ui->cssClass, 'fancy');
     }
 
+    public function testGetType()
+    {
+        $this->assertEquals('MockUI', $this->MockUI->getType());
+    }
+
     public function testLabel()
     {
-        $this->UI->label('Carrots');
+        $this->MockUI->label('Carrots');
 
-        $this->assertEquals($this->UI->label, 'Carrots');
+        $this->assertEquals($this->MockUI->label, 'Carrots');
     }
 
     /**
@@ -49,14 +46,14 @@ class BaseUITest extends ProvidersTestCase
      */
     public function testLabelWithBadParams($badVals)
     {
-        $this->UI->label($badVals);
+        $this->MockUI->label($badVals);
     }
 
     public function testLabelSeparator()
     {
-        $this->UI->labelSeparator('|');
+        $this->MockUI->labelSeparator('|');
 
-        $this->assertEquals($this->UI->labelSeparator, '|');
+        $this->assertEquals($this->MockUI->labelSeparator, '|');
     }
 
     /**
@@ -65,16 +62,16 @@ class BaseUITest extends ProvidersTestCase
      */
     public function testLabelSeparatorWithBadParams($badVals)
     {
-        $this->UI->labelSeparator($badVals);
+        $this->MockUI->labelSeparator($badVals);
     }
 
     public function testLabelStackingWithValidValues()
     {
-        $this->UI->labelStacking('horizontal');
-        $this->assertEquals($this->UI->labelStacking, 'horizontal');
+        $this->MockUI->labelStacking('horizontal');
+        $this->assertEquals($this->MockUI->labelStacking, 'horizontal');
 
-        $this->UI->labelStacking('vertical');
-        $this->assertEquals($this->UI->labelStacking, 'vertical');
+        $this->MockUI->labelStacking('vertical');
+        $this->assertEquals($this->MockUI->labelStacking, 'vertical');
     }
 
     /**
@@ -82,7 +79,7 @@ class BaseUITest extends ProvidersTestCase
      */
     public function testLabelStackingWithInvalidOption()
     {
-        $this->UI->labelStacking('upsidedown');
+        $this->MockUI->labelStacking('upsidedown');
     }
 
     /**
@@ -91,13 +88,13 @@ class BaseUITest extends ProvidersTestCase
      */
     public function testLabelStackingWithBadTypes($badTypes)
     {
-        $this->UI->labelStacking($badTypes);
+        $this->MockUI->labelStacking($badTypes);
     }
 
     public function testCssClass()
     {
-        $this->UI->cssClass('fancy-class');
-        $this->assertEquals($this->UI->cssClass, 'fancy-class');
+        $this->MockUI->cssClass('fancy-class');
+        $this->assertEquals($this->MockUI->cssClass, 'fancy-class');
     }
 
     /**
@@ -106,17 +103,17 @@ class BaseUITest extends ProvidersTestCase
      */
     public function testCssClassWithBadParams($badVals)
     {
-        $this->UI->cssClass($badVals);
+        $this->MockUI->cssClass($badVals);
     }
 
     public function testGetOptions()
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Options', $this->UI->getOptions());
+        $this->assertInstanceOf('\Khill\Lavacharts\Options', $this->MockUI->getOptions());
     }
 
     public function testJsonSerialization()
     {
-        $ui = new UI($this->mockOptions, [
+        $ui = new MockUI([
             'label'          => 'Tacos',
             'labelSeparator' => '|',
             'labelStacking'  => 'horizontal',

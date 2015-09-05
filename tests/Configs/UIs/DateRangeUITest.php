@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\Configs;
+namespace Khill\Lavacharts\Tests\Configs\UIs;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Configs\UIs\DateRangeUI;
@@ -16,10 +16,8 @@ class DateRangeUITest extends ProvidersTestCase
 
     public function testConstructorValuesAssignment()
     {
-        $mockDateFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\DateFormat');
-
         $ui = new DateRangeUI([
-            'format'          => $mockDateFormat,
+            'format'          => [],
             'step'            => 1,
             'ticks'           => 2,
             'unitIncrement'   => 5,
@@ -28,6 +26,7 @@ class DateRangeUITest extends ProvidersTestCase
             'orientation'     => 'vertical'
         ]);
 
+        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Formats\DateFormat', $ui->format);
         $this->assertEquals($ui->step, 1);
         $this->assertEquals($ui->ticks, 2);
         $this->assertEquals($ui->unitIncrement, 5);
@@ -37,7 +36,7 @@ class DateRangeUITest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidUIProperty
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testConstructorWithInvalidPropertiesKey()
     {

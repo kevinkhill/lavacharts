@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\Configs;
+namespace Khill\Lavacharts\Tests\Configs\UIs;
 
 use \Khill\Lavacharts\Configs\UIs\CategoryUI;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;

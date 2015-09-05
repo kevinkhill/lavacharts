@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\Configs;
+namespace Khill\Lavacharts\Tests\Configs\UIs;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Configs\UIs\NumberRangeUI;
@@ -38,7 +38,7 @@ class NumberRangeUITest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidUIProperty
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
