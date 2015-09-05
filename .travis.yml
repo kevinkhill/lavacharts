@@ -31,6 +31,7 @@ branches:
 cache:
   directories:
     - vendor
+    - $HOME/.composer/cache
     - node_modules
 
 before_install:
@@ -41,7 +42,7 @@ before_install:
 
 install:
   - npm install karma karma-jasmine karma-phantomjs-launcher jasmine-core
-  - composer install --no-progress
+  - composer update --no-progress --prefer-dist
   #- composer update --prefer-lowest
 
 before_script:
