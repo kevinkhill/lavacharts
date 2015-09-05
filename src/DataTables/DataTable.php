@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\DataTables;
 
-use Khill\Lavacharts\Exceptions\InvalidColumnType;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\DataTables\Cells\Cell;
 use \Khill\Lavacharts\DataTables\Formats\Format;
@@ -13,6 +12,7 @@ use \Khill\Lavacharts\Exceptions\InvalidTimeZone;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use \Khill\Lavacharts\Exceptions\InvalidRowProperty;
+use \Khill\Lavacharts\Exceptions\InvalidColumnType;
 
 /**
  * The DataTable object is used to hold the data passed into a visualization.
@@ -85,7 +85,6 @@ class DataTable implements \JsonSerializable
      *
      * @access public
      * @param  string $timezone
-     * @return self
      */
     public function __construct($timezone = null)
     {
