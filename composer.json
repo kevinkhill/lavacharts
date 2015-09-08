@@ -12,9 +12,42 @@
         {
             "name": "Kevin Hill",
             "email": "kevinkhill@gmail.com",
-            "role": "Developer"
+            "role": "Creator"
+        },
+        {
+            "name": "deringer",
+            "homepage": "https://github.com/deringer",
+            "role": "Contributor"
+        },
+        {
+            "name": "stevebauman",
+            "homepage": "https://github.com/stevebauman",
+            "role": "Contributor"
+        },
+        {
+            "name": "rajivseelam",
+            "homepage": "https://github.com/rajivseelam",
+            "role": "Contributor"
+        },
+        {
+            "name": "tobias-kuendig",
+            "homepage": "https://github.com/tobias-kuendig",
+            "role": "Contributor"
+        },
+        {
+            "name": "Stonos",
+            "homepage": "https://github.com/Stonos",
+            "role": "Contributor"
         }
     ],
+    "support": {
+        "docs": "http://lavacharts.com",
+        "email": "kevinkhill@gmail.com",
+        "forum": "https://gitter.im/kevinkhill/lavacharts",
+        "wiki": "https://github.com/kevinkhill/lavacharts/wiki",
+        "source": "https://github.com/kevinkhill/lavacharts",
+        "issues": "https://github.com/kevinkhill/lavacharts/issues"
+    },
     "require": {
         "php": ">=5.4.0",
         "nesbot/carbon": "~1.14"
