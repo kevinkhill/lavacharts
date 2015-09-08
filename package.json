@@ -39,6 +39,6 @@
     "url": "https://github.com/kevinkhill/lavacharts/issues"
   },
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start configs/karma.conf.js --single-run"
+    "test": "node ./node_modules/karma/bin/karma start configs/karma.conf.js --single-run"
   }
 }
