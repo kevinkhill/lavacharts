@@ -21,7 +21,6 @@ gulp.task('karma', function (done) {
     server.start();
 });
 
-
 gulp.task('render', function (done) {gulp.src(['file.txt'])
     var webshot = require('webshot'),
           async = require('async');
