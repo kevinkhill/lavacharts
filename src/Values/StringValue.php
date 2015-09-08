@@ -17,7 +17,7 @@ namespace Khill\Lavacharts\Values;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class String
+class StringValue
 {
     private $value;
 

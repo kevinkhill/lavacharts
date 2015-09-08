@@ -18,7 +18,7 @@ use \Khill\Lavacharts\Exceptions\InvalidLabel;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT MIT
  */
-class Label extends String
+class Label extends StringValue
 {
     public function __construct($value)
     {

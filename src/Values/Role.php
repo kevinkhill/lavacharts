@@ -18,7 +18,7 @@ use \Khill\Lavacharts\Exceptions\InvalidColumnRole;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT MIT
  */
-class Role extends String
+class Role extends StringValue
 {
     private $validRoles = [
         'annotation',

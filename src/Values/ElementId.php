@@ -19,7 +19,7 @@ use \Khill\Lavacharts\Exceptions\InvalidElementId;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT MIT
  */
-class ElementId extends String
+class ElementId extends StringValue
 {
     public function __construct($value)
     {
