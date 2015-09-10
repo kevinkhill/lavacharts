@@ -88,11 +88,11 @@ class DataTable implements \JsonSerializable
      */
     public function __construct($timezone = null)
     {
+        $this->rowFactory = new RowFactory($this);
+
         if ($timezone === null) {
             $timezone = date_default_timezone_get();
         }
-
-        $this->rowFactory = new RowFactory($this);
 
         $this->setTimezone($timezone);
     }
@@ -182,10 +182,14 @@ class DataTable implements \JsonSerializable
      */
     public function setTimezone($timezone)
     {
-        try {
-            $this->timezone = new \DateTimeZone($timezone);
-        } catch (\Exception $e) {
-            throw new InvalidTimeZone($e->getMessage());
+        /**
+         * Using procedural function to get bool instead of try/catch
+         * for compatibility with mixing PHP5.4+ & PHP7
+         */
+        $this->timezone = timezone_open($timezone);
+
+        if ($this->timezone === false) {
+            throw new InvalidTimeZone($timezone);
         }
 
         return $this;

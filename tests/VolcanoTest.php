@@ -6,17 +6,19 @@ use \Khill\Lavacharts\Volcano;
 
 class VolcanoTest extends ProvidersTestCase
 {
+    public $Volcano;
+
     public function setUp()
     {
         parent::setUp();
 
-        $this->volcano = new Volcano;
+        $this->Volcano = new Volcano;
 
         $this->mockChartLabel = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['TestChart'])->makePartial();
 
         $this->mockDashLabel = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['TestDash'])->makePartial();
 
-        $this->nonExistentLabel = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['Pumpkins'])->makePartial();
+        $this->nonExistantLabel = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['Pumpkins'])->makePartial();
 
         $this->mockLineChart = \Mockery::mock('\Khill\Lavacharts\Charts\LineChart', [
             $this->mockChartLabel,
@@ -33,7 +35,7 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testStoreChart()
     {
-        $this->assertTrue($this->volcano->storeChart($this->mockLineChart));
+        $this->assertTrue($this->Volcano->storeChart($this->mockLineChart));
     }
 
     /**
@@ -42,12 +44,12 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testCheckChart()
     {
-        $this->volcano->storeChart($this->mockLineChart);
+        $this->Volcano->storeChart($this->mockLineChart);
 
-        $this->assertTrue($this->volcano->checkChart('LineChart', $this->mockChartLabel));
+        $this->assertTrue($this->Volcano->checkChart('LineChart', $this->mockChartLabel));
 
-        $this->assertFalse($this->volcano->checkChart('LaserChart', $this->mockChartLabel));
-        $this->assertFalse($this->volcano->checkChart('LineChart', $this->nonExistentLabel));
+        $this->assertFalse($this->Volcano->checkChart('LaserChart', $this->mockChartLabel));
+        $this->assertFalse($this->Volcano->checkChart('LineChart', $this->nonExistantLabel));
     }
 
     /**
@@ -57,9 +59,9 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testGetChart()
     {
-        $this->volcano->storeChart($this->mockLineChart);
+        $this->Volcano->storeChart($this->mockLineChart);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $this->volcano->getChart('LineChart', $this->mockChartLabel));
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $this->Volcano->getChart('LineChart', $this->mockChartLabel));
     }
 
     /**
@@ -71,8 +73,8 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testGetChartWithBadChartType()
     {
-        $this->volcano->storeChart($this->mockLineChart);
-        $this->volcano->getChart('LaserChart', $this->mockChartLabel);
+        $this->Volcano->storeChart($this->mockLineChart);
+        $this->Volcano->getChart('LaserChart', $this->mockChartLabel);
     }
 
     /**
@@ -84,8 +86,8 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testGetChartWithNonExistentLabel()
     {
-        $this->volcano->storeChart($this->mockLineChart);
-        $this->volcano->getChart('LineChart', $this->nonExistentLabel);
+        $this->Volcano->storeChart($this->mockLineChart);
+        $this->Volcano->getChart('LineChart', $this->nonExistantLabel);
     }
 
 
@@ -94,7 +96,7 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testStoreDashboard()
     {
-        $this->assertTrue($this->volcano->storeDashboard($this->mockDashboard));
+        $this->assertTrue($this->Volcano->storeDashboard($this->mockDashboard));
     }
 
     /**
@@ -103,21 +105,9 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testCheckDashboard()
     {
-        $this->volcano->storeDashboard($this->mockDashboard);
+        $this->Volcano->storeDashboard($this->mockDashboard);
 
-        $this->assertFalse($this->volcano->checkDashboard($this->nonExistentLabel));
-    }
-
-    /**
-     * @group dashboard
-     * @depends testStoreDashboard
-     * @dataProvider nonStringProvider
-     * @expectedException \PHPUnit_Framework_Error
-     */
-    public function testCheckDashboardWithBadTypes($badTypes)
-    {
-        $this->volcano->storeDashboard($this->mockDashboard);
-        $this->assertFalse($this->volcano->checkDashboard($badTypes));
+        $this->assertFalse($this->Volcano->checkDashboard($this->nonExistantLabel));
     }
 
     /**
@@ -127,9 +117,9 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testGetDashboard()
     {
-        $this->volcano->storeDashboard($this->mockDashboard);
+        $this->Volcano->storeDashboard($this->mockDashboard);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Dashboard', $this->volcano->getDashboard($this->mockDashLabel));
+        $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Dashboard', $this->Volcano->getDashboard($this->mockDashLabel));
     }
 
     /**
@@ -141,8 +131,8 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testGetDashboardWithNonExistentLabel()
     {
-        $this->volcano->storeDashboard($this->mockDashboard);
+        $this->Volcano->storeDashboard($this->mockDashboard);
 
-        $this->volcano->getDashboard($this->nonExistentLabel);
+        $this->Volcano->getDashboard($this->nonExistantLabel);
     }
 }

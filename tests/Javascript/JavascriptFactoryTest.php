@@ -33,21 +33,4 @@ class JavascriptFactoryTest extends ProvidersTestCase
 
         $this->assertTrue(strpos($js, 'my-chart') > 0 ? true : false);
     }
-
-    /**
-     * @expectedException \PHPUnit_Framework_Error
-     */
-    public function testGetChartJsWithNoElementId()
-    {
-        $this->jsf->getChartJs($this->mlc);
-    }
-
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \PHPUnit_Framework_Error
-     */
-    public function testGetChartJsWithBadElementIdTypes($badTypes)
-    {
-        $this->jsf->getChartJs($this->mlc, $badTypes);
-    }
 }
