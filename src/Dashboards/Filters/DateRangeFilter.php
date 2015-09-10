@@ -5,10 +5,7 @@ namespace Khill\Lavacharts\Dashboards\Filters;
 use \Khill\Lavacharts\Options;
 
 /**
- * Chart Range Filter Class
- *
- * A slider with two thumbs superimposed onto a chart, to select a range of values
- * from the continuous axis of the chart.
+ * Date Range Class
  *
  * @package    Khill\Lavacharts
  * @subpackage Dashboards\Filters
@@ -18,16 +15,26 @@ use \Khill\Lavacharts\Options;
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
- * @see        https://developers.google.com/chart/interactive/docs/gallery/controls#googlevisualizationchartrangefilter
+ * @see        https://developers.google.com/chart/interactive/docs/gallery/controls#googlevisualizationdaterangefilter
  */
-class ChartRange extends Filter
+class DateRangeFilter extends Filter
 {
     /**
      * Type of Filter.
      *
      * @var string
      */
-    const TYPE = 'ChartRangeFilter';
+    const TYPE = 'DateRangeFilter';
+
+    /**
+     * DateRange specific default options.
+     *
+     * @var array
+     */
+    private $extDefaults = [
+        'minValue',
+        'maxValue'
+    ];
 
     /**
      * Creates the new Filter object to filter the given column label or index.
@@ -40,6 +47,7 @@ class ChartRange extends Filter
     public function __construct($columnLabelOrIndex, $config = [])
     {
         $options = new Options($this->defaults);
+        $options->extend($this->extDefaults);
 
         parent::__construct($options, $config, $columnLabelOrIndex);
     }

@@ -20,7 +20,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @license    http://opensource.org/licenses/MIT MIT
  * @see        https://developers.google.com/chart/interactive/docs/gallery/controls#googlevisualizationcategoryfilter
  */
-class Category extends Filter
+class CategoryFilter extends Filter
 {
     /**
      * Type of Filter.

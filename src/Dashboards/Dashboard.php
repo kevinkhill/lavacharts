@@ -54,17 +54,17 @@ class Dashboard
 
     /**
      * Binds ControlWrappers to ChartWrappers in the dashboard.
-     *
      * - A OneToOne binding is created if single wrappers are passed.
      * - If a single ControlWrapper is passed with an array of ChartWrappers,
      *   a OneToMany binding is created.
      * - If an array of ControlWrappers is passed with one ChartWrapper, then
      *   a ManyToOne binding is created.
      *
-     * @uses  \Khill\Lavacharts\Dashboard\Bindings\BindingFactory
-     * @param \Khill\Lavacharts\Dashboards\ControlWrapper|array $controlWraps
-     * @param \Khill\Lavacharts\Dashboards\ChartWrapper|array $chartWraps
-     * @return self
+     * @uses   \Khill\Lavacharts\Dashboard\Bindings\BindingFactory
+     * @param  \Khill\Lavacharts\Dashboards\ControlWrapper|array $controlWraps
+     * @param  \Khill\Lavacharts\Dashboards\ChartWrapper|array   $chartWraps
+     * @return \Khill\Lavacharts\Dashboards\Dashboard
+     * @throws \Khill\Lavacharts\Exceptions\InvalidBindings
      */
     public function bind($controlWraps, $chartWraps)
     {
@@ -118,12 +118,16 @@ class Dashboard
      *
      * This method can set all bindings at once instead of chaining multiple bind methods.
      *
-     * @param array $bindings
+     * @param  array $bindings
+     * @return \Khill\Lavacharts\Dashboards\Dashboard
+     * @throws \Khill\Lavacharts\Exceptions\InvalidBindings
      */
     public function setBindings($bindings)
     {
         foreach ($bindings as $binding) {
             $this->bind($binding[0], $binding[1]);
         }
+
+        return $this;
     }
 }

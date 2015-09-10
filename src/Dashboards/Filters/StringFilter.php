@@ -18,7 +18,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @license    http://opensource.org/licenses/MIT MIT
  * @see        https://developers.google.com/chart/interactive/docs/gallery/controls#googlevisualizationstringfilter
  */
-class String extends Filter
+class StringFilter extends Filter
 {
     /**
      * Type of Filter.
@@ -45,7 +45,6 @@ class String extends Filter
      * @param  array $config Array of options to set.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function __construct($columnLabelOrIndex, $config = [])
     {
@@ -64,8 +63,8 @@ class String extends Filter
      * - any    : Any substring
      *
      * @param  string $matchType
-     * @throws InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Dashboards\Filters\StringFilter
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function matchType($matchType)
     {
@@ -82,8 +81,8 @@ class String extends Filter
      * Whether matching should be case sensitive or not.
      *
      * @param  boolean $caseSensitive
-     * @throws InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Dashboards\Filters\StringFilter
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function caseSensitive($caseSensitive)
     {
@@ -94,8 +93,8 @@ class String extends Filter
      * Whether the control should match against cell formatted values or against actual values.
      *
      * @param  boolean $useFormattedValue
-     * @throws InvalidConfigValue
-     * @return self
+     * @return \Khill\Lavacharts\Dashboards\Filters\StringFilter
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function useFormattedValue($useFormattedValue)
     {

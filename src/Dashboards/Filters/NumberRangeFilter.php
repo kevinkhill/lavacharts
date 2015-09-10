@@ -18,7 +18,7 @@ use \Khill\Lavacharts\Options;
  * @license    http://opensource.org/licenses/MIT MIT
  * @see        https://developers.google.com/chart/interactive/docs/gallery/controls#--googlevisualizationnumberrangefilter
  */
-class NumberRange extends Filter
+class NumberRangeFilter extends Filter
 {
     /**
      * Type of Filter.
