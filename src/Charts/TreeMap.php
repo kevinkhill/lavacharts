@@ -108,7 +108,7 @@ class TreeMap extends Chart
      * The color of the header section for each node. Specify an HTML color value.
      *
      * @param  string $headerColor
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function headerColor($headerColor)
     {
@@ -119,7 +119,7 @@ class TreeMap extends Chart
      * The height of the header section for each node, in pixels (can be zero).
      *
      * @param  integer $headerHeight
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function headerHeight($headerHeight)
     {
@@ -132,7 +132,7 @@ class TreeMap extends Chart
      * by 35%
      *
      * @param  string $headerHighlightColor
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function headerHighlightColor($headerHighlightColor)
     {
@@ -144,7 +144,7 @@ class TreeMap extends Chart
      * Specify an HTML color value.
      *
      * @param  string $maxColor
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function maxColor($maxColor)
     {
@@ -159,7 +159,7 @@ class TreeMap extends Chart
      * within these nodes.
      *
      * @param  integer $maxDepth
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function maxDepth($maxDepth)
     {
@@ -172,7 +172,7 @@ class TreeMap extends Chart
      * will be the value of maxColor lightened by 35%.
      *
      * @param  string $maxHighlightColor
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function maxHighlightColor($maxHighlightColor)
     {
@@ -185,7 +185,7 @@ class TreeMap extends Chart
      * the maxDepth limit.
      *
      * @param  integer $maxPostDepth
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function maxPostDepth($maxPostDepth)
     {
@@ -198,7 +198,7 @@ class TreeMap extends Chart
      * in the column.
      *
      * @param  integer $maxColorValue
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function maxColorValue($maxColorValue)
     {
@@ -210,7 +210,7 @@ class TreeMap extends Chart
      * maxColorValue and minColorValue. Specify an HTML color value.
      *
      * @param  string $midColor
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function midColor($midColor)
     {
@@ -224,7 +224,7 @@ class TreeMap extends Chart
      * by 35%.
      *
      * @param  string $midHighlightColor
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function midHighlightColor($midHighlightColor)
     {
@@ -236,7 +236,7 @@ class TreeMap extends Chart
      * Specify an HTML color value.
      *
      * @param  string $minColor
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function minColor($minColor)
     {
@@ -249,7 +249,7 @@ class TreeMap extends Chart
      * will be the value of minColor lightened by 35%.
      *
      * @param  string $minHighlightColor
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function minHighlightColor($minHighlightColor)
     {
@@ -262,7 +262,7 @@ class TreeMap extends Chart
      * minimum value in the column.
      *
      * @param  integer $minColorValue
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function minColorValue($minColorValue)
     {
@@ -275,7 +275,7 @@ class TreeMap extends Chart
      * color value.
      *
      * @param  string $noColor
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function noColor($noColor)
     {
@@ -288,7 +288,7 @@ class TreeMap extends Chart
      * lightened by 35%.
      *
      * @param  string $noHighlightColor
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function noHighlightColor($noHighlightColor)
     {
@@ -300,7 +300,7 @@ class TreeMap extends Chart
      * along the top of the chart. Specify true to show the scale.
      *
      * @param  bool $showScale
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function showScale($showScale)
     {
@@ -311,7 +311,7 @@ class TreeMap extends Chart
      * Whether or not to show tooltips.
      *
      * @param  bool $showTooltips
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function showTooltips($showTooltips)
     {
@@ -322,7 +322,7 @@ class TreeMap extends Chart
      * The text color. Specify an HTML color value.
      *
      * @param  string $fontColor
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function fontColor($fontColor)
     {
@@ -333,7 +333,7 @@ class TreeMap extends Chart
      * The font family to use for all text.
      *
      * @param  string $fontFamily
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function fontFamily($fontFamily)
     {
@@ -344,7 +344,7 @@ class TreeMap extends Chart
      * The font size for all text, in points.
      *
      * @param  integer $fontSize
-     * @return self
+     * @return \Khill\Lavacharts\Charts\TreeMap
      */
     public function fontSize($fontSize)
     {

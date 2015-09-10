@@ -3,10 +3,10 @@
 namespace Khill\Lavacharts\Values;
 
 /**
- * String Value Object
+ * StringValue Object
  *
  *
- * Creates a new String object while checking if it is a non empty and actually a string.
+ * Creates a new String value object while checking if it is a non empty and actually a string.
  *
  * @category   Class
  * @package    Khill\Lavacharts

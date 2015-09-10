@@ -39,14 +39,14 @@ class Lavacharts
      *
      * @var Volcano
      */
-    public $volcano;
+    private $volcano;
 
     /**
      * JavascriptFactory for outputting lava.js and chart/dashboard javascript
      *
      * @var JavascriptFactory
      */
-    public $jsFactory;
+    private $jsFactory;
 
     /**
      * Types of charts that can be created.

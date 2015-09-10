@@ -37,7 +37,6 @@ class RowFactory
      *
      * @access public
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable
-     * @return self
      */
     public function __construct(DataTable $datatable)
     {

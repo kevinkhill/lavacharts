@@ -32,6 +32,8 @@ cache:
   directories:
     - $HOME/.composer/cache
     - $HOME/.npm
+    - vendor
+    - node_modules
 
 before_install:
   - nvm install 0.10
@@ -48,7 +50,6 @@ before_script:
   - mkdir -p build/logs
 
 script:
-  #- php -i | grep timezone
   - phpunit -c configs/phpunit.xml.dist
   - npm test
 

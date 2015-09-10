@@ -35,9 +35,8 @@ class ChartFactory extends JavascriptFactory
      * Creates a new ChartFactory with the javascript template.
      *
      * @access public
-     * @param \Khill\Lavacharts\Charts\Chart $chart Chart to process
-     * @param \Khill\Lavacharts\Values\ElementId $elementId HTML element id to output into.
-     * @return self
+     * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to process
+     * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to output into.
      */
     public function __construct(Chart $chart, ElementId $elementId)
     {
