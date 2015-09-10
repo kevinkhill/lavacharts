@@ -182,13 +182,13 @@ class DataTable implements \JsonSerializable
      */
     public function setTimezone($timezone)
     {
-        /**
-         * Using procedural function to get bool instead of try/catch
-         * for compatibility with mixing PHP5.4+ & PHP7
-         */
-        $this->timezone = timezone_open($timezone);
+        if (Utils::nonEmptyString($timezone) === false) {
+            throw new InvalidTimeZone($timezone);
+        }
 
-        if ($this->timezone === false) {
+        try {
+            $this->timezone = new \DateTimeZone($timezone);
+        } catch (\Exception $e) {
             throw new InvalidTimeZone($timezone);
         }
 
