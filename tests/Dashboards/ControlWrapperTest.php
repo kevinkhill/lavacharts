@@ -18,7 +18,7 @@ class ControlWrapperTest extends ProvidersTestCase
         $this->mockElementId = \Mockery::mock('\Khill\Lavacharts\Values\ElementId', ['TestId'])->makePartial();
         $this->jsonOutput = '{"controlType":"NumberRangeFilter","containerId":"TestId","options":{"Option1":5,"Option2":true}}';
 
-        $mockNumberFilter = \Mockery::mock('\Khill\Lavacharts\Dashboards\Filters\NumberRange')
+        $mockNumberFilter = \Mockery::mock('\Khill\Lavacharts\Dashboards\Filters\NumberRangeFilter')
             ->shouldReceive('getType')
             ->once()
             ->andReturn('NumberRangeFilter')

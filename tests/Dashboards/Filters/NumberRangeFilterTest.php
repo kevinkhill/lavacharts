@@ -2,34 +2,33 @@
 
 namespace Khill\Lavacharts\Tests\Dashboards\Filters;
 
-use \Khill\Lavacharts\Dashboards\Filters\NumberRange;
+use \Khill\Lavacharts\Dashboards\Filters\NumberRangeFilter;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class NumberRangeFilterTest extends ProvidersTestCase
 {
     public function testSettingColumnIndexWithConstructor()
     {
-        $numberRangeFilter = new NumberRange(2);
+        $numberRangeFilter = new NumberRangeFilter(2);
 
         $this->assertEquals(2, $numberRangeFilter->filterColumnIndex);
     }
 
     public function testSettingColumnLabelWithConstructor()
     {
-        $numberRangeFilter = new NumberRange('donuts');
+        $numberRangeFilter = new NumberRangeFilter('donuts');
 
         $this->assertEquals('donuts', $numberRangeFilter->filterColumnLabel);
     }
 
     /**
      * @depends testSettingColumnLabelWithConstructor
+     * @covers \Khill\Lavacharts\Dashboards\Filters\NumberRangeFilter::getType
      */
-    public function testGetTypeMethodAndStaticReferences()
+    public function testGetType()
     {
-        $numberRangeFilter = new NumberRange('donuts');
+        $numberRangeFilter = new NumberRangeFilter('donuts');
 
-        $this->assertEquals('NumberRangeFilter', NumberRange::TYPE);
-        $this->assertEquals('NumberRangeFilter', $numberRangeFilter::TYPE);
         $this->assertEquals('NumberRangeFilter', $numberRangeFilter->getType());
     }
 
@@ -38,7 +37,7 @@ class NumberRangeFilterTest extends ProvidersTestCase
      */
     public function testMinValueWithInt()
     {
-        $numberRangeFilter = new NumberRange('donuts');
+        $numberRangeFilter = new NumberRangeFilter('donuts');
 
         $numberRangeFilter->minValue(3);
         $this->assertEquals(3, $numberRangeFilter->minValue);
@@ -49,7 +48,7 @@ class NumberRangeFilterTest extends ProvidersTestCase
      */
     public function testMinValueWithFloat()
     {
-        $numberRangeFilter = new NumberRange('donuts');
+        $numberRangeFilter = new NumberRangeFilter('donuts');
 
         $numberRangeFilter->minValue(4.5);
         $this->assertEquals(4.5, $numberRangeFilter->minValue);
@@ -62,7 +61,7 @@ class NumberRangeFilterTest extends ProvidersTestCase
      */
     public function testMinValueWithBadTypes($badVals)
     {
-        $numberRangeFilter = new NumberRange('donuts');
+        $numberRangeFilter = new NumberRangeFilter('donuts');
 
         $numberRangeFilter->minValue($badVals);
     }
@@ -72,7 +71,7 @@ class NumberRangeFilterTest extends ProvidersTestCase
      */
     public function testMaxValueWithInt()
     {
-        $numberRangeFilter = new NumberRange('donuts');
+        $numberRangeFilter = new NumberRangeFilter('donuts');
 
         $numberRangeFilter->maxValue(3);
         $this->assertEquals(3, $numberRangeFilter->maxValue);
@@ -83,7 +82,7 @@ class NumberRangeFilterTest extends ProvidersTestCase
      */
     public function testMaxValueWithFloat()
     {
-        $numberRangeFilter = new NumberRange('donuts');
+        $numberRangeFilter = new NumberRangeFilter('donuts');
 
         $numberRangeFilter->maxValue(4.5);
         $this->assertEquals(4.5, $numberRangeFilter->maxValue);
@@ -96,7 +95,7 @@ class NumberRangeFilterTest extends ProvidersTestCase
      */
     public function testMaxValueWithBadTypes($badVals)
     {
-        $numberRangeFilter = new NumberRange('donuts');
+        $numberRangeFilter = new NumberRangeFilter('donuts');
 
         $numberRangeFilter->maxValue($badVals);
     }
@@ -106,7 +105,7 @@ class NumberRangeFilterTest extends ProvidersTestCase
      */
     public function testUi()
     {
-        $numberRangeFilter = new NumberRange('donuts');
+        $numberRangeFilter = new NumberRangeFilter('donuts');
         $numberRangeFilter->ui([
             'format' => [
                 'decimalSymbol' => '.'

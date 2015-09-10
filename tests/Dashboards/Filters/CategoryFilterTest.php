@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Tests\Dashboards\Filters;
 
-use \Khill\Lavacharts\Dashboards\Filters\Category;
+use \Khill\Lavacharts\Dashboards\Filters\CategoryFilter;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class CategoryFilterTest extends ProvidersTestCase
@@ -12,7 +12,7 @@ class CategoryFilterTest extends ProvidersTestCase
      */
     public function testSettingColumnIndexWithConstructor()
     {
-        $categoryFilter = new Category(2);
+        $categoryFilter = new CategoryFilter(2);
 
         $this->assertEquals(2, $categoryFilter->filterColumnIndex);
     }
@@ -22,9 +22,21 @@ class CategoryFilterTest extends ProvidersTestCase
      */
     public function testSettingColumnLabelWithConstructor()
     {
-        $categoryFilter = new Category('cities');
+        $categoryFilter = new CategoryFilter('cities');
 
         $this->assertEquals('cities', $categoryFilter->filterColumnLabel);
+    }
+
+    /**
+     * @depends testSettingColumnLabelWithConstructor
+     * @covers \Khill\Lavacharts\Dashboards\Filters\CategoryFilter::getType
+     */
+    public function testGetTypeMethodAndStaticReferences()
+    {
+        $categoryFilter = new CategoryFilter('cities');
+
+        $this->assertEquals('CategoryFilter', CategoryFilter::TYPE);
+        $this->assertEquals('CategoryFilter', $categoryFilter->getType());
     }
 
     /**
@@ -32,19 +44,19 @@ class CategoryFilterTest extends ProvidersTestCase
      */
     public function testSettingColumnIndexOrLabelWithConstructorAndBadValues()
     {
-        new Category([]);
-        new Category(1.2);
-        new Category(false);
-        new Category(new \stdClass());
+        new CategoryFilter([]);
+        new CategoryFilter(1.2);
+        new CategoryFilter(false);
+        new CategoryFilter(new \stdClass());
     }
 
     /**
      * @depends testSettingColumnIndexWithConstructor
-     * covers \Khill\Lavacharts\Dashboards\Filters\Category::useFormattedValue
+     * covers \Khill\Lavacharts\Dashboards\Filters\CategoryFilter::useFormattedValue
      */
     public function testUseFormattedValue()
     {
-        $categoryFilter = new Category(2);
+        $categoryFilter = new CategoryFilter(2);
 
         $categoryFilter->useFormattedValue(true);
         $this->assertTrue($categoryFilter->useFormattedValue);
@@ -60,7 +72,7 @@ class CategoryFilterTest extends ProvidersTestCase
      */
     public function testUseFormattedValueWithBadTypes($badVals)
     {
-        $categoryFilter = new Category(2);
+        $categoryFilter = new CategoryFilter(2);
 
         $categoryFilter->useFormattedValue($badVals);
     }
@@ -71,7 +83,7 @@ class CategoryFilterTest extends ProvidersTestCase
      */
     public function testUiConfig()
     {
-        $categoryFilter = new Category('age', [
+        $categoryFilter = new CategoryFilter('age', [
             'ui' => [
                 'caption'     => 'Ages',
                 'allowTyping' => true
@@ -88,12 +100,12 @@ class CategoryFilterTest extends ProvidersTestCase
      */
     public function testUiConfigWithBadTypes($badVals)
     {
-        new Category('age', $badVals);
+        new CategoryFilter('age', $badVals);
     }
 
     public function testValues()
     {
-        $categoryFilter = new Category('age');
+        $categoryFilter = new CategoryFilter('age');
         $categoryFilter->values([20,30,40]);
 
         $this->assertTrue(is_array($categoryFilter->values));
@@ -102,11 +114,11 @@ class CategoryFilterTest extends ProvidersTestCase
 
     /**
      * @depends testSettingColumnLabelWithConstructor
-     * @covers \Khill\Lavacharts\Dashboards\Filters\Category::jsonSerialize
+     * @covers \Khill\Lavacharts\Dashboards\Filters\CategoryFilter::jsonSerialize
      */
     public function testJsonSerialization()
     {
-        $categoryFilter = new Category('age', [
+        $categoryFilter = new CategoryFilter('age', [
             'useFormattedValue' => true,
             'ui' => [
                 'caption'     => 'Ages',

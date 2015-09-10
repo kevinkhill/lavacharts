@@ -2,34 +2,33 @@
 
 namespace Khill\Lavacharts\Tests\Dashboards\Filters;
 
-use \Khill\Lavacharts\Dashboards\Filters\DateRange;
+use \Khill\Lavacharts\Dashboards\Filters\DateRangeFilter;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class DateRangeFilterTest extends ProvidersTestCase
 {
     public function testSettingColumnIndexWithConstructor()
     {
-        $dateRangeFilter = new DateRange(2);
+        $dateRangeFilter = new DateRangeFilter(2);
 
         $this->assertEquals(2, $dateRangeFilter->filterColumnIndex);
     }
 
     public function testSettingColumnLabelWithConstructor()
     {
-        $dateRangeFilter = new DateRange('revenue');
+        $dateRangeFilter = new DateRangeFilter('revenue');
 
         $this->assertEquals('revenue', $dateRangeFilter->filterColumnLabel);
     }
 
     /**
      * @depends testSettingColumnLabelWithConstructor
+     * @covers \Khill\Lavacharts\Dashboards\Filters\DateRangeFilter::getType
      */
-    public function testGetTypeMethodAndStaticReferences()
+    public function testGetType()
     {
-        $dateRangeFilter = new DateRange('donuts');
+        $dateRangeFilter = new DateRangeFilter('donuts');
 
-        $this->assertEquals('DateRangeFilter', DateRange::TYPE);
-        $this->assertEquals('DateRangeFilter', $dateRangeFilter::TYPE);
         $this->assertEquals('DateRangeFilter', $dateRangeFilter->getType());
     }
 }

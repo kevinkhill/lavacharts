@@ -24,16 +24,6 @@ class LavachartsTest extends ProvidersTestCase
         $this->mockLineChart = \Mockery::mock('\\Khill\\Lavacharts\\Charts\\LineChart');
     }
 
-    public function testIfInstanceOfVolcano()
-    {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Volcano', $this->lava->volcano);
-    }
-
-    public function testIfInstanceOfJavascriptFactory()
-    {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Javascript\\JavascriptFactory', $this->lava->jsFactory);
-    }
-
     public function testCreateDataTableViaAlias()
     {
         $this->assertInstanceOf('\\Khill\\Lavacharts\\DataTables\\DataTable', $this->lava->DataTable());
@@ -258,7 +248,7 @@ class LavachartsTest extends ProvidersTestCase
     {
         $this->lava->jsapi();
 
-        $this->assertTrue($this->lava->jsFactory->coreJsRendered());
+        $this->assertTrue($this->getPrivateProperty($this->lava, 'jsFactory')->coreJsRendered());
     }
 
     public function chartTypesProvider()

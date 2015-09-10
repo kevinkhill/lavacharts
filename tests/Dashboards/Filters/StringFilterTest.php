@@ -2,21 +2,21 @@
 
 namespace Khill\Lavacharts\Tests\Dashboards\Filters;
 
-use \Khill\Lavacharts\Dashboards\Filters\String;
+use \Khill\Lavacharts\Dashboards\Filters\StringFilter;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class StringFilterTest extends ProvidersTestCase
 {
     public function testSettingColumnIndexWithConstructor()
     {
-        $stringFilter = new String(2);
+        $stringFilter = new StringFilter(2);
 
         $this->assertEquals(2, $stringFilter->filterColumnIndex);
     }
 
     public function testSettingColumnLabelWithConstructor()
     {
-        $stringFilter = new String('cities');
+        $stringFilter = new StringFilter('cities');
 
         $this->assertEquals('cities', $stringFilter->filterColumnLabel);
     }
@@ -24,12 +24,10 @@ class StringFilterTest extends ProvidersTestCase
     /**
      * @depends testSettingColumnLabelWithConstructor
      */
-    public function testGetTypeMethodAndStaticReferences()
+    public function testGetType()
     {
-        $stringFilter = new String('cities');
+        $stringFilter = new StringFilter('cities');
 
-        $this->assertEquals('StringFilter', String::TYPE);
-        $this->assertEquals('StringFilter', $stringFilter::TYPE);
         $this->assertEquals('StringFilter', $stringFilter->getType());
     }
 
@@ -38,7 +36,7 @@ class StringFilterTest extends ProvidersTestCase
      */
     public function testMatchTypeWithValidValues($matchType)
     {
-        $stringFilter = new String('cities');
+        $stringFilter = new StringFilter('cities');
 
         $stringFilter->matchType('exact');
         $this->assertEquals('exact', $stringFilter->matchType);
@@ -56,7 +54,7 @@ class StringFilterTest extends ProvidersTestCase
      */
     public function testMatchTypeWithInvalidValue()
     {
-        $stringFilter = new String('cities');
+        $stringFilter = new StringFilter('cities');
 
         $stringFilter->matchType('Taco Bell');
     }
@@ -68,7 +66,7 @@ class StringFilterTest extends ProvidersTestCase
      */
     public function testMatchTypeWithBadTypes($badVals)
     {
-        $stringFilter = new String('cities');
+        $stringFilter = new StringFilter('cities');
 
         $stringFilter->matchType($badVals);
     }
@@ -78,7 +76,7 @@ class StringFilterTest extends ProvidersTestCase
      */
     public function testCaseSensitive()
     {
-        $stringFilter = new String(2);
+        $stringFilter = new StringFilter(2);
 
         $stringFilter->caseSensitive(true);
         $this->assertTrue($stringFilter->caseSensitive);
@@ -94,7 +92,7 @@ class StringFilterTest extends ProvidersTestCase
      */
     public function testCaseSensitiveWithBadTypes($badVals)
     {
-        $stringFilter = new String(2);
+        $stringFilter = new StringFilter(2);
 
         $stringFilter->caseSensitive($badVals);
     }
@@ -104,7 +102,7 @@ class StringFilterTest extends ProvidersTestCase
      */
     public function testUseFormattedValue()
     {
-        $stringFilter = new String(2);
+        $stringFilter = new StringFilter(2);
 
         $stringFilter->useFormattedValue(true);
         $this->assertTrue($stringFilter->useFormattedValue);
@@ -120,7 +118,7 @@ class StringFilterTest extends ProvidersTestCase
      */
     public function testUseFormattedValueWithBadTypes($badVals)
     {
-        $stringFilter = new String(2);
+        $stringFilter = new StringFilter(2);
 
         $stringFilter->useFormattedValue($badVals);
     }
@@ -130,7 +128,7 @@ class StringFilterTest extends ProvidersTestCase
      */
     public function testUi()
     {
-        $stringFilter = new String(2);
+        $stringFilter = new StringFilter(2);
         $stringFilter->ui([
             'realtimeTrigger' => true
         ]);

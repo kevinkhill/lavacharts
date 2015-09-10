@@ -2,34 +2,33 @@
 
 namespace Khill\Lavacharts\Tests\Dashboards\Filters;
 
-use \Khill\Lavacharts\Dashboards\Filters\ChartRange;
+use \Khill\Lavacharts\Dashboards\Filters\ChartRangeFilter;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class ChartRangeFilterTest extends ProvidersTestCase
 {
     public function testSettingColumnIndexWithConstructor()
     {
-        $chartRangeFilter = new ChartRange(2);
+        $chartRangeFilter = new ChartRangeFilter(2);
 
         $this->assertEquals(2, $chartRangeFilter->filterColumnIndex);
     }
 
     public function testSettingColumnLabelWithConstructor()
     {
-        $chartRangeFilter = new ChartRange('lines');
+        $chartRangeFilter = new ChartRangeFilter('lines');
 
         $this->assertEquals('lines', $chartRangeFilter->filterColumnLabel);
     }
 
     /**
      * @depends testSettingColumnLabelWithConstructor
+     * @covers \Khill\Lavacharts\Dashboards\Filters\ChartRangeFilter::getType
      */
-    public function testGetTypeMethodAndStaticReferences()
+    public function testGetType()
     {
-        $chartRangeFilter = new ChartRange('donuts');
+        $chartRangeFilter = new ChartRangeFilter('donuts');
 
-        $this->assertEquals('ChartRangeFilter', ChartRange::TYPE);
-        $this->assertEquals('ChartRangeFilter', $chartRangeFilter::TYPE);
         $this->assertEquals('ChartRangeFilter', $chartRangeFilter->getType());
     }
 }
