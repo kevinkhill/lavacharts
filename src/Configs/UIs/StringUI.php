@@ -37,6 +37,12 @@ class StringUI extends UI
         'realtimeTrigger'
     ];
 
+    /**
+     * Builds a new StringUI Object
+     *
+     * @param  array $config
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
     public function __construct($config = [])
     {
         $options = new Options($this->defaults);
@@ -50,20 +56,12 @@ class StringUI extends UI
      * Whether the control should match any time a key is pressed or only when
      * the input field 'changes' (loss of focus or pressing the Enter key).
      *
-     * @access public
      * @param  string $realtimeTrigger
+     * @return \Khill\Lavacharts\Configs\UIs\StringUI
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function realtimeTrigger($realtimeTrigger)
     {
-        if (is_bool($realtimeTrigger) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'boolean'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $realtimeTrigger);
+        return $this->setBoolOption(__FUNCTION__, $realtimeTrigger);
     }
 }

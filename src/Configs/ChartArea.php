@@ -84,8 +84,8 @@ class ChartArea extends JsonConfig
      * Sets the width of the chart in the container.
      *
      * @param  int|string $width Amount in pixels as integer or percent
+     * @return \Khill\Lavacharts\Configs\ChartArea
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function width($width)
     {

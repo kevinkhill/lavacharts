@@ -47,7 +47,6 @@ class Animation extends JsonConfig
      * @param  array $config Associative array containing key => value pairs for the various configuration options.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {

@@ -43,10 +43,9 @@ class Legend extends JsonConfig
     /**
      * Builds the legend object when passed an array of configuration options.
      *
-     * @param  array                 $config Options for the legend
+     * @param  array $config Options for the legend
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @return self
      */
     public function __construct($config = [])
     {

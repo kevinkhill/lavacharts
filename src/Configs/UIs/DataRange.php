@@ -104,14 +104,7 @@ class DataRange extends UI
      */
     public function blockIncrement($blockIncrement)
     {
-        if (is_numeric($blockIncrement) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'int|float'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $blockIncrement);
+        return $this->setNumericOption(__FUNCTION__, $blockIncrement);
     }
 
     /**
@@ -119,19 +112,12 @@ class DataRange extends UI
      *
      * @access public
      * @param  string $showRangeValues
+     * @return \Khill\Lavacharts\Configs\UIs\DataRange
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function showRangeValues($showRangeValues)
     {
-        if (is_bool($showRangeValues) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'boolean'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $showRangeValues);
+        return $this->setBoolOption(__FUNCTION__, $showRangeValues);
     }
 
     /**
@@ -139,8 +125,8 @@ class DataRange extends UI
      *
      * @access public
      * @param  string $orientation
+     * @return \Khill\Lavacharts\Configs\UIs\DataRange
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function orientation($orientation)
     {
@@ -149,14 +135,6 @@ class DataRange extends UI
             'horizontal'
         ];
 
-        if (Utils::nonEmptyStringInArray($orientation, $values) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string',
-                ' which must be one of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $orientation);
+        return $this->setStringInArrayOption(__FUNCTION__, $orientation, $values);
     }
 }

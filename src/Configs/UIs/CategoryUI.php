@@ -46,7 +46,8 @@ class CategoryUI extends UI
     /**
      * Creates a new CategoryUI object
      *
-     * @param array $config
+     * @param  array $config
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function __construct($config = [])
     {
@@ -60,38 +61,24 @@ class CategoryUI extends UI
      * The caption to display inside the value picker widget when no item is selected.
      *
      * @param  string $caption
+     * @return \Khill\Lavacharts\Configs\UIs\CategoryUI
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function caption($caption)
     {
-        if (Utils::nonEmptyString($caption) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $caption);
+        return $this->setStringOption(__FUNCTION__, $caption);
     }
 
     /**
      * Whether the values to choose from should be sorted.
      *
      * @param  boolean $sortValues
+     * @return \Khill\Lavacharts\Configs\UIs\CategoryUI
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function sortValues($sortValues)
     {
-        if (is_bool($sortValues) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'boolean'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $sortValues);
+        return $this->setBoolOption(__FUNCTION__, $sortValues);
     }
 
     /**
@@ -104,8 +91,8 @@ class CategoryUI extends UI
      *  - 'belowStacked': selected values will be displayed in a column below the widget.
      *
      * @param  string $selectedValuesLayout
+     * @return \Khill\Lavacharts\Configs\UIs\CategoryUI
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function selectedValuesLayout($selectedValuesLayout)
     {
@@ -116,15 +103,7 @@ class CategoryUI extends UI
             'belowStacked'
         ];
 
-        if (Utils::nonEmptyStringInArray($selectedValuesLayout, $values) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string',
-                ' whose accepted values are '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $selectedValuesLayout);
+        return $this->setStringInArrayOption(__FUNCTION__, $selectedValuesLayout, $values);
     }
 
     /**
@@ -135,38 +114,24 @@ class CategoryUI extends UI
      * the first value from the available ones is automatically selected.
      *
      * @param  boolean $allowNone
+     * @return \Khill\Lavacharts\Configs\UIs\CategoryUI
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function allowNone($allowNone)
     {
-        if (is_bool($allowNone) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'boolean'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $allowNone);
+        return $this->setBoolOption(__FUNCTION__, $allowNone);
     }
 
     /**
      * Whether multiple values can be selected, rather than just one.
      *
      * @param  boolean $allowMultiple
+     * @return \Khill\Lavacharts\Configs\UIs\CategoryUI
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function allowMultiple($allowMultiple)
     {
-        if (is_bool($allowMultiple) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'boolean'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $allowMultiple);
+        return $this->setBoolOption(__FUNCTION__, $allowMultiple);
     }
 
     /**
@@ -176,18 +141,11 @@ class CategoryUI extends UI
      * the list of possible choices (via an autocompleter), or not.
      *
      * @param  boolean $allowTyping
+     * @return \Khill\Lavacharts\Configs\UIs\CategoryUI
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function allowTyping($allowTyping)
     {
-        if (is_bool($allowTyping) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'boolean'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $allowTyping);
+        return $this->setBoolOption(__FUNCTION__, $allowTyping);
     }
 }

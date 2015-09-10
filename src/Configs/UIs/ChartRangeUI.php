@@ -71,8 +71,8 @@ class ChartRangeUI extends UI
      * - 'ScatterChart'
      *
      * @param  string $chartType
+     * @return \Khill\Lavacharts\Configs\UIs\ChartRangeUI
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function chartType($chartType)
     {
@@ -83,15 +83,7 @@ class ChartRangeUI extends UI
             'ScatterChart'
         ];
 
-        if (Utils::nonEmptyStringInArray($chartType, $values) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string',
-                ' whose accepted values are '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $chartType);
+        return $this->setStringInArrayOption(__FUNCTION__, $chartType, $values);
     }
 
     /**
@@ -117,19 +109,12 @@ class ChartRangeUI extends UI
      * For a date, datetime or timeofday axis, it is an integer that specifies the difference in milliseconds.
      *
      * @param  int|float $minRangeSize Data value difference interpreted as 1 pixel
+     * @return \Khill\Lavacharts\Configs\UIs\ChartRangeUI
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function minRangeSize($minRangeSize)
     {
-        if (is_numeric($minRangeSize) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'int|float'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $minRangeSize);
+        return $this->setNumericOption(__FUNCTION__, $minRangeSize);
     }
 
     /**
@@ -138,18 +123,11 @@ class ChartRangeUI extends UI
      * In this case, the end points of the range returned by getState() are necessarily values in the data table.
      *
      * @param  boolean $snapToData
+     * @return \Khill\Lavacharts\Configs\UIs\ChartRangeUI
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return self
      */
     public function snapToData($snapToData)
     {
-        if (is_bool($snapToData) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'boolean'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $snapToData);
+        return $this->setBoolOption(__FUNCTION__, $snapToData);
     }
 }
