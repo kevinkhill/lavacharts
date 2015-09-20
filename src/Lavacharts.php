@@ -586,7 +586,7 @@ class Lavacharts
      */
     private function filterFactory($type, $args)
     {
-        if (is_string($args[0]) === false && is_int($args[0]) === false) {
+        if (isset($args) === false || (is_string($args[0]) === false && is_int($args[0]) === false)) {
             throw new InvalidConfigValue(
                 static::TYPE,
                 __FUNCTION__,
@@ -601,9 +601,9 @@ class Lavacharts
             );
         }
 
-        $filter = __NAMESPACE__ . '\\Dashboards\\Filters\\' . str_replace('Filter', '', $type);
+        $filter = __NAMESPACE__ . '\\Dashboards\\Filters\\' . $type;
 
-        if (is_array($args[1])) {
+        if (isset($args[1]) === true && is_array($args[1]) === true) {
             return new $filter($args[0], $args[1]);
         } else {
             return new $filter($args[0]);

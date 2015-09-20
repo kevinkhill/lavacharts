@@ -77,7 +77,7 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider chartTypesProvider
+     * @dataProvider chartTypeProvider
      */
     public function testCreateChartsViaAlias($chartType)
     {
@@ -85,7 +85,7 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider formatObjectProvider
+     * @dataProvider formatTypeProvider
      */
     public function testCreateFormatObjectsViaAlias($formatType)
     {
@@ -93,7 +93,15 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider chartTypesProvider
+     * @dataProvider filterTypeProvider
+     */
+    public function testCreateFilterObjectsViaAlias($filterType)
+    {
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\Dashboards\\Filters\\'.$filterType, $this->lava->$filterType(0));
+    }
+
+    /**
+     * @dataProvider chartTypeProvider
      * @depends testCreateDataTableViaAlias
      */
     public function testRenderChartAliases($chartType)
@@ -251,7 +259,7 @@ class LavachartsTest extends ProvidersTestCase
         $this->assertTrue($this->getPrivateProperty($this->lava, 'jsFactory')->coreJsRendered());
     }
 
-    public function chartTypesProvider()
+    public function chartTypeProvider()
     {
         return [
             ['AreaChart'],
@@ -269,7 +277,7 @@ class LavachartsTest extends ProvidersTestCase
         ];
     }
 
-    public function configObjectProvider()
+    public function configTypeProvider()
     {
         return [
             ['Animation'],
@@ -294,7 +302,7 @@ class LavachartsTest extends ProvidersTestCase
         ];
     }
 
-    public function formatObjectProvider()
+    public function formatTypeProvider()
     {
         return [
             ['ArrowFormat'],
@@ -303,4 +311,16 @@ class LavachartsTest extends ProvidersTestCase
             ['NumberFormat']
         ];
     }
+
+    public function filterTypeProvider()
+    {
+        return [
+            ['CategoryFilter'],
+            ['ChartRangeFilter'],
+            ['DateRangeFilter'],
+            ['NumberRangeFilter'],
+            ['StringFilter']
+        ];
+    }
+
 }
