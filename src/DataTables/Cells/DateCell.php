@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\DataTables\Cells;
 
 use \Carbon\Carbon;
+use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\FailedCarbonParsing;
 use \Khill\Lavacharts\Exceptions\InvalidDateTimeString;
@@ -37,10 +38,16 @@ class DateCell extends Cell
     }
 
     /**
+     * Parses a datetime string with or without a datetime format.
+     *
+     * Uses Carbon to create the values for the DateCell.
+     *
+     *
      * @param  string $dateTimeString
      * @param  string $dateTimeFormat
      * @return \Khill\Lavacharts\DataTables\Cells\Cell
      * @throws \Khill\Lavacharts\Exceptions\FailedCarbonParsing
+     * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeString
      */
     public static function parseString($dateTimeString, $dateTimeFormat = '')
@@ -49,14 +56,14 @@ class DateCell extends Cell
             throw new InvalidDateTimeString($dateTimeString);
         }
 
-        try {
-            if ($dateTimeFormat === '') {
-                $carbon = Carbon::parse($dateTimeString);
-            } else {
-                $carbon = Carbon::createFromFormat($dateTimeFormat, $dateTimeString);
-            }
-        } catch (\Exception $e) {
-            throw new FailedCarbonParsing($dateTimeString);
+        if (gettype($dateTimeFormat) != 'string') {
+            throw new InvalidDateTimeFormat($dateTimeFormat);
+        }
+
+        if (Utils::nonEmptyString($dateTimeFormat) === false) {
+            $carbon = Carbon::parse($dateTimeString);
+        } else {
+            $carbon = Carbon::createFromFormat($dateTimeFormat, $dateTimeString);
         }
 
         return new DateCell($carbon);

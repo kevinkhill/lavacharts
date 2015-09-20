@@ -55,21 +55,12 @@ class DateCellTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\FailedCarbonParsing
+     * @expectedException \Exception
      * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::parseString
      */
     public function testParseStringWithBadDateTimeString()
     {
         DateCell::parseString('132/06/199210');
-    }
-
-    /**
-     * @expectedException \Khill\Lavacharts\Exceptions\FailedCarbonParsing
-     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::parseString
-     */
-    public function testParseStringWithBadFormatString()
-    {
-        DateCell::parseString('1/2/2003', 'sushi');
     }
 
     /**
@@ -83,8 +74,17 @@ class DateCellTest extends ProvidersTestCase
     }
 
     /**
+     * @expectedException \Exception
+     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::parseString
+     */
+    public function testParseStringWithBadFormatString()
+    {
+        DateCell::parseString('1/2/2003', 'sushi');
+    }
+
+    /**
      * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\FailedCarbonParsing
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
      * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::parseString
      */
     public function testParseStringWithBadTypesForFormat($badTypes)
