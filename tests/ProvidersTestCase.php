@@ -103,6 +103,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
             [1.2],
             [true],
             [false],
+            [null],
             [[]],
             [new \stdClass()]
         ];
