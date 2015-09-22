@@ -42,6 +42,7 @@ class BarChart extends Chart
     use \Khill\Lavacharts\Traits\ReverseCategoriesTrait;
     use \Khill\Lavacharts\Traits\SeriesTrait;
     use \Khill\Lavacharts\Traits\ThemeTrait;
+    use \Khill\Lavacharts\Traits\TrendlinesTrait;
     use \Khill\Lavacharts\Traits\VerticalAxesTrait;
     use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
@@ -83,9 +84,6 @@ class BarChart extends Chart
         'annotations',
         'axisTitlesPosition',
         'barGroupWidth',
-        //'bars',
-        //'chart.subtitle',
-        //'chart.title',
         'dataOpacity',
         'enableInteractivity',
         'focusTarget',
@@ -97,7 +95,7 @@ class BarChart extends Chart
         'reverseCategories',
         'series',
         'theme',
-        //'trendlines',
+        'trendlines',
         'vAxes',
         'vAxis'
     ];

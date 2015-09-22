@@ -32,6 +32,8 @@ class ColumnChart extends Chart
     use \Khill\Lavacharts\Traits\BarGroupWidthTrait;
     use \Khill\Lavacharts\Traits\HorizontalAxisTrait;
     use \Khill\Lavacharts\Traits\IsStackedTrait;
+    use \Khill\Lavacharts\Traits\TrendlinesTrait;
+    use \Khill\Lavacharts\Traits\VerticalAxesTrait;
     use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
     /**
@@ -74,7 +76,8 @@ class ColumnChart extends Chart
         'hAxis',
         'isHtml',
         'isStacked',
-        //'vAxes',
+        'trendlines',
+        'vAxes',
         'vAxis'
     ];
 

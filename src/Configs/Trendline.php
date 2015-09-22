@@ -122,7 +122,7 @@ class Trendline extends JsonConfig
     public function type($type)
     {
         $values = [
-            'line',
+            'linear',
             'exponential',
             'polynomial'
         ];

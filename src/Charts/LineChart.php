@@ -34,6 +34,8 @@ class LineChart extends Chart
     use \Khill\Lavacharts\Traits\InterpolateNullsTrait;
     use \Khill\Lavacharts\Traits\LineWidthTrait;
     use \Khill\Lavacharts\Traits\PointSizeTrait;
+    use \Khill\Lavacharts\Traits\TrendlinesTrait;
+    use \Khill\Lavacharts\Traits\VerticalAxesTrait;
     use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
     /**
@@ -77,7 +79,8 @@ class LineChart extends Chart
         'interpolateNulls',
         'lineWidth',
         'pointSize',
-        //'vAxes',
+        'trendlines',
+        'vAxes',
         'vAxis'
     ];
 
