@@ -46,6 +46,7 @@ class ScatterChart extends Chart
     use \Khill\Lavacharts\Traits\SelectionModeTrait;
     use \Khill\Lavacharts\Traits\SeriesTrait;
     use \Khill\Lavacharts\Traits\ThemeTrait;
+    use \Khill\Lavacharts\Traits\TrendlinesTrait;
     use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
     /**
@@ -98,6 +99,7 @@ class ScatterChart extends Chart
         'selectionMode',
         'series',
         'theme',
+        'trendlines',
         'vAxis'
     ];
 

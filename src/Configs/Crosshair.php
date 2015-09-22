@@ -25,6 +25,12 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class Crosshair extends JsonConfig
 {
     /**
+     * Common Methods
+     */
+    use \Khill\Lavacharts\Traits\ColorTrait;
+    use \Khill\Lavacharts\Traits\OpacityTrait;
+
+    /**
      * Type of JsonConfig object
      *
      * @var string
@@ -62,18 +68,6 @@ class Crosshair extends JsonConfig
         $options = new Options($this->defaults);
 
         parent::__construct($options, $config);
-    }
-
-    /**
-     * Specifies the crosshair color.
-     *
-     * @param  string $color
-     * @return \Khill\Lavacharts\Configs\Crosshair
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function color($color)
-    {
-        return $this->setStringOption(__FUNCTION__, $color);
     }
 
     /**
