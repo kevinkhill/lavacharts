@@ -46,28 +46,12 @@ class PieChartTest extends ProvidersTestCase
 
     public function testSlices()
     {
-        $textStyleVals = [
-           'color'    => 'blue',
-           'fontName' => 'Arial',
-           'fontSize' => 16
-        ];
-
-        $mockTextStyle = \Mockery::mock('Khill\Lavacharts\Configs\TextStyle');
-        //$mockTextStyle->shouldReceive('getValues')->once()->andReturn($textStyleVals);
-
         $sliceVals = [
            'color'     => 'blue',
-           'offset'    => 'Arial',
-           'textStyle' => $mockTextStyle
+           'offset'    => 'Arial'
         ];
 
-        $mockSlice1 = \Mockery::mock('Khill\Lavacharts\Configs\Slice');
-        $mockSlice1->shouldReceive('getValues')->once()->andReturn($sliceVals);
-
-        $mockSlice2 = \Mockery::mock('Khill\Lavacharts\Configs\Slice');
-        $mockSlice2->shouldReceive('getValues')->once()->andReturn($sliceVals);
-
-        $this->PieChart->slices([$mockSlice1, $mockSlice2]);
+        $this->PieChart->slices([$sliceVals, $sliceVals]);
 
         $slices = $this->PieChart->slices;
 

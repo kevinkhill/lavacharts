@@ -2,10 +2,10 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Options;
 use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Configs\Slice;
 use \Khill\Lavacharts\Configs\TextStyle;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
@@ -101,19 +101,14 @@ class PieChart extends Chart
 
     /**
      * An array of slice objects, each describing the format of the
-     * corresponding slice in the pie. To use default values for a slice,
-     * specify a null. If a slice or a value is not specified, the global
-     * value will be used.
+     * corresponding slice in the pie.
+     *
+     * To use default values for a slice, specify a null. If a slice or a value is not specified,
+     * the global value will be used.
      *
      * The values of the array keys will correspond to each numbered piece
      * of the pie, starting from 0. You can skip slices by assigning the
      * keys of the array as (int)s.
-     *
-     * This would apply slice values to the first and fourth slice of the pie
-     * Example: array(
-     *              0 => new Slice(),
-     *              3 => new Slice()
-     *          );
      *
      *
      * @param  array $slices Array of slice objects
@@ -122,7 +117,7 @@ class PieChart extends Chart
      */
     public function slices($slices)
     {
-        if (is_array($slices) === false || empty($slices) === true) {
+        if (Utils::arrayIsMulti($slices) === false) {
             throw new InvalidConfigValue(
                 static::TYPE . '->' . __FUNCTION__,
                 'array',
@@ -132,22 +127,11 @@ class PieChart extends Chart
 
         $pie = [];
 
-        foreach ($slices as $key => $slice) {
-            $pie[$key] = $this->addSlice($slice);
+        foreach ($slices as $index => $slice) {
+            $pie[$index] = $slice;
         }
 
         return $this->setOption(__FUNCTION__, $pie);
-    }
-
-    /**
-     * Supplemental function to add slices
-     *
-     * @param  Slice $slice
-     * @return array
-     */
-    private function addSlice(Slice $slice) //TODO: fix this logic
-    {
-        return $slice->getValues();
     }
 
     /**

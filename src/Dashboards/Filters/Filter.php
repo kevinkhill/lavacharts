@@ -39,17 +39,15 @@ class Filter extends JsonConfig
 
     /**
      * Builds a new Filter Object
-     *
      * Takes either a column label or a column index to filter. The options object will be
      * created internally, so no need to set defaults. The child filter objects will set them.
      *
      * @param  \Khill\Lavacharts\Options $options
-     * @param  array                            $config Array of options to set.
-     * @param  mixed                            $columnLabelOrIndex Column index or label of the to filter.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @param  array                     $columnLabelOrIndex
+     * @param  array                     $config Array of options to set.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function __construct(Options $options, $config = [], $columnLabelOrIndex) //TODO: move parameter order. mandatory first
+    public function __construct(Options $options, $columnLabelOrIndex, $config = [])
     {
         if (is_array($config) === false) {
             throw new InvalidConfigValue(

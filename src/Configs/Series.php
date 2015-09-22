@@ -102,9 +102,32 @@ class Series extends JsonConfig
         return $this->setOption(__FUNCTION__, new BackgroundColor($fallingColorConfig));
     }
 
+    /**
+     * Many styles of dashed lines are possible via the lineDashStyle option, which takes an array of numbers.
+     *
+     * The first number indicates the length of a dash, and the second indicates the gap after it.
+     * If there is a third number, that's the length of the next dash, and a fourth number, if present,
+     * is the length of the next gap.
+     *
+     * When the chart is drawn, these lengths are repeated, so [4, 4] means a succession of 4-length dashes
+     * and 4-length gaps. [5, 1, 3] means a 5-length dash, a 1-length gap, a 3-length dash, a 5-length gap, and so on.
+     *
+     *
+     * @param array $lineDashStyle
+     * @return \Khill\Lavacharts\Configs\Series
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
     public function lineDashStyle($lineDashStyle)
     {
-        //TODO: what is this?
+        if (Utils::arrayValuesCheck($lineDashStyle, 'int') === false) {
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
+                'array',
+                'of integers'
+            );
+        }
+
+        return $this->setOption(__FUNCTION__, $lineDashStyle);
     }
 
     /**

@@ -22,7 +22,7 @@ trait VerticalAxesTrait
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return \Khill\Lavacharts\Charts\Chart
      */
-    public function vAxes($vAxisConfigArray) //TODO: look into this function
+    public function vAxes($vAxisConfigArray)
     {
         if (Utils::arrayIsMulti($vAxisConfigArray) === false) {
             throw new InvalidConfigValue(

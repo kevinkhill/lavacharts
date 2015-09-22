@@ -52,7 +52,7 @@ class CategoryFilter extends Filter
         $options = new Options($this->defaults);
         $options->extend($this->extDefaults);
 
-        parent::__construct($options, $config, $columnLabelOrIndex);
+        parent::__construct($options, $columnLabelOrIndex, $config);
     }
 
     /**
