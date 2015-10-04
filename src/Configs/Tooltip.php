@@ -22,6 +22,13 @@ use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class Tooltip extends ConfigObject
 {
     /**
+     * Tooltip is HTML.
+     *
+     * @var bool
+     */
+    public $isHtml;  
+    
+    /**
      * Show color code for the tooltip.
      *
      * @var bool
@@ -55,6 +62,26 @@ class Tooltip extends ConfigObject
     {
         parent::__construct($this, $config);
     }
+
+	/**
+     * Sets whether the tooltip is HTML.
+     *
+     * @param  bool $isHtml
+     * @throws InvalidConfigValue
+     * @return Tooltip
+     */
+    public function isHtml($isHtml)
+    {
+        if (is_bool($isHtml)) {
+            $this->isHtml = $isHtml;
+        } else {
+            throw new InvalidConfigValue(
+                __FUNCTION__,
+                'bool'
+            );
+        }
+        return $this;
+    }    
 
     /**
      * Sets whether to show the color code.
