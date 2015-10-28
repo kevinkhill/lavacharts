@@ -80,7 +80,11 @@ class RowFactory
                 if ($cell instanceof Carbon) {
                     $rowData[] = new DateCell($cell);
                 } else {
-                    $rowData[] = DateCell::parseString($cell, $dateTimeFormat);
+    		    if (isset($dateTimeFormat)) {
+                        $rowData[] = DateCell::parseString($cell, $dateTimeFormat);
+                    } else {
+                        $rowData[] = DateCell::parseString($cell);
+                    }
                 }
             } else {
                 $rowData[] = $cell;
