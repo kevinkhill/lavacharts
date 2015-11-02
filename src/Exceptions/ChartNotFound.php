@@ -2,9 +2,9 @@
 
 class ChartNotFound extends \Exception
 {
-    public function __construct($type, $label, $code = 0)
+    public function __construct($label, $code = 0)
     {
-        $message = "$type('$label') was not found.";
+        $message = "Chart ('$label') was not found.";
 
         parent::__construct($message, $code);
     }

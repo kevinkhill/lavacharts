@@ -37,8 +37,7 @@ class Volcano
      */
     public function storeChart(Chart $chart)
     {
-        $this->charts[$chart->type][$chart->label] = $chart;
-
+        $this->charts[$chart->label] = $chart;
         return true;
     }
 
@@ -51,12 +50,12 @@ class Volcano
      *
      * @return Chart
      */
-    public function getChart($type, $label)
+    public function getChart($label)
     {
-        if ($this->checkChart($type, $label)) {
-            return $this->charts[$type][$label];
+        if ($this->checkChart($label)) {
+            return $this->charts[$label];
         } else {
-            throw new ChartNotFound($type, $label);
+            throw new ChartNotFound($label);
         }
     }
 
@@ -68,15 +67,11 @@ class Volcano
      *
      * @return bool
      */
-    public function checkChart($type, $label)
+    public function checkChart($label)
     {
-        if (Utils::nonEmptyString($type) && Utils::nonEmptyString($label)) {
-            if (array_key_exists($type, $this->charts)) {
-                if (array_key_exists($label, $this->charts[$type])) {
-                    return true;
-                } else {
-                    return false;
-                }
+        if (Utils::nonEmptyString($label)) {
+            if (array_key_exists($label, $this->charts)) {
+                return true;
             } else {
                 return false;
             }

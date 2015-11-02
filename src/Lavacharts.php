@@ -144,7 +144,7 @@ class Lavacharts
             $chartType = str_replace('render', '', $member);
 
             if (in_array($chartType, $this->chartClasses)) {
-                return $this->render($chartType, $arguments[0], $arguments[1]);
+                return $this->render($arguments[0], $arguments[1]);
             } else {
                 throw new InvalidLavaObject($chartType);
             }
@@ -212,18 +212,21 @@ class Lavacharts
      * @access public
      * @since  v2.0.0
      *
-     * @param string $chartType     Type of chart to render.
-     * @param string $chartLabel    Label of a saved chart.
-     * @param string $elementId     HTML element id to render the chart into.
-     * @param mixed  $divDimensions Set true for div creation, or pass an array with height & width
-     *
+     * @param string $chartLabel Label of a saved chart.
+     * @param string $elementId HTML element id to render the chart into.
+     * @param mixed $divDimensions Set true for div creation, or pass an array with height & width
      * @return string
+     * @throws Exceptions\DataTableNotFound
+     * @throws Exceptions\InvalidElementId
+     * @throws InvalidConfigValue
+     * @throws InvalidDivDimensions
+     * @internal param string $chartType Type of chart to render.
      */
-    public function render($chartType, $chartLabel, $elementId, $divDimensions = false)
+    public function render($chartLabel, $elementId, $divDimensions = false)
     {
         $jsOutput = '';
 
-        $chart = $this->volcano->getChart($chartType, $chartLabel);
+        $chart = $this->volcano->getChart($chartLabel);
 
         if ($this->jsFactory->coreJsRendered() === false) {
             $jsOutput = $this->jsFactory->getCoreJs();
@@ -262,9 +265,9 @@ class Lavacharts
      *
      * @return string
      */
-    public function exists($type, $label)
+    public function exists($label)
     {
-        return $this->volcano->checkChart($type, $label);
+        return $this->volcano->checkChart($label);
     }
 
     /**
@@ -344,13 +347,13 @@ class Lavacharts
     {
         $chartObject = __NAMESPACE__ . '\\Charts\\' . $type;
 
-        if (! $this->volcano->checkChart($type, $label)) {
+        if (! $this->volcano->checkChart($label)) {
             $chart = new $chartObject($label);
 
             $this->volcano->storeChart($chart);
         }
 
-        return $this->volcano->getChart($type, $label);
+        return $this->volcano->getChart($label);
     }
 
     /**

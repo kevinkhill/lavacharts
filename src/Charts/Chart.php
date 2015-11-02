@@ -236,7 +236,7 @@ class Chart
     }
 
     /**
-     * Assigns wich Datatable will be used for this Chart.
+     * Assigns which Datatable will be used for this Chart.
      *
      * If a label is provided then the defined Datatable will be used.
      * If called with no argument, or the chart is attempted to be generated
