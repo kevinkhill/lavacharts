@@ -117,19 +117,22 @@ class ColumnChart extends Chart
     }
 
     /**
-     * If set to true, series elements are stacked.
+     * If set to true or "relative", series elements are stacked.
      *
-     * @param  bool        $isStacked
+     * @param  mixed        $isStacked      bool or string "relative"
      * @return ColumnChart
      */
     public function isStacked($isStacked)
     {
         if (is_bool($isStacked)) {
             $this->addOption(array('isStacked' => $isStacked));
+        } elseif (is_string($isStacked) && (strtolower($isStacked) == "relative")) {
+            $this->addOption(array('isStacked' => strtolower($isStacked)))
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
-                'bool'
+                'string | bool',
+                'must be bool or string with a value of relative'
             );
         }
 
