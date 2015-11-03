@@ -168,10 +168,12 @@ class DashboardFactory extends JavascriptFactory
             $this.dashboard.draw($this.data);
         };
 
-        google.load('visualization', '<version>', {'packages':<packages>});
-        google.setOnLoadCallback(function() {
-            lava.dashboards["<label>"].render();
-            lava.readyCallback();
+        google.load('visualization', '<version>', {
+            packages: <packages>,
+            callback: function() {
+                lava.dashboards["<label>"].render();
+                lava.readyCallback();
+            }
         });
 
         //lava.register("<chartType>", "<chartLabel>");
