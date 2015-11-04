@@ -127,7 +127,7 @@ class ColumnChart extends Chart
         if (is_bool($isStacked)) {
             $this->addOption(array('isStacked' => $isStacked));
         } elseif (is_string($isStacked) && (strtolower($isStacked) == "relative")) {
-            $this->addOption(array('isStacked' => strtolower($isStacked)))
+            $this->addOption(array('isStacked' => strtolower($isStacked)));
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
