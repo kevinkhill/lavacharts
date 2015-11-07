@@ -779,14 +779,32 @@ class DataTable implements \JsonSerializable
     /**
      * Convert the DataTable to JSON
      *
-     * @deprecated
      * @codeCoverageIgnore
      * @access public
      * @return string JSON representation of the DataTable.
      */
     public function toJson()
     {
-        return json_encode($this);
+        if ($this->hasFormattedColumns()) {
+            $formats = [];
+
+            foreach ($this->getFormattedColumns() as $index => $column) {
+                $format = $column->getFormat();
+
+                $formats[] = [
+                    'index'  => $index,
+                    'type'   => $format->getType(),
+                    'config' => $format
+                ];
+            }
+
+            return json_encode([
+                'data' => $this,
+                'formats' => $formats
+            ]);
+        } else {
+            return json_encode($this);
+        }
     }
 
     /**
@@ -806,7 +824,7 @@ class DataTable implements \JsonSerializable
      * Parses an extended cell definition, as and array defined with v,f,p
      *
      * @access protected
-     * @param  array              $cellArray
+     * @param  array $cellArray
      * @return array
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowProperty
      */
