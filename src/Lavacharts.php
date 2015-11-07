@@ -504,10 +504,6 @@ class Lavacharts
             );
         }
 
-        if ($args[1] instanceof DataTable === false) {
-            throw new InvalidDataTable($args[1]);
-        }
-
         $chartObject = __NAMESPACE__ . '\\Charts\\' . $type;
 
         if (isset($args[2]) === true && is_array($args[2]) === true) {

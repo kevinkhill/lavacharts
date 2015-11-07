@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Javascript;
 
+use Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Charts\Chart;
 use \Khill\Lavacharts\Dashboards\Dashboard;
@@ -159,7 +160,6 @@ class JavascriptFactory
     /**
      * Parses the nowdoc javascript templates with the value mappings
      *
-     * @param  array $keyValueMap Mapping of template vars to values
      * @return string Javascript
      */
     protected function parseTemplate()

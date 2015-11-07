@@ -24,13 +24,21 @@ var lava = lava || {};
    * @constructor
    */
   this.Chart = function() {
-    this.render  = function(){};
-    this.setData = function(){};
-    this.redraw  = function(){};
+    var self = this;
     this.data    = null;
     this.chart   = null;
     this.options = null;
     this.formats = [];
+    this.render  = function(){};
+    this.setData = function(){};
+    this.redraw  = function(){};
+    this.applyFormats = function (formatArr) {
+      for(var a=0; a < formatArr.length; a++) {
+        var formatJson = formatArr[a];
+        var formatter = new google.visualization[formatJson.type](formatJson.config);
+            formatter.format(self.data, formatJson.index);
+      }
+    };
   };
 
   /**
@@ -95,12 +103,21 @@ var lava = lava || {};
    * a chart can be dynamically update in page, without reloads.
    *
    * @param {string} chartLabel
-   * @param {string} dataTableJson
+   * @param {string} json
    * @param {function} callback
    */
-  this.loadData = function (chartLabel, dataTableJson, callback) {
+  this.loadData = function (chartLabel, json, callback) {
     lava.getChart(chartLabel, function (chart, LavaChart) {
-      LavaChart.setData(dataTableJson);
+      if (typeof json.data != 'undefined') {
+        LavaChart.setData(json.data);
+      } else {
+        LavaChart.setData(json);
+      }
+
+      if (typeof json.formats != 'undefined') {
+        LavaChart.applyFormats(json.formats);
+      }
+
       LavaChart.redraw();
 
       if (typeof callback == 'function') {
