@@ -59,9 +59,9 @@ gulp.task('render', function (done) {gulp.src(['file.txt'])
 });
 
 gulp.task('php:test', function (done) {
-    var paratest = spawn('./vendor/bin/paratest.bat', ['-c', 'configs/phpunit.xml']);
+    var test = spawn('./vendor/bin/phpunit', ['-c', 'configs/phpunit.xml']);
 
-    paratest.on('data', function (data) {
+    test.on('data', function (data) {
         console.log(data);
     });
 });
