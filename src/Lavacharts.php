@@ -301,31 +301,53 @@ class Lavacharts
             return sprintf('<div id="%s"></div>', $elementId);
         } else {
             if (is_array($dimensions) && ! empty($dimensions)) {
-                if (array_key_exists('height', $dimensions) && array_key_exists('width', $dimensions)) {
-                    $widthCheck  = (is_int($dimensions['width'])  && $dimensions['width']  > 0);
-                    $heightCheck = (is_int($dimensions['height']) && $dimensions['height'] > 0);
 
-                    if ($widthCheck && $heightCheck) {
-                            return sprintf(
-                                '<div id="%s" style="width:%spx; height:%spx;"></div>',
-                                $elementId,
-                                $dimensions['width'],
-                                $dimensions['height']
-                            );
-                    } else {
-                        throw new InvalidConfigValue(
-                            __METHOD__,
-                            'int',
-                            'greater than 0'
-                        );
-                    }
-                } else {
-                    throw new InvalidDivDimensions();
+                $widthStr = '';
+                $heightStr = '';
+
+                if (array_key_exists('height', $dimensions)) {
+                    $heightType = $this->dimensionTypeCheck($dimensions['height']);
+                    $heightStr = ($heightType === 'integer') ? sprintf("height:%spx;", $dimensions['height']) : sprintf("height:%s;", $dimensions['height']);
                 }
+
+                if (array_key_exists('width', $dimensions)) {
+                    $widthType = $this->dimensionTypeCheck($dimensions['width']);
+                    $widthStr = ($widthType === 'integer') ? sprintf("width:%spx;", $dimensions['width']) : sprintf("width:%s;", $dimensions['width']);
+                }
+
+                return sprintf(
+                            '<div id="%s" style="%s%s"></div>',
+                            $elementId,
+                            $heightStr,
+                            $widthStr
+                        );
+
             } else {
                 throw new InvalidDivDimensions();
             }
         }
+    }
+
+    /**
+     * Returns whether a given dimension value is an integer,
+     * percentage, or invalid.
+     *
+     * @param $dimension
+     * @return string
+     * @throws InvalidConfigValue
+     */
+    private function dimensionTypeCheck($dimension)
+    {
+        if (is_int($dimension) && $dimension > 0)
+            return 'integer';
+        else if (substr($dimension, -1) === '%' && (int)substr($dimension, 0, -1) > 0)
+            return 'percentage';
+        else
+            throw new InvalidConfigValue(
+                __METHOD__,
+                'int|%',
+                'greater than 0'
+            );
     }
 
     /**
