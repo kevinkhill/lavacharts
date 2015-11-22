@@ -16,12 +16,12 @@ class CalendarChartTest extends ProvidersTestCase
         $this->CalendarChart = new CalendarChart($label, $this->partialDataTable);
     }
 
-    public function testInstanceOfLineChartWithType()
+    public function testInstanceOfCalendarChartWithType()
     {
         $this->assertInstanceOf('\Khill\Lavacharts\Charts\CalendarChart', $this->CalendarChart);
     }
 
-    public function testTypeLineChart()
+    public function testTypeCalendarChart()
     {
         $chart = $this->CalendarChart;
 
