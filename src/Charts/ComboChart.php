@@ -131,14 +131,14 @@ class ComboChart extends Chart
 
     /**
      * The default line type for any series not specified in the series property.
-     * Available values are:
-     * 'line', 'area', 'bars', 'candlesticks' and 'steppedArea'
      *
-     * @param  string             $type
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return ComboChart
+     *
+     * Available values are:
+     * line, area, bars, candlesticks, and steppedArea
+     *
+     * @param string $seriesType
      */
-    public function seriesType($type)
+    public function seriesType($seriesType)
     {
         $values = [
             'line',
@@ -148,24 +148,6 @@ class ComboChart extends Chart
             'steppedArea'
         ];
 
-        if (in_array($type, $values, true) === false) {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this->addOption([__FUNCTION__ => $type]);
+        $this->setStringInArrayOption(__FUNCTION__, $seriesType, $values);
     }
 }
-
-/*
-candlestick.hollowIsRising - bool - false (will later be changed to true) - [[If true, rising candles will appear hollow and falling candles will appear solid, otherwise, the opposite.]]
-candlestick.fallingColor.fill - string - auto (depends on the series color and hollowIsRising) - [[The fill color of falling candles, as an HTML color string.]]
-candlestick.fallingColor.stroke - string - auto (the series color) - [[The stroke color of falling candles, as an HTML color string.]]
-candlestick.fallingColor.strokeWidth - number - 2 - [[The stroke width of falling candles, as an HTML color string.]]
-candlestick.risingColor.fill - string - auto (white or the series color, depending on hollowIsRising) - [[The fill color of rising candles, as an HTML color string.]]
-candlestick.risingColor.stroke - string - auto (the series color or white, depending on hollowIsRising) - [[The stroke color of rising candles, as an HTML color string.]]
-candlestick.risingColor.strokeWidth - number - 2 - [[The stroke width of rising candles, as an HTML color string.]]
-*/
