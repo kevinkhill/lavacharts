@@ -136,7 +136,9 @@ class ComboChart extends Chart
      * Available values are:
      * line, area, bars, candlesticks, and steppedArea
      *
-     * @param string $seriesType
+     * @param  string $seriesType
+     * @return \Khill\Lavacharts\Charts\ComboChart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function seriesType($seriesType)
     {
