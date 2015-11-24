@@ -1,4 +1,14 @@
 /**
+ * jvent.min.js
+ *
+ * Author: pazguille
+ * Twitter: http://twitter.com/pazguille
+ * Homepage: https://github.com/pazguille/jvent
+ * License: MIT
+ */
+!function(t){"use strict";function e(){}e.prototype.on=function(t,e){return this._collection=this._collection||{},this._collection[t]=this._collection[t]||[],this._collection[t].push(e),this},e.prototype.once=function(t,e){function i(){o.off(t,i),e.apply(this,arguments)}var o=this;return i.listener=e,this.on(t,i),this},e.prototype.off=function(t,e){var i=this._collection[t],o=0;if(void 0!==i)for(o;o<i.length;o+=1)if(i[o]===e||i[o].listener===e){i.splice(o,1);break}return 0===i.length&&this.removeAllListeners(t),this},e.prototype.removeAllListeners=function(t){return this._collection=this._collection||{},delete this._collection[t],this},e.prototype.listeners=function(t){return this._collection=this._collection||{},this._collection[t]},e.prototype.emit=function(){if(void 0===this._collection)return this;var t,e=[].slice.call(arguments,0),i=e.shift(),o=this._collection[i],n=0;if(o)for(o=o.slice(0),t=o.length,n;t>n;n+=1)o[n].apply(this,e);return this},"function"==typeof t.define&&void 0!==t.define.amd?t.define("Jvent",[],function(){return e}):"undefined"!=typeof module&&void 0!==module.exports?module.exports=e:t.Jvent=e}(this);
+
+/**
  * lava.js
  *
  * Author: Kevin Hill
@@ -13,8 +23,10 @@ var lava = lava || {};
   this.charts            = [];
   this.dashboards        = [];
   this.registeredCharts  = [];
+  this.readyCallback     = null;
+  this.renderDashboards  = null;
 
-  this.readyCallback = function(){};
+  this.events = new Jvent();
 
   //var registeredActions = [];
 
@@ -66,12 +78,6 @@ var lava = lava || {};
 
     lava.readyCallback = callback;
   };
-
-/*
-  action: function (label) {
-    lava.registeredActions[label] =
-  },
-*/
 
   /**
    * Event wrapper for chart events.
@@ -213,9 +219,28 @@ var lava = lava || {};
     }, delay);
   };
 
+  this.run = function () {
+    var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.src = '//www.google.com/jsapi';
+        s.onload = s.onreadystatechange = function (event) {
+          event = event || window.event;
+
+          if (event.type === "load" || (/loaded|complete/.test(this.readyState))) {
+            this.onload = this.onreadystatechange = null;
+            
+            lava.events.emit('jsapi:ready');
+          }
+        };
+
+    document.body.appendChild(s);
+  };
+
 }).apply(lava);
 
 /**
  * Adding the resize event listener for redrawing charts.
  */
 window.addEventListener("resize", window.lava.redrawCharts);
+
+lava.run();
