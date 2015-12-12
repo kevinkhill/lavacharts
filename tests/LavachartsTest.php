@@ -150,7 +150,6 @@ class LavachartsTest extends ProvidersTestCase
 
     /**
      * @depends testCreateDataTableViaAlias
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidDivDimensions
      */
     public function testDirectRenderChartWithDivAndBadDimensionKeys()
     {

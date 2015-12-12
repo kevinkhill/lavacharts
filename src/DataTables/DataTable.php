@@ -246,15 +246,21 @@ class DataTable implements \JsonSerializable
     }
 
     /**
-     * Returns a clone of the DataTable
+     * Returns a bare clone of the DataTable.
+     *
+     * This method clone the DataTable and strip the rows off. Useful when loading
+     * charts via ajax, and you need the initial DataTable structure to pre-load
+     * the chart's format.
      *
      * @access public
      * @since  3.0.0
      * @return \Khill\Lavacharts\DataTables\DataTable;
      */
-    public function getClone()
+    public function bare()
     {
-        return clone $this;
+        $clone = clone $this;
+
+        return $clone->stripRows();
     }
 
     /**
@@ -619,7 +625,7 @@ class DataTable implements \JsonSerializable
     public function getRowCount()
     {
         return count($this->rows);
-    }
+    }    
 
     /**
      * Returns a column based on it's index.
@@ -860,6 +866,7 @@ class DataTable implements \JsonSerializable
     /**
      * Used to check if a number is a valid column index of the DataTable
      *
+     * @access protected
      * @param  int $index
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
@@ -868,5 +875,16 @@ class DataTable implements \JsonSerializable
         if (is_int($index) === false || isset($this->cols[$index]) === false) {
             throw new InvalidColumnIndex($index, count($this->cols));
         }
+    }
+
+    /**
+     * Strips all the data (rows) from the DataTable
+     *
+     * @access protected
+     * @since  3.0.0
+     */
+    protected function stripRows()
+    {
+        unset($this->rows);
     }
 }

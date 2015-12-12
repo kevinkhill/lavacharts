@@ -143,14 +143,6 @@ class DataTableTest extends ProvidersTestCase
         $this->assertEquals('YYYY-mm-dd', $this->DataTable->getDateTimeFormat());
     }
 
-    public function testGetClone()
-    {
-        $datatable = $this->DataTable->getClone();
-
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\DataTable', $datatable);
-        $this->assertEquals($this->DataTable, $datatable);
-    }
-
     /**
      * @covers \Khill\Lavacharts\DataTables\DataTable::cell
      */
@@ -884,6 +876,19 @@ class DataTableTest extends ProvidersTestCase
 
         $this->assertTrue(is_array($this->DataTable->getColumnsByType('number')));
         $this->assertEquals([1,2], array_keys($this->DataTable->getColumnsByType('number')));
+    }
+
+    /**
+     * @depends testAddColumnByType
+     * @depends testAddRowsWithMultipleColumnsWithDateAndNumbers
+     * @depends testGetRowCount
+     */
+    public function testBare()
+    {
+        $this->DataTable->addNumberColumn('num')->addRows([[1],[2],[3],[4]]);
+        $this->assertEquals($this->DataTable->getRowCount(), 4);
+
+        $this->assertEquals($this->DataTable->bare(), 0);
     }
 }
 
