@@ -404,7 +404,7 @@ class Lavacharts
      * Calling with no arguments will return a div with the ID set to what was
      * given to the outputInto() function.
      *
-     * Passing two (int)s will set the width and height respectively and the div
+     * Passing two (int)s will set the width and height respectivly and the div
      * ID will be set via the string given in the outputInto() function.
      *
      *
@@ -416,42 +416,67 @@ class Lavacharts
      *
      * @access private
      * @since  1.0.0
-     * @param  \Khill\Lavacharts\Values\ElementId $elementId  Element id to apply to the div.
-     * @param  array|boolean $dimensions Height & width of the div.
+     * @param  string               $elementId  Element id to apply to the div.
+     * @param  array                $dimensions Height & width of the div.
      * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return string HTML div element.
+     * @return string               HTML div element.
      */
-    private function div(ElementId $elementId, $dimensions = true)
+    private function div($elementId, $dimensions = true)
     {
         if ($dimensions === true) {
             return sprintf('<div id="%s"></div>', $elementId);
         } else {
             if (is_array($dimensions) && ! empty($dimensions)) {
-                if (array_key_exists('height', $dimensions) && array_key_exists('width', $dimensions)) {
-                    $widthCheck  = (is_int($dimensions['width'])  && $dimensions['width']  > 0);
-                    $heightCheck = (is_int($dimensions['height']) && $dimensions['height'] > 0);
 
-                    if ($widthCheck && $heightCheck) {
-                            return sprintf(
-                                '<div id="%s" style="width:%spx; height:%spx;"></div>',
-                                $elementId,
-                                $dimensions['width'],
-                                $dimensions['height']
-                            );
-                    } else {
-                        throw new InvalidConfigValue(
-                            __METHOD__,
-                            'int',
-                            'greater than 0'
-                        );
-                    }
-                } else {
-                    throw new InvalidDivDimensions();
+                $widthStr = '';
+                $heightStr = '';
+
+                if (array_key_exists('height', $dimensions)) {
+                    $heightType = $this->dimensionTypeCheck($dimensions['height']);
+                    $heightStr = ($heightType === 'integer') ? sprintf("height:%spx;", $dimensions['height']) : sprintf("height:%s;", $dimensions['height']);
                 }
+
+                if (array_key_exists('width', $dimensions)) {
+                    $widthType = $this->dimensionTypeCheck($dimensions['width']);
+                    $widthStr = ($widthType === 'integer') ? sprintf("width:%spx;", $dimensions['width']) : sprintf("width:%s;", $dimensions['width']);
+                }
+
+                return sprintf(
+                            '<div id="%s" style="%s%s"></div>',
+                            $elementId,
+                            $heightStr,
+                            $widthStr
+                        );
+
             } else {
                 throw new InvalidDivDimensions();
             }
+        }
+    }
+
+    /**
+     * Returns whether a given dimension value is an integer,
+     * percentage, or invalid.
+     *
+     * @access private
+     * @since  3.0.0
+     * @param  int|string $dimension An integer or a string representing a percent.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @return string
+     */
+    private function dimensionTypeCheck($dimension)
+    {
+        if (is_int($dimension) && $dimension > 0) {
+            return 'integer';
+        } else if (substr($dimension, -1) === '%' && (int) substr($dimension, 0, -1) > 0) {
+            return 'percentage';
+        } else {
+            throw new InvalidConfigValue(
+                __METHOD__,
+                'int|%',
+                'greater than 0'
+            );
         }
     }
 
