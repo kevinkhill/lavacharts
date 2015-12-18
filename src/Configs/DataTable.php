@@ -375,7 +375,11 @@ class DataTable
                         if ($this->cols[$index]['type'] == 'date') {
                             $rowVals[] = array('v' => $this->parseDate($optCellArray[$index]));
                         } else {
-                            $rowVals[] = array('v' => $optCellArray[$index]);
+                            if(is_object($optCellArray[$index])) {
+                                $rowVals[] = array('v' => $optCellArray[$index]->v,'f' => $optCellArray[$index]->f,'p' => $optCellArray[$index]->p);
+                            } else {
+                                $rowVals[] = array('v' => $optCellArray[$index]);
+                            }
                         }
                     } else {
                         $rowVals[] = array('v' => null);
