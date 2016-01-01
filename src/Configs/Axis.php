@@ -671,8 +671,8 @@ class Axis extends ConfigObject
             is_int($viewWindow['min']) &&
             is_int($viewWindow['max'])
         ) {
-            $this->viewWindow['viewWindowMin'] = $viewWindow['min'];
-            $this->viewWindow['viewWindowMax'] = $viewWindow['max'];
+            $this->viewWindow['min'] = $viewWindow['min'];
+            $this->viewWindow['max'] = $viewWindow['max'];
 
             $this->viewWindowMode('explicit');
         } else {
