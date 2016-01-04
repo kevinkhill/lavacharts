@@ -230,12 +230,12 @@ var lava = lava || {};
 
           if (event.type === "load" || (/loaded|complete/.test(this.readyState))) {
             this.onload = this.onreadystatechange = null;
-            
+
             lava.events.emit('jsapi:ready');
           }
         };
 
-    document.body.appendChild(s);
+    document.head.appendChild(s);
   };
 
 }).apply(lava);
