@@ -666,20 +666,19 @@ class Axis extends ConfigObject
     public function viewWindow($viewWindow)
     {
         if (is_array($viewWindow) &&
-            array_key_exists('min', $viewWindow) &&
-            array_key_exists('max', $viewWindow) &&
-            is_int($viewWindow['min']) &&
-            is_int($viewWindow['max'])
+            (
+                (array_key_exists('min', $viewWindow) && is_int($viewWindow['min'])) ||
+                (array_key_exists('max', $viewWindow) && is_int($viewWindow['max']))
+            )
         ) {
-            $this->viewWindow['viewWindowMin'] = $viewWindow['min'];
-            $this->viewWindow['viewWindowMax'] = $viewWindow['max'];
-
+            $this->viewWindow['min'] = $viewWindow['min'];
+            $this->viewWindow['max'] = $viewWindow['max'];
             $this->viewWindowMode('explicit');
         } else {
             throw $this->invalidConfigValue(
                 __FUNCTION__,
                 'array',
-                'with the structure min => (int), max => (int)'
+                'with any of these keys: min => (int), max => (int)'
             );
         }
 
