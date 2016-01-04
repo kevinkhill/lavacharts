@@ -5,8 +5,8 @@ Lavacharts is a graphing / chart library for PHP5.3+ that wraps the Google Chart
 
 Stable:
 [![Current Release](https://img.shields.io/github/release/kevinkhill/lavacharts.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/releases)
-[![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/master.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
-[![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/master.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=master)
+[![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/2.5.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
+[![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/2.5.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=2.5)
 
 Dev:
 [![Current Release](https://img.shields.io/badge/release-dev--3.0-brightgreen.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/3.0)
@@ -49,7 +49,7 @@ Register Lavacharts in your app by adding this line to the end of the providers 
   ```
   'providers' => [
       ...
-      
+
       Khill\Lavacharts\Laravel\LavachartsServiceProvider::class
   ],
   ```
