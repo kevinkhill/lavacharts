@@ -35,6 +35,11 @@ use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
 class Lavacharts
 {
     /**
+     * Lavacharts version
+     */
+    const VERSION = '3.0.0';
+
+    /**
      * Holds all of the defined Charts and DataTables.
      *
      * @var Volcano
