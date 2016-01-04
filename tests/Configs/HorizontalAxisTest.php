@@ -67,8 +67,8 @@ class HorizontalAxisTest extends ProvidersTestCase
         $this->assertTrue(is_array($va->textStyle));
         $this->assertEquals('Taco Graph', $va->title);
         $this->assertTrue(is_array($va->titleTextStyle));
-        $this->assertEquals(100, $va->viewWindow['viewWindowMin']);
-        $this->assertEquals(400, $va->viewWindow['viewWindowMax']);
+        $this->assertEquals(100, $va->viewWindow['min']);
+        $this->assertEquals(400, $va->viewWindow['max']);
         $this->assertEquals('explicit', $va->viewWindowMode);
     }
 
