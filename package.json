@@ -1,13 +1,13 @@
 {
   "name": "lavacharts",
-  "version": "2.5.1",
+  "version": "2.5.9",
   "description": "Wrapper library for the Google Chart API",
   "homepage": "http://lavacharts.com",
   "author": "Kevin Hill",
   "license": "MIT",
   "private": true,
   "engines": {
-    "node": "10.*"
+    "node": "12.*"
   },
   "devDependencies": {
     "gulp": "^3.8.11",
