@@ -1,7 +1,4 @@
-<?php require('../../vendor/autoload.php');
-
-    $lava = new \Khill\Lavacharts\Lavacharts;
-
+<?php
     $data = $lava->DataTable();
     $data->addDateColumn('Date')
          ->addNumberColumn('High Temp')
@@ -26,7 +23,7 @@
          ->addRow(['2014-10-17', 72, 66, 60])
          ->addRow(['2014-10-18', 63, 62, 62]);
 
-    $lava->LineChart('Temperature', $data, [
+    $lc = $lava->LineChart('Temperature', $data, [
         'title' => 'Weather in October',
         'backgroundColor' => [
             'fill'        => '#A9D0F5',
@@ -36,9 +33,12 @@
     ]);
 ?>
 
-<doctype html>
-    <html>
+<html>
+    <head>
+        <title><?= $chart ?> Render</title>
+    </head>
     <body>
+        <h1><?= $chart ?> Render</h1>
         <div id="chart"></div>
         <?= $lava->render('LineChart', 'Temperature', 'chart'); ?>
     </body>

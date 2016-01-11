@@ -1,3 +1,8 @@
 <?php
+    $chart = $_GET['chart'];
 
-require_once(__DIR__ . '\\' . $_GET['chart'] . '.php');
+    require('../../vendor/autoload.php');
+
+    $lava = new \Khill\Lavacharts\Lavacharts;
+
+    require_once(__DIR__ . '\\' . $chart . '.php');

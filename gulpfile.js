@@ -34,7 +34,13 @@ gulp.task('render', function (done) {gulp.src(['file.txt'])
     var phpserver = spawn('php', ['-S', '127.0.0.1:8946', '-t', 'tests/Examples'], {cwd: __dirname});
 
     var render = function (chart, callback) {
-        webshot('http://127.0.0.1:8946/index.php?chart=' + chart, 'build/renders/' + chart + '.png', function (err) {
+        var url = 'http://127.0.0.1:8946/index.php?chart=' + chart,
+         output = 'build/renders/' + chart + '.png';
+
+        webshot(url, output, {
+          renderDelay: 5000,
+          errorIfJSException: true
+        }, function (err) {
             if (err) { callback(err); }
 
             console.log('Rendered ' + chart);
@@ -68,10 +74,6 @@ gulp.task('php:test', function (done) {
 
 gulp.task('php:coverage', function (done) {
     sh('./vendor/bin/phpunit -c configs/phpunit.xml.coverage');
-});
-
-gulp.task('php:doc', function (done) {
-    sh('./vendor/bin/sami.php update configs/sami.cfg.php');
 });
 
 gulp.task('php:cs', function (done) {

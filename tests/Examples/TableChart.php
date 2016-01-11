@@ -1,7 +1,4 @@
-<?php require('../../vendor/autoload.php');
-
-    $lava = new \Khill\Lavacharts\Lavacharts;
-
+<?php
     $data = $lava->DataTable();
     $data->addDateColumn('Month')
          ->addNumberColumn('Donuts Sold')
@@ -18,10 +15,12 @@
     $lava->TableChart('Sales', $data);
 ?>
 
-<doctype html>
-    <html>
+<html>
+    <head>
+        <title><?= $chart ?> Render</title>
+    </head>
     <body>
-        <div id="chart"></div>
+        <h1><?= $chart ?> Render</h1>
         <?= $lava->render('TableChart', 'Sales', 'chart'); ?>
     </body>
 </html>
