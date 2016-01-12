@@ -26,6 +26,7 @@ gulp.task('render', function (done) {gulp.src(['file.txt'])
           async = require('async');
 
     var charts = [
+        'AreaChart',
         'LineChart',
         'TableChart',
         'Dashboard'
