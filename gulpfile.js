@@ -31,10 +31,10 @@ gulp.task('render', function (done) {gulp.src(['file.txt'])
         'Dashboard'
     ];
 
-    var phpserver = spawn('php', ['-S', '127.0.0.1:8946', '-t', 'tests/Examples'], {cwd: __dirname});
+    var phpserver = spawn('php', ['-S', '127.0.0.1:8946', '-c', 'php.ini', 'router.php'], {cwd: 'tests/Examples'});
 
     var render = function (chart, callback) {
-        var url = 'http://127.0.0.1:8946/index.php?chart=' + chart,
+        var url = 'http://127.0.0.1:8946/' + chart,
          output = 'build/renders/' + chart + '.png';
 
         webshot(url, output, {
