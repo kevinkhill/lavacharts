@@ -23,7 +23,7 @@
          ->addRow(['2014-10-17', 72, 66, 60])
          ->addRow(['2014-10-18', 63, 62, 62]);
 
-    $lc = $lava->LineChart('Temperature', $data, [
+    $lava->LineChart('Temperature', $data, [
         'title' => 'Weather in October',
         'backgroundColor' => [
             'fill'        => '#A9D0F5',
@@ -34,11 +34,8 @@
 ?>
 
 <html>
-    <head>
-        <title><?= $chart ?> Render</title>
-    </head>
+    <head></head>
     <body>
-        <h1><?= $chart ?> Render</h1>
         <div id="chart"></div>
         <?= $lava->render('LineChart', 'Temperature', 'chart'); ?>
     </body>

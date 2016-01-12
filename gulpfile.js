@@ -1,4 +1,5 @@
 var gulp = require('gulp'),
+     log = require('gulp-util').log,
    spawn = require('child_process').spawn,
     exec = require('child_process').exec,
       sh = require('sh'),
@@ -6,7 +7,6 @@ var gulp = require('gulp'),
   jshint = require('gulp-jshint'),
  replace = require('gulp-replace'),
     argv = require('yargs').array('browsers').argv;
-
 
 gulp.task('karma', function (done) {
     var karma = require('karma');
@@ -21,55 +21,41 @@ gulp.task('karma', function (done) {
     server.start();
 });
 
-gulp.task('render', function (done) {gulp.src(['file.txt'])
-    var webshot = require('webshot'),
-          async = require('async');
+gulp.task('render', function (done) {
+    var path = require('path'),
+        glob = require('glob'),
+       async = require('async'),
+     webshot = require('webshot');
 
-    var charts = [
-        'AreaChart',
-        'LineChart',
-        'TableChart',
-        'Dashboard'
-    ];
+    var charts = glob(path.join(__dirname, 'tests/Examples/Charts/*.php'), function (err, charts) {
 
-    var phpserver = spawn('php', ['-S', '127.0.0.1:8946', '-c', 'php.ini', 'router.php'], {cwd: 'tests/Examples'});
+    charts.map(function (chartPath) {
+      var chart = chartPath.match(/([a-zA-Z]+).php$/)[1];
+      var port = 8946;
+      var phpserver = spawn('php', ['-S', '127.0.0.1:'+port, '-c', 'php.ini', 'router.php'], {cwd: 'tests/Examples'});
+      var url = 'http://127.0.0.1:'+port+'/' + chart;
+      var output = 'build/renders/' + chart + '.png';
 
-    var render = function (chart, callback) {
-        var url = 'http://127.0.0.1:8946/' + chart,
-         output = 'build/renders/' + chart + '.png';
+      webshot(url, output, {
+        renderDelay: 5000,
+        errorIfJSException: true,
+        captureSelector: 'body>div'
+      }, function (err) {
+          if (err) { log(err); }
 
-        webshot(url, output, {
-          renderDelay: 5000,
-          errorIfJSException: true
-        }, function (err) {
-            if (err) { callback(err); }
-
-            console.log('Rendered ' + chart);
-            return callback();
-        });
-    };
-
-    phpserver.on('data', function (data) {
-        console.log(data);
+          log('Rendered ' + chart);
+          port++;
+          phpserver.kill('SIGINT');
+      });
     });
-
-    phpserver.on('close', function (err) {
-        console.log('Done');
-    });
-
-    async.forEach(charts, render, function (error) {
-        if (error) { console.log(error); }
-
-        console.log('Stopping PHP Server');
-        phpserver.kill('SIGINT');
-    });
+  });
 });
 
 gulp.task('php:test', function (done) {
     var test = spawn('./vendor/bin/phpunit', ['-c', 'configs/phpunit.xml']);
 
     test.on('data', function (data) {
-        console.log(data);
+        log(data);
     });
 });
 

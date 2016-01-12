@@ -35,11 +35,8 @@
 ?>
 
 <html>
-    <head>
-        <title><?= $chart ?> Render</title>
-    </head>
+    <head></head>
     <body>
-        <h1><?= $chart ?> Render</h1>
         <div id="dashboard-div-id">
             <div id="chart-div-id"></div>
             <div id="control-div-id"></div>

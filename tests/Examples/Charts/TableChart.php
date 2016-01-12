@@ -4,7 +4,7 @@
          ->addNumberColumn('Donuts Sold')
          ->addRoleColumn('number', 'interval')
          ->addRoleColumn('number', 'interval')
-         ->addColumn('number', 'Expenses')
+         ->addNumberColumn('Expenses')
          ->addRows([
              ['2015-1-1', 1000,  900, 1100,  400],
              ['2015-2-1', 1170, 1000, 1200,  460],
@@ -16,11 +16,8 @@
 ?>
 
 <html>
-    <head>
-        <title><?= $chart ?> Render</title>
-    </head>
+    <head></head>
     <body>
-        <h1><?= $chart ?> Render</h1>
         <?= $lava->render('TableChart', 'Sales', 'chart'); ?>
     </body>
 </html>

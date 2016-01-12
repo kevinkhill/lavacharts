@@ -12,11 +12,8 @@
 ?>
 
 <html>
-    <head>
-        <title><?= $chart ?> Render</title>
-    </head>
+    <head></head>
     <body>
-        <h1><?= $chart ?> Render</h1>
         <div id="chart"></div>
         <?= $lava->render('AreaChart', 'Things!', 'chart'); ?>
     </body>

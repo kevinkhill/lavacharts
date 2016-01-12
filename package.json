@@ -9,7 +9,7 @@
   "engines": {
     "node": "10.*"
   },
-  "dependencies" :{
+  "dependencies": {
     "jasmine-core": "^2.2.0",
     "karma": "^0.13.0",
     "karma-jasmine": "^0.3.5",
@@ -18,10 +18,12 @@
   },
   "devDependencies": {
     "async": "^1.4.2",
+    "glob": "^6.0.4",
     "gulp": "^3.9.0",
     "gulp-bump": "^0.3.0",
     "gulp-jshint": "^1.10.0",
     "gulp-replace": "^0.5.4",
+    "gulp-util": "^3.0.7",
     "gulp-watch": "^4.2.4",
     "karma-chrome-launcher": "^0.2.0",
     "karma-firefox-launcher": "^0.1.6",
