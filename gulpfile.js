@@ -22,33 +22,56 @@ gulp.task('karma', function (done) {
 });
 
 gulp.task('render', function (done) {
-    var path = require('path'),
-        glob = require('glob'),
-       async = require('async'),
-     webshot = require('webshot');
+    var fs = require('fs'),
+      path = require('path'),
+      glob = require('glob'),
+     async = require('async'),
+   webshot = require('webshot');
 
-    var charts = glob(path.join(__dirname, 'tests/Examples/Charts/*.php'), function (err, charts) {
+    var page = '<html><head><title>Lavacharts Renders</title></head><body>';
+    var end = '</body></html>';
 
-    charts.map(function (chartPath) {
-      var chart = chartPath.match(/([a-zA-Z]+).php$/)[1];
-      var port = 8946;
-      var phpserver = spawn('php', ['-S', '127.0.0.1:'+port, '-c', 'php.ini', 'router.php'], {cwd: 'tests/Examples'});
-      var url = 'http://127.0.0.1:'+port+'/' + chart;
-      var output = 'build/renders/' + chart + '.png';
+    if (argv.chart != undefined) {
+      var search = argv.chart;
+    } else {
+      var search = '*';
+    }
 
-      webshot(url, output, {
-        renderDelay: 5000,
-        errorIfJSException: true,
-        captureSelector: 'body>div'
-      }, function (err) {
-          if (err) { log(err); }
+    async.series([
+        function() {
+            glob(path.join(__dirname, 'tests/Examples/Charts/'+search+'.php'), function (err, charts) {
+                charts.map(function (chartPath) {
+                    var chart = chartPath.match(/([a-zA-Z]+).php$/)[1];
+                    var port = 8946;
+                    var phpserver = spawn('php', ['-S', '127.0.0.1:'+port, '-c', 'php.ini', 'router.php'], {cwd: 'tests/Examples'});
+                    var url = 'http://127.0.0.1:'+port+'/' + chart;
+                    var output = 'build/renders/' + chart + '.png';
 
-          log('Rendered ' + chart);
-          port++;
-          phpserver.kill('SIGINT');
-      });
-    });
-  });
+                    page += '<h1>'+chart+'</h1>';
+                    page += '<img src="./'+chart+'.png" alt="'+chart+' Rendering" />'
+
+                    webshot(url, output, {
+                        renderDelay: 3000,
+                        errorIfJSException: true,
+                        captureSelector: 'body>div'
+                    }, function (err) {
+                        if (err) { log(err); }
+
+                        log('Rendered ' + chart);
+                        port++;
+                        phpserver.kill('SIGINT');
+                    });
+                });
+            });
+        },
+        function() {
+            fs.writeFile(path.join(__dirname, 'build/renders/index.html'), page+end, function (err) {
+                if (err) throw err;
+
+                log('index.html created.');
+            });
+        }
+    ]);
 });
 
 gulp.task('php:test', function (done) {
