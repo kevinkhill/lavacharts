@@ -29,7 +29,7 @@ class Stroke extends JsonConfig
      *
      * @var string
      */
-    const TYPE = 'TextStyle';
+    const TYPE = 'Stroke';
 
     /**
      * Default options for TextStyles

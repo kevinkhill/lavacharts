@@ -84,7 +84,7 @@ class Chart extends JsonConfig
      *
      * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param  \Khill\Lavacharts\Options      $options Options fot the chart.
+     * @param  \Khill\Lavacharts\Options              $options Options fot the chart.
      * @param  array                                  $config Array of options to set on the chart.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
@@ -118,18 +118,14 @@ class Chart extends JsonConfig
      */
     public function hasEvents()
     {
-        if (count($this->events) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return count($this->events) > 0;
     }
 
     /**
      * Retrieves the events if any have been assigned to the chart.
      *
      * @access public
-     * @return array
+     * @return \Khill\Lavacharts\Configs\EventManager
      */
     public function getEvents()
     {
