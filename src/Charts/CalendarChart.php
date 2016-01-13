@@ -105,9 +105,11 @@ class CalendarChart extends Chart
      */
     public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
     {
-        $options = new Options($this->extChartDefaults);
+        $calendarOptions = new Options($this->calendarDefaults);
 
-        $options->set('calendar', new Options($this->calendarDefaults));
+        $options = new Options($this->extChartDefaults);
+        $options->merge($calendarOptions);
+        $options->set('calendar', $calendarOptions);
 
         parent::__construct($chartLabel, $datatable, $options, $config);
     }

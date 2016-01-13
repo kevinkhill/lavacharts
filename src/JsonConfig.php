@@ -54,7 +54,7 @@ class JsonConfig implements \JsonSerializable
     }
 
     /**
-     * Get the value of a set option via magic method through UI.
+     * Get the value of a set option via magic method.
      *
      * @access public
      * @param  string $option Name of option.
@@ -274,6 +274,6 @@ class JsonConfig implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return $this->options->getValues();
+        return $this->options;
     }
 }
