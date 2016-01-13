@@ -9,7 +9,8 @@
 
     $lava->PieChart('IMDB', $reasons, [
         'title' => 'Reasons I visit IMDB',
-        'width' => 400,
+        'width' => $width,
+        'height' => $height,
         'is3D' => true,
         'slices' => [
             ['offset' => 0.2],
@@ -22,7 +23,7 @@
 <html>
     <head></head>
     <body>
-        <div id="chart"></div>
+        <div class="render" id="chart"></div>
         <?= $lava->render('PieChart', 'IMDB', 'chart'); ?>
     </body>
 </html>

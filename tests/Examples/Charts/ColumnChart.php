@@ -11,6 +11,8 @@
 
     $lava->ColumnChart('Finances', $finances, [
         'title' => 'Company Performance',
+        'width' => $width,
+        'height' => $height,
         'titleTextStyle' => [
             'color' => '#eb6b2c',
             'fontSize' => 14
@@ -21,7 +23,7 @@
 <html>
     <head></head>
     <body>
-        <div id="chart"></div>
+        <div class="render" id="chart"></div>
         <?= $lava->render('ColumnChart', 'Finances', 'chart'); ?>
     </body>
 </html>

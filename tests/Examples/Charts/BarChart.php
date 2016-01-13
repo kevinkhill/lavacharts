@@ -8,13 +8,16 @@
         ->addRow(array('Apples', rand(1000,5000)))
         ->addRow(array('Fish', rand(1000,5000)));
 
-  $lava->BarChart('Votes', $votes);
+  $lava->BarChart('Votes', $votes, [
+      'width' => $width,
+      'height' => $height
+  ]);
 ?>
 
 <html>
     <head></head>
     <body>
-        <div id="chart"></div>
+        <div class="render" id="chart"></div>
         <?= $lava->render('BarChart', 'Votes', 'chart'); ?>
     </body>
 </html>

@@ -9,5 +9,8 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
 
     $lava = new \Khill\Lavacharts\Lavacharts;
 
+    $width  = 900;
+    $height = 400;
+
     require_once(__DIR__ . '/Charts/' . $chart . '.php');
 }

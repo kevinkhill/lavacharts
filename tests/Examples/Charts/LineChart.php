@@ -25,6 +25,8 @@
 
     $lava->LineChart('Temperature', $data, [
         'title' => 'Weather in October',
+        'width' => $width,
+        'height' => $height,
         'backgroundColor' => [
             'fill'        => '#A9D0F5',
             'stroke'      => '#CED8F6',
@@ -36,7 +38,7 @@
 <html>
     <head></head>
     <body>
-        <div id="chart"></div>
+        <div class="render" id="chart"></div>
         <?= $lava->render('LineChart', 'Temperature', 'chart'); ?>
     </body>
 </html>

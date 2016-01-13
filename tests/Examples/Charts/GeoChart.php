@@ -9,13 +9,16 @@
                ->addRow(['France', 600])
                ->addRow(['RU', 700]);
 
-    $lava->GeoChart('Popularity', $popularity);
+    $lava->GeoChart('Popularity', $popularity, [
+        'width' => $width,
+        'height' => $height
+    ]);
 ?>
 
 <html>
     <head></head>
     <body>
-        <div id="chart"></div>
+        <div class="render" id="chart"></div>
         <?= $lava->render('GeoChart', 'Popularity', 'chart'); ?>
     </body>
 </html>

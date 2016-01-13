@@ -13,8 +13,8 @@
     ]);
 
     $pieChart = $lava->PieChart('Stuff', $data, [
-        'width' => 300,
-        'height' => 200,
+        'width' => $width,
+        'height' => $height,
         'chartArea' => [
             'left' => 15,
             'top' => 15
@@ -37,7 +37,7 @@
 <html>
     <head></head>
     <body>
-        <div id="dashboard-div-id">
+        <div class="render" id="dashboard-div-id">
             <div id="chart-div-id"></div>
             <div id="control-div-id"></div>
         </div>

@@ -12,6 +12,8 @@
 
     $lava->ComboChart('Finances', $finances, [
         'title' => 'Company Performance',
+        'width' => $width,
+        'height' => $height,
         'titleTextStyle' => [
             'color' => 'rgb(123, 65, 89)',
             'fontSize' => 16,
@@ -32,7 +34,7 @@
 <html>
     <head></head>
     <body>
-        <div id="chart"></div>
+        <div class="render" id="chart"></div>
         <?= $lava->render('ComboChart', 'Finances', 'chart'); ?>
     </body>
 </html>

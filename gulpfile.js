@@ -37,41 +37,38 @@ gulp.task('render', function (done) {
       var search = '*';
     }
 
-    async.series([
-        function() {
-            glob(path.join(__dirname, 'tests/Examples/Charts/'+search+'.php'), function (err, charts) {
-                charts.map(function (chartPath) {
-                    var chart = chartPath.match(/([a-zA-Z]+).php$/)[1];
-                    var port = 8946;
-                    var phpserver = spawn('php', ['-S', '127.0.0.1:'+port, '-c', 'php.ini', 'router.php'], {cwd: 'tests/Examples'});
-                    var url = 'http://127.0.0.1:'+port+'/' + chart;
-                    var output = 'build/renders/' + chart + '.png';
+    var chartGlob = new glob.Glob(path.join(__dirname, 'tests/Examples/Charts/'+search+'.php'), function (err, charts) {
+        charts.map(function (chartPath) {
+            var chart = chartPath.match(/([a-zA-Z]+).php$/)[1];
+            var port = 8946;
+            var phpserver = spawn('php', ['-S', '127.0.0.1:'+port, '-c', 'php.ini', 'router.php'], {cwd: 'tests/Examples'});
+            var url = 'http://127.0.0.1:'+port+'/' + chart;
+            var output = 'build/renders/' + chart + '.png';
 
-                    page += '<h1>'+chart+'</h1>';
-                    page += '<img src="./'+chart+'.png" alt="'+chart+' Rendering" />'
+            page += '<h1>'+chart+'</h1>';
+            page += '<img src="./'+chart+'.png" width="100%" alt="'+chart+' Rendering" />';
 
-                    webshot(url, output, {
-                        renderDelay: 3000,
-                        errorIfJSException: true,
-                        captureSelector: 'body>div'
-                    }, function (err) {
-                        if (err) { log(err); }
+            webshot(url, output, {
+                renderDelay: 5000,
+                errorIfJSException: true,
+                captureSelector: '.render'
+            }, function (err) {
+                if (err) { log(err); }
 
-                        log('Rendered ' + chart);
-                        port++;
-                        phpserver.kill('SIGINT');
-                    });
-                });
+                log('Rendered ' + chart);
+                port++;
+                phpserver.kill('SIGINT');
             });
-        },
-        function() {
-            fs.writeFile(path.join(__dirname, 'build/renders/index.html'), page+end, function (err) {
-                if (err) throw err;
+        });
+    });
 
-                log('index.html created.');
-            });
-        }
-    ]);
+    chartGlob.on('end', function() {
+        fs.writeFile(path.join(__dirname, 'build/renders/index.html'), page+end, function (err) {
+            if (err) throw err;
+
+            log('index.html created.');
+        });
+    });
 });
 
 gulp.task('php:test', function (done) {

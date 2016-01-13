@@ -9,14 +9,15 @@
 
     $lava->DonutChart('IMDB', $reasons, [
         'title'=>'Reasons I visit IMDB',
-        'width' => 400
+        'width' => $width,
+        'height' => $height,
     ]);
 ?>
 
 <html>
     <head></head>
     <body>
-        <div id="chart"></div>
+        <div class="render" id="chart"></div>
         <?= $lava->render('DonutChart', 'IMDB', 'chart'); ?>
     </body>
 </html>

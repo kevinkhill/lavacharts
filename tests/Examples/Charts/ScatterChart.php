@@ -9,7 +9,8 @@
 
     $lava->ScatterChart('AgeWeight', $data, [
         'title' => 'Age vs. Weight comparison',
-        'height' => 800,
+        'width' => $width,
+        'height' => $height,
         'hAxis' => [
             'title' => 'Age',
             'minValue' => 20,
@@ -20,14 +21,16 @@
             'minValue' => 100,
             'maxValue' => 300
         ],
-        'legend' => 'none'
+        'legend' => [
+            'position' => 'none'
+        ]
     ]);
 ?>
 
 <html>
     <head></head>
     <body>
-        <div id="chart"></div>
+        <div class="render" id="chart"></div>
         <?= $lava->render('ScatterChart', 'AgeWeight', 'chart'); ?>
     </body>
 </html>

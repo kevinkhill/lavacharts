@@ -12,6 +12,8 @@
 
     $lava->CalendarChart('Sales', $sales, [
         'title' => 'Cars Sold',
+        'width' => $width,
+        'height' => $height,
         'unusedMonthOutlineColor' => [
             'stroke'        => '#ECECEC',
             'strokeOpacity' => 0.75,
@@ -36,7 +38,7 @@
 <html>
     <head></head>
     <body>
-        <div id="chart"></div>
+        <div class="render" id="chart"></div>
         <?= $lava->render('CalendarChart', 'Sales', 'chart'); ?>
     </body>
 </html>

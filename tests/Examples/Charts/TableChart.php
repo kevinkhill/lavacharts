@@ -12,12 +12,16 @@
              ['2015-4-1', 1030, null, null,  540]
          ]);
 
-    $lava->TableChart('Sales', $data);
+    $lava->TableChart('Sales', $data, [
+        'width' => $width,
+        'height' => $height
+    ]);
 ?>
 
 <html>
     <head></head>
     <body>
+        <div class="render" id="chart"></div>
         <?= $lava->render('TableChart', 'Sales', 'chart'); ?>
     </body>
 </html>

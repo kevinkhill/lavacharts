@@ -29,7 +29,7 @@
     "karma-firefox-launcher": "^0.1.6",
     "karma-ie-launcher": "^0.2.0",
     "sh": "^0.0.3",
-    "webshot": "^0.16.0",
+    "webshot": "^0.17.0",
     "yargs": "^3.6.0"
   },
   "repository": {
