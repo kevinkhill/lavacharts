@@ -21,7 +21,7 @@ use \Khill\Lavacharts\Exceptions\InvalidOption;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Options
+class Options implements \JsonSerializable
 {
     /**
      * Default options that can be set.
@@ -228,5 +228,15 @@ class Options
         $this->options = array_merge(array_diff($this->options, $options));
 
         return $this;
+    }
+
+    /**
+     * Custom serialization of the Options object.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->values;
     }
 }
