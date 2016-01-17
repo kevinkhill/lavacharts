@@ -60,7 +60,7 @@
     },
     "require": {
         "php": ">=5.4.0",
-        "nesbot/carbon": "~1.0"
+        "nesbot/carbon": "~1.14"
     },
     "suggest": {
         "khill/datatableplus": "Adds extra features to DataTables such as csv and laravel collection parsing."
