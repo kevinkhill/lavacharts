@@ -143,7 +143,7 @@ class ChartFactory extends JavascriptFactory
     private function getTemplate()
     {
         return <<<'CHART'
-        lava.events.on('jsapi:ready', function() {
+        lava.events.on('jsapi:ready', function (google) {
             /**
              * If the object does not exist for a given chart type, initialize it.
              * This will prevent overriding keys when multiple charts of the same
@@ -195,7 +195,6 @@ class ChartFactory extends JavascriptFactory
                 packages: ['<chartPackage>'],
                 callback: function() {
                     lava.charts.<chartType>["<chartLabel>"].render();
-                    //lava.readyCallback();
                 }
             });
         });

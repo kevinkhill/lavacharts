@@ -76,6 +76,8 @@ var lava = lava || {};
   this.ready = function (callback) {
     if (typeof callback !== 'function') {
       throw new Error('[Lavacharts] ' + typeof callback + ' is not a valid callback.');
+    } else {
+        var callback = function(){};
     }
 
     lava.readyCallback = callback;
@@ -201,7 +203,7 @@ var lava = lava || {};
   };
 
   /**
-   * Redraws all of the registed charts on screen.
+   * Redraws all of the registered charts on screen.
    *
    *
    * This method is attached to the window resize event with a 300ms debounce
@@ -231,7 +233,7 @@ var lava = lava || {};
           if (event.type === "load" || (/loaded|complete/.test(this.readyState))) {
             this.onload = this.onreadystatechange = null;
 
-            lava.events.emit('jsapi:ready');
+            lava.events.emit('jsapi:ready', window.google);
           }
         };
 
