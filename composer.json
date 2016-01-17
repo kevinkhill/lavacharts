@@ -60,7 +60,7 @@
     },
     "require": {
         "php": ">=5.4.0",
-        "nesbot/carbon": "~1.14"
+        "nesbot/carbon": "~1.0"
     },
     "suggest": {
         "khill/datatableplus": "Adds extra features to DataTables such as csv and laravel collection parsing."
@@ -74,7 +74,7 @@
         "phpunit/phpunit": "~4.5",
         "mybuilder/phpunit-accelerator": "~1.1",
         "mockery/mockery": "~0.9",
-        "squizlabs/php_codesniffer": "~2.3",
+        "squizlabs/php_codesniffer": "~2.5",
         "satooshi/php-coveralls": "~1.0"
     },
     "autoload-dev": {

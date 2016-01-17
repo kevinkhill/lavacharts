@@ -42,7 +42,7 @@ before_install:
   - composer selfupdate
 
 install:
-  - composer install --no-progress --no-interaction --prefer-dist --prefer-lowest
+  - composer install --no-progress --no-interaction --prefer-dist
   - npm install --production
 
 before_script:
