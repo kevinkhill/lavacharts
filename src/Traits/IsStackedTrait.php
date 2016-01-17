@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Traits;
 
-
+use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 trait IsStackedTrait
