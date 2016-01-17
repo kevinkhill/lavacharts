@@ -12,6 +12,5 @@ npm-debug.log
 
 bootstrap/compiled.php
 composer.phar
-composer.lock
 
 *DS_Store
