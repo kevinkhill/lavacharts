@@ -75,7 +75,7 @@
         "mybuilder/phpunit-accelerator": "~1.1",
         "mockery/mockery": "~0.9",
         "squizlabs/php_codesniffer": "~2.3",
-        "satooshi/php-coveralls": "dev-master"
+        "satooshi/php-coveralls": "~1.0"
     },
     "autoload-dev": {
         "psr-4": {
