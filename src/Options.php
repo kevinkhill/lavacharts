@@ -147,15 +147,20 @@ class Options implements \JsonSerializable
     }
 
     /**
-     * Batch set options from an array
+     * Batch set options from an array.
+     *
+     *
+     * The check flag can be used to bypass valid option checking
+     * (added for the customize chart method ported from the 2.5 branch)
      *
      * @access public
-     * @param  array $options
+     * @param  array $options Options to set
+     * @param  bool  $check Flag to check options against list of set options
      * @return \Khill\Lavacharts\Options
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      */
-    public function setOptions($options)
+    public function setOptions($options, $check = true)
     {
         if (is_array($options) === false) {
             throw new InvalidConfigValue(
@@ -165,7 +170,11 @@ class Options implements \JsonSerializable
         }
 
         foreach ($options as $option => $value) {
-            $this->set($option, $value);
+            if ($check === true) {
+                $this->set($option, $value);
+            } else {
+                $this->values[$option] = $value;
+            }
         }
 
         return $this;
