@@ -34,7 +34,6 @@ class BarChart extends Chart
         $this->defaults = array_merge(
             $this->defaults,
             array(
-                //'animation'
                 'annotations',
                 'axisTitlesPosition',
                 'barGroupWidth',
@@ -52,7 +51,7 @@ class BarChart extends Chart
                 'orientation',
                 'series',
                 'theme',
-                'trendlines',
+                /*'trendlines',
                 'trendlines.n.color',
                 'trendlines.n.degree',
                 'trendlines.n.labelInLegend',
@@ -61,8 +60,8 @@ class BarChart extends Chart
                 'trendlines.n.pointSize',
                 'trendlines.n.showR2',
                 'trendlines.n.type',
-                'trendlines.n.visibleInLegend',
-                'vAxis',
+                'trendlines.n.visibleInLegend',*/
+                'vAxes',
                 'vAxis'
             )
         );

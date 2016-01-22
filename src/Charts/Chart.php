@@ -18,6 +18,7 @@
 use Khill\Lavacharts\Utils;
 use Khill\Lavacharts\JavascriptFactory;
 use Khill\Lavacharts\Configs\DataTable;
+use Khill\Lavacharts\Configs\Animation;
 use Khill\Lavacharts\Configs\Legend;
 use Khill\Lavacharts\Configs\Tooltip;
 use Khill\Lavacharts\Configs\TextStyle;
@@ -48,6 +49,7 @@ class Chart
         $this->label = $chartLabel;
         $this->defaults = array(
             'datatable',
+            'animation',
             'backgroundColor',
             'chartArea',
             'colors',
@@ -215,6 +217,20 @@ class Chart
     public function getDataTableJson()
     {
         return $this->datatable->toJson();
+    }
+
+    /**
+     * Defines how chart animations will be displayed.
+     *
+     * @since  v2.5.10
+     * @uses   Animation
+     * @param  Animation $a
+     *
+     * @return Chart
+     */
+    public function animation(Animation $a)
+    {
+        return $this->addOption($a->toArray());
     }
 
     /**

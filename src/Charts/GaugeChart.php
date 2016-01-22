@@ -27,10 +27,6 @@ class GaugeChart extends Chart
         parent::__construct($chartLabel);
 
         $this->defaults = array(
-            'datatable',
-            'height',
-            'width',
-
             'forceIFrame',
             'greenColor',
             'greenFrom',
