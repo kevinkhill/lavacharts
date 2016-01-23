@@ -1,14 +1,14 @@
 parameters:
     khill.lavacharts.class: Khill\Lavacharts\Lavacharts
-    khill.lavacharts.twig: Khill\Lavacharts\Symfony\Bundle\LavachartsTwigExtension
+    khill.lavacharts.twig: Khill\Lavacharts\Symfony\Bundle\Twig\LavachartsExtension
 
 services:
     khill.lavacharts:
         class: %khill.lavacharts.class%
-        arguments: ['@twig']
 
     khill.lavacharts.twig_extension:
         class: %khill.lavacharts.twig%
         public: false
+        arguments: ['@khill.lavacharts']
         tags:
             - { name: twig.extension }
