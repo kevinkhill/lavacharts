@@ -1,4 +1,4 @@
-# Lavacharts
+# Lavacharts v3.0
 [![Total Downloads](https://img.shields.io/packagist/dt/khill/lavacharts.svg?style=plastic)](https://packagist.org/packages/khill/lavacharts)
 [![License](https://img.shields.io/packagist/l/khill/lavacharts.svg?style=plastic)](http://opensource.org/licenses/MIT)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg?style=plastic)](https://php.net/)
@@ -17,8 +17,8 @@ Dev:
 [![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/3.0.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/3.0.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=3.0)
 
-## Version 3.0 is still a work in progress, but mostly stable.
-Check here for notes on how to  [upgrade from 2.5.x to 3.0.x](https://github.com/kevinkhill/lavacharts/wiki/Upgrading-from-2.5-to-3.0)
+## Version 3.0
+Upgrade guide: [Migrating from 2.5.x to 3.0.x](https://github.com/kevinkhill/lavacharts/wiki/Upgrading-from-2.5-to-3.0)
 
 ## Package Features
 - Blade template extensions for laravel
