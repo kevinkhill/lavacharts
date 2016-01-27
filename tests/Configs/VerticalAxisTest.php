@@ -68,19 +68,9 @@ class VerticalAxisTest extends ProvidersTestCase
         $this->assertEquals('in', $va->textPosition);
         $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $va->textStyle);
         $this->assertEquals('Taco Graph', $va->title);
-<<<<<<< HEAD
-        $this->assertTrue(is_array($va->titleTextStyle));
-        $this->assertEquals(100, $va->viewWindow['min']);
-        $this->assertEquals(400, $va->viewWindow['max']);
-||||||| merged common ancestors
-        $this->assertTrue(is_array($va->titleTextStyle));
-        $this->assertEquals(100, $va->viewWindow['viewWindowMin']);
-        $this->assertEquals(400, $va->viewWindow['viewWindowMax']);
-=======
         $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $va->titleTextStyle);
         $this->assertEquals(100, $va->viewWindow['viewWindowMin']);
         $this->assertEquals(400, $va->viewWindow['viewWindowMax']);
->>>>>>> 3.0
         $this->assertEquals('explicit', $va->viewWindowMode);
     }
 
@@ -370,8 +360,8 @@ class VerticalAxisTest extends ProvidersTestCase
             'max' => 100
         ]);
 
-        $this->assertEquals(10, $this->va->viewWindow['min']);
-        $this->assertEquals(100, $this->va->viewWindow['max']);
+        $this->assertEquals(10, $this->va->viewWindow['viewWindowMin']);
+        $this->assertEquals(100, $this->va->viewWindow['viewWindowMax']);
     }
 
     /**

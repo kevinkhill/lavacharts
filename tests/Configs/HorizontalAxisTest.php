@@ -51,63 +51,6 @@ class HorizontalAxisTest extends ProvidersTestCase
                 'max' => 400
             ],
             'viewWindowMode' => 'explicit'
-<<<<<<< HEAD
-        ));
-
-        $this->assertEquals('#F4D4E7', $va->baselineColor);
-        $this->assertEquals(1, $va->direction);
-        $this->assertEquals('999.99', $va->format);
-        $this->assertEquals('#123ABC', $va->gridlines['color']);
-        $this->assertEquals(4, $va->gridlines['count']);
-        $this->assertTrue($va->logScale);
-        $this->assertEquals(2, $va->maxAlternation);
-        $this->assertEquals(3, $va->maxTextLines);
-        $this->assertEquals(5000, $va->maxValue);
-        $this->assertEquals('#456EFF', $va->minorGridlines['color']);
-        $this->assertEquals(7, $va->minorGridlines['count']);
-        $this->assertEquals(2, $va->minTextSpacing);
-        $this->assertEquals(50, $va->minValue);
-        $this->assertEquals(3, $va->showTextEvery);
-        $this->assertEquals('in', $va->textPosition);
-        $this->assertTrue(is_array($va->textStyle));
-        $this->assertEquals('Taco Graph', $va->title);
-        $this->assertTrue(is_array($va->titleTextStyle));
-        $this->assertEquals(100, $va->viewWindow['min']);
-        $this->assertEquals(400, $va->viewWindow['max']);
-        $this->assertEquals('explicit', $va->viewWindowMode);
-    }
-
-    /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
-||||||| merged common ancestors
-        ));
-
-        $this->assertEquals('#F4D4E7', $va->baselineColor);
-        $this->assertEquals(1, $va->direction);
-        $this->assertEquals('999.99', $va->format);
-        $this->assertEquals('#123ABC', $va->gridlines['color']);
-        $this->assertEquals(4, $va->gridlines['count']);
-        $this->assertTrue($va->logScale);
-        $this->assertEquals(2, $va->maxAlternation);
-        $this->assertEquals(3, $va->maxTextLines);
-        $this->assertEquals(5000, $va->maxValue);
-        $this->assertEquals('#456EFF', $va->minorGridlines['color']);
-        $this->assertEquals(7, $va->minorGridlines['count']);
-        $this->assertEquals(2, $va->minTextSpacing);
-        $this->assertEquals(50, $va->minValue);
-        $this->assertEquals(3, $va->showTextEvery);
-        $this->assertEquals('in', $va->textPosition);
-        $this->assertTrue(is_array($va->textStyle));
-        $this->assertEquals('Taco Graph', $va->title);
-        $this->assertTrue(is_array($va->titleTextStyle));
-        $this->assertEquals(100, $va->viewWindow['viewWindowMin']);
-        $this->assertEquals(400, $va->viewWindow['viewWindowMax']);
-        $this->assertEquals('explicit', $va->viewWindowMode);
-    }
-
-    /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
-=======
         ]);
 
         $this->assertEquals('#F4D4E7', $ha->baselineColor);
@@ -133,7 +76,6 @@ class HorizontalAxisTest extends ProvidersTestCase
 
     /**
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
->>>>>>> 3.0
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
