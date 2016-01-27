@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Configs;
+<?php
+
+namespace Khill\Lavacharts\Tests\Configs;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Configs\TextStyle;
@@ -9,18 +11,18 @@ class TextStyleTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->ts = new TextStyle;
+        $this->TextStyle = new TextStyle;
     }
 
     public function testConstructorValuesAssignment()
     {
-        $textStyle = new TextStyle(array(
+        $textStyle = new TextStyle([
             'color'    => 'blue',
             'fontName' => 'Arial',
             'fontSize' => 16,
             'bold'     => true,
             'italic'   => true
-        ));
+        ]);
 
         $this->assertEquals('blue', $textStyle->color);
         $this->assertEquals('Arial', $textStyle->fontName);
@@ -30,55 +32,69 @@ class TextStyleTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        new TextStyle(array('Burrito' => array(123)));
+        new TextStyle(['Burrito' => [123]]);
     }
 
     /**
      * @dataProvider nonBoolProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testBoldWithBadParams($badParams)
     {
-        $this->ts->bold($badParams);
+        $this->TextStyle->bold($badParams);
     }
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testColorWithBadParams($badParams)
     {
-        $this->ts->color($badParams);
+        $this->TextStyle->color($badParams);
     }
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testFontNameWithBadParams($badParams)
     {
-        $this->ts->fontName($badParams);
+        $this->TextStyle->fontName($badParams);
     }
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testFontSizeWithBadParams($badParams)
     {
-        $this->ts->fontSize($badParams);
+        $this->TextStyle->fontSize($badParams);
     }
 
     /**
      * @dataProvider nonBoolProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testItalicWithBadParams($badParams)
     {
-        $this->ts->italic($badParams);
+        $this->TextStyle->italic($badParams);
+    }
+
+    public function testJsonSerialization()
+    {
+        $textStyle = new TextStyle([
+            'color'    => 'red',
+            'fontName' => 'Arial',
+            'fontSize' => 12,
+            'italic'   => true
+        ]);
+
+        $jsonSerialization = '{"color":"red","fontName":"Arial","fontSize":12,"italic":true}';
+
+        $this->assertEquals(json_encode($textStyle), $jsonSerialization);
     }
 }

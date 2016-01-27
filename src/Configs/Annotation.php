@@ -1,13 +1,18 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\JsonConfig;
+use \Khill\Lavacharts\Options;
 
 /**
- * Annotation Properties Object
+ * Annotation ConfigObject
  *
  * An object containing all the values for the annotation which can
  * be passed into the chart's options.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Configs
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
@@ -15,36 +20,51 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
-class Annotation extends ConfigObject
+class Annotation extends JsonConfig
 {
     /**
-     * The highContrast state.
+     * Type of JsonConfig object
      *
-     * @var bool
+     * @var string
      */
-    public $highContrast = true;
+    const TYPE = 'Annotation';
 
     /**
-     * Style of the annotation.
+     * Default options for Annotation
      *
-     * @var TextStyle
+     * @var array
      */
-    public $textStyle;
+    private $defaults = [
+        'alwaysOutside',
+        'highContrast',
+        'textStyle'
+    ];
 
     /**
      * Builds the Annotation object.
      *
-     * @param  array Associative array containing key => value pairs for the various configuration options.
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
-     * @return Annotation
+     * @param  array $config Associative array containing key => value pairs for the various configuration options.
+     * @return \Khill\Lavacharts\Configs\Annotation
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
+    }
+
+    /**
+     * In Bar and Column charts, if set to true, draws all annotations outside of the Bar/Column.
+     *
+     * @param  bool $alwaysOutside
+     * @return \Khill\Lavacharts\Configs\Annotation
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function alwaysOutside($alwaysOutside)
+    {
+        return $this->setBoolOption(__FUNCTION__, $alwaysOutside);
     }
 
     /**
@@ -55,33 +75,24 @@ class Annotation extends ConfigObject
      * If you set highContrast to false and don't specify your own annotation color, Google Charts
      * will use the default series color for the annotation
      *
-     * @param  bool Annotation color
-     * @return Annotation
+     * @param  bool $highContrast
+     * @return \Khill\Lavacharts\Configs\Annotation
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function highContrast($highContrast)
     {
-        if (is_bool($highContrast)) {
-            $this->highContrast = $highContrast;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this;
+        return $this->setBoolOption(__FUNCTION__, $highContrast);
     }
 
     /**
      * An object that specifies the annotation text style.
      *
-     * @param  TextStyle  $textStyle Style of the annotation
-     * @return Annotation
+     * @param  array $textStyleConfig Style of the annotation
+     * @return \Khill\Lavacharts\Configs\Annotation
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function textStyle(TextStyle $textStyle)
+    public function textStyle($textStyleConfig)
     {
-        $this->textStyle = $textStyle;
-
-        return $this;
+        return $this->setOption(__FUNCTION__, new TextStyle($textStyleConfig));
     }
 }

@@ -10,20 +10,43 @@
          colors="true"
 >
   <testsuites>
-    <testsuite name="Package Test Suite">
-      <directory suffix=".php">../tests/</directory>
+    <testsuite name="core">
+      <file>../tests/LavachartsTest.php</file>
+      <file>../tests/VolcanoTest.php</file>
+      <file>../tests/OptionsTest.php</file>
+    </testsuite>
+    <testsuite name="charts">
+      <directory>../tests/Charts/</directory>
+    </testsuite>
+    <testsuite name="configs">
+      <directory>../tests/Configs/</directory>
+    </testsuite>
+    <testsuite name="dashboards">
+      <directory>../tests/Dashboards/</directory>
+    </testsuite>
+    <testsuite name="datatables">
+      <directory>../tests/DataTables/</directory>
+    </testsuite>
+    <testsuite name="javascript">
+      <directory>../tests/Javascript/</directory>
+    </testsuite>
+    <testsuite name="utils">
+      <directory>../tests/Utils/</directory>
+    </testsuite>
+    <testsuite name="values">
+      <directory>../tests/Values/</directory>
     </testsuite>
   </testsuites>
 
   <filter>
-    <whitelist processUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">../src/Khill/Lavacharts</directory>
-      <exclude>
-        <directory suffix=".php">../src/Khill/Lavacharts/Facade</directory>
-        <directory suffix=".php">../src/Khill/Lavacharts/Traits</directory>
-        <directory suffix=".php">../src/Khill/Lavacharts/Laravel</directory>
-      </exclude>
+    <whitelist>
+      <directory>../src/</directory>
     </whitelist>
+    <blacklist>
+      <directory>../tests/Renders/</directory>
+      <directory>../vendor/</directory>
+      <directory>../src/Laravel/</directory>
+    </blacklist>
   </filter>
 
   <logging>
@@ -36,7 +59,7 @@
   </logging>
 
   <listeners>
-    <listener class="\MyBuilder\PhpunitAccelerator\TestListener"/>
-    <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
+    <listener class="\MyBuilder\PhpunitAccelerator\TestListener" />
+    <listener class="\Mockery\Adapter\Phpunit\TestListener" />
   </listeners>
 </phpunit>

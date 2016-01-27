@@ -1,4 +1,10 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Carbon\Carbon;
+use \Khill\Lavacharts\JsonConfig;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * Axis Properties Parent Object
@@ -7,7 +13,7 @@
  * passed into the chart's options.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Configs
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
@@ -15,146 +21,34 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use Khill\Lavacharts\Utils;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
-class Axis extends ConfigObject
+class Axis extends JsonConfig
 {
     /**
-     * The baseline for the axis.
+     * Default options for Axis
      *
-     * @TODO: FIX THIS
-     * @var int|Carbon
+     * @var array
      */
-    public $baseline;
-
-    /**
-     * The color of the baseline for the axis.
-     *
-     * @var string Valid HTML color.
-     */
-    public $baselineColor;
-
-    /**
-     * The direction in which the values along the axis grow.
-     *
-     * @var int 1 for natural, -1 for reverse.
-     */
-    public $direction;
-
-    /**
-     * A format string for numeric axis labels.
-     *
-     * @var string A string representing how data should be formatted.
-     */
-    public $format;
-
-    /**
-     * An array with key => value pairs to configure the gridlines.
-     *
-     * @var array Accepted array keys [ color | count ].
-     */
-    public $gridlines;
-
-    /**
-     * Linear or Logarithmic scaled axis.
-     *
-     * @var bool If true, axis will be scaled; If false, linear.
-     */
-    public $logScale;
-
-    /**
-     * Moves the max value of the axis to the specified value.
-     *
-     * @var int
-     */
-    public $maxAlternation;
-
-    /**
-     * Maximum number of lines allowed for the text labels.
-     *
-     * @var int
-     */
-    public $maxTextLines;
-
-    /**
-     * Moves the max value of the axis to the specified value.
-     *
-     * @var int
-     */
-    public $maxValue;
-
-    /**
-     * An array with key => value pairs to configure the minorGridlines.
-     *
-     * @var array Accepted array keys [ color | count ].
-     */
-    public $minorGridlines;
-
-    /**
-     * Minimum spacing, in pixels, allowed between two adjacent text labels.
-     *
-     * @var int
-     */
-    public $minTextSpacing;
-
-    /**
-     * Moves the min value of the axis to the specified value.
-     *
-     * @var int
-     */
-    public $minValue;
-
-    /**
-     * How many axis labels to show.
-     *
-     * @var int
-     */
-    public $showTextEvery;
-
-    /**
-     * Position of the vertical axis text, relative to the chart area.
-     *
-     * @var string Accepted values [ out | in | none ].
-     */
-    public $textPosition;
-
-    /**
-     * An object that specifies the axis text style.
-     *
-     * @var TextStyle
-     */
-    public $textStyle;
-
-    /**
-     * Property that specifies a title for the axis.
-     *
-     * @var string Axis title.
-     */
-    public $title;
-
-    /**
-     * An object that specifies the text style of the chart title.
-     *
-     * @var textStyle
-     */
-    public $titleTextStyle;
-
-    /**
-     * Specifies the cropping range of the vertical axis.
-     *
-     * @var array Accepted array keys [ min | max ].
-     */
-    public $viewWindow;
-
-    /**
-     * Specifies how to scale the axis to render the values within the chart area.
-     *
-     * @var string Accepted values [ pretty | maximized | explicit ].
-     */
-    public $viewWindowMode;
-
+    protected $defaults = [
+        'baseline',
+        'baselineColor',
+        'direction',
+        'format',
+        'gridlines',
+        'logScale',
+        'maxAlternation',
+        'maxTextLines',
+        'maxValue',
+        'minorGridlines',
+        'minTextSpacing',
+        'minValue',
+        'showTextEvery',
+        'textPosition',
+        'textStyle',
+        'title',
+        'titleTextStyle',
+        'viewWindow',
+        'viewWindowMode'
+    ];
 
     /**
      * Builds the configuration when passed an array of options.
@@ -163,44 +57,43 @@ class Axis extends ConfigObject
      * values for option => value, or by chaining together the functions once
      * an object has been created.
      *
-     * @param  VerticalAxis|HorizontalAxis $child  The axis object
-     * @param  array                       $config Associative array containing key => value pairs for the various configuration options.
-     * @throws InvalidConfigValue
-     * @throws InvalidConf
-     * @throws InvalidConfigValuerty
-     * @return Axis
+     * @param  array $config Associative array containing key => value pairs for the various configuration options.
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function __construct($child, $config)
+    public function __construct($options, $config = [])
     {
-        parent::__construct($child, $config);
+        parent::__construct($options, $config);
     }
 
     /**
      * Sets the baseline for the axis.
      *
+     * If the column that the baseline is defining is "number", then the baseline
+     * needs to be an integer.
+     * If the column that the baseline is defining is "date|datetime|timeofday", then
+     * the baseline needs to be a Carbon object or a string, parseable by Carbon.
      * This option is only supported for a continuous axis.
      *
-     * @param  mixed Must match type defined for the column, [ number | jsDate ].
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @param  int|\Carbon\Carbon $baseline
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function baseline($baseline) //@TODO convert to carbon
+    public function baseline($baseline)
     {
-        if (Utils::isJsDate($baseline)) {
-            $this->baseline = $baseline->toString();
-        } else {
-            if (is_int($baseline)) {
-                $this->baseline = $baseline;
-            } else {
-                throw $this->invalidConfigValue(
-                    __FUNCTION__,
-                    'int | jsDate',
-                    'int if column is "number", jsDate if column is "date"'
-                );
-            }
+        if ($baseline instanceof Carbon === false || is_int($baseline) === false || is_string($baseline) === false) {
+            throw new InvalidConfigValue(
+                self::TYPE . '->' . __FUNCTION__,
+                'int | Carbon',
+                'int if column is "number", Carbon if column is "date"'
+            );
         }
 
-        return $this;
+        if (is_string($baseline) === true) {
+            $baseline = Carbon::parse($baseline);
+        }
+
+        return $this->setOption(__FUNCTION__, $baseline);
     }
 
     /**
@@ -210,23 +103,13 @@ class Axis extends ConfigObject
      *
      * This option is only supported for a continuous axis.
      *
-     * @param  string Valid HTML color.
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @param  string $color Valid HTML color.
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function baselineColor($color)
     {
-        if (is_string($color)) {
-            $this->baselineColor = $color;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'representing a valid HTML color'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $color);
     }
 
     /**
@@ -235,22 +118,20 @@ class Axis extends ConfigObject
      * specify 1 for normal, -1 to reverse the order of the values.
      *
      * @param  int $direction
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function direction($direction)
     {
-        if (is_int($direction) && ($direction == 1 || $direction == -1)) {
-            $this->direction = $direction;
-        } else {
-            throw $this->invalidConfigValue(
+        if (is_int($direction) === false || ($direction != 1 && $direction != -1)) {
+            throw new InvalidConfigValue(
                 __FUNCTION__,
                 'int',
-                '1 || -1'
+                '1 or -1'
             );
         }
 
-        return $this;
+        return $this->setOption(__FUNCTION__, $direction);
     }
 
     /**
@@ -265,21 +146,12 @@ class Axis extends ConfigObject
      * This option is only supported for a continuous axis.
      *
      * @param  string $format format string for numeric or date axis labels.
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function format($format)
     {
-        if (is_string($format)) {
-            $this->format = $format;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $format);
     }
 
     /**
@@ -293,41 +165,13 @@ class Axis extends ConfigObject
      *
      * This option is only supported for a continuous axis.
      *
-     * @param  array $gridlines
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @param  array $gridlinesConfig
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function gridlines($gridlines)
+    public function gridlines($gridlinesConfig)
     {
-        if (is_array($gridlines) && array_key_exists('count', $gridlines) && array_key_exists('color', $gridlines)) {
-            if (Utils::nonEmptyString($gridlines['color'])) {
-                $this->gridlines['color'] = $gridlines['color'];
-            } else {
-                throw $this->invalidConfigValue(
-                    __FUNCTION__,
-                    'array',
-                    'with the value of the key "color" being a valid HTML color'
-                );
-            }
-
-            if (is_int($gridlines['count']) && $gridlines['count'] >= 2 || $gridlines['count'] == -1) {
-                $this->gridlines['count'] = $gridlines['count'];
-            } else {
-                throw $this->invalidConfigValue(
-                    __FUNCTION__,
-                    'array',
-                    'with the value of the key "count" == -1 || >= 2'
-                );
-            }
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'array',
-                'with keys for count & color'
-            );
-        }
-
-        return $this;
+        return $this->setOption(__FUNCTION__, new Gridlines($gridlinesConfig));
     }
 
     /**
@@ -337,21 +181,12 @@ class Axis extends ConfigObject
      * This option is only supported for a continuous axis.
      *
      * @param  bool $logScale
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function logScale($logScale)
     {
-        if (is_bool($logScale)) {
-            $this->logScale = $logScale;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this;
+        return $this->setBoolOption(__FUNCTION__, $logScale);
     }
 
     /**
@@ -363,41 +198,13 @@ class Axis extends ConfigObject
      *
      * This option is only supported for a continuous axis.
      *
-     * @param  array $minorGridlines
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @param  array $minorGridlinesConfig
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function minorGridlines($minorGridlines)
+    public function minorGridlines($minorGridlinesConfig)
     {
-        if (is_array($minorGridlines) && array_key_exists('count', $minorGridlines) && array_key_exists('color', $minorGridlines)) {
-            if (Utils::nonEmptyString($minorGridlines['color'])) {
-                $this->minorGridlines['color'] = $minorGridlines['color'];
-            } else {
-                throw $this->invalidConfigValue(
-                    __FUNCTION__,
-                    'array',
-                    'with the value of the key "color" being a valid HTML color'
-                );
-            }
-
-            if (is_int($minorGridlines['count']) && $minorGridlines['count'] >= 2 || $minorGridlines['count'] == -1) {
-                $this->minorGridlines['count'] = $minorGridlines['count'];
-            } else {
-                throw $this->invalidConfigValue(
-                    __FUNCTION__,
-                    'array',
-                    'with the value of the key "count" == -1 || >= 2'
-                );
-            }
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'array',
-                'with keys for count & color'
-            );
-        }
-
-        return $this;
+        return $this->setOption(__FUNCTION__, new Gridlines($minorGridlinesConfig));
     }
 
     /**
@@ -412,48 +219,30 @@ class Axis extends ConfigObject
      * This option is only supported for a discrete axis.
      *
      * @param  int $alternation
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function maxAlternation($alternation)
     {
-        if (is_int($alternation)) {
-            $this->maxAlternation = $alternation;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this;
+        return $this->setIntOption(__FUNCTION__, $alternation);
     }
 
     /**
      * Maximum number of lines allowed for the text labels.
      *
      * Labels can span multiple lines if they are too long,
-     * and the nuber of lines is, by default, limited by
+     * and the number of lines is, by default, limited by
      * the height of the available space.
      *
      * This option is only supported for a discrete axis.
      *
      * @param  int $maxTextLines
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function maxTextLines($maxTextLines)
     {
-        if (is_int($maxTextLines)) {
-            $this->maxTextLines = $maxTextLines;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this;
+        return $this->setIntOption(__FUNCTION__, $maxTextLines);
     }
 
     /**
@@ -461,27 +250,18 @@ class Axis extends ConfigObject
      *
      * If the labels are spaced too densely, or they are too long,
      * the spacing can drop below this threshold, and in this case one of the
-     * label-unclutter measures will be applied (e.g, truncating the lables or
+     * label-unclutter measures will be applied (e.g, truncating the labels or
      * dropping some of them).
      *
      * This option is only supported for a discrete axis.
      *
      * @param  int $minTextSpacing
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function minTextSpacing($minTextSpacing)
     {
-        if (is_int($minTextSpacing)) {
-            $this->minTextSpacing = $minTextSpacing;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this;
+        return $this->setIntOption(__FUNCTION__, $minTextSpacing);
     }
 
     /**
@@ -492,21 +272,12 @@ class Axis extends ConfigObject
      * This option is only supported for a continuous axis.
      *
      * @param  int $max
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function maxValue($max)
     {
-        if (is_int($max)) {
-            $this->maxValue = $max;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this;
+        return $this->setIntOption(__FUNCTION__, $max);
     }
 
     /**
@@ -517,21 +288,12 @@ class Axis extends ConfigObject
      * This option is only supported for a continuous axis.
      *
      * @param  int $min
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function minValue($min)
     {
-        if (is_int($min)) {
-            $this->minValue = $min;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this;
+        return $this->setIntOption(__FUNCTION__, $min);
     }
 
     /**
@@ -544,99 +306,69 @@ class Axis extends ConfigObject
      * This option is only supported for a discrete axis.
      *
      * @param  int $showTextEvery
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function showTextEvery($showTextEvery)
     {
-        if (is_int($showTextEvery)) {
-            $this->showTextEvery = $showTextEvery;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this;
+        return $this->setIntOption(__FUNCTION__, $showTextEvery);
     }
 
     /**
      * Position of the axis text, relative to the chart area.
-     * Supported values: 'out', 'in', 'none'.
+     *
+     * Supported values:
+     * 'out', 'in', 'none'.
      *
      * @param  string $position Setting the position of the text.
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function textPosition($position)
     {
-        $values = array(
+        $values = [
             'out',
             'in',
             'none'
-        );
+        ];
 
-        if (Utils::nonEmptyString($position) && in_array($position, $values)) {
-            $this->textPosition = $position;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this;
+        return $this->setStringInArrayOption(__FUNCTION__, $position, $values);
     }
 
     /**
-     * Sets the textstyle for the axis
+     * Sets the TextStyle options for the axis
      *
-     * @param  TextStyle $textStyle
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @param  array $textStyleConfig
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function textStyle(TextStyle $textStyle)
+    public function textStyle($textStyleConfig)
     {
-        $this->textStyle = $textStyle->getValues();
-
-        return $this;
+        return $this->setOption(__FUNCTION__, new TextStyle($textStyleConfig));
     }
 
     /**
      * Axis property that specifies the title of the axis.
      *
      * @param  string $title
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function title($title)
     {
-        if (Utils::nonEmptyString($title)) {
-            $this->title = $title;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $title);
     }
 
     /**
      * An object that specifies the axis title text style.
      *
-     * @param  TextStyle $titleTextStyle
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @param  array $titleTextStyleConfig
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function titleTextStyle(TextStyle $titleTextStyle)
+    public function titleTextStyle($titleTextStyleConfig)
     {
-        $this->titleTextStyle = $titleTextStyle->getValues();
-
-        return $this;
+        return $this->setOption(__FUNCTION__, new TextStyle($titleTextStyleConfig));
     }
 
     /**
@@ -656,33 +388,31 @@ class Axis extends ConfigObject
      * 'max' - The zero-based row index where the cropping window ends. Data
      * points at this index and higher will be cropped out. In conjunction with
      * VerticalAxis->viewWindow['min'], it defines a half-opened range (min, max)
-     * that denotes the element i(ndices to display. In other words, every index
+     * that denotes the element indices to display. In other words, every index
      * such that min <= index < max will be displayed.
      *
      * @param  array $viewWindow
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function viewWindow($viewWindow)
     {
-        if (is_array($viewWindow) &&
-            (
-                (array_key_exists('min', $viewWindow) && is_int($viewWindow['min'])) ||
-                (array_key_exists('max', $viewWindow) && is_int($viewWindow['max']))
-            )
-        ) {
-            $this->viewWindow['min'] = $viewWindow['min'];
-            $this->viewWindow['max'] = $viewWindow['max'];
-            $this->viewWindowMode('explicit');
-        } else {
-            throw $this->invalidConfigValue(
+        if (is_array($viewWindow) === false ||
+            (array_key_exists('min', $viewWindow) && is_int($viewWindow['min'])) === false ||
+            (array_key_exists('max', $viewWindow) && is_int($viewWindow['max'])) === false) {
+            throw new InvalidConfigValue(
                 __FUNCTION__,
                 'array',
-                'with any of these keys: min => (int), max => (int)'
+                'with the structure min => (int), max => (int)'
             );
         }
 
-        return $this;
+        $this->viewWindowMode('explicit');
+
+        $this->setOption(__FUNCTION__, [
+            'viewWindowMin' => $viewWindow['min'],
+            'viewWindowMax' => $viewWindow['max']
+        ]);
     }
 
     /**
@@ -700,27 +430,17 @@ class Axis extends ConfigObject
      * This option is only supported for a continuous axis.
      *
      * @param  string $viewMode
-     * @throws InvalidConfigValue
-     * @return Axis
+     * @return \Khill\Lavacharts\Configs\Axis
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function viewWindowMode($viewMode)
     {
-        $values = array(
+        $values = [
             'pretty',
             'maximized',
             'explicit'
-        );
+        ];
 
-        if (Utils::nonEmptyString($viewMode) && in_array($viewMode, $values)) {
-            $this->viewWindowMode = $viewMode;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this;
+        return $this->setStringInArrayOption(__FUNCTION__, $viewMode, $values);
     }
 }

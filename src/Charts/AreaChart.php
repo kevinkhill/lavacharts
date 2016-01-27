@@ -1,4 +1,10 @@
-<?php namespace Khill\Lavacharts\Charts;
+<?php
+
+namespace Khill\Lavacharts\Charts;
+
+use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Options;
+use \Khill\Lavacharts\DataTables\DataTable;
 
 /**
  * AreaChart Class
@@ -7,283 +13,83 @@
  * tips when hovering over points.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Charts
- * @since      v1.0.0
+ * @since      1.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use Khill\Lavacharts\Utils;
-use Khill\Lavacharts\Configs\HorizontalAxis;
-use Khill\Lavacharts\Configs\VerticalAxis;
-
 class AreaChart extends Chart
 {
-    public $type = 'AreaChart';
-
-    public function __construct($chartLabel)
-    {
-        parent::__construct($chartLabel);
-
-        $this->defaults = array_merge(
-            $this->defaults,
-            array(
-                'areaOpacity',
-                'axisTitlesPosition',
-                'focusTarget',
-                'hAxis',
-                'isHtml',
-                'interpolateNulls',
-                'lineWidth',
-                'pointSize',
-                'vAxes',
-                'vAxis'
-            )
-        );
-    }
+    /**
+     * Common methods
+     */
+    use \Khill\Lavacharts\Traits\AreaOpacityTrait;
+    use \Khill\Lavacharts\Traits\AxisTitlesPositionTrait;
+    use \Khill\Lavacharts\Traits\FocusTargetTrait;
+    use \Khill\Lavacharts\Traits\HorizontalAxisTrait;
+    use \Khill\Lavacharts\Traits\InterpolateNullsTrait;
+    use \Khill\Lavacharts\Traits\IsStackedTrait;
+    use \Khill\Lavacharts\Traits\LineWidthTrait;
+    use \Khill\Lavacharts\Traits\PointSizeTrait;
+    use \Khill\Lavacharts\Traits\VerticalAxesTrait;
+    use \Khill\Lavacharts\Traits\VerticalAxisTrait;
 
     /**
-     * The default opacity of the colored area under an area chart series, where
-     * 0.0 is fully transparent and 1.0 is fully opaque. To specify opacity for
-     * an individual series, set the areaOpacity value in the series property.
+     * Javascript chart type.
      *
-     * @param  float              $opacity
-     * @throws InvalidConfigValue
-     * @return AreaChart
+     * @var string
      */
-    public function areaOpacity($opacity)
-    {
-        if (Utils::between(0.0, $opacity, 1.0, true)) {
-            $this->addOption(array('areaOpacity' => $opacity));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'float',
-                'where 0 < opacity < 1'
-            );
-        }
-
-        return $this;
-    }
+    const TYPE = 'AreaChart';
 
     /**
-     * Where to place the axis titles, compared to the chart area. Supported values:
+     * Javascript chart version.
      *
-     * in - Draw the axis titles inside the the chart area.
-     * out - Draw the axis titles outside the chart area.
-     * none - Omit the axis titles.
-     *
-     * @param  string             $position
-     * @throws InvalidConfigValue
-     * @return AreaChart
+     * @var string
      */
-    public function axisTitlesPosition($position)
-    {
-        $values = array(
-            'in',
-            'out',
-            'none'
-        );
-
-        if (is_string($position) && in_array($position, $values)) {
-            $this->addOption(array('axisTitlesPosition' => $position));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this;
-    }
+    const VERSION = '1';
 
     /**
-     * The type of the entity that receives focus on mouse hover.
+     * Javascript chart package.
      *
-     * Also affects which entity is selected by mouse click, and which data table
-     * element is associated with events. Can be one of the following:
-     *  'datum'    - Focus on a single data point. Correlates to a cell in the data table.
-     *  'category' - Focus on a grouping of all data points along the major axis.
-     *               Correlates to a row in the data table.
-     *
-     * In focusTarget 'category' the tooltip displays all the category values.
-     * This may be useful for comparing values of different series.
-     *
-     * @since  v2.4.1
-     * @param  string     $ft
-     * @return AreaChart
+     * @var string
      */
-    public function focusTarget($ft)
-    {
-        $values = array(
-            'datum',
-            'category'
-        );
-
-        if (Utils::nonEmptyStringInArray($ft, $values)) {
-            $this->addOption(array(__FUNCTION__ => $ft));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'must be one of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this;
-    }
+    const VIZ_PACKAGE = 'corechart';
 
     /**
-     * An object with members to configure various horizontal axis elements. To
-     * specify properties of this property, create a new hAxis() object, set
-     * the values then pass it to this function or to the constructor.
+     * Google's visualization class name.
      *
-     * @param  Lavacharts\Configs\HorizontalAxis $hAxis
-     * @throws InvalidConfigValue
-     * @return AreaChart
+     * @var string
      */
-    public function hAxis(HorizontalAxis $hAxis)
-    {
-        $this->addOption($hAxis->toArray('hAxis'));
+    const VIZ_CLASS = 'google.visualization.AreaChart';
 
-        return $this;
-    }
+    private $areaDefaults = [
+        'areaOpacity',
+        'axisTitlesPosition',
+        'focusTarget',
+        'hAxis',
+        'isStacked',
+        'interpolateNulls',
+        'lineWidth',
+        'pointSize',
+        'vAxes',
+        'vAxis'
+    ];
 
     /**
-     * If set to true, series elements are stacked.
+     * Builds a new AreaChart with the given label, datatable and options.
      *
-     * @param  bool               $isStacked
-     * @throws InvalidConfigValue
-     * @return AreaChart
+     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @param array                                   $config
      */
-    public function isStacked($isStacked)
+    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
     {
-        if (is_bool($isStacked)) {
-            $this->addOption(array('isStacked' => $isStacked));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
+        $options = new Options($this->areaDefaults);
 
-        return $this;
-    }
-
-    /**
-     * Whether to guess the value of missing points. If true, it will guess the
-     * value of any missing data based on neighboring points. If false, it will
-     * leave a break in the line at the unknown point.
-     *
-     * @param  bool               $interpolateNulls
-     * @throws InvalidConfigValue
-     * @return AreaChart
-     */
-    public function interpolateNulls($interpolateNulls)
-    {
-        if (is_bool($interpolateNulls)) {
-            $this->addOption(array('interpolateNulls' => $interpolateNulls));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Data line width in pixels. Use zero to hide all lines and show only the
-     * points. You can override values for individual series using the series
-     * property.
-     *
-     * @param  int                $width
-     * @throws InvalidConfigValue
-     * @return AreaChart
-     */
-    public function lineWidth($width)
-    {
-        if (is_int($width)) {
-            $this->addOption(array('lineWidth' => $width));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Diameter of displayed points in pixels. Use zero to hide all points. You
-     * can override values for individual series using the series property.
-     *
-     * @param  int                $size
-     * @throws InvalidConfigValue
-     * @return AreaChart
-     */
-    public function pointSize($size)
-    {
-        if (is_int($size)) {
-            $this->addOption(array('pointSize' => $size));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Specifies properties for individual vertical axes
-     *
-     * If the chart has multiple vertical axes. Each child object is a vAxis object,
-     * and can contain all the properties supported by vAxis.
-     * These property values override any global settings for the same property.
-     *
-     * To specify a chart with multiple vertical axes, first define a new axis using
-     * series.targetAxisIndex, then configure the axis using vAxes.
-     *
-     * @param  array              $a Array of VerticalAxis objects
-     * @throws InvalidConfigValue
-     *
-     * @return AreaChart
-     */
-    public function vAxes($a)
-    {
-        if (Utils::arrayValuesCheck($a, 'class', 'VerticalAxis')) {
-            return $this->addOption(array(__FUNCTION__ => $a));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'array',
-                'of VerticalAxis Objects'
-            );
-        }
-    }
-
-    /**
-     * An object with members to configure various vertical axis elements. To
-     * specify properties of this property, create a new vAxis() object, set
-     * the values then pass it to this function or to the constructor.
-     *
-     * @param  VerticalAxis       $vAxis
-     * @throws InvalidConfigValue
-     * @return AreaChart
-     */
-    public function vAxis(VerticalAxis $vAxis)
-    {
-        $this->addOption($vAxis->toArray('vAxis'));
-
-        return $this;
+        parent::__construct($chartLabel, $datatable, $options, $config);
     }
 }

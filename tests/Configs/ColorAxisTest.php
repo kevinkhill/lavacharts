@@ -1,8 +1,9 @@
-<?php namespace Khill\Lavacharts\Tests\Configs;
+<?php
+
+namespace Khill\Lavacharts\Tests\Configs;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Configs\ColorAxis;
-use \Mockery as m;
 
 class ColorAxisTest extends ProvidersTestCase
 {
@@ -13,35 +14,27 @@ class ColorAxisTest extends ProvidersTestCase
         $this->ca = new ColorAxis;
     }
 
-    public function testConstructorDefaults()
-    {
-        $this->assertNull($this->ca->minValue);
-        $this->assertNull($this->ca->maxValue);
-        $this->assertNull($this->ca->values);
-        $this->assertNull($this->ca->colors);
-    }
-
     public function testConstructorValuesAssignment()
     {
-        $colorAxis = new ColorAxis(array(
+        $colorAxis = new ColorAxis([
             'minValue' => 1,
             'maxValue' => 10,
-            'values'   => array('10', 6),
-            'colors'   => array('#5B5B5B', 'red')
-        ));
+            'values'   => ['10', 6],
+            'colors'   => ['#5B5B5B', 'red']
+        ]);
 
         $this->assertEquals(1, $colorAxis->minValue);
         $this->assertEquals(10, $colorAxis->maxValue);
-        $this->assertEquals(array(10, 6), $colorAxis->values);
-        $this->assertEquals(array('#5B5B5B', 'red'), $colorAxis->colors);
+        $this->assertEquals([10, 6], $colorAxis->values);
+        $this->assertEquals(['#5B5B5B', 'red'], $colorAxis->colors);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        $colorAxis = new ColorAxis(array('Cake' => 'green'));
+        new ColorAxis(['Cake' => 'green']);
     }
 
     public function testMinValueWithNumericParams()
@@ -56,7 +49,7 @@ class ColorAxisTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonNumericProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMinValueWithBadTypes($badTypes)
     {
@@ -75,7 +68,7 @@ class ColorAxisTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonNumericProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMaxValueWithBadTypes($badTypes)
     {
@@ -84,14 +77,14 @@ class ColorAxisTest extends ProvidersTestCase
 
     public function testValuesWithArrayOfNumbers()
     {
-        $this->ca->values(array(1, '18', 54));
+        $this->ca->values([1, '18', 54]);
 
-        $this->assertEquals(array(1, '18', 54), $this->ca->values);
+        $this->assertEquals([1, '18', 54], $this->ca->values);
     }
 
     /**
      * @dataProvider nonArrayProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testValuesWithBadTypes($badTypes)
     {
@@ -101,14 +94,14 @@ class ColorAxisTest extends ProvidersTestCase
 
     public function testColorsWithArrayOfStrings()
     {
-        $this->ca->colors(array('red', 'blue'));
+        $this->ca->colors(['red', 'blue']);
 
-        $this->assertEquals(array('red', 'blue'), $this->ca->colors);
+        $this->assertEquals(['red', 'blue'], $this->ca->colors);
     }
 
     /**
      * @dataProvider nonArrayProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testColorsWithBadTypes($badTypes)
     {

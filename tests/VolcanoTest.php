@@ -1,69 +1,138 @@
-<?php namespace Khill\Lavacharts\Tests;
+<?php
+
+namespace Khill\Lavacharts\Tests;
 
 use \Khill\Lavacharts\Volcano;
-use \Khill\Lavacharts\Charts\LineChart;
 
- //@TODO fix this to mockery
-
-class VolcanoTest extends \PHPUnit_Framework_TestCase
+class VolcanoTest extends ProvidersTestCase
 {
+    public $Volcano;
+
     public function setUp()
     {
         parent::setUp();
+
+        $this->Volcano = new Volcano;
+
+        $this->mockChartLabel = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['TestChart'])->makePartial();
+
+        $this->mockDashLabel = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['TestDash'])->makePartial();
+
+        $this->nonExistantLabel = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['Pumpkins'])->makePartial();
+
+        $this->mockLineChart = \Mockery::mock('\Khill\Lavacharts\Charts\LineChart', [
+            $this->mockChartLabel,
+            $this->partialDataTable
+        ])->shouldReceive('getLabel')->andReturn('TestChart')->getMock();
+
+        $this->mockDashboard = \Mockery::mock('\Khill\Lavacharts\Dashboards\Dashboard', [
+            $this->mockDashLabel
+        ])->shouldReceive('getLabel')->andReturn('TestDash')->getMock();
     }
 
+    /**
+     * @group chart
+     */
     public function testStoreChart()
     {
-        $v = new Volcano;
-        $c = new LineChart('testchart');
-
-        $this->assertTrue($v->storeChart($c));
+        $this->assertTrue($this->Volcano->storeChart($this->mockLineChart));
     }
 
-    public function testGetChart()
-    {
-        $v = new Volcano;
-        $c = new LineChart('testchart');
-
-        $v->storeChart($c);
-
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $v->getChart('LineChart', 'testchart'));
-    }
-
+    /**
+     * @group chart
+     * @depends testStoreChart
+     */
     public function testCheckChart()
     {
-        $v = new Volcano;
-        $c = new LineChart('testchart');
+        $this->Volcano->storeChart($this->mockLineChart);
 
-        $v->storeChart($c);
+        $this->assertTrue($this->Volcano->checkChart('LineChart', $this->mockChartLabel));
 
-        $this->assertTrue($v->checkChart('LineChart', 'testchart'));
-
-        $this->assertFalse($v->checkChart('LaserChart', 'testchart'));
-        $this->assertFalse($v->checkChart('LineChart', 'testing123chart'));
+        $this->assertFalse($this->Volcano->checkChart('LaserChart', $this->mockChartLabel));
+        $this->assertFalse($this->Volcano->checkChart('LineChart', $this->nonExistantLabel));
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\ChartNotFound
+     * @group chart
+     * @depends testStoreChart
+     * @depends testCheckChart
      */
-    public function testGetNonExistantTypeChart()
+    public function testGetChart()
     {
-        $v = new Volcano;
-        $c = new LineChart('testchart');
+        $this->Volcano->storeChart($this->mockLineChart);
 
-        $v->storeChart($c);
-        $v->getChart('LaserChart', 'testchart');
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $this->Volcano->getChart('LineChart', $this->mockChartLabel));
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\ChartNotFound
+     * @group chart
+     * @depends testStoreChart
+     * @depends testCheckChart
+     * @depends testGetChart
+     * @expectedException \Khill\Lavacharts\Exceptions\ChartNotFound
      */
-    public function testGetNonExistantLabelChart()
+    public function testGetChartWithBadChartType()
     {
-        $v = new Volcano;
-        $c = new LineChart('testchart');
+        $this->Volcano->storeChart($this->mockLineChart);
+        $this->Volcano->getChart('LaserChart', $this->mockChartLabel);
+    }
 
-        $v->storeChart($c);
-        $v->getChart('LineChart', 'superduperchart');
+    /**
+     * @group chart
+     * @depends testStoreChart
+     * @depends testCheckChart
+     * @depends testGetChart
+     * @expectedException \Khill\Lavacharts\Exceptions\ChartNotFound
+     */
+    public function testGetChartWithNonExistentLabel()
+    {
+        $this->Volcano->storeChart($this->mockLineChart);
+        $this->Volcano->getChart('LineChart', $this->nonExistantLabel);
+    }
+
+
+    /**
+     * @group dashboard
+     */
+    public function testStoreDashboard()
+    {
+        $this->assertTrue($this->Volcano->storeDashboard($this->mockDashboard));
+    }
+
+    /**
+     * @group dashboard
+     * @depends testStoreDashboard
+     */
+    public function testCheckDashboard()
+    {
+        $this->Volcano->storeDashboard($this->mockDashboard);
+
+        $this->assertFalse($this->Volcano->checkDashboard($this->nonExistantLabel));
+    }
+
+    /**
+     * @group dashboard
+     * @depends testStoreDashboard
+     * @depends testCheckDashboard
+     */
+    public function testGetDashboard()
+    {
+        $this->Volcano->storeDashboard($this->mockDashboard);
+
+        $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Dashboard', $this->Volcano->getDashboard($this->mockDashLabel));
+    }
+
+    /**
+     * @group dashboard
+     * @depends testStoreDashboard
+     * @depends testCheckDashboard
+     * @depends testGetDashboard
+     * @expectedException \Khill\Lavacharts\Exceptions\DashboardNotFound
+     */
+    public function testGetDashboardWithNonExistentLabel()
+    {
+        $this->Volcano->storeDashboard($this->mockDashboard);
+
+        $this->Volcano->getDashboard($this->nonExistantLabel);
     }
 }

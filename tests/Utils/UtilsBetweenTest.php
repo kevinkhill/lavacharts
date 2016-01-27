@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Utilss;
+<?php
+
+namespace Khill\Lavacharts\Tests\Utils;
 
 use \Khill\Lavacharts\Utils;
 
@@ -65,18 +67,16 @@ class UtilsBetweenTest extends \PHPUnit_Framework_TestCase
 
     public function badParamsProvider()
     {
-        return array(
-            array(1, 2, 3, 'string'),
-            array(1, 2, 3, array()),
-            array(1, 2, 3, new \stdClass()),
-            array(1, 2, 3, 1),
-            array(1, 2, 3, 1.1),
-            array('1', '2', '3'),
-            array(array(), array(), array()),
-            array(true, true, true),
-            array(false, false, false),
-            array(null, null, null),
-            array(new \stdClass(), new \stdClass(), new \stdClass())
-        );
+        return [
+            [1, 2, 'string'],
+            [1, 2, [], 3],
+            [1, new \stdClass(), 3],
+            [1, false, 3,],
+            [[], [], []],
+            [true, true, true],
+            [false, false, false],
+            [null, null, null],
+            [new \stdClass(), new \stdClass(), new \stdClass()]
+        ];
     }
 }

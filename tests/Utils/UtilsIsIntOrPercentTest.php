@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Utilss;
+<?php
+
+namespace Khill\Lavacharts\Tests\Utils;
 
 use \Khill\Lavacharts\Utils;
 
@@ -30,15 +32,15 @@ class UtilsIsIntOrPercentTest extends \PHPUnit_Framework_TestCase
 
     public function badParamsProvider()
     {
-        return array(
-            array('string'),
-            array('2f3%'),
-            array(123.456),
-            array(array('test1')),
-            array(new \stdClass),
-            array(true),
-            array(false),
-            array(null)
-        );
+        return [
+            ['string'],
+            ['2f3%'],
+            [123.456],
+            [['test1']],
+            [new \stdClass],
+            [true],
+            [false],
+            [null]
+        ];
     }
 }

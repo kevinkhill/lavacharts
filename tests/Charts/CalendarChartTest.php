@@ -1,8 +1,9 @@
-<?php namespace Khill\Lavacharts\Tests\Charts;
+<?php
+
+namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Charts\CalendarChart;
-use \Mockery as m;
 
 class CalendarChartTest extends ProvidersTestCase
 {
@@ -10,211 +11,222 @@ class CalendarChartTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->cc = new CalendarChart('MyTestChart');
+        $label = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['MyTestChart'])->makePartial();
+
+        $this->CalendarChart = new CalendarChart($label, $this->partialDataTable);
     }
 
-    public function testInstanceOfLineChartWithType()
+    public function testInstanceOfCalendarChartWithType()
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\CalendarChart', $this->cc);
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\CalendarChart', $this->CalendarChart);
     }
 
-    public function testTypeLineChart()
+    public function testTypeCalendarChart()
     {
-        $this->assertEquals('CalendarChart', $this->cc->type);
+        $chart = $this->CalendarChart;
+
+        $this->assertEquals('CalendarChart', $chart::TYPE);
     }
 
     public function testLabelAssignedViaConstructor()
     {
-        $this->assertEquals('MyTestChart', $this->cc->label);
+        $this->assertEquals('MyTestChart', (string) $this->CalendarChart->getLabel());
     }
 
     public function testCellColor()
     {
-        $mockStroke = m::mock('Khill\Lavacharts\Configs\Stroke');
-        $mockStroke->shouldReceive('toArray')->once()->andReturn(array(
-            'cellColor' => array()
-        ));
+        $this->CalendarChart->cellColor([]);
 
-        $this->cc->cellColor($mockStroke);
-
-        $this->assertTrue(is_array($this->cc->getOption('cellColor')));
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Stroke', $this->CalendarChart->cellColor);
     }
 
     public function testCellSize()
     {
-        $this->cc->cellSize(3);
+        $this->CalendarChart->cellSize(3);
 
-        $this->assertEquals(3, $this->cc->getOption('cellSize'));
+        $this->assertEquals(3, $this->CalendarChart->cellSize);
     }
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testCellSizeWithBadType($badTypes)
     {
-        $this->cc->cellSize($badTypes);
+        $this->CalendarChart->cellSize($badTypes);
     }
 
     public function testDayOfWeekLabel()
     {
-        $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
-        $mockTextStyle->shouldReceive('toArray')->once()->andReturn(array(
-            'dayOfWeekLabel' => array()
-        ));
+        $this->CalendarChart->dayOfWeekLabel([
+            'fontSize' => 12
+        ]);
 
-        $this->cc->dayOfWeekLabel($mockTextStyle);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $this->CalendarChart->dayOfWeekLabel);
+        $this->assertEquals(12, $this->CalendarChart->dayOfWeekLabel->fontSize);
+    }
 
-        $this->assertTrue(is_array($this->cc->getOption('dayOfWeekLabel')));
+    /**
+     * @dataProvider nonArrayProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testDayOfWeekLabelWithBadTypes($badVals)
+    {
+        $this->CalendarChart->dayOfWeekLabel($badVals);
     }
 
     public function testDayOfWeekRightSpace()
     {
-        $this->cc->dayOfWeekRightSpace(5);
+        $this->CalendarChart->dayOfWeekRightSpace(5);
 
-        $this->assertEquals(5, $this->cc->getOption('dayOfWeekRightSpace'));
+        $this->assertEquals(5, $this->CalendarChart->dayOfWeekRightSpace);
     }
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testDayOfWeekRightSpaceWithBadType($badTypes)
     {
-        $this->cc->dayOfWeekRightSpace($badTypes);
+        $this->CalendarChart->dayOfWeekRightSpace($badTypes);
     }
 
     public function testDaysOfWeek()
     {
-        $this->cc->daysOfWeek('MAWEFWA');
+        $this->CalendarChart->daysOfWeek('MAWEFWA');
 
-        $this->assertEquals('MAWEFWA', $this->cc->getOption('daysOfWeek'));
+        $this->assertEquals('MAWEFWA', $this->CalendarChart->daysOfWeek);
     }
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testDaysOfWeekWithBadType($badTypes)
     {
-        $this->cc->daysOfWeek($badTypes);
+        $this->CalendarChart->daysOfWeek($badTypes);
     }
 
     public function testFocusedCellColor()
     {
-        $mockStroke = m::mock('Khill\Lavacharts\Configs\Stroke');
-        $mockStroke->shouldReceive('toArray')->once()->andReturn(array(
-            'focusedCellColor' => array()
-        ));
+        $this->CalendarChart->focusedCellColor([]);
 
-        $this->cc->focusedCellColor($mockStroke);
-
-        $this->assertTrue(is_array($this->cc->getOption('focusedCellColor')));
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Stroke', $this->CalendarChart->focusedCellColor);
     }
 
     public function testMonthLabel()
     {
-        $mockTextStyle = m::mock('Khill\Lavacharts\Configs\TextStyle');
-        $mockTextStyle->shouldReceive('toArray')->once()->andReturn(array(
-            'monthLabel' => array()
-        ));
+        $this->CalendarChart->monthLabel([
+            'fontName' => 'Arial'
+        ]);
 
-        $this->cc->monthLabel($mockTextStyle);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $this->CalendarChart->monthLabel);
+        $this->assertEquals('Arial', $this->CalendarChart->monthLabel->fontName);
+    }
 
-        $this->assertTrue(is_array($this->cc->getOption('monthLabel')));
+    /**
+     * @dataProvider nonArrayProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testMonthLabelWithBadTypes($badVals)
+    {
+        $this->CalendarChart->monthLabel($badVals);
     }
 
     public function testMonthOutlineColor()
     {
-        $mockStroke = m::mock('Khill\Lavacharts\Configs\Stroke');
-        $mockStroke->shouldReceive('toArray')->once()->andReturn(array(
-            'monthOutlineColor' => array()
-        ));
+        $this->CalendarChart->monthOutlineColor([]);
 
-        $this->cc->monthOutlineColor($mockStroke);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Stroke', $this->CalendarChart->monthOutlineColor);
+    }
 
-        $this->assertTrue(is_array($this->cc->getOption('monthOutlineColor')));
+    /**
+     * @dataProvider nonArrayProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testMonthOutlineColorWithBadTypes($badVals)
+    {
+        $this->CalendarChart->monthOutlineColor($badVals);
     }
 
     public function testUnderMonthSpace()
     {
-        $this->cc->underMonthSpace(5);
+        $this->CalendarChart->underMonthSpace(5);
 
-        $this->assertEquals(5, $this->cc->getOption('underMonthSpace'));
+        $this->assertEquals(5, $this->CalendarChart->underMonthSpace);
     }
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testUnderMonthSpaceWithBadType($badTypes)
     {
-        $this->cc->underMonthSpace($badTypes);
+        $this->CalendarChart->underMonthSpace($badTypes);
     }
 
     public function testUnderYearSpace()
     {
-        $this->cc->underYearSpace(5);
+        $this->CalendarChart->underYearSpace(5);
 
-        $this->assertEquals(5, $this->cc->getOption('underYearSpace'));
+        $this->assertEquals(5, $this->CalendarChart->underYearSpace);
     }
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testUnderYearSpaceWithBadType($badTypes)
     {
-        $this->cc->underYearSpace($badTypes);
+        $this->CalendarChart->underYearSpace($badTypes);
     }
 
     public function testUnusedMonthOutlineColor()
     {
-        $mockStroke = m::mock('Khill\Lavacharts\Configs\Stroke');
-        $mockStroke->shouldReceive('toArray')->once()->andReturn(array(
-            'unusedMonthOutlineColor' => array()
-        ));
+        $this->CalendarChart->unusedMonthOutlineColor([]);
 
-        $this->cc->unusedMonthOutlineColor($mockStroke);
-
-        $this->assertTrue(is_array($this->cc->getOption('unusedMonthOutlineColor')));
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Stroke', $this->CalendarChart->unusedMonthOutlineColor);
     }
 
-    public function testColorAxis()
+    /**
+     * @dataProvider nonArrayProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testUnusedMonthOutlineColorWithBadTypes($badVals)
     {
-        $mockColorAxis = m::mock('Khill\Lavacharts\Configs\ColorAxis');
-        $mockColorAxis->shouldReceive('toArray')->once()->andReturn(array(
-            'colorAxis' => array()
-        ));
-
-        $this->cc->colorAxis($mockColorAxis);
-
-        $this->assertTrue(is_array($this->cc->getOption('colorAxis')));
+        $this->CalendarChart->unusedMonthOutlineColor($badVals);
     }
+
 
     public function testForceIFrame()
     {
-        $this->cc->forceIFrame(true);
+        $this->CalendarChart->forceIFrame(true);
 
-        $this->assertTrue($this->cc->getOption('forceIFrame'));
+        $this->assertTrue($this->CalendarChart->forceIFrame);
     }
 
     /**
      * @dataProvider nonBoolProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testForceIFrameWithBadType($badTypes)
     {
-        $this->cc->forceIFrame($badTypes);
+        $this->CalendarChart->forceIFrame($badTypes);
     }
 
     public function testNoDataPattern()
     {
-        $mockColor = m::mock('Khill\Lavacharts\Configs\Color');
-        $mockColor->shouldReceive('getValues')->once()->andReturn(array());
+        $this->CalendarChart->noDataPattern([]);
 
-        $this->cc->noDataPattern($mockColor);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Color', $this->CalendarChart->noDataPattern);
+    }
 
-        $this->assertTrue(is_array($this->cc->getOption('noDataPattern')));
+    /**
+     * @dataProvider nonArrayProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testNoDataPatternWithBadTypes($badVals)
+    {
+        $this->CalendarChart->noDataPattern($badVals);
     }
 }

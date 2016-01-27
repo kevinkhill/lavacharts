@@ -1,14 +1,17 @@
-<?php namespace Khill\Lavacharts;
+<?php
+
+namespace Khill\Lavacharts;
 
 /**
  * PSR4 Autoloader Class
  *
  * As implemented by PHP FIG
  *
+ * @codeCoverageIgnore
  * @category Class
  * @package  Lavacharts
  * @author   PHP-FIG
- * @since    v2.4.0
+ * @since    2.4.0
  * @link     http://www.php-fig.org/psr/psr-4/examples/
  * @license  http://opensource.org/licenses/MIT MIT
  */
@@ -20,7 +23,7 @@ class Psr4Autoloader
      *
      * @var array
      */
-    protected $prefixes = array();
+    protected $prefixes = [];
 
     /**
      * Register loader with SPL autoloader stack.
@@ -29,7 +32,7 @@ class Psr4Autoloader
      */
     public function register()
     {
-        spl_autoload_register(array($this, 'loadClass'));
+        spl_autoload_register([$this, 'loadClass']);
     }
 
     /**
@@ -52,7 +55,7 @@ class Psr4Autoloader
 
         // initialize the namespace prefix array
         if (isset($this->prefixes[$prefix]) === false) {
-            $this->prefixes[$prefix] = array();
+            $this->prefixes[$prefix] = [];
         }
 
         // retain the base directory for the namespace prefix

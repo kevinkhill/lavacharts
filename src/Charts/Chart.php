@@ -1,4 +1,22 @@
-<?php namespace Khill\Lavacharts\Charts;
+<?php
+
+namespace Khill\Lavacharts\Charts;
+
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Options;
+use \Khill\Lavacharts\JsonConfig;
+use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Configs\Legend;
+use \Khill\Lavacharts\Configs\Tooltip;
+use \Khill\Lavacharts\Configs\TextStyle;
+use \Khill\Lavacharts\Configs\ChartArea;
+use \Khill\Lavacharts\Configs\Animation;
+use \Khill\Lavacharts\Configs\EventManager;
+use \Khill\Lavacharts\Configs\BackgroundColor;
+use \Khill\Lavacharts\DataTables\DataTable;
+use \Khill\Lavacharts\Javascript\JavascriptFactory;
+use \Khill\Lavacharts\Exceptions\DataTableNotFound;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * Chart Class, Parent to all charts.
@@ -6,7 +24,7 @@
  * Has common properties and methods used between all the different charts.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Charts
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
@@ -14,194 +32,100 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use Khill\Lavacharts\Utils;
-use Khill\Lavacharts\JavascriptFactory;
-use Khill\Lavacharts\Configs\DataTable;
-use Khill\Lavacharts\Configs\Animation;
-use Khill\Lavacharts\Configs\Legend;
-use Khill\Lavacharts\Configs\Tooltip;
-use Khill\Lavacharts\Configs\TextStyle;
-use Khill\Lavacharts\Configs\ChartArea;
-use Khill\Lavacharts\Configs\BackgroundColor;
-use Khill\Lavacharts\Exceptions\InvalidElementId;
-use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
-class Chart
+class Chart extends JsonConfig
 {
-    public $type          = null;
-    public $label         = null;
-    public $datatable     = null;
-    public $deferedRender = false;
-
-    protected $defaults  = null;
-    protected $events    = array();
-    protected $options   = array();
+    /**
+     * The chart's unique label.
+     *
+     * @var \Khill\Lavacharts\Values\Label
+     */
+    protected $label;
 
     /**
-     * Builds a new chart with a label.
+     * The chart's datatable.
      *
-     * @param string $chartLabel Label for the chart accessed via the Volcano.
+     * @var \Khill\Lavacharts\DataTables\DataTable
      */
-    public function __construct($chartLabel)
+    protected $datatable;
+
+    /**
+     * Enabled chart events with callbacks.
+     *
+     * @var \Khill\Lavacharts\Configs\EventManager
+     */
+    protected $events;
+
+    /**
+     * Default configuration options for the chart.
+     *
+     * @var array
+     */
+    protected $chartDefaults = [
+        'animation',
+        'backgroundColor',
+        'chartArea',
+        'colors',
+        'datatable',
+        'events',
+        'fontSize',
+        'fontName',
+        'height',
+        'legend',
+        'title',
+        'titlePosition',
+        'titleTextStyle',
+        'tooltip',
+        'width'
+    ];
+
+
+    /**
+     * Builds a new chart with the given label.
+     *
+     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @param  \Khill\Lavacharts\Options              $options Options fot the chart.
+     * @param  array                                  $config Array of options to set on the chart.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function __construct(Label $chartLabel, DataTable $datatable, Options $options, $config = [])
     {
-        $this->label = $chartLabel;
-        $this->defaults = array(
-            'datatable',
-            'animation',
-            'backgroundColor',
-            'chartArea',
-            'colors',
-            'events',
-            'fontSize',
-            'fontName',
-            'height',
-            'legend',
-            'title',
-            'titlePosition',
-            'titleTextStyle',
-            'tooltip',
-            'width'
-        );
+        $this->label     = $chartLabel;
+        $this->datatable = $datatable;
+        $this->events    = new EventManager;
+
+        $options->extend($this->chartDefaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
-     * Sets any configuration option, with no checks for type / validity
+     * Returns the chart type.
      *
-     *
-     * This is more or less a bandaid to remove the handcuffs from users
-     * who want to add options that Google has added, that I have not.
-     * I didn't intend to restrict the user to only select options, as the
-     * goal was to type check and validate. This method can be used to set
-     * any option, just pass in arrays with key value pairs for any setting.
-     *
-     * If the setting is an object, per the google docs, then use multi-dimensional
-     * arrays and they will be converted upon rendering.
-     *
-     * This method will most likely be brought into 3.0 to prevent BC breaks, but I
-     * will incorporate the same functionality without the need for the extra
-     * customize() method call.
-     *
-     * @param  array $optionArray
-     * @return this
+     * @since 3.0.0
+     * @return string
      */
-    public function customize($optionArray)
+    public function getType()
     {
-        if (is_array($optionArray)) {
-            $this->options = array_merge($this->options, $optionArray);
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'array'
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Sets a configuration option
-     *
-     * Takes an array with option => value, or an object created by
-     * one of the configOptions child objects.
-     *
-     * @param mixed $o
-     *
-     * @return this
-     */
-    protected function addOption($o)
-    {
-        if (is_array($o)) {
-            $this->options = array_merge($this->options, $o);
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'array'
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Sets configuration options from array of values
-     *
-     * You can set the options all at once instead of passing them individually
-     * or chaining the functions from the chart objects.
-     *
-     * @param  array                 $o
-     * @throws InvalidConfigProperty
-     * @throws InvalidConfigValue
-     * @return Chart
-     */
-    public function setOptions($o)
-    {
-        if (is_array($o) && count($o) > 0) {
-            foreach ($o as $option => $value) {
-                if (in_array($option, $this->defaults)) {
-                    $this->$option($value);
-                } else {
-                    throw new InvalidConfigProperty(
-                        $this->type,
-                        __FUNCTION__,
-                        $option,
-                        $this->defaults
-                    );
-                }
-            }
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'array'
-            );
-        }
-    }
-
-    /**
-     * Gets the current chart options.
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
-     * Gets a specific option from the array.
-     *
-     * @param  string             $o Which option to fetch
-     * @throws InvalidConfigValue
-     * @return mixed
-     */
-    public function getOption($o)
-    {
-        if (is_string($o) && array_key_exists($o, $this->options)) {
-            return $this->options[$o];
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                "must be one of ".Utils::arrayToPipedString($this->defaults)
-            );
-        }
+        return static::TYPE;
     }
 
     /**
      * Checks if any events have been assigned to the chart.
      *
+     * @access public
      * @return bool
      */
     public function hasEvents()
     {
-        return count($this->events) > 0 ? true : false;
+        return count($this->events) > 0;
     }
 
     /**
-     * Checks if any events have been assigned to the chart.
+     * Retrieves the events if any have been assigned to the chart.
      *
-     * @return bool
+     * @access public
+     * @return \Khill\Lavacharts\Configs\EventManager
      */
     public function getEvents()
     {
@@ -209,393 +133,355 @@ class Chart
     }
 
     /**
-     * Returns a JSON string representation of the datatable.
+     * Returns the chart label.
      *
-     * @since  v2.5.0
-     * @return string
+     * @access public
+     * @since  3.0.0
+     * @return \Khill\Lavacharts\Values\Label
      */
-    public function getDataTableJson()
+    public function getLabel()
     {
-        return $this->datatable->toJson();
-    }
-
-    /**
-     * Defines how chart animations will be displayed.
-     *
-     * @since  v2.5.10
-     * @uses   Animation
-     * @param  Animation $a
-     *
-     * @return Chart
-     */
-    public function animation(Animation $a)
-    {
-        return $this->addOption($a->toArray());
-    }
-
-    /**
-     * The background color for the main area of the chart. Can be either a simple
-     * HTML color string, for example: 'red' or '#00cc00', or a backgroundColor object
-     *
-     * @uses  BackgroundColor
-     * @param BackgroundColor $bc
-     *
-     * @return Chart
-     */
-    public function backgroundColor(BackgroundColor $bc)
-    {
-        return $this->addOption($bc->toArray());
-    }
-
-    /**
-     * An object with members to configure the placement and size of the chart area
-     * (where the chart itself is drawn, excluding axis and legends).
-     * Two formats are supported: a number, or a number followed by %.
-     * A simple number is a value in pixels; a number followed by % is a percentage.
-     *
-     * @uses  ChartArea
-     * @param ChartArea $ca
-     *
-     * @return Chart
-     */
-    public function chartArea(ChartArea $ca)
-    {
-        return $this->addOption($ca->toArray());
-    }
-
-    /**
-     * The colors to use for the chart elements. An array of strings, where each
-     * element is an HTML color string, for example: colors:['red','#004411'].
-     *
-     * @param  array              $cArr
-     * @throws InvalidConfigValue
-     *
-     * @return Chart
-     */
-    public function colors($cArr)
-    {
-        if (Utils::arrayValuesCheck($cArr, 'string')) {
-            return $this->addOption(array(__FUNCTION__ => $cArr));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'array',
-                'with valid HTML colors'
-            );
-        }
-    }
-
-    /**
-     * Assigns wich Datatable will be used for this Chart.
-     *
-     * If a label is provided then the defined Datatable will be used.
-     * If called with no argument, or the chart is attempted to be generated
-     * without calling this function, the chart will search for a Datatable with
-     * the same label as the Chart.
-     *
-     * @uses  Datatable
-     * @param Datatable
-     *
-     * @return Chart
-     */
-    public function datatable(Datatable $d)
-    {
-        $this->datatable = $d;
-
-        return $this;
-    }
-
-    /**
-     * Set up the chart with no datatable to defer rendering via AJAX
-     *
-     * @since  v2.5.0
-     * @param  bool             $dr
-     * @throws InvalidElementId
-     *
-     * @return void
-     */
-    public function deferedRender($dr)
-    {
-        if (is_bool($dr)) {
-            $this->deferedRender = $dr;
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'bool'
-            );
-        }
-
-        return $this;
+        return $this->label;
     }
 
     /**
      * Register javascript callbacks for specific events.
      *
-     * Valid values include:
-     * [ animationfinish | error | onmouseover | onmouseout | ready | select ]
-     * associated to a respective pre-defined javascript function as the callback.
+     * Set with an associative array where the keys are events and the values are the
+     * javascript callback functions.
      *
-     * @param  array              $e Array of events associated to a callback
-     * @throws InvalidConfigValue
+     * Valid events are:
+     * [ animationfinish | error | onmouseover | onmouseout | ready | select | statechange ]
      *
-     * @return Chart
+     * @access public
+     * @param  array $events Array of events associated to a callback
+     * @return \Khill\Lavacharts\Charts\Chart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function events($e)
+    public function events($events)
     {
-        $values = array(
-            'animationfinish',
-            'error',
-            'onmouseover',
-            'onmouseout',
-            'ready',
-            'select'
-        );
-
-        if (is_array($e)) {
-            foreach ($e as $event) {
-                if (is_subclass_of($event, 'Khill\Lavacharts\Events\Event')) {
-                    $this->events[] = $event;
-                } else {
-                    throw $this->invalidConfigValue(
-                        __FUNCTION__,
-                        'Event'
-                    );
-                }
-            }
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'array'
+        if (is_array($events) === false) {
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
+                'array',
+                'who\'s keys are one of '.Utils::arrayToPipedString($this->defaultEvents)
             );
+        }
+
+        foreach ($events as $event => $callback) {
+            if (Utils::nonEmptyString($callback) === false) {
+                throw new InvalidConfigValue(
+                    static::TYPE . '->' . __FUNCTION__,
+                    'string'
+                );
+            }
+
+            $this->events->set($event, $callback);
         }
 
         return $this;
     }
 
     /**
-     * The default font size, in pixels, of all text in the chart. You can
-     * override this using properties for specific chart elements.
+     * Assigns a datatable to use for the Chart.
      *
-     * @param  int                $fs
-     * @throws InvalidConfigValue
-     *
-     * @return Chart
+     * @deprecated Apply the DataTable to the chart in the constructor.
+     * @access public
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable
+     * @return \Khill\Lavacharts\Charts\Chart
      */
-    public function fontSize($fs)
+    public function datatable(DataTable $datatable)
     {
-        if (is_int($fs)) {
-            return $this->addOption(array(__FUNCTION__ => $fs));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
+        $this->datatable = $datatable;
+
+        return $this;
     }
 
     /**
-     * The default font face for all text in the chart. You can override this
-     * using properties for specific chart elements.
+     * Sets any configuration option, with no checks for type / validity
      *
-     * @param  string             $fn
-     * @throws InvalidConfigValue
      *
-     * @return Chart
+     * This is method was added in 2.5 as a bandaid to remove the handcuffs from
+     * users who want to add options that Google has added, that I have not.
+     * I didn't intend to restrict the user to only select options, as the
+     * goal was to type check and validate. This method can be used to set
+     * any option, just pass in arrays with key value pairs for any setting.
+     *
+     * If the setting is an object, per the google docs, then use multi-dimensional
+     * arrays and they will be converted upon rendering.
+     *
+     * @access public
+     * @since  3.0.0
+     * @param  array $optionArray Array of customization options for the chart
+     * @return \Khill\Lavacharts\Charts\Chart
      */
-    public function fontName($fn)
+    public function customize($optionArray)
     {
-        if (is_string($fn)) {
-            return $this->addOption(array(__FUNCTION__ => $fn));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string'
+        return $this->options->setOptions($optionArray, false);
+    }
+
+    /**
+     * Returns the DataTable
+     *
+     * @access public
+     * @since  3.0.0
+     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @throws \Khill\Lavacharts\Exceptions\DataTableNotFound
+     */
+    public function getDataTable()
+    {
+        if (is_null($this->datatable)) {
+            throw new DataTableNotFound($this);
+        }
+
+        return $this->datatable;
+    }
+
+    /**
+     * Returns a JSON string representation of the datatable.
+     *
+     * @access public
+     * @since  2.5.0
+     * @throws \Khill\Lavacharts\Exceptions\DataTableNotFound
+     * @return string
+     */
+    public function getDataTableJson()
+    {
+        return json_encode($this->getDataTable());
+    }
+
+    /**
+     * Outputs the chart javascript into the page.
+     *
+     * Pass in a string of the html elementID that you want the chart to be
+     * rendered into.
+     *
+     * @deprecated Use the Lavacharts master object to keep track of charts to render.
+     * @codeCoverageIgnore
+     * @access public
+     * @since  2.0.0
+     * @param  string $elemId The id of an HTML element to render the chart into.
+     * @return string Javascript code blocks
+     * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
+     *
+     */
+    public function render($elemId)
+    {
+        trigger_error("Rendering directly from charts is deprecated. Use the render method off your main Lavacharts object.", E_USER_DEPRECATED);
+        $jsf = new JavascriptFactory;
+
+        return $jsf->getChartJs($this, $elemId);
+    }
+
+    /*****************************************************************************************************************
+     ** Options
+     *****************************************************************************************************************/
+
+    /**
+     * Set the animation options for a chart.
+     *
+     * @access public
+     * @param  array $animationConfig Animation options
+     * @return \Khill\Lavacharts\Charts\Chart
+     */
+    public function animation($animationConfig)
+    {
+        return $this->setOption(__FUNCTION__, new Animation($animationConfig));
+    }
+
+    /**
+     * The background color for the main area of the chart.
+     *
+     * Can be a simple HTML color string, or hex code, for example: 'red' or '#00cc00'
+     *
+     * @access public
+     * @param  array $backgroundColorConfig Options for the chart's background color
+     * @return \Khill\Lavacharts\Charts\Chart
+     */
+    public function backgroundColor($backgroundColorConfig)
+    {
+        return $this->setOption(__FUNCTION__, new BackgroundColor($backgroundColorConfig));
+    }
+
+    /**
+     * An object with members to configure the placement and size of the chart area
+     * (where the chart itself is drawn, excluding axis and legends).
+     *
+     * Two formats are supported: a number, or a number followed by %.
+     * A simple number is a value in pixels; a number followed by % is a percentage.
+     *
+     *
+     * @access public
+     * @param  array $chartAreaConfig Options for the chart area.
+     * @return \Khill\Lavacharts\Charts\Chart
+     */
+    public function chartArea($chartAreaConfig)
+    {
+        return $this->setOption(__FUNCTION__, new ChartArea($chartAreaConfig));
+    }
+
+    /**
+     * The colors to use for the chart elements.
+     *
+     * An array of strings, where each element is an HTML color string
+     * for example:['red','#004411']
+     *
+     *
+     * @access public
+     * @param  array $colorArray
+     * @return \Khill\Lavacharts\Charts\Chart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function colors($colorArray)
+    {
+        if (Utils::arrayValuesCheck($colorArray, 'string') === false) {
+            throw new InvalidConfigValue(
+                static::TYPE . '->' . __FUNCTION__,
+                'array',
+                'with valid HTML colors'
             );
         }
+
+        return $this->setOption(__FUNCTION__, $colorArray);
+    }
+
+    /**
+     * The default font size, in pixels, of all text in the chart.
+     *
+     * You can override this using properties for specific chart elements.
+     *
+     *
+     * @access public
+     * @param  integer $fontSize
+     * @return \Khill\Lavacharts\Charts\Chart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function fontSize($fontSize)
+    {
+        return $this->setIntOption(__FUNCTION__, $fontSize);
+    }
+
+    /**
+     * The default font face for all text in the chart.
+     *
+     * You can override this using properties for specific chart elements.
+     *
+     *
+     * @access public
+     * @param  string $fontName
+     * @return \Khill\Lavacharts\Charts\Chart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function fontName($fontName)
+    {
+        return $this->setStringOption(__FUNCTION__, $fontName);
     }
 
     /**
      * Height of the chart, in pixels.
      *
-     * @param  int                $h
-     * @throws InvalidConfigValue
      *
-     * @return Chart
+     * @access public
+     * @param  int $height
+     * @return \Khill\Lavacharts\Charts\Chart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function height($h)
+    public function height($height)
     {
-        if (is_int($h)) {
-            return $this->addOption(array(__FUNCTION__ => $h));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
+        return $this->setIntOption(__FUNCTION__, $height);
     }
 
     /**
-     * An object with members to configure various aspects of the legend. To
-     * specify properties of this object, create a new legend() object, set the
-     * values then pass it to this function or to the constructor.
+     * An object with members to configure various aspects of the legend.
      *
-     * @uses   Legend
-     * @param  Legend             $l
-     * @throws InvalidConfigValue
+     * To specify properties of this object, pass in an array of valid options.
      *
-     * @return Chart
+     *
+     * @access public
+     * @param  array $legendConfig Options for the chart's legend.
+     * @return \Khill\Lavacharts\Charts\Chart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function legend(Legend $l)
+    public function legend($legendConfig)
     {
-        return $this->addOption($l->toArray());
-    }
-
-    /**
-     * Returns a JSON string representation of the chart's properties.
-     *
-     * @return string
-     */
-    public function optionsToJson()
-    {
-        return json_encode($this->options);
-    }
-
-    /**
-     * Outputs the chart javascript into the page
-     *
-     * Pass in a string of the html elementID that you want the chart to be
-     * rendered into.
-     *
-     * @since  v2.0.0
-     * @param  string           $ei The id of an HTML element to render the chart into.
-     * @throws InvalidElementId
-     *
-     * @return string Javscript code blocks
-     */
-    public function render($ei)
-    {
-        $jsf = new JavascriptFactory;
-
-        return $jsf->getChartJs($this, $ei);
+        return $this->setOption(__FUNCTION__, new Legend($legendConfig));
     }
 
     /**
      * Text to display above the chart.
      *
-     * @param  string             $t
-     * @throws InvalidConfigValue
      *
-     * @return Chart
+     * @access public
+     * @param  string $title
+     * @return \Khill\Lavacharts\Charts\Chart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function title($t)
+    public function title($title)
     {
-        if (is_string($t)) {
-            return $this->addOption(array(__FUNCTION__ => $t));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
+        return $this->setStringOption(__FUNCTION__, $title);
     }
 
     /**
-     * Where to place the chart title, compared to the chart area. Supported values:
-     * 'in' - Draw the title inside the chart area.
-     * 'out' - Draw the title outside the chart area.
+     * Where to place the chart title, compared to the chart area.
+     *
+     * Supported values:
+     * 'in'   - Draw the title inside the chart area.
+     * 'out'  - Draw the title outside the chart area.
      * 'none' - Omit the title.
      *
-     * @param  string             $tp
-     * @throws InvalidConfigValue
      *
-     * @return Chart
+     * @access public
+     * @param  string $titlePosition
+     * @return \Khill\Lavacharts\Charts\Chart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function titlePosition($tp)
+    public function titlePosition($titlePosition)
     {
-        $values = array(
+        $values = [
             'in',
             'out',
             'none'
-        );
+        ];
 
-        if (is_string($tp) && in_array($tp, $values)) {
-            return $this->addOption(array(__FUNCTION__ => $tp));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
+        return $this->setStringInArrayOption(__FUNCTION__, $titlePosition, $values);
     }
 
     /**
-     * An object that specifies the title text style. create a new textStyle()
-     * object, set the values then pass it to this function or to the constructor.
+     * An array of options for defining the title text style.
      *
+     * @access public
      * @uses   TextStyle
-     * @param  TextStyle          $ts
-     * @throws InvalidConfigValue
-     *
-     * @return Chart
+     * @param  TextStyle $textStyle
+     * @return \Khill\Lavacharts\Charts\Chart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function titleTextStyle(TextStyle $ts)
+    public function titleTextStyle($textStyle)
     {
-        return $this->addOption($ts->toArray(__FUNCTION__));
+        return $this->setOption(__FUNCTION__, new TextStyle($textStyle));
     }
 
     /**
-     * An object with members to configure various tooltip elements. To specify
-     * properties of this object, create a new tooltip() object, set the values
-     * then pass it to this function or to the constructor.
+     * An object with members to configure various tooltip elements.
      *
-     * @uses   Tooltip
-     * @param  Tooltip            $t
-     * @throws InvalidConfigValue
      *
-     * @return Chart
+     * @param  array $tooltip Options for the tooltips
+     * @return \Khill\Lavacharts\Charts\Chart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function tooltip(Tooltip $t)
+    public function tooltip($tooltip)
     {
-        return $this->addOption($t->toArray());
+        return $this->setOption(__FUNCTION__, new Tooltip($tooltip));
     }
 
     /**
      * Width of the chart, in pixels.
      *
-     * @param  int                $w
-     * @throws InvalidConfigValue
-     *
-     * @return Chart
+     * @param  int $width
+     * @return \Khill\Lavacharts\Charts\Chart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function width($w)
+    public function width($width)
     {
-        if (is_int($w)) {
-            return $this->addOption(array(__FUNCTION__ => $w));
-        } else {
-            throw $this->invalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-    }
-
-    /**
-     * function for easy creation of exceptions
-     */
-    protected function invalidConfigValue($func, $type, $extra = '')
-    {
-        if (! empty($extra)) {
-            return new InvalidConfigValue(
-                $this->type . '::' . $func,
-                $type,
-                $extra
-            );
-        } else {
-            return new InvalidConfigValue(
-                $this->type . '::' . $func,
-                $type
-            );
-        }
+        return $this->setIntOption(__FUNCTION__, $width);
     }
 }

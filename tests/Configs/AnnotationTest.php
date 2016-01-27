@@ -1,79 +1,77 @@
-<?php namespace Khill\Lavacharts\Tests\Configs;
+<?php
+
+namespace Khill\Lavacharts\Tests\Configs;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Configs\Annotation;
-use \Mockery as m;
 
 class AnnotationTest extends ProvidersTestCase
 {
+    public $Annotation;
+
     public function setUp()
     {
         parent::setUp();
 
-        $this->a = new Annotation;
-
-        $this->mockTextStyle = $this->getMock(
-            '\Khill\Lavacharts\Configs\TextStyle',
-            array('__construct')
-        );
-    }
-
-    public function testConstructorDefaults()
-    {
-        $this->assertTrue($this->a->highContrast);
-        $this->assertNull($this->a->textStyle);
+        $this->Annotation = new Annotation;
     }
 
     public function testConstructorValuesAssignment()
     {
-        $annotation = new Annotation(array(
-            'highContrast' => false,
-            'textStyle'    => $this->mockTextStyle
-        ));
+        $annotation = new Annotation([
+            'alwaysOutside' => true,
+            'highContrast'  => false,
+            'textStyle'     => [
+                'fontName' => 'Arial',
+                'fontSize' => 20
+            ]
+        ]);
 
+        $this->assertTrue($annotation->alwaysOutside);
         $this->assertFalse($annotation->highContrast);
         $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $annotation->textStyle);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        $annotation = new Annotation(array('RainbowRoll' => 'spicy'));
+        new Annotation(['RainbowRoll' => 'spicy']);
     }
 
     /**
      * @dataProvider nonBoolProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testAlwaysOutsideWithBadParams($badVals)
+    {
+        $this->Annotation->alwaysOutside($badVals);
+    }
+
+    /**
+     * @dataProvider nonBoolProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testHighContrastWithBadParams($badVals)
     {
-        $this->a->highContrast($badVals);
+        $this->Annotation->highContrast($badVals);
     }
 
-    public function badParamsProvider1()
+    /**
+     * @dataProvider nonArrayProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testTextStyleWithBadParams($badVals)
     {
-        return array(
-            array('fruitsAndVeggies'),
-            array(123),
-            array(123.456),
-            array(array()),
-            array(new \stdClass()),
-            array(null)
-        );
+        $this->Annotation->textStyle($badVals);
     }
 
-    public function badParamsProvider2()
+    /**
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     */
+    public function testTextStyleWithBadArrayConfig()
     {
-        return array(
-            array('fruitsAndVeggies'),
-            array(123),
-            array(123.456),
-            array(array()),
-            array(new \stdClass()),
-            array(true),
-            array(null)
-        );
+        $this->Annotation->textStyle(['NotAReal'=>'ConfigOption']);
     }
 }

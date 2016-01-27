@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Configs;
+<?php
+
+namespace Khill\Lavacharts\Tests\Configs;
 
 use \Khill\Lavacharts\Configs\ChartArea;
 
@@ -11,22 +13,14 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
         $this->ca = new ChartArea;
     }
 
-    public function testConstructorDefaults()
-    {
-        $this->assertNull($this->ca->left);
-        $this->assertNull($this->ca->top);
-        $this->assertNull($this->ca->width);
-        $this->assertNull($this->ca->height);
-    }
-
     public function testConstructorWithIntsValuesAssignment()
     {
-        $chartArea = new ChartArea(array(
+        $chartArea = new ChartArea([
             'left'   => 25,
             'top'    => 10,
             'width'  => 900,
             'height' => 300
-        ));
+        ]);
 
         $this->assertEquals(25, $chartArea->left);
         $this->assertEquals(10, $chartArea->top);
@@ -36,12 +30,12 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorWithPercentsValuesAssignment()
     {
-        $chartArea = new ChartArea(array(
+        $chartArea = new ChartArea([
             'left'   => '5%',
             'top'    => '10%',
             'width'  => '90%',
             'height' => '40%'
-        ));
+        ]);
 
         $this->assertEquals('5%', $chartArea->left);
         $this->assertEquals('10%', $chartArea->top);
@@ -50,15 +44,15 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        $chartArea = new ChartArea(array('Pizza' => 'sandwich'));
+        new ChartArea(['Pizza' => 'sandwich']);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testLeftWithBadParams($badVals)
@@ -67,7 +61,7 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testTopWithBadParams($badVals)
@@ -76,7 +70,7 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testWidthWithBadParams($badVals)
@@ -85,7 +79,7 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testHeightWithBadParams($badVals)
@@ -95,13 +89,13 @@ class ChartAreaTest extends \PHPUnit_Framework_TestCase
 
     public function badParamsProvider()
     {
-        return array(
-            array('zooAnimals'),
-            array(123.456),
-            array(array()),
-            array(new \stdClass()),
-            array(true),
-            array(null)
-        );
+        return [
+            ['zooAnimals'],
+            [123.456],
+            [[]],
+            [new \stdClass()],
+            [true],
+            [null]
+        ];
     }
 }

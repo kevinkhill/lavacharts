@@ -1,40 +1,29 @@
-<?php namespace Khill\Lavacharts\Tests\Configs;
+<?php
+
+namespace Khill\Lavacharts\Tests\Configs;
 
 use \Khill\Lavacharts\Configs\BoxStyle;
-use \Mockery as m;
 
-class BoxStyleTest extends \PHPUnit_Framework_TestCase
+class BoxStyleTest extends \PHPUnit_Framework_TestCase //TODO fix this to use providerclass
 {
+    public $BoxStyle;
+
     public function setUp()
     {
         parent::setUp();
 
-        $this->bs = new BoxStyle;
-
-        $this->mockGradient = $this->getMock(
-            '\Khill\Lavacharts\Configs\Gradient',
-            array('__construct')
-        );
-    }
-
-    public function testConstructorDefaults()
-    {
-        $this->assertNull($this->bs->stroke);
-        $this->assertNull($this->bs->strokeWidth);
-        $this->assertNull($this->bs->rx);
-        $this->assertNull($this->bs->ry);
-        $this->assertNull($this->bs->gradient);
+        $this->BoxStyle = new BoxStyle;
     }
 
     public function testConstructorValuesAssignment()
     {
-        $boxStyle = new BoxStyle(array(
+        $boxStyle = new BoxStyle([
             'stroke'      => '#5B5B5B',
             'strokeWidth' => '5',
             'rx'          => '10',
             'ry'          => '10',
-            'gradient'    => $this->mockGradient
-        ));
+            'gradient'    => []
+        ]);
 
         $this->assertEquals('#5B5B5B', $boxStyle->stroke);
         $this->assertEquals('5', $boxStyle->strokeWidth);
@@ -44,18 +33,18 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        $boxStyle = new BoxStyle(array('Lasagna' => '50%'));
+        new BoxStyle(['Lasagna' => '50%']);
     }
 
     public function testStokeWithNumericParams()
     {
-        $this->bs->stroke('#DE02FB');
+        $this->BoxStyle->stroke('#DE02FB');
 
-        $this->assertEquals('#DE02FB', $this->bs->stroke);
+        $this->assertEquals('#DE02FB', $this->BoxStyle->stroke);
     }
 
     /**
@@ -63,9 +52,9 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testStokeWidthWithNumericParams($testNum)
     {
-        $this->bs->strokeWidth($testNum);
+        $this->BoxStyle->strokeWidth($testNum);
 
-        $this->assertEquals($testNum, $this->bs->strokeWidth);
+        $this->assertEquals($testNum, $this->BoxStyle->strokeWidth);
     }
 
     /**
@@ -73,9 +62,9 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testRxWithNumericParams($testNum)
     {
-        $this->bs->rx($testNum);
+        $this->BoxStyle->rx($testNum);
 
-        $this->assertEquals($testNum, $this->bs->rx);
+        $this->assertEquals($testNum, $this->BoxStyle->rx);
     }
 
     /**
@@ -83,63 +72,63 @@ class BoxStyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testRyWithNumericParams($testNum)
     {
-        $this->bs->ry($testNum);
+        $this->BoxStyle->ry($testNum);
 
-        $this->assertEquals($testNum, $this->bs->ry);
+        $this->assertEquals($testNum, $this->BoxStyle->ry);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testStrokeWithBadParams($badVals)
     {
-        $this->bs->stroke($badVals);
+        $this->BoxStyle->stroke($badVals);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testStokeWidthWithBadParams($badVals)
     {
-        $this->bs->strokeWidth($badVals);
+        $this->BoxStyle->strokeWidth($badVals);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testRxWithBadParams($badVals)
     {
-        $this->bs->rx($badVals);
+        $this->BoxStyle->rx($badVals);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @dataProvider badParamsProvider
      */
     public function testRyWithBadParams($badVals)
     {
-        $this->bs->ry($badVals);
+        $this->BoxStyle->ry($badVals);
     }
 
 
     public function badParamsProvider()
     {
-        return array(
-            array(array()),
-            array(new \stdClass),
-            array(true),
-            array(null)
-        );
+        return [
+            [[]],
+            [new \stdClass],
+            [true],
+            [null]
+        ];
     }
 
     public function numericParamsProvider()
     {
-        return array(
-            array(123),
-            array('123')
-        );
+        return [
+            [123],
+            ['123']
+        ];
     }
 }

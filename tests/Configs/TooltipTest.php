@@ -1,91 +1,77 @@
-<?php namespace Khill\Lavacharts\Tests\Configs;
+<?php
+
+namespace Khill\Lavacharts\Tests\Configs;
 
 use \Khill\Lavacharts\Configs\Tooltip;
+use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
-class TooltipTest extends \PHPUnit_Framework_TestCase
+class TooltipTest extends ProvidersTestCase
 {
+    public $Tooltip;
+
     public function setUp()
     {
         parent::setUp();
 
-        $this->tt = new Tooltip();
-
-        $this->mockTextStyle = $this->getMock(
-            '\Khill\Lavacharts\Configs\TextStyle',
-            array('__construct')
-        );
-    }
-
-    public function testConstructorDefaults()
-    {
-        $this->assertNull($this->tt->showColorCode);
-        $this->assertNull($this->tt->textStyle);
-        $this->assertNull($this->tt->trigger);
+        $this->Tooltip = new Tooltip();
     }
 
     public function testConstructorValuesAssignment()
     {
-        $mockTextStyle = $this->getMock(
-            '\Khill\Lavacharts\Configs\TextStyle',
-            array('__construct')
-        );
-
-        $tooltip = new Tooltip(array(
+        $tooltip = new Tooltip([
             'showColorCode' => true,
-            'textStyle'     => $this->mockTextStyle,
-            'trigger'       => 'focus'
-        ));
+            'textStyle'     => [
+                'fontSize' => 12,
+                'bold' => true
+            ],
+            'trigger' => 'focus'
+        ]);
 
         $this->assertTrue($tooltip->showColorCode);
-        $this->assertTrue(is_array($tooltip->textStyle));
+        $this->assertInstanceOf('Khill\Lavacharts\Configs\TextStyle', $tooltip->textStyle);
         $this->assertEquals('focus', $tooltip->trigger);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        new Tooltip(array('Fruits' => array()));
+        new Tooltip(['Fruits' => 3]);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @dataProvider badParamsProvider
+     * @dataProvider nonBoolProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testShowColorCodeWithBadParams($badVals)
     {
-        $this->tt->showColorCode($badVals);
+        $this->Tooltip->showColorCode($badVals);
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error
-     * @dataProvider badParamsProvider
+     * @dataProvider nonArrayProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testTextStyleWithBadParams($badVals)
     {
-        $this->tt->textStyle($badVals);
+        $this->Tooltip->textStyle($badVals);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @dataProvider badParamsProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function testTriggerWithInvalidOption()
+    {
+        $this->Tooltip->trigger('Apples');
+    }
+
+    /**
+     * @dataProvider nonStringProvider
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testTriggerWithBadParams($badVals)
     {
-        $this->tt->trigger($badVals);
-    }
-
-
-    public function badParamsProvider()
-    {
-        return array(
-            array('stringy'),
-            array(123),
-            array(123.456),
-            array(array()),
-            array(new \stdClass()),
-            array(null)
-        );
+        $this->Tooltip->trigger($badVals);
     }
 }

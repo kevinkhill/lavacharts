@@ -1,13 +1,18 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\JsonConfig;
+use \Khill\Lavacharts\Options;
 
 /**
- * Legend Properties Object
+ * Legend ConfigObject
  *
  * An object containing all the values for the legend which can be
  * passed into the chart's options.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Configs
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
@@ -15,45 +20,38 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use Khill\Lavacharts\Utils;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
-class Legend extends ConfigObject
+class Legend extends JsonConfig
 {
     /**
-     * Position of the legend.
+     * Type of JsonConfig object
      *
      * @var string
      */
-    public $position;
+    const TYPE = 'Legend';
 
     /**
-     * Alignment of the legend.
+     * Default options for Legend
      *
-     * @var string
+     * @var array
      */
-    public $alignment;
-
-    /**
-     * Text style of the legend.
-     *
-     * @var TextStyle
-     */
-    public $textStyle;
-
+    private $defaults = [
+        'position',
+        'alignment',
+        'textStyle'
+    ];
 
     /**
      * Builds the legend object when passed an array of configuration options.
      *
-     * @param  array                 $config Options for the legend
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
-     * @return Legend
+     * @param  array $config Options for the legend
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
@@ -67,29 +65,20 @@ class Legend extends ConfigObject
      * 'none'   - No legend is displayed.
      *
      * @param  string $position Location of legend.
-     * @return Legend
+     * @return \Khill\Lavacharts\Configs\Legend
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function position($position)
     {
-        $values = array(
+        $values = [
             'right',
             'top',
             'bottom',
             'in',
             'none'
-        );
+        ];
 
-        if (is_string($position) && in_array($position, $values)) {
-            $this->position = $position;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this;
+        return $this->setStringInArrayOption(__FUNCTION__, $position, $values);
     }
 
     /**
@@ -108,39 +97,29 @@ class Legend extends ConfigObject
      * the default is 'center'; other legends default to 'start'.
      *
      * @param  string $alignment Alignment of the legend.
-     * @return Legend
+     * @return \Khill\Lavacharts\Configs\Legend
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function alignment($alignment)
     {
-        $values = array(
+        $values = [
             'start',
             'center',
             'end'
-        );
+        ];
 
-        if (is_string($alignment) && in_array($alignment, $values)) {
-            $this->alignment = $alignment;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string',
-                'with a value of '.Utils::arrayToPipedString($values)
-            );
-        }
-
-        return $this;
+        return $this->setStringInArrayOption(__FUNCTION__, $alignment, $values);
     }
 
     /**
-     * An object that specifies the legend text style.
+     * An array that specifies the legend text style options.
      *
-     * @param  TextStyle $textStyle Style of the legend
-     * @return Legend
+     * @param  array $textStyleConfig
+     * @return \Khill\Lavacharts\Configs\Legend
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function textStyle(TextStyle $textStyle)
+    public function textStyle($textStyleConfig)
     {
-        $this->textStyle = $textStyle->getValues();
-
-        return $this;
+        return $this->setOption(__FUNCTION__, new TextStyle($textStyleConfig));
     }
 }

@@ -1,10 +1,16 @@
-<?php namespace Khill\Lavacharts\Exceptions;
+<?php
+
+namespace Khill\Lavacharts\Exceptions;
 
 class InvalidElementId extends \Exception
 {
-    public function __construct($invalidElementId, $code = 0)
+    public function __construct($invalidElementId = '', $code = 0)
     {
-        $message = gettype($invalidElementId) . ' is not a valid HTML Element ID, must be a non-empty string.';
+        if (is_string($invalidElementId)) {
+            $message = 'ElementIds cannot be blank, must be a non-empty string.';
+        } else {
+            $message = gettype($invalidElementId) . ' is not a valid HTML element ID, must be a non-empty string.';
+        }
 
         parent::__construct($message, $code);
     }

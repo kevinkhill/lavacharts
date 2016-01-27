@@ -1,4 +1,9 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\JsonConfig;
+use \Khill\Lavacharts\Options;
 
 /**
  * BoxStyle Object
@@ -7,7 +12,7 @@
  * of the boxes surrounding annotations
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Configs
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
@@ -15,152 +20,101 @@
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
-class BoxStyle extends ConfigObject
+class BoxStyle extends JsonConfig
 {
     /**
-     * Color of the box outline.
+     * Type of JsonConfig object
      *
      * @var string
      */
-    public $stroke;
+    const TYPE = 'BoxStyle';
 
     /**
-     * Thickness of the box outline.
+     * Default options for BoxStyle
      *
-     * @var int|string
+     * @var array
      */
-    public $strokeWidth;
-
-    /**
-     * X radius of the corner curvature.
-     *
-     * @var int|string
-     */
-    public $rx;
-
-    /**
-     * Y radius of the corner curvature.
-     *
-     * @var int|string
-     */
-    public $ry;
-
-    /**
-     * Attributes for linear gradient fill.
-     *
-     * @var Gradient
-     */
-    public $gradient;
+    private $defaults = [
+        'stroke',
+        'strokeWidth',
+        'rx',
+        'ry',
+        'gradient'
+    ];
 
     /**
      * Builds the boxStyle object with specified options
      *
-     * @param array $config
-     *
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
-     * @return BoxStyle
+     * @param  array $config
+     * @return \Khill\Lavacharts\Configs\BoxStyle
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
      * If present, specifies the color for the box outline.
      * If undefined, a random color will be used.
      *
-     * @param  string   $stroke Valid HTML color.
-     * @return BoxStyle
+     * @param  string $stroke Valid HTML color.
+     * @return \Khill\Lavacharts\Configs\BoxStyle
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function stroke($stroke)
     {
-        if (is_string($stroke)) {
-            $this->stroke = $stroke;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $stroke);
     }
 
     /**
      * Sets the thickness of the box outline.
      *
-     * @param  int|string $strokeWidth
-     * @return BoxStyle
+     * @param  int|float $strokeWidth
+     * @return \Khill\Lavacharts\Configs\BoxStyle
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function strokeWidth($strokeWidth)
     {
-        if (is_numeric($strokeWidth)) {
-            $this->strokeWidth = (int) $strokeWidth;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'numeric'
-            );
-        }
-
-        return $this;
+        return $this->setNumericOption(__FUNCTION__, $strokeWidth);
     }
 
     /**
      * Sets the x-radius of the corner curvature.
      *
-     * @param  int|string $rx
-     * @return BoxStyle
+     * @param  int|float $rx
+     * @return \Khill\Lavacharts\Configs\BoxStyle
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function rx($rx)
     {
-        if (is_numeric($rx)) {
-            $this->rx = (int) $rx;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'numeric'
-            );
-        }
-
-        return $this;
+        return $this->setNumericOption(__FUNCTION__, $rx);
     }
 
     /**
      * Sets the y-radius of the corner curvature.
      *
-     * @param  int|string $ry
-     * @return BoxStyle
+     * @param  int|float $ry
+     * @return \Khill\Lavacharts\Configs\BoxStyle
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function ry($ry)
     {
-        if (is_numeric($ry)) {
-            $this->ry = (int) $ry;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setNumericOption(__FUNCTION__, $ry);
     }
 
     /**
      * Sets the attributes for linear gradient fill.
      *
-     * @param  Gradient $gradient
-     * @return BoxStyle
+     * @param  array $gradientConfig
+     * @return \Khill\Lavacharts\Configs\BoxStyle
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function gradient(Gradient $gradient)
+    public function gradient($gradientConfig)
     {
-        $this->gradient = $gradient;
-
-        return $this;
+        return $this->setOption(__FUNCTION__, new Gradient($gradientConfig));
     }
 }

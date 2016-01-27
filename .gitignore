@@ -1,15 +1,15 @@
 node_modules/
 vendor/
-_site/
 tmp/
 build/
 cache/
-docs/
 .idea/
+
+*.sublime-*
+npm-debug.log
 
 bootstrap/compiled.php
 composer.phar
-composer.lock
 
 *DS_Store
 *.sublime-*

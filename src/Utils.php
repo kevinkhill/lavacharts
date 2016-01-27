@@ -1,52 +1,22 @@
-<?php namespace Khill\Lavacharts;
+<?php
+
+namespace Khill\Lavacharts;
 
 class Utils
 {
-    /**
-     * Magic method as an alias to is_a($object, $type)
-     *
-     * @param string $function
-     * @param object $configObject
-     *
-     * @return bool
-     */
-    public static function __callStatic($function, $configObject)
-    {
-        if (preg_match('/^is/', $function)) {
-            $is_a = substr($function, 2);
-
-            if (is_object($configObject[0])) {
-                $class = new \ReflectionClass($configObject[0]);
-
-                return preg_match("/{$is_a}/", $class->getShortname()) ? true : false;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
     /**
      * Takes an array of values and ouputs them as a string between
      * brackets and separated by a pipe.
      *
      * @param array Array of default values
-     *
      * @return string Converted array to string.
      */
     public static function arrayToPipedString($defaultValues)
     {
         if (is_array($defaultValues)) {
-            $output = '[ ';
-
             natcasesort($defaultValues);
 
-            foreach ($defaultValues as $value) {
-                $output .= $value . ' | ';
-            }
-
-            return substr_replace($output, "", -2) . ']';
+            return '[ ' . implode(' | ', $defaultValues) . ' ]';
         } else {
             return false;
         }
@@ -56,7 +26,6 @@ class Utils
      * Simple test to see if array is multi-dimensional.
      *
      * @param array Array of values.
-     *
      * @return bool Returns true is first element in the array is an array,
      *              otherwise false.
      */
@@ -76,11 +45,10 @@ class Utils
     /**
      * Simple test to see if array values are of specified type.
      *
-     * @param array Array of values.
-     * @param string Type to check
-     * @param string Named class, if type == 'class'
-     *
-     * @return bool Returns true is all values match type, otherwise false.
+     * @param  array $array Array of values.
+     * @param  string $type Type to check
+     * @param  string $className Named class, if type == 'class'
+     * @return boolean Returns true is all values match type, otherwise false.
      */
     public static function arrayValuesCheck($array, $type, $className = '')
     {
@@ -128,7 +96,6 @@ class Utils
      * Valid percent = 32% or 100%
      *
      * @param mixed Integer or string.
-     *
      * @return bool Returns true if valid in or percent, otherwise false.
      */
     public static function isIntOrPercent($val)
@@ -163,24 +130,23 @@ class Utils
      * Defaults to including the limits with <= & >=, set to false to exclude
      * the limits with < & >
      *
-     * @param mixed number to test
-     * @param mixed lower limit
-     * @param mixed upper limit
-     * @param bool whether to include limits
-     *
+     * @param int|float $lower         The lower limit
+     * @param int|float $test          The number to test
+     * @param int|float $upper         The upper limit
+     * @param bool      $includeLimits Set whether to include limits
      * @return bool
      */
     public static function between($lower, $test, $upper, $includeLimits = true)
     {
-        $lowerCheck = (is_int($lower) || is_float($lower) ? true : false);
-        $testCheck  = (is_int($test)  || is_float($test)  ? true : false);
-        $upperCheck = (is_int($upper) || is_float($upper) ? true : false);
+        $lowerCheck = is_numeric($lower) ? true : false;
+        $testCheck  = is_numeric($test)  ? true : false;
+        $upperCheck = is_numeric($upper) ? true : false;
 
         if ($lowerCheck && $testCheck && $upperCheck && is_bool($includeLimits)) {
             if ($includeLimits === true) {
                 return ($test >= $lower && $test <= $upper) ? true : false;
             } else {
-                return ($test > $lower && $test < $upper) ? true : false;
+                return ($test >  $lower && $test <  $upper) ? true : false;
             }
         } else {
             return false;
@@ -191,12 +157,11 @@ class Utils
      * Checks if variable is a non-empty string
      *
      * @param  string $var
-     *
      * @return bool
      */
     public static function nonEmptyString($var)
     {
-        if (is_string($var) && ! empty($var)) {
+        if (is_string($var) && strlen($var) > 0) {
             return true;
         } else {
             return false;
@@ -208,12 +173,13 @@ class Utils
      *
      * @param  string $var
      * @param  array  $arr
-     *
      * @return bool
      */
     public static function nonEmptyStringInArray($var, $arr)
     {
-        if ((is_string($var) && ! empty($var)) && in_array($var, $arr)) {
+        $arrayCheck = (is_array($arr) === true && in_array($var, $arr) === true);
+
+        if (self::nonEmptyString($var) && $arrayCheck) {
             return true;
         } else {
             return false;

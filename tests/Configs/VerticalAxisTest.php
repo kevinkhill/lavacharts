@@ -1,4 +1,6 @@
-<?php namespace Khill\Lavacharts\Tests\Configs;
+<?php
+
+namespace Khill\Lavacharts\Tests\Configs;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 use \Khill\Lavacharts\Configs\VerticalAxis;
@@ -9,80 +11,90 @@ class VerticalAxisTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->va = new VerticalAxis(array());
+        $this->va = new VerticalAxis;
 
-        $this->mockTextStyle = $this->getMock(
-            '\Khill\Lavacharts\Configs\TextStyle',
-            array('__construct')
-        );
+        $this->textStyleOptions = [
+            'color'    => 'red',
+            'fontName' => 'Arial',
+            'fontSize' => 12,
+            'italic'   => true
+        ];
     }
 
     public function testConstructorValuesAssignment()
     {
-        $va = new VerticalAxis(array(
+        $va = new VerticalAxis([
             'baselineColor'  => '#F4D4E7',
             'direction'      => 1,
             'format'         => '999.99',
-            'gridlines'      => array(
+            'gridlines'      => [
                 'color' => '#123ABC',
                 'count' => 4
-            ),
+            ],
             'logScale'       => true,
             'maxAlternation' => 2,
             'maxTextLines'   => 3,
             'maxValue'       => 5000,
-            'minorGridlines' => array(
+            'minorGridlines' => [
                 'color' => '#456EFF',
                 'count' => 7
-            ),
+            ],
             'minTextSpacing' => 2,
             'minValue'       => 50,
             'showTextEvery'  => 3,
             'textPosition'   => 'in',
             'title'          => 'Taco Graph',
-            'titleTextStyle' => $this->mockTextStyle,
-            'textStyle'      => $this->mockTextStyle,
-            'viewWindow'     => array(
+            'titleTextStyle' => $this->textStyleOptions,
+            'textStyle'      => $this->textStyleOptions,
+            'viewWindow'     => [
                 'min' => 100,
                 'max' => 400
-            ),
+            ],
             'viewWindowMode' => 'explicit'
-        ));
+        ]);
 
         $this->assertEquals('#F4D4E7', $va->baselineColor);
         $this->assertEquals(1, $va->direction);
         $this->assertEquals('999.99', $va->format);
-        $this->assertEquals('#123ABC', $va->gridlines['color']);
-        $this->assertEquals(4, $va->gridlines['count']);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Gridlines', $va->gridlines);
         $this->assertTrue($va->logScale);
         $this->assertEquals(2, $va->maxAlternation);
         $this->assertEquals(3, $va->maxTextLines);
         $this->assertEquals(5000, $va->maxValue);
-        $this->assertEquals('#456EFF', $va->minorGridlines['color']);
-        $this->assertEquals(7, $va->minorGridlines['count']);
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Gridlines', $va->minorGridlines);
         $this->assertEquals(2, $va->minTextSpacing);
         $this->assertEquals(50, $va->minValue);
         $this->assertEquals(3, $va->showTextEvery);
         $this->assertEquals('in', $va->textPosition);
-        $this->assertTrue(is_array($va->textStyle));
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $va->textStyle);
         $this->assertEquals('Taco Graph', $va->title);
+<<<<<<< HEAD
         $this->assertTrue(is_array($va->titleTextStyle));
         $this->assertEquals(100, $va->viewWindow['min']);
         $this->assertEquals(400, $va->viewWindow['max']);
+||||||| merged common ancestors
+        $this->assertTrue(is_array($va->titleTextStyle));
+        $this->assertEquals(100, $va->viewWindow['viewWindowMin']);
+        $this->assertEquals(400, $va->viewWindow['viewWindowMax']);
+=======
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\TextStyle', $va->titleTextStyle);
+        $this->assertEquals(100, $va->viewWindow['viewWindowMin']);
+        $this->assertEquals(400, $va->viewWindow['viewWindowMax']);
+>>>>>>> 3.0
         $this->assertEquals('explicit', $va->viewWindowMode);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testConstructorWithInvalidPropertiesKey()
     {
-        new VerticalAxis(array('Jellybeans' => array()));
+        new VerticalAxis(['Jellybeans' => []]);
     }
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testBaselineColorWithBadParams($badParams)
     {
@@ -96,7 +108,7 @@ class VerticalAxisTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testDirectionWithNonAcceptableInt()
     {
@@ -105,7 +117,7 @@ class VerticalAxisTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testDirectionWithBadParams($badParams)
     {
@@ -114,7 +126,7 @@ class VerticalAxisTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testFormatWithBadParams($badParams)
     {
@@ -123,60 +135,60 @@ class VerticalAxisTest extends ProvidersTestCase
 
     public function testGridlinesWithAcceptableKeys()
     {
-        $this->va->gridlines(array(
+        $this->va->gridlines([
             'color' => '#123ABC',
             'count' => 7
-        ));
+        ]);
 
-        $this->assertEquals('#123ABC', $this->va->gridlines['color']);
-        $this->assertEquals(7, $this->va->gridlines['count']);
+        $this->assertEquals('#123ABC', $this->va->gridlines->color);
+        $this->assertEquals(7, $this->va->gridlines->count);
     }
 
     public function testGridlinesWithAutoCount()
     {
-        $this->va->gridlines(array(
+        $this->va->gridlines([
             'color' => '#123ABC',
             'count' => -1
-        ));
-        $this->assertEquals(-1, $this->va->gridlines['count']);
+        ]);
+        $this->assertEquals(-1, $this->va->gridlines->count);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testGridlinesWithBadKeys()
     {
-        $this->va->gridlines(array(
+        $this->va->gridlines([
             'frank'     => '#123ABC',
             'and beans' => 7
-        ));
+        ]);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testGridlinesWithBadValueForColor()
     {
-        $this->va->gridlines(array(
+        $this->va->gridlines([
             'count' => 5,
-            'color' => array()
-        ));
+            'color' => []
+        ]);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testGridlinesWithBadValueForCount()
     {
-        $this->va->gridlines(array(
+        $this->va->gridlines([
             'count' => 9.8,
             'color' => '#123ABC'
-        ));
+        ]);
     }
 
     /**
      * @dataProvider nonArrayProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testGridlinesWithBadParams($badParams)
     {
@@ -185,7 +197,7 @@ class VerticalAxisTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonBoolProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testLogScaleWithBadParams($badParams)
     {
@@ -194,7 +206,7 @@ class VerticalAxisTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMaxAlternationWithBadParams($badParams)
     {
@@ -203,7 +215,7 @@ class VerticalAxisTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMaxTextLinesWithBadParams($badParams)
     {
@@ -212,7 +224,7 @@ class VerticalAxisTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMaxValueWithBadParams($badParams)
     {
@@ -221,49 +233,49 @@ class VerticalAxisTest extends ProvidersTestCase
 
     public function testMinorGridlinesWithAutoCount()
     {
-        $this->va->minorGridlines(array(
+        $this->va->minorGridlines([
             'color' => '#123ABC',
             'count' => -1
-        ));
-        $this->assertEquals(-1, $this->va->minorGridlines['count']);
+        ]);
+        $this->assertEquals(-1, $this->va->minorGridlines->count);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function testMinorGridlinesWithBadKeys()
     {
-        $this->va->minorGridlines(array(
+        $this->va->minorGridlines([
             'frank'     => '#123ABC',
             'and beans' => 7
-        ));
+        ]);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMinorGridlinesWithBadValueForColor()
     {
-        $this->va->minorGridlines(array(
+        $this->va->minorGridlines([
             'count' => 5,
-            'color' => array()
-        ));
+            'color' => []
+        ]);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMinorGridlinesWithBadValueForCount()
     {
-        $this->va->minorGridlines(array(
+        $this->va->minorGridlines([
             'count' => 9.8,
             'color' => '#123ABC'
-        ));
+        ]);
     }
 
     /**
      * @dataProvider nonArrayProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMinorGridlinesWithBadParams($badParams)
     {
@@ -272,7 +284,7 @@ class VerticalAxisTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMinTextSpacingWithBadParams($badParams)
     {
@@ -281,7 +293,7 @@ class VerticalAxisTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testMinValueWithBadParams($badParams)
     {
@@ -290,7 +302,7 @@ class VerticalAxisTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonIntProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testShowTextEveryWithBadParams($badParams)
     {
@@ -310,7 +322,7 @@ class VerticalAxisTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testTextPositionWithBadValue()
     {
@@ -319,7 +331,7 @@ class VerticalAxisTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testTextPositionWithBadParams($badParams)
     {
@@ -327,7 +339,7 @@ class VerticalAxisTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testTextStyleWithBadParams()
     {
@@ -336,7 +348,7 @@ class VerticalAxisTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testTitleWithBadParams($badParams)
     {
@@ -344,7 +356,7 @@ class VerticalAxisTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testTitleTextStyleWithBadParams()
     {
@@ -353,28 +365,28 @@ class VerticalAxisTest extends ProvidersTestCase
 
     public function testViewWindowWithValidValues()
     {
-        $this->va->viewWindow(array(
+        $this->va->viewWindow([
             'min' => 10,
             'max' => 100
-        ));
+        ]);
 
         $this->assertEquals(10, $this->va->viewWindow['min']);
         $this->assertEquals(100, $this->va->viewWindow['max']);
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testViewWindowWithInvalidArrayKeys()
     {
-        $this->va->viewWindow(array(
+        $this->va->viewWindow([
             'gunderfluffen' => 10
-        ));
+        ]);
     }
 
     /**
      * @dataProvider nonArrayProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testViewWindowWithBadParams($badParams)
     {
@@ -398,17 +410,17 @@ class VerticalAxisTest extends ProvidersTestCase
      */
     public function testViewWindowModeWithViewWindowSet()
     {
-        $this->va->viewWindow(array(
+        $this->va->viewWindow([
             'min' => 10,
             'max' => 100
-        ));
+        ]);
 
         $this->assertEquals('explicit', $this->va->viewWindowMode);
     }
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testViewWindowModeWithBadParams($badParams)
     {
@@ -416,7 +428,7 @@ class VerticalAxisTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testViewWindowModeWithNonAcceptableParam()
     {

@@ -1,4 +1,11 @@
-<?php namespace Khill\Lavacharts\Configs;
+<?php
+
+namespace Khill\Lavacharts\Configs;
+
+use \Khill\Lavacharts\JsonConfig;
+use \Khill\Lavacharts\Options;
+use \Khill\Lavacharts\Utils;
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * Stroke Object
@@ -6,115 +13,91 @@
  * An object that specifies a the color, thickness and opacity of borders in charts.
  *
  *
- * @package    Lavacharts
+ * @package    Khill\Lavacharts
  * @subpackage Configs
- * @since      v2.1.0
+ * @since      2.1.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use Khill\Lavacharts\Utils;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
-class Stroke extends ConfigObject
+class Stroke extends JsonConfig
 {
     /**
-     * Color to assign the stroke.
+     * Type of JsonConfig object
      *
      * @var string
      */
-    public $stroke;
+    const TYPE = 'Stroke';
 
     /**
-     * Opacity of the stroke.
+     * Default options for TextStyles
      *
-     * @var float
+     * @var array
      */
-    public $strokeOpacity;
-
-    /**
-     * Width of the stroke, in pixels.
-     *
-     * @var int
-     */
-    public $strokeWidth;
+    private $defaults = [
+        'stroke',
+        'strokeOpacity',
+        'strokeWidth'
+    ];
 
     /**
      * Builds the Stroke object with specified options
      *
-     * @param  array                 $config
-     * @throws InvalidConfigValue
-     * @throws InvalidConfigProperty
-     * @return Stroke
+     * @param  array $config
+     * @return \Khill\Lavacharts\Configs\Stroke
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
-        parent::__construct($this, $config);
+        $options = new Options($this->defaults);
+
+        parent::__construct($options, $config);
     }
 
     /**
      * Sets the color of the stroke.
      *
-     * @param  string            $stroke A valid html color string
-     * @throws InvalidConfigValue
-     * @return Stroke
+     * @param  string $stroke A valid html color string
+     * @return \Khill\Lavacharts\Configs\Stroke
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function stroke($s)
+    public function stroke($stroke)
     {
-        if (is_string($s)) {
-            $this->stroke = $s;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
-        }
-
-        return $this;
+        return $this->setStringOption(__FUNCTION__, $stroke);
     }
 
     /**
      * Sets the opacity of the stroke.
      *
-     * @param  float             $strokeOpacity
-     * @throws InvalidConfigValue
-     * @return Stroke
+     * @param  float $strokeOpacity
+     * @return \Khill\Lavacharts\Configs\Stroke
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function strokeOpacity($so)
+    public function strokeOpacity($strokeOpacity)
     {
-        if (Utils::between(0.0, $so, 1.0, true)) {
-            $this->strokeOpacity = (float) $so;
-        } else {
+        if (Utils::between(0.0, $strokeOpacity, 1.0, true) === false) {
             throw new InvalidConfigValue(
                 __FUNCTION__,
-                'float'
+                'float',
+                'between 0.0 and 1.0'
             );
         }
 
-        return $this;
+        return $this->setOption(__FUNCTION__, $strokeOpacity);
     }
 
     /**
      * Sets the width of the stroke.
      *
-     * @param  int                $sw
-     * @throws InvalidConfigValue
-     * @return Stroke
+     * @param  int $strokeWidth
+     * @return \Khill\Lavacharts\Configs\Stroke
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function strokeWidth($sw)
+    public function strokeWidth($strokeWidth)
     {
-        if (is_int($sw)) {
-            $this->strokeWidth = $sw;
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'int'
-            );
-        }
-
-        return $this;
+        return $this->setIntOption(__FUNCTION__, $strokeWidth);
     }
 }
