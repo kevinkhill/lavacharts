@@ -1,10 +1,8 @@
 node_modules/
 vendor/
-_site/
 tmp/
 build/
 cache/
-docs/
 .idea/
 
 *.sublime-*
