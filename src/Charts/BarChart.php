@@ -2,10 +2,6 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Options;
-use \Khill\Lavacharts\DataTables\DataTable;
-
 /**
  * BarChart Class
  *
@@ -25,27 +21,6 @@ use \Khill\Lavacharts\DataTables\DataTable;
  */
 class BarChart extends Chart
 {
-    /**
-     * Common methods
-     */
-    use \Khill\Lavacharts\Traits\AnnotationsTrait;
-    use \Khill\Lavacharts\Traits\AxisTitlesPositionTrait;
-    use \Khill\Lavacharts\Traits\BarGroupWidthTrait;
-    use \Khill\Lavacharts\Traits\DataOpacityTrait;
-    use \Khill\Lavacharts\Traits\EnableInteractivityTrait;
-    use \Khill\Lavacharts\Traits\FocusTargetTrait;
-    use \Khill\Lavacharts\Traits\ForceIFrameTrait;
-    use \Khill\Lavacharts\Traits\HorizontalAxesTrait;
-    use \Khill\Lavacharts\Traits\HorizontalAxisTrait;
-    use \Khill\Lavacharts\Traits\IsStackedTrait;
-    use \Khill\Lavacharts\Traits\OrientationTrait;
-    use \Khill\Lavacharts\Traits\ReverseCategoriesTrait;
-    use \Khill\Lavacharts\Traits\SeriesTrait;
-    use \Khill\Lavacharts\Traits\ThemeTrait;
-    use \Khill\Lavacharts\Traits\TrendlinesTrait;
-    use \Khill\Lavacharts\Traits\VerticalAxesTrait;
-    use \Khill\Lavacharts\Traits\VerticalAxisTrait;
-
     /**
      * Javascript chart type.
      *
@@ -73,44 +48,4 @@ class BarChart extends Chart
      * @var string
      */
     const VIZ_CLASS = 'google.visualization.BarChart';
-
-
-    /**
-     * Default configuration options for the chart.
-     *
-     * @var array
-     */
-    private $barDefaults = [
-        'annotations',
-        'axisTitlesPosition',
-        'barGroupWidth',
-        'dataOpacity',
-        'enableInteractivity',
-        'focusTarget',
-        'forceIFrame',
-        'hAxes',
-        'hAxis',
-        'isStacked',
-        'orientation',
-        'reverseCategories',
-        'series',
-        'theme',
-        'trendlines',
-        'vAxes',
-        'vAxis'
-    ];
-
-    /**
-     * Builds a new BarChart with the given label, datatable and options.
-     *
-     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param array                                   $config
-     */
-    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
-    {
-        $options = new Options($this->barDefaults);
-
-        parent::__construct($chartLabel, $datatable, $options, $config);
-    }
 }
