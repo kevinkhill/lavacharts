@@ -42,7 +42,10 @@ class Chart extends JsonConfig
     protected $label;
 
     /**
-     * The chart's datatable.
+     * Sets a configuration option
+     *
+     * Takes an array with option => value, or an object created by
+     * one of the configOptions child objects.
      *
      * @var \Khill\Lavacharts\DataTables\DataTable
      */
@@ -195,6 +198,29 @@ class Chart extends JsonConfig
         $this->datatable = $datatable;
 
         return $this;
+    }
+
+    /**
+     * Sets any configuration option, with no checks for type / validity
+     *
+     *
+     * This is method was added in 2.5 as a bandaid to remove the handcuffs from
+     * users who want to add options that Google has added, that I have not.
+     * I didn't intend to restrict the user to only select options, as the
+     * goal was to type check and validate. This method can be used to set
+     * any option, just pass in arrays with key value pairs for any setting.
+     *
+     * If the setting is an object, per the google docs, then use multi-dimensional
+     * arrays and they will be converted upon rendering.
+     *
+     * @access public
+     * @since  3.0.0
+     * @param  array $optionArray Array of customization options for the chart
+     * @return \Khill\Lavacharts\Charts\Chart
+     */
+    public function customize($optionArray)
+    {
+        return $this->options->setOptions($optionArray, false);
     }
 
     /**

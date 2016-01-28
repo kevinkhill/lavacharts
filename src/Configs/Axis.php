@@ -399,7 +399,8 @@ class Axis extends JsonConfig
     {
         if (is_array($viewWindow) === false ||
             (array_key_exists('min', $viewWindow) && is_int($viewWindow['min'])) === false ||
-            (array_key_exists('max', $viewWindow) && is_int($viewWindow['max'])) === false) {
+            (array_key_exists('max', $viewWindow) && is_int($viewWindow['max'])) === false)
+        {
             throw new InvalidConfigValue(
                 __FUNCTION__,
                 'array',

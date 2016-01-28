@@ -35,6 +35,7 @@ class Tooltip extends JsonConfig
      * @var array
      */
     private $defaults = [
+        'isHtml',
         'showColorCode',
         'textStyle',
         'trigger'
@@ -53,6 +54,18 @@ class Tooltip extends JsonConfig
         $options = new Options($this->defaults);
 
         parent::__construct($options, $config);
+    }
+
+	/**
+     * Sets whether the tooltip is HTML.
+     *
+     * @param  bool $isHtml
+     * @return \Khill\Lavacharts\Configs\Tooltip
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     */
+    public function isHtml($isHtml)
+    {
+        return $this->setBoolOption(__FUNCTION__, $isHtml);
     }
 
     /**

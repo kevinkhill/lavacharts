@@ -1,11 +1,11 @@
-# Lavacharts
+# Lavacharts v3.0
 [![Total Downloads](https://img.shields.io/packagist/dt/khill/lavacharts.svg?style=plastic)](https://packagist.org/packages/khill/lavacharts)
 [![License](https://img.shields.io/packagist/l/khill/lavacharts.svg?style=plastic)](http://opensource.org/licenses/MIT)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg?style=plastic)](https://php.net/)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/kevinkhill/lavacharts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![PayPayl](https://img.shields.io/badge/paypal-donate-yellow.svg?style=plastic)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ) 
+[![PayPayl](https://img.shields.io/badge/paypal-donate-yellow.svg?style=plastic)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ)
 
-Lavacharts is a graphing / chart library for PHP5.4+ that wraps the Google Chart API
+Lavacharts is a graphing / chart library for PHP5.4+ that wraps Google's Javascript Chart API
 
 Stable:
 [![Current Release](https://img.shields.io/github/release/kevinkhill/lavacharts.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/releases)
@@ -17,19 +17,19 @@ Dev:
 [![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/3.0.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/3.0.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=3.0)
 
-## Version 3.0 is still a work in progress, but mostly stable.
-Check here for notes on how to  [upgrade from 2.5.x to 3.0.x](https://github.com/kevinkhill/lavacharts/wiki/Upgrading-from-2.5-to-3.0)
+## Version 3.0
+Upgrade guide: [Migrating from 2.5.x to 3.0.x](https://github.com/kevinkhill/lavacharts/wiki/Upgrading-from-2.5-to-3.0)
 
 ## Package Features
-- Blade template extensions for laravel
 - Lava.js module for interacting with charts client-side
   - AJAX data reloading
   - Fetching charts
   - Events integration
-- DataTable addColumn aliases
-- DataTable column formatters
-- [Carbon](https://github.com/briannesbitt/Carbon) support for date columns
-- Supports string, number, date, and timeofday columns
+- Column Formatters
+- Column Roles
+- Blade template extensions for laravel
+- Twig template extensions for Symfony
+- [Carbon](https://github.com/briannesbitt/Carbon) support for date/datetime/timeofday columns
 - Now supporting 12 Charts!
   - Area, Bar, Calendar, Column, Combo, Donut, Gauge, Geo, Line, Pie, Scatter, Table
 - [DataTablePlus](https://github.com/kevinkhill/datatableplus) package can be added to parse CSV files or Eloquent collections into DataTables.
@@ -40,40 +40,72 @@ Check here for notes on how to  [upgrade from 2.5.x to 3.0.x](https://github.com
 
 ## Installing
 In your project's main ```composer.json``` file, add this line to the requirements:
-
-  ```
-  "khill/lavacharts": "3.0.x-dev"
-  ```
+```json
+"khill/lavacharts": "~3.0"
+```
 
 Run Composer to install Lavacharts:
-
-  ```
-  composer update
-  ```
+```bash
+$ composer update
+```
 
 ## Laravel Service Provider
 ### Laravel 5.x
 Register Lavacharts in your app by adding this line to the end of the providers array in ```config/app.php```:
-  ```
-  'providers' => [
-      ...
+```php
+<?php
+// config/app.php
 
-      Khill\Lavacharts\Laravel\LavachartsServiceProvider::class
-  ],
-  ```
+// ...
+'providers' => [
+    ...
+
+    Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
+],
+```
 The ```Lava::``` alias will be registered automatically via the service provider.
 
 ### Laravel 4.x
 Register Lavacharts in your app by adding this line to the end of the providers array in ```app/config/app.php```:
 
-  ```
-  'providers' => array(
-      ...
+```php
+<?php
+// app/config/app.php
 
-      "Khill\Lavacharts\Laravel\LavachartsServiceProvider"
-  ),
-  ```
+// ...
+'providers' => array(
+    // ...
+
+    "Khill\Lavacharts\Laravel\LavachartsServiceProvider",
+),
+```
 The ```Lava::``` alias will be registered automatically via the service provider.
+
+
+## Symfony
+### Add Bundle
+```php
+<?php
+// app/AppKernel.php
+
+// ...
+class AppKernel extends Kernel
+{
+    public function registerBundles()
+    {
+        $bundles = array(
+            // ...
+
+            new Khill\Lavacharts\Symfony\Bundle\LavachartsBundle(),
+        );
+
+        // ...
+    }
+
+    // ...
+}
+```
+### Import Config
 
 ## Non-Laravel
 If you are using Lavacharts with Composer and not in Laravel, that's fine, just make sure to:
@@ -83,7 +115,7 @@ Create an instance of Lavacharts: ```$lava = new Khill\Lavacharts\Lavacharts;```
 
 Replace all of the ```Lava::``` aliases in the examples, by chaining from the Lavacharts object you created.
 
-Ex: ```$dt = $lava->DataTable();``` instead of ```$dt = Lava::DataTable();```
+Ex: ```$data = $lava->DataTable();``` instead of ```$data = Lava::DataTable();```
 
 
 # Usage
@@ -96,7 +128,7 @@ Second, within a view, you use one line and the library will output all the nece
 Here is an example of the simplest chart you can create: A line chart with one dataset and a title, no configuration.
 
 ### Controller
-```
+```php
     $stocksTable = $lava->DataTable();  // Lava::DataTable() if using Laravel
 
     $stocksTable->addDateColumn('Day of Month')
@@ -115,7 +147,7 @@ Here is an example of the simplest chart you can create: A line chart with one d
 ```
 
 Arrays work for datatables as well...
-```
+```php
   $stocksTable->addColumns([
     ['date', 'Day of Month'],
     ['number', 'Projected'],
@@ -131,17 +163,17 @@ Arrays work for datatables as well...
 ## View
 If you are using Laravel and the Blade templating engine, there are some nifty extensions thrown in for a cleaner view
 
-  ```
-  @linechart('Stocks', 'stocks-div');
-  // Behind the scenes this just calls Lava::renderLineChart('Stocks', 'stocks-div')
-  // which is an alias for the render method, seen below
-  ```
+```php
+@linechart('Stocks', 'stocks-div');
+// Behind the scenes this just calls Lava::renderLineChart('Stocks', 'stocks-div')
+// which is an alias for the render method, seen below
+```
 
 Or you can use the new render method, passing in the chart type, label, and element id.
 
-  ```
-  echo Lava::render('LineChart', 'Stocks', 'stocks-div');
-  ```
+```php
+echo Lava::render('LineChart', 'Stocks', 'stocks-div');
+```
 
 This is all assuming you already have a div in your page with the id "stocks-div":
 ```<div id="stocks-div"></div>```
@@ -151,10 +183,10 @@ If you don't have a div ready to accept the charts, add one more parameter to ``
 Add ```true``` to for the library to create a plain div, or an array with keys ```width & height```
 
 Example:
-```
-  @linechart('Stocks', 'stocks-div', true)
-  // Or
-  echo Lava::render('LineChart', 'Stocks', 'stocks-div', ['width'=>1024, 'height'=>768]);
+```php
+@linechart('Stocks', 'stocks-div', true)
+// Or
+echo Lava::render('LineChart', 'Stocks', 'stocks-div', ['width'=>1024, 'height'=>768]);
 ```
 
 # Changelog
