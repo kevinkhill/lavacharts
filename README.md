@@ -49,7 +49,14 @@ Run Composer to install Lavacharts:
 $ composer update
 ```
 
-## Laravel Service Provider
+## Framework Agnostic
+If you are using Lavacharts with Silex, Lumen or your own Composer project, that's no problem! Just make sure to:
+```require 'vendor/autoload.php';``` within you project and create an instance of Lavacharts: ```$lava = new Khill\Lavacharts\Lavacharts;```
+
+
+## Laravel
+To integrate lavacharts into Laravel, a ServiceProvider has been included.
+
 ### Laravel 5.x
 Register Lavacharts in your app by adding this line to the end of the providers array in ```config/app.php```:
 ```php
@@ -82,8 +89,11 @@ Register Lavacharts in your app by adding this line to the end of the providers 
 The ```Lava::``` alias will be registered automatically via the service provider.
 
 
-## Symfony
+## Symfony 2.x
+Also included is a Bundle for Symfony to create a service that can be pulled from the Container.
+
 ### Add Bundle
+Add the bundle to the AppKernel:
 ```php
 <?php
 // app/AppKernel.php
@@ -106,16 +116,13 @@ class AppKernel extends Kernel
 }
 ```
 ### Import Config
+Add the service definition to the ```app/config/config.yml``` file
+```yaml
+imports:
+  # ...
+  - { resource: @LavachartsBundle/Resources/config/services.yml 
+```
 
-## Non-Laravel
-If you are using Lavacharts with Composer and not in Laravel, that's fine, just make sure to:
-```require 'vendor/autoload.php';``` within you project.
-
-Create an instance of Lavacharts: ```$lava = new Khill\Lavacharts\Lavacharts;```
-
-Replace all of the ```Lava::``` aliases in the examples, by chaining from the Lavacharts object you created.
-
-Ex: ```$data = $lava->DataTable();``` instead of ```$data = Lava::DataTable();```
 
 
 # Usage
