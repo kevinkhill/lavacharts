@@ -42,7 +42,10 @@ class Chart extends JsonConfig
     protected $label;
 
     /**
-     * The chart's datatable.
+     * Sets a configuration option
+     *
+     * Takes an array with option => value, or an object created by
+     * one of the configOptions child objects.
      *
      * @var \Khill\Lavacharts\DataTables\DataTable
      */

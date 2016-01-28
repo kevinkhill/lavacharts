@@ -50,7 +50,7 @@ var lava = lava || {};
       for(var a=0; a < formatArr.length; a++) {
         var formatJson = formatArr[a];
         var formatter = new google.visualization[formatJson.type](formatJson.config);
-            formatter.format(self.data, formatJson.index);
+        formatter.format(self.data, formatJson.index);
       }
     };
   };
@@ -77,7 +77,7 @@ var lava = lava || {};
     if (typeof callback !== 'function') {
       throw new Error('[Lavacharts] ' + typeof callback + ' is not a valid callback.');
     } else {
-        var callback = function(){};
+      var callback = function(){};
     }
 
     lava.readyCallback = callback;
@@ -225,17 +225,17 @@ var lava = lava || {};
 
   this.run = function () {
     var s = document.createElement('script');
-        s.type = 'text/javascript';
-        s.src = '//www.google.com/jsapi';
-        s.onload = s.onreadystatechange = function (event) {
-          event = event || window.event;
+    s.type = 'text/javascript';
+    s.src = '//www.google.com/jsapi';
+    s.onload = s.onreadystatechange = function (event) {
+      event = event || window.event;
 
-          if (event.type === "load" || (/loaded|complete/.test(this.readyState))) {
-            this.onload = this.onreadystatechange = null;
+      if (event.type === "load" || (/loaded|complete/.test(this.readyState))) {
+        this.onload = this.onreadystatechange = null;
 
-            lava.events.emit('jsapi:ready', window.google);
-          }
-        };
+        lava.events.emit('jsapi:ready', window.google);
+      }
+    };
 
     document.head.appendChild(s);
   };

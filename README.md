@@ -3,9 +3,9 @@
 [![License](https://img.shields.io/packagist/l/khill/lavacharts.svg?style=plastic)](http://opensource.org/licenses/MIT)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg?style=plastic)](https://php.net/)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/kevinkhill/lavacharts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![PayPayl](https://img.shields.io/badge/paypal-donate-yellow.svg?style=plastic)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ) 
+[![PayPayl](https://img.shields.io/badge/paypal-donate-yellow.svg?style=plastic)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ)
 
-Lavacharts is a graphing / chart library for PHP5.4+ that wraps the Google Chart API
+Lavacharts is a graphing / chart library for PHP5.4+ that wraps Google's Javascript Chart API
 
 Stable:
 [![Current Release](https://img.shields.io/github/release/kevinkhill/lavacharts.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/releases)
@@ -21,15 +21,15 @@ Dev:
 Upgrade guide: [Migrating from 2.5.x to 3.0.x](https://github.com/kevinkhill/lavacharts/wiki/Upgrading-from-2.5-to-3.0)
 
 ## Package Features
-- Blade template extensions for laravel
 - Lava.js module for interacting with charts client-side
   - AJAX data reloading
   - Fetching charts
   - Events integration
-- DataTable addColumn aliases
-- DataTable column formatters
-- [Carbon](https://github.com/briannesbitt/Carbon) support for date columns
-- Supports string, number, date, and timeofday columns
+- Column Formatters
+- Column Roles
+- Blade template extensions for laravel
+- Twig template extensions for Symfony
+- [Carbon](https://github.com/briannesbitt/Carbon) support for date/datetime/timeofday columns
 - Now supporting 12 Charts!
   - Area, Bar, Calendar, Column, Combo, Donut, Gauge, Geo, Line, Pie, Scatter, Table
 - [DataTablePlus](https://github.com/kevinkhill/datatableplus) package can be added to parse CSV files or Eloquent collections into DataTables.
@@ -75,7 +75,7 @@ Register Lavacharts in your app by adding this line to the end of the providers 
 // ...
 'providers' => array(
     // ...
-    
+
     "Khill\Lavacharts\Laravel\LavachartsServiceProvider",
 ),
 ```
