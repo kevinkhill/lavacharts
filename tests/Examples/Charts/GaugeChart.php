@@ -6,7 +6,7 @@
           ->addRow(['Case', rand(0,100)])
           ->addRow(['Graphics', rand(0,100)]);
 
-    $lava->GaugeChart('Temps', $temps, [
+    $lava->GaugeChart($title, $temps, [
         'width' => $width,
         'height' => $height,
         'greenFrom' => 0,
@@ -20,12 +20,3 @@
             'Critical'
         ]
     ]);
-?>
-
-<html>
-    <head></head>
-    <body>
-        <div class="render" id="chart"></div>
-        <?= $lava->render('GaugeChart', 'Temps', 'chart'); ?>
-    </body>
-</html>

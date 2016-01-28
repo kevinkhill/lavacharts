@@ -8,16 +8,7 @@
         $data->addRow(['2016-1-'.$a, rand(100,200), rand(100,200)]);
     }
 
-    $lava->AreaChart('Things!', $data, [
+    $lava->AreaChart($title, $data, [
         'width' => $width,
         'height' => $height
     ]);
-?>
-
-<html>
-    <head></head>
-    <body>
-        <div class="render" id="chart"></div>
-        <?= $lava->render('AreaChart', 'Things!', 'chart'); ?>
-    </body>
-</html>

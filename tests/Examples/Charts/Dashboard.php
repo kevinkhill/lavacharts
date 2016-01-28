@@ -33,14 +33,3 @@
     $dash    = $lava->Dashboard('Donuts')
                     ->bind($control, $chart);
 ?>
-
-<html>
-    <head></head>
-    <body>
-        <div class="render" id="dashboard-div-id">
-            <div id="chart-div-id"></div>
-            <div id="control-div-id"></div>
-        </div>
-        <?= $lava->render('Dashboard', 'Donuts', 'dashboard-div-id'); ?>
-    </body>
-</html>

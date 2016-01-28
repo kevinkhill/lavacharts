@@ -9,7 +9,7 @@
              ->addRow(['2006', 660, 1120])
              ->addRow(['2007', 1030, 54]);
 
-    $lava->ColumnChart('Finances', $finances, [
+    $lava->ColumnChart($title, $finances, [
         'title' => 'Company Performance',
         'width' => $width,
         'height' => $height,
@@ -18,12 +18,3 @@
             'fontSize' => 14
         ]
     ]);
-?>
-
-<html>
-    <head></head>
-    <body>
-        <div class="render" id="chart"></div>
-        <?= $lava->render('ColumnChart', 'Finances', 'chart'); ?>
-    </body>
-</html>
