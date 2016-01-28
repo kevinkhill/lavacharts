@@ -69,6 +69,7 @@ class Lavacharts
         'GaugeChart',
         'GeoChart',
         'LineChart',
+        'SankeyChart',
         'ScatterChart',
         'TableChart'
     ];
@@ -156,6 +157,10 @@ class Lavacharts
         //Filters
         if ((bool) preg_match('/Filter$/', $method)) {
             $lavaClass = $this->filterFactory($method, $arguments);
+        }
+
+        if (isset($lavaClass) == false) {
+            throw new InvalidLavaObject($method);
         }
 
         return $lavaClass;

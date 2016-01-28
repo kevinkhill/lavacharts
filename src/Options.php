@@ -8,8 +8,8 @@ use \Khill\Lavacharts\Exceptions\InvalidOption;
 /**
  * Options Object
  *
- * An object that contains a set of options, with methods for extending, removing setting and getting
- * values for these set options.
+ * An object that contains a set of options, with methods for
+ * extending, removing, getting and setting the values.
  *
  *
  * @package    Khill\Lavacharts
@@ -21,21 +21,14 @@ use \Khill\Lavacharts\Exceptions\InvalidOption;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Options implements \JsonSerializable
+class Options implements \IteratorAggregate, \JsonSerializable
 {
     /**
-     * Default options that can be set.
+     * Customization options.
      *
      * @var array
      */
     private $options = [];
-
-    /**
-     * Set options as key => value pairs.
-     *
-     * @var array
-     */
-    private $values = [];
 
     /**
      * Create a new Options object with a set of options.
@@ -56,73 +49,30 @@ class Options implements \JsonSerializable
     }
 
     /**
-     * Returns the array of options that can be set.
+     * Allows for the options to be traversed with foreach.
      *
      * @access public
-     * @return array
-     */
-    public function getDefaults()
-    {
-        return $this->options;
-    }
-
-    /**
-     * Returns an array representation of the options.
-     *
-     * @access public
-     * @return array Array of the defined options.
-     */
-    public function getValues()
-    {
-        return $this->values;
-    }
-
-    /**
-     * Checks to see if a given option is available to set.
-     *
-     * @access public
-     * @param  $option string Name of option.
-     * @return boolean
-     */
-    public function hasOption($option)
-    {
-        return in_array($option, $this->options, true);
-    }
-
-    /**
-     * Checks to see if a given option is set.
-     *
-     * @access public
-     * @param  $option string Name of option.
-     * @return boolean
-     */
-    public function hasValue($option)
-    {
-        if (is_string($option)) {
-            return array_key_exists($option, $this->values);
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Set the value of an option.
-     *
-     * @access public
-     * @param  string $option Name of option to set.
-     * @param  mixed $value Value to set the option to.
+     * @since  3.0.1
      * @return \Khill\Lavacharts\Options
-     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      */
     public function set($option, $value)
     {
-        if ($this->hasOption($option) === false) {
-            throw new InvalidOption($option, $this->options);
-        }
-
-        $this->values[$option] = $value;
+        $this->options[$option] = $value;
 
         return $this;
+    }
+
+    /**
+     * Allows for the options to be traversed with foreach.
+     *
+     * @access public
+     * @since  3.0.1
+     * @implements IteratorAggregate
+     * @return int
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->options);
     }
 
     /**
@@ -139,11 +89,22 @@ class Options implements \JsonSerializable
             throw new InvalidOption($option, $this->options);
         }
 
-        if (array_key_exists($option, $this->values) === false) {
+        if (array_key_exists($option, $this->options) === false) {
             return null;
         } else {
-            return $this->values[$option];
+            return $this->options[$option];
         }
+    }
+
+    /**
+     * Returns the array of options that can be set.
+     *
+     * @access public
+     * @return array
+     */
+    public function getAll()
+    {
+        return $this->options;
     }
 
     /**
@@ -173,7 +134,7 @@ class Options implements \JsonSerializable
             if ($check === true) {
                 $this->set($option, $value);
             } else {
-                $this->values[$option] = $value;
+                $this->options[$option] = $value;
             }
         }
 
@@ -181,7 +142,7 @@ class Options implements \JsonSerializable
     }
 
     /**
-     * Merges two Options objects and combines the options and values.
+     * Merges two Options objects and combines the options and options.
      *
      * @access public
      * @param  \Khill\Lavacharts\Options $options
@@ -192,7 +153,7 @@ class Options implements \JsonSerializable
     {
         $this->extend($options->getDefaults());
 
-        return $this->setOptions($options->getValues());
+        return $this->setOptions($options->getoptions());
     }
 
     /**
@@ -246,6 +207,6 @@ class Options implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return $this->values;
+        return $this->options;
     }
 }

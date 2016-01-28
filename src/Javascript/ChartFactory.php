@@ -64,7 +64,7 @@ class ChartFactory extends JavascriptFactory
             'chartClass'   => $chart::VIZ_CLASS,
             'chartPackage' => $chart::VIZ_PACKAGE,
             'chartData'    => json_encode($chart->getDataTable()),
-            'chartOptions' => json_encode($chart),
+            'chartOptions' => json_encode($chart->getOptions()),
             'elemId'       => (string) $this->elementId,
             'dataVer'      => DataTable::VERSION,
             'dataClass'    => DataTable::VIZ_CLASS,
