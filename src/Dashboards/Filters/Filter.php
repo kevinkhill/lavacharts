@@ -27,15 +27,11 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class Filter extends JsonConfig
 {
     /**
-     * Default configuration options.
+     * Filter configuration options.
      *
-     * @var array
+     * @var \Khill\Lavacharts\Options
      */
-    protected $defaults = [
-        'filterColumnIndex',
-        'filterColumnLabel',
-        'ui'
-    ];
+    protected $options;
 
     /**
      * Builds a new Filter Object
@@ -47,15 +43,8 @@ class Filter extends JsonConfig
      * @param  array                     $config Array of options to set.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function __construct(Options $options, $columnLabelOrIndex, $config = [])
+    public function __construct($columnLabelOrIndex, $config = [])
     {
-        if (is_array($config) === false) {
-            throw new InvalidConfigValue(
-                static::TYPE . '->' . __FUNCTION__,
-                'array'
-            );
-        }
-
         if (Utils::nonEmptyString($columnLabelOrIndex) === false && is_int($columnLabelOrIndex) === false) {
             throw new InvalidConfigValue(
                 static::TYPE . '->' . __FUNCTION__,
@@ -71,7 +60,7 @@ class Filter extends JsonConfig
             $config = array_merge($config, ['filterColumnIndex' => $columnLabelOrIndex]);
         }
 
-        parent::__construct($options, $config);
+        $this->options = new Options($config);
     }
 
     /**
@@ -82,48 +71,5 @@ class Filter extends JsonConfig
     public function getType()
     {
         return static::TYPE;
-    }
-
-    /**
-     * The column of the datatable the filter should operate upon.
-     *
-     * It is mandatory to provide either this option or filterColumnLabel.
-     * If both present, this option takes precedence.
-     *
-     * @param  integer $columnIndex Column index
-     * @return \Khill\Lavacharts\Dashboards\Filters\Filter
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function filterColumnIndex($columnIndex)
-    {
-        return $this->setIntOption(__FUNCTION__, $columnIndex);
-    }
-
-    /**
-     * The label of the column the filter should operate upon.
-     * It is mandatory to provide either this option or filterColumnIndex.
-     * If both present, filterColumnIndex takes precedence.
-     *
-     * @param  string $columnLabel Column label
-     * @return \Khill\Lavacharts\Dashboards\Filters\Filter
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function filterColumnLabel($columnLabel)
-    {
-        return $this->setStringOption(__FUNCTION__, $columnLabel);
-    }
-
-    /**
-     * Assigns custom attributes to the controls that the filter is attached to.
-     *
-     * @param  array $uiConfig Array of options for configuring the UI
-     * @return \Khill\Lavacharts\Dashboards\Filters\Filter
-     */
-    public function ui($uiConfig)
-    {
-        $uiClass  = '\\Khill\\Lavacharts\\Configs\\UIs\\';
-        $uiClass .= str_replace('Filter', 'UI', static::TYPE);
-
-        return $this->setOption(__FUNCTION__, new $uiClass($uiConfig));
     }
 }

@@ -22,14 +22,15 @@
         'pieSliceText' => 'value'
     ]);
 
-    $filter  = $lava->NumberRangeFilter(1, [
-        'ui'=> [
+    $filter = $lava->NumberRangeFilter(1, [
+        'ui' => [
             'label' => 'Donuts Eaten:',
             'labelStacking' => 'vertical'
         ]
     ]);
-    $control = $lava->ControlWrapper($filter, 'control-div-id');
-    $chart   = $lava->ChartWrapper($pieChart, 'chart-div-id');
-    $dash    = $lava->Dashboard('Donuts')
-                    ->bind($control, $chart);
+
+    $controlWrap = $lava->ControlWrapper($filter, 'control-div-id');
+    $chartWrap   = $lava->ChartWrapper($pieChart, 'chart-div-id');
+
+    $lava->Dashboard($title)->bind($controlWrap, $chartWrap);
 ?>
