@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Configs\UIs;
 
-use \Khill\Lavacharts\Options;
+use \Khill\Lavacharts\Configs\Options;
 use \Khill\Lavacharts\DataTables\Formats\DateFormat;
 
 /**

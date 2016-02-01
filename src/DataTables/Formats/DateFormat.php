@@ -19,7 +19,7 @@ namespace Khill\Lavacharts\DataTables\Formats;
  * @see        https://developers.google.com/chart/interactive/docs/reference#dateformatter
  */
 
-use \Khill\Lavacharts\Options;
+use \Khill\Lavacharts\Configs\Options;
 
 class DateFormat extends Format
 {

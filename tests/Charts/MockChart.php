@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Options;
+use \Khill\Lavacharts\Configs\Options;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\DataTables\DataTable;
 

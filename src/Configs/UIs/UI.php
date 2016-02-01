@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Configs\UIs;
 
-use \Khill\Lavacharts\JsonConfig;
+use \Khill\Lavacharts\Configs\JsonConfig;
 
 /**
  * UI Object

@@ -16,7 +16,6 @@ use \Khill\Lavacharts\Exceptions\InvalidLabel;
 use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidFilterObject;
-
 use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
 use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
 
@@ -336,12 +335,17 @@ class Lavacharts
     /**
      * Outputs the link to the Google JSAPI
      *
+     *
+     * @deprecated 3.0.1 Manual script tag location output is no longer needed, lava.js injects the script into the head.
+     *
      * @access public
      * @since  2.3.0
      * @return string Google Chart API and lava.js script blocks
      */
     public function jsapi()
     {
+        trigger_error('Using the jsapi() method is deprecated since lava.js injects the jsapi into the head.', E_USER_DEPRECATED);
+
         return $this->jsFactory->getCoreJs();
     }
 
@@ -414,7 +418,7 @@ class Lavacharts
      * Calling with no arguments will return a div with the ID set to what was
      * given to the outputInto() function.
      *
-     * Passing two (int)s will set the width and height respectivly and the div
+     * Passing two (int)s will set the width and height respectively and the div
      * ID will be set via the string given in the outputInto() function.
      *
      *
@@ -657,5 +661,17 @@ class Lavacharts
         } else {
             return false;
         }
+    }
+
+    /**
+     * Returns the array of supported chart types.
+     *
+     * @access public
+     * @since  3.0.1
+     * @return array
+     */
+    public function getSupportedCharts()
+    {
+        return $this->chartClasses;
     }
 }

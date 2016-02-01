@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts;
+namespace Khill\Lavacharts\Configs;
 
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidOption;

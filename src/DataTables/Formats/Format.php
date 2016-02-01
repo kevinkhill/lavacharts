@@ -18,7 +18,7 @@ namespace Khill\Lavacharts\DataTables\Formats;
  * @license    http://opensource.org/licenses/MIT MIT
  */
 
-use \Khill\Lavacharts\Options;
+use \Khill\Lavacharts\Configs\Options;
 use \Khill\Lavacharts\JsonConfig;
 
 class Format extends JsonConfig

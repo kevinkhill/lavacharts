@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
-use \Khill\Lavacharts\Options;
+use \Khill\Lavacharts\Configs\Options;
 
 
 /**

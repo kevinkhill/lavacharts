@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Options;
+use \Khill\Lavacharts\Configs\Options;
 use \Khill\Lavacharts\JsonConfig;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Configs\Legend;
