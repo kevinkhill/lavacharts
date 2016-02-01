@@ -2,10 +2,6 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Configs\Options;
-use \Khill\Lavacharts\DataTables\DataTable;
-
 /**
  * ScatterChart Class
  *

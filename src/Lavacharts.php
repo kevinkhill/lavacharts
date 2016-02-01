@@ -70,7 +70,8 @@ class Lavacharts
         'LineChart',
         'SankeyChart',
         'ScatterChart',
-        'TableChart'
+        'TableChart',
+        'TimelineChart'
     ];
 
     /**

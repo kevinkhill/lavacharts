@@ -3,18 +3,10 @@
 namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Configs\Options;
-use \Khill\Lavacharts\JsonConfig;
 use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Configs\Legend;
-use \Khill\Lavacharts\Configs\Tooltip;
-use \Khill\Lavacharts\Configs\TextStyle;
-use \Khill\Lavacharts\Configs\ChartArea;
-use \Khill\Lavacharts\Configs\Animation;
+use \Khill\Lavacharts\Configs\Options;
 use \Khill\Lavacharts\Configs\EventManager;
-use \Khill\Lavacharts\Configs\BackgroundColor;
 use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Javascript\JavascriptFactory;
 use \Khill\Lavacharts\Exceptions\DataTableNotFound;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 

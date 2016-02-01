@@ -19,7 +19,7 @@ namespace Khill\Lavacharts\DataTables\Formats;
  */
 
 use \Khill\Lavacharts\Configs\Options;
-use \Khill\Lavacharts\JsonConfig;
+use \Khill\Lavacharts\Configs\JsonConfig;
 
 class Format extends JsonConfig
 {

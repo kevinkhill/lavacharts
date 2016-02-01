@@ -3,35 +3,32 @@
 namespace Khill\Lavacharts\Charts;
 
 /**
- * SankeyChart Class
+ * TimelineChart Class
  *
- * A sankey diagram is a visualization used to depict a flow from one set
- * of values to another. The things being connected are called nodes and
- * the connections are called links.
  *
- * Sankeys are best used when you want to show a many-to-many mapping
- * between two domains (e.g., universities and majors) or multiple paths
- * through a set of stages (for instance, Google Analytics uses sankeys
- * to show how traffic flows from pages to other pages on your web site).
+ * A timeline is a chart that depicts how a set of resources are used over time.
+ * If you're managing a software project and want to illustrate who is doing what
+ * and when, or if you're organizing a conference and need to schedule meeting
+ * rooms, a timeline is often a reasonable visualization choice.
  *
  *
  * @package    Khill\Lavacharts
  * @subpackage Charts
- * @since      3.0.1
+ * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2016, KHill Designs
+ * @copyright  (c) 2015, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class SankeyChart extends Chart
+class TimelineChart extends Chart
 {
     /**
      * Javascript chart type.
      *
      * @var string
      */
-    const TYPE = 'SankeyChart';
+    const TYPE = 'TimelineChart';
 
     /**
      * Javascript chart version.
@@ -45,12 +42,12 @@ class SankeyChart extends Chart
      *
      * @var string
      */
-    const VIZ_PACKAGE = 'sankey';
+    const VIZ_PACKAGE = 'timeline';
 
     /**
      * Google's visualization class name.
      *
      * @var string
      */
-    const VIZ_CLASS = 'google.visualization.Sankey';
+    const VIZ_CLASS = 'google.visualization.Timeline';
 }

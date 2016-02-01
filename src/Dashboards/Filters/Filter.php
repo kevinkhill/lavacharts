@@ -4,7 +4,7 @@ namespace Khill\Lavacharts\Dashboards\Filters;
 
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Configs\Options;
-use \Khill\Lavacharts\JsonConfig;
+use \Khill\Lavacharts\Configs\JsonConfig;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 
