@@ -36,7 +36,7 @@ class TreemapChart extends Chart
      *
      * @var string
      */
-    const TYPE = 'TreeMapChart';
+    const TYPE = 'TreemapChart';
 
     /**
      * Javascript chart version.
