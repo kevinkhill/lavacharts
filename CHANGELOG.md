@@ -1,3 +1,15 @@
+- 3.0.1
+  - Gutting all option checking since Google is much faster at
+    updating charts and options. I can't keep up so instead, it's
+    up to the user to check for valid options and types.
+  - Removing option checking makes it much, much easier to create new
+    chart classes. Only a few lines and they work.
+  - Because of this, Lavacharts now supports
+    - SankeyChart
+    - SteppedAreaChart
+    - TimelineChart
+    - TreemapChart
+
 - 3.0.0
   - Dropping support for PHP 5.3
     - Minimum version PHP 5.4+
@@ -15,7 +27,7 @@
     - Refactored all ConfigObject creation into the classes, no more manually instantiation.
     - Removed Event classes in favor of associative array definitions of events.
   - DataTable Improvements
-    - Added support for csv file read/write and Laravel collection parsing into DataTables, 
+    - Added support for csv file read/write and Laravel collection parsing into DataTables,
       just add the separate package to composer "khill/datatableplus":"dev-master".
       DataTablePlus extends the DataTable to add the extra functions and Lavacharts will seamlessly
       create DataTablePluses over DataTables if available via composer.
@@ -23,7 +35,7 @@
   - Added Format#formatColumn method to format datatable columns.
   - Added new formats.
    - ArrowFormat
-   - BarFormat 
+   - BarFormat
   - lava.js has been refactored:
     - lava.get() replaced with:
       - getChart(label, callback) -> callback(Google chartObj, Lava chartObj)
@@ -42,10 +54,10 @@
 
 - 2.5.6
   - Fixes for AJAX chart loading
-  
+
 - 2.5.5
   - Blade extensions fix
-  
+
 - 2.5.4
   - Fixed namespace bug
 

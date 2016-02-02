@@ -5,6 +5,7 @@ namespace Khill\Lavacharts\Charts;
 /**
  * TreeMap Chart Class
  *
+ *
  * A visual representation of a data tree, where each node can have zero or more
  * children, and one parent (except for the root, which has no parents). Each
  * node is displayed as a rectangle, sized and colored according to values that
@@ -20,7 +21,6 @@ namespace Khill\Lavacharts\Charts;
  * element that you insert in your page. If you have leaf nodes with names too
  * long to show, the name will be truncated with an ellipsis (...).
  *
- * @codeCoverageIgnore
  * @package    Khill\Lavacharts
  * @subpackage Charts
  * @author     Kevin Hill <kevinkhill@gmail.com>
@@ -29,14 +29,14 @@ namespace Khill\Lavacharts\Charts;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class TreeMap extends Chart
+class TreemapChart extends Chart
 {
     /**
      * Javascript chart type.
      *
      * @var string
      */
-    const TYPE = 'TreeMap';
+    const TYPE = 'TreeMapChart';
 
     /**
      * Javascript chart version.

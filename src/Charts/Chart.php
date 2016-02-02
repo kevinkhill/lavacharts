@@ -43,7 +43,7 @@ class Chart
     /**
      * Holds all the customizations for a chart.
      *
-     * @var \Khill\Lavacharts\Options
+     * @var \Khill\Lavacharts\Configs\Options
      */
     protected $options;
 
@@ -66,16 +66,15 @@ class Chart
      *
      * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param  \Khill\Lavacharts\Options              $options Options fot the chart.
-     * @param  array                                  $config Array of options to set on the chart.
+     * @param  \Khill\Lavacharts\Configs\Options      $options Options fot the chart.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
+    public function __construct(Label $chartLabel, DataTable $datatable, Options $options = null)
     {
         $this->label     = $chartLabel;
         $this->datatable = $datatable;
+        $this->options   = $options;
         $this->events    = new EventManager;
-        $this->options   = new Options($config);
     }
 
     /**

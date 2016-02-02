@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\Configs;
 
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidOption;
+use \Khill\Lavacharts\Exceptions\InvalidOptions;
 
 /**
  * Options Object
@@ -34,15 +35,12 @@ class Options implements \IteratorAggregate, \JsonSerializable
      * Create a new Options object with a set of options.
      *
      * @param array $options
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOptions
      */
     public function __construct($options)
     {
         if (is_array($options) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'array'
-            );
+            throw new InvalidOptions($options);
         }
 
         $this->options = $options;
