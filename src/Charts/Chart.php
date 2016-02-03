@@ -74,7 +74,7 @@ class Chart
         $this->label     = $chartLabel;
         $this->datatable = $datatable;
         $this->options   = $options;
-        $this->events    = new EventManager;
+        $this->events    = new EventManager; //@TODO: refactor this
     }
 
     /**

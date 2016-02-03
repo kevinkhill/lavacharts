@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Charts;
 
 /**
- * BubbleChart Class
+ * CandlestickChart Class
  *
  * A bubble chart is used to visualize a data set with two to four dimensions.
  * The first two dimensions are visualized as coordinates, the third as color
@@ -19,14 +19,14 @@ namespace Khill\Lavacharts\Charts;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class BubbleChart extends Chart
+class CandlestickChart extends Chart
 {
     /**
      * Javascript chart type.
      *
      * @var string
      */
-    const TYPE = 'BubbleChart';
+    const TYPE = 'CandlestickChart';
 
     /**
      * Javascript chart version.
@@ -47,5 +47,5 @@ class BubbleChart extends Chart
      *
      * @var string
      */
-    const VIZ_CLASS = 'google.visualization.BubbleChart';
+    const VIZ_CLASS = 'google.visualization.CandlestickChart';
 }

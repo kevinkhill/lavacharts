@@ -3,11 +3,11 @@
 namespace Khill\Lavacharts\Charts;
 
 /**
- * BubbleChart Class
+ * AnnotationChart Class
  *
- * A bubble chart is used to visualize a data set with two to four dimensions.
- * The first two dimensions are visualized as coordinates, the third as color
- * and the fourth as size.
+ * Annotation charts are interactive time series line charts that support annotations.
+ * Unlike the annotated timeline, which uses Flash, annotation charts are SVG/VML and
+ * should be preferred whenever possible.
  *
  *
  * @package    Khill\Lavacharts
@@ -19,14 +19,14 @@ namespace Khill\Lavacharts\Charts;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class BubbleChart extends Chart
+class AnnotationChart extends Chart
 {
     /**
      * Javascript chart type.
      *
      * @var string
      */
-    const TYPE = 'BubbleChart';
+    const TYPE = 'AnnotationChart';
 
     /**
      * Javascript chart version.
@@ -40,12 +40,12 @@ class BubbleChart extends Chart
      *
      * @var string
      */
-    const VIZ_PACKAGE = 'corechart';
+    const VIZ_PACKAGE = 'annotationchart';
 
     /**
      * Google's visualization class name.
      *
      * @var string
      */
-    const VIZ_CLASS = 'google.visualization.BubbleChart';
+    const VIZ_CLASS = 'google.visualization.AnnotationChart';
 }

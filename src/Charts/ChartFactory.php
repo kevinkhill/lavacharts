@@ -45,9 +45,11 @@ class ChartFactory
      */
     private static $CHART_TYPES = [
         'AreaChart',
+        'AnnotationChart',
         'BarChart',
         'BubbleChart',
         'CalendarChart',
+        'CandlestickChart',
         'ColumnChart',
         'ComboChart',
         'GaugeChart',
