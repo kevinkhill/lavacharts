@@ -15,17 +15,10 @@ use \Khill\Lavacharts\Exceptions\InvalidRowProperty;
 use \Khill\Lavacharts\Exceptions\InvalidColumnType;
 
 /**
- * The DataTable object is used to hold the data passed into a visualization.
+ * DataFactory Class
  *
- * A DataTable is a basic two-dimensional table. All data in each column must
- * have the same data type. Each column has a descriptor that includes its data
- * type, a label for that column (which might be displayed by a visualization),
- * and an ID, which can be used to refer to a specific column (as an alternative
- * to using column indexes). The DataTable object also supports a map of
- * arbitrary properties assigned to a specific value, a row, a column, or the
- * whole DataTable. Visualizations can use these to support additional features;
- * for example, the Table visualization uses custom properties to let you assign
- * arbitrary class names or styles to individual cells.
+ * The DataFactory is used to create new DataTables and DataCells in many different
+ * ways.
  *
  *
  * @package    Khill\Lavacharts
@@ -90,17 +83,23 @@ class DataFactory
      * Replicating the functionality of Google's javascript version
      * of automatic datatable creation from an array of column headings
      * and data.
+     * Passing true as the second parameter will bypass column labeling
+     * and treat the first row as data.
      *
      * @since 3.0.1
-     * @param array $tableArray
+     * @param array $tableArray Array of arrays containing column labels and data.
+     * @param bool  $firstRowIsData If true, the first row is treated as data, not column labels.
      */
-    public static function arrayToDataTable($tableArray)
+    public static function arrayToDataTable($tableArray, $firstRowIsData = false)
     {
-        $datatable = new DataTable();
+        $datatable    = new DataTable();
+        $columnCount  = count($tableArray);
 
-        $columnLabels = array_shift($tableArray);
-        $columnCount  = count($columnLabels);
-        $rowCount     = count($tableArray);
+        if ($firstRowIsData === false) {
+            $columnLabels = array_shift($tableArray);
+        }
+
+        $rowCount = count($tableArray);
 
         for ($i = 0; $i < $columnCount; $i++) {
             $columnType = gettype($tableArray[0][$i]);
@@ -113,14 +112,20 @@ class DataFactory
                 case 'integer':
                 case 'float':
                 case 'double':
-                    $datatable->addColumn('number', $columnLabels[$i]);
+                    $column = ['number'];
                     break;
 
                 case 'string':
                 default:
-                    $datatable->addColumn('string', $columnLabels[$i]);
+                    $column = ['string'];
                     break;
             }
+
+            if (isset($columnLabels[$i])) {
+                $column[] = $columnLabels[$i];
+            }
+
+            $datatable->addColumn($column);
         }
 
         $datatable->addRows($tableArray);
