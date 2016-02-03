@@ -173,7 +173,7 @@ class Lavacharts
      */
     public function DataTable($timezone = null)
     {
-        return DataFactory::newDataTable($timezone);
+        return DataFactory::DataTable($timezone);
     }
 
     /**

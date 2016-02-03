@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Tests;
 
 use \Khill\Lavacharts\Lavacharts;
+use \Khill\Lavacharts\Charts\ChartFactory;
 
 class LavachartsTest extends ProvidersTestCase
 {
@@ -82,22 +83,6 @@ class LavachartsTest extends ProvidersTestCase
     public function testCreateChartsViaAlias($chartType)
     {
         $this->assertInstanceOf('\\Khill\\Lavacharts\\Charts\\'.$chartType, $this->lava->$chartType('testchart', $this->partialDataTable));
-    }
-
-    /**
-     * @dataProvider formatTypeProvider
-     */
-    public function testCreateFormatObjectsViaAlias($formatType)
-    {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\DataTables\\Formats\\'.$formatType, $this->lava->$formatType());
-    }
-
-    /**
-     * @dataProvider filterTypeProvider
-     */
-    public function testCreateFilterObjectsViaAlias($filterType)
-    {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Dashboards\\Filters\\'.$filterType, $this->lava->$filterType(0));
     }
 
     /**
@@ -251,75 +236,10 @@ class LavachartsTest extends ProvidersTestCase
         $this->assertInstanceOf('\\Khill\\Lavacharts\\Charts\PieChart', $this->lava->fetch('PieChart', 'MockLabel'));
     }
 
-    public function testJsapiMethodWithCoreJsTracking()
-    {
-        $this->lava->jsapi();
-
-        $this->assertTrue($this->getPrivateProperty($this->lava, 'jsFactory')->coreJsRendered());
-    }
-
     public function chartTypeProvider()
     {
-        return [
-            ['AreaChart'],
-            ['BarChart'],
-            ['CalendarChart'],
-            ['ColumnChart'],
-            ['ComboChart'],
-            ['DonutChart'],
-            ['GaugeChart'],
-            ['GeoChart'],
-            ['LineChart'],
-            ['PieChart'],
-            ['ScatterChart'],
-            ['TableChart']
-        ];
+        return array_map(function($chartType) {
+            return [$chartType];
+        }, ChartFactory::chartTypes());
     }
-
-    public function configTypeProvider()
-    {
-        return [
-            ['Animation'],
-            ['Annotation'],
-            ['BackgroundColor'],
-            ['BoxStyle'],
-            ['ChartArea'],
-            ['Color'],
-            ['ColorAxis'],
-            ['Crosshair'],
-            ['Gradient'],
-            ['HorizontalAxis'],
-            ['Legend'],
-            ['MagnifyingGlass'],
-            ['Series'],
-            ['SizeAxis'],
-            ['Slice'],
-            ['Stroke'],
-            ['TextStyle'],
-            ['Tooltip'],
-            ['VerticalAxis']
-        ];
-    }
-
-    public function formatTypeProvider()
-    {
-        return [
-            ['ArrowFormat'],
-            ['BarFormat'],
-            ['DateFormat'],
-            ['NumberFormat']
-        ];
-    }
-
-    public function filterTypeProvider()
-    {
-        return [
-            ['CategoryFilter'],
-            ['ChartRangeFilter'],
-            ['DateRangeFilter'],
-            ['NumberRangeFilter'],
-            ['StringFilter']
-        ];
-    }
-
 }

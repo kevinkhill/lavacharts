@@ -78,24 +78,46 @@ class ChartFactory
     }
 
     /**
-     * Magic function to reduce repetitive coding and create aliases.
+     * Create new chart from type with DataTable and config passed
+     * from the main Lavacharts class.
      *
-     * @param  string $method Name of method
-     * @param  array  $args   Passed arguments
+     * @param  string $type Type of chart to create.
+     * @param  array  $args Passed arguments from __call in Lavacharts.
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidLavaObject
      * @return \Khill\Lavacharts\Charts\Chart
      */
     public function create($type, $args)
     {
-        $datatable = $args[1];
-        $label     = new Label($args[0]);
-        $options   = new Options( isset($args[2]) ? $args[2] : [] );
-
+        /*
         if (in_array($type, static::$CHART_TYPES) === false) {
             throw new InvalidChartType($type);
         }
+        */
 
+        if (isset($args[1]) === false) {
+            throw new InvalidDataTable;
+        }
+
+        $label   = new Label($args[0]);
+        $options = new Options( isset($args[2]) ? $args[2] : [] );
+
+        return $this->createChart($type, $args[1], $label, $options);
+    }
+
+    /**
+     * Helper function to "create" for type hinting.
+     *
+     * @param  string $type Type of chart to create.
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable for the chart.
+     * @param  \Khill\Lavacharts\Values\Label         $label Chart label.
+     * @param  \Khill\Lavacharts\Configs\Options      $options Chart options.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLavaObject
+     * @return \Khill\Lavacharts\Charts\Chart
+     */
+    private function createChart($type, DataTable $datatable, Label $label, Options $options)
+    {
         if ($this->volcano->checkChart($type, $label) === true) {
             return $this->volcano->getChart($type, $label);
         }
