@@ -32,7 +32,7 @@ class DateCell extends Cell
      * @param  array          $options
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
      */
-    public function __construct(Carbon $carbon, $format = '', $options = [])
+    public function __construct(Carbon $carbon = null, $format = '', $options = [])
     {
         parent::__construct($carbon, $format, $options);
     }
@@ -52,6 +52,10 @@ class DateCell extends Cell
      */
     public static function parseString($dateTimeString, $dateTimeFormat = '')
     {
+        if ($dateTimeString === null) {
+            return new DateCell();
+        }
+
         if (Utils::nonEmptyString($dateTimeString) === false) {
             throw new InvalidDateTimeString($dateTimeString);
         }
@@ -76,6 +80,10 @@ class DateCell extends Cell
      */
     public function __toString()
     {
+        if ($this->v === null) {
+            return 'null';
+        }
+
         return sprintf(
             'Date(%d,%d,%d,%d,%d,%d)',
             isset($this->v->year)   ? $this->v->year      : 'null',

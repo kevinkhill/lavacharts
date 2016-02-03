@@ -23,6 +23,7 @@ use \Khill\Lavacharts\Exceptions\InvalidColumnType;
  *
  * @package    Khill\Lavacharts
  * @subpackage DataTables
+ * @since      3.0.1
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
@@ -50,8 +51,6 @@ class DataFactory
      * will be ignored. Example: p:{style: 'border: 1px solid green;'}.
      *
      *
-     * @access public
-     * @since  3.0.0
      * @param  mixed  $v Value of the Cell
      * @param  string $f Formatted version of the cell, as a string
      * @param  array  $p Cell specific customization options
@@ -62,7 +61,40 @@ class DataFactory
         return new Cell($v, $f, $p);
     }
 
-    public static function createDataTable($timezone = null)
+    /**
+     * Create new DataTables.
+     *
+     * This method will create an empty DataTable, with a timezone if
+     * passed a string, or without a timezone if passed nothing.
+     *
+     *
+     * @param  string $timezone Timezone to use while using Carbon
+     * @return \Khill\Lavacharts\DataTables\DataTable
+     */
+    public static function DataTable($columns = null, $rows = null, $timezone = null)
+    {
+        if ($columns === null || gettype($columns) === 'string') {
+            $timezone = $columns;
+
+            return self::emptyDataTable($timezone);
+        }
+
+        if (is_array($columns) && is_array($rows)) {
+            $datatable = self::emptyDataTable($timezone);
+
+            return $datatable->addColumns($columns)->addRows($rows);
+        }
+    }
+
+    /**
+     * Create a new, empty DataTable.
+     *
+     * This method will create an empty DataTable, with or without a timezone.
+     *
+     * @param  string $timezone Timezone to use while using Carbon
+     * @return \Khill\Lavacharts\DataTables\DataTable
+     */
+    private static function emptyDataTable($timezone)
     {
         $datatable = '\Khill\Lavacharts\DataTablePlus\DataTablePlus';
 
@@ -70,11 +102,7 @@ class DataFactory
             $datatable = '\Khill\Lavacharts\DataTables\DataTable';
         }
 
-        if ($timezone === null) {
-            return new $datatable($timezone);
-        } else {
-            return new $datatable;
-        }
+        return new $datatable($timezone);
     }
 
     /**
@@ -86,14 +114,14 @@ class DataFactory
      * Passing true as the second parameter will bypass column labeling
      * and treat the first row as data.
      *
-     * @since 3.0.1
-     * @param array $tableArray Array of arrays containing column labels and data.
-     * @param bool  $firstRowIsData If true, the first row is treated as data, not column labels.
+     * @param  array $tableArray Array of arrays containing column labels and data.
+     * @param  bool  $firstRowIsData If true, the first row is treated as data, not column labels.
+     * @return \Khill\Lavacharts\DataTables\DataTable
      */
     public static function arrayToDataTable($tableArray, $firstRowIsData = false)
     {
-        $datatable    = new DataTable();
-        $columnCount  = count($tableArray);
+        $datatable   = new DataTable();
+        $columnCount = count($tableArray[0]);
 
         if ($firstRowIsData === false) {
             $columnLabels = array_shift($tableArray);
@@ -142,8 +170,6 @@ class DataFactory
      *  - {label: 'Team'} would be invalid
      *  - {"label": "Team"} would be accepted.
      *
-     * @access public
-     * @since  3.0.0
      * @param  string $jsonString JSON string to decode
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidJson

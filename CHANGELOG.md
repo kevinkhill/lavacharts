@@ -5,10 +5,24 @@
   - Removing option checking makes it much, much easier to create new
     chart classes. Only a few lines and they work.
   - Because of this, Lavacharts now supports
+    - AnnotationChart
+    - BubbleChart
+    - CandlestickChart
+    - HistogramChart
     - SankeyChart
     - SteppedAreaChart
     - TimelineChart
     - TreemapChart
+  - Adding DataFactory with arrayToDataTable() method to try and automatically
+    create columns and rows based on an array of data with labels. This mimics how
+    Google's javascript version of the method works for creating DataTables more
+    efficiently. Currently only works with strings and numbers.
+  - Adding DataTable() method to the DataFactory as a shortcut to chaining methods.
+    - The method has three signatures:
+    - No params for an empty, default timezone DataTable
+    - String param for setting the timezone
+    - Array of columns and array of rows as 1st and 2nd for a complete DataTable in
+      one method call. (The third paramater can also be used to set the timezone.)
 
 - 3.0.0
   - Dropping support for PHP 5.3

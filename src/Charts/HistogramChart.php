@@ -3,13 +3,17 @@
 namespace Khill\Lavacharts\Charts;
 
 /**
- * TimelineChart Class
+ * HistogramChart Class
  *
+ * A histogram is a chart that groups numeric data into bins,
+ * displaying the bins as segmented columns. They're used to
+ * depict the distribution of a dataset: how often values fall
+ * into ranges.
  *
- * A timeline is a chart that depicts how a set of resources are used over time.
- * If you're managing a software project and want to illustrate who is doing what
- * and when, or if you're organizing a conference and need to schedule meeting
- * rooms, a timeline is often a reasonable visualization choice.
+ * Google Charts automatically chooses the number of bins for you.
+ * All bins are equal width and have a height proportional to the
+ * number of data points in the bin. In other respects, histograms
+ * are similar to column charts.
  *
  *
  * @package    Khill\Lavacharts
@@ -21,14 +25,14 @@ namespace Khill\Lavacharts\Charts;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class TimelineChart extends Chart
+class HistogramChart extends Chart
 {
     /**
      * Javascript chart type.
      *
      * @var string
      */
-    const TYPE = 'TimelineChart';
+    const TYPE = 'HistogramChart';
 
     /**
      * Javascript chart version.
@@ -42,12 +46,12 @@ class TimelineChart extends Chart
      *
      * @var string
      */
-    const VIZ_PACKAGE = 'timeline';
+    const VIZ_PACKAGE = 'corechart';
 
     /**
      * Google's visualization class name.
      *
      * @var string
      */
-    const VIZ_CLASS = 'google.visualization.Timeline';
+    const VIZ_CLASS = 'google.visualization.Histogram';
 }

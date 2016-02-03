@@ -23,6 +23,7 @@ namespace Khill\Lavacharts\Charts;
  *
  * @package    Khill\Lavacharts
  * @subpackage Charts
+ * @since      3.0.1
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page

@@ -52,8 +52,11 @@ class ChartFactory
         'CandlestickChart',
         'ColumnChart',
         'ComboChart',
+        //'GanttChart',
+        //@TODO: Gantt charts have to use the new gstatic loader.js so some refactoring of lava.js is in order :(
         'GaugeChart',
         'GeoChart',
+        'HistogramChart',
         'LineChart',
         'PieChart',
         'SankeyChart',
