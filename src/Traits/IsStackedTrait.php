@@ -52,7 +52,8 @@ trait IsStackedTrait
     {
         $values =[
             'relative',
-            'absolute'
+            'absolute',
+            'percent'
         ];
 
         if (is_bool($isStacked) === true) {
