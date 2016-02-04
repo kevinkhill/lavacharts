@@ -45,8 +45,11 @@ gulp.task('render', function (done) {
             var url = 'http://127.0.0.1:'+port+'/' + chart;
             var output = 'build/renders/' + chart + '.png';
 
+            page += '<div style="float:left; width:300px;">';
             page += '<h1>'+chart+'</h1>';
+            page += '<a href="./'+chart+'.png">';
             page += '<img src="./'+chart+'.png" width="100%" alt="'+chart+' Rendering" />';
+            page += '</a></div>';
 
             webshot(url, output, {
                 renderDelay: 5000,

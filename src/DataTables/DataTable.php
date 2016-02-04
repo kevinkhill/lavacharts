@@ -83,8 +83,7 @@ class DataTable implements \JsonSerializable
     /**
      * Creates a new DataTable
      *
-     * @access public
-     * @param  string $timezone
+     * @param string $timezone Timezone to use when dealing with dates & times
      */
     public function __construct($timezone = null)
     {
@@ -625,7 +624,7 @@ class DataTable implements \JsonSerializable
     public function getRowCount()
     {
         return count($this->rows);
-    }    
+    }
 
     /**
      * Returns a column based on it's index.

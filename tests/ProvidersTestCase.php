@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Tests;
 
-
 abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
 {
     /**

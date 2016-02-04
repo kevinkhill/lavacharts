@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables\Formats;
 
-use \Khill\Lavacharts\Options;
+use \Khill\Lavacharts\Configs\Options;
 
 /**
  * ArrowFormat Object

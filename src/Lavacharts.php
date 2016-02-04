@@ -5,18 +5,18 @@ namespace Khill\Lavacharts;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\DataTables\DataTable;
+use \Khill\Lavacharts\Charts\ChartFactory;
 use \Khill\Lavacharts\Dashboards\Dashboard;
 use \Khill\Lavacharts\Dashboards\ChartWrapper;
 use \Khill\Lavacharts\Dashboards\ControlWrapper;
 use \Khill\Lavacharts\Dashboards\Filters\Filter;
+use \Khill\Lavacharts\DataTables\DataFactory;
 use \Khill\Lavacharts\Javascript\JavascriptFactory;
 use \Khill\Lavacharts\Exceptions\InvalidDataTable;
 use \Khill\Lavacharts\Exceptions\InvalidLabel;
 use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidFilterObject;
-
 use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
 use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
 
@@ -37,41 +37,35 @@ class Lavacharts
     /**
      * Lavacharts version
      */
-    const VERSION = '3.0.0';
+    const VERSION = '3.1.0';
 
     /**
      * Holds all of the defined Charts and DataTables.
      *
-     * @var Volcano
+     * @var \Khill\Lavacharts\Volcano
      */
     private $volcano;
 
     /**
      * JavascriptFactory for outputting lava.js and chart/dashboard javascript
      *
-     * @var JavascriptFactory
+     * @var \Khill\Lavacharts\Javascript\JavascriptFactory
      */
     private $jsFactory;
 
     /**
-     * Types of charts that can be created.
+     * DataFactory for creating DataTables and DataCells
      *
-     * @var array
+     * @var \Khill\Lavacharts\DataTables\DataFactory
      */
-    private $chartClasses = [
-        'AreaChart',
-        'BarChart',
-        'CalendarChart',
-        'ColumnChart',
-        'ComboChart',
-        'PieChart',
-        'DonutChart',
-        'GaugeChart',
-        'GeoChart',
-        'LineChart',
-        'ScatterChart',
-        'TableChart'
-    ];
+    private $dataFactory;
+
+    /**
+     * ChartFactory for checking parameters and creating new charts.
+     *
+     * @var \Khill\Lavacharts\Charts\ChartFactory
+     */
+    private $chartFactory;
 
     /**
      * Types of column formatters.
@@ -113,8 +107,9 @@ class Lavacharts
             $loader->addNamespace('Khill\Lavacharts', __DIR__);
         }
 
-        $this->volcano   = new Volcano;
-        $this->jsFactory = new JavascriptFactory;
+        $this->volcano      = new Volcano;
+        $this->jsFactory    = new JavascriptFactory;
+        $this->chartFactory = new ChartFactory($this->volcano);
     }
 
     /**
@@ -144,8 +139,8 @@ class Lavacharts
         }
 
         //Charts
-        if (in_array($method, $this->chartClasses)) {
-            $lavaClass = $this->chartFactory($method, $arguments);
+        if (in_array($method, ChartFactory::chartTypes())) {
+            $lavaClass = $this->chartFactory->create($method, $arguments);
         }
 
         //Formats
@@ -158,32 +153,27 @@ class Lavacharts
             $lavaClass = $this->filterFactory($method, $arguments);
         }
 
+        if (isset($lavaClass) == false) {
+            throw new InvalidLavaObject($method);
+        }
+
         return $lavaClass;
     }
 
     /**
-     * Create a new DataTable
+     * Create a new DataTable with the DataFactory
      *
      * If the additional DataTablePlus package is available, then one will
      * be created, otherwise a standard DataTable is returned.
      *
-     * @since  3.0.0
+     * @since  3.0.1
+     * @uses   \Khill\Lavacharts\DataTables\DataFactory
      * @param  string $timezone
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
     public function DataTable($timezone = null)
     {
-        $datatable = '\Khill\Lavacharts\DataTablePlus\DataTablePlus';
-
-        if (class_exists($datatable) === false) {
-            $datatable = '\Khill\Lavacharts\DataTables\DataTable';
-        }
-
-        if (is_null($timezone) === false) {
-            return new $datatable($timezone);
-        } else {
-            return new $datatable;
-        }
+        return DataFactory::DataTable($timezone);
     }
 
     /**
@@ -331,12 +321,18 @@ class Lavacharts
     /**
      * Outputs the link to the Google JSAPI
      *
+     *
+     * @deprecated 3.0.1 Manual script tag location output is no longer needed,
+     *                   lava.js injects the script into the head.
+     *
      * @access public
      * @since  2.3.0
      * @return string Google Chart API and lava.js script blocks
      */
     public function jsapi()
     {
+        trigger_error('Using the jsapi() method is deprecated since lava.js injects the jsapi into the head.', E_USER_DEPRECATED);
+
         return $this->jsFactory->getCoreJs();
     }
 
@@ -409,7 +405,7 @@ class Lavacharts
      * Calling with no arguments will return a div with the ID set to what was
      * given to the outputInto() function.
      *
-     * Passing two (int)s will set the width and height respectivly and the div
+     * Passing two (int)s will set the width and height respectively and the div
      * ID will be set via the string given in the outputInto() function.
      *
      *
@@ -483,68 +479,6 @@ class Lavacharts
                 'greater than 0'
             );
         }
-    }
-
-    /**
-     * Creates and stores Charts
-     *
-     * If args contains a label and datatable, a chart will be created,
-     * stored in the Volcano and returned.
-     *
-     * If args only contains a label, and the chart already exists in the
-     * Volcano, then it will  be returned.
-     *
-     * @access private
-     * @since  2.0.0
-     * @param  string $type Type of chart to fetch or create.
-     * @param  string $args Arguments from __call
-     * @return \Khill\Lavacharts\Charts\Chart
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
-     * @throws \Khill\Lavacharts\Exceptions\InvalidDataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
-     */
-    private function chartFactory($type, $args)
-    {
-        $chart     = null;
-        $datatable = null;
-
-        if (isset($args[0]) === false) {
-            throw new InvalidLabel;
-        } else {
-            $chartLabel = new Label($args[0]);
-        }
-
-        if ($this->volcano->checkChart($type, $chartLabel) === true) {
-            return $this->volcano->getChart($type, $chartLabel);
-        }
-
-        if (isset($args[1]) === false) {
-            throw new InvalidDataTable;
-        }
-
-        if ($args[1] instanceof DataTable === false) {
-            throw new InvalidDataTable($args[1]);
-        }
-
-        if (isset($args[2]) === true && is_array($args[2]) === false) {
-            throw new InvalidFunctionParam(
-                $args[2],
-                __FUNCTION__,
-                'array'
-            );
-        }
-
-        $chartObject = __NAMESPACE__ . '\\Charts\\' . $type;
-
-        if (isset($args[2]) === true && is_array($args[2]) === true) {
-            $chart = new $chartObject($chartLabel, $args[1], $args[2]);
-        } else {
-            $chart = new $chartObject($chartLabel, $args[1]);
-        }
-
-        $this->volcano->storeChart($chart);
-
-        return $chart;
     }
 
     /**

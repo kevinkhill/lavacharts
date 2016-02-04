@@ -1,3 +1,29 @@
+- 3.0.1
+  - Gutting all option checking since Google is much faster at
+    updating charts and options. I can't keep up so instead, it's
+    up to the user to check for valid options and types.
+  - Removing option checking makes it much, much easier to create new
+    chart classes. Only a few lines and they work.
+  - Because of this, Lavacharts now supports
+    - AnnotationChart
+    - BubbleChart
+    - CandlestickChart
+    - HistogramChart
+    - SankeyChart
+    - SteppedAreaChart
+    - TimelineChart
+    - TreemapChart
+  - Adding DataFactory with arrayToDataTable() method to try and automatically
+    create columns and rows based on an array of data with labels. This mimics how
+    Google's javascript version of the method works for creating DataTables more
+    efficiently. Currently only works with strings and numbers.
+  - Adding DataTable() method to the DataFactory as a shortcut to chaining methods.
+    - The method has three signatures:
+    - No params for an empty, default timezone DataTable
+    - String param for setting the timezone
+    - Array of columns and array of rows as 1st and 2nd for a complete DataTable in
+      one method call. (The third paramater can also be used to set the timezone.)
+
 - 3.0.0
   - Dropping support for PHP 5.3
     - Minimum version PHP 5.4+
@@ -15,7 +41,7 @@
     - Refactored all ConfigObject creation into the classes, no more manually instantiation.
     - Removed Event classes in favor of associative array definitions of events.
   - DataTable Improvements
-    - Added support for csv file read/write and Laravel collection parsing into DataTables, 
+    - Added support for csv file read/write and Laravel collection parsing into DataTables,
       just add the separate package to composer "khill/datatableplus":"dev-master".
       DataTablePlus extends the DataTable to add the extra functions and Lavacharts will seamlessly
       create DataTablePluses over DataTables if available via composer.
@@ -23,7 +49,7 @@
   - Added Format#formatColumn method to format datatable columns.
   - Added new formats.
    - ArrowFormat
-   - BarFormat 
+   - BarFormat
   - lava.js has been refactored:
     - lava.get() replaced with:
       - getChart(label, callback) -> callback(Google chartObj, Lava chartObj)
@@ -42,10 +68,10 @@
 
 - 2.5.6
   - Fixes for AJAX chart loading
-  
+
 - 2.5.5
   - Blade extensions fix
-  
+
 - 2.5.4
   - Fixed namespace bug
 

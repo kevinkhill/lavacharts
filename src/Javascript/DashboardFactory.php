@@ -31,7 +31,6 @@ class DashboardFactory extends JavascriptFactory
      */
     private $dashboard;
 
-
     /**
      * Creates a new DashboardFactory with the javascript template.
      *
@@ -64,7 +63,6 @@ class DashboardFactory extends JavascriptFactory
             'packages'  => [
                 Dashboard::VIZ_PACKAGE
             ],
-            //'chartData' => $boundChart->getDataTableJson(),
             'elemId'    => (string) $this->elementId,
             'bindings'  => $this->processBindings(),
             'dataVer'   => DataTable::VERSION,
@@ -72,7 +70,7 @@ class DashboardFactory extends JavascriptFactory
         ];
 
         foreach ($boundCharts as $chart) {
-            $vars['chartData'] = $chart->getDataTableJson();
+            $vars['chartData'] = json_encode($chart->getDataTable());
 
             array_push($vars['packages'], $chart::VIZ_PACKAGE);
         }
@@ -175,8 +173,6 @@ class DashboardFactory extends JavascriptFactory
                     lava.dashboards["<label>"].render();
                 }
             });
-
-            //lava.register("<chartType>", "<chartLabel>");
         });
 DASH;
     }

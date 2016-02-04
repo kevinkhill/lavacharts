@@ -14,7 +14,6 @@
     <testsuite name="core">
       <file>../tests/LavachartsTest.php</file>
       <file>../tests/VolcanoTest.php</file>
-      <file>../tests/OptionsTest.php</file>
     </testsuite>
     <testsuite name="charts">
       <directory>../tests/Charts/</directory>
@@ -44,9 +43,10 @@
       <directory>../src/</directory>
     </whitelist>
     <blacklist>
-      <directory>../tests/Renders/</directory>
+      <directory>../tests/Examples/</directory>
       <directory>../vendor/</directory>
       <directory>../src/Laravel/</directory>
+      <directory>../src/Symfony/</directory>
     </blacklist>
   </filter>
 

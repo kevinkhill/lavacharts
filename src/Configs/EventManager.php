@@ -35,7 +35,7 @@ class EventManager implements \Countable, \IteratorAggregate
      *
      * @var array
      */
-    private static $defaultEvents = [
+    private static $EVENT_TYPES = [
         'animationfinish',
         'error',
         'mouseout',
@@ -55,6 +55,18 @@ class EventManager implements \Countable, \IteratorAggregate
     public function count()
     {
         return count($this->events);
+    }
+
+    /**
+     * Checks if any events have been assigned.
+     *
+     * @access public
+     * @since  3.0.1
+     * @return bool
+     */
+    public function hasEvents()
+    {
+        return count($this) > 0;
     }
 
     /**
@@ -114,8 +126,8 @@ class EventManager implements \Countable, \IteratorAggregate
      */
     private function validEvent($event)
     {
-        if (in_array($event, static::$defaultEvents) === false) {
-            throw new InvalidEvent($event, static::$defaultEvents);
+        if (in_array($event, static::$EVENT_TYPES) === false) {
+            throw new InvalidEvent($event, static::$EVENT_TYPES);
         }
     }
 }
