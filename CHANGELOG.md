@@ -1,4 +1,4 @@
-- 3.0.1
+- 3.1.0
   - Gutting all option checking since Google is much faster at
     updating charts and options. I can't keep up so instead, it's
     up to the user to check for valid options and types.
