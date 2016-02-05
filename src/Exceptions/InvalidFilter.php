@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidFilterObject extends \Exception
+class InvalidFilter extends \Exception
 {
     public function __construct($invalidFilter, $types)
     {

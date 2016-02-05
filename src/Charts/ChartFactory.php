@@ -16,7 +16,10 @@ use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
 use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
 
 /**
- * Lavacharts - A PHP wrapper library for the Google Chart API
+ * ChartFactory Class
+ *
+ * Used for creating new charts and removing the need for the main Lavacharts
+ * class to handle the creation.
  *
  *
  * @category   Class

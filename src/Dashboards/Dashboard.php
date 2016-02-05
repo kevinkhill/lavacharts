@@ -33,23 +33,31 @@ class Dashboard
      *
      * @var \Khill\Lavacharts\Values\Label
      */
-    private $label = null;
+    private $label;
 
     /**
      * Array of Binding objects, mapping controls to charts.
      *
      * @var array
      */
-    private $bindings = [];
+    private $bindings;
 
     /**
-     * Builds a new Dashboard with identifying label.
+     * Builds a new Dashboard
      *
-     * @param \Khill\Lavacharts\Values\Label $label
+     * If passed an array of bindings, they will be applied upon instansiation.
+     *
+     * @param \Khill\Lavacharts\Values\Label $label    Label for the Dashboard
+     * @param array                          $bindings Array of bindings to apply
      */
-    public function __construct(Label $label)
+    public function __construct(Label $label, $bindings = [])
     {
-        $this->label = $label;
+        $this->label    = $label;
+        $this->bindings = [];
+
+        if (empty($bindings) === false) {
+            $this->setBindings($bindings);
+        }
     }
 
     /**
@@ -124,6 +132,10 @@ class Dashboard
      */
     public function setBindings($bindings)
     {
+        if (is_array($bindings) === false) {
+            throw new InvalidBindings;
+        }
+
         foreach ($bindings as $binding) {
             $this->bind($binding[0], $binding[1]);
         }

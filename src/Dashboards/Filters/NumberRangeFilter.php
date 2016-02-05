@@ -2,9 +2,6 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
-use \Khill\Lavacharts\Configs\Options;
-
-
 /**
  * Number Range Filter Class
  *

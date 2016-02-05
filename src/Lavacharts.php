@@ -10,6 +10,7 @@ use \Khill\Lavacharts\Dashboards\Dashboard;
 use \Khill\Lavacharts\Dashboards\ChartWrapper;
 use \Khill\Lavacharts\Dashboards\ControlWrapper;
 use \Khill\Lavacharts\Dashboards\Filters\Filter;
+use \Khill\Lavacharts\Dashboards\Filters\FilterFactory;
 use \Khill\Lavacharts\DataTables\DataFactory;
 use \Khill\Lavacharts\Javascript\JavascriptFactory;
 use \Khill\Lavacharts\Exceptions\InvalidDataTable;
@@ -80,19 +81,6 @@ class Lavacharts
     ];
 
     /**
-     * Types of filters.
-     *
-     * @var array
-     */
-    private $filterClasses = [
-        'CategoryFilter',
-        'ChartRangeFilter',
-        'DateRangeFilter',
-        'NumberRangeFilter',
-        'StringFilter'
-    ];
-
-    /**
      * Creates Volcano & Javascript Factory
      *
      * @return Lavacharts
@@ -118,14 +106,14 @@ class Lavacharts
      * @access public
      * @since  1.0.0
      * @param  string $method    Name of method
-     * @param  array  $arguments Passed arguments
+     * @param  array  $args Passed arguments
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidLavaObject
      * @throws \Khill\Lavacharts\Exceptions\InvalidFilterObject
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
      * @return mixed Returns Charts, DataTables, and Config Objects, Events, Filters
      */
-    public function __call($method, $arguments)
+    public function __call($method, $args)
     {
         //Rendering Aliases
         if ((bool) preg_match('/^render/', $method) === true) {
@@ -135,22 +123,25 @@ class Lavacharts
                 throw new InvalidLavaObject($type);
             }
 
-            $lavaClass = $this->render($type, $arguments[0], $arguments[1]);
+            $lavaClass = $this->render($type, $args[0], $args[1]);
         }
 
         //Charts
         if (in_array($method, ChartFactory::chartTypes())) {
-            $lavaClass = $this->chartFactory->create($method, $arguments);
+            $lavaClass = $this->chartFactory->create($method, $args);
         }
 
         //Formats
         if (in_array($method, $this->formatClasses)) {
-            $lavaClass = $this->formatFactory($method, $arguments);
+            $lavaClass = $this->formatFactory($method, $args);
         }
 
         //Filters
         if ((bool) preg_match('/Filter$/', $method)) {
-            $lavaClass = $this->filterFactory($method, $arguments);
+            $type   = strtolower(str_replace('Filter', '', $method));
+            $config = isset($args[1]) ? $args[1] : [];
+
+            $lavaClass = FilterFactory::create($type, $args[0], $config);
         }
 
         if (isset($lavaClass) == false) {
@@ -179,25 +170,30 @@ class Lavacharts
     /**
      * Get an instance of the DataFactory
      *
+     * @since  3.1.0
      * @return \Khill\Lavacharts\DataTables\DataFactory
      */
     public function DataFactory()
     {
-        return DataFactory;
+        return new \Khill\Lavacharts\DataTables\DataFactory;
     }
 
     /**
      * Create a new Dashboard
      *
-     * @since  3.0.0
-     * @param  string $label
+     * As of 3.1.0 you can pass in an array of bindings instead of using the
+     * bind method.
+     *
+     * @since  3.1.0
+     * @param  string $label Label to give the Dashboard
+     * @param  array  $bindings Array of bindings to apply
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
-    public function Dashboard($label)
+    public function Dashboard($label, $bindings = [])
     {
         $label = new Label($label);
 
-        return $this->dashboardFactory($label);
+        return $this->dashboardFactory($label, $bindings);
     }
 
     /**
@@ -498,15 +494,16 @@ class Lavacharts
      * Otherwise, a new dashboard is created and stored in the Volcano.
      *
      * @access private
-     * @since  3.0.0
+     * @since  3.1.0
      * @uses   \Khill\Lavacharts\Dashboards\Dashboard
-     * @param  \Khill\Lavacharts\Values\Label $label Label of the dashboard.
+     * @param  \Khill\Lavacharts\Values\Label $label    Label of the dashboard.
+     * @param  array                          $bindings Array of bindings to apply
      * @return \Khill\Lavacharts\Dashboards\Dashboard
      */
-    private function dashboardFactory(Label $label)
+    private function dashboardFactory(Label $label, $bindings)
     {
         if ($this->volcano->checkDashboard($label) === false) {
-            $dashboard = new Dashboard($label);
+            $dashboard = new Dashboard($label, $bindings);
 
             $this->volcano->storeDashboard($dashboard);
         }
@@ -541,43 +538,6 @@ class Lavacharts
         }
 
         return new $format($args[0]);
-    }
-
-    /**
-     * Creates Filter Objects
-     *
-     * @access private
-     * @since  3.0.0
-     * @param  string $type Type of filter to create.
-     * @param  string $args Arguments from __call
-     * @return \Khill\Lavacharts\Dashboards\Filters\Filter
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws \Khill\Lavacharts\Exceptions\InvalidFilterObject
-     */
-    private function filterFactory($type, $args)
-    {
-        if (isset($args) === false || (is_string($args[0]) === false && is_int($args[0]) === false)) {
-            throw new InvalidConfigValue(
-                static::TYPE,
-                __FUNCTION__,
-                'string|int'
-            );
-        }
-
-        if (in_array($type, $this->filterClasses) === false) {
-            throw new InvalidFilterObject(
-                $type,
-                $this->filterClasses
-            );
-        }
-
-        $filter = __NAMESPACE__ . '\\Dashboards\\Filters\\' . $type;
-
-        if (isset($args[1]) === true && is_array($args[1]) === true) {
-            return new $filter($args[0], $args[1]);
-        } else {
-            return new $filter($args[0]);
-        }
     }
 
     /**

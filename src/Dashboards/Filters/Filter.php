@@ -24,7 +24,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Filter extends JsonConfig
+class Filter implements \JsonSerializable //@TODO: JsonConfig?
 {
     /**
      * Filter configuration options.
@@ -71,5 +71,15 @@ class Filter extends JsonConfig
     public function getType()
     {
         return static::TYPE;
+    }
+
+    /**
+     * Custom serialization of the Filter
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->options;
     }
 }

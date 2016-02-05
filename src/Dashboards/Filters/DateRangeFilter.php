@@ -2,8 +2,6 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
-use \Khill\Lavacharts\Configs\Options;
-
 /**
  * Date Range Class
  *
@@ -25,30 +23,4 @@ class DateRangeFilter extends Filter
      * @var string
      */
     const TYPE = 'DateRangeFilter';
-
-    /**
-     * DateRange specific default options.
-     *
-     * @var array
-     */
-    private $extDefaults = [
-        'minValue',
-        'maxValue'
-    ];
-
-    /**
-     * Creates the new Filter object to filter the given column label or index.
-     *
-     * @param  string|int $columnLabelOrIndex The column label or index to filter.
-     * @param  array $config Array of options to set.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function __construct($columnLabelOrIndex, $config = [])
-    {
-        $options = new Options($this->defaults);
-        $options->extend($this->extDefaults);
-
-        parent::__construct($options, $columnLabelOrIndex, $config);
-    }
 }
