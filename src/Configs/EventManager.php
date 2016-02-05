@@ -61,7 +61,7 @@ class EventManager implements \Countable, \IteratorAggregate
      * Checks if any events have been assigned.
      *
      * @access public
-     * @since  3.0.1
+     * @since  3.1.0
      * @return bool
      */
     public function hasEvents()

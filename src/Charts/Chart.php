@@ -86,7 +86,7 @@ class Chart
      * who upgrades to 3.0 but still has 2.5 syntax.
      *
      * @access public
-     * @since  3.0.1
+     * @since  3.1.0
      * @param  string $method The method that was called.
      * @param  mixed  $arg    The argument to the method.
      */
@@ -135,7 +135,7 @@ class Chart
      * Retrieves the Options object from the chart.
      *
      * @access public
-     * @since  3.0.1
+     * @since  3.1.0
      * @return \Khill\Lavacharts\Options
      */
     public function getOptions()

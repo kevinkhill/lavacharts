@@ -50,7 +50,7 @@ class Options implements \IteratorAggregate, \JsonSerializable
      * Allows for the options to be traversed with foreach.
      *
      * @access public
-     * @since  3.0.1
+     * @since  3.1.0
      * @return \Khill\Lavacharts\Options
      */
     public function set($option, $value)
@@ -64,7 +64,7 @@ class Options implements \IteratorAggregate, \JsonSerializable
      * Allows for the options to be traversed with foreach.
      *
      * @access public
-     * @since  3.0.1
+     * @since  3.1.0
      * @implements IteratorAggregate
      * @return int
      */

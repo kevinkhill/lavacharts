@@ -166,7 +166,7 @@ class Lavacharts
      * If the additional DataTablePlus package is available, then one will
      * be created, otherwise a standard DataTable is returned.
      *
-     * @since  3.0.1
+     * @since  3.1.0
      * @uses   \Khill\Lavacharts\DataTables\DataFactory
      * @param  string $timezone
      * @return \Khill\Lavacharts\DataTables\DataTable
@@ -174,6 +174,16 @@ class Lavacharts
     public function DataTable($timezone = null)
     {
         return DataFactory::DataTable($timezone);
+    }
+
+    /**
+     * Get an instance of the DataFactory
+     *
+     * @return \Khill\Lavacharts\DataTables\DataFactory
+     */
+    public function DataFactory()
+    {
+        return DataFactory;
     }
 
     /**
@@ -322,7 +332,7 @@ class Lavacharts
      * Outputs the link to the Google JSAPI
      *
      *
-     * @deprecated 3.0.1 Manual script tag location output is no longer needed,
+     * @deprecated 3.1.0 Manual script tag location output is no longer needed,
      *                   lava.js injects the script into the head.
      *
      * @access public

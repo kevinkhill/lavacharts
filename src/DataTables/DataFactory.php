@@ -23,7 +23,7 @@ use \Khill\Lavacharts\Exceptions\InvalidColumnType;
  *
  * @package    Khill\Lavacharts
  * @subpackage DataTables
- * @since      3.0.1
+ * @since      3.1.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page

@@ -17,6 +17,7 @@
     create columns and rows based on an array of data with labels. This mimics how
     Google's javascript version of the method works for creating DataTables more
     efficiently. Currently only works with strings and numbers.
+    - [Example Gist](https://gist.github.com/kevinkhill/b4b0cccb832250e227c0#file-arraytodatatable-php)
   - Adding DataTable() method to the DataFactory as a shortcut to chaining methods.
     - The method has three signatures:
     - No params for an empty, default timezone DataTable

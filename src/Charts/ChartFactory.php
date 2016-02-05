@@ -22,7 +22,7 @@ use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
  * @category   Class
  * @package    Khill\Lavacharts
  * @subpackage Charts
- * @since      3.0.1
+ * @since      3.1.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
@@ -135,7 +135,7 @@ class ChartFactory
      * Returns the array of supported chart types.
      *
      * @access public
-     * @since  3.0.1
+     * @since  3.1.0
      * @return array
      */
     public static function chartTypes()
