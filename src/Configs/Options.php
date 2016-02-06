@@ -9,8 +9,8 @@ use \Khill\Lavacharts\Exceptions\InvalidOptions;
 /**
  * Options Object
  *
- * An object that contains a set of options, with methods for
- * extending, removing, getting and setting the values.
+ * An object that contains a set of options for customizing aspects
+ * of charts and dashboards.
  *
  *
  * @package    Khill\Lavacharts
@@ -22,7 +22,7 @@ use \Khill\Lavacharts\Exceptions\InvalidOptions;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Options implements \IteratorAggregate, \JsonSerializable
+class Options implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
 {
     /**
      * Customization options.
@@ -43,21 +43,7 @@ class Options implements \IteratorAggregate, \JsonSerializable
             throw new InvalidOptions($options);
         }
 
-        $this->options = $options;
-    }
-
-    /**
-     * Allows for the options to be traversed with foreach.
-     *
-     * @access public
-     * @since  3.1.0
-     * @return \Khill\Lavacharts\Options
-     */
-    public function set($option, $value)
-    {
-        $this->options[$option] = $value;
-
-        return $this;
+        $this->options= $options;
     }
 
     /**
@@ -71,38 +57,6 @@ class Options implements \IteratorAggregate, \JsonSerializable
     public function getIterator()
     {
         return new \ArrayIterator($this->options);
-    }
-
-    /**
-     * Get the value of a set option.
-     *
-     * @access public
-     * @param  string $option Name of option.
-     * @return mixed
-     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
-     */
-    public function get($option)
-    {
-        if (Utils::nonEmptyString($option) === false) {
-            throw new InvalidOption($option, $this->options);
-        }
-
-        if (array_key_exists($option, $this->options) === false) {
-            return null;
-        } else {
-            return $this->options[$option];
-        }
-    }
-
-    /**
-     * Returns the array of options that can be set.
-     *
-     * @access public
-     * @return array
-     */
-    public function getAll()
-    {
-        return $this->options;
     }
 
     /**
@@ -123,14 +77,14 @@ class Options implements \IteratorAggregate, \JsonSerializable
     {
         if (is_array($options) === false) {
             throw new InvalidConfigValue(
-                'Options->setOptions',
+                'Options->options',
                 'array'
             );
         }
 
         foreach ($options as $option => $value) {
             if ($check === true) {
-                $this->set($option, $value);
+                $this->options($option, $value);
             } else {
                 $this->options[$option] = $value;
             }
@@ -149,9 +103,9 @@ class Options implements \IteratorAggregate, \JsonSerializable
      */
     public function merge(Options $options)
     {
-        $this->extend($options->getDefaults());
+        $this->options($options->options());
 
-        return $this->setOptions($options->getoptions());
+        return $this->options($options->options());
     }
 
     /**
@@ -171,7 +125,7 @@ class Options implements \IteratorAggregate, \JsonSerializable
             );
         }
 
-        $this->options = array_merge($this->options, $options);
+        $this->options= array_merge($this->options, $options);
 
         return $this;
     }
@@ -193,7 +147,7 @@ class Options implements \IteratorAggregate, \JsonSerializable
             );
         }
 
-        $this->options = array_merge(array_diff($this->options, $options));
+        $this->options= array_merge(array_diff($this->options, $options));
 
         return $this;
     }
@@ -206,5 +160,24 @@ class Options implements \IteratorAggregate, \JsonSerializable
     public function jsonSerialize()
     {
         return $this->options;
+    }
+    public function offsetSet($offset, $value) {
+        if (is_null($offset)) {
+            $this->options[] = $value;
+        } else {
+            $this->options[$offset] = $value;
+        }
+    }
+
+    public function offsetExists($offset) {
+        return isset($this->options[$offset]);
+    }
+
+    public function offsetUnset($offset) {
+        unset($this->options[$offset]);
+    }
+
+    public function offsetGet($offset) {
+        return isset($this->options[$offset]) ? $this->options[$offset] : null;
     }
 }

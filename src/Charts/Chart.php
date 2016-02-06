@@ -74,7 +74,7 @@ class Chart
         $this->label     = $chartLabel;
         $this->datatable = $datatable;
         $this->options   = $options;
-        $this->events    = new EventManager; //@TODO: refactor this
+        //$this->events    = new EventManager; //@TODO: refactor this
     }
 
     /**
@@ -123,12 +123,12 @@ class Chart
     /**
      * Retrieves the events if any have been assigned to the chart.
      *
-     * @access public
-     * @return \Khill\Lavacharts\Configs\EventManager
+     * @since  3.1.0
+     * @return array
      */
     public function getEvents()
     {
-        return $this->events;
+        return $this->options['events'];
     }
 
     /**
@@ -136,7 +136,7 @@ class Chart
      *
      * @access public
      * @since  3.1.0
-     * @return \Khill\Lavacharts\Options
+     * @return \Khill\Lavacharts\Configs\Options
      */
     public function getOptions()
     {
@@ -149,14 +149,9 @@ class Chart
      * @access public
      * @since  3.0.0
      * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\DataTableNotFound
      */
     public function getDataTable()
     {
-        if (is_null($this->datatable)) {
-            throw new DataTableNotFound($this);
-        }
-
         return $this->datatable;
     }
 
@@ -170,7 +165,7 @@ class Chart
      */
     public function getDataTableJson()
     {
-        return json_encode($this->getDataTable());
+        return json_encode($this->datatable);
     }
 
     /**
@@ -181,60 +176,7 @@ class Chart
      */
     public function hasEvents()
     {
-        return $this->events->hasEvents();
-    }
-
-    /**
-     * Register javascript callbacks for specific events.
-     *
-     * Set with an associative array where the keys are events and the values are the
-     * javascript callback functions.
-     *
-     * Valid events are:
-     * [ animationfinish | error | onmouseover | onmouseout | ready | select | statechange ]
-     *
-     * @access public
-     * @param  array $events Array of events associated to a callback
-     * @return \Khill\Lavacharts\Charts\Chart
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function events($events)
-    {
-        if (is_array($events) === false) {
-            throw new InvalidConfigValue(
-                static::TYPE . '->' . __FUNCTION__,
-                'array',
-                'who\'s keys are one of '.Utils::arrayToPipedString($this->defaultEvents)
-            );
-        }
-
-        foreach ($events as $event => $callback) {
-            if (Utils::nonEmptyString($callback) === false) {
-                throw new InvalidConfigValue(
-                    static::TYPE . '->' . __FUNCTION__,
-                    'string'
-                );
-            }
-
-            $this->events->set($event, $callback);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Assigns a datatable to use for the Chart.
-     *
-     * @deprecated Apply the DataTable to the chart in the constructor.
-     * @access public
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable
-     * @return \Khill\Lavacharts\Charts\Chart
-     */
-    public function datatable(DataTable $datatable)
-    {
-        $this->datatable = $datatable;
-
-        return $this;
+        return isset($this->options['events']);
     }
 
     /**

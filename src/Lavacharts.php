@@ -55,13 +55,6 @@ class Lavacharts
     private $jsFactory;
 
     /**
-     * DataFactory for creating DataTables and DataCells
-     *
-     * @var \Khill\Lavacharts\DataTables\DataFactory
-     */
-    private $dataFactory;
-
-    /**
      * ChartFactory for checking parameters and creating new charts.
      *
      * @var \Khill\Lavacharts\Charts\ChartFactory
@@ -245,6 +238,26 @@ class Lavacharts
      * @return string
      */
     public function render($type, $label, $elementId, $divDimensions = false)
+    {
+        $label     = new Label($label);
+        $elementId = new ElementId($elementId);
+
+        if ($type == 'Dashboard') {
+            $output = $this->renderDashboard($label, $elementId);
+        } else {
+            $output = $this->renderChart($type, $label, $elementId, $divDimensions);
+        }
+
+        return $output;
+    }
+
+    /**
+     * Renders all charts and dashboards that have been defined into the page
+     *
+     * @since  3.1.0
+     * @return string
+     */
+    public function renderAll()
     {
         $label     = new Label($label);
         $elementId = new ElementId($elementId);
