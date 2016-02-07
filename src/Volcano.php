@@ -98,6 +98,21 @@ class Volcano
     }
 
     /**
+     * Returns all stored charts and dashboards
+     *
+     * @since  3.1.0
+     * @return array
+     */
+    public function getAll()
+    {
+        $chartsIterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($this->charts));
+
+        $charts = iterator_to_array($chartsIterator);
+
+        return array_merge($charts, $this->dashboards);
+    }
+
+    /**
      * Simple true/false test if a chart exists.
      *
      * @param  string $type  Type of chart to check.

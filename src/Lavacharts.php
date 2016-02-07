@@ -252,20 +252,27 @@ class Lavacharts
     }
 
     /**
-     * Renders all charts and dashboards that have been defined into the page
+     * Renders all charts and dashboards that have been defined
      *
      * @since  3.1.0
      * @return string
      */
     public function renderAll()
     {
-        $label     = new Label($label);
-        $elementId = new ElementId($elementId);
-
-        if ($type == 'Dashboard') {
-            $output = $this->renderDashboard($label, $elementId);
+        if ($this->jsFactory->coreJsRendered() === false) {
+            $output = $this->jsFactory->getCoreJs();
         } else {
-            $output = $this->renderChart($type, $label, $elementId, $divDimensions);
+            $output = '';
+        }
+
+        $lavaObjects = $this->volcano->getAll();
+
+        foreach ($lavaObjects as $resource) {
+            if ($resource->getType() == 'Dashboard') {
+                $output .= $this->jsFactory->getDashboardJs($resource, $resource->getElementId());
+            } else {
+                $output .= $this->jsFactory->getChartJs($resource, $resource->getElementId());
+            }
         }
 
         return $output;

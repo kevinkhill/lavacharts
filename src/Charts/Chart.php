@@ -36,7 +36,7 @@ class Chart
     /**
      * The chart's unique label.
      *
-     * @var \Khill\Lavacharts\Values\Label
+     * @var \Khill\Lavacharts\Values\ElementId
      */
     protected $elementID;
 
@@ -74,7 +74,6 @@ class Chart
         $this->label     = $chartLabel;
         $this->datatable = $datatable;
         $this->options   = $options;
-        //$this->events    = new EventManager; //@TODO: refactor this
     }
 
     /**
@@ -111,13 +110,25 @@ class Chart
     /**
      * Returns the chart label.
      *
-     * @access public
-     * @since  3.0.0
+     * @since  3.1.0
+     * @param  bool $asString Toggle to return Object or string
      * @return \Khill\Lavacharts\Values\Label
      */
-    public function getLabel()
+    public function getLabel($asString = false)
     {
-        return $this->label;
+        return $asString ? (string) $this->label : $this->label;
+    }
+
+    /**
+     * Returns the chart's output elementId.
+     *
+     * @since  3.1.0
+     * @param  bool $asString Toggle to return Object or string
+     * @return \Khill\Lavacharts\Values\ElementId
+     */
+    public function getElementId($asString = false)
+    {
+        return $asString ? (string) $this->elementID : $this->elementID;
     }
 
     /**
