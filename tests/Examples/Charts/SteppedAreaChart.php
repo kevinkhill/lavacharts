@@ -1,12 +1,11 @@
 <?php
     use \Khill\Lavacharts\DataTables\DataFactory;
 
-    $data = DataFactory::createDataTable();
-    $data->addColumns([
+    $data = DataFactory::DataTable([
         ['string', 'Director (Year)'],
         ['number', 'Rotten Tomatoes'],
         ['number', 'IMDB']
-    ])->addRows([
+    ], [
         ['Alfred Hitchcock (1935)', 8.4, 7.9],
         ['Ralph Thomas (1959)',     6.9, 6.5],
         ['Don Sharp (1978)',        6.5, 6.4],
