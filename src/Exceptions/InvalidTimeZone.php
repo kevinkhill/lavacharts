@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidTimeZone extends \Exception
+class InvalidTimeZone extends LavaException
 {
     public function __construct($badZone)
     {

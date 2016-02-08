@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidDivDimensions extends \Exception
+class InvalidDivDimensions extends LavaException
 {
     public function __construct($code = 0)
     {

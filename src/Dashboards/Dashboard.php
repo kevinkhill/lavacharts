@@ -3,10 +3,21 @@
 namespace Khill\Lavacharts\Dashboards;
 
 use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
 
 class Dashboard
 {
+    use \Khill\Lavacharts\Traits\LabelTrait;
+    use \Khill\Lavacharts\Traits\ElementIdTrait;
+
+    /**
+     * Javascript chart type.
+     *
+     * @var string
+     */
+    const TYPE = 'Dashboard';
+
     /**
      * Google's dashboard version
      *
@@ -27,13 +38,6 @@ class Dashboard
      * @var string
      */
     const VIZ_CLASS = 'google.visualization.Dashboard';
-
-    /**
-     * The dashboard's unique label.
-     *
-     * @var \Khill\Lavacharts\Values\Label
-     */
-    private $label;
 
     /**
      * Array of Binding objects, mapping controls to charts.
@@ -61,22 +65,28 @@ class Dashboard
     }
 
     /**
-     * Binds ControlWrappers to ChartWrappers in the dashboard.
-     * - A OneToOne binding is created if single wrappers are passed.
-     * - If a single ControlWrapper is passed with an array of ChartWrappers,
-     *   a OneToMany binding is created.
-     * - If an array of ControlWrappers is passed with one ChartWrapper, then
-     *   a ManyToOne binding is created.
+     * Returns the chart type.
      *
-     * @uses   \Khill\Lavacharts\Dashboard\Bindings\BindingFactory
-     * @param  \Khill\Lavacharts\Dashboards\ControlWrapper|array $controlWraps
-     * @param  \Khill\Lavacharts\Dashboards\ChartWrapper|array   $chartWraps
+     * @since 3.1.0
+     * @return string
+     */
+    public function getType()
+    {
+        return static::TYPE;
+    }
+
+    /**
+     * Batch add an array of bindings.
+     *
+     * This method can set all bindings at once instead of chaining multiple bind methods.
+     *
+     * @param  array $bindings
      * @return \Khill\Lavacharts\Dashboards\Dashboard
      * @throws \Khill\Lavacharts\Exceptions\InvalidBindings
      */
-    public function bind($controlWraps, $chartWraps)
+    public function setBindings($bindings)
     {
-        $this->bindings[] = BindingFactory::create($controlWraps, $chartWraps);
+        $this->bindings = BindingFactory::creatFromArray($bindings);
 
         return $this;
     }
@@ -112,33 +122,22 @@ class Dashboard
     }
 
     /**
-     * Returns the dashboard label.
+     * Binds ControlWrappers to ChartWrappers in the dashboard.
+     * - A OneToOne binding is created if single wrappers are passed.
+     * - If a single ControlWrapper is passed with an array of ChartWrappers,
+     *   a OneToMany binding is created.
+     * - If an array of ControlWrappers is passed with one ChartWrapper, then
+     *   a ManyToOne binding is created.
      *
-     * @return \Khill\Lavacharts\Values\Label
-     */
-    public function getLabel()
-    {
-        return $this->label;
-    }
-
-    /**
-     * Batch add an array of bindings.
-     *
-     * This method can set all bindings at once instead of chaining multiple bind methods.
-     *
-     * @param  array $bindings
+     * @uses   \Khill\Lavacharts\Dashboard\Bindings\BindingFactory
+     * @param  \Khill\Lavacharts\Dashboards\ControlWrapper|array $controlWraps
+     * @param  \Khill\Lavacharts\Dashboards\ChartWrapper|array   $chartWraps
      * @return \Khill\Lavacharts\Dashboards\Dashboard
      * @throws \Khill\Lavacharts\Exceptions\InvalidBindings
      */
-    public function setBindings($bindings)
+    public function bind($controlWraps, $chartWraps)
     {
-        if (is_array($bindings) === false) {
-            throw new InvalidBindings;
-        }
-
-        foreach ($bindings as $binding) {
-            $this->bind($binding[0], $binding[1]);
-        }
+        $this->bindings[] = BindingFactory::create($controlWraps, $chartWraps);
 
         return $this;
     }

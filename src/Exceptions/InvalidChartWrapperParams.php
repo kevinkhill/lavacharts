@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidChartWrapperParams extends \Exception
+class InvalidChartWrapperParams extends LavaException
 {
     public function __construct()
     {

@@ -181,10 +181,11 @@ class Lavacharts
      * @param  string $label Label to give the Dashboard
      * @param  array  $bindings Array of bindings to apply
      * @return \Khill\Lavacharts\DataTables\DataTable
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      */
-    public function Dashboard($label, $bindings = [])
+    public function Dashboard($labelStr, $bindings = [], $elemId)
     {
-        $label = new Label($label);
+        $label = new Label($labelStr);
 
         return $this->dashboardFactory($label, $bindings);
     }
@@ -197,10 +198,11 @@ class Lavacharts
      * @param  \Khill\Lavacharts\Dashboards\Filters\Filter $filter Filter to wrap
      * @param  string $elementId HTML element ID to output the control.
      * @return \Khill\Lavacharts\Dashboards\ControlWrapper
+     * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
      */
-    public function ControlWrapper(Filter $filter, $elementId)
+    public function ControlWrapper(Filter $filter, $elementIdStr)
     {
-        $elementId = new ElementId($elementId);
+        $elementId = new ElementId($elementIdStr);
 
         return new ControlWrapper($filter, $elementId);
     }
@@ -213,10 +215,11 @@ class Lavacharts
      * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to wrap
      * @param  string $elementId HTML element ID to output the control.
      * @return \Khill\Lavacharts\Dashboards\ChartWrapper
+     * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
      */
-    public function ChartWrapper(Chart $chart, $elementId)
+    public function ChartWrapper(Chart $chart, $elementIdStr)
     {
-        $elementId = new ElementId($elementId);
+        $elementId = new ElementId($elementIdStr);
 
         return new ChartWrapper($chart, $elementId);
     }
@@ -227,7 +230,6 @@ class Lavacharts
      * Given a type, label, and HTML element id, this will output
      * all of the necessary javascript to generate the chart or dashboard.
      *
-     * @access public
      * @since  2.0.0
      * @uses   \Khill\Lavacharts\Values\Label
      * @uses   \Khill\Lavacharts\Values\ElementId
@@ -236,11 +238,13 @@ class Lavacharts
      * @param  string $elementId HTML element id to render into.
      * @param  mixed  $divDimensions Set true for div creation, or pass an array with height & width
      * @return string
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
+     * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
      */
-    public function render($type, $label, $elementId, $divDimensions = false)
+    public function render($type, $labelStr, $elementIdStr, $divDimensions = false)
     {
-        $label     = new Label($label);
-        $elementId = new ElementId($elementId);
+        $label     = new Label($labelStr);
+        $elementId = new ElementId($elementIdStr);
 
         if ($type == 'Dashboard') {
             $output = $this->renderDashboard($label, $elementId);
@@ -268,7 +272,7 @@ class Lavacharts
         $lavaObjects = $this->volcano->getAll();
 
         foreach ($lavaObjects as $resource) {
-            if ($resource->getType() == 'Dashboard') {
+            if ($resource instanceof Dashboard) {
                 $output .= $this->jsFactory->getDashboardJs($resource, $resource->getElementId());
             } else {
                 $output .= $this->jsFactory->getChartJs($resource, $resource->getElementId());
@@ -284,7 +288,8 @@ class Lavacharts
      * Given a chart label and an HTML element id, this will output
      * all of the necessary javascript to generate the chart.
      *
-     * @access public
+     *
+     * @access private
      * @since  3.0.0
      * @param  string                             $type
      * @param  \Khill\Lavacharts\Values\Label     $label
@@ -321,7 +326,7 @@ class Lavacharts
      * Given a chart label and an HTML element id, this will output
      * all of the necessary javascript to generate the chart.
      *
-     * @access public
+     * @access private
      * @since  3.0.0
      * @param  \Khill\Lavacharts\Values\Label     $chartLabel Label of a saved chart.
      * @param  \Khill\Lavacharts\Values\ElementId $elementId  HTML element id to render the chart into.

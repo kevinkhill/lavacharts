@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidLabel extends \Exception
+class InvalidLabel extends LavaException
 {
     public function __construct($invalidLabel = '')
     {

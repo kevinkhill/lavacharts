@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidChartType extends \Exception
+class InvalidChartType extends LavaException
 {
     public function __construct($invalidChart, $validCharts)
     {

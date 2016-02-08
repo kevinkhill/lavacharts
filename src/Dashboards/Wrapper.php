@@ -23,12 +23,7 @@ use \Khill\Lavacharts\Values\ElementId;
  */
 class Wrapper implements \JsonSerializable
 {
-    /**
-     * ContainerId of the div to render into.
-     *
-     * @var \Khill\Lavacharts\Values\ElementId
-     */
-    protected $containerId;
+    use \Khill\Lavacharts\Traits\ElementIdTrait;
 
     /**
      * Chart or Filter that is wrapped.
@@ -40,21 +35,11 @@ class Wrapper implements \JsonSerializable
     /**
      * Builds a new Wrapper object.
      *
-     * @param  \Khill\Lavacharts\Values\ElementId $containerId
+     * @param  \Khill\Lavacharts\Values\ElementId $elementId
      */
-    public function __construct(ElementId $containerId)
+    public function __construct(ElementId $elementId)
     {
-        $this->containerId = $containerId;
-    }
-
-    /**
-     * Returns the container id.
-     *
-     * @return \Khill\Lavacharts\Values\ElementId
-     */
-    public function getContainerId()
-    {
-        return $this->containerId;
+        $this->elementId = $elementId;
     }
 
     /**
@@ -84,7 +69,7 @@ class Wrapper implements \JsonSerializable
 
         return [
             $type         => $this->wrappedObject->getType(),
-            'containerId' => (string) $this->containerId,
+            'containerId' => (string) $this->elementId,
             'options'     => $this->wrappedObject
         ];
     }

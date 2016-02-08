@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidFilter extends \Exception
+class InvalidFilter extends LavaException
 {
     public function __construct($invalidFilter, $types)
     {

@@ -3,7 +3,6 @@
 namespace Khill\Lavacharts\Configs;
 
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Exceptions\InvalidOption;
 use \Khill\Lavacharts\Exceptions\InvalidOptions;
 
 /**
@@ -34,7 +33,7 @@ class Options implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
     /**
      * Create a new Options object with a set of options.
      *
-     * @param array $options
+     * @param  array $options
      * @throws \Khill\Lavacharts\Exceptions\InvalidOptions
      */
     public function __construct($options)
@@ -43,141 +42,106 @@ class Options implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
             throw new InvalidOptions($options);
         }
 
-        $this->options= $options;
+        $this->values = $options;
+    }
+
+    /**
+     * Retrieves all of the set options
+     *
+     * @since  3.1.0
+     * @return array
+     */
+    public function getValues()
+    {
+        return $this->values;
     }
 
     /**
      * Allows for the options to be traversed with foreach.
      *
-     * @access public
      * @since  3.1.0
      * @implements IteratorAggregate
      * @return int
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->options);
+        return new \ArrayIterator($this->values);
     }
 
     /**
      * Batch set options from an array.
      *
-     *
-     * The check flag can be used to bypass valid option checking
-     * (added for the customize chart method ported from the 2.5 branch)
-     *
-     * @access public
      * @param  array $options Options to set
-     * @param  bool  $check Flag to check options against list of set options
-     * @return \Khill\Lavacharts\Options
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidOption
      */
-    public function setOptions($options, $check = true)
+    public function setOptions($options)
     {
         if (is_array($options) === false) {
-            throw new InvalidConfigValue(
-                'Options->options',
-                'array'
-            );
+            throw new InvalidOptions($options);
         }
 
-        foreach ($options as $option => $value) {
-            if ($check === true) {
-                $this->options($option, $value);
-            } else {
-                $this->options[$option] = $value;
-            }
-        }
-
-        return $this;
+        $this->values = $options;
     }
 
     /**
      * Merges two Options objects and combines the options and options.
      *
-     * @access public
-     * @param  \Khill\Lavacharts\Options $options
-     * @return \Khill\Lavacharts\Options
+     * @param  array|\Khill\Lavacharts\Options $options
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function merge(Options $options)
+    public function merge($options)
     {
-        $this->options($options->options());
-
-        return $this->options($options->options());
-    }
-
-    /**
-     * Extends the default options with more options.
-     *
-     * @access public
-     * @param  array $options Array of options to extend the options.
-     * @return \Khill\Lavacharts\Options
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function extend($options)
-    {
-        if (is_array($options) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'array'
-            );
+        if ($options instanceof Options) {
+            $options = $options->getValues();
         }
 
-        $this->options= array_merge($this->options, $options);
-
-        return $this;
-    }
-
-    /**
-     * Removes options from the default options.
-     *
-     * @access public
-     * @param  array $options Array of options to remove from the options.
-     * @return \Khill\Lavacharts\Options
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function remove($options)
-    {
         if (is_array($options) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'array'
-            );
+            throw new InvalidOptions($options);
         }
 
-        $this->options= array_merge(array_diff($this->options, $options));
-
-        return $this;
+        $this->values = array_merge($this->values, $options);
     }
 
     /**
      * Custom serialization of the Options object.
      *
+     * @implements JsonSerializable
      * @return array
      */
     public function jsonSerialize()
     {
-        return $this->options;
+        return $this->values;
     }
+
+    /**
+     * @implements ArrayAccess
+     */
     public function offsetSet($offset, $value) {
         if (is_null($offset)) {
-            $this->options[] = $value;
+            $this->values[] = $value;
         } else {
-            $this->options[$offset] = $value;
+            $this->values[$offset] = $value;
         }
     }
 
+    /**
+     * @implements ArrayAccess
+     */
     public function offsetExists($offset) {
-        return isset($this->options[$offset]);
+        return isset($this->values[$offset]);
     }
 
+    /**
+     * @implements ArrayAccess
+     */
     public function offsetUnset($offset) {
-        unset($this->options[$offset]);
+        unset($this->values[$offset]);
     }
 
+    /**
+     * @implements ArrayAccess
+     */
     public function offsetGet($offset) {
-        return isset($this->options[$offset]) ? $this->options[$offset] : null;
+        return isset($this->values[$offset]) ? $this->values[$offset] : null;
     }
 }

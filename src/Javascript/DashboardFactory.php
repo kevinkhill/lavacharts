@@ -57,13 +57,13 @@ class DashboardFactory extends JavascriptFactory
         $boundCharts = $this->dashboard->getBoundCharts();
 
         $vars = [
-            'label'     => (string) $this->dashboard->getLabel(),
+            'label'     => $this->dashboard->getLabel(true),
             'version'   => Dashboard::VERSION,
             'class'     => Dashboard::VIZ_CLASS,
             'packages'  => [
                 Dashboard::VIZ_PACKAGE
             ],
-            'elemId'    => (string) $this->elementId,
+            'elemId'    => $this->getElementId(true),
             'bindings'  => $this->processBindings(),
             'dataVer'   => DataTable::VERSION,
             'dataClass' => DataTable::VIZ_CLASS,

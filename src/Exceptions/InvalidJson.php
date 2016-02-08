@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidJson extends \Exception
+class InvalidJson extends LavaException
 {
     public function __construct()
     {

@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidRowProperty extends \Exception
+class InvalidRowProperty extends LavaException
 {
     public function __construct()
     {

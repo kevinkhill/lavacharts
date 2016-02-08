@@ -4,7 +4,7 @@ namespace Khill\Lavacharts\Exceptions;
 
 use \Khill\Lavacharts\Charts\Chart;
 
-class DataTableNotFound extends \Exception
+class DataTableNotFound extends LavaException
 {
     public function __construct(Chart $chart, $code = 0)
     {

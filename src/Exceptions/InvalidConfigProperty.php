@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidConfigProperty extends \Exception
+class InvalidConfigProperty extends LavaException
 {
     public function __construct($class, $function, $rejectedProp, $acceptedProps, $code = 0)
     {

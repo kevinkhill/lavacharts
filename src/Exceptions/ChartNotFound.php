@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class ChartNotFound extends \Exception
+class ChartNotFound extends LavaException
 {
     public function __construct($type, $label, $code = 0)
     {

@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidDataTable extends \Exception
+class InvalidDataTable extends LavaException
 {
     public function __construct($InvalidDataTable = null)
     {

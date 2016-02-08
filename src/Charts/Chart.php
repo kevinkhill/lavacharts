@@ -2,10 +2,9 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Configs\Options;
-use \Khill\Lavacharts\Configs\EventManager;
+use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Exceptions\DataTableNotFound;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -26,26 +25,9 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  */
 class Chart
 {
-    /**
-     * The chart's unique label.
-     *
-     * @var \Khill\Lavacharts\Values\Label
-     */
-    protected $label;
-
-    /**
-     * The chart's unique label.
-     *
-     * @var \Khill\Lavacharts\Values\ElementId
-     */
-    protected $elementID;
-
-    /**
-     * Holds all the customizations for a chart.
-     *
-     * @var \Khill\Lavacharts\Configs\Options
-     */
-    protected $options;
+    use \Khill\Lavacharts\Traits\OptionsTrait;
+    use \Khill\Lavacharts\Traits\LabelTrait;
+    use \Khill\Lavacharts\Traits\ElementIdTrait;
 
     /**
      * Datatable for the chart.
@@ -53,13 +35,6 @@ class Chart
      * @var \Khill\Lavacharts\DataTables\DataTable
      */
     protected $datatable;
-
-    /**
-     * Enabled chart events with callbacks.
-     *
-     * @var \Khill\Lavacharts\Configs\EventManager
-     */
-    protected $events;
 
     /**
      * Builds a new chart with the given label.
@@ -107,52 +82,6 @@ class Chart
         return static::TYPE;
     }
 
-    /**
-     * Returns the chart label.
-     *
-     * @since  3.1.0
-     * @param  bool $asString Toggle to return Object or string
-     * @return \Khill\Lavacharts\Values\Label
-     */
-    public function getLabel($asString = false)
-    {
-        return $asString ? (string) $this->label : $this->label;
-    }
-
-    /**
-     * Returns the chart's output elementId.
-     *
-     * @since  3.1.0
-     * @param  bool $asString Toggle to return Object or string
-     * @return \Khill\Lavacharts\Values\ElementId
-     */
-    public function getElementId($asString = false)
-    {
-        return $asString ? (string) $this->elementID : $this->elementID;
-    }
-
-    /**
-     * Retrieves the events if any have been assigned to the chart.
-     *
-     * @since  3.1.0
-     * @return array
-     */
-    public function getEvents()
-    {
-        return $this->options['events'];
-    }
-
-    /**
-     * Retrieves the Options object from the chart.
-     *
-     * @access public
-     * @since  3.1.0
-     * @return \Khill\Lavacharts\Configs\Options
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
 
     /**
      * Returns the DataTable
@@ -177,6 +106,17 @@ class Chart
     public function getDataTableJson()
     {
         return json_encode($this->datatable);
+    }
+
+    /**
+     * Retrieves the events if any have been assigned to the chart.
+     *
+     * @since  3.1.0
+     * @return array
+     */
+    public function getEvents()
+    {
+        return $this->options['events'];
     }
 
     /**

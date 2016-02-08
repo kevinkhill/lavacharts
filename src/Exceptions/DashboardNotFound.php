@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class DashboardNotFound extends \Exception
+class DashboardNotFound extends LavaException
 {
     public function __construct($label)
     {

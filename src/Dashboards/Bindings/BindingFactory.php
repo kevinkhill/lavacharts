@@ -48,4 +48,15 @@ class BindingFactory
             throw new InvalidBindings;
         }
     }
+
+    public function createFromArray($arrOfBindings)
+    {
+        if (is_array($bindings) === false) {
+            throw new InvalidBindings;
+        }
+
+        return array_map(function ($binding) {
+            return self::create($binding[0], $binding[1]);
+        }, $bindings);
+    }
 }
