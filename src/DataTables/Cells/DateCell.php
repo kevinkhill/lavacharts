@@ -56,7 +56,7 @@ class DateCell extends Cell
         if ($dateTimeString === null) {
             return new DateCell();
         }
-
+/*
         if ($this->nonEmptyString($dateTimeString) === false) {
             throw new InvalidDateTimeString($dateTimeString);
         }
@@ -66,6 +66,8 @@ class DateCell extends Cell
         }
 
         if ($this->nonEmptyString($dateTimeFormat) === false) {
+*/
+        if (empty($dateTimeFormat) === true) {
             $carbon = Carbon::parse($dateTimeString);
         } else {
             $carbon = Carbon::createFromFormat($dateTimeFormat, $dateTimeString);

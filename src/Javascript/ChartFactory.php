@@ -24,6 +24,12 @@ use \Khill\Lavacharts\DataTables\DataTable;
  */
 class ChartFactory extends JavascriptFactory
 {
+    /**
+     * Location of the output template.
+     *
+     * @var string
+     */
+    const OUTPUT_TEMPLATE = __DIR__ . '/../../javascript/chart.tmpl.js';
 
     /**
      * Chart to create javascript from.
@@ -42,9 +48,19 @@ class ChartFactory extends JavascriptFactory
     public function __construct(Chart $chart, ElementId $elementId)
     {
         $this->chart        = $chart;
-        $this->elementId    = $elementId;
-        $this->template     = file_get_contents(realpath(self::OUTPUT_TEMPLATE)); //@TODO: fix this for charts
+        $this->chart->setElementId($elementId); //@TODO: bandaid for now
+        //$this->elementId    = $elementId;
+        $this->template     = file_get_contents(realpath(self::OUTPUT_TEMPLATE));
         $this->templateVars = $this->getTemplateVars();
+
+        $this->eventCallbackTempate =
+            'google.visualization.events.addListener($this.chart, "%1$s", function (event) {'.
+            '    return lava.event(event, $this.chart, %2$s);'.
+            '});';
+
+        $this->formatTemplate =
+            '$this.formats["col%1$s"] = new google.visualization.%2$s(%3$s);' .
+            '$this.formats["col%1$s"].format($this.data, %1$s);';
     }
 
     /**
@@ -59,14 +75,14 @@ class ChartFactory extends JavascriptFactory
         $chart = $this->chart; // Workaround for no :: on member vars in php5.4
 
         $vars = [
-            'chartLabel'   => (string) $chart->getLabel(),
+            'chartLabel'   => (string) $this->chart->getLabel(),
             'chartType'    => $chart::TYPE,
             'chartVer'     => $chart::VERSION,
             'chartClass'   => $chart::VIZ_CLASS,
             'chartPackage' => $chart::VIZ_PACKAGE,
             'chartData'    => json_encode($chart->getDataTable()),
             'chartOptions' => json_encode($chart->getOptions()),
-            'elemId'       => (string) $this->elementId,
+            'elemId'       => (string) $this->chart->getElementId(),
             'dataVer'      => DataTable::VERSION,
             'dataClass'    => DataTable::VIZ_CLASS,
             'formats'      => '',
@@ -97,9 +113,7 @@ class ChartFactory extends JavascriptFactory
 
         foreach ($events as $event => $callback) {
             $output .= sprintf(
-                'google.visualization.events.addListener($this.chart, "%1$s", function (event) {'.
-                '    return lava.event(event, $this.chart, %2$s);'.
-                '});',
+                $this->eventCallbackTempate,
                 $event,
                 $callback
             ).PHP_EOL.PHP_EOL;
@@ -116,15 +130,14 @@ class ChartFactory extends JavascriptFactory
      */
     private function buildFormatters()
     {
-        $output = '';
+        $output  = '';
         $columns = $this->chart->getDataTable()->getFormattedColumns();
 
         foreach ($columns as $index => $column) {
             $format = $column->getFormat();
 
             $output .= sprintf(
-                '$this.formats["col%1$s"] = new google.visualization.%2$s(%3$s);' .
-                '$this.formats["col%1$s"].format($this.data, %1$s);',
+                $this->formatTemplate,
                 $index,
                 $format->getType(),
                 json_encode($format)
@@ -132,73 +145,5 @@ class ChartFactory extends JavascriptFactory
         }
 
         return $output;
-    }
-
-    /**
-     * Returns the dashboard javascript template.
-     *
-     * @since  3.0.0
-     * @access private
-     * @return string Javascript template
-     */
-    private function getTemplate()
-    {
-        return <<<'CHART'
-        lava.events.on('jsapi:ready', function (google) {
-            /**
-             * If the object does not exist for a given chart type, initialize it.
-             * This will prevent overriding keys when multiple charts of the same
-             * type are being rendered on the same page.
-             */
-            if ( typeof lava.charts.<chartType> == "undefined" ) {
-                lava.charts.<chartType> = {};
-            }
-
-            //Creating a new lavachart object
-            lava.charts.<chartType>["<chartLabel>"] = new lava.Chart();
-
-            //Checking if output div exists
-            if (! document.getElementById("<elemId>")) {
-                throw new Error('[Lavacharts] No matching element was found with ID "<elemId>"');
-            }
-
-            lava.charts.<chartType>["<chartLabel>"].render = function (data) {
-                var $this = lava.charts.<chartType>["<chartLabel>"];
-
-                $this.data = new <dataClass>(<chartData>, <dataVer>);
-
-                $this.options = <chartOptions>;
-
-                $this.chart = new <chartClass>(document.getElementById("<elemId>"));
-
-                <formats>
-
-                <events>
-
-                $this.chart.draw($this.data, $this.options);
-            };
-
-            lava.charts.<chartType>["<chartLabel>"].setData = function (data) {
-                var $this = lava.charts.<chartType>["<chartLabel>"];
-
-                $this.data = new <dataClass>(data, <dataVer>);
-            };
-
-            lava.charts.<chartType>["<chartLabel>"].redraw = function () {
-                var $this = lava.charts.<chartType>["<chartLabel>"];
-
-                $this.chart.draw($this.data, $this.options);
-            };
-
-            lava.registerChart("<chartType>", "<chartLabel>");
-
-            google.load('visualization', '<chartVer>', {
-                packages: ['<chartPackage>'],
-                callback: function() {
-                    lava.charts.<chartType>["<chartLabel>"].render();
-                }
-            });
-        });
-CHART;
     }
 }
