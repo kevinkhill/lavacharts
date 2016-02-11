@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Traits;
 
+use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 
 /**
@@ -48,5 +49,20 @@ trait ElementIdTrait
     public function getElementId()
     {
         return $this->elementId;
+    }
+
+    /**
+     * Remove unwanted characters from elementId
+     *
+     * @link http://stackoverflow.com/a/11330527/2503458
+     */
+    public function generateElementId(Label $label)
+    {
+        $string = strtolower((string) $label);
+        $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
+        $string = preg_replace("/[\s-]+/", " ", $string);
+        $string = preg_replace("/[\s_]/", "-", $string);
+
+        return $string;
     }
 }

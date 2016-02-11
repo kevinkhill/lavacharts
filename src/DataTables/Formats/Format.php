@@ -36,7 +36,7 @@ class Format implements \JsonSerializable
      */
     public function __construct(Options $options, $config)
     {
-        parent::__construct($options, $config);
+        //parent::__construct($options, $config);
     }
 
     /**

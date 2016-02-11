@@ -275,12 +275,12 @@ class Lavacharts
             if ($resource instanceof Dashboard) {
                 $output .= $this->jsFactory->getDashboardJs($resource, $resource->getElementId());
             }
-
+var_dump($resource);
             if ($resource instanceof Chart) {
                 $output .= $this->jsFactory->getChartJs($resource, $resource->getElementId());
             }
         }
-
+var_dump($output);
         return $output;
     }
 

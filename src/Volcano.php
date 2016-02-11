@@ -107,7 +107,7 @@ class Volcano
      */
     public function getAll()
     {
-        $chartsIterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($this->charts));
+        $chartsIterator = new \RecursiveArrayIterator($this->charts);
 
         $charts = iterator_to_array($chartsIterator);
 

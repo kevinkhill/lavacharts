@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Configs\Renderable;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\DataTables\DataTable;
@@ -23,11 +24,10 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Chart
+class Chart extends Renderable
 {
     use \Khill\Lavacharts\Traits\OptionsTrait;
     use \Khill\Lavacharts\Traits\LabelTrait;
-    use \Khill\Lavacharts\Traits\ElementIdTrait;
 
     /**
      * Datatable for the chart.
@@ -44,11 +44,17 @@ class Chart
      * @param  \Khill\Lavacharts\Configs\Options      $options Options fot the chart.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function __construct(Label $chartLabel, DataTable $datatable, Options $options = null)
-    {
+    public function __construct(
+        Label $chartLabel,
+        DataTable $datatable,
+        Options $options = null,
+        ElementId $elementId = null
+    ) {
         $this->label     = $chartLabel;
         $this->datatable = $datatable;
         $this->options   = $options;
+
+        parent::__construct($elementId);
     }
 
     /**
@@ -66,7 +72,7 @@ class Chart
      */
     public function __call($method, $arg)
     {
-        $this->options->set($method, $arg);
+        $this->options[$method] = $arg;
 
         return $this;
     }
