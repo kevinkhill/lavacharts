@@ -1,0 +1,9 @@
+engines:
+  phpcodesniffer:
+    enabled: true
+  phpmd:
+    enabled: true
+
+exclude_paths:
+- javascript/*
+- tests/**/*
