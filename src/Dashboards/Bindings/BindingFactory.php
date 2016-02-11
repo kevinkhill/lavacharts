@@ -39,18 +39,24 @@ class BindingFactory
 
         if ($controlWraps instanceof ControlWrapper && $chartWraps instanceof ChartWrapper) {
             return new OneToOne($controlWraps, $chartWraps);
-        } elseif ($controlWraps instanceof ControlWrapper && $chartWrapCheck) {
-            return new OneToMany($controlWraps, $chartWraps);
-        } elseif ($controlWrapCheck && $chartWraps instanceof ChartWrapper) {
-            return new ManyToOne($controlWraps, $chartWraps);
-        } elseif ($controlWrapCheck && $chartWrapCheck) {
-            return new ManyToMany($controlWraps, $chartWraps);
-        } else {
-            throw new InvalidBindings;
         }
+
+        if ($controlWraps instanceof ControlWrapper && $chartWrapCheck) {
+            return new OneToMany($controlWraps, $chartWraps);
+        }
+
+        if ($controlWrapCheck && $chartWraps instanceof ChartWrapper) {
+            return new ManyToOne($controlWraps, $chartWraps);
+        }
+
+        if ($controlWrapCheck && $chartWrapCheck) {
+            return new ManyToMany($controlWraps, $chartWraps);
+        }
+
+        throw new InvalidBindings;
     }
 
-    public function createFromArray($arrOfBindings)
+    public function createFromArray($bindings)
     {
         if (is_array($bindings) === false) {
             throw new InvalidBindings;

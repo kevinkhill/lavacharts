@@ -14,19 +14,17 @@ trait ArrayValuesTestTrait
      */
     protected function arrayValuesTest($array, $type, $className = '')
     {
-        $status = true;
+        $status = false;
 
         if (is_array($array) && is_string($type)) {
             if ($type === 'class' && is_string($className) && ! empty($className)) {
                 foreach ($array as $item) {
                     if (! is_null($item)) {
-                        if (! is_object($item)) {
-                            $status = false;
-                        } else {
+                        if (is_object($item) === true) {
                             $class = new \ReflectionClass($item);
 
-                            if (! preg_match("/{$className}/", $class->getShortname())) {
-                                $status = false;
+                            if (preg_match("/{$className}/", $class->getShortname()) === true) {
+                                $status = true;
                             }
                         }
                     }
@@ -36,16 +34,12 @@ trait ArrayValuesTestTrait
                     $function = 'is_' . $type;
 
                     if (function_exists($function)) {
-                        if ($function($item) === false) {
-                            $status = false;
+                        if ($function($item) === true) {
+                            $status = true;
                         }
-                    } else {
-                        $status = false;
                     }
                 }
             }
-        } else {
-            $status = false;
         }
 
         return $status;
