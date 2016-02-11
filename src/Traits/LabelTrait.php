@@ -4,6 +4,11 @@ namespace Khill\Lavacharts\Traits;
 
 use \Khill\Lavacharts\Values\Label;
 
+/**
+ * Trait for adding a label to classes as a unique identifier
+ *
+ * @since  3.1.0
+ */
 trait LabelTrait
 {
     /**
@@ -16,7 +21,8 @@ trait LabelTrait
     /**
      * Creates and sets the label
      *
-     * @param string $label
+     * @param  string $label
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      */
     public function createLabel($labelStr)
     {
@@ -36,12 +42,10 @@ trait LabelTrait
     /**
      * Returns the label.
      *
-     * @since  3.1.0
-     * @param  bool $asString Toggle to return Object or string
      * @return \Khill\Lavacharts\Values\Label
      */
-    public function getLabel($asString = false)
+    public function getLabel()
     {
-        return $asString ? (string) $this->label : $this->label;
+        return $this->label;
     }
 }

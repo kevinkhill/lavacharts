@@ -25,6 +25,13 @@ use \Khill\Lavacharts\Dashboards\Dashboard;
 class DashboardFactory extends JavascriptFactory
 {
     /**
+     * Location of the output template.
+     *
+     * @var string
+     */
+    const OUTPUT_TEMPLATE = __DIR__ . '/../../javascript/dashboard.tmpl.js';
+
+    /**
      * Dashboard to generate javascript from.
      *
      * @var \Khill\Lavacharts\Dashboards\Dashboard
@@ -34,16 +41,17 @@ class DashboardFactory extends JavascriptFactory
     /**
      * Creates a new DashboardFactory with the javascript template.
      *
-     * @access public
      * @param \Khill\Lavacharts\Dashboards\Dashboard $dashboard
-     * @param  \Khill\Lavacharts\Values\ElementId    $elementId HTML element id to output into.
+     * @param \Khill\Lavacharts\Values\ElementId     $elementId HTML element id to output into.
      */
     public function __construct(Dashboard $dashboard, ElementId $elementId)
     {
         $this->dashboard    = $dashboard;
-        $this->elementId    = $elementId;
-        $this->template     = $this->getTemplate();
+        $this->dashboard->setElementId($elementId); //@TODO: this is a patch for now
+        //$this->elementId    = $elementId;
+        $this->template     = file_get_contents(realpath(self::OUTPUT_TEMPLATE));
         $this->templateVars = $this->getTemplateVars();
+
     }
 
     /**
@@ -57,13 +65,13 @@ class DashboardFactory extends JavascriptFactory
         $boundCharts = $this->dashboard->getBoundCharts();
 
         $vars = [
-            'label'     => $this->dashboard->getLabel(true),
+            'label'     => (string) $this->dashboard->getLabel(),
             'version'   => Dashboard::VERSION,
             'class'     => Dashboard::VIZ_CLASS,
             'packages'  => [
                 Dashboard::VIZ_PACKAGE
             ],
-            'elemId'    => $this->getElementId(true),
+            'elemId'    => (string) $this->dashboard->getElementId(),
             'bindings'  => $this->processBindings(),
             'dataVer'   => DataTable::VERSION,
             'dataClass' => DataTable::VIZ_CLASS,
@@ -85,7 +93,6 @@ class DashboardFactory extends JavascriptFactory
      *
      * Turns the chart and control wrappers into new Google Visualization Objects.
      *
-     * @access public
      * @return string
      */
     public function processBindings()

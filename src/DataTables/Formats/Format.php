@@ -21,8 +21,10 @@ namespace Khill\Lavacharts\DataTables\Formats;
 use \Khill\Lavacharts\Configs\Options;
 use \Khill\Lavacharts\Configs\JsonConfig;
 
-class Format extends JsonConfig
+class Format implements \JsonSerializable
 {
+    use \Khill\Lavacharts\Traits\OptionsTrait;
+
     /**
      * Builds the Options object.
      * Passing an array of key value pairs will set the configuration for each
@@ -46,5 +48,15 @@ class Format extends JsonConfig
     public function getType()
     {
         return static::TYPE;
+    }
+
+    /**
+     * Custom serialization of the Filter
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->options;
     }
 }

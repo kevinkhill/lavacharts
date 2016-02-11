@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Javascript;
 
-use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Charts\Chart;
+use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\DataTables\DataTable;
 
 /**
@@ -24,6 +24,7 @@ use \Khill\Lavacharts\DataTables\DataTable;
  */
 class ChartFactory extends JavascriptFactory
 {
+
     /**
      * Chart to create javascript from.
      *
@@ -42,7 +43,7 @@ class ChartFactory extends JavascriptFactory
     {
         $this->chart        = $chart;
         $this->elementId    = $elementId;
-        $this->template     = $this->getTemplate();
+        $this->template     = file_get_contents(realpath(self::OUTPUT_TEMPLATE)); //@TODO: fix this for charts
         $this->templateVars = $this->getTemplateVars();
     }
 

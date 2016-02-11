@@ -95,7 +95,7 @@ class Dashboard
      */
     public function setBindings($bindings)
     {
-        $this->bindings = $this->bindingFactory->creatFromArray($bindings);
+        $this->bindings = $this->bindingFactory->createFromArray($bindings);
 
         return $this;
     }

@@ -3,7 +3,6 @@
 namespace Khill\Lavacharts\Dashboards\Filters;
 
 use \Khill\Lavacharts\Configs\Options;
-use \Khill\Lavacharts\Configs\JsonConfig;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 
@@ -23,16 +22,10 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Filter implements \JsonSerializable //@TODO: JsonConfig?
+class Filter implements \JsonSerializable
 {
+    use \Khill\Lavacharts\Traits\OptionsTrait;
     use \Khill\Lavacharts\Traits\NonEmptyStringTrait;
-
-    /**
-     * Filter configuration options.
-     *
-     * @var \Khill\Lavacharts\Options
-     */
-    protected $options;
 
     /**
      * Builds a new Filter Object.

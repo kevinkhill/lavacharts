@@ -4,6 +4,12 @@ namespace Khill\Lavacharts\Traits;
 
 use \Khill\Lavacharts\Values\ElementId;
 
+/**
+ * Trait for adding html element IDs to classes that will be rendered into a div
+ * when passed through the JavascriptFactory
+ *
+ * @since  3.1.0
+ */
 trait ElementIdTrait
 {
     /**
@@ -11,12 +17,13 @@ trait ElementIdTrait
      *
      * @var \Khill\Lavacharts\Values\ElementId
      */
-    protected $elementID;
+    protected $elementId;
 
     /**
      * Creates and sets the elementId
      *
      * @param string $elemIdStr
+     * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
      */
     public function createElementId($elemIdStr)
     {
@@ -24,7 +31,7 @@ trait ElementIdTrait
     }
 
     /**
-     * Sets the element ID
+     * Sets the elementId
      *
      * @param  \Khill\Lavacharts\Values\ElementId $elementId
      */
@@ -36,12 +43,10 @@ trait ElementIdTrait
     /**
      * Returns the elementId.
      *
-     * @since  3.1.0
-     * @param  bool $asString Toggle to return Object or string
      * @return \Khill\Lavacharts\Values\ElementId
      */
-    public function getElementId($asString = false)
+    public function getElementId()
     {
-        return $asString ? (string) $this->elementID : $this->elementID;
+        return $this->elementId;
     }
 }

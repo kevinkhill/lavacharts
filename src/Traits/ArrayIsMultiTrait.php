@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Traits;
 
-trait ArrayIsMulti
+trait ArrayIsMultiTrait
 {
     /**
      * Simple test to see if array is multi-dimensional.

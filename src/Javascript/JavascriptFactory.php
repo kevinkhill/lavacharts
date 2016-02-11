@@ -2,9 +2,9 @@
 
 namespace Khill\Lavacharts\Javascript;
 
-use Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Charts\Chart;
+use \Khill\Lavacharts\Values\ElementId;
+use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Dashboards\Dashboard;
 
 /**
@@ -40,11 +40,11 @@ class JavascriptFactory
     const JS_CLOSE = '</script>';
 
     /**
-     * Script block for the Google's Chart API.
+     * Lava.js module location.
      *
      * @var string
      */
-    const JSAPI = '<script type="text/javascript" src="//www.google.com/jsapi"></script>';
+    const LAVA_JS = __DIR__.'/../../javascript/lava.js';
 
     /**
      * Javascript output.
@@ -85,7 +85,6 @@ class JavascriptFactory
      * Returns true|false depending on if the jsapi & lava.js core
      * have been added to the output.
      *
-     * @access public
      * @return boolean
      */
     public function coreJsRendered()
@@ -96,14 +95,12 @@ class JavascriptFactory
     /**
      * Gets the Google chart api and lava.js core.
      *
-     * @access public
      * @return string Javascript code blocks.
      */
     public function getCoreJs()
     {
-        //$coreJs  = self::JSAPI;
         $coreJs  = self::JS_OPEN;
-        $coreJs .= file_get_contents(__DIR__.'/../../javascript/lava.js');
+        $coreJs .= file_get_contents(realpath(self::LAVA_JS));
         $coreJs .= self::JS_CLOSE;
 
         $this->coreJsRendered = true;
@@ -114,7 +111,6 @@ class JavascriptFactory
     /**
      * Parses the javascript template and wraps the output in a script tag.
      *
-     * @access public
      * @return string Javascript code block.
      */
     public function getJavascript()
@@ -127,7 +123,6 @@ class JavascriptFactory
     /**
      * Checks for an element id to output the chart into and builds the Javascript.
      *
-     * @access public
      * @uses   \Khill\Lavacharts\Charts\Chart
      * @param  \Khill\Lavacharts\Charts\Chart     $chart Chart to render.
      * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to output the chart into.
@@ -142,7 +137,6 @@ class JavascriptFactory
      * Checks for an element id to output the chart into and builds the Javascript.
      *
      * @since  3.0.0
-     * @access public
      * @uses   \Khill\Lavacharts\Dashboards\Dashboard
      * @param  \Khill\Lavacharts\Dashboards\Dashboard $dashboard Dashboard to render.
      * @param  \Khill\Lavacharts\Values\ElementId     $elementId HTML element id to output the dashboard into.

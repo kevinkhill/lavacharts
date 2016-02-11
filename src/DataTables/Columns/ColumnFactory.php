@@ -96,7 +96,7 @@ class ColumnFactory
             $columnArgs[] = $format;
         }
 
-        if (in_array($role, $this->roles, true) === false) {
+        if ($this->nonEmptyString($role) === true && in_array($role, $this->roles, true) === false) {
             throw new InvalidColumnRole($role, $this->roles);
         }
 

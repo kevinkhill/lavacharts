@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class LavaException extends LavaException
+class LavaException extends \Exception
 {
     //
 }

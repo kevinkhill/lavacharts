@@ -19,7 +19,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class JsonConfig implements \JsonSerializable
+class LavaSerializable implements \JsonSerializable
 {
     /**
      * Allowed options to set for the LavaObject.
@@ -55,20 +55,18 @@ class JsonConfig implements \JsonSerializable
     /**
      * Get the value of a set option via magic method.
      *
-     * @access public
      * @param  string $option Name of option.
      * @return mixed
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function __get($option)
     {
-        return $this->options->get($option);
+        return $this->options[$option];
     }
 
     /**
      * Gets the Options object for the JsonConfig
      *
-     * @access public
      * @return \Khill\Lavacharts\Options
      */
     public function getOptions()
@@ -81,14 +79,13 @@ class JsonConfig implements \JsonSerializable
      *
      * In order to maintain backwards compatibility, ConfigObjects will be unwrapped.
      *
-     * @access public
      * @param  string $option Option to set.
      * @param  mixed  $value Value of the option.
      * @return \Khill\Lavacharts\JsonConfig
      */
     public function setOption($option, $value)
     {
-        $this->options->set($option, $value);
+        $this->options[$option] = $value;
 
         return $this;
     }
@@ -97,32 +94,13 @@ class JsonConfig implements \JsonSerializable
      * Parses the config array by passing the values through each method to check
      * validity against if the option exists.
      *
-     * @access public
      * @param  array $config
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function setOptions($config)
     {
-        if (is_array($config) === false) {
-            throw new InvalidConfigValue(
-                static::TYPE . '->' . __FUNCTION__,
-                'array'
-            );
-        }
-
-        foreach ($config as $option => $value) {
-            if ($this->options->hasOption($option) === false) {
-                throw new InvalidConfigProperty(
-                    static::TYPE,
-                    __FUNCTION__,
-                    $option,
-                    $this->options->getDefaults()
-                );
-            }
-
-            call_user_func([$this, $option], $value);
-        }
+        $this->options->setOptions($config);
     }
 
     /**

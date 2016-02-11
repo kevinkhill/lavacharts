@@ -183,7 +183,7 @@ class Lavacharts
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      */
-    public function Dashboard($labelStr, $bindings = [], $elemId)
+    public function Dashboard($labelStr, $bindings = [])//, $elemId)
     {
         $label = new Label($labelStr);
 
@@ -274,7 +274,9 @@ class Lavacharts
         foreach ($lavaObjects as $resource) {
             if ($resource instanceof Dashboard) {
                 $output .= $this->jsFactory->getDashboardJs($resource, $resource->getElementId());
-            } else {
+            }
+
+            if ($resource instanceof Chart) {
                 $output .= $this->jsFactory->getChartJs($resource, $resource->getElementId());
             }
         }
