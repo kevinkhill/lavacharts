@@ -44,7 +44,7 @@ class Dashboard
      *
      * @var \Khill\Lavacharts\Dashboards\Bindings\BindingFactory
      */
-    private $BindingFactory;
+    private $bindingFactory;
 
     /**
      * Array of Binding objects, mapping controls to charts.

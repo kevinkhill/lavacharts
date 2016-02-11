@@ -2,12 +2,10 @@
 
 namespace Khill\Lavacharts\DataTables;
 
-use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\DataTables\Cells\Cell;
 use \Khill\Lavacharts\DataTables\Formats\Format;
 use \Khill\Lavacharts\DataTables\Rows\RowFactory;
 use \Khill\Lavacharts\DataTables\Columns\ColumnFactory;
-use \Khill\Lavacharts\Exceptions\InvalidJson;
 use \Khill\Lavacharts\Exceptions\InvalidTimeZone;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidColumnIndex;
@@ -71,6 +69,20 @@ class DataTable implements \JsonSerializable
     protected $dateTimeFormat;
 
     /**
+     * ColumnFactory for the DataTable
+     *
+     * @var \Khill\Lavacharts\DataTables\Columns\ColumnFactory
+     */
+    protected $columnFactory;
+
+    /**
+     * RowFactory for the DataTable
+     *
+     * @var \Khill\Lavacharts\DataTables\Rows\RowFactory
+     */
+    protected $rowFactory;
+
+    /**
      * Holds all of the DataTable's column objects.
      *
      * @var array
@@ -91,7 +103,8 @@ class DataTable implements \JsonSerializable
      */
     public function __construct($timezone = null)
     {
-        $this->rowFactory = new RowFactory($this);
+        $this->columnFactory = new ColumnFactory;
+        $this->rowFactory    = new RowFactory($this);
 
         if ($timezone === null) {
             $timezone = date_default_timezone_get();
@@ -103,21 +116,8 @@ class DataTable implements \JsonSerializable
     /**
      * Create a new DataCell for a value in a Row
      *
-     * v: The cell value. The data type should match the column data type.
-     * If null, the whole object should be empty and have neither v nor f properties.
-     *
-     * f: [Optional] A string version of the v value, formatted for display. The
-     * values should match, so if you specify Date(2008, 0, 1) for v, you should
-     * specify "January 1, 2008" or some such string for this property. This value
-     * is not checked against the v value. The visualization will not use this value
-     * for calculation, only as a label for display. If omitted, a string version
-     * of v will be used.
-     *
-     * p: [Optional] An object that is a map of custom values applied to the cell.
-     * These values can be of any JavaScript type. If your visualization supports
-     * any cell-level properties, it will describe them; otherwise, this property
-     * will be ignored. Example: p:{style: 'border: 1px solid green;'}.
-     *
+     * @deprecated 3.1.0 Use the DataFactory instead
+     * @see \Khill\Lavacharts\DataTables\DataFactory::cell
      *
      * @since  3.0.0
      * @param  mixed  $v Value of the Cell
@@ -127,17 +127,14 @@ class DataTable implements \JsonSerializable
      */
     public static function cell($v, $f = '', $p = [])
     {
-        return new Cell($v, $f, $p);
+        return DataFactory::cell($v, $f, $p);
     }
 
     /**
      * Parses a string of JSON data into a DataTable.
      *
-     * Most google examples can be passed to this method with some tweaks.
-     * PHP requires that only double quotes are used on identifiers.
-     * For example:
-     *  - {label: 'Team'} would be invalid
-     *  - {"label": "Team"} would be accepted.
+     * @deprecated 3.1.0 Use the DataFactory instead
+     * @see \Khill\Lavacharts\DataTables\DataFactory::createFromJson
      *
      * @since  3.0.0
      * @param  string $jsonString JSON string to decode
@@ -146,33 +143,12 @@ class DataTable implements \JsonSerializable
      */
     public static function createFromJson($jsonString)
     {
-        $decodedJson = json_decode($jsonString, true);
-
-        if ($decodedJson === null) {
-            throw new InvalidJson;
-        }
-
-        $datatable = new DataTable();
-
-        foreach ($decodedJson['cols'] as $column) {
-            $datatable->addColumn($column['type'], $column['label']);
-        }
-
-        foreach ($decodedJson['rows'] as $row) {
-            $rowData = [];
-
-            foreach ($row['c'] as $cell) {
-                $rowData[] = $cell['v'];
-            }
-
-            $datatable->addRow($rowData);
-        }
-
-        return $datatable;
+        return DataFactory::createFromJson($jsonString);
     }
 
     /**
      * Sets the Timezone that Carbon will use when parsing dates
+     *
      * This will use the passed timezone, falling back to the default from php.ini,
      * and falling back from that to America/Los_Angeles
      *
@@ -282,17 +258,17 @@ class DataTable implements \JsonSerializable
     public function addColumn($typeOrColDescArr, $label = '', Format $format = null, $role = '')
     {
         if (is_array($typeOrColDescArr)) {
-            call_user_func_array([$this, 'createColumnWithParams'], $typeOrColDescArr);
-        } elseif (is_string($typeOrColDescArr)) {
-            $this->createColumnWithParams($typeOrColDescArr, $label, $format, $role);
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string|array'
-            );
+            return call_user_func_array([$this, 'createColumnWithParams'], $typeOrColDescArr);
         }
 
-        return $this;
+        if (is_string($typeOrColDescArr)) {
+            return $this->createColumnWithParams($typeOrColDescArr, $label, $format, $role);
+        }
+
+        throw new InvalidConfigValue(
+            __FUNCTION__,
+            'string|array'
+        );
     }
 
     /**
@@ -317,7 +293,6 @@ class DataTable implements \JsonSerializable
 
         return $this;
     }
-
 
     /**
      * Supplemental function to add a boolean column with less params.
@@ -439,7 +414,7 @@ class DataTable implements \JsonSerializable
      */
     protected function createColumnWithParams($type, $label = '', $format = null, $role = '')
     {
-        $this->cols[] = ColumnFactory::create($type, $label, $format, $role);
+        $this->cols[] = $this->columnFactory->create($type, $label, $format, $role);
 
         return $this;
     }
@@ -477,7 +452,7 @@ class DataTable implements \JsonSerializable
     {
         $this->indexCheck($index);
 
-        $this->cols[$index] = ColumnFactory::applyFormat($this->cols[$index], $format);
+        $this->cols[$index] = $this->columnFactory->applyFormat($this->cols[$index], $format);
 
         return $this;
     }
@@ -638,9 +613,7 @@ class DataTable implements \JsonSerializable
      */
     public function getColumnsByType($type)
     {
-        if (Utils::nonEmptyStringInArray($type, ColumnFactory::$TYPES) === false) {
-            throw new InvalidColumnType($type, ColumnFactory::$TYPES);
-        }
+        $this->columnFactory->typeCheck($type);
 
         $indices = [];
 
