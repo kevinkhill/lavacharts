@@ -83,13 +83,13 @@ class ColumnFactory
      */
     public static function create($type, $label = '', Format $format = null, $role = '')
     {
-        if (Utils::nonEmptyStringInArray($type, self::$TYPES) === false) {
+        if (Utils::nonEmptyStringInArray($type, self::$TYPES) === false) {//@TODO: convert to nonEmptyStringInArray to trait
             throw new InvalidColumnType($type, self::$TYPES);
         }
 
         $columnArgs = [$type];
 
-        if (Utils::nonEmptyString($label) === true) {
+        if (Utils::nonEmptyString($label) === true) { //@TODO: convert to nonEmptyString to trait
             $columnArgs[] = $label;
         } else {
             $columnArgs[] = '';

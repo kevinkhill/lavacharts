@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Dashboards\Bindings;
 
-use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Dashboards\ChartWrapper;
 use \Khill\Lavacharts\Dashboards\ControlWrapper;
 use \Khill\Lavacharts\Exceptions\InvalidBindings;
@@ -23,27 +22,29 @@ use \Khill\Lavacharts\Exceptions\InvalidBindings;
  */
 class BindingFactory
 {
+    use \Khill\Lavacharts\Traits\ArrayValuesTestTrait;
+
     /**
      * Create a new Binding for the dashboard.
      *
-     * @param  mixed $arg1 One or array of many ControlWrappers
-     * @param  mixed $arg2 One or array of many ChartWrappers
+     * @param  mixed $controlWraps One or array of many ControlWrappers
+     * @param  mixed $chartWraps   One or array of many ChartWrappers
      * @throws \Khill\Lavacharts\Exceptions\InvalidBindings
      * @return \Khill\Lavacharts\Dashboards\Bindings\Binding
      */
-    public static function create($arg1, $arg2)
+    public function create($controlWraps, $chartWraps)
     {
-        $chartWrapperArrayCheck   = Utils::arrayValuesCheck($arg2, 'class', 'ChartWrapper');
-        $controlWrapperArrayCheck = Utils::arrayValuesCheck($arg1, 'class', 'ControlWrapper');
+        $chartWrapCheck   = $this->arrayValuesTest($chartWraps, 'class', 'ChartWrapper');
+        $controlWrapCheck = $this->arrayValuesTest($controlWraps, 'class', 'ControlWrapper');
 
-        if ($arg1 instanceof ControlWrapper && $arg2 instanceof ChartWrapper) {
-            return new OneToOne($arg1, $arg2);
-        } elseif ($arg1 instanceof ControlWrapper && $chartWrapperArrayCheck) {
-            return new OneToMany($arg1, $arg2);
-        } elseif ($controlWrapperArrayCheck && $arg2 instanceof ChartWrapper) {
-            return new ManyToOne($arg1, $arg2);
-        } elseif ($controlWrapperArrayCheck && $chartWrapperArrayCheck) {
-            return new ManyToMany($arg1, $arg2);
+        if ($controlWraps instanceof ControlWrapper && $chartWraps instanceof ChartWrapper) {
+            return new OneToOne($controlWraps, $chartWraps);
+        } elseif ($controlWraps instanceof ControlWrapper && $chartWrapCheck) {
+            return new OneToMany($controlWraps, $chartWraps);
+        } elseif ($controlWrapCheck && $chartWraps instanceof ChartWrapper) {
+            return new ManyToOne($controlWraps, $chartWraps);
+        } elseif ($controlWrapCheck && $chartWrapCheck) {
+            return new ManyToMany($controlWraps, $chartWraps);
         } else {
             throw new InvalidBindings;
         }

@@ -24,6 +24,8 @@ use \Khill\Lavacharts\Exceptions\DashboardNotFound;
  */
 class Volcano
 {
+    use \Khill\Lavacharts\Traits\NonEmptyStringTrait;
+
     /**
      * Holds all of the defined Charts.
      *
@@ -121,7 +123,7 @@ class Volcano
      */
     public function checkChart($type, Label $label)
     {
-        if (Utils::nonEmptyString($type) === false) {
+        if ($this->nonEmptyString($type) === false) {
             return false;
         }
 

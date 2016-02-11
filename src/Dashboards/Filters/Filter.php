@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
-use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Configs\Options;
 use \Khill\Lavacharts\Configs\JsonConfig;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -26,6 +25,8 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  */
 class Filter implements \JsonSerializable //@TODO: JsonConfig?
 {
+    use \Khill\Lavacharts\Traits\NonEmptyStringTrait;
+
     /**
      * Filter configuration options.
      *
@@ -45,7 +46,7 @@ class Filter implements \JsonSerializable //@TODO: JsonConfig?
      */
     public function __construct($columnLabelOrIndex, $config = [])
     {
-        if (Utils::nonEmptyString($columnLabelOrIndex) === false && is_int($columnLabelOrIndex) === false) {
+        if ($this->nonEmptyString($columnLabelOrIndex) === false && is_int($columnLabelOrIndex) === false) {
             throw new InvalidConfigValue(
                 static::TYPE . '->' . __FUNCTION__,
                 'string|int'

@@ -3,9 +3,8 @@
 namespace Khill\Lavacharts\DataTables\Cells;
 
 use \Carbon\Carbon;
-use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
-use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\Exceptions\FailedCarbonParsing;
+use \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use \Khill\Lavacharts\Exceptions\InvalidDateTimeString;
 
 /**
@@ -24,6 +23,8 @@ use \Khill\Lavacharts\Exceptions\InvalidDateTimeString;
  */
 class DateCell extends Cell
 {
+    use \Khill\Lavacharts\Traits\NonEmptyStringTrait;
+
     /**
      * Creates a new DateCell object from a Carbon object.
      *
@@ -56,7 +57,7 @@ class DateCell extends Cell
             return new DateCell();
         }
 
-        if (Utils::nonEmptyString($dateTimeString) === false) {
+        if ($this->nonEmptyString($dateTimeString) === false) {
             throw new InvalidDateTimeString($dateTimeString);
         }
 
@@ -64,7 +65,7 @@ class DateCell extends Cell
             throw new InvalidDateTimeFormat($dateTimeFormat);
         }
 
-        if (Utils::nonEmptyString($dateTimeFormat) === false) {
+        if ($this->nonEmptyString($dateTimeFormat) === false) {
             $carbon = Carbon::parse($dateTimeString);
         } else {
             $carbon = Carbon::createFromFormat($dateTimeFormat, $dateTimeString);

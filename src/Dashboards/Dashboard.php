@@ -40,6 +40,13 @@ class Dashboard
     const VIZ_CLASS = 'google.visualization.Dashboard';
 
     /**
+     * Binding Factory for creating new bindings
+     *
+     * @var \Khill\Lavacharts\Dashboards\Bindings\BindingFactory
+     */
+    private $BindingFactory;
+
+    /**
      * Array of Binding objects, mapping controls to charts.
      *
      * @var array
@@ -56,6 +63,8 @@ class Dashboard
      */
     public function __construct(Label $label, $bindings = [])
     {
+        $this->bindingFactory = new BindingFactory;
+
         $this->label    = $label;
         $this->bindings = [];
 
@@ -86,7 +95,7 @@ class Dashboard
      */
     public function setBindings($bindings)
     {
-        $this->bindings = BindingFactory::creatFromArray($bindings);
+        $this->bindings = $this->bindingFactory->creatFromArray($bindings);
 
         return $this;
     }
@@ -129,7 +138,6 @@ class Dashboard
      * - If an array of ControlWrappers is passed with one ChartWrapper, then
      *   a ManyToOne binding is created.
      *
-     * @uses   \Khill\Lavacharts\Dashboard\Bindings\BindingFactory
      * @param  \Khill\Lavacharts\Dashboards\ControlWrapper|array $controlWraps
      * @param  \Khill\Lavacharts\Dashboards\ChartWrapper|array   $chartWraps
      * @return \Khill\Lavacharts\Dashboards\Dashboard
@@ -137,7 +145,7 @@ class Dashboard
      */
     public function bind($controlWraps, $chartWraps)
     {
-        $this->bindings[] = BindingFactory::create($controlWraps, $chartWraps);
+        $this->bindings[] = $this->bindingFactory->create($controlWraps, $chartWraps);
 
         return $this;
     }
