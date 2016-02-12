@@ -23,17 +23,20 @@
       elementId. It will be all lowercase, with any special characters replaced with
       hyphens.
       - For example: Price Of Goods => price-of-goods and Fancy+Chart! => fancy-chart
+  - Because of the above addition, the user can now use the magical new method ```$lava->renderAll()```
+    to output all configured charts onto the page. The only prerequisite being that
+    the div's are in the page with the id's set
   - Adding DataFactory with arrayToDataTable() method to try and automatically
     create columns and rows based on an array of data with labels. This mimics how
     Google's javascript version of the method works for creating DataTables more
     efficiently. Currently only works with strings and numbers.
-    - [Example Gist](https://gist.github.com/kevinkhill/b4b0cccb832250e227c0)
-  - Adding DataTable() method to the DataFactory as a shortcut to chaining methods.
-    - The method has three signatures:
-    - No params for an empty, default timezone DataTable
-    - String param for setting the timezone
-    - Array of columns and array of rows as 1st and 2nd for a complete DataTable in
-      one method call. (The third paramater can also be used to set the timezone.)
+    - Adding DataTable() method to the DataFactory as a shortcut to chaining methods.
+      - The method has three signatures:
+      - No params for an empty, default timezone DataTable
+      - String param for setting the timezone
+      - Array of columns and array of rows as 1st and 2nd for a complete DataTable in
+        one method call. (The third paramater can also be used to set the timezone.)
+    - [DataFactory Examples](https://gist.github.com/kevinkhill/0c7c5f6211c7fd8f9658)
   - All exceptions now extend LavaException if the user wants to have a catch all
   - Utils class removed, broken into traits, and applied to classes that needed the methods
 
