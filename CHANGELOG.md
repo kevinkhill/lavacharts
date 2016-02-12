@@ -13,6 +13,16 @@
       - SteppedAreaChart
       - TimelineChart
       - TreemapChart
+  - The output element ID of the chart is now a property of the chart, and is no
+    longer passed to the render method. When rendering the chart, the element ID
+    assigned during creation will be used.
+    - If no options are needed on the chart, then it is the 3rd parameter.
+    - If options are used, then it is the 4th parameter OR it can be assigned
+      with the options as [ 'elementId' => 'render-chart-here' ]
+    - If not assigned by the user, then the chart's label will be converted to the
+      elementId. It will be all lowercase, with any special characters replaced with
+      hyphens.
+      - For example: Price Of Goods => price-of-goods and Fancy+Chart! => fancy-chart
   - Adding DataFactory with arrayToDataTable() method to try and automatically
     create columns and rows based on an array of data with labels. This mimics how
     Google's javascript version of the method works for creating DataTables more

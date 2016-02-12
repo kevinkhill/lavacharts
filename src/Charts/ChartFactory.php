@@ -2,18 +2,13 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Volcano;
 use \Khill\Lavacharts\Exceptions\InvalidDataTable;
 use \Khill\Lavacharts\Exceptions\InvalidLabel;
-use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Exceptions\InvalidFilterObject;
-use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
-use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
 
 /**
  * ChartFactory Class
@@ -46,7 +41,7 @@ class ChartFactory
      *
      * @var array
      */
-    private static $CHART_TYPES = [
+    public static $CHART_TYPES = [
         'AreaChart',
         'AnnotationChart',
         'BarChart',
@@ -92,46 +87,37 @@ class ChartFactory
      */
     public function create($type, $args)
     {
-        /*
-        if (in_array($type, static::$CHART_TYPES) === false) {
-            throw new InvalidChartType($type);
-        }
-        */
-
         if (isset($args[1]) === false) {
             throw new InvalidDataTable;
         }
 
-        $label   = new Label($args[0]);
-        $options = new Options( isset($args[2]) ? $args[2] : [] );
+        $chartBuilder = new ChartBuilder;
 
-        return $this->createChart($type, $args[1], $label, $options);
-    }
+        $chartBuilder->setType($type);
+        $chartBuilder->setLabel($args[0]);
+        $chartBuilder->setDatatable($args[1]);
 
-    /**
-     * Helper function to "create" for type hinting.
-     *
-     * @param  string $type Type of chart to create.
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable for the chart.
-     * @param  \Khill\Lavacharts\Values\Label         $label Chart label.
-     * @param  \Khill\Lavacharts\Configs\Options      $options Chart options.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLavaObject
-     * @return \Khill\Lavacharts\Charts\Chart
-     */
-    private function createChart($type, DataTable $datatable, Label $label, Options $options)
-    {
-        if ($this->volcano->checkChart($type, $label) === true) {
-            return $this->volcano->getChart($type, $label);
+        if (isset($args[2])) {
+            if (is_string($args[2])) {
+                $chartBuilder->setElementId($args[2]);
+            }
+
+            if (is_array($args[2])) {
+                if (array_key_exists('elementId', $args[2])) {
+                    $chartBuilder->setElementId($args[2]['elementId']);
+                }
+
+                $chartBuilder->setOptions($args[2]);
+            }
         }
 
-        $newChart = __NAMESPACE__ . '\\' . $type;
+        if (isset($args[3])) {
+            $chartBuilder->setElementId($args[3]);
+        }
 
-        $chart = new $newChart($label, $datatable, $options);
+        $chart = $chartBuilder->getChart();
 
-        $this->volcano->storeChart($chart);
-
-        return $chart;
+        return $this->volcano->storeChart($chart);
     }
 
     /**
@@ -141,7 +127,7 @@ class ChartFactory
      * @since  3.1.0
      * @return array
      */
-    public static function chartTypes()
+    public function chartTypes()
     {
         return static::$CHART_TYPES;
     }

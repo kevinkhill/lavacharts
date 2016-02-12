@@ -9,7 +9,7 @@ use \Khill\Lavacharts\Exceptions\ChartNotFound;
 use \Khill\Lavacharts\Exceptions\DashboardNotFound;
 
 /**
- * Volcano Storage Class
+ * Volcano Class
  *
  * Storage class that holds all defined charts and dashboards.
  *
@@ -41,29 +41,29 @@ class Volcano
     private $dashboards = [];
 
     /**
-     * Stores a chart in the volcano datastore.
+     * Stores a chart in the volcano datastore and gives it back.
      *
      * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to store in the volcano.
-     * @return boolean
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function storeChart(Chart $chart)
     {
         $this->charts[$chart->getType()][(string) $chart->getLabel()] = $chart;
 
-        return true;
+        return $chart;
     }
 
     /**
-     * Stores a dashboard in the volcano datastore.
+     * Stores a dashboard in the volcano datastore and gives it back.
      *
      * @param  \Khill\Lavacharts\Dashboards\Dashboard $dashboard Dashboard to store in the volcano.
-     * @return boolean
+     * @return \Khill\Lavacharts\Dashboards\Dashboard
      */
     public function storeDashboard(Dashboard $dashboard)
     {
         $this->dashboards[(string) $dashboard->getLabel()] = $dashboard;
 
-        return true;
+        return $dashboard;
     }
 
     /**
@@ -107,9 +107,13 @@ class Volcano
      */
     public function getAll()
     {
-        $chartsIterator = new \RecursiveArrayIterator($this->charts);
+        $charts = [];
 
-        $charts = iterator_to_array($chartsIterator);
+        foreach ($this->charts as $chartType) {
+            foreach ($chartType as $chart) {
+                $charts[] = $chart;
+            }
+        }
 
         return array_merge($charts, $this->dashboards);
     }
@@ -117,7 +121,7 @@ class Volcano
     /**
      * Simple true/false test if a chart exists.
      *
-     * @param  string $type  Type of chart to check.
+     * @param  string                         $type  Type of chart to check.
      * @param  \Khill\Lavacharts\Values\Label $label Identifying label of a chart to check.
      * @return boolean
      */
@@ -137,7 +141,7 @@ class Volcano
     /**
      * Simple true/false test if a dashboard exists.
      *
-     * @param  \Khill\Lavacharts\Values\Label $label Identifying label of a chart to check.
+     * @param  \Khill\Lavacharts\Values\Label $label Identifying label of a dashboard to check.
      * @return boolean
      */
     public function checkDashboard(Label $label)

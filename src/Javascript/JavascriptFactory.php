@@ -130,7 +130,7 @@ class JavascriptFactory
      */
     public function getChartJs(Chart $chart, ElementId $elementId)
     {
-        return (new ChartFactory($chart, $elementId))->getJavascript();
+        return (new ChartJsFactory($chart, $elementId))->getJavascript();
     }
 
     /**
@@ -144,7 +144,7 @@ class JavascriptFactory
      */
     public function getDashboardJs(Dashboard $dashboard, ElementId $elementId)
     {
-        return (new DashboardFactory($dashboard, $elementId))->getJavascript();
+        return (new DashboardJsFactory($dashboard, $elementId))->getJavascript();
     }
 
     /**

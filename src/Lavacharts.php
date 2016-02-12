@@ -120,8 +120,12 @@ class Lavacharts
         }
 
         //Charts
-        if (in_array($method, ChartFactory::chartTypes())) {
-            $lavaClass = $this->chartFactory->create($method, $args);
+        if (in_array($method, $this->chartFactory->chartTypes())) {
+            if ($this->exists($method, $args[0])) {
+                $lavaClass = $this->fetch($method, $args[0]);
+            } else {
+                $lavaClass = $this->chartFactory->create($method, $args);
+            }
         }
 
         //Formats
@@ -275,12 +279,12 @@ class Lavacharts
             if ($resource instanceof Dashboard) {
                 $output .= $this->jsFactory->getDashboardJs($resource, $resource->getElementId());
             }
-var_dump($resource);
+
             if ($resource instanceof Chart) {
                 $output .= $this->jsFactory->getChartJs($resource, $resource->getElementId());
             }
         }
-var_dump($output);
+
         return $output;
     }
 
@@ -417,7 +421,7 @@ var_dump($output);
      * @access public
      * @since  3.0.0
      * @param  Chart|Dashboard $lavaObj Chart or Dashboard.
-     * @return boolean
+     * @return mixed
      */
     public function store($lavaObj)
     {

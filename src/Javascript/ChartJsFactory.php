@@ -22,7 +22,7 @@ use \Khill\Lavacharts\DataTables\DataTable;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class ChartFactory extends JavascriptFactory
+class ChartJsFactory extends JavascriptFactory
 {
     /**
      * Location of the output template.
@@ -48,7 +48,6 @@ class ChartFactory extends JavascriptFactory
     public function __construct(Chart $chart, ElementId $elementId = null)
     {
         $this->chart        = $chart;
-        var_dump($this->chart);
         $this->chart->setElementId($elementId); //@TODO: bandaid for now
         //$this->elementId    = $elementId;
         $this->template     = file_get_contents(realpath(self::OUTPUT_TEMPLATE));

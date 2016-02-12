@@ -22,7 +22,7 @@ use \Khill\Lavacharts\Dashboards\Dashboard;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class DashboardFactory extends JavascriptFactory
+class DashboardJsFactory extends JavascriptFactory
 {
     /**
      * Location of the output template.
