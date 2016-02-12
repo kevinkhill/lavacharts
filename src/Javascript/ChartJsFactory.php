@@ -41,15 +41,15 @@ class ChartJsFactory extends JavascriptFactory
     /**
      * Creates a new ChartFactory with the javascript template.
      *
-     * @access public
      * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to process
-     * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to output into.
      */
-    public function __construct(Chart $chart, ElementId $elementId = null)
+    public function __construct(Chart $chart)
     {
+        if ($chart->getElementId() instanceof ElementId === false) {
+            throw new InvalidElementId;
+        }
+
         $this->chart        = $chart;
-        $this->chart->setElementId($elementId); //@TODO: bandaid for now
-        //$this->elementId    = $elementId;
         $this->template     = file_get_contents(realpath(self::OUTPUT_TEMPLATE));
         $this->templateVars = $this->getTemplateVars();
 

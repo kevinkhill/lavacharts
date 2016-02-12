@@ -117,7 +117,7 @@ class ChartFactory
 
         $chart = $chartBuilder->getChart();
 
-        return $this->volcano->storeChart($chart);
+        return $this->volcano->store($chart);
     }
 
     /**

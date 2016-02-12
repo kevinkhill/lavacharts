@@ -42,16 +42,12 @@ class DashboardJsFactory extends JavascriptFactory
      * Creates a new DashboardFactory with the javascript template.
      *
      * @param \Khill\Lavacharts\Dashboards\Dashboard $dashboard
-     * @param \Khill\Lavacharts\Values\ElementId     $elementId HTML element id to output into.
      */
-    public function __construct(Dashboard $dashboard, ElementId $elementId)
+    public function __construct(Dashboard $dashboard)
     {
         $this->dashboard    = $dashboard;
-        $this->dashboard->setElementId($elementId); //@TODO: this is a patch for now
-        //$this->elementId    = $elementId;
         $this->template     = file_get_contents(realpath(self::OUTPUT_TEMPLATE));
         $this->templateVars = $this->getTemplateVars();
-
     }
 
     /**

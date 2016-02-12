@@ -54,13 +54,6 @@ class JavascriptFactory
     protected $out;
 
     /**
-     * HTML element id to output the chart into.
-     *
-     * @var string
-     */
-    protected $elementId;
-
-    /**
      * Javascript template for output.
      *
      * @var string
@@ -75,7 +68,7 @@ class JavascriptFactory
     protected $templateVars;
 
     /**
-     * Tracks if the lava js core and jsapi have been rendered.
+     * Tracks if the lava.js module and jsapi have been rendered.
      *
      * @var bool
      */
@@ -123,28 +116,24 @@ class JavascriptFactory
     /**
      * Checks for an element id to output the chart into and builds the Javascript.
      *
-     * @uses   \Khill\Lavacharts\Charts\Chart
      * @param  \Khill\Lavacharts\Charts\Chart     $chart Chart to render.
-     * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to output the chart into.
      * @return string Javascript code block.
      */
-    public function getChartJs(Chart $chart, ElementId $elementId)
+    public function getChartJs(Chart $chart)
     {
-        return (new ChartJsFactory($chart, $elementId))->getJavascript();
+        return (new ChartJsFactory($chart))->getJavascript();
     }
 
     /**
      * Checks for an element id to output the chart into and builds the Javascript.
      *
      * @since  3.0.0
-     * @uses   \Khill\Lavacharts\Dashboards\Dashboard
      * @param  \Khill\Lavacharts\Dashboards\Dashboard $dashboard Dashboard to render.
-     * @param  \Khill\Lavacharts\Values\ElementId     $elementId HTML element id to output the dashboard into.
      * @return string Javascript code block.
      */
-    public function getDashboardJs(Dashboard $dashboard, ElementId $elementId)
+    public function getDashboardJs(Dashboard $dashboard)
     {
-        return (new DashboardJsFactory($dashboard, $elementId))->getJavascript();
+        return (new DashboardJsFactory($dashboard))->getJavascript();
     }
 
     /**

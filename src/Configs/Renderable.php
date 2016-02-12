@@ -38,6 +38,9 @@ class Renderable
     {
         if ($elementId === null) {
             $elementId = $this->generateElementId($this->label);
+
+            $noticeMsg = 'No ElementId was set for '.static::TYPE.'('.$this->label.'), using "'.$elementId.'".';
+            trigger_error($noticeMsg, E_USER_NOTICE);
         }
 
         $this->elementId = $elementId;
@@ -66,7 +69,7 @@ class Renderable
     /**
      * Generate an ElementId
      *
-     * This method removes invalid characters from a string
+     * This method removes invalid characters from the chart label
      * to use as an elementId.
      *
      * @link http://stackoverflow.com/a/11330527/2503458
