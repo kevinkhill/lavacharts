@@ -119,7 +119,7 @@ class Lavacharts
         }
 
         //Charts
-        if (in_array($method, $this->chartFactory->chartTypes())) {
+        if (in_array($method, $this->chartFactory->getChartTypes())) {
             if ($this->exists($method, $args[0])) {
                 $lavaClass = $this->fetch($method, $args[0]);
             } else {

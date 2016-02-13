@@ -29,7 +29,7 @@ class ChartJsFactory extends JavascriptFactory
      *
      * @var string
      */
-    const OUTPUT_TEMPLATE = __DIR__ . '/../../javascript/chart.tmpl.js';
+    const OUTPUT_TEMPLATE = '/../../javascript/chart.tmpl.js';
 
     /**
      * Chart to create javascript from.
@@ -45,12 +45,8 @@ class ChartJsFactory extends JavascriptFactory
      */
     public function __construct(Chart $chart)
     {
-        if ($chart->getElementId() instanceof ElementId === false) {
-            throw new InvalidElementId;
-        }
-
         $this->chart        = $chart;
-        $this->template     = file_get_contents(realpath(self::OUTPUT_TEMPLATE));
+        $this->template     = file_get_contents(realpath(__DIR__ . self::OUTPUT_TEMPLATE));
         $this->templateVars = $this->getTemplateVars();
 
         $this->eventCallbackTempate =
