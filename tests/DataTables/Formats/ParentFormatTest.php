@@ -39,7 +39,7 @@ class ParentFormatTest extends ProvidersTestCase
 
     public function testGetOptions()
     {
-        $this->assertInstanceOf('\Khill\Lavacharts\Options', $this->dateFormat->getOptions());
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Options', $this->dateFormat->getOptions());
     }
 
     public function testJsonSerialize()

@@ -23,7 +23,7 @@ class OptionsTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonArrayProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidOptions
      */
     public function testConstructorWithBadTypes($badTypes)
     {
@@ -32,9 +32,9 @@ class OptionsTest extends ProvidersTestCase
 
     public function testGetOption()
     {
-        $this->assertEquals($this->Options->get('food', 'tacos'));
-        $this->assertTrue($this->Options->get('chips'));
-        $this->assertEquals($this->Options->get('drink')['type'], 'beer');
-        $this->assertEquals($this->Options->get('drink')['count'], 3);
+        $this->assertEquals($this->Options['food'], 'tacos');
+        $this->assertTrue($this->Options['chips']);
+        $this->assertEquals($this->Options['drink']['type'], 'beer');
+        $this->assertEquals($this->Options['drink']['count'], 3);
     }
 }

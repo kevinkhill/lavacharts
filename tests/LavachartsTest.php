@@ -240,6 +240,6 @@ class LavachartsTest extends ProvidersTestCase
     {
         return array_map(function($chartType) {
             return [$chartType];
-        }, ChartFactory::chartTypes());
+        }, ChartFactory::getChartTypes());
     }
 }
