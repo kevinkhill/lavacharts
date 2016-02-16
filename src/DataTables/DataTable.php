@@ -826,7 +826,7 @@ class DataTable implements \JsonSerializable
      */
     protected function stripRows()
     {
-        unset($this->rows);
+        $this->rows = [];
 
         return $this;
     }
