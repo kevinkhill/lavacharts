@@ -127,7 +127,7 @@ class ChartFactory
      * @since  3.1.0
      * @return array
      */
-    public function chartTypes()
+    public static function getChartTypes()
     {
         return static::$CHART_TYPES;
     }

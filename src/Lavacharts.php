@@ -14,10 +14,7 @@ use \Khill\Lavacharts\Dashboards\Filters\Filter;
 use \Khill\Lavacharts\Dashboards\Filters\FilterFactory;
 use \Khill\Lavacharts\DataTables\DataFactory;
 use \Khill\Lavacharts\Javascript\JavascriptFactory;
-use \Khill\Lavacharts\Exceptions\InvalidDataTable;
-use \Khill\Lavacharts\Exceptions\InvalidLabel;
 use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidFilterObject;
 use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
 use \Khill\Lavacharts\Html\HtmlFactory;
@@ -122,7 +119,7 @@ class Lavacharts
         }
 
         //Charts
-        if (in_array($method, $this->chartFactory->chartTypes())) {
+        if (in_array($method, $this->chartFactory->getChartTypes())) {
             if ($this->exists($method, $args[0])) {
                 $lavaClass = $this->fetch($method, $args[0]);
             } else {
@@ -247,15 +244,14 @@ class Lavacharts
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
      */
-    public function render($type, $labelStr, $elementIdStr, $divDimensions = false)
+    public function render($type, $labelStr, $divDimensions = false)
     {
         $label     = new Label($labelStr);
-        $elementId = new ElementId($elementIdStr);
 
         if ($type == 'Dashboard') {
-            $output = $this->renderDashboard($label, $elementId);
+            $output = $this->renderDashboard($label);
         } else {
-            $output = $this->renderChart($type, $label, $elementId, $divDimensions);
+            $output = $this->renderChart($type, $label, $divDimensions);
         }
 
         return $output;
@@ -283,11 +279,11 @@ class Lavacharts
 
         foreach ($lavaObjects as $resource) {
             if ($resource instanceof Dashboard) {
-                $output .= $this->jsFactory->getDashboardJs($resource, $resource->getElementId());
+                $output .= $this->jsFactory->getDashboardJs($resource);
             }
 
             if ($resource instanceof Chart) {
-                $output .= $this->jsFactory->getChartJs($resource, $resource->getElementId());
+                $output .= $this->jsFactory->getChartJs($resource);
             }
         }
 
@@ -325,8 +321,7 @@ class Lavacharts
         }
 
         $jsOutput .= $this->jsFactory->getChartJs(
-            $this->volcano->getChart($type, $label),
-            $elementId
+            $this->volcano->get($type, $label)
         );
 
         return $jsOutput;
@@ -345,7 +340,7 @@ class Lavacharts
      * @return string Javascript output
      * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
      */
-    private function renderDashboard(Label $label, ElementId $elementId)
+    private function renderDashboard(Label $label)
     {
         $jsOutput = '';
 
@@ -354,8 +349,7 @@ class Lavacharts
         }
 
         $jsOutput .= $this->jsFactory->getDashboardJs(
-            $this->volcano->getDashboard($label),
-            $elementId
+            $this->volcano->get('Dashboard', $label)
         );
 
         return $jsOutput;
@@ -448,10 +442,10 @@ class Lavacharts
         if ($this->volcano->checkDashboard($label) === false) {
             $dashboard = new Dashboard($label, $bindings);
 
-            $this->volcano->storeDashboard($dashboard);
+            $this->volcano->store($dashboard);
         }
 
-        return $this->volcano->getDashboard($label);
+        return $this->volcano->get('Dashboard', $label);
     }
 
     /**

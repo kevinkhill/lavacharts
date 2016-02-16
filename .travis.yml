@@ -2,14 +2,6 @@ language: php
 
 sudo: false
 
-notifications:
-  webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/0a100612ee5327ce066f
-    on_success: change  # options: [always|never|change] default: always
-    on_failure: always  # options: [always|never|change] default: always
-    on_start: false     # default: false
-
 php:
   - 5.4
   - 5.5
@@ -36,6 +28,18 @@ cache:
     - vendor
     - node_modules
 
+addons:
+    code_climate:
+        repo_token: 2f9d341839519e41ab143a4266d37887674d9ed0e5304929d8622125314a17df
+
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/0a100612ee5327ce066f
+    on_success: change  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: false     # default: false
+
 before_install:
   - nvm install 0.10
   - nvm use 0.10
@@ -56,3 +60,4 @@ script:
 
 after_script:
   - php vendor/bin/coveralls
+  - ./vendor/bin/test-reporter

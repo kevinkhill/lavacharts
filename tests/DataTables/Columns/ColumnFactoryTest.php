@@ -7,13 +7,18 @@ use \Khill\Lavacharts\DataTables\Columns\ColumnFactory;
 
 class ColumnFactoryTest extends ProvidersTestCase
 {
+    public function __construct()
+    {
+        $this->columnFactory = new ColumnFactory;
+    }
+
     /**
      * @dataProvider columnTypeProvider
      * @covers \Khill\Lavacharts\DataTables\Columns\ColumnFactory::create
      */
     public function testCreateColumnsWithType($columnType)
     {
-        $column = ColumnFactory::create($columnType);
+        $column = $this->columnFactory->create($columnType);
 
         $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Columns\Column', $column);
         $this->assertEquals($columnType, $this->getPrivateProperty($column, 'type'));
@@ -25,7 +30,7 @@ class ColumnFactoryTest extends ProvidersTestCase
      */
     public function testCreateColumnsWithBadValue()
     {
-        ColumnFactory::create('milkshakes');
+        $this->columnFactory->create('milkshakes');
     }
 
     /**

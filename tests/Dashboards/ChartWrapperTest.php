@@ -35,7 +35,7 @@ class ChartWrapperTest extends ProvidersTestCase
     }
 
     /**
-     * @covers \Khill\Lavacharts\Dashboards\Wrapper::getContainerId
+     * @covers \Khill\Lavacharts\Dashboards\Wrapper::getElementId
      */
     public function testGetContainerId()
     {
@@ -43,7 +43,7 @@ class ChartWrapperTest extends ProvidersTestCase
 
         $chartWrapper = new ChartWrapper($areaChart, $this->mockElementId);
 
-        $this->assertEquals('TestId', $chartWrapper->getContainerId());
+        $this->assertEquals('TestId', $chartWrapper->getElementId());
     }
 
     public function testGetChart()

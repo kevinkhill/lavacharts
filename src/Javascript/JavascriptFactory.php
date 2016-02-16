@@ -44,7 +44,7 @@ class JavascriptFactory
      *
      * @var string
      */
-    const LAVA_JS = __DIR__.'/../../javascript/lava.js';
+    const LAVA_JS = '/../../javascript/lava.js';
 
     /**
      * Javascript output.
@@ -93,7 +93,7 @@ class JavascriptFactory
     public function getCoreJs()
     {
         $coreJs  = self::JS_OPEN;
-        $coreJs .= file_get_contents(realpath(self::LAVA_JS));
+        $coreJs .= file_get_contents(realpath(__DIR__ . self::LAVA_JS));
         $coreJs .= self::JS_CLOSE;
 
         $this->coreJsRendered = true;

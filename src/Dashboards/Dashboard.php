@@ -61,7 +61,7 @@ class Dashboard
      * @param \Khill\Lavacharts\Values\Label $label    Label for the Dashboard
      * @param array                          $bindings Array of bindings to apply
      */
-    public function __construct(Label $label, $bindings = [], ElementId $elementId)
+    public function __construct(Label $label, $bindings = [], ElementId $elementId = null)
     {
         $this->bindingFactory = new BindingFactory;
 

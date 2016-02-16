@@ -23,14 +23,16 @@ class NumberFormatTest extends ProvidersTestCase
             'suffix'         => '/hr'
         ]);
 
-        $this->assertEquals('.', $numberFormat->decimalSymbol);
-        $this->assertEquals(2, $numberFormat->fractionDigits);
-        $this->assertEquals(',', $numberFormat->groupingSymbol);
-        $this->assertEquals('red', $numberFormat->negativeColor);
-        $this->assertTrue($numberFormat->negativeParens);
-        $this->assertEquals('#,###', $numberFormat->pattern);
-        $this->assertEquals('$', $numberFormat->prefix);
-        $this->assertEquals('/hr', $numberFormat->suffix);
+        $numberFormatOptions = $numberFormat->getOptions();
+
+        $this->assertEquals('.', $numberFormatOptions['decimalSymbol']);
+        $this->assertEquals(2, $numberFormatOptions['fractionDigits']);
+        $this->assertEquals(',', $numberFormatOptions['groupingSymbol']);
+        $this->assertEquals('red', $numberFormatOptions['negativeColor']);
+        $this->assertTrue($numberFormatOptions['negativeParens']);
+        $this->assertEquals('#,###', $numberFormatOptions['pattern']);
+        $this->assertEquals('$', $numberFormatOptions['prefix']);
+        $this->assertEquals('/hr', $numberFormatOptions['suffix']);
     }
 
     public function testGetType()

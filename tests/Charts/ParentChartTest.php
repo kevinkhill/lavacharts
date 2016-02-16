@@ -44,7 +44,6 @@ class ChartAndTraitsTest extends ProvidersTestCase
     }
 
     /**
-     * @depends testTitleWithValidValue
      * @depends testWidthWithValidValue
      * @depends testHeightWithValidValue
      */
