@@ -44,7 +44,7 @@ class JavascriptFactory
      *
      * @var string
      */
-    const LAVA_JS = '/../../javascript/lava.js';
+    const LAVA_JS = '/../../javascript/lavacharts.min.js';
 
     /**
      * Javascript output.

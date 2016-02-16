@@ -39,7 +39,7 @@ class Renderable
         if ($elementId === null) {
             $elementId = $this->generateElementId($this->label);
 
-            $noticeMsg = 'No ElementId was set for '.static::TYPE.'('.$this->label.'), using "'.$elementId.'".';
+            $noticeMsg = 'No ElementId was set for '.static::TYPE.'("'.$this->label.'"), using "'.$elementId.'".';
             trigger_error($noticeMsg, E_USER_NOTICE);
         }
 

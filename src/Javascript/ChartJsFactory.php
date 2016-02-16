@@ -50,13 +50,13 @@ class ChartJsFactory extends JavascriptFactory
         $this->templateVars = $this->getTemplateVars();
 
         $this->eventCallbackTempate =
-            'google.visualization.events.addListener($this.chart, "%1$s", function (event) {'.
-            '    return lava.event(event, $this.chart, %2$s);'.
+            'google.visualization.events.addListener(this.chart, "%1$s", function (event) {'.
+            '    return lava.event(event, this.chart, %2$s);'.
             '});';
 
         $this->formatTemplate =
-            '$this.formats["col%1$s"] = new google.visualization.%2$s(%3$s);' .
-            '$this.formats["col%1$s"].format($this.data, %1$s);';
+            'this.formats["col%1$s"] = new google.visualization.%2$s(%3$s);' .
+            'this.formats["col%1$s"].format(this.data, %1$s);';
     }
 
     /**
