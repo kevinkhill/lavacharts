@@ -18,8 +18,8 @@ var lava = function() {
   this._dashboards    = [];
   this._readyCallback = null;
 
-  this.errors = require('./lava/Errors.js')
-  this.dataTableVersion = '0.6';
+  this.dataVer = '0.6';
+  this.errors  = require('./lava/Errors.js');
 };
 
 util.inherits(lava, EventEmitter);
@@ -48,8 +48,9 @@ lava.prototype.ready = function (callback) {
     throw this.errors.INVALID_CALLBACK(callback);
   }
 
-  //this._readyCallback = callback;
-  this._.defer(callback);
+  this._readyCallback = callback;
+
+  this.on('ready', this._readyCallback);
 };
 
 /**
@@ -74,12 +75,12 @@ lava.prototype.event = function (event, chart, callback) {
  * Used with an AJAX call to a PHP method returning DataTable->toJson(),
  * a chart can be dynamically update in page, without reloads.
  *
- * @param {string} chartLabel
+ * @param {string} label
  * @param {string} json
  * @param {function} callback
  */
-lava.prototype.loadData = function (chartLabel, json, callback) {
-  this.getChart(chartLabel, function (chart) {
+lava.prototype.loadData = function (label, json, callback) {
+  this.getChart(label, function (chart) {
     if (typeof json.data != 'undefined') {
       chart.setData(json.data);
     } else {
@@ -99,12 +100,21 @@ lava.prototype.loadData = function (chartLabel, json, callback) {
 };
 
 /**
- * Stores a chart within lava.js and registers it for redraws.
+ * Stores a chart within lava.js
  *
  * @param chart Chart
  */
 lava.prototype.storeChart = function (chart) {
   this._charts.push(chart);
+};
+
+/**
+ * Stores a dashboard within lava.js
+ *
+ * @param chart Chart
+ */
+lava.prototype.storeDashboard = function (dash) {
+    this._dashboards.push(dash);
 };
 
 /**
@@ -120,25 +130,24 @@ lava.prototype.storeChart = function (chart) {
  * See https://google-developers.appspot.com/chart/interactive/docs/gallery/linechart#methods
  * for some examples relative to LineCharts.
  *
- * @param  {string}   chartLabel
+ * @param  {string}   label
  * @param  {function} callback
  */
-lava.prototype.getChart = function (chartLabel, callback) {
+lava.prototype.getChart = function (label, callback) {
   var _ = require('underscore');
 
-  if (typeof chartLabel != 'string') {
-    throw this.errors.INVALID_LABEL(chartLabel);
+  if (typeof label != 'string') {
+    throw this.errors.INVALID_LABEL(label);
   }
 
   if (typeof callback != 'function') {
     throw this.errors.INVALID_CALLBACK(callback);
   }
 
- // var chartTypes = Object.keys(this._charts);
-  var chart = _.find(this._charts, this._.matches({label:chartLabel}), this);
+  var chart = _.find(this._charts, _.matches({label:label}), this);
 
   if (! chart) {
-    throw this.errors.CHART_NOT_FOUND(chartLabel);
+    throw this.errors.CHART_NOT_FOUND(label);
   } else {
     callback(chart);
   }
@@ -180,26 +189,30 @@ lava.prototype.redrawCharts = function() {
  * @param  {Function} callback Callback function
  */
 lava.prototype.getDashboard = function (label, callback) {
-  if (typeof this._dashboards[label] === 'undefined') {
-    throw this.errors.DASHBOARD_NOT_FOUND(label);
-  }
+  var _ = require('underscore');
 
   if (typeof callback !== 'function') {
     throw this.errors.INVALID_CALLBACK(callback);
   }
 
-  var dashboard = this._dashboards[label];
+  var dash = _.find(this._dashboards, _.matches({label:label}), this);
 
-  callback(dashboard);
+  if (! dash) {
+    throw this.errors.DASHBOARD_NOT_FOUND(label);
+  } else {
+    callback(dash);
+  }
 };
 
 /**
  * Load Google's jsapi and fire an event when ready.
  */
 lava.prototype.loadJsapi = function() {
+  var Q = require('q');
   var s = document.createElement('script');
 
   s.type = 'text/javascript';
+  s.async = true;
   s.src = '//www.google.com/jsapi';
   s.onload = s.onreadystatechange = function (event) {
     event = event || window.event;
@@ -212,4 +225,21 @@ lava.prototype.loadJsapi = function() {
   }.bind(this);
 
   document.head.appendChild(s);
+};
+
+/**
+ * Run the lava.js module
+ */
+lava.prototype.run = function() {
+  this.loadJsapi();
+
+  var renderedCount = 0;
+
+  this.on('rendered', function() {
+    renderedCount++;
+
+    if (renderedCount == this._charts.length) {
+      this._readyCallback();
+    }
+  });
 };

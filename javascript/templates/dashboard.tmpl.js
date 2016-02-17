@@ -11,6 +11,8 @@ lava.on('jsapi:ready', function (google) {
         <bindings>
 
         this.dashboard.draw(this.data);
+
+        lava.emit('rendered');
     };
 
     lava.storeDashboard(dash);

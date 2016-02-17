@@ -15,6 +15,8 @@ lava.on('jsapi:ready', function (google) {
         <events>
 
         this.chart.draw(this.data, this.options);
+
+        lava.emit('rendered');
     };
 
     lava.storeChart(chart);

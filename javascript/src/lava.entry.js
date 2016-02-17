@@ -9,8 +9,8 @@
   this.addEventListener('resize', this.lava.redrawCharts);
 
   /**
-   * Initialize the lava.js module by downloading Google's jsapi
+   * Let's go!
    */
-  this.lava.loadJsapi();
+  this.lava.run();
 
 }).apply(window);

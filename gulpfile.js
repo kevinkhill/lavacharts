@@ -49,21 +49,19 @@ gulp.task('php:fix', function (done) {
 });
 
 gulp.task('js:build', function (done) {
-    return browserify('javascript/lavacharts.js')
+    return browserify('./javascript/src/lava.entry.js')
         .bundle()
-        .pipe(source('lavacharts.js'))
+        .pipe(source('lava.min.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init())
-        //.pipe(uglify())
+        .pipe(uglify())
         .pipe(sourcemaps.write())
-        .pipe(rename({
-            extname: ".min.js"
-        }))
-        .pipe(gulp.dest('javascript'))
+
+        .pipe(gulp.dest('./javascript/dist'))
 });
 
 gulp.task('js:lint', function (done) {
-    return gulp.src('./javascript/lava.js')
+    return gulp.src('./javascript/src/lava.js')
                .pipe(jshint());
 });
 
@@ -83,7 +81,7 @@ gulp.task('bump', function (done) { //-v=1.2.3
 gulp.task('js', ['js:lint', 'js:build'])
 
 gulp.task('watch', ['js'], function() {
-    gulp.watch('./javascript/lava.js', [
+    gulp.watch('./javascript/**/*.js', [
         'js'
     ]);
 });
