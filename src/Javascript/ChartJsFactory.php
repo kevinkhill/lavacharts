@@ -79,8 +79,6 @@ class ChartJsFactory extends JavascriptFactory
             'chartData'    => json_encode($chart->getDataTable()),
             'chartOptions' => json_encode($chart->getOptions()),
             'elemId'       => (string) $this->chart->getElementId(),
-            'dataVer'      => DataTable::VERSION,
-            'dataClass'    => DataTable::VIZ_CLASS,
             'formats'      => '',
             'events'       => ''
         ];

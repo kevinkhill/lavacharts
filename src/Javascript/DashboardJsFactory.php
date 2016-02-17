@@ -68,9 +68,7 @@ class DashboardJsFactory extends JavascriptFactory
                 Dashboard::VIZ_PACKAGE
             ],
             'elemId'    => (string) $this->dashboard->getElementId(),
-            'bindings'  => $this->processBindings(),
-            'dataVer'   => DataTable::VERSION,
-            'dataClass' => DataTable::VIZ_CLASS,
+            'bindings'  => $this->processBindings()
         ];
 
         foreach ($boundCharts as $chart) {

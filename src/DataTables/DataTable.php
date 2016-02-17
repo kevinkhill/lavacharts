@@ -41,20 +41,6 @@ class DataTable implements \JsonSerializable
     use \Khill\Lavacharts\Traits\NonEmptyStringTrait;
 
     /**
-     * Google's datatable version
-     *
-     * @var string
-     */
-    const VERSION = '0.6';
-
-    /**
-     * Google's visualization class name.
-     *
-     * @var string
-     */
-    const VIZ_CLASS = 'google.visualization.DataTable';
-
-    /**
      * Timezone for dealing with datetime and Carbon objects.
      *
      * @var \DateTimeZone
