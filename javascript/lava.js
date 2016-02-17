@@ -13,13 +13,13 @@ const util = require('util');
  */
 var lava = function() {
   EventEmitter.call(this);
-  this._ = require('underscore');
 
-  this._charts            = [];
-  this._dashboards        = [];
-  this._readyCallback     = function(){};
-  this._renderDashboards  = null;
-  this.errors = require('./lava.errors.js')
+  this._charts        = [];
+  this._dashboards    = [];
+  this._readyCallback = null;
+
+  this.errors = require('./lava/Errors.js')
+  this.dataTableVersion = '0.6';
 };
 
 util.inherits(lava, EventEmitter);
@@ -27,54 +27,17 @@ util.inherits(lava, EventEmitter);
 module.exports = new lava();
 
 
+
 /**
  * LavaChart object.
- *
- * @constructor
  */
-lava.prototype.Chart = function (type, label) {
-  this.type    = type;
-  this.label   = label;
-  this.data    = null;
-  this.chart   = null;
-  this.options = null;
-  this.formats = [];
-  this.element = null;
-  this.render  = function(){};
-  this.setData = function (data) {
-    this.data = new window.google.visualization.DataTable(data, '0.6');
-  };
-  this.setElement = function (elemId) {
-    this.element = document.getElementById(elemId);
-
-    if (! this.element) {
-      throw this.errors.ELEMENT_ID_NOT_FOUND(elemId);
-    }
-  };
-  this.redraw = function() {
-    this.chart.draw(this.data, this.options);
-  };
-  this.applyFormats = function (formatArr) {
-    for(var a=0; a < formatArr.length; a++) {
-      var formatJson = formatArr[a];
-      var formatter = new google.visualization[formatJson.type](formatJson.config);
-
-      formatter.format(this.data, formatJson.index);
-    }
-  };
-};
+lava.prototype.Chart = require('./lava/Chart.js')
 
 /**
  * Dashboard object.
- *
- * @constructor
  */
-lava.prototype.Dashboard = function() {
-  this.render    = null;
-  this.data      = null;
-  this.bindings  = [];
-  this.dashboard = null;
-};
+lava.prototype.Dashboard = require('./lava/Dashboard.js');
+
 
 lava.prototype.DataTable = function (data) {
   return new window.google.visualization.DataTable(data);
@@ -85,7 +48,8 @@ lava.prototype.ready = function (callback) {
     throw this.errors.INVALID_CALLBACK(callback);
   }
 
-  this._readyCallback = callback;
+  //this._readyCallback = callback;
+  this._.defer(callback);
 };
 
 /**
@@ -129,7 +93,7 @@ lava.prototype.loadData = function (chartLabel, json, callback) {
     chart.redraw();
 
     if (typeof callback == 'function') {
-      callback(chart.chart);
+      callback(chart);
     }
   });
 };
@@ -160,6 +124,8 @@ lava.prototype.storeChart = function (chart) {
  * @param  {function} callback
  */
 lava.prototype.getChart = function (chartLabel, callback) {
+  var _ = require('underscore');
+
   if (typeof chartLabel != 'string') {
     throw this.errors.INVALID_LABEL(chartLabel);
   }
@@ -169,7 +135,7 @@ lava.prototype.getChart = function (chartLabel, callback) {
   }
 
  // var chartTypes = Object.keys(this._charts);
-  var chart = this._.find(this._charts, this._.matches({label:chartLabel}), this);
+  var chart = _.find(this._charts, this._.matches({label:chartLabel}), this);
 
   if (! chart) {
     throw this.errors.CHART_NOT_FOUND(chartLabel);
@@ -201,7 +167,6 @@ lava.prototype.redrawCharts = function() {
   var _ = require('underscore');
 
   _.debounce(function() {
-    console.log('resize');
     _.each(this._charts, function (chart) {
       chart.redraw();
     });

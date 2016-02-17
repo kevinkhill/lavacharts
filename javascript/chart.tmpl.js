@@ -4,7 +4,7 @@ lava.on('jsapi:ready', function (google) {
     chart.setElement('<elemId>');
 
     chart.render = function (data) {
-        this.data = new <dataClass>(<chartData>, <dataVer>);
+        this.setData(<chartData>);
 
         this.options = <chartOptions>;
 
