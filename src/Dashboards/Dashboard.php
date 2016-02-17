@@ -2,14 +2,14 @@
 
 namespace Khill\Lavacharts\Dashboards;
 
+use \Khill\Lavacharts\Configs\Renderable;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
 
-class Dashboard
+class Dashboard extends Renderable
 {
     use \Khill\Lavacharts\Traits\LabelTrait;
-    use \Khill\Lavacharts\Traits\ElementIdTrait;
 
     /**
      * Javascript chart type.
@@ -51,7 +51,7 @@ class Dashboard
      *
      * @var array
      */
-    private $bindings;
+    private $bindings = [];
 
     /**
      * Builds a new Dashboard
@@ -66,11 +66,12 @@ class Dashboard
         $this->bindingFactory = new BindingFactory;
 
         $this->label    = $label;
-        $this->bindings = [];
 
         if (empty($bindings) === false) {
             $this->setBindings($bindings);
         }
+
+        parent::__construct($elementId);
     }
 
     /**
