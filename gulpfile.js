@@ -56,9 +56,9 @@ gulp.task('js:build', function (done) {
     bundleStream
         .pipe(source('lava.min.js'))
         .pipe(buffer())
-        .pipe(sourcemaps.init({loadMaps: true}))
+        //.pipe(sourcemaps.init({loadMaps: true}))
         .pipe(uglify())
-        .pipe(sourcemaps.write('./'))
+        //.pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./javascript/dist'))
 });
 
