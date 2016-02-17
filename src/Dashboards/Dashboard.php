@@ -133,11 +133,14 @@ class Dashboard extends Renderable
 
     /**
      * Binds ControlWrappers to ChartWrappers in the dashboard.
+     *
      * - A OneToOne binding is created if single wrappers are passed.
      * - If a single ControlWrapper is passed with an array of ChartWrappers,
      *   a OneToMany binding is created.
      * - If an array of ControlWrappers is passed with one ChartWrapper, then
      *   a ManyToOne binding is created.
+     * - If an array of ControlWrappers is passed with and array of ChartWrappers, then
+     *   a ManyToMany binding is created.
      *
      * @param  \Khill\Lavacharts\Dashboards\ControlWrapper|array $controlWraps
      * @param  \Khill\Lavacharts\Dashboards\ChartWrapper|array   $chartWraps

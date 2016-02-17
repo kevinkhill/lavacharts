@@ -29,7 +29,7 @@ class DashboardJsFactory extends JavascriptFactory
      *
      * @var string
      */
-    const OUTPUT_TEMPLATE = '/../../javascript/dashboard.tmpl.js';
+    const OUTPUT_TEMPLATE = 'templates/dashboard.tmpl.js';
 
     /**
      * Dashboard to generate javascript from.
@@ -45,8 +45,10 @@ class DashboardJsFactory extends JavascriptFactory
      */
     public function __construct(Dashboard $dashboard)
     {
+        $templateDir = realpath(__DIR__ . self::JS_DIR . self::OUTPUT_TEMPLATE);
+
         $this->dashboard    = $dashboard;
-        $this->template     = file_get_contents(realpath(__DIR__ . self::OUTPUT_TEMPLATE));
+        $this->template     = file_get_contents($templateDir);
         $this->templateVars = $this->getTemplateVars();
     }
 
@@ -117,7 +119,7 @@ class DashboardJsFactory extends JavascriptFactory
                     break;
             }
 
-            $output .= sprintf('$this.dashboard.bind(%s, %s);', $controls, $charts);
+            $output .= sprintf('this.dashboard.bind(%s, %s);', $controls, $charts);
         }
 
         return $output;

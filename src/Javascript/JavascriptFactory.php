@@ -26,6 +26,13 @@ use \Khill\Lavacharts\Dashboards\Dashboard;
 class JavascriptFactory
 {
     /**
+     * Directory to javascript sources.
+     *
+     * @var string
+     */
+    const JS_DIR = '/../../javascript/';
+
+    /**
      * Opening javascript tag.
      *
      * @var string
@@ -44,7 +51,7 @@ class JavascriptFactory
      *
      * @var string
      */
-    const LAVA_JS = '/../../javascript/lavacharts.min.js';
+    const LAVA_JS = 'dist/lava.min.js';
 
     /**
      * Javascript output.
@@ -92,13 +99,11 @@ class JavascriptFactory
      */
     public function getCoreJs()
     {
-        $coreJs  = self::JS_OPEN;
-        $coreJs .= file_get_contents(realpath(__DIR__ . self::LAVA_JS));
-        $coreJs .= self::JS_CLOSE;
+        $lavaJs = realpath(__DIR__ . self::JS_DIR . self::LAVA_JS);
 
         $this->coreJsRendered = true;
 
-        return $coreJs;
+        return $this->scriptTagWrap(file_get_contents($lavaJs));
     }
 
     /**
@@ -137,7 +142,7 @@ class JavascriptFactory
     }
 
     /**
-     * Parses the nowdoc javascript templates with the value mappings
+     * Parses javascript templates with the value mappings
      *
      * @return string Javascript
      */
