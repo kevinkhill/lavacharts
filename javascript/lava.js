@@ -33,7 +33,6 @@ module.exports = new lava();
  * @constructor
  */
 lava.prototype.Chart = function (type, label) {
-  //var self = this;
   this.type    = type;
   this.label   = label;
   this.data    = null;
@@ -42,11 +41,9 @@ lava.prototype.Chart = function (type, label) {
   this.formats = [];
   this.element = null;
   this.render  = function(){};
-
   this.setData = function (data) {
     this.data = new google.visualization.DataTable(data, '0.6');
   };
-
   this.setElement = function (elemId) {
     this.element = document.getElementById(elemId);
 
@@ -54,11 +51,9 @@ lava.prototype.Chart = function (type, label) {
       throw this.errors.ELEMENT_ID_NOT_FOUND(elemId);
     }
   };
-
   this.redraw = function() {
     this.chart.draw(this.data, this.options);
   };
-
   this.applyFormats = function (formatArr) {
     for(var a=0; a < formatArr.length; a++) {
       var formatJson = formatArr[a];
@@ -84,13 +79,6 @@ lava.prototype.Dashboard = function() {
 lava.prototype.DataTable = function (data) {
   return new window.google.visualization.DataTable(data);
 };
-
-lava.prototype.initChartType = function (type) {
-  console.log(type);
-  if ( typeof this._charts[type] == "undefined" ) {
-    this._charts[type] = [];
-  }
-}
 
 lava.prototype.ready = function (callback) {
   if (typeof callback !== 'function') {
@@ -118,9 +106,11 @@ lava.prototype.event = function (event, chart, callback) {
 /**
  * Registers a chart as being on screen, accessible to redraws.
  */
+/*
 lava.prototype.registerChart = function(type, label) {
   this._registeredCharts.push(type + ':' + label);
 };
+*/
 
 /**
  * Loads a new DataTable into the chart and redraws.
@@ -174,13 +164,15 @@ lava.prototype.getDashboard = function (label, callback) {
 };
 
 /**
- * Stores a chart within lava.js
+ * Stores a chart within lava.js and registers it for redraws.
  *
- * @param  Chart chart
+ * @param chart Chart
  */
-lava.prototype.storeChart = function (chart) {
-  this._charts[chart.type][chart.label] = chart;
-}
+lava.prototype.storeAndRegisterChart = function (chart) {
+  this._charts.push(chart);
+
+  //this._registeredCharts.push(chart.type + ':' + chart.label);
+};
 
 /**
  * Returns the GoogleChart and the LavaChart objects
@@ -214,27 +206,29 @@ lava.prototype.getChart = function (chartLabel, callback) {
     throw this.errors.INVALID_CALLBACK(callback);
   }
 
-  var chartTypes = Object.keys(this._charts);
-  console.log(chartTypes);
-  var LavaChart;
+ // var chartTypes = Object.keys(this._charts);
+  var LavaChart = this._.find(this._charts, this._.matches({label:chartLabel}), this);
 
-  var chartFound = this._.some(chartTypes, this._.bind(function (chartLabel, type) {
-    console.log(type);
+console.log(LavaChart);
 
-    if (typeof this._charts[type][chartLabel] !== 'undefinded') {
-      LavaChart = this._charts[type][chartLabel];
-
-      return true;
-    }
-
-    return false;
-  }, this, chartLabel));
-
-  if (chartFound === false) {
+  if (! LavaChart) {
     throw this.errors.CHART_NOT_FOUND(chartLabel);
   } else {
-    callback(LavaChart.chart, LavaChart);
+    callback(null, LavaChart);
   }
+};
+
+/**
+ * Get the charts array and pass into the callback
+ *
+ * @param callback function
+ */
+lava.prototype.getCharts = function (callback) {
+  if (typeof callback != 'function') {
+    throw this.errors.INVALID_CALLBACK(callback);
+  }
+
+  callback(this._charts);
 };
 
 /**
@@ -258,7 +252,7 @@ lava.prototype.redrawCharts = function() {
   }.bind(this), delay);
 };
 
-lava.prototype.jsapi = function() {
+lava.prototype.loadJsapi = function() {
   var s = document.createElement('script');
 
   s.type = 'text/javascript';

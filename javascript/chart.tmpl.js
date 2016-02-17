@@ -1,32 +1,30 @@
 lava.on('jsapi:ready', function (google) {
-    lava.initChartType("<chartType>");
+    var chart = new lava.Chart('<chartType>', '<chartLabel>');
 
-    lava.storeChart(new lava.Chart("<chartType>", "<chartLabel>"));
+    chart.setElement('<elemId>');
 
-    lava.getChart("<chartLabel>", function (gChart, lavaChart) {
-        lavaChart.setElement("<elemId>");
+    chart.render = function (data) {
+        this.data = new <dataClass>(<chartData>, <dataVer>);
 
-        lavaChart.render = function (data) {
-            this.data = new <dataClass>(<chartData>, <dataVer>);
+        this.options = <chartOptions>;
 
-            this.options = <chartOptions>;
+        this.chart = new <chartClass>(this.element);
 
-            this.chart = new <chartClass>(this.element);
+        <formats>
 
-            <formats>
+        <events>
 
-            <events>
+        this.chart.draw(this.data, this.options);
+    };
 
-            this.chart.draw(this.data, this.options);
-        };
+    lava.storeAndRegisterChart(chart);
 
-        lava.registerChart("<chartType>", "<chartLabel>");
-
-        google.load('visualization', '<chartVer>', {
-            packages: ['<chartPackage>'],
-            callback: function() {
-                lavaChart.render();
-            }
-        });
+    google.load('visualization', '<chartVer>', {
+        packages: ['<chartPackage>'],
+        callback: function() {
+            lava.getChart('<chartLabel>', function (gChart, chart) {
+                chart.render();
+            });
+        }
     });
 });

@@ -11,6 +11,6 @@
   /**
    * Initialize the lava.js module by downloading Google's jsapi
    */
-  this.lava.jsapi();
+  this.lava.loadJsapi();
 
 }).apply(window);
