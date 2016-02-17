@@ -39,6 +39,10 @@
     - [DataFactory Examples](https://gist.github.com/kevinkhill/0c7c5f6211c7fd8f9658)
   - All exceptions now extend LavaException if the user wants to have a catch all
   - Utils class removed, broken into traits, and applied to classes that needed the methods
+  - Massive overhaul of lava.js module.
+   - Refactored and using browserify to compile
+   - Added ```lava.ready()``` method to use to wrap ajax requests. This will be called after all charts have
+     rendered onto the page. Use in the same manner as jQuery's ```$(function(){})```
 
 - 3.0.0
   - Dropping support for PHP 5.3
