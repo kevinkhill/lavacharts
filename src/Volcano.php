@@ -69,10 +69,8 @@ class Volcano
      * @param  string $label Label of the Chart or Dashboard.
      * @return mixed
      */
-    public function get($type, $label)
+    public function get($type, Label $label)
     {
-        $label = new Label($label);
-
         if ($type == 'Dashboard') {
             return $this->getDashboard($label);
         } else {

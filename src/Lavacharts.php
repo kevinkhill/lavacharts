@@ -246,7 +246,7 @@ class Lavacharts
      */
     public function render($type, $labelStr, $divDimensions = false)
     {
-        $label     = new Label($labelStr);
+        $label = new Label($labelStr);
 
         if ($type == 'Dashboard') {
             $output = $this->renderDashboard($label);
@@ -308,7 +308,7 @@ class Lavacharts
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions
      */
-    private function renderChart($type, Label $label, ElementId $elementId, $divDimensions = false)
+    private function renderChart($type, Label $label, $divDimensions = false)
     {
         $jsOutput = '';
 
@@ -316,13 +316,13 @@ class Lavacharts
             $jsOutput = $this->jsFactory->getCoreJs();
         }
 
+        $chart = $this->volcano->get($type, $label);
+
         if ($divDimensions !== false) {
-            $jsOutput .= $this->html->createDiv($elementId, $divDimensions);
+            $jsOutput .= $this->html->createDiv($chart->getElementId(), $divDimensions);
         }
 
-        $jsOutput .= $this->jsFactory->getChartJs(
-            $this->volcano->get($type, $label)
-        );
+        $jsOutput .= $this->jsFactory->getChartJs($chart);
 
         return $jsOutput;
     }
