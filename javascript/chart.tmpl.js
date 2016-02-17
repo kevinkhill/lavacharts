@@ -17,12 +17,12 @@ lava.on('jsapi:ready', function (google) {
         this.chart.draw(this.data, this.options);
     };
 
-    lava.storeAndRegisterChart(chart);
+    lava.storeChart(chart);
 
     google.load('visualization', '<chartVer>', {
         packages: ['<chartPackage>'],
         callback: function() {
-            lava.getChart('<chartLabel>', function (gChart, chart) {
+            lava.getChart('<chartLabel>', function (chart) {
                 chart.render();
             });
         }

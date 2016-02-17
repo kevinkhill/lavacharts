@@ -17,7 +17,6 @@ var lava = function() {
 
   this._charts            = [];
   this._dashboards        = [];
-  this._registeredCharts  = [];
   this._readyCallback     = function(){};
   this._renderDashboards  = null;
   this.errors = require('./lava.errors.js')
@@ -26,6 +25,7 @@ var lava = function() {
 util.inherits(lava, EventEmitter);
 
 module.exports = new lava();
+
 
 /**
  * LavaChart object.
@@ -42,7 +42,7 @@ lava.prototype.Chart = function (type, label) {
   this.element = null;
   this.render  = function(){};
   this.setData = function (data) {
-    this.data = new google.visualization.DataTable(data, '0.6');
+    this.data = new window.google.visualization.DataTable(data, '0.6');
   };
   this.setElement = function (elemId) {
     this.element = document.getElementById(elemId);
@@ -104,15 +104,6 @@ lava.prototype.event = function (event, chart, callback) {
 };
 
 /**
- * Registers a chart as being on screen, accessible to redraws.
- */
-/*
-lava.prototype.registerChart = function(type, label) {
-  this._registeredCharts.push(type + ':' + label);
-};
-*/
-
-/**
  * Loads a new DataTable into the chart and redraws.
  *
  *
@@ -124,43 +115,23 @@ lava.prototype.registerChart = function(type, label) {
  * @param {function} callback
  */
 lava.prototype.loadData = function (chartLabel, json, callback) {
-  this.getChart(chartLabel, function (chart, LavaChart) {
+  this.getChart(chartLabel, function (chart) {
     if (typeof json.data != 'undefined') {
-      LavaChart.setData(json.data);
+      chart.setData(json.data);
     } else {
-      LavaChart.setData(json);
+      chart.setData(json);
     }
 
     if (typeof json.formats != 'undefined') {
-      LavaChart.applyFormats(json.formats);
+      chart.applyFormats(json.formats);
     }
 
-    LavaChart.redraw();
+    chart.redraw();
 
     if (typeof callback == 'function') {
-      callback(LavaChart.chart);
+      callback(chart.chart);
     }
   });
-};
-
-/**
- * Retrieve a Dashboard from lava.js
- *
- * @param  {string}   label    Dashboard label.
- * @param  {Function} callback Callback function
- */
-lava.prototype.getDashboard = function (label, callback) {
-  if (typeof this._dashboards[label] === 'undefined') {
-    throw this.errors.DASHBOARD_NOT_FOUND(label);
-  }
-
-  var lavaDashboard = this._dashboards[label];
-
-  if (typeof callback !== 'function') {
-    throw this.errors.INVALID_CALLBACK(callback);
-  }
-
-  callback(lavaDashboard.dashboard, lavaDashboard);
 };
 
 /**
@@ -168,31 +139,22 @@ lava.prototype.getDashboard = function (label, callback) {
  *
  * @param chart Chart
  */
-lava.prototype.storeAndRegisterChart = function (chart) {
+lava.prototype.storeChart = function (chart) {
   this._charts.push(chart);
-
-  //this._registeredCharts.push(chart.type + ':' + chart.label);
 };
 
 /**
- * Returns the GoogleChart and the LavaChart objects
+ * Returns the LavaChart javascript objects
  *
  *
- * The GoogleChart object can be used to access any of the available methods such as
+ * The LavaChart object holds all the user defined properties such as data, options, formats,
+ * the GoogleChart object, and relative methods for internal use.
+ *
+ * The GoogleChart object is available as ".chart" from the returned LavaChart.
+ * It can be used to access any of the available methods such as
  * getImageURI() or getChartLayoutInterface().
  * See https://google-developers.appspot.com/chart/interactive/docs/gallery/linechart#methods
  * for some examples relative to LineCharts.
- *
- * The LavaChart object holds all the user defined properties such as data, options, formats,
- * the google chart object, and relative methods for internal use.
- *
- * Just to clarify:
- *  - The first returned callback value is a property of the LavaChart.
- *    It was add as a shortcut to avoid chart.chart to access google's methods of the chart.
- *
- *  - The second returned callback value is the LavaChart, which holds the GoogleChart and other
- *    important information. It was added to not restrict the user to only getting the GoogleChart
- *    returned, and as the second value because it is less useful / rarely accessed.
  *
  * @param  {string}   chartLabel
  * @param  {function} callback
@@ -207,14 +169,12 @@ lava.prototype.getChart = function (chartLabel, callback) {
   }
 
  // var chartTypes = Object.keys(this._charts);
-  var LavaChart = this._.find(this._charts, this._.matches({label:chartLabel}), this);
+  var chart = this._.find(this._charts, this._.matches({label:chartLabel}), this);
 
-console.log(LavaChart);
-
-  if (! LavaChart) {
+  if (! chart) {
     throw this.errors.CHART_NOT_FOUND(chartLabel);
   } else {
-    callback(null, LavaChart);
+    callback(chart);
   }
 };
 
@@ -234,24 +194,43 @@ lava.prototype.getCharts = function (callback) {
 /**
  * Redraws all of the registered charts on screen.
  *
- *
  * This method is attached to the window resize event with a 300ms debounce
  * to make the charts responsive to the browser resizing.
  */
 lava.prototype.redrawCharts = function() {
-  var timer, delay = 300;
+  var _ = require('underscore');
 
-  clearTimeout(timer);
-
-  timer = setTimeout(function() {
-    for(var c = 0; c < this._registeredCharts.length; c++) {
-      var parts = this._registeredCharts[c].split(':');
-
-      this._charts[parts[0]][parts[1]].redraw();
-    }
-  }.bind(this), delay);
+  _.debounce(function() {
+    console.log('resize');
+    _.each(this._charts, function (chart) {
+      chart.redraw();
+    });
+  }.bind(this), 300);
 };
 
+/**
+ * Retrieve a Dashboard from lava.js
+ *
+ * @param  {string}   label    Dashboard label.
+ * @param  {Function} callback Callback function
+ */
+lava.prototype.getDashboard = function (label, callback) {
+  if (typeof this._dashboards[label] === 'undefined') {
+    throw this.errors.DASHBOARD_NOT_FOUND(label);
+  }
+
+  if (typeof callback !== 'function') {
+    throw this.errors.INVALID_CALLBACK(callback);
+  }
+
+  var dashboard = this._dashboards[label];
+
+  callback(dashboard);
+};
+
+/**
+ * Load Google's jsapi and fire an event when ready.
+ */
 lava.prototype.loadJsapi = function() {
   var s = document.createElement('script');
 
