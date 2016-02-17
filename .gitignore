@@ -4,7 +4,6 @@ tmp/
 build/
 cache/
 .idea/
-javascript/*.min.js
 
 *.sublime-*
 npm-debug.log

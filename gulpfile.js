@@ -15,6 +15,8 @@ browserify = require('browserify'),
 //  babelify = require('babelify')
       argv = require('yargs').array('browsers').argv;
 
+var pkg = require('./package.json');
+
 gulp.task('karma', function (done) {
     var karma = require('karma');
 
@@ -37,7 +39,7 @@ gulp.task('php:test', function (done) {
 });
 
 gulp.task('php:coverage', function (done) {
-    sh('./vendor/bin/phpunit -c configs/phpunit.xml.coverage');
+    sh('./vendor/bin/phpunit -c ./configs/phpunit.xml.coverage');
 });
 
 gulp.task('php:cs', function (done) {
@@ -49,14 +51,14 @@ gulp.task('php:fix', function (done) {
 });
 
 gulp.task('js:build', function (done) {
-    return browserify('./javascript/src/lava.entry.js')
-        .bundle()
+    var bundleStream = browserify(pkg.config.entry).bundle();
+
+    bundleStream
         .pipe(source('lava.min.js'))
         .pipe(buffer())
-        .pipe(sourcemaps.init())
+        .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(uglify())
-        .pipe(sourcemaps.write())
-
+        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./javascript/dist'))
 });
 
