@@ -5,6 +5,11 @@ namespace Khill\Lavacharts\Tests;
 abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Namespace for Mocks
+     */
+    const NS = '\Khill\Lavacharts';
+
+    /**
      * Partial DataTable for use throughout various tests
      */
     protected $partialDataTable;
@@ -22,7 +27,17 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->partialDataTable = \Mockery::mock('Khill\Lavacharts\DataTables\DataTable')->makePartial();
+        $this->partialDataTable = \Mockery::mock(self::NS.'\DataTables\DataTable')->makePartial();
+    }
+
+    public function getMockLabel($label)
+    {
+        return \Mockery::mock(self::NS.'\Values\Label', [$label]);
+    }
+
+    public function getMockElemId($elemId)
+    {
+        return \Mockery::mock(self::NS.'\Values\ElementId', [$elemId]);
     }
 
     /**

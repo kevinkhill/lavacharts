@@ -5,8 +5,8 @@ module.exports = function (config) {
             'jasmine'
         ],
         files: [
-            'lava.js',
-            'lava.spec.js'
+            '/dist/lava.min.js',
+            '/tests/lava.spec.js'
         ],
         singleRun: true,
         plugins: [

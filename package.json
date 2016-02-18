@@ -32,7 +32,7 @@
     "karma-ie-launcher": "^0.2.0",
     "karma-jasmine": "^0.3.5",
     "karma-phantomjs-launcher": "^0.1.4",
-    "phantomjs": "^1.9.17",
+    "phantomjs-prebuilt": "^2.1.4",
     "sh": "^0.0.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",

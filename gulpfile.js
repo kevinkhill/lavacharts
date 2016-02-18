@@ -30,7 +30,7 @@ gulp.task('karma', function (done) {
     server.start();
 });
 
-gulp.task('js:build', function (done) {
+gulp.task('browserify', function (done) {
     var bundleStream = browserify(pkg.config.entry).bundle();
 
     bundleStream
@@ -42,8 +42,8 @@ gulp.task('js:build', function (done) {
         .pipe(gulp.dest('./javascript/dist'))
 });
 
-gulp.task('js:lint', function (done) {
-    return gulp.src('./javascript/src/lava.js')
+gulp.task('jshint', function (done) {
+    return gulp.src('./javascript/**/*.js')
                .pipe(jshint());
 });
 
@@ -68,7 +68,7 @@ gulp.task('php:fix', function (done) {
     sh('./vendor/bin/phpcbf -n --standard=PSR2 ./src ./tests');
 });
 
-gulp.task('js', ['js:lint', 'js:build'])
+gulp.task('js', ['jshint', 'browserify'])
 
 gulp.task('watch', ['js'], function() {
     gulp.watch('./javascript/**/*.js', [

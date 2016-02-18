@@ -106,11 +106,7 @@ class Volcano
      */
     public function checkChart($type, Label $label)
     {
-        if ($this->nonEmptyString($type) === false) {
-            return false;
-        }
-
-        if (array_key_exists($type, $this->charts) === false) {
+        if (array_key_exists($type, $this->charts, true) === false) {
             return false;
         }
 
