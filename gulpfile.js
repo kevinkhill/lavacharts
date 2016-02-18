@@ -30,26 +30,6 @@ gulp.task('karma', function (done) {
     server.start();
 });
 
-gulp.task('php:test', function (done) {
-    var test = spawn('./vendor/bin/phpunit', ['-c', 'configs/phpunit.xml']);
-
-    test.on('data', function (data) {
-        log(data);
-    });
-});
-
-gulp.task('php:coverage', function (done) {
-    sh('./vendor/bin/phpunit -c ./configs/phpunit.xml.coverage');
-});
-
-gulp.task('php:cs', function (done) {
-    sh('./vendor/bin/phpcs -n --standard=PSR2 ./src ./tests');
-});
-
-gulp.task('php:fix', function (done) {
-    sh('./vendor/bin/phpcbf -n --standard=PSR2 ./src ./tests');
-});
-
 gulp.task('js:build', function (done) {
     var bundleStream = browserify(pkg.config.entry).bundle();
 
@@ -78,6 +58,14 @@ gulp.task('bump', function (done) { //-v=1.2.3
     gulp.src(['./README.md', './.travis.yml'])
         .pipe(replace(/("|=|\/|-)[0-9]+\.[0-9]+/g, '$1'+minorVersion))
         .pipe(gulp.dest('./'));
+});
+
+gulp.task('php:cs', function (done) {
+    sh('./vendor/bin/phpcs -n --standard=PSR2 ./src ./tests');
+});
+
+gulp.task('php:fix', function (done) {
+    sh('./vendor/bin/phpcbf -n --standard=PSR2 ./src ./tests');
 });
 
 gulp.task('js', ['js:lint', 'js:build'])

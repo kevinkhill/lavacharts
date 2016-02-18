@@ -10,8 +10,8 @@ module.exports = function(config) {
 
         // list of files / patterns to load in the browser
         files: [
-            'lava.js',
-            'lava.spec.js'
+            '/dist/lava.min.js',
+            '/tests/lava.spec.js'
         ],
 
         // list of files to exclude
