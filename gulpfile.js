@@ -34,11 +34,7 @@ gulp.task('browserify', function (done) {
     var bundleStream = browserify(pkg.config.entry).bundle();
 
     bundleStream
-        .pipe(source('lava.min.js'))
-        .pipe(buffer())
-        //.pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(uglify())
-        //.pipe(sourcemaps.write('./'))
+        .pipe(source('lava.js'))
         .pipe(gulp.dest('./javascript/dist'))
 });
 
@@ -68,10 +64,11 @@ gulp.task('php:fix', function (done) {
     sh('./vendor/bin/phpcbf -n --standard=PSR2 ./src ./tests');
 });
 
-gulp.task('js', ['jshint', 'browserify'])
+gulp.task('js', ['jshint', 'browserify']);
 
 gulp.task('watch', ['js'], function() {
-    gulp.watch('./javascript/**/*.js', [
-        'js'
+    return gulp.watch('./javascript/**/*.js', [
+        'jshint',
+        'browserify'
     ]);
 });

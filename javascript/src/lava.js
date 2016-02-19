@@ -238,6 +238,8 @@ lava.prototype.run = function() {
     renderedCount++;
 
     if (renderedCount == this._charts.length) {
+      this.emit('ready');
+
       this._readyCallback();
     }
   });
