@@ -51,7 +51,7 @@ class JavascriptFactory
      *
      * @var string
      */
-    const LAVA_JS = 'dist/lava.min.js';
+    const LAVA_JS = 'dist/lava.js';
 
     /**
      * Javascript output.
