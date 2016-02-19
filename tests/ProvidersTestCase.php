@@ -32,12 +32,18 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
 
     public function getMockLabel($label)
     {
-        return \Mockery::mock(self::NS.'\Values\Label', [$label]);
+        return \Mockery::mock(self::NS.'\Values\Label', [$label])
+                       ->shouldReceive('__toString')
+                       ->andReturn($label)
+                       ->getMock();
     }
 
     public function getMockElemId($elemId)
     {
-        return \Mockery::mock(self::NS.'\Values\ElementId', [$elemId]);
+        return \Mockery::mock(self::NS.'\Values\ElementId', [$elemId])
+                       ->shouldReceive('__toString')
+                       ->andReturn($elemId)
+                       ->getMock();
     }
 
     /**

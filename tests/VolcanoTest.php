@@ -39,6 +39,7 @@ class VolcanoTest extends ProvidersTestCase
         ])->shouldReceive('getLabel')
           ->andReturn($this->mockLabelStr)
           ->getMock();
+
     }
 
     /**
@@ -156,6 +157,6 @@ class VolcanoTest extends ProvidersTestCase
     {
         //$this->volcano->store($this->mockDashboard);
 
-        $this->volcano->getDashboard($this->badLabel);
+        $this->volcano->get('Dashboard', $this->badLabel);
     }
 }
