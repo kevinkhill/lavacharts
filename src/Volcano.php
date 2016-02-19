@@ -51,12 +51,14 @@ class Volcano
     public function store(Renderable $renderable)
     {
         if ($renderable instanceof Dashboard) {
-            return $this->storeDashboard($renderable);
+            $retVal = $this->storeDashboard($renderable);
         }
 
         if ($renderable instanceof Chart) {
-            return $this->storeChart($renderable);
+            $retVal = $this->storeChart($renderable);
         }
+
+        return $retVal;
     }
 
     /**
