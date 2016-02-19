@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * Dashboard object.
+ * Dashboard.js
  *
  * @constructor
  */
@@ -12,7 +12,7 @@ var Dashboard = function (label) {
   this.bindings  = [];
   this.dashboard = null;
   this._data     = null;
-  this._errors   = require('./errors.js');
+  this._errors   = require('./Errors.js');
 };
 
 Dashboard.prototype.setData = function (data) {

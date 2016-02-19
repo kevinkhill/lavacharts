@@ -16,7 +16,7 @@ var lava = function() {
 
   this._charts        = [];
   this._dashboards    = [];
-  this._readyCallback = null;
+  this._readyCallback = function(){};
 
   this.dataVer = '0.6';
   this.errors  = require('./lava/Errors.js');
@@ -208,7 +208,6 @@ lava.prototype.getDashboard = function (label, callback) {
  * Load Google's jsapi and fire an event when ready.
  */
 lava.prototype.loadJsapi = function() {
-  var Q = require('q');
   var s = document.createElement('script');
 
   s.type = 'text/javascript';

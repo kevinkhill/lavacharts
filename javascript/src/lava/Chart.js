@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * LavaChart object.
+ * Chart.js
  *
  * @constructor
  */
@@ -14,8 +14,7 @@ var Chart = function (type, label) {
   this.options  = null;
   this.formats  = [];
   this.render   = null;
-  this._errors  = require('./errors.js');
-  this.deferred = require('q').defer();
+  this._errors  = require('./Errors.js');
 };
 
 Chart.prototype.setData = function (data) {

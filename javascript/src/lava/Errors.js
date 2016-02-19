@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * lava.errors.js
+ * Errors.js
  *
  * Author:  Kevin Hill
  * Email:   kevinkhill@gmail.com
