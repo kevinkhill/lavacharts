@@ -119,6 +119,29 @@ lava.prototype.loadData = function (label, json, callback) {
 };
 
 /**
+ * Loads new options into a chart and redraws.
+ *
+ *
+ * Used with an AJAX call, or javascript events, to load a new array of options into a chart.
+ * This can be used to update a chart dynamically, without reloads.
+ *
+ * @param {string} label
+ * @param {string} json
+ * @param {function} callback
+ */
+lava.prototype.loadOptions = function (label, json, callback) {
+  this.getChart(label, function (chart) {
+    chart.setOptions(json);
+
+    chart.redraw();
+
+    if (typeof callback == 'function') {
+      callback(chart);
+    }
+  });
+};
+
+/**
  * Stores a chart within lava.js
  *
  * @param chart Chart
@@ -286,6 +309,10 @@ var Chart = function (type, label) {
 
 Chart.prototype.setData = function (data) {
   this.data = new window.google.visualization.DataTable(data, lava.dataVer);
+};
+
+Chart.prototype.setOptions = function (options) {
+  this.options = options;
 };
 
 Chart.prototype.setElement = function (elemId) {

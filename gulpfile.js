@@ -67,7 +67,7 @@ gulp.task('php:fix', function (done) {
 gulp.task('js', ['jshint', 'browserify']);
 
 gulp.task('watch', ['js'], function() {
-    return gulp.watch('./javascript/**/*.js', [
+    gulp.watch('./javascript/src/*.js', [
         'jshint',
         'browserify'
     ]);

@@ -21,6 +21,10 @@ Chart.prototype.setData = function (data) {
   this.data = new window.google.visualization.DataTable(data, lava.dataVer);
 };
 
+Chart.prototype.setOptions = function (options) {
+  this.options = options;
+};
+
 Chart.prototype.setElement = function (elemId) {
   this.element = document.getElementById(elemId);
 
