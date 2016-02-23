@@ -50,11 +50,10 @@ class Chart extends Renderable
         Options $options = null,
         ElementId $elementId = null
     ) {
-        $this->label     = $chartLabel;
         $this->datatable = $datatable;
         $this->options   = $options;
 
-        parent::__construct($elementId);
+        parent::__construct($chartLabel, $elementId);
     }
 
     /**

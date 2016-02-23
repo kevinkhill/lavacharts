@@ -49,7 +49,7 @@ class Renderable
     /**
      * Sets the ElementId
      *
-     * @param  \Khill\Lavacharts\Values\ElementId $elementId
+     * @param \Khill\Lavacharts\Values\ElementId $elementId
      */
     public function setElementId(ElementId $elementId)
     {

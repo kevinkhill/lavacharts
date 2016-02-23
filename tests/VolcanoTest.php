@@ -39,6 +39,7 @@ class VolcanoTest extends ProvidersTestCase
         ])->shouldReceive('getLabel')
           ->andReturn($this->mockLabelStr)
           ->getMock();
+
     }
 
     /**
@@ -78,6 +79,15 @@ class VolcanoTest extends ProvidersTestCase
         $this->assertTrue( $this->volcano->checkChart('LineChart', $this->mockLabel));
         $this->assertFalse($this->volcano->checkChart('HairChart', $this->mockLabel));
         $this->assertFalse($this->volcano->checkChart('LineChart', $this->badLabel));
+    }
+
+    /**
+     * @group chart
+     * @depends testStoreWithChart
+     */
+    public function testCheckChartWithBadType()
+    {
+        $this->assertFalse($this->volcano->checkChart(7, $this->mockLabel));
     }
 
     /**
@@ -154,8 +164,27 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testGetDashboardWithBadLabel()
     {
-        //$this->volcano->store($this->mockDashboard);
+        $this->volcano->get('Dashboard', $this->badLabel);
+    }
 
-        $this->volcano->getDashboard($this->badLabel);
+    /**
+     * @group chart
+     * @group dashboard
+     * @depends testStoreWithChart
+     * @depends testStoreWithDashboard
+     * @depends testCheckChart
+     */
+    public function testGetAll()
+    {
+        $this->volcano->store($this->mockLineChart);
+        $this->volcano->store($this->mockDashboard);
+
+        $renderables = $this->volcano->getAll();
+
+        $this->assertTrue(is_array($renderables), 'Array of renderables, charts and dashboards');
+
+        foreach ($renderables as $renderable) {
+            $this->assertInstanceOf(self::NS.'\Configs\Renderable', $renderable);
+        }
     }
 }
