@@ -79,7 +79,7 @@ class DashboardJsFactory extends JavascriptFactory
             array_push($vars['packages'], $chart::VIZ_PACKAGE);
         }
 
-        $vars['packages'] = json_encode($vars['packages']);
+        $vars['packages'] = json_encode(array_unique($vars['packages']));
 
         return $vars;
     }
