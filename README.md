@@ -31,8 +31,8 @@ Upgrade guide: [Migrating from 2.5.x to 3.0.x](https://github.com/kevinkhill/lav
 - Blade template extensions for laravel
 - Twig template extensions for Symfony
 - [Carbon](https://github.com/briannesbitt/Carbon) support for date/datetime/timeofday columns
-- Now supporting 12 Charts!
-  - Area, Bar, Calendar, Column, Combo, Donut, Gauge, Geo, Line, Pie, Scatter, Table
+- Now supporting *19* Chart Types!
+  - Annotation, Area, Bar, Bubble, Calendar, Candlestick, Column, Combo, Donut, Gauge, Geo, Histogram, Line, Pie, Sankey, Scatter, SteppedArea, Table, Timeline and Treemap
 - [DataTablePlus](https://github.com/kevinkhill/datatableplus) package can be added to parse CSV files or Eloquent collections into DataTables.
 
 ## For complete documentation, please visit [lavacharts.com](http://lavacharts.com/)
@@ -41,22 +41,23 @@ Upgrade guide: [Migrating from 2.5.x to 3.0.x](https://github.com/kevinkhill/lav
 
 ## Installing
 In your project's main ```composer.json``` file, add this line to the requirements:
-```json
-"khill/lavacharts": "dev-3.1"
-```
+    ```json
+    "khill/lavacharts": "dev-3.1"
+    ```
 
 Run Composer to install Lavacharts:
-```bash
-$ composer update
-```
+    ```bash
+    $ composer update
+    ```
 
 ## Framework Agnostic
 If you are using Lavacharts with Silex, Lumen or your own Composer project, that's no problem! Just make sure to:
 ```require 'vendor/autoload.php';``` within you project and create an instance of Lavacharts: ```$lava = new Khill\Lavacharts\Lavacharts;```
 
 ### Framework Integration
-To integrate lavacharts into Laravel, use the ```[khill/lavacharts-laravel](https://github.com/kevinkhill/lavacharts-laravel)``` composer package
-To integrate lavacharts into Symfony, use the ```[khill/lavacharts-symfony](https://github.com/kevinkhill/lavacharts-symfony)``` composer package
+For Laravel integration, use the [khill/lavacharts-laravel](https://github.com/kevinkhill/lavacharts-laravel) composer package
+
+For Symfony integration, use the [khill/lavacharts-symfony](https://github.com/kevinkhill/lavacharts-symfony) composer package
 
 
 # Usage
@@ -69,56 +70,68 @@ Second, within a view, you use one line and the library will output all the nece
 Here is an example of the simplest chart you can create: A line chart with one dataset and a title, no configuration.
 
 ### Controller
-```php
-    $stocksTable = $lava->DataTable();
+Setting up your first chart
 
-    $stocksTable->addDateColumn('Day of Month')
-                ->addNumberColumn('Projected')
-                ->addNumberColumn('Official');
-
-    // Random Data For Example
-    for ($a = 1; $a < 30; $a++)
-    {
-        $rowData = [
-          "2014-8-$a", rand(800,1000), rand(800,1000)
-        ];
-
-        $stocksTable->addRow($rowData);
-    }
-```
+#### Data
+    ```php
+        $data = $lava->DataTable();
+    
+        $data->addDateColumn('Day of Month')
+                    ->addNumberColumn('Projected')
+                    ->addNumberColumn('Official');
+    
+        // Random Data For Example
+        for ($a = 1; $a < 30; $a++)
+        {
+            $rowData = [
+              "2014-8-$a", rand(800,1000), rand(800,1000)
+            ];
+    
+            $data->addRow($rowData);
+        }
+    ```
 
 Arrays work for datatables as well...
-```php
-  $stocksTable->addColumns([
-    ['date', 'Day of Month'],
-    ['number', 'Projected'],
-    ['number', 'Official']
-  ]];
-```
+    ```php
+    $data->addColumns([
+        ['date', 'Day of Month'],
+        ['number', 'Projected'],
+        ['number', 'Official']
+    ]];
+    ```
 
 Or you can ```use \Khill\Lavacharts\DataTables\DataFactory``` [to create DataTables in another way](https://gist.github.com/kevinkhill/0c7c5f6211c7fd8f9658)
 
-...and for setting chart options!
-```
-  $lava->LineChart('Stocks', $stocksTable, ['title' => 'Stock Market Trends']);
-```
-
+#### Chart Options
+Customize your chart, with any options found in google's documentation. Break objects down into arrays and pass to the chart.
+    ```
+    $lava->LineChart('Stocks', $data, [
+        'title' => 'Stock Market Trends',
+        'animation' => [
+            'startup' => true,
+            'easing' => 'inAndOut'
+        ],
+        'colors' => ['blue', '#F4C1D8']
+    ]);
+    ```
+    
+#### Output ID
 The chart will needs to be output into a div on the page, so an html ID for a div is needed.
 Here is where you want your chart ```<div id="stocks-div"></div>```
  - If no options for the chart are set, then the third parameter is the id of the output:
     ```
-      $lava->LineChart('Stocks', $stocksTable, 'stocks-div');
+      $lava->LineChart('Stocks', $data, 'stocks-div');
     ```
  - If there are options set for the chart, then the id may be included in the options:
     ```
-        $lava->LineChart('Stocks', $stocksTable, [
+        $lava->LineChart('Stocks', $data, [
             'elementId' => 'stocks-div'
             'title' => 'Stock Market Trends'
         ]);
     ``` 
  - The 4th parameter will also work:
     ```
-        $lava->LineChart('Stocks', $stocksTable, [
+        $lava->LineChart('Stocks', $data, [
             'title' => 'Stock Market Trends'
         ], 'stocks-div');
     ``` 
