@@ -43,6 +43,9 @@
    - Refactored and using browserify to compile
    - Added ```lava.ready()``` method to use to wrap ajax requests. This will be called after all charts have
      rendered onto the page. Use in the same manner as jQuery's ```$(function(){})```
+  - Moving framework integrations into their own repos
+   - khill/lavacharts-laravel for service provider, facade, and blade extensions.
+   - khill/lavacharts-symfony for bundle with service locater and twig extensions.
 
 - 3.0.0
   - Dropping support for PHP 5.3
