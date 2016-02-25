@@ -51,13 +51,14 @@ $ composer update
 ```
 
 ## Framework Agnostic
-If you are using Lavacharts with Silex, Lumen or your own Composer project, that's no problem! Just make sure to:
-```require 'vendor/autoload.php';``` within you project and create an instance of Lavacharts: ```$lava = new Khill\Lavacharts\Lavacharts;```
-
-### Framework Integration
-For Laravel integration, use the [khill/lavacharts-laravel](https://github.com/kevinkhill/lavacharts-laravel) composer package
-
-For Symfony integration, use the [khill/lavacharts-symfony](https://github.com/kevinkhill/lavacharts-symfony) composer package
+If you are using Lavacharts with Silex, Lumen or your own Composer project, that's no problem! Just make sure to:  
+```require 'vendor/autoload.php';```  
+within you project and create an instance of Lavacharts:  
+```$lava = new Khill\Lavacharts\Lavacharts;```
+  
+#### Or, Framework Integration
+ > For Laravel integration, use the [khill/lavacharts-laravel](https://github.com/kevinkhill/lavacharts-laravel) composer package  
+ > For Symfony integration, use the [khill/lavacharts-symfony](https://github.com/kevinkhill/lavacharts-symfony) composer package
 
 
 # Usage
