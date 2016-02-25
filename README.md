@@ -5,7 +5,7 @@
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/kevinkhill/lavacharts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![PayPayl](https://img.shields.io/badge/paypal-donate-yellow.svg?style=plastic)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ)
 
-Lavacharts is a graphing / chart library for PHP5.4+ that wraps Google's Javascript Chart API
+Lavacharts is a graphing / chart library for PHP5.4+ that wraps the Google Chart API
 
 Stable:
 [![Current Release](https://img.shields.io/github/release/kevinkhill/lavacharts.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/releases)
@@ -41,14 +41,14 @@ Upgrade guide: [Migrating from 2.5.x to 3.0.x](https://github.com/kevinkhill/lav
 
 ## Installing
 In your project's main ```composer.json``` file, add this line to the requirements:
-    ```json
-    "khill/lavacharts": "dev-3.1"
-    ```
+```json
+"khill/lavacharts": "dev-3.1"
+```
 
 Run Composer to install Lavacharts:
-    ```bash
-    $ composer update
-    ```
+```bash
+$ composer update
+```
 
 ## Framework Agnostic
 If you are using Lavacharts with Silex, Lumen or your own Composer project, that's no problem! Just make sure to:
@@ -73,75 +73,75 @@ Here is an example of the simplest chart you can create: A line chart with one d
 Setting up your first chart
 
 #### Data
-    ```php
-        $data = $lava->DataTable();
-    
-        $data->addDateColumn('Day of Month')
-                    ->addNumberColumn('Projected')
-                    ->addNumberColumn('Official');
-    
-        // Random Data For Example
-        for ($a = 1; $a < 30; $a++)
-        {
-            $rowData = [
-              "2014-8-$a", rand(800,1000), rand(800,1000)
-            ];
-    
-            $data->addRow($rowData);
-        }
-    ```
+```php
+$data = $lava->DataTable();
+
+$data->addDateColumn('Day of Month')
+            ->addNumberColumn('Projected')
+            ->addNumberColumn('Official');
+
+// Random Data For Example
+for ($a = 1; $a < 30; $a++)
+{
+    $rowData = [
+      "2014-8-$a", rand(800,1000), rand(800,1000)
+    ];
+
+    $data->addRow($rowData);
+}
+```
 
 Arrays work for datatables as well...
-    ```php
-    $data->addColumns([
-        ['date', 'Day of Month'],
-        ['number', 'Projected'],
-        ['number', 'Official']
-    ]];
-    ```
+```php
+$data->addColumns([
+    ['date', 'Day of Month'],
+    ['number', 'Projected'],
+    ['number', 'Official']
+]];
+```
 
 Or you can ```use \Khill\Lavacharts\DataTables\DataFactory``` [to create DataTables in another way](https://gist.github.com/kevinkhill/0c7c5f6211c7fd8f9658)
 
 #### Chart Options
 Customize your chart, with any options found in google's documentation. Break objects down into arrays and pass to the chart.
-    ```
-    $lava->LineChart('Stocks', $data, [
-        'title' => 'Stock Market Trends',
-        'animation' => [
-            'startup' => true,
-            'easing' => 'inAndOut'
-        ],
-        'colors' => ['blue', '#F4C1D8']
-    ]);
-    ```
+```php
+$lava->LineChart('Stocks', $data, [
+    'title' => 'Stock Market Trends',
+    'animation' => [
+        'startup' => true,
+        'easing' => 'inAndOut'
+    ],
+    'colors' => ['blue', '#F4C1D8']
+]);
+```
     
 #### Output ID
 The chart will needs to be output into a div on the page, so an html ID for a div is needed.
 Here is where you want your chart ```<div id="stocks-div"></div>```
  - If no options for the chart are set, then the third parameter is the id of the output:
-    ```
-      $lava->LineChart('Stocks', $data, 'stocks-div');
-    ```
+```php
+  $lava->LineChart('Stocks', $data, 'stocks-div');
+```
  - If there are options set for the chart, then the id may be included in the options:
-    ```
-        $lava->LineChart('Stocks', $data, [
-            'elementId' => 'stocks-div'
-            'title' => 'Stock Market Trends'
-        ]);
-    ``` 
+```php
+    $lava->LineChart('Stocks', $data, [
+        'elementId' => 'stocks-div'
+        'title' => 'Stock Market Trends'
+    ]);
+``` 
  - The 4th parameter will also work:
-    ```
-        $lava->LineChart('Stocks', $data, [
-            'title' => 'Stock Market Trends'
-        ], 'stocks-div');
-    ``` 
+```php
+    $lava->LineChart('Stocks', $data, [
+        'title' => 'Stock Market Trends'
+    ], 'stocks-div');
+``` 
 
 
 ## View
 Pass the main lavacharts instance to the view, because all of the defined charts are stored within, and render!
-    ```php
-    <?= $lava->renderAll(); ?>
-    ```
+```php
+<?= $lava->renderAll(); ?>
+```
 
 
 # Changelog
