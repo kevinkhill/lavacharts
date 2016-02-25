@@ -54,76 +54,9 @@ $ composer update
 If you are using Lavacharts with Silex, Lumen or your own Composer project, that's no problem! Just make sure to:
 ```require 'vendor/autoload.php';``` within you project and create an instance of Lavacharts: ```$lava = new Khill\Lavacharts\Lavacharts;```
 
-
-## Laravel
-To integrate lavacharts into Laravel, a ServiceProvider has been included.
-
-### Laravel 5.x
-Register Lavacharts in your app by adding this line to the end of the providers array in ```config/app.php```:
-```php
-<?php
-// config/app.php
-
-// ...
-'providers' => [
-    ...
-
-    Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
-],
-```
-The ```Lava::``` alias will be registered automatically via the service provider.
-
-### Laravel 4.x
-Register Lavacharts in your app by adding this line to the end of the providers array in ```app/config/app.php```:
-
-```php
-<?php
-// app/config/app.php
-
-// ...
-'providers' => array(
-    // ...
-
-    "Khill\Lavacharts\Laravel\LavachartsServiceProvider",
-),
-```
-The ```Lava::``` alias will be registered automatically via the service provider.
-
-
-## Symfony 2.x
-Also included is a Bundle for Symfony to create a service that can be pulled from the Container.
-
-### Add Bundle
-Add the bundle to the AppKernel:
-```php
-<?php
-// app/AppKernel.php
-
-// ...
-class AppKernel extends Kernel
-{
-    public function registerBundles()
-    {
-        $bundles = array(
-            // ...
-
-            new Khill\Lavacharts\Symfony\Bundle\LavachartsBundle(),
-        );
-
-        // ...
-    }
-
-    // ...
-}
-```
-### Import Config
-Add the service definition to the ```app/config/config.yml``` file
-```yaml
-imports:
-  # ...
-  - { resource: @LavachartsBundle/Resources/config/services.yml
-```
-
+### Framework Integration
+To integrate lavacharts into Laravel, use the ```[khill/lavacharts-laravel](https://github.com/kevinkhill/lavacharts-laravel)``` composer package
+To integrate lavacharts into Symfony, use the ```[khill/lavacharts-symfony](https://github.com/kevinkhill/lavacharts-symfony)``` composer package
 
 
 # Usage
@@ -137,7 +70,7 @@ Here is an example of the simplest chart you can create: A line chart with one d
 
 ### Controller
 ```php
-    $stocksTable = $lava->DataTable();  // \Lava::DataTable() if using Laravel
+    $stocksTable = $lava->DataTable();
 
     $stocksTable->addDateColumn('Day of Month')
                 ->addNumberColumn('Projected')
@@ -170,47 +103,33 @@ Or you can ```use \Khill\Lavacharts\DataTables\DataFactory``` [to create DataTab
   $lava->LineChart('Stocks', $stocksTable, ['title' => 'Stock Market Trends']);
 ```
 
+The chart will needs to be output into a div on the page, so an html ID for a div is needed.
+Here is where you want your chart ```<div id="stocks-div"></div>```
+ - If no options for the chart are set, then the third parameter is the id of the output:
+    ```
+      $lava->LineChart('Stocks', $stocksTable, 'stocks-div');
+    ```
+ - If there are options set for the chart, then the id may be included in the options:
+    ```
+        $lava->LineChart('Stocks', $stocksTable, [
+            'elementId' => 'stocks-div'
+            'title' => 'Stock Market Trends'
+        ]);
+    ``` 
+ - The 4th parameter will also work:
+    ```
+        $lava->LineChart('Stocks', $stocksTable, [
+            'title' => 'Stock Market Trends'
+        ], 'stocks-div');
+    ``` 
+
+
 ## View
-First, pick where the charts will be rendered, into div's with specific IDs
-```html
-<div id="active-div"></div>
-<div id="pages-div"></div>
-```
-Then pass the main lavacharts instance to the view (All defined charts are stored within).
+Pass the main lavacharts instance to the view, because all of the defined charts are stored within, and render!
+    ```php
+    <?= $lava->renderAll(); ?>
+    ```
 
-Last, render the charts with the render method. 
-```php
-<?= $lava->render('LineChart', 'ActiveUsers', 'active-div'); ?>
-<?= $lava->render('ColumnChart', 'PageViews', 'pages-div'); ?>
-```
-
-
-
-If you are using Laravel and the Blade templating engine, you can use the extensions for a cleaner view
-```php
-@linechart('Stocks', 'stocks-div');
-// Behind the scenes this just calls \Lava::render('LineChart', 'Stocks', 'stocks-div')
-```
-
-This is assuming you have a div in your page with the id "stocks-div":
-```<div id="stocks-div"></div>```
-
-And for the Symfony users, the twig extensions can be used to render. The syntax is similar to the blade extensions:
-```{{ linechart('Stocks', 'stocks-div')|raw }}```
-
-
-
-If you don't have a div ready to accept the charts, the last parameter of the different render methods will create divs for your charts.
-
-Passing ```true``` will create a plain div, with the ID given. You can also pass an array with keys ```width``` and/or ```height``` to create a div
-of a specific size.
-
-Example:
-```php
-@linechart('Stocks', 'stocks-div', true)
-// Or
-echo \Lava::render('LineChart', 'Stocks', 'stocks-div', ['width'=>1024, 'height'=>768]);
-```
 
 # Changelog
 The complete changelog can be found [here](https://github.com/kevinkhill/lavacharts/wiki/Changelog)
