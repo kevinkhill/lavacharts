@@ -63,6 +63,8 @@
         "nesbot/carbon": "~1.14"
     },
     "suggest": {
+        "khill/lavacharts-laravel": "Integrates a service provider, facade and blade template extensions.",
+        "khill/lavacharts-symfony": "Integrates a bundle with service locater and twig template extensions.",
         "khill/datatableplus": "Adds extra features to DataTables such as csv and laravel collection parsing."
     },
     "autoload": {
