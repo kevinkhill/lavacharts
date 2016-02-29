@@ -4,7 +4,9 @@
     "keywords": [
         "charts",
         "graphs",
-        "google"
+        "google",
+        "laravel",
+        "symfony"
     ],
     "homepage": "http://lavacharts.com",
     "license": "MIT",

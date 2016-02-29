@@ -36,39 +36,55 @@ class ChartJsFactory extends JavascriptFactory
      *
      * @var \Khill\Lavacharts\Charts\Chart
      */
-    private $chart;
+    protected $chart;
 
     /**
-     * Creates a new ChartFactory with the javascript template.
+     * Event sprintf template
+     *
+     * @var string
+     */
+    protected $eventCallbackTempate;
+
+    /**
+     * Format sprintf template
+     *
+     * @var string
+     */
+    protected $formatTemplate;
+
+    /**
+     * Creates a new ChartJsFactory with the javascript template.
      *
      * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to process
      */
     public function __construct(Chart $chart)
     {
-        $templateDir = realpath(__DIR__ . self::JS_DIR . self::OUTPUT_TEMPLATE);
 
-        $this->chart        = $chart;
-        $this->template     = file_get_contents($templateDir);
-        $this->templateVars = $this->getTemplateVars();
+        $this->chart = $chart;
 
-        $this->eventCallbackTempate =
-            'google.visualization.events.addListener(this.chart, "%1$s", function (event) {'.
-            '    return lava.event(event, this.chart, %2$s);'.
-            '});';
-
+        $this->eventCallbackTempate = 'tacos';
+/*
+        <<<EVENT
+google.visualization.events.addListener(this.chart, "%s", function (event) {
+    return lava.event(event, this.chart, %s);
+});
+EVENT;
+*/
         $this->formatTemplate =
             'this.formats["col%1$s"] = new google.visualization.%2$s(%3$s);' .
             'this.formats["col%1$s"].format(this.data, %1$s);';
+
+        parent::__construct(self::OUTPUT_TEMPLATE);
     }
 
     /**
      * Builds the template variables from the chart.
      *
      * @since  3.0.0
-     * @access private
+     * @access protected
      * @return string Javascript code block.
      */
-    private function getTemplateVars()
+    protected function getTemplateVars()
     {
         $chart = $this->chart; // Workaround for no :: on member vars in php5.4
 
@@ -78,8 +94,8 @@ class ChartJsFactory extends JavascriptFactory
             'chartVer'     => $chart::VERSION,
             'chartClass'   => $chart::VIZ_CLASS,
             'chartPackage' => $chart::VIZ_PACKAGE,
-            'chartData'    => json_encode($chart->getDataTable()),
-            'chartOptions' => json_encode($chart->getOptions()),
+            'chartData'    => $chart->getDataTableJson(),
+            'chartOptions' => $chart->getOptionsJson(),
             'elemId'       => $this->chart->getElementIdStr(),
             'formats'      => '',
             'events'       => ''
@@ -99,11 +115,11 @@ class ChartJsFactory extends JavascriptFactory
     /**
      * Builds the javascript object of event callbacks.
      *
-     * @access private
+     * @access protected
      * @return string Javascript code block.
      */
-    private function buildEventCallbacks()
-    {
+    protected function buildEventCallbacks()
+    {var_dump($this->eventCallbackTempate);
         $output = '';
         $events = $this->chart->getEvents();
 
@@ -121,10 +137,10 @@ class ChartJsFactory extends JavascriptFactory
     /**
      * Builds the javascript for the datatable column formatters.
      *
-     * @access private
+     * @access protected
      * @return string Javascript code block.
      */
-    private function buildFormatters()
+    protected function buildFormatters()
     {
         $output  = '';
         $columns = $this->chart->getDataTable()->getFormattedColumns();

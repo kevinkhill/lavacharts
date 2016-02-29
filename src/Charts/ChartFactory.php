@@ -107,6 +107,14 @@ class ChartFactory
                     $chartBuilder->setElementId($args[2]['elementId']);
                 }
 
+                if (array_key_exists('png', $args[2]) && $args[2]['png'] === true) {
+                    if (array_key_exists('events', $args[2])) {
+                        //$args[2]['events'] = ['ready' => 'outputPng']]);
+                    } else {
+                        $args[2] = array_merge($args[2], ['events' => ['ready' => 'outputPng']]);
+                    }
+                }
+
                 $chartBuilder->setOptions($args[2]);
             }
         }

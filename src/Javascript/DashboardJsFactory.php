@@ -36,7 +36,7 @@ class DashboardJsFactory extends JavascriptFactory
      *
      * @var \Khill\Lavacharts\Dashboards\Dashboard
      */
-    private $dashboard;
+    protected $dashboard;
 
     /**
      * Creates a new DashboardFactory with the javascript template.
@@ -45,36 +45,34 @@ class DashboardJsFactory extends JavascriptFactory
      */
     public function __construct(Dashboard $dashboard)
     {
-        $templateDir = realpath(__DIR__ . self::JS_DIR . self::OUTPUT_TEMPLATE);
+        $this->dashboard = $dashboard;
 
-        $this->dashboard    = $dashboard;
-        $this->template     = file_get_contents($templateDir);
-        $this->templateVars = $this->getTemplateVars();
+        parent::__construct(self::OUTPUT_TEMPLATE);
     }
 
     /**
      * Builds the Javascript code block for a Dashboard
      *
-     * @access private
+     * @access protected
      * @return string Javascript code block.
      */
-    private function getTemplateVars()
+    protected function getTemplateVars()
     {
         $boundCharts = $this->dashboard->getBoundCharts();
 
         $vars = [
-            'label'     => (string) $this->dashboard->getLabel(),
+            'label'     => $this->dashboard->getLabelStr(),
             'version'   => Dashboard::VERSION,
             'class'     => Dashboard::VIZ_CLASS,
             'packages'  => [
                 Dashboard::VIZ_PACKAGE
             ],
-            'elemId'    => (string) $this->dashboard->getElementId(),
+            'elemId'    => $this->dashboard->getElementIdStr(),
             'bindings'  => $this->processBindings()
         ];
 
         foreach ($boundCharts as $chart) {
-            $vars['chartData'] = json_encode($chart->getDataTable());
+            $vars['chartData'] = $chart->getDataTableJson();
 
             array_push($vars['packages'], $chart::VIZ_PACKAGE);
         }
@@ -128,11 +126,11 @@ class DashboardJsFactory extends JavascriptFactory
     /**
      * Map the wrapper values from the array to javascript notation.
      *
-     * @access private
+     * @access protected
      * @param  $wrapperArray Array of control or chart wrappers
      * @return string Json notation for the wrappers
      */
-    private function mapWrapperArray($wrapperArray)
+    protected function mapWrapperArray($wrapperArray)
     {
         $wrappers = array_map(function ($wrapperArray) {
             return $wrapperArray->toJavascript();

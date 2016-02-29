@@ -33,32 +33,11 @@ class JavascriptFactory
     const JS_DIR = '/../../javascript/';
 
     /**
-     * Opening javascript tag.
+     * Javascript output buffer.
      *
      * @var string
      */
-    const JS_OPEN = '<script type="text/javascript">';
-
-    /**
-     * Closing javascript tag.
-     *
-     * @var string
-     */
-    const JS_CLOSE = '</script>';
-
-    /**
-     * Lava.js module location.
-     *
-     * @var string
-     */
-    const LAVA_JS = 'dist/lava.js';
-
-    /**
-     * Javascript output.
-     *
-     * @var string
-     */
-    protected $out;
+    protected $buffer;
 
     /**
      * Javascript template for output.
@@ -75,35 +54,16 @@ class JavascriptFactory
     protected $templateVars;
 
     /**
-     * Tracks if the lava.js module and jsapi have been rendered.
+     * Create a new JavascriptFactory based off of an output template.
      *
-     * @var bool
+     * @param string $outputTemplate Location of the js output template.
      */
-    protected $coreJsRendered = false;
-
-    /**
-     * Returns true|false depending on if the jsapi & lava.js core
-     * have been added to the output.
-     *
-     * @return boolean
-     */
-    public function coreJsRendered()
+    public function __construct($outputTemplate)
     {
-        return $this->coreJsRendered;
-    }
+        $templateDir = realpath(__DIR__ . self::JS_DIR . $outputTemplate);
 
-    /**
-     * Gets the Google chart api and lava.js core.
-     *
-     * @return string Javascript code blocks.
-     */
-    public function getCoreJs()
-    {
-        $lavaJs = realpath(__DIR__ . self::JS_DIR . self::LAVA_JS);
-
-        $this->coreJsRendered = true;
-
-        return $this->scriptTagWrap(file_get_contents($lavaJs));
+        $this->template     = file_get_contents($templateDir);
+        $this->templateVars = $this->getTemplateVars();
     }
 
     /**
@@ -115,30 +75,7 @@ class JavascriptFactory
     {
         $this->parseTemplate();
 
-        return $this->scriptTagWrap($this->out);
-    }
-
-    /**
-     * Checks for an element id to output the chart into and builds the Javascript.
-     *
-     * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to render.
-     * @return string Javascript code block.
-     */
-    public function getChartJs(Chart $chart)
-    {
-        return (new ChartJsFactory($chart))->getJavascript();
-    }
-
-    /**
-     * Checks for an element id to output the chart into and builds the Javascript.
-     *
-     * @since  3.0.0
-     * @param  \Khill\Lavacharts\Dashboards\Dashboard $dashboard Dashboard to render.
-     * @return string Javascript code block.
-     */
-    public function getDashboardJs(Dashboard $dashboard)
-    {
-        return (new DashboardJsFactory($dashboard))->getJavascript();
+        return ScriptManager::scriptTagWrap($this->buffer);
     }
 
     /**
@@ -148,21 +85,10 @@ class JavascriptFactory
      */
     protected function parseTemplate()
     {
-        $this->out = $this->template;
+        $this->buffer = $this->template;
 
         foreach ($this->templateVars as $key => $value) {
-            $this->out = preg_replace("/<$key>/", $value, $this->out);
+            $this->buffer = preg_replace("/<$key>/", $value, $this->buffer);
         }
-    }
-
-    /**
-     * Wraps javascript within an html script tag
-     *
-     * @param  string $javascript
-     * @return string HTML script tag with javascript
-     */
-    protected function scriptTagWrap($javascript)
-    {
-        return PHP_EOL . self::JS_OPEN . PHP_EOL . $javascript . PHP_EOL . self::JS_CLOSE;
     }
 }

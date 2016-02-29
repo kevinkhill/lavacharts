@@ -13,7 +13,7 @@ use \Khill\Lavacharts\Dashboards\ControlWrapper;
 use \Khill\Lavacharts\Dashboards\Filters\Filter;
 use \Khill\Lavacharts\Dashboards\Filters\FilterFactory;
 use \Khill\Lavacharts\DataTables\DataFactory;
-use \Khill\Lavacharts\Javascript\JavascriptFactory;
+use \Khill\Lavacharts\Javascript\ScriptManager;
 use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use \Khill\Lavacharts\Exceptions\InvalidFilterObject;
 use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
@@ -46,11 +46,11 @@ class Lavacharts
     private $volcano;
 
     /**
-     * JavascriptFactory for outputting lava.js and chart/dashboard javascript
+     * ScriptManager for outputting lava.js and chart/dashboard javascript
      *
-     * @var \Khill\Lavacharts\Javascript\JavascriptFactory
+     * @var \Khill\Lavacharts\Javascript\ScriptManager
      */
-    private $jsFactory;
+    private $scriptManager;
 
     /**
      * ChartFactory for checking parameters and creating new charts.
@@ -86,10 +86,10 @@ class Lavacharts
             $loader->addNamespace('Khill\Lavacharts', __DIR__);
         }
 
-        $this->volcano      = new Volcano;
-        $this->html         = new HtmlFactory;
-        $this->jsFactory    = new JavascriptFactory;
-        $this->chartFactory = new ChartFactory($this->volcano);
+        $this->volcano       = new Volcano;
+        $this->html          = new HtmlFactory;
+        $this->scriptManager = new ScriptManager;
+        $this->chartFactory  = new ChartFactory($this->volcano);
     }
 
     /**
@@ -279,29 +279,21 @@ class Lavacharts
      * into javascript and output all the script tags.
      *
      * @since  3.1.0
-     * @return string Javascript blocks
+     * @return string Javascript html blocks
      */
     public function renderAll()
     {
-        if ($this->jsFactory->coreJsRendered() === false) {
-            $output = $this->jsFactory->getCoreJs();
-        } else {
-            $output = '';
+        $buffer = '';
+
+        if ($this->scriptManager->lavaJsRendered() === false) {
+            $buffer = $this->scriptManager->getLavaJsModule();
         }
 
-        $lavaObjects = $this->volcano->getAll();
-
-        foreach ($lavaObjects as $resource) {
-            if ($resource instanceof Dashboard) {
-                $output .= $this->jsFactory->getDashboardJs($resource);
-            }
-
-            if ($resource instanceof Chart) {
-                $output .= $this->jsFactory->getChartJs($resource);
-            }
+        foreach ($this->volcano->getAll() as $renderable) {
+            $buffer .= $this->scriptManager->getJavascript($renderable);
         }
 
-        return $output;
+        return $buffer;
     }
 
     /**
@@ -324,21 +316,21 @@ class Lavacharts
      */
     private function renderChart($type, Label $label, $elementId = null, $divDimensions = false)
     {
-        $jsOutput = '';
+        $buffer = '';
 
-        if ($this->jsFactory->coreJsRendered() === false) {
-            $jsOutput = $this->jsFactory->getCoreJs();
+        if ($this->scriptManager->lavaJsRendered() === false) {
+            $buffer = $this->scriptManager->getLavaJsModule();
         }
 
         $chart = $this->volcano->get($type, $label);
 
         if ($divDimensions !== false) {
-            $jsOutput .= $this->html->createDiv($chart->getElementId(), $divDimensions);
+            $buffer .= $this->html->createDiv($chart->getElementId(), $divDimensions);
         }
 
-        $jsOutput .= $this->jsFactory->getChartJs($chart);
+        $buffer .= $this->scriptManager->getJavascript($chart);
 
-        return $jsOutput;
+        return $buffer;
     }
 
     /**
@@ -356,17 +348,17 @@ class Lavacharts
      */
     private function renderDashboard(Label $label)
     {
-        $jsOutput = '';
+        $buffer = '';
 
-        if ($this->jsFactory->coreJsRendered() === false) {
-            $jsOutput = $this->jsFactory->getCoreJs();
+        if ($this->scriptManager->coreJsRendered() === false) {
+            $buffer = $this->scriptManager->getLavaJsModule();
         }
 
-        $jsOutput .= $this->jsFactory->getDashboardJs(
+        $buffer .= $this->scriptManager->getJavascript(
             $this->volcano->get('Dashboard', $label)
         );
 
-        return $jsOutput;
+        return $buffer;
     }
 
     /**
@@ -384,7 +376,7 @@ class Lavacharts
     {
         trigger_error('Using the jsapi() method is deprecated since lava.js injects the jsapi into the head.', E_USER_DEPRECATED);
 
-        return $this->jsFactory->getCoreJs();
+        return $this->scriptManager->getLavaJsModule();
     }
 
     /**

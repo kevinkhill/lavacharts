@@ -36,4 +36,16 @@ trait OptionsTrait
     {
         return $this->options;
     }
+
+    /**
+     * JSON string representing the Options object.
+     *
+     * @access public
+     * @since  3.1.0
+     * @return \Khill\Lavacharts\Configs\Options
+     */
+    public function getOptionsJson()
+    {
+        return json_encode($this->options);
+    }
 }
