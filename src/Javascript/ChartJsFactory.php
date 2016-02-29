@@ -62,17 +62,14 @@ class ChartJsFactory extends JavascriptFactory
 
         $this->chart = $chart;
 
-        $this->eventCallbackTempate = 'tacos';
-/*
-        <<<EVENT
-google.visualization.events.addListener(this.chart, "%s", function (event) {
-    return lava.event(event, this.chart, %s);
-});
-EVENT;
-*/
+        $this->eventCallbackTempate =
+            'google.visualization.events.addListener(this.chart, "%s", function (event) {'.PHP_EOL.
+                'return lava.event(event, this.chart, %s);'.PHP_EOL.
+            '}.bind(this));'.PHP_EOL;
+
         $this->formatTemplate =
-            'this.formats["col%1$s"] = new google.visualization.%2$s(%3$s);' .
-            'this.formats["col%1$s"].format(this.data, %1$s);';
+            'this.formats["col%1$s"] = new google.visualization.%2$s(%3$s);'.PHP_EOL.
+            'this.formats["col%1$s"].format(this.data, %1$s);'.PHP_EOL;
 
         parent::__construct(self::OUTPUT_TEMPLATE);
     }
@@ -119,7 +116,7 @@ EVENT;
      * @return string Javascript code block.
      */
     protected function buildEventCallbacks()
-    {var_dump($this->eventCallbackTempate);
+    {
         $output = '';
         $events = $this->chart->getEvents();
 

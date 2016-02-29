@@ -8,6 +8,7 @@
 var Chart = function (type, label) {
   this.type     = type;
   this.label    = label;
+  this.png      = false;
   this.element  = null;
   this.data     = null;
   this.chart    = null;

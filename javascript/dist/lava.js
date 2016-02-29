@@ -65,9 +65,9 @@ lava.prototype.DataTable = function (data) {
 lava.prototype.ready = function (callback) {
   if (typeof callback !== 'function') {
     throw this.errors.INVALID_CALLBACK(callback);
+  } else {
+    this._readyCallback = callback;
   }
-
-  this._readyCallback = callback;
 
   this.on('ready', this._readyCallback);
 };
