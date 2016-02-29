@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Configs;
 
+use \Khill\Lavacharts\Lavacharts;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 
@@ -23,7 +24,14 @@ use \Khill\Lavacharts\Values\ElementId;
 class Renderable
 {
     /**
-     * The chart's unique elementId.
+     * The renderable's unique label.
+     *
+     * @var \Khill\Lavacharts\Values\Label
+     */
+    protected $label;
+
+    /**
+     * The renderable's unique elementId.
      *
      * @var \Khill\Lavacharts\Values\ElementId
      */
@@ -34,26 +42,30 @@ class Renderable
      *
      * @param \Khill\Lavacharts\Values\ElementId $elementId
      */
-    public function __construct(ElementId $elementId = null)
+    public function __construct(Label $label, ElementId $elementId = null)
     {
+        $this->label = $label;
+
         if ($elementId === null) {
-            $elementId = $this->generateElementId($this->label);
-
-            $noticeMsg = 'No ElementId was set for '.static::TYPE.'("'.$this->label.'"), using "'.$elementId.'".';
-            trigger_error($noticeMsg, E_USER_NOTICE);
+            $this->generateElementId();
+        } else {
+            $this->elementId = $elementId;
         }
-
-        $this->elementId = $elementId;
     }
 
     /**
-     * Sets the ElementId
+     * Creates and/or sets the ElementId.
      *
-     * @param \Khill\Lavacharts\Values\ElementId $elementId
+     * @param  string|\Khill\Lavacharts\Values\ElementId $elementId
+     * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
      */
-    public function setElementId(ElementId $elementId)
+    public function setElementId($elementId)
     {
-        $this->elementId = $elementId;
+        if ($elementId instanceof ElementId) {
+            $this->elementId = $elementId;
+        } else {
+            $this->elementId = new ElementId($elementId);
+        }
     }
 
     /**
@@ -67,6 +79,51 @@ class Renderable
     }
 
     /**
+     * Returns the ElementId.
+     *
+     * @return \Khill\Lavacharts\Values\ElementId
+     */
+    public function getElementIdStr()
+    {
+        return (string) $this->elementId;
+    }
+
+    /**
+     * Creates and/or sets the Label.
+     *
+     * @param  string|\Khill\Lavacharts\Values\Label $label
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
+     */
+    public function setLabel($label)
+    {
+        if ($label instanceof Label) {
+            $this->label = $label;
+        } else {
+            $this->label = new Label($label);
+        }
+    }
+
+    /**
+     * Returns the label.
+     *
+     * @return \Khill\Lavacharts\Values\Label
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    /**
+     * Returns the label.
+     *
+     * @return \Khill\Lavacharts\Values\Label
+     */
+    public function getLabelStr()
+    {
+        return (string) $this->label;
+    }
+
+    /**
      * Generate an ElementId
      *
      * This method removes invalid characters from the chart label
@@ -76,13 +133,13 @@ class Renderable
      *
      * @param  string $string String from which to generate an ID.
      */
-    private function generateElementId(Label $label)
+    private function generateElementId()
     {
-        $string = strtolower((string) $label);
+        $string = strtolower((string) $this->label);
         $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
         $string = preg_replace("/[\s-]+/", " ", $string);
         $string = preg_replace("/[\s_]/", "-", $string);
 
-        return new ElementId($string);
+        $this->setElementId($string);
     }
 }

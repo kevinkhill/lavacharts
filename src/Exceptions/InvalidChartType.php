@@ -8,7 +8,7 @@ class InvalidChartType extends LavaException
     {
         $badChart = (string) $invalidChart;
 
-        $message  = "'$badChart' is not a valid chart type, must be one of ".
+        $message  = "'$badChart' is not a valid chart type, must be one of ";
         $message .= '[ ' . implode(' | ', $validCharts) . ']';
 
         parent::__construct($message);

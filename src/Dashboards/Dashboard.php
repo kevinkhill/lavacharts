@@ -63,15 +63,13 @@ class Dashboard extends Renderable
      */
     public function __construct(Label $label, $bindings = [], ElementId $elementId = null)
     {
-        $this->bindingFactory = new BindingFactory;
+        parent::__construct($label, $elementId);
 
-        $this->label    = $label;
+        $this->bindingFactory = new BindingFactory;
 
         if (empty($bindings) === false) {
             $this->setBindings($bindings);
         }
-
-        parent::__construct($elementId);
     }
 
     /**

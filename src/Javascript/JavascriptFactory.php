@@ -121,7 +121,7 @@ class JavascriptFactory
     /**
      * Checks for an element id to output the chart into and builds the Javascript.
      *
-     * @param  \Khill\Lavacharts\Charts\Chart     $chart Chart to render.
+     * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to render.
      * @return string Javascript code block.
      */
     public function getChartJs(Chart $chart)

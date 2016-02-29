@@ -5,7 +5,9 @@ namespace Khill\Lavacharts\Html;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
 
-//@TODO: phpdocs
+/**
+ * Temporary class until removal in 3.2
+ */
 class HtmlFactory
 {
     /**
@@ -25,7 +27,7 @@ class HtmlFactory
      * the div that will be receiving the chart.
      *
      * @access private
-     * @since  1.0.0
+     * @since  3.1.0
      * @param  string               $elementId  Element id to apply to the div.
      * @param  array                $dimensions Height & width of the div.
      * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions

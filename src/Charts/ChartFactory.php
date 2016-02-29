@@ -131,4 +131,17 @@ class ChartFactory
     {
         return static::$CHART_TYPES;
     }
+
+    /**
+     * Returns the array of supported chart types.
+     *
+     * @access public
+     * @since  3.1.0
+     * @param  string $type Type of chart to check.
+     * @return bool
+     */
+    public static function isValidChart($type)
+    {
+        return in_array($type, self::$CHART_TYPES, true);
+    }
 }

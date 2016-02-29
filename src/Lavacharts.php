@@ -111,7 +111,7 @@ class Lavacharts
         if ((bool) preg_match('/^render/', $method) === true) {
             $type = str_replace('render', '', $method);
 
-            if ($type !== 'Dashboard' && in_array($type, $this->chartClasses, true) === false) {
+            if ($type !== 'Dashboard' && in_array($type, ChartFactory::$CHART_TYPES, true) === false) {
                 throw new InvalidLavaObject($type);
             }
 
@@ -236,22 +236,36 @@ class Lavacharts
      * @since  2.0.0
      * @uses   \Khill\Lavacharts\Values\Label
      * @uses   \Khill\Lavacharts\Values\ElementId
-     * @param  string $type Type of object to render.
-     * @param  string $label Label of the object to render.
-     * @param  string $elementId HTML element id to render into.
+     * @param  string $type          Type of renderable.
+     * @param  string $label         Label of the object to render.
+     * @param  string $elementId     HTML element id to render into.
      * @param  mixed  $divDimensions Set true for div creation, or pass an array with height & width
      * @return string
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
      */
-    public function render($type, $labelStr, $divDimensions = false)
+    public function render($type, $labelStr, $elementId = null, $divDimensions = false)
     {
         $label = new Label($labelStr);
 
         if ($type == 'Dashboard') {
             $output = $this->renderDashboard($label);
         } else {
-            $output = $this->renderChart($type, $label, $divDimensions);
+            if ($divDimensions) {
+                $msg  = "The generation of div's through the render method is depreciated.";
+                $msg .= " Define the div's in page and assign the chart the div's ID.";
+
+                trigger_error($msg, E_USER_DEPRECATED);
+            }
+
+            if ($elementId) {
+                $msg  = "Passing the div's element ID via the render method is depreciated.";
+                $msg .= " Assign the element ID to the chart during creation.";
+
+                trigger_error($msg, E_USER_DEPRECATED);
+            }
+
+            $output = $this->renderChart($type, $label, $elementId, $divDimensions);
         }
 
         return $output;
@@ -308,7 +322,7 @@ class Lavacharts
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions
      */
-    private function renderChart($type, Label $label, $divDimensions = false)
+    private function renderChart($type, Label $label, $elementId = null, $divDimensions = false)
     {
         $jsOutput = '';
 
@@ -421,8 +435,6 @@ class Lavacharts
     {
         return $this->volcano->store($renderable);
     }
-
-
 
     /**
      * Creates and stores Dashboards

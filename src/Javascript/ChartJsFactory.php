@@ -73,14 +73,14 @@ class ChartJsFactory extends JavascriptFactory
         $chart = $this->chart; // Workaround for no :: on member vars in php5.4
 
         $vars = [
-            'chartLabel'   => (string) $this->chart->getLabel(),
+            'chartLabel'   => $this->chart->getLabelStr(),
             'chartType'    => $chart::TYPE,
             'chartVer'     => $chart::VERSION,
             'chartClass'   => $chart::VIZ_CLASS,
             'chartPackage' => $chart::VIZ_PACKAGE,
             'chartData'    => json_encode($chart->getDataTable()),
             'chartOptions' => json_encode($chart->getOptions()),
-            'elemId'       => (string) $this->chart->getElementId(),
+            'elemId'       => $this->chart->getElementIdStr(),
             'formats'      => '',
             'events'       => ''
         ];

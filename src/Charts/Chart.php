@@ -27,7 +27,6 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 class Chart extends Renderable
 {
     use \Khill\Lavacharts\Traits\OptionsTrait;
-    use \Khill\Lavacharts\Traits\LabelTrait;
 
     /**
      * Datatable for the chart.
@@ -50,10 +49,10 @@ class Chart extends Renderable
         Options $options = null,
         ElementId $elementId = null
     ) {
+        parent::__construct($chartLabel, $elementId);
+
         $this->datatable = $datatable;
         $this->options   = $options;
-
-        parent::__construct($chartLabel, $elementId);
     }
 
     /**
