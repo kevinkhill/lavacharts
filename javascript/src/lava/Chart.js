@@ -6,16 +6,17 @@
  * @constructor
  */
 var Chart = function (type, label) {
-  this.type     = type;
-  this.label    = label;
-  this.png      = false;
-  this.element  = null;
-  this.data     = null;
-  this.chart    = null;
-  this.options  = null;
-  this.formats  = [];
-  this.render   = null;
-  this._errors  = require('./Errors.js');
+  this.type      = type;
+  this.label     = label;
+  this.element   = null;
+  this.data      = null;
+  this.chart     = null;
+  this.options   = null;
+  this.formats   = [];
+  this.draw      = null;
+  this.render    = null;
+  this.pngOutput = false;
+  this._errors   = require('./Errors.js');
 };
 
 Chart.prototype.setData = function (data) {
@@ -24,6 +25,10 @@ Chart.prototype.setData = function (data) {
 
 Chart.prototype.setOptions = function (options) {
   this.options = options;
+};
+
+Chart.prototype.setPngOutput = function (png) {
+  this.pngOutput = Boolean(typeof png == 'undefinded' ? false : png);
 };
 
 Chart.prototype.setElement = function (elemId) {
@@ -36,6 +41,13 @@ Chart.prototype.setElement = function (elemId) {
 
 Chart.prototype.redraw = function() {
   this.chart.draw(this.data, this.options);
+};
+
+Chart.prototype.drawPng = function() {
+  var img = document.createElement('img');
+      img.src = this.chart.getImageURI();
+
+  document.getElementById(this.element).appendChild(img.cloneNode(true));
 };
 
 Chart.prototype.applyFormats = function (formatArr) {

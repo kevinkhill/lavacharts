@@ -11,11 +11,43 @@
 sourcemaps = require('gulp-sourcemaps'),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
-browserify = require('browserify'),
-//  babelify = require('babelify')
       argv = require('yargs').array('browsers').argv;
 
 var pkg = require('./package.json');
+
+
+gulp.task('default', [
+    'jshint',
+    'browserify'
+]);
+
+gulp.task('browserify', function (done) {
+    function bundle() {
+        b.bundle()
+         .pipe(source('lava.js'))
+         .pipe(gulp.dest('./javascript/dist'));
+    }
+
+    var b = require('browserify')({
+        entries: [pkg.config.entry],
+        cache: {},
+        packageCache: {},
+        plugin: [require('watchify')]
+    });
+
+    b.on('log', function (msg) {
+        log(msg);
+    });
+
+    b.on('update', bundle);
+
+    bundle();
+});
+
+gulp.task('jshint', function (done) {
+    return gulp.src('./javascript/src/**/*.js')
+               .pipe(jshint());
+});
 
 gulp.task('karma', function (done) {
     var karma = require('karma');
@@ -28,19 +60,6 @@ gulp.task('karma', function (done) {
     });
 
     server.start();
-});
-
-gulp.task('browserify', function (done) {
-    var bundleStream = browserify(pkg.config.entry).bundle();
-
-    bundleStream
-        .pipe(source('lava.js'))
-        .pipe(gulp.dest('./javascript/dist'))
-});
-
-gulp.task('jshint', function (done) {
-    return gulp.src('./javascript/**/*.js')
-               .pipe(jshint());
 });
 
 gulp.task('bump', function (done) { //-v=1.2.3
@@ -62,13 +81,4 @@ gulp.task('php:cs', function (done) {
 
 gulp.task('php:fix', function (done) {
     sh('./vendor/bin/phpcbf -n --standard=PSR2 ./src ./tests');
-});
-
-gulp.task('js', ['jshint', 'browserify']);
-
-gulp.task('watch', ['js'], function() {
-    gulp.watch('./javascript/src/*.js', [
-        'jshint',
-        'browserify'
-    ]);
 });

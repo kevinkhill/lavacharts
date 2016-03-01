@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Traits\OptionsTrait as HasOptions;
 use \Khill\Lavacharts\Configs\Renderable;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
@@ -26,7 +27,7 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  */
 class Chart extends Renderable
 {
-    use \Khill\Lavacharts\Traits\OptionsTrait;
+    use HasOptions;
 
     /**
      * Datatable for the chart.
@@ -86,6 +87,38 @@ class Chart extends Renderable
         return static::TYPE;
     }
 
+    /**
+     * Returns the chart version.
+     *
+     * @since 3.1.0
+     * @return string
+     */
+    public function getVersion()
+    {
+        return static::VERSION;
+    }
+
+    /**
+     * Returns the chart visualization class.
+     *
+     * @since 3.1.0
+     * @return string
+     */
+    public function getVizClass()
+    {
+        return static::VIZ_CLASS;
+    }
+
+    /**
+     * Returns the chart visualization package.
+     *
+     * @since 3.1.0
+     * @return string
+     */
+    public function getVizPackage()
+    {
+        return static::VIZ_PACKAGE;
+    }
 
     /**
      * Returns the DataTable

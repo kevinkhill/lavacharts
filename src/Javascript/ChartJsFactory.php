@@ -83,22 +83,21 @@ class ChartJsFactory extends JavascriptFactory
      */
     protected function getTemplateVars()
     {
-        $chart = $this->chart; // Workaround for no :: on member vars in php5.4
-
         $vars = [
             'chartLabel'   => $this->chart->getLabelStr(),
-            'chartType'    => $chart::TYPE,
-            'chartVer'     => $chart::VERSION,
-            'chartClass'   => $chart::VIZ_CLASS,
-            'chartPackage' => $chart::VIZ_PACKAGE,
-            'chartData'    => $chart->getDataTableJson(),
-            'chartOptions' => $chart->getOptionsJson(),
+            'chartType'    => $this->chart->getType(),
+            'chartVer'     => $this->chart->getVersion(),
+            'chartClass'   => $this->chart->getVizClass(),
+            'chartPackage' => $this->chart->getVizPackage(),
+            'chartData'    => $this->chart->getDataTableJson(),
+            'chartOptions' => $this->chart->getOptionsJson(),
             'elemId'       => $this->chart->getElementIdStr(),
+            'pngOutput'    => $this->chart->getPngOutput(),
             'formats'      => '',
             'events'       => ''
         ];
 
-        if ($chart->getDataTable()->hasFormattedColumns()) {
+        if ($this->chart->getDataTable()->hasFormattedColumns()) {
             $vars['formats'] = $this->buildFormatters();
         }
 
@@ -117,18 +116,18 @@ class ChartJsFactory extends JavascriptFactory
      */
     protected function buildEventCallbacks()
     {
-        $output = '';
+        $buffer = '';
         $events = $this->chart->getEvents();
 
         foreach ($events as $event => $callback) {
-            $output .= sprintf(
+            $buffer .= sprintf(
                 $this->eventCallbackTempate,
                 $event,
                 $callback
             ).PHP_EOL.PHP_EOL;
         }
 
-        return $output;
+        return $buffer;
     }
 
     /**
@@ -139,13 +138,13 @@ class ChartJsFactory extends JavascriptFactory
      */
     protected function buildFormatters()
     {
-        $output  = '';
+        $buffer  = '';
         $columns = $this->chart->getDataTable()->getFormattedColumns();
 
         foreach ($columns as $index => $column) {
             $format = $column->getFormat();
 
-            $output .= sprintf(
+            $buffer .= sprintf(
                 $this->formatTemplate,
                 $index,
                 $format->getType(),
@@ -153,6 +152,6 @@ class ChartJsFactory extends JavascriptFactory
             ).PHP_EOL;
         }
 
-        return $output;
+        return $buffer;
     }
 }

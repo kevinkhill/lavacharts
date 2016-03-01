@@ -32,9 +32,16 @@ class ChartFactory
     /**
      * Holds all of the defined Charts and DataTables.
      *
-     * @var Volcano
+     * @var \Khill\Lavacharts\Volcano
      */
     private $volcano;
+
+    /**
+     * Instance of the ChartBuilder for, well, building charts.
+     *
+     * @var \Khill\Lavacharts\Charts\ChartBuilder
+     */
+    private $chartBuilder;
 
     /**
      * Types of charts that can be created.
@@ -73,6 +80,7 @@ class ChartFactory
     public function __construct(Volcano $volcano)
     {
         $this->volcano = $volcano;
+        $this->chartBuilder = new ChartBuilder;
     }
 
     /**
@@ -91,39 +99,33 @@ class ChartFactory
             throw new InvalidDataTable;
         }
 
-        $chartBuilder = new ChartBuilder;
-
-        $chartBuilder->setType($type);
-        $chartBuilder->setLabel($args[0]);
-        $chartBuilder->setDatatable($args[1]);
+        $this->chartBuilder->setType($type)
+                           ->setLabel($args[0])
+                           ->setDatatable($args[1]);
 
         if (isset($args[2])) {
             if (is_string($args[2])) {
-                $chartBuilder->setElementId($args[2]);
+                $this->chartBuilder->setElementId($args[2]);
             }
 
             if (is_array($args[2])) {
                 if (array_key_exists('elementId', $args[2])) {
-                    $chartBuilder->setElementId($args[2]['elementId']);
+                    $this->chartBuilder->setElementId($args[2]['elementId']);
                 }
 
-                if (array_key_exists('png', $args[2]) && $args[2]['png'] === true) {
-                    if (array_key_exists('events', $args[2])) {
-                        //$args[2]['events'] = ['ready' => 'outputPng']]);
-                    } else {
-                        $args[2] = array_merge($args[2], ['events' => ['ready' => 'outputPng']]);
-                    }
+                if (array_key_exists('png', $args[2])) {
+                    $this->chartBuilder->setPngOutput($args[2]['png']);
                 }
 
-                $chartBuilder->setOptions($args[2]);
+                $this->chartBuilder->setOptions($args[2]);
             }
         }
 
         if (isset($args[3])) {
-            $chartBuilder->setElementId($args[3]);
+            $this->chartBuilder->setElementId($args[3]);
         }
 
-        $chart = $chartBuilder->getChart();
+        $chart = $this->chartBuilder->getChart();
 
         return $this->volcano->store($chart);
     }

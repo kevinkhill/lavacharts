@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use \Khill\Lavacharts\Traits\PngOutputTrait as PngOutput;
+
 /**
  * CandlestickChart Class
  *
@@ -21,6 +23,8 @@ namespace Khill\Lavacharts\Charts;
  */
 class CandlestickChart extends Chart
 {
+    use PngOutput;
+
     /**
      * Javascript chart type.
      *

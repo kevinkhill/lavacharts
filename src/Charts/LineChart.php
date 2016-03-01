@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use \Khill\Lavacharts\Traits\PngOutputTrait as PngOutput;
+
 /**
  * LineChart Class
  *
@@ -20,6 +22,8 @@ namespace Khill\Lavacharts\Charts;
  */
 class LineChart extends Chart
 {
+    use PngOutput;
+
     /**
      * Javascript chart type.
      *

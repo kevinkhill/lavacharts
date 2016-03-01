@@ -2,6 +2,7 @@ lava.on('jsapi:ready', function (google) {
     var chart = new lava.Chart('<chartType>', '<chartLabel>');
 
     chart.setElement('<elemId>');
+    chart.setPngOutput(<pngOutput>);
 
     chart.render = function (data) {
         this.setData(<chartData>);
@@ -11,10 +12,14 @@ lava.on('jsapi:ready', function (google) {
         this.chart = new <chartClass>(this.element);
 
         <formats>
-
         <events>
 
         this.chart.draw(this.data, this.options);
+
+        if (this.pngOutput === true) {
+            //window.google.visualization.events.addListener(this.chart, 'ready', this.drawPng);
+            this.drawPng();
+        }
 
         lava.emit('rendered');
     };

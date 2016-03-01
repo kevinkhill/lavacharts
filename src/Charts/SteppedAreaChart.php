@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use \Khill\Lavacharts\Traits\PngOutputTrait as PngOutput;
+
 /**
  * SteppedAreaChart Class
  *
@@ -19,6 +21,8 @@ namespace Khill\Lavacharts\Charts;
  */
 class SteppedAreaChart extends Chart
 {
+    use PngOutput;
+
     /**
      * Javascript chart type.
      *

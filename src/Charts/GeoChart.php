@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use \Khill\Lavacharts\Traits\PngOutputTrait as PngOutput;
+
 /**
  * GeoChart Class
  *
@@ -23,6 +25,8 @@ namespace Khill\Lavacharts\Charts;
  */
 class GeoChart extends Chart
 {
+    use PngOutput;
+
     /**
      * Javascript chart type.
      *

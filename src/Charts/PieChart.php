@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use \Khill\Lavacharts\Traits\PngOutputTrait as PngOutput;
+
 /**
  * PieChart Class
  *
@@ -20,6 +22,8 @@ namespace Khill\Lavacharts\Charts;
  */
 class PieChart extends Chart
 {
+    use PngOutput;
+
     /**
      * Javascript chart type.
      *

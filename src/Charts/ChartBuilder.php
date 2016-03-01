@@ -61,6 +61,13 @@ class ChartBuilder
     private $elementId = null;
 
     /**
+     * The chart's output override.
+     *
+     * @var bool
+     */
+    private $pngOutput = false;
+
+    /**
      * Set the type of chart to create.
      *
      * @param  string $type Type of chart.
@@ -132,6 +139,19 @@ class ChartBuilder
     }
 
     /**
+     * Sets the charts output override.
+     *
+     * @param  bool $pngOutput
+     * @return \Khill\Lavacharts\Charts\ChartBuilder
+     */
+    public function setPngOutput($png)
+    {
+        $this->pngOutput = (is_bool($png) ? $png : false);
+
+        return $this;
+    }
+
+    /**
      * Creates the chart from the assigned values.
      *
      * @return \Khill\Lavacharts\Charts\Chart
@@ -147,11 +167,14 @@ class ChartBuilder
             $this->elementId
         );
 
+        $lavachart->setPngOutput($this->pngOutput);
+
         unset($this->type);
         unset($this->label);
         unset($this->datatable);
         unset($this->options);
         unset($this->elementId);
+        unset($this->pngOutput);
 
         return $lavachart;
     }

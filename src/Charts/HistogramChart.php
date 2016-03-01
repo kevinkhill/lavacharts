@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use \Khill\Lavacharts\Traits\PngOutputTrait as PngOutput;
+
 /**
  * HistogramChart Class
  *
@@ -27,6 +29,8 @@ namespace Khill\Lavacharts\Charts;
  */
 class HistogramChart extends Chart
 {
+    use PngOutput;
+
     /**
      * Javascript chart type.
      *

@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use \Khill\Lavacharts\Traits\PngOutputTrait as PngOutput;
+
 /**
  * ComboChart Class
  *
@@ -23,6 +25,8 @@ namespace Khill\Lavacharts\Charts;
  */
 class ComboChart extends Chart
 {
+    use PngOutput;
+
     /**
      * Javascript chart type.
      *

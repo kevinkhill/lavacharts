@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use \Khill\Lavacharts\Traits\PngOutputTrait as PngOutput;
+
 /**
  * ColumnChart Class
  *
@@ -21,6 +23,8 @@ namespace Khill\Lavacharts\Charts;
  */
 class ColumnChart extends Chart
 {
+    use PngOutput;
+
     /**
      * Javascript chart type.
      *

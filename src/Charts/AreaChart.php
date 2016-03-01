@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use \Khill\Lavacharts\Traits\PngOutputTrait as PngOutput;
+
 /**
  * AreaChart Class
  *
@@ -20,6 +22,8 @@ namespace Khill\Lavacharts\Charts;
  */
 class AreaChart extends Chart
 {
+    use PngOutput;
+
     /**
      * Javascript chart type.
      *
@@ -47,4 +51,6 @@ class AreaChart extends Chart
      * @var string
      */
     const VIZ_CLASS = 'google.visualization.AreaChart';
+
+
 }

@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use \Khill\Lavacharts\Traits\PngOutputTrait as PngOutput;
+
 /**
  * BubbleChart Class
  *
@@ -21,6 +23,8 @@ namespace Khill\Lavacharts\Charts;
  */
 class BubbleChart extends Chart
 {
+    use PngOutput;
+
     /**
      * Javascript chart type.
      *
