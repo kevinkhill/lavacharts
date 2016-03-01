@@ -22,4 +22,7 @@
          null, '2015-1-6', '2015-1-7', 100, 'Research']
     ]);
 
-    $lava->GanttChart($title, $data, ['height' => 275]);
+    $lava->GanttChart($title, $data, [
+        'elementId' => 'lavachart',
+        'height' => 275
+    ]);

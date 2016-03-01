@@ -17,6 +17,7 @@
 
 
     $lava->TimelineChart($title, $data, [
+        'elementId' => 'lavachart',
         'title' => 'Classes',
         'width' => $width,
         'height' => $height,

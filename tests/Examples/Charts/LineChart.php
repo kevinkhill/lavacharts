@@ -26,6 +26,7 @@
          ]);
 
     $lava->LineChart($title, $data, [
+        'elementId' => 'lavachart',
         'title' => 'Weather in October',
         'width' => $width,
         'height' => $height,

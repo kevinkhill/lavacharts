@@ -8,6 +8,7 @@
             ->addRow(['Settle Argument', 89]);
 
     $lava->PieChart($title, $reasons, [
+        'elementId' => 'lavachart',
         'title' => 'Reasons I visit IMDB',
         'width' => $width,
         'height' => $height,

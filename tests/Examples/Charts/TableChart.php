@@ -13,6 +13,7 @@
          ]);
 
     $lava->TableChart($title, $data, [
+        'elementId' => 'lavachart',
         'width' => $width,
         'height' => $height
     ]);

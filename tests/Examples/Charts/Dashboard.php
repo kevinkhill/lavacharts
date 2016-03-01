@@ -13,6 +13,7 @@
     ]);
 
     $pieChart = $lava->PieChart('Stuff', $data, [
+        'elementId' => 'lavachart',
         'width' => $width,
         'height' => $height,
         'chartArea' => [

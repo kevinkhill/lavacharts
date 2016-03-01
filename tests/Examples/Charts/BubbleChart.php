@@ -16,6 +16,7 @@
     ]);
 
     $lava->BubbleChart($title, $data, [
+        'elementId' => 'lavachart',
         'width' => '100%',
         'height' => 600,
         'chartArea' => ['width' => 400],

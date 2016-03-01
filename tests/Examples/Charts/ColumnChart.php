@@ -10,6 +10,7 @@
              ->addRow(['2007', 1030, 54]);
 
     $lava->ColumnChart($title, $finances, [
+        'elementId' => 'lavachart',
         'title' => 'Company Performance',
         'width' => $width,
         'height' => $height,

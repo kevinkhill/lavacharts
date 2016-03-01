@@ -8,6 +8,7 @@
     }
 
     $lava->ScatterChart($title, $data, [
+        'elementId' => 'lavachart',
         'title' => 'Age vs. Weight comparison',
         'width' => $width,
         'height' => $height,

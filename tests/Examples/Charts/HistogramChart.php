@@ -34,6 +34,7 @@
     ]);
 
     $lava->HistogramChart($title, $data, [
+        'elementId' => 'lavachart',
         'title' => 'Lengths of dinosaurs, in meters',
         'legend' => 'none'
     ]);

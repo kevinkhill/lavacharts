@@ -10,6 +10,7 @@
                ->addRow(['RU', 700]);
 
     $lava->GeoChart($title, $popularity, [
+        'elementId' => 'lavachart',
         'width' => $width,
         'height' => $height
     ]);

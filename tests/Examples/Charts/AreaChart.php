@@ -9,6 +9,7 @@
     }
 
     $lava->AreaChart($title, $data, [
+        'elementId' => 'lavachart',
         'width' => $width,
         'height' => $height
     ]);

@@ -11,6 +11,7 @@
     ], true);
 
     $lava->CandlestickChart($title, $data, [
+        'elementId' => 'lavachart',
         'legend' => 'none',
         'height' => 400
     ]);

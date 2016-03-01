@@ -34,6 +34,7 @@
         ]);
 
     $lava->TreemapChart($title, $data, [
+        'elementId' => 'lavachart',
         'width' => $width,
         'height' => $height
     ]);

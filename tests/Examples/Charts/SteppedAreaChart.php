@@ -13,6 +13,7 @@
     ]);
 
     $lava->SteppedAreaChart($title, $data, [
+        'elementId' => 'lavachart',
         'title' => 'The decline of \'The 39 Steps\'',
         'width' => $width,
         'height' => $height,

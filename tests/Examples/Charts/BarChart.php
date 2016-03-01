@@ -9,6 +9,7 @@
         ->addRow(array('Fish', rand(1000,5000)));
 
     $lava->BarChart($title, $votes, [
+        'elementId' => 'lavachart',
         'width' => $width,
         'height' => $height
     ]);

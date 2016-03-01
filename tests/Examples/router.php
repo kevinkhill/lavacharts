@@ -11,8 +11,6 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
 } else {
     $chart = trim($_SERVER["REQUEST_URI"], '/');
 
-    $lava = new \Khill\Lavacharts\Lavacharts;
-
     if ($chart !== "") {
         $width  = 600;
         $height = floor($width*(6/19));
@@ -62,11 +60,11 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
             ?>
             </pre>
 <?php
-            echo $lava->render($chart, $title, 'lavachart');
+            echo $lava->render($chart, $title);
         } else {
             echo '<h1>Supported Charts</h1>';
             echo '<ul>';
-            foreach (ChartFactory::chartTypes() as $chart) {
+            foreach (ChartFactory::getChartTypes() as $chart) {
                 echo sprintf('<li><a href="%1$s">%1$s</a></li>', $chart);
             }
             echo '</ul>';
