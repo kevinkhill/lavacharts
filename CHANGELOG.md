@@ -37,15 +37,20 @@
       - Array of columns and array of rows as 1st and 2nd for a complete DataTable in
         one method call. (The third paramater can also be used to set the timezone.)
     - [DataFactory Examples](https://gist.github.com/kevinkhill/0c7c5f6211c7fd8f9658)
-  - All exceptions now extend LavaException if the user wants to have a catch all
-  - Utils class removed, broken into traits, and applied to classes that needed the methods
-  - Massive overhaul of lava.js module.
+ - Massive overhaul of lava.js module.
    - Refactored and using browserify to compile
    - Added ```lava.ready()``` method to use to wrap ajax requests. This will be called after all charts have
      rendered onto the page. Use in the same manner as jQuery's ```$(function(){})```
   - Moving framework integrations into their own repos
    - khill/lavacharts-laravel for service provider, facade, and blade extensions.
    - khill/lavacharts-symfony for bundle with service locater and twig extensions.
+  - Created examples for each chart, available to view localy using the built in PHP server.
+   - Navigate to the Examples folder in the lavacharts package folder. If you installed with Composer, then it
+     should be at ```$PROJECT_ROOT/vendor/khill/lavacharts/tests/Examples```
+   - Use the given config and router to start the examples "site" ```php -S 127.0.0.1:8000 -c php.ini router.php```
+ - All exceptions now extend LavaException if the user wants to have a catch all
+  - Utils class removed, broken into traits, and applied to classes that needed the methods
+
 
 - 3.0.0
   - Dropping support for PHP 5.3
