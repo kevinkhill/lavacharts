@@ -3,13 +3,13 @@
 namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Configs\Options;
-use \Khill\Lavacharts\Traits\OptionsTrait as HasOptions;
 use \Khill\Lavacharts\Configs\Renderable;
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Exceptions\DataTableNotFound;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Values\ElementId;
+use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Traits\OptionsTrait as HasOptions;
+use \Khill\Lavacharts\Traits\WrappableTrait as Wrappable;
+use \Khill\Lavacharts\Traits\ElementIdTrait as HasElementId;
 
 /**
  * Chart Class, Parent to all charts.
@@ -27,7 +27,12 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  */
 class Chart extends Renderable
 {
-    use HasOptions;
+    use HasOptions, HasElementId, Wrappable;
+
+    /**
+     * Wrapper type when used in a dashboard
+     */
+    const WRAP_TYPE = 'chartType';
 
     /**
      * Datatable for the chart.
@@ -37,12 +42,19 @@ class Chart extends Renderable
     protected $datatable;
 
     /**
+     * The renderable's unique elementId.
+     *
+     * @var \Khill\Lavacharts\Values\ElementId
+     */
+    protected $elementId;
+
+    /**
      * Builds a new chart with the given label.
      *
-     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param  \Khill\Lavacharts\Configs\Options      $options Options fot the chart.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @param \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
+     * @param \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @param \Khill\Lavacharts\Configs\Options      $options Options fot the chart.
+     * @param \Khill\Lavacharts\Values\ElementId     $elementId
      */
     public function __construct(
         Label $chartLabel,
@@ -59,15 +71,14 @@ class Chart extends Renderable
     /**
      * This method will map any method calls for setting options.
      *
-     *
      * Before 3.0, methods could be used as well as config arrays for
      * setting options on a chart. This will prevent BC breaks to anyone
      * who upgrades to 3.0 but still has 2.5 syntax.
      *
-     * @access public
      * @since  3.1.0
      * @param  string $method The method that was called.
      * @param  mixed  $arg    The argument to the method.
+     * @return \Khill\Lavacharts\Charts\Chart
      */
     public function __call($method, $arg)
     {
@@ -187,6 +198,6 @@ class Chart extends Renderable
      */
     public function customize($optionArray)
     {
-        return $this->options->setOptions($optionArray, false);
+        return $this->options->setOptions($optionArray);
     }
 }

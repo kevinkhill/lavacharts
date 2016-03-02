@@ -18,11 +18,14 @@ trait OptionsTrait
      *
      * @access public
      * @since  3.1.0
-     * @param \Khill\Lavacharts\Configs\Options $options
+     * @param  \Khill\Lavacharts\Configs\Options $options
+     * @return \Khill\Lavacharts\Configs\Options
      */
     public function setOptions(Options $options)
     {
-        return $this->options;
+        $this->options = $options;
+
+        return $this;
     }
 
     /**

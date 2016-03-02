@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Dashboards;
+namespace Khill\Lavacharts\Dashboards\Wrappers;
 
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Dashboards\Filters\Filter;

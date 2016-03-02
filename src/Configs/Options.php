@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Configs;
 
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidOptions;
 
 /**
@@ -28,7 +27,7 @@ class Options implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
      *
      * @var array
      */
-    private $options = [];
+    private $values = [];
 
     /**
      * Create a new Options object with a set of options.
@@ -72,7 +71,7 @@ class Options implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
      * Batch set options from an array.
      *
      * @param  array $options Options to set
-     * @throws \Khill\Lavacharts\Exceptions\InvalidOption
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOptions
      */
     public function setOptions($options)
     {
@@ -86,8 +85,8 @@ class Options implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
     /**
      * Merges two Options objects and combines the options and options.
      *
-     * @param  array|\Khill\Lavacharts\Options $options
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @param  array|\Khill\Lavacharts\Configs\Options $options
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOptions
      */
     public function merge($options)
     {
@@ -115,8 +114,11 @@ class Options implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
 
     /**
      * @implements ArrayAccess
+     * @param mixed $offset
+     * @param mixed $value
      */
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value)
+    {
         if (is_null($offset)) {
             $this->values[] = $value;
         } else {
@@ -126,22 +128,30 @@ class Options implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
 
     /**
      * @implements ArrayAccess
+     * @param mixed $offset
+     * @return bool
      */
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return isset($this->values[$offset]);
     }
 
     /**
      * @implements ArrayAccess
+     * @param mixed $offset
      */
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         unset($this->values[$offset]);
     }
 
     /**
      * @implements ArrayAccess
+     * @param mixed $offset
+     * @return mixed|null
      */
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         return isset($this->values[$offset]) ? $this->values[$offset] : null;
     }
 }

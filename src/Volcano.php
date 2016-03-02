@@ -25,8 +25,6 @@ use \Khill\Lavacharts\Exceptions\DashboardNotFound;
  */
 class Volcano
 {
-    use \Khill\Lavacharts\Traits\NonEmptyStringTrait;
-
     /**
      * Holds all of the defined Charts.
      *
@@ -45,7 +43,7 @@ class Volcano
      * Stores a Chart or Dashboard in the Volcano.
      *
      * @since  3.1.0
-     * @param  \Khill\Lavacharts\Charts\Chart|\Khill\Lavacharts\Dashboards\Dashboard $renderable
+     * @param  \Khill\Lavacharts\Configs\Renderable $renderable
      * @return \Khill\Lavacharts\Charts\Chart|\Khill\Lavacharts\Dashboards\Dashboard
      */
     public function store(Renderable $renderable)
@@ -66,10 +64,11 @@ class Volcano
      *
      * @access public
      * @since  3.1.0
-     * @uses   \Khill\Lavacharts\Values\Label
-     * @param  string $type Type of Chart or Dashboard.
-     * @param  string $label Label of the Chart or Dashboard.
-     * @return mixed
+     * @param  string                        $type Type of Chart or Dashboard.
+     * @param  \Khill\Lavacharts\Values\Label $label Label of the Chart or Dashboard.
+     * @return \Khill\Lavacharts\Charts\Chart|\Khill\Lavacharts\Dashboards\Dashboard
+     * @throws \Khill\Lavacharts\Exceptions\ChartNotFound
+     * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
      */
     public function get($type, Label $label)
     {
@@ -108,7 +107,7 @@ class Volcano
      */
     public function checkChart($type, Label $label)
     {
-        if ($this->nonEmptyString($type) === false) {
+        if ((is_string($type) && strlen($type) > 0) === false) {
             return false;
         }
 

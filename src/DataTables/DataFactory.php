@@ -3,7 +3,6 @@
 namespace Khill\Lavacharts\DataTables;
 
 use \Khill\Lavacharts\DataTables\Cells\Cell;
-use \Khill\Lavacharts\DataTables\Formats\Format;
 use \Khill\Lavacharts\Exceptions\InvalidJson;
 
 /**
@@ -26,27 +25,28 @@ class DataFactory
 {
     /**
      * Create new DataTables.
-     *
      * This method will create an empty DataTable, with a timezone if
      * passed a string, or without a timezone if passed nothing.
      *
-     *
+     * @param  null   $columns
+     * @param  null   $rows
      * @param  string $timezone Timezone to use while using Carbon
      * @return \Khill\Lavacharts\DataTables\DataTable
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public static function DataTable($columns = null, $rows = null, $timezone = null)
     {
         if ($columns === null || gettype($columns) === 'string') {
             $timezone = $columns;
-
-            return self::emptyDataTable($timezone);
         }
+
+        $datatable = self::emptyDataTable($timezone);
 
         if (is_array($columns) && is_array($rows)) {
-            $datatable = self::emptyDataTable($timezone);
-
-            return $datatable->addColumns($columns)->addRows($rows);
+            $datatable->addColumns($columns)->addRows($rows);
         }
+
+        return $datatable;
     }
 
     /**
@@ -192,5 +192,4 @@ class DataFactory
     {
         return new Cell($v, $f, $p);
     }
-
 }

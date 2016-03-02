@@ -3,8 +3,6 @@
 namespace Khill\Lavacharts\Javascript;
 
 use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Values\ElementId;
-use \Khill\Lavacharts\DataTables\DataTable;
 
 /**
  * ChartFactory Class
@@ -39,11 +37,11 @@ class ChartJsFactory extends JavascriptFactory
     protected $chart;
 
     /**
-     * Event sprintf template
+     * Event format template
      *
      * @var string
      */
-    protected $eventCallbackTempate;
+    protected $eventTemplate;
 
     /**
      * Format sprintf template
@@ -62,7 +60,7 @@ class ChartJsFactory extends JavascriptFactory
 
         $this->chart = $chart;
 
-        $this->eventCallbackTempate =
+        $this->eventTemplate =
             'google.visualization.events.addListener(this.chart, "%s", function (event) {'.PHP_EOL.
                 'return lava.event(event, this.chart, %s);'.PHP_EOL.
             '}.bind(this));'.PHP_EOL;
@@ -121,7 +119,7 @@ class ChartJsFactory extends JavascriptFactory
 
         foreach ($events as $event => $callback) {
             $buffer .= sprintf(
-                $this->eventCallbackTempate,
+                $this->eventTemplate,
                 $event,
                 $callback
             ).PHP_EOL.PHP_EOL;

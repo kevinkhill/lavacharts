@@ -2,11 +2,6 @@
 
 namespace Khill\Lavacharts\Javascript;
 
-use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Values\ElementId;
-use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Dashboards\Dashboard;
-
 /**
  * JavascriptFactory Class
  *

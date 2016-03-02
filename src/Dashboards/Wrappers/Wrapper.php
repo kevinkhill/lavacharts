@@ -1,10 +1,9 @@
 <?php
 
-namespace Khill\Lavacharts\Dashboards;
+namespace Khill\Lavacharts\Dashboards\Wrappers;
 
-use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Dashboards\Filters\Filter;
 use \Khill\Lavacharts\Values\ElementId;
+use \Khill\Lavacharts\Traits\ElementIdTrait as HasElementId;
 
 /**
  * Wrapper Parent Class
@@ -23,14 +22,21 @@ use \Khill\Lavacharts\Values\ElementId;
  */
 class Wrapper implements \JsonSerializable
 {
-    use \Khill\Lavacharts\Traits\ElementIdTrait;
+    use HasElementId;
 
     /**
      * Chart or Filter that is wrapped.
      *
      * @var \Khill\Lavacharts\Charts\Chart|\Khill\Lavacharts\Dashboards\Filters\Filter
      */
-    protected $wrappedObject;
+    protected $wrap;
+
+    /**
+     * The renderable's unique elementId.
+     *
+     * @var \Khill\Lavacharts\Values\ElementId
+     */
+    protected $elementId;
 
     /**
      * Builds a new Wrapper object.
@@ -49,7 +55,7 @@ class Wrapper implements \JsonSerializable
      */
     public function unwrap()
     {
-        return $this->wrappedObject;
+        return $this->wrap;
     }
 
     /**
@@ -59,18 +65,10 @@ class Wrapper implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        if ($this->wrappedObject instanceof Chart) {
-            $type = 'chartType';
-        }
-
-        if ($this->wrappedObject instanceof Filter) {
-            $type = 'controlType';
-        }
-
         return [
-            $type         => $this->wrappedObject->getType(),
+            'options'     => $this->wrap,
             'containerId' => (string) $this->elementId,
-            'options'     => $this->wrappedObject
+            $this->wrap->getWrapType() => $this->wrap->getType()
         ];
     }
 

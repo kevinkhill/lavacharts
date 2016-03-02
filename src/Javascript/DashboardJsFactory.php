@@ -2,8 +2,6 @@
 
 namespace Khill\Lavacharts\Javascript;
 
-use \Khill\Lavacharts\Values\ElementId;
-use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Dashboards\Dashboard;
 
 /**
@@ -95,7 +93,7 @@ class DashboardJsFactory extends JavascriptFactory
         $bindings = $this->dashboard->getBindings();
 
         foreach ($bindings as $binding) {
-            switch($binding::TYPE) {
+            switch ($binding::TYPE) {
                 case 'OneToOne':
                     $controls = $binding->getControlWrappers()[0]->toJavascript();
                     $charts   = $binding->getChartWrappers()[0]->toJavascript();
@@ -127,7 +125,7 @@ class DashboardJsFactory extends JavascriptFactory
      * Map the wrapper values from the array to javascript notation.
      *
      * @access protected
-     * @param  $wrapperArray Array of control or chart wrappers
+     * @param  array $wrapperArray Array of control or chart wrappers
      * @return string Json notation for the wrappers
      */
     protected function mapWrapperArray($wrapperArray)

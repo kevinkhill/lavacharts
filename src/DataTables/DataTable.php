@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\DataTables;
 
-use \Khill\Lavacharts\DataTables\Cells\Cell;
 use \Khill\Lavacharts\DataTables\Formats\Format;
 use \Khill\Lavacharts\DataTables\Rows\RowFactory;
 use \Khill\Lavacharts\DataTables\Columns\ColumnFactory;
@@ -10,7 +9,6 @@ use \Khill\Lavacharts\Exceptions\InvalidTimeZone;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use \Khill\Lavacharts\Exceptions\InvalidRowProperty;
-use \Khill\Lavacharts\Exceptions\InvalidColumnType;
 
 /**
  * The DataTable object is used to hold the data passed into a visualization.
@@ -507,7 +505,7 @@ class DataTable implements \JsonSerializable
 
             if (count($timeOfDayColumns) > 0) {
                 foreach ($timeOfDayColumns as $cell) {
-                    $rowValues = $this->parseTimeOfDayRow($cellArray);
+                    $rowValues = $this->parseTimeOfDayRow($cell);
                 }
             } else {
                 $rowValues = $this->parseExtendedCellArray($cellArray);

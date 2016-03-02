@@ -9,8 +9,6 @@ use \Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
 
 class Dashboard extends Renderable
 {
-    use \Khill\Lavacharts\Traits\LabelTrait;
-
     /**
      * Javascript chart type.
      *
@@ -55,11 +53,11 @@ class Dashboard extends Renderable
 
     /**
      * Builds a new Dashboard
-     *
      * If passed an array of bindings, they will be applied upon instansiation.
      *
-     * @param \Khill\Lavacharts\Values\Label $label    Label for the Dashboard
-     * @param array                          $bindings Array of bindings to apply
+     * @param \Khill\Lavacharts\Values\Label     $label     Label for the Dashboard
+     * @param array                              $bindings  Array of bindings to apply
+     * @param \Khill\Lavacharts\Values\ElementId $elementId Element Id for the Dashboard
      */
     public function __construct(Label $label, $bindings = [], ElementId $elementId = null)
     {

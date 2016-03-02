@@ -28,8 +28,8 @@ class HtmlFactory
      *
      * @access private
      * @since  3.1.0
-     * @param  string               $elementId  Element id to apply to the div.
-     * @param  array                $dimensions Height & width of the div.
+     * @param  string     $elementId  Element id to apply to the div.
+     * @param  array|bool $dimensions Height & width of the div.
      * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return string               HTML div element.
@@ -55,12 +55,11 @@ class HtmlFactory
                 }
 
                 return sprintf(
-                            '<div id="%s" style="%s%s"></div>',
-                            $elementId,
-                            $heightStr,
-                            $widthStr
-                        );
-
+                    '<div id="%s" style="%s%s"></div>',
+                    $elementId,
+                    $heightStr,
+                    $widthStr
+                );
             } else {
                 throw new InvalidDivDimensions();
             }
@@ -81,7 +80,7 @@ class HtmlFactory
     {
         if (is_int($dimension) && $dimension > 0) {
             return 'integer';
-        } else if (substr($dimension, -1) === '%' && (int) substr($dimension, 0, -1) > 0) {
+        } elseif (substr($dimension, -1) === '%' && (int) substr($dimension, 0, -1) > 0) {
             return 'percentage';
         } else {
             throw new InvalidConfigValue(

@@ -7,9 +7,8 @@ trait ArrayIsMultiTrait
     /**
      * Simple test to see if array is multi-dimensional.
      *
-     * @param array Array of values.
-     * @return bool Returns true is first element in the array is an array,
-     *              otherwise false.
+     * @param  array $array
+     * @return bool Returns true is first element in the array is an array, otherwise false.
      */
     protected function arrayIsMulti($array)
     {

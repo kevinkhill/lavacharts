@@ -4,7 +4,9 @@ namespace Khill\Lavacharts\Dashboards\Filters;
 
 use \Khill\Lavacharts\Configs\Options;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-
+use \Khill\Lavacharts\Traits\OptionsTrait as HasOptions;
+use \Khill\Lavacharts\Traits\WrappableTrait as Wrappable;
+use \Khill\Lavacharts\Traits\NonEmptyStringTrait as StringCheck;
 
 /**
  * Filter Parent Class
@@ -24,8 +26,12 @@ use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
  */
 class Filter implements \JsonSerializable
 {
-    use \Khill\Lavacharts\Traits\OptionsTrait;
-    use \Khill\Lavacharts\Traits\NonEmptyStringTrait;
+    use HasOptions, Wrappable, StringCheck;
+
+    /**
+     * Wrapper type when used in a dashboard
+     */
+    const WRAP_TYPE = 'controlType';
 
     /**
      * Builds a new Filter Object.

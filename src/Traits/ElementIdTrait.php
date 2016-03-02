@@ -2,47 +2,27 @@
 
 namespace Khill\Lavacharts\Traits;
 
-use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 
-/**
- * Trait for adding html element IDs to classes that will be rendered into a div
- * when passed through the JavascriptFactory
- *
- * @since  3.1.0
- */
 trait ElementIdTrait
 {
     /**
-     * The chart's unique elementId.
+     * Creates and/or sets the ElementId.
      *
-     * @var \Khill\Lavacharts\Values\ElementId
-     */
-    protected $elementId;
-
-    /**
-     * Creates and sets the elementId
-     *
-     * @param string $elemIdStr
+     * @param  string|\Khill\Lavacharts\Values\ElementId $elementId
      * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
      */
-    public function createElementId($elemIdStr)
+    public function setElementId($elementId)
     {
-        $this->elementId = new ElementId($elemIdStr);
+        if ($elementId instanceof ElementId) {
+            $this->elementId = $elementId;
+        } else {
+            $this->elementId = new ElementId($elementId);
+        }
     }
 
     /**
-     * Sets the elementId
-     *
-     * @param  \Khill\Lavacharts\Values\ElementId $elementId
-     */
-    public function setElementId(ElementId $elementId)
-    {
-        $this->elementId = $elementId;
-    }
-
-    /**
-     * Returns the elementId.
+     * Returns the ElementId.
      *
      * @return \Khill\Lavacharts\Values\ElementId
      */
@@ -52,17 +32,12 @@ trait ElementIdTrait
     }
 
     /**
-     * Remove unwanted characters from elementId
+     * Returns the ElementId.
      *
-     * @link http://stackoverflow.com/a/11330527/2503458
+     * @return \Khill\Lavacharts\Values\ElementId
      */
-    public function generateElementId(Label $label)
+    public function getElementIdStr()
     {
-        $string = strtolower((string) $label);
-        $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
-        $string = preg_replace("/[\s-]+/", " ", $string);
-        $string = preg_replace("/[\s_]/", "-", $string);
-
-        return $string;
+        return (string) $this->elementId;
     }
 }

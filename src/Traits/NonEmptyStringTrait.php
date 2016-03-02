@@ -2,20 +2,21 @@
 
 namespace Khill\Lavacharts\Traits;
 
+/**
+ * Trait for checking if a parameter is a string and not empty
+ *
+ * @since  3.1.0
+ */
 trait NonEmptyStringTrait
 {
     /**
-     * Checks if variable is a non-empty string
+     * Checks if a variable is a string and not empty.
      *
-     * @param  string $var
-     * @return bool
+     * @param  string $var String to check
+     * @return \Khill\Lavacharts\Values\Label
      */
-    protected function nonEmptyString($var)
+    public function nonEmptyString($var)
     {
-        if (is_string($var) && strlen($var) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return (is_string($var) && strlen($var) > 0);
     }
 }

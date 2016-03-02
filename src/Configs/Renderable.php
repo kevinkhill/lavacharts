@@ -2,9 +2,9 @@
 
 namespace Khill\Lavacharts\Configs;
 
-use \Khill\Lavacharts\Lavacharts;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
+use \Khill\Lavacharts\Traits\ElementIdTrait as HasElementId;
 
 /**
  * Renderable Class
@@ -23,6 +23,8 @@ use \Khill\Lavacharts\Values\ElementId;
  */
 class Renderable
 {
+    use HasElementId;
+
     /**
      * The renderable's unique label.
      *
@@ -40,6 +42,7 @@ class Renderable
     /**
      * Sets the renderable's ElementId or generates on from a string
      *
+     * @param \Khill\Lavacharts\Values\Label     $label
      * @param \Khill\Lavacharts\Values\ElementId $elementId
      */
     public function __construct(Label $label, ElementId $elementId = null)
@@ -51,41 +54,6 @@ class Renderable
         } else {
             $this->elementId = $elementId;
         }
-    }
-
-    /**
-     * Creates and/or sets the ElementId.
-     *
-     * @param  string|\Khill\Lavacharts\Values\ElementId $elementId
-     * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
-     */
-    public function setElementId($elementId)
-    {
-        if ($elementId instanceof ElementId) {
-            $this->elementId = $elementId;
-        } else {
-            $this->elementId = new ElementId($elementId);
-        }
-    }
-
-    /**
-     * Returns the ElementId.
-     *
-     * @return \Khill\Lavacharts\Values\ElementId
-     */
-    public function getElementId()
-    {
-        return $this->elementId;
-    }
-
-    /**
-     * Returns the ElementId.
-     *
-     * @return \Khill\Lavacharts\Values\ElementId
-     */
-    public function getElementIdStr()
-    {
-        return (string) $this->elementId;
     }
 
     /**
@@ -130,8 +98,7 @@ class Renderable
      * to use as an elementId.
      *
      * @link http://stackoverflow.com/a/11330527/2503458
-     *
-     * @param  string $string String from which to generate an ID.
+     * @access private
      */
     private function generateElementId()
     {

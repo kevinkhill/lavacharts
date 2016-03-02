@@ -102,7 +102,7 @@ class ColumnFactory
 
         $columnArgs[] = $role;
 
-        $column = new \ReflectionClass('\Khill\Lavacharts\DataTables\Columns\Column');
+        $column = new \ReflectionClass(__NAMESPACE__ . '\\Column');
 
         return $column->newInstanceArgs($columnArgs);
     }

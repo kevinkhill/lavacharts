@@ -51,6 +51,4 @@ class AreaChart extends Chart
      * @var string
      */
     const VIZ_CLASS = 'google.visualization.AreaChart';
-
-
 }

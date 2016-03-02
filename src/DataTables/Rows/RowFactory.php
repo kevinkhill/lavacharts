@@ -48,7 +48,6 @@ class RowFactory
      *
      * @param  array $valueArray Array of values to assign to the row.
      * @return \Khill\Lavacharts\DataTables\Rows\Row
-     * @throws \Khill\Lavacharts\Exceptions\FailedCarbonParsing
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeString
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
@@ -80,7 +79,7 @@ class RowFactory
                 if ($cell instanceof Carbon) {
                     $rowData[] = new DateCell($cell);
                 } else {
-    		    if (isset($dateTimeFormat)) {
+                    if (isset($dateTimeFormat)) {
                         $rowData[] = DateCell::parseString($cell, $dateTimeFormat);
                     } else {
                         $rowData[] = DateCell::parseString($cell);

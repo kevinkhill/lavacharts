@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\DataTables\Columns;
 
-
 use \Khill\Lavacharts\DataTables\Formats\Format;
 
 /**
@@ -22,8 +21,6 @@ use \Khill\Lavacharts\DataTables\Formats\Format;
  */
 class Column implements \JsonSerializable
 {
-    use \Khill\Lavacharts\Traits\NonEmptyStringTrait;
-
     /**
      * Column type.
      *

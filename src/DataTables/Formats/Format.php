@@ -19,7 +19,7 @@ namespace Khill\Lavacharts\DataTables\Formats;
  */
 
 use \Khill\Lavacharts\Configs\Options;
-use \Khill\Lavacharts\Configs\JsonConfig;
+use \Khill\Lavacharts\Configs\JsonConfig; //@TODO look at formats and jsonconfig etc.
 
 class Format implements \JsonSerializable
 {
@@ -30,9 +30,8 @@ class Format implements \JsonSerializable
      * Passing an array of key value pairs will set the configuration for each
      * child object created from this parent object.
      *
-     * @param  \Khill\Lavacharts\Options $options
-     * @param  array                     $config Array of options.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @param \Khill\Lavacharts\Configs\Options $options
+     * @param  array                            $config Array of options.
      */
     public function __construct(Options $options, $config)
     {

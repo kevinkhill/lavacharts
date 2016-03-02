@@ -3,9 +3,7 @@
 namespace Khill\Lavacharts\Javascript;
 
 use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Configs\Renderable;
-use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Dashboards\Dashboard;
 
 /**
@@ -98,17 +96,20 @@ class ScriptManager
     /**
      * Return the javascript of a renderable resource.
      *
+     * @param  \Khill\Lavacharts\Configs\Renderable $renderable
      * @return string Javascript blocks
      */
     public function getJavascript(Renderable $renderable)
     {
         if ($renderable instanceof Dashboard) {
-            return (new DashboardJsFactory($renderable))->getJavascript();
+            $scriptFactory = new DashboardJsFactory($renderable);
         }
 
         if ($renderable instanceof Chart) {
-            return (new ChartJsFactory($renderable))->getJavascript();
+            $scriptFactory = new ChartJsFactory($renderable);
         }
+
+        return $scriptFactory->getJavascript();
     }
 
     /**

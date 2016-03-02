@@ -2,13 +2,9 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Configs\Options;
-use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Volcano;
+use \Khill\Lavacharts\Builders\ChartBuilder;
 use \Khill\Lavacharts\Exceptions\InvalidDataTable;
-use \Khill\Lavacharts\Exceptions\InvalidLabel;
 
 /**
  * ChartFactory Class
@@ -89,9 +85,9 @@ class ChartFactory
      *
      * @param  string $type Type of chart to create.
      * @param  array  $args Passed arguments from __call in Lavacharts.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLavaObject
      * @return \Khill\Lavacharts\Charts\Chart
+     * @throws \Khill\Lavacharts\Exceptions\InvalidChartType
+     * @throws \Khill\Lavacharts\Exceptions\InvalidDataTable
      */
     public function create($type, $args)
     {

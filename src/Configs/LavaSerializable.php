@@ -2,9 +2,6 @@
 
 namespace Khill\Lavacharts\Configs;
 
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Exceptions\InvalidConfigProperty;
-
 /**
  * JsonConfig Object
  *
@@ -32,18 +29,19 @@ class JsonOptions implements \JsonSerializable
     /**
      * Retrieves the Options object from the chart.
      *
-     * @access public
-     * @param \Khill\Lavacharts\Configs\Options $options
+     * @param  \Khill\Lavacharts\Configs\Options $options
+     * @return \Khill\Lavacharts\Configs\Options
      */
     public function setOptions(Options $options)
     {
-        return $this->options;
+        $this->options = $options;
+
+        return $this;
     }
 
     /**
      * Retrieves the Options object from the chart.
      *
-     * @access public
      * @return \Khill\Lavacharts\Configs\Options
      */
     public function getOptions()

@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
+use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidFilter;
 
 /**

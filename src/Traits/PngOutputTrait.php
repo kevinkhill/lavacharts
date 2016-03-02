@@ -14,7 +14,7 @@ trait PngOutputTrait
     /**
      * Sets the chart to be output as a PNG instead of SVG.
      *
-     * @param  bool Sets the chart output override status.
+     * @param bool $png Sets the chart output override status.
      */
     public function setPngOutput($png)
     {
@@ -22,7 +22,7 @@ trait PngOutputTrait
     }
 
     /**
-     * Gets the chart output ovveride status.
+     * Gets the chart output override status.
      *
      * @return bool Returns the output override status.
      */

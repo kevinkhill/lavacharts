@@ -21,8 +21,7 @@ trait LabelTrait
     /**
      * Creates and sets the label
      *
-     * @param  string $label
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
+     * @param string $labelStr
      */
     public function createLabel($labelStr)
     {
@@ -32,7 +31,7 @@ trait LabelTrait
     /**
      * Sets the label
      *
-     * @param  \Khill\Lavacharts\Values\Label $label
+     * @param \Khill\Lavacharts\Values\Label $label
      */
     public function setLabel(Label $label)
     {

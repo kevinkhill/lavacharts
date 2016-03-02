@@ -167,9 +167,9 @@ class BarFormat extends Format
      * If true, shows values and bars; if false, shows only bars.
      *
      * @access public
-     * @param  boolean $drawZeroLine
+     * @param $showValue
      * @return \Khill\Lavacharts\DataTables\Formats\BarFormat
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @internal param bool $drawZeroLine
      */
     public function showValue($showValue)
     {
