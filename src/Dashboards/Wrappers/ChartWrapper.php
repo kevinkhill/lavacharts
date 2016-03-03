@@ -36,8 +36,6 @@ class ChartWrapper extends Wrapper
      */
     public function __construct(Chart $chart, ElementId $containerId)
     {
-        $this->wrappedObject = $chart;
-
-        parent::__construct($containerId);
+        parent::__construct($chart, $containerId);
     }
 }

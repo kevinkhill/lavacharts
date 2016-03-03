@@ -36,8 +36,6 @@ class ControlWrapper extends Wrapper
      */
     public function __construct(Filter $filter, ElementId $containerId)
     {
-        $this->wrappedObject = $filter;
-
-        parent::__construct($containerId);
+        parent::__construct($filter, $containerId);
     }
 }
