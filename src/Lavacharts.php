@@ -7,7 +7,7 @@ use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Charts\Chart;
 use \Khill\Lavacharts\Charts\ChartFactory;
 use \Khill\Lavacharts\Configs\Renderable;
-use Khill\Lavacharts\Dashboards\DashboardFactory;
+use \Khill\Lavacharts\Dashboards\DashboardFactory;
 use \Khill\Lavacharts\Dashboards\Filters\Filter;
 use \Khill\Lavacharts\Dashboards\Filters\FilterFactory;
 use \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
@@ -95,8 +95,8 @@ class Lavacharts
         $this->volcano       = new Volcano;
         $this->html          = new HtmlFactory;
         $this->scriptManager = new ScriptManager;
-        $this->chartFactory  = new ChartFactory($this->volcano);
-        $this->dashFactory   = new DashboardFactory($this->volcano);
+        $this->chartFactory  = new ChartFactory;
+        $this->dashFactory   = new DashboardFactory;
     }
 
     /**
@@ -129,7 +129,8 @@ class Lavacharts
             if ($this->exists($method, $args[0])) {
                 $lavaClass = $this->volcano->get($method, $args[0]);
             } else {
-                $lavaClass = $this->chartFactory->create($method, $args);
+                $chart = $this->chartFactory->create($method, $args);
+                $lavaClass = $this->volcano->store($chart);
             }
         }
 
@@ -199,6 +200,7 @@ class Lavacharts
             $dashboard = $this->volcano->get(__FUNCTION__, $label);
         } else {
             $dashboard = $this->dashFactory->create(func_get_args());
+            $dashboard = $this->volcano->store($dashboard);
         }
 
         return $dashboard;
@@ -363,7 +365,7 @@ class Lavacharts
     {
         $buffer = '';
 
-        if ($this->scriptManager->coreJsRendered() === false) {
+        if ($this->scriptManager->lavaJsRendered() === false) {
             $buffer = $this->scriptManager->getLavaJsModule();
         }
 

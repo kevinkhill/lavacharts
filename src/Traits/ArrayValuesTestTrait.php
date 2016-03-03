@@ -17,20 +17,14 @@ trait ArrayValuesTestTrait
         $status = false;
 
         if (is_array($array) && is_string($type)) {
-            if ($type === 'class' && is_string($className) && ! empty($className)) {
-                foreach ($array as $item) {
-                    if (! is_null($item)) {
-                        if (is_object($item) === true) {
-                            $class = new \ReflectionClass($item);
+            foreach ($array as $item) {
+                if ($type == 'class') {
+                    $class = new \ReflectionClass($item);
 
-                            if (preg_match("/{$className}/", $class->getShortname()) === true) {
-                                $status = true;
-                            }
-                        }
+                    if ($className == $class->getShortname()) {
+                        $status = true;
                     }
-                }
-            } else {
-                foreach ($array as $item) {
+                } else {
                     $function = 'is_' . $type;
 
                     if (function_exists($function)) {

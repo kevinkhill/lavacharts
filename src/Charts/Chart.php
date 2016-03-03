@@ -8,8 +8,8 @@ use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Traits\OptionsTrait as HasOptions;
-use \Khill\Lavacharts\Traits\WrappableTrait as Wrappable;
 use \Khill\Lavacharts\Traits\ElementIdTrait as HasElementId;
+use \Khill\Lavacharts\Contracts\WrappableInterface as Wrappable;
 
 /**
  * Chart Class, Parent to all charts.
@@ -25,9 +25,9 @@ use \Khill\Lavacharts\Traits\ElementIdTrait as HasElementId;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Chart extends Renderable
+class Chart extends Renderable implements Wrappable
 {
-    use HasOptions, HasElementId, Wrappable;
+    use HasOptions, HasElementId;
 
     /**
      * Wrapper type when used in a dashboard
@@ -96,6 +96,17 @@ class Chart extends Renderable
     public function getType()
     {
         return static::TYPE;
+    }
+
+    /**
+     * Returns the Filter wrap type.
+     *
+     * @since 3.1.0
+     * @return string
+     */
+    public function getWrapType()
+    {
+        return static::WRAP_TYPE;
     }
 
     /**

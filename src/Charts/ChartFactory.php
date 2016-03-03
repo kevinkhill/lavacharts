@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Volcano;
 use \Khill\Lavacharts\Builders\ChartBuilder;
 use \Khill\Lavacharts\Exceptions\InvalidDataTable;
 
@@ -25,13 +24,6 @@ use \Khill\Lavacharts\Exceptions\InvalidDataTable;
  */
 class ChartFactory
 {
-    /**
-     * Holds all of the defined Charts and DataTables.
-     *
-     * @var \Khill\Lavacharts\Volcano
-     */
-    private $volcano;
-
     /**
      * Instance of the ChartBuilder for, well, building charts.
      *
@@ -69,13 +61,10 @@ class ChartFactory
     ];
 
     /**
-     * Create a new instance of the ChartFactory with the Volcano storage.
-     *
-     * @param \Khill\Lavacharts\Volcano $volcano
+     * ChartFactory constructor.
      */
-    public function __construct(Volcano $volcano)
+    public function __construct()
     {
-        $this->volcano = $volcano;
         $this->chartBuilder = new ChartBuilder;
     }
 
@@ -121,9 +110,7 @@ class ChartFactory
             $this->chartBuilder->setElementId($args[3]);
         }
 
-        $chart = $this->chartBuilder->getChart();
-
-        return $this->volcano->store($chart);
+        return $this->chartBuilder->getChart();
     }
 
     /**
