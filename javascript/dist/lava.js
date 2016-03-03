@@ -363,14 +363,14 @@ var Dashboard = function (label) {
   this.label     = label;
   this.element   = null;
   this.render    = null;
+  this.data      = null;
   this.bindings  = [];
   this.dashboard = null;
-  this._data     = null;
   this._errors   = require('./Errors.js');
 };
 
 Dashboard.prototype.setData = function (data) {
-  this._data = new window.google.visualization.DataTable(data, lava.dataVer);
+  this.data = new window.google.visualization.DataTable(data, lava.dataVer);
 };
 
 Dashboard.prototype.setElement = function (elemId) {
