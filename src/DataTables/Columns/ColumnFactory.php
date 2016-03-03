@@ -5,6 +5,7 @@ namespace Khill\Lavacharts\DataTables\Columns;
 use \Khill\Lavacharts\DataTables\Formats\Format;
 use \Khill\Lavacharts\Exceptions\InvalidColumnRole;
 use \Khill\Lavacharts\Exceptions\InvalidColumnType;
+use \Khill\Lavacharts\Traits\NonEmptyStringTrait as StringCheck;
 
 /**
  * ColumnFactory Class
@@ -23,7 +24,7 @@ use \Khill\Lavacharts\Exceptions\InvalidColumnType;
  */
 class ColumnFactory
 {
-    use \Khill\Lavacharts\Traits\NonEmptyStringTrait;
+    use StringCheck;
 
     /**
      * Valid column types
