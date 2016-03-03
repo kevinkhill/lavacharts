@@ -52,7 +52,7 @@ class NumberFormat extends Format
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
         $options = new Options($this->defaults);
 

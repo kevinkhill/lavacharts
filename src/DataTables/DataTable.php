@@ -109,7 +109,7 @@ class DataTable implements \JsonSerializable
      * @param  array  $p Cell specific customization options
      * @return \Khill\Lavacharts\DataTables\Cells\Cell
      */
-    public static function cell($v, $f = '', $p = [])
+    public static function cell($v, $f = '', array $p = [])
     {
         return DataFactory::cell($v, $f, $p);
     }
@@ -496,7 +496,7 @@ class DataTable implements \JsonSerializable
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      */
-    public function addRow($cellArray = [])
+    public function addRow(array $cellArray = [])
     {
         if ($this->arrayIsMulti($cellArray) === false) {
             $this->rows[] = $this->rowFactory->create($cellArray);

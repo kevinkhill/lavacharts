@@ -188,7 +188,7 @@ class DataFactory
      * @param  array  $p Cell specific customization options
      * @return \Khill\Lavacharts\DataTables\Cells\Cell
      */
-    public static function cell($v, $f = '', $p = [])
+    public static function cell($v, $f = '', array $p = [])
     {
         return new Cell($v, $f, $p);
     }

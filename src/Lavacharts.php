@@ -194,7 +194,7 @@ class Lavacharts
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @internal param string $label Label to give the Dashboard
      */
-    public function Dashboard($label, $bindings = [], $elemId = '')
+    public function Dashboard($label, array $bindings = [], $elemId = '')
     {
         if ($this->exists(__FUNCTION__, $label)) {
             $dashboard = $this->volcano->get(__FUNCTION__, $label);
