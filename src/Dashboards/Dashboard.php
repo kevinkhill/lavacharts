@@ -120,7 +120,7 @@ class Dashboard extends Renderable
             foreach ($binding->getChartWrappers() as $chartWrapper) {
                 $chart = $chartWrapper->unwrap();
 
-                $charts[$chart::TYPE] = $chart;
+                $charts[] = $chart;
             }
         }
 

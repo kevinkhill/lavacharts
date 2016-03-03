@@ -5,8 +5,8 @@ namespace Khill\Lavacharts\Dashboards\Filters;
 use \Khill\Lavacharts\Configs\Options;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Traits\OptionsTrait as HasOptions;
-use \Khill\Lavacharts\Traits\WrappableTrait as Wrappable;
 use \Khill\Lavacharts\Traits\NonEmptyStringTrait as StringCheck;
+use \Khill\Lavacharts\Contracts\WrappableInterface as Wrappable;
 
 /**
  * Filter Parent Class
@@ -24,9 +24,9 @@ use \Khill\Lavacharts\Traits\NonEmptyStringTrait as StringCheck;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Filter implements \JsonSerializable
+class Filter implements Wrappable, \JsonSerializable
 {
-    use HasOptions, Wrappable, StringCheck;
+    use HasOptions, StringCheck;
 
     /**
      * Wrapper type when used in a dashboard
@@ -43,7 +43,7 @@ class Filter implements \JsonSerializable
      * @param  array      $config Array of options to set.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function __construct($columnLabelOrIndex, $config = [])
+    public function __construct($columnLabelOrIndex, array $config = [])
     {
         if ($this->nonEmptyString($columnLabelOrIndex) === false && is_int($columnLabelOrIndex) === false) {
             throw new InvalidConfigValue(
@@ -71,6 +71,17 @@ class Filter implements \JsonSerializable
     public function getType()
     {
         return static::TYPE;
+    }
+
+    /**
+     * Returns the Filter wrap type.
+     *
+     * @since 3.1.0
+     * @return string
+     */
+    public function getWrapType()
+    {
+        return static::WRAP_TYPE;
     }
 
     /**

@@ -2,19 +2,27 @@
 
 namespace Khill\Lavacharts\Dashboards;
 
-use \Khill\Lavacharts\Volcano;
 use \Khill\Lavacharts\Builders\DashboardBuilder;
 
-//@TODO phpdocs
+/**
+ * DashboardFactory Class
+ *
+ * Used for creating new dashboards and removing the need for the main Lavacharts
+ * class to handle the creation.
+ *
+ *
+ * @category   Class
+ * @package    Khill\Lavacharts
+ * @subpackage Dashboards
+ * @since      3.1.0
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2016, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
+ * @license    http://opensource.org/licenses/MIT MIT
+ */
 class DashboardFactory
 {
-    /**
-     * Holds all of the defined Charts and DataTables.
-     *
-     * @var \Khill\Lavacharts\Volcano
-     */
-    private $volcano;
-
     /**
      * Instance of the DashboardBuilder for, well, building charts.
      *
@@ -24,12 +32,9 @@ class DashboardFactory
 
     /**
      * DashboardFactory constructor.
-     *
-     * @param \Khill\Lavacharts\Volcano $volcano
      */
-    public function __construct(Volcano $volcano)
+    public function __construct()
     {
-        $this->volcano     = $volcano;
         $this->dashBuilder = new DashboardBuilder;
     }
 
@@ -45,15 +50,22 @@ class DashboardFactory
      */
     public function create($args)
     {
-        $dashboard = $this->dashBuilder
-                          ->setLabel($args[0])
-                          ->setBindings($args[1])
-                          ->setElementId($args[2])
-                          ->getDashboard();
+        $this->dashBuilder->setLabel($args[0]);
 
-        if ($this->volcano->checkDashboard($label)) {
+        if (isset($args[1]) && is_string($args[1])) {
+            $this->dashBuilder->setElementId($args[1]);
         }
 
-        return $this->volcano->store($dashboard);
+        if (isset($args[2])) {
+            if (is_string($args[2])) {
+                $this->dashBuilder->setElementId($args[2]);
+            }
+
+            if (is_array($args[2])) {
+                $this->dashBuilder->setBindings($args[2]);
+            }
+        }
+
+        return $this->dashBuilder->getDashboard();
     }
 }

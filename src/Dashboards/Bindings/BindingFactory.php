@@ -56,14 +56,14 @@ class BindingFactory
         throw new InvalidBindings;
     }
 
-    public function createFromArray($bindings)
+    /**
+     * @param  array $bindings
+     * @return array Array of bindings
+     */
+    public function createFromArray(array $bindings)
     {
-        if (is_array($bindings) === false) {
-            throw new InvalidBindings;
-        }
-
         return array_map(function ($binding) {
-            return self::create($binding[0], $binding[1]);
+            return $this->create($binding[0], $binding[1]);
         }, $bindings);
     }
 }
