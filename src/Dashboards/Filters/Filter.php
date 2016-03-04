@@ -4,8 +4,8 @@ namespace Khill\Lavacharts\Dashboards\Filters;
 
 use \Khill\Lavacharts\Configs\Options;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Traits\OptionsTrait as HasOptions;
-use \Khill\Lavacharts\Traits\NonEmptyStringTrait as StringCheck;
+use \Khill\Lavacharts\Support\Traits\OptionsTrait as HasOptions;
+use \Khill\Lavacharts\Support\Traits\NonEmptyStringTrait as StringCheck;
 use \Khill\Lavacharts\Contracts\WrappableInterface as Wrappable;
 
 /**
@@ -43,7 +43,7 @@ class Filter implements Wrappable, \JsonSerializable
      * @param  array      $config Array of options to set.
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function __construct($columnLabelOrIndex, array $config = [])
+    public function __construct($columnLabelOrIndex, $config = [])
     {
         if ($this->nonEmptyString($columnLabelOrIndex) === false && is_int($columnLabelOrIndex) === false) {
             throw new InvalidConfigValue(

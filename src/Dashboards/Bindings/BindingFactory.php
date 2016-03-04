@@ -22,7 +22,7 @@ use \Khill\Lavacharts\Exceptions\InvalidBindings;
  */
 class BindingFactory
 {
-    use \Khill\Lavacharts\Traits\ArrayValuesTestTrait;
+    use \Khill\Lavacharts\Support\Traits\ArrayValuesTestTrait;
 
     /**
      * Create a new Binding for the dashboard.

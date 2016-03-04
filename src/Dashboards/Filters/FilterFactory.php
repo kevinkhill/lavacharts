@@ -29,7 +29,7 @@ class FilterFactory
         'string'
     ];
 
-    public static function create($type, $columnLabelOrIndex, array $config = [])
+    public static function create($type, $columnLabelOrIndex, s$config = [])
     {
         if (in_array($type, self::$FILTER_TYPES) === false) {
             throw new InvalidFilter($type, self::$FILTER_TYPES);

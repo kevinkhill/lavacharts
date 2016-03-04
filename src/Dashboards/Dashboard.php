@@ -59,7 +59,7 @@ class Dashboard extends Renderable
      * @param array                              $bindings  Array of bindings to apply
      * @param \Khill\Lavacharts\Values\ElementId $elementId Element Id for the Dashboard
      */
-    public function __construct(Label $label, array $bindings = [], ElementId $elementId = null)
+    public function __construct(Label $label, $bindings = [], ElementId $elementId = null)
     {
         parent::__construct($label, $elementId);
 

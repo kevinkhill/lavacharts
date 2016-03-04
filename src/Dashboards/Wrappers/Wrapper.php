@@ -3,8 +3,8 @@
 namespace Khill\Lavacharts\Dashboards\Wrappers;
 
 use \Khill\Lavacharts\Values\ElementId;
-use \Khill\Lavacharts\Traits\ElementIdTrait as HasElementId;
-use \Khill\Lavacharts\Contracts\WrappableInterface as Wrappable;
+use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
+use \Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
 
 /**
  * Wrapper Parent Class
@@ -42,8 +42,8 @@ class Wrapper implements \JsonSerializable
     /**
      * Builds a new Wrapper object.
      *
-     * @param \Khill\Lavacharts\Contracts\WrappableInterface $itemToWrap
-     * @param \Khill\Lavacharts\Values\ElementId             $elementId
+     * @param \Khill\Lavacharts\Support\Contracts\WrappableInterface $itemToWrap
+     * @param \Khill\Lavacharts\Values\ElementId                     $elementId
      */
     public function __construct(Wrappable $itemToWrap, ElementId $elementId)
     {
