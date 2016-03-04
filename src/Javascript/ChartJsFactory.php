@@ -145,7 +145,7 @@ class ChartJsFactory extends JavascriptFactory
 
         foreach ($columns as $index => $column) {
             $format = $column->getFormat();
-var_dump($format->getOptions());
+
             $buffer .= sprintf(
                 $this->formatTemplate,
                 $index,
