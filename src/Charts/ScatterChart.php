@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Traits\PngOutputTrait as PngOutput;
+use \Khill\Lavacharts\Support\Traits\PngOutputTrait as PngRenderable;
 
 /**
  * ScatterChart Class
@@ -25,7 +25,7 @@ use \Khill\Lavacharts\Traits\PngOutputTrait as PngOutput;
  */
 class ScatterChart extends Chart
 {
-    use PngOutput;
+    use PngRenderable;
 
     /**
      * Javascript chart type.

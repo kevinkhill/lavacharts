@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Traits\PngOutputTrait as PngOutput;
+use \Khill\Lavacharts\Support\Traits\PngOutputTrait as PngRenderable;
 
 /**
  * LineChart Class
@@ -22,7 +22,7 @@ use \Khill\Lavacharts\Traits\PngOutputTrait as PngOutput;
  */
 class LineChart extends Chart
 {
-    use PngOutput;
+    use PngRenderable;
 
     /**
      * Javascript chart type.

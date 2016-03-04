@@ -7,9 +7,9 @@ use \Khill\Lavacharts\Configs\Renderable;
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Traits\OptionsTrait as HasOptions;
-use \Khill\Lavacharts\Traits\ElementIdTrait as HasElementId;
-use \Khill\Lavacharts\Contracts\WrappableInterface as Wrappable;
+use \Khill\Lavacharts\Support\Traits\OptionsTrait as HasOptions;
+use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
+use \Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
 
 /**
  * Chart Class, Parent to all charts.
@@ -145,7 +145,6 @@ class Chart extends Renderable implements Wrappable
     /**
      * Returns the DataTable
      *
-     * @access public
      * @since  3.0.0
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
@@ -157,7 +156,6 @@ class Chart extends Renderable implements Wrappable
     /**
      * Returns a JSON string representation of the datatable.
      *
-     * @access public
      * @since  2.5.0
      * @throws \Khill\Lavacharts\Exceptions\DataTableNotFound
      * @return string
@@ -181,7 +179,6 @@ class Chart extends Renderable implements Wrappable
     /**
      * Checks if any events have been assigned to the chart.
      *
-     * @access public
      * @return bool
      */
     public function hasEvents()
@@ -202,13 +199,12 @@ class Chart extends Renderable implements Wrappable
      * If the setting is an object, per the google docs, then use multi-dimensional
      * arrays and they will be converted upon rendering.
      *
-     * @access public
      * @since  3.0.0
      * @param  array $optionArray Array of customization options for the chart
      * @return \Khill\Lavacharts\Charts\Chart
      */
     public function customize($optionArray)
     {
-        return $this->options->setOptions($optionArray);
+        return $this->setOptions($optionArray);
     }
 }
