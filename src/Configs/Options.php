@@ -8,7 +8,7 @@ use \Khill\Lavacharts\Exceptions\InvalidOptions;
  * Options Object
  *
  * An object that contains a set of options for customizing aspects
- * of charts and dashboards.
+ * of charts, dashboards and formats.
  *
  *
  * @package    Khill\Lavacharts
@@ -27,21 +27,16 @@ class Options implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
      *
      * @var array
      */
-    private $values = [];
+    private $values;
 
     /**
      * Create a new Options object with a set of options.
      *
-     * @param  array $options
-     * @throws \Khill\Lavacharts\Exceptions\InvalidOptions
+     * @param array $config
      */
-    public function __construct($options)
+    public function __construct(array $config)
     {
-        if (is_array($options) === false) {
-            throw new InvalidOptions($options);
-        }
-
-        $this->values = $options;
+        $this->values = $config;
     }
 
     /**
@@ -55,6 +50,37 @@ class Options implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
         return $this->values;
     }
 
+
+    /**
+     * Batch set options from an array.
+     *
+     * @param  array $config Options to set
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOptions
+     */
+    public function set(array $config)
+    {
+        $this->values = $config;
+    }
+
+    /**
+     * Merges two Options objects and combines the options and options.
+     *
+     * @param  array|\Khill\Lavacharts\Configs\Options $config
+     * @throws \Khill\Lavacharts\Exceptions\InvalidOptions
+     */
+    public function merge($config)
+    {
+        if ($config instanceof Options) {
+            $config = $config->getValues();
+        }
+
+        if (is_array($config) === false) {
+            throw new InvalidOptions($config);
+        }
+
+        $this->values = array_merge($this->values, $config);
+    }
+
     /**
      * Allows for the options to be traversed with foreach.
      *
@@ -65,40 +91,6 @@ class Options implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
     public function getIterator()
     {
         return new \ArrayIterator($this->values);
-    }
-
-    /**
-     * Batch set options from an array.
-     *
-     * @param  array $options Options to set
-     * @throws \Khill\Lavacharts\Exceptions\InvalidOptions
-     */
-    public function setOptions($options)
-    {
-        if (is_array($options) === false) {
-            throw new InvalidOptions($options);
-        }
-
-        $this->values = $options;
-    }
-
-    /**
-     * Merges two Options objects and combines the options and options.
-     *
-     * @param  array|\Khill\Lavacharts\Configs\Options $options
-     * @throws \Khill\Lavacharts\Exceptions\InvalidOptions
-     */
-    public function merge($options)
-    {
-        if ($options instanceof Options) {
-            $options = $options->getValues();
-        }
-
-        if (is_array($options) === false) {
-            throw new InvalidOptions($options);
-        }
-
-        $this->values = array_merge($this->values, $options);
     }
 
     /**

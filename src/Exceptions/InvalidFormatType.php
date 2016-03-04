@@ -1,15 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: kevinh
- * Date: 3/4/2016
- * Time: 6:51 AM
- */
 
 namespace Khill\Lavacharts\Exceptions;
 
-
-class InvalidFormatType
+class InvalidFormatType extends LavaException
 {
+    public function __construct($badType)
+    {
+        $message = (string) $badType . ' is not a valid format';
 
+        parent::__construct($message);
+    }
 }

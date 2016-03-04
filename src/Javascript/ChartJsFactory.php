@@ -44,7 +44,7 @@ class ChartJsFactory extends JavascriptFactory
     protected $eventTemplate;
 
     /**
-     * Format sprintf template
+     * Format format template
      *
      * @var string
      */
@@ -66,7 +66,7 @@ class ChartJsFactory extends JavascriptFactory
             '}.bind(this));'.PHP_EOL;
 
         $this->formatTemplate =
-            'this.formats["col%1$s"] = new google.visualization.%2$s(%3$s);'.PHP_EOL.
+            'this.formats["col%1$s"] = new %2$s(%3$s);'.PHP_EOL.
             'this.formats["col%1$s"].format(this.data, %1$s);'.PHP_EOL;
 
         parent::__construct(self::OUTPUT_TEMPLATE);
@@ -90,10 +90,14 @@ class ChartJsFactory extends JavascriptFactory
             'chartData'    => $this->chart->getDataTableJson(),
             'chartOptions' => $this->chart->getOptionsJson(),
             'elemId'       => $this->chart->getElementIdStr(),
-            'pngOutput'    => $this->chart->getPngOutput(),
+            'pngOutput'    => false,
             'formats'      => '',
             'events'       => ''
         ];
+
+        if (method_exists($this->chart, 'getPngOutput')) {
+            $vars['pngOutput'] = $this->chart->getPngOutput();
+        }
 
         if ($this->chart->getDataTable()->hasFormattedColumns()) {
             $vars['formats'] = $this->buildFormatters();
@@ -141,12 +145,12 @@ class ChartJsFactory extends JavascriptFactory
 
         foreach ($columns as $index => $column) {
             $format = $column->getFormat();
-
+var_dump($format->getOptions());
             $buffer .= sprintf(
                 $this->formatTemplate,
                 $index,
-                $format->getType(),
-                json_encode($format)
+                (string) $format,
+                $format->getOptionsJson()
             ).PHP_EOL;
         }
 

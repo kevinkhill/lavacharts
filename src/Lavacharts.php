@@ -13,10 +13,11 @@ use \Khill\Lavacharts\Dashboards\Filters\FilterFactory;
 use \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use \Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use \Khill\Lavacharts\DataTables\DataFactory;
+use \Khill\Lavacharts\DataTables\Formats\FormatFactory;
 use \Khill\Lavacharts\Javascript\ScriptManager;
 use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
-use \Khill\Lavacharts\Html\HtmlFactory;
+use \Khill\Lavacharts\Support\Html\HtmlFactory;
 
 /**
  * Lavacharts - A PHP wrapper library for the Google Chart API
@@ -66,18 +67,6 @@ class Lavacharts
     private $dashFactory;
 
     /**
-     * Types of column formatters.
-     *
-     * @var array
-     */
-    private $formatClasses = [
-        'ArrowFormat',
-        'BarFormat',
-        'DateFormat',
-        'NumberFormat'
-    ];
-
-    /**
      * Creates Volcano & Javascript Factory
      *
      * @return Lavacharts
@@ -109,13 +98,13 @@ class Lavacharts
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidLavaObject
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
-     * @return mixed Returns Charts, DataTables, Formats and Filters
+     * @return mixed Returns Charts, Formats and Filters
      */
     public function __call($method, $args)
     {
         //Rendering Aliases
         if ((bool) preg_match('/^render/', $method) === true) {
-            $type = str_replace('render', '', $method);
+            $type = ltrim($method, 'render');
 
             if ($type !== 'Dashboard' && in_array($type, ChartFactory::$CHART_TYPES, true) === false) {
                 throw new InvalidLavaObject($type);
@@ -135,8 +124,8 @@ class Lavacharts
         }
 
         //Formats
-        if (in_array($method, $this->formatClasses)) {
-            $lavaClass = $this->formatFactory($method, $args);
+        if ((bool) preg_match('/Format$/', $method)) {
+            $lavaClass = FormatFactory::create($method, $args[0]);
         }
 
         //Filters
@@ -194,7 +183,7 @@ class Lavacharts
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @internal param string $label Label to give the Dashboard
      */
-    public function Dashboard($label, array $bindings = [], $elemId = '')
+    public function Dashboard($label, $bindings = [], $elemId = '')
     {
         if ($this->exists(__FUNCTION__, $label)) {
             $dashboard = $this->volcano->get(__FUNCTION__, $label);

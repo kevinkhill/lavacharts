@@ -4,7 +4,7 @@ namespace Khill\Lavacharts\Configs;
 
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
-use \Khill\Lavacharts\Traits\ElementIdTrait as HasElementId;
+use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
 
 /**
  * Renderable Class
