@@ -337,7 +337,8 @@ Chart.prototype.drawPng = function() {
   var img = document.createElement('img');
       img.src = this.chart.getImageURI();
 
-  document.getElementById(this.element).appendChild(img.cloneNode(true));
+  this.element.innerHTML = '';
+  this.element.appendChild(img);
 };
 
 Chart.prototype.applyFormats = function (formatArr) {
