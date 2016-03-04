@@ -40,11 +40,13 @@
   - Massive overhaul of lava.js module.
     - Refactored and using browserify to compile
     - Added ```lava.ready()``` method to use to wrap ajax requests. This will be called after all charts have
-     rendered onto the page. Use in the same manner as jQuery's ```$(function(){})```
+      rendered onto the page. Use in the same manner as jQuery's ```$(function(){})```
+    - Added the ability to render directly as PNGs instead of SVGs
+      - Just pass into the options ```['png' => true]```
   - Moving framework integrations into their own repos
     - khill/lavacharts-laravel for service provider, facade, and blade extensions.
-    - khill/lavacharts-symfony for bundle with service locater and twig extensions.
-  - Created examples for each chart, available to view localy using the built in PHP server.
+    - khill/lavacharts-symfony for bundle with service locator and twig extensions.
+  - Created examples for each chart, available to view locally using the built in PHP server.
     - Navigate to the Examples folder in the lavacharts package folder. If you installed with Composer, then it
       should be at ```$PROJECT_ROOT/vendor/khill/lavacharts/tests/Examples```
     - Use the given config and router to start the examples "site" ```php -S 127.0.0.1:8000 -c php.ini router.php```
