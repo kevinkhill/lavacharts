@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Contracts;
+namespace Khill\Lavacharts\Support\Contracts;
 
 interface WrappableInterface
 {

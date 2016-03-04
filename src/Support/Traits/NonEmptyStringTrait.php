@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Traits;
+namespace Khill\Lavacharts\Support\Traits;
 
 /**
  * Trait for checking if a parameter is a string and not empty

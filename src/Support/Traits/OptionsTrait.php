@@ -1,9 +1,22 @@
 <?php
 
-namespace Khill\Lavacharts\Traits;
+namespace Khill\Lavacharts\Support\Traits;
 
 use Khill\Lavacharts\Configs\Options;
 
+/**
+ * Class OptionsTrait
+ *
+ * Trait for allowing a class to carry an Options object, for configuring said class.
+ *
+ * @package    Khill\Lavacharts\Support\Traits
+ * @since      3.1.0
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2016, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
+ * @license    http://opensource.org/licenses/MIT MIT
+ */
 trait OptionsTrait
 {
      /**
@@ -16,23 +29,16 @@ trait OptionsTrait
     /**
      * Retrieves the Options object from the chart.
      *
-     * @access public
-     * @since  3.1.0
-     * @param  \Khill\Lavacharts\Configs\Options $options
-     * @return \Khill\Lavacharts\Configs\Options
+     * @param \Khill\Lavacharts\Configs\Options $options
      */
     public function setOptions(Options $options)
     {
         $this->options = $options;
-
-        return $this;
     }
 
     /**
      * Retrieves the Options object from the chart.
      *
-     * @access public
-     * @since  3.1.0
      * @return \Khill\Lavacharts\Configs\Options
      */
     public function getOptions()
@@ -43,9 +49,7 @@ trait OptionsTrait
     /**
      * JSON string representing the Options object.
      *
-     * @access public
-     * @since  3.1.0
-     * @return \Khill\Lavacharts\Configs\Options
+     * @return string
      */
     public function getOptionsJson()
     {

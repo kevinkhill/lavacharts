@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Traits;
+namespace Khill\Lavacharts\Support\Traits;
 
 trait ArrayValuesTestTrait
 {

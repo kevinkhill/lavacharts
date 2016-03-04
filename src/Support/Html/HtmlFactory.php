@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Html;
+namespace Khill\Lavacharts\Support\Html;
 
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
