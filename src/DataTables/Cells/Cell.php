@@ -58,7 +58,7 @@ class Cell implements \JsonSerializable
      * @param array|string $p An object that is a map of custom values applied to the cell
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
      */
-    public function __construct($v = null, $f = '', array $p = [])
+    public function __construct($v = null, $f = '', $p = [])
     {
         if (is_string($f) === false) {
             throw new InvalidFunctionParam($f, __FUNCTION__, 'string');

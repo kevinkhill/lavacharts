@@ -2,40 +2,47 @@
 
 namespace Khill\Lavacharts\DataTables\Formats;
 
+use \Khill\Lavacharts\Configs\Options;
+use \Khill\Lavacharts\Support\Traits\OptionsTrait as HasOptions;
+
 /**
- * Format Parent Class
+ * Class Format
  *
  * The base class for the individual configuration objects, providing common
  * functions to the child objects.
  *
  *
- * @package    Khill\Lavacharts
- * @subpackage Formats
+ * @package    Khill\Lavacharts\DataTables\Formats
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2016, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-
-use \Khill\Lavacharts\Configs\Options;
-use \Khill\Lavacharts\Configs\JsonConfig; //@TODO look at formats and jsonconfig etc.
-
 class Format implements \JsonSerializable
 {
-    use \Khill\Lavacharts\Traits\OptionsTrait;
+    use HasOptions;
 
     /**
      * Builds the Options object.
      * Passing an array of key value pairs will set the configuration for each
      * child object created from this parent object.
      *
-     * @param \Khill\Lavacharts\Configs\Options $options
-     * @param  array                            $config Array of options.
+     * @param \Khill\Lavacharts\DataTables\Formats\Options $options
      */
-    public function __construct(Options $options, $config)
+    public function __construct(Options $options)
     {
-        //parent::__construct($options, $config);
+        $this->options = $options;
+    }
+
+    /**
+     * Custom string representation of the Formatter.
+     *
+     * @return string The javascript visualization class as a string.
+     */
+    public function __toString()
+    {
+        return 'google.visualization.' . static::TYPE;
     }
 
     /**
@@ -50,7 +57,7 @@ class Format implements \JsonSerializable
     }
 
     /**
-     * Custom serialization of the Filter
+     * Custom serialization of the Format
      *
      * @return array
      */

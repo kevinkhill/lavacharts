@@ -34,9 +34,9 @@ use \Khill\Lavacharts\Exceptions\InvalidRowProperty;
  */
 class DataTable implements \JsonSerializable
 {
-    use \Khill\Lavacharts\Traits\ArrayIsMultiTrait;
-    use \Khill\Lavacharts\Traits\ArrayValuesTestTrait;
-    use \Khill\Lavacharts\Traits\NonEmptyStringTrait;
+    use \Khill\Lavacharts\Support\Traits\ArrayIsMultiTrait;
+    use \Khill\Lavacharts\Support\Traits\ArrayValuesTestTrait;
+    use \Khill\Lavacharts\Support\Traits\NonEmptyStringTrait;
 
     /**
      * Timezone for dealing with datetime and Carbon objects.
@@ -109,7 +109,7 @@ class DataTable implements \JsonSerializable
      * @param  array  $p Cell specific customization options
      * @return \Khill\Lavacharts\DataTables\Cells\Cell
      */
-    public static function cell($v, $f = '', array $p = [])
+    public static function cell($v, $f = '', $p = [])
     {
         return DataFactory::cell($v, $f, $p);
     }
@@ -496,7 +496,7 @@ class DataTable implements \JsonSerializable
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      */
-    public function addRow(array $cellArray = [])
+    public function addRow(array $cellArray)
     {
         if ($this->arrayIsMulti($cellArray) === false) {
             $this->rows[] = $this->rowFactory->create($cellArray);
@@ -521,22 +521,16 @@ class DataTable implements \JsonSerializable
      * Adds multiple rows to the DataTable.
      *
      * @see    addRow()
-     * @param  array $arrayOfRows
+     * @param  \Khill\Lavacharts\DataTables\Rows\Row[] $arrayOfRows
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
      */
-    public function addRows($arrayOfRows)
+    public function addRows(array $arrayOfRows)
     {
-        if ($this->arrayIsMulti($arrayOfRows)) {
-            foreach ($arrayOfRows as $row) {
-                $this->addRow($row);
-            }
-        } else {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'array of arrays'
-            );
+        /** @var array $row */
+        foreach ($arrayOfRows as $row) {
+            $this->addRow($row);
         }
 
         return $this;
@@ -545,7 +539,7 @@ class DataTable implements \JsonSerializable
     /**
      * Returns the rows array from the DataTable
      *
-     * @return array
+     * @return \Khill\Lavacharts\DataTables\Rows\Row[]
      */
     public function getRows()
     {
@@ -580,7 +574,7 @@ class DataTable implements \JsonSerializable
     /**
      * Returns the column array from the DataTable
      *
-     * @return array
+     * @return \Khill\Lavacharts\DataTables\Columns\Column[]
      */
     public function getColumns()
     {
@@ -624,7 +618,7 @@ class DataTable implements \JsonSerializable
      * Returns the label of a column based on it's index.
      *
      * @since  3.0.0
-     * @param  integer $index
+     * @param  int $index
      * @return string
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
@@ -637,7 +631,7 @@ class DataTable implements \JsonSerializable
      * Returns the type of a column based on it's index.
      *
      * @since  3.0.0
-     * @param  integer $index
+     * @param  int $index
      * @return string
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
@@ -650,7 +644,7 @@ class DataTable implements \JsonSerializable
      * Returns the types of columns currently defined.
      *
      * @since  2.5.2
-     * @return array
+     * @return string[]
      */
     public function getColumnTypes()
     {
@@ -665,7 +659,7 @@ class DataTable implements \JsonSerializable
      * Returns the labels of columns currently defined.
      *
      * @since  3.0.0
-     * @return array
+     * @return string[]
      */
     public function getColumnLabels()
     {
@@ -677,10 +671,10 @@ class DataTable implements \JsonSerializable
     }
 
     /**
-     * Returns the column array from the DataTable
+     * Returns the formatted columns in an array from the DataTable
      *
      * @since  3.0.0
-     * @return array
+     * @return \Khill\Lavacharts\DataTables\Columns\Column[]
      */
     public function getFormattedColumns()
     {
@@ -793,6 +787,7 @@ class DataTable implements \JsonSerializable
      *
      * @access protected
      * @param  int $index
+     * @return void
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
     protected function indexCheck($index)
@@ -807,6 +802,7 @@ class DataTable implements \JsonSerializable
      *
      * @access protected
      * @since  3.0.0
+     * @return self
      */
     protected function stripRows()
     {

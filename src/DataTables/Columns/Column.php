@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\DataTables\Columns;
 
 use \Khill\Lavacharts\DataTables\Formats\Format;
-use \Khill\Lavacharts\Traits\NonEmptyStringTrait as StringCheck;
+use \Khill\Lavacharts\Support\Traits\NonEmptyStringTrait as StringCheck;
 
 /**
  * Column Object

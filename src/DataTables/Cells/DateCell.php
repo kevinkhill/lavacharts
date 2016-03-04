@@ -28,7 +28,7 @@ class DateCell extends Cell
      * @param  array          $options
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
      */
-    public function __construct(Carbon $carbon = null, $format = '', array $options = [])
+    public function __construct(Carbon $carbon = null, $format = '', $options = [])
     {
         parent::__construct($carbon, $format, $options);
     }
