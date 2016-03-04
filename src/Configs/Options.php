@@ -11,8 +11,7 @@ use \Khill\Lavacharts\Exceptions\InvalidOptions;
  * of charts, dashboards and formats.
  *
  *
- * @package    Khill\Lavacharts
- * @subpackage Configs
+ * @package    Khill\Lavacharts\Configs
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2016, KHill Designs

@@ -15,14 +15,13 @@ use \Khill\Lavacharts\Contracts\WrappableInterface as Wrappable;
  * functions to the child objects.
  *
  *
- * @package    Khill\Lavacharts
- * @subpackage Dashbaords\Filters
- * @since      3.0.0
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2016, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @package   Khill\Lavacharts\Dashboards\Filters
+ * @since     3.0.0
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2016, KHill Designs
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://lavacharts.com                   Official Docs Site
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
 class Filter implements Wrappable, \JsonSerializable
 {

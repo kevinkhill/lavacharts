@@ -9,12 +9,11 @@ use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Exceptions\InvalidChartType;
 
 /**
- * GenericBuilder Class
+ * Class GenericBuilder
  *
- * This class will provide some common traits to the other builders.
+ * This class will provide some common methods to the other builders.
  *
- * @package    Khill\Lavacharts
- * @subpackage Builders
+ * @package    Khill\Lavacharts\Builders
  * @since      3.1.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2016, KHill Designs

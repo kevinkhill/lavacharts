@@ -12,8 +12,7 @@ use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
  * This class is the parent to charts, dashboards, and controls since they
  * will need to be rendered onto the page.
  *
- * @package    Khill\Lavacharts
- * @subpackage Configs
+ * @package    Khill\Lavacharts\Configs
  * @since      3.1.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2016, KHill Designs

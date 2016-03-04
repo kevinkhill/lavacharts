@@ -9,14 +9,13 @@ use \Carbon\Carbon;
  *
  * Wrapper object to implement JsonSerializable on the Carbon object.
  *
- * @package    Khill\Lavacharts
- * @subpackage DataTables
- * @since      3.0.0
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2016, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @package   Khill\Lavacharts\DataTables\Cells
+ * @since     3.0.0
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2016, KHill Designs
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://lavacharts.com                   Official Docs Site
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
 class DateCell extends Cell
 {
@@ -26,7 +25,6 @@ class DateCell extends Cell
      * @param  \Carbon\Carbon $carbon
      * @param  string         $format
      * @param  array          $options
-     * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
      */
     public function __construct(Carbon $carbon = null, $format = '', $options = [])
     {
@@ -42,8 +40,6 @@ class DateCell extends Cell
      * @param  string $dateTimeString
      * @param  string $dateTimeFormat
      * @return \Khill\Lavacharts\DataTables\Cells\Cell
-     * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
-     * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeString
      */
     public static function parseString($dateTimeString, $dateTimeFormat = '')
     {

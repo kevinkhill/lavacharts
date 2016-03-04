@@ -23,7 +23,6 @@ use \Khill\Lavacharts\Support\Html\HtmlFactory;
  * Lavacharts - A PHP wrapper library for the Google Chart API
  *
  *
- * @category  Class
  * @package   Khill\Lavacharts
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2016, KHill Designs

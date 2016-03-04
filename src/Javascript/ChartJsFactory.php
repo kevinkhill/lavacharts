@@ -11,8 +11,7 @@ use \Khill\Lavacharts\Charts\Chart;
  * javascript blocks for outputting into the page.
  *
  * @category   Class
- * @package    Khill\Lavacharts
- * @subpackage Javascript
+ * @package    Khill\Lavacharts\Javascript
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2016, KHill Designs

@@ -32,7 +32,7 @@ class HtmlFactory
      * @param  array|bool $dimensions Height & width of the div.
      * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return string               HTML div element.
+     * @return string HTML div element.
      */
     public function createDiv($elementId, $dimensions = true)
     {

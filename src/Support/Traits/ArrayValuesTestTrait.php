@@ -2,6 +2,19 @@
 
 namespace Khill\Lavacharts\Support\Traits;
 
+/**
+ * Trait ArrayValuesTestTrait
+ *
+ * Provides a method for checking all the values in an array are of the same type.
+ *
+ * @package   Khill\Lavacharts\Support\Traits
+ * @since     3.1.0
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2016, KHill Designs
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://lavacharts.com                   Official Docs Site
+ * @license   http://opensource.org/licenses/MIT      MIT
+ */
 trait ArrayValuesTestTrait
 {
     /**

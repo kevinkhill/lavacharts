@@ -9,13 +9,13 @@ use Khill\Lavacharts\Exceptions\InvalidFunctionParam;
  *
  * Holds the information for a data point
  *
- * @package    Khill\Lavacharts
- * @subpackage DataTables
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2016, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @package   Khill\Lavacharts\DataTables\Cells
+ * @since     3.0.0
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2016, KHill Designs
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://lavacharts.com                   Official Docs Site
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
 class Cell implements \JsonSerializable
 {

@@ -12,18 +12,18 @@ use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
 use \Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
 
 /**
- * Chart Class, Parent to all charts.
+ * Class Chart
  *
- * Has common properties and methods used between all the different charts.
+ * Parent to all charts which has common properties and methods
+ * used between all the different charts.
  *
  *
- * @package    Khill\Lavacharts
- * @subpackage Charts
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2016, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @package   Khill\Lavacharts\Charts
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2016, KHill Designs
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://lavacharts.com                   Official Docs Site
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
 class Chart extends Renderable implements Wrappable
 {

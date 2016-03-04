@@ -7,19 +7,18 @@ use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
 use \Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
 
 /**
- * Wrapper Parent Class
+ * Class Wrapper
  *
  * The control and chart wrappers extend this for common methods.
  *
  *
- * @package    Khill\Lavacharts
- * @subpackage Dashboards\Filters
- * @since      3.0.0
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2016, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @package   Khill\Lavacharts\Dashboards\Wrappers
+ * @since     3.0.0
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2016, KHill Designs
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://lavacharts.com                   Official Docs Site
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
 class Wrapper implements \JsonSerializable
 {

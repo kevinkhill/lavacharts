@@ -6,20 +6,19 @@ use \Khill\Lavacharts\DataTables\Cells\Cell;
 use \Khill\Lavacharts\Exceptions\InvalidJson;
 
 /**
- * DataFactory Class
+ * Class DataFactory
  *
  * The DataFactory is used to create new DataTables and DataCells in many different
  * ways.
  *
  *
- * @package    Khill\Lavacharts
- * @subpackage DataTables
- * @since      3.1.0
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2016, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @package   Khill\Lavacharts\DataTables
+ * @since     3.1.0
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2016, KHill Designs
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://lavacharts.com                   Official Docs Site
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
 class DataFactory
 {

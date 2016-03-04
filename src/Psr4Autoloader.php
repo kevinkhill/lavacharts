@@ -8,12 +8,11 @@ namespace Khill\Lavacharts;
  * As implemented by PHP FIG
  *
  * @codeCoverageIgnore
- * @category Class
- * @package  Lavacharts
- * @author   PHP-FIG
+ * @package  Khill\Lavacharts
  * @since    2.4.0
- * @link     http://www.php-fig.org/psr/psr-4/examples/
- * @license  http://opensource.org/licenses/MIT MIT
+ * @author   PHP-FIG
+ * @link     http://www.php-fig.org/psr/psr-4/examples PSR4 Examples
+ * @license  http://opensource.org/licenses/MIT        MIT
  */
 class Psr4Autoloader
 {

@@ -11,15 +11,14 @@ use \Khill\Lavacharts\Builders\DashboardBuilder;
  * class to handle the creation.
  *
  *
- * @category   Class
- * @package    Khill\Lavacharts
- * @subpackage Dashboards
- * @since      3.1.0
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2016, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @category  Class
+ * @package   Khill\Lavacharts\Dashboards
+ * @since     3.1.0
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2016, KHill Designs
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://lavacharts.com                   Official Docs Site
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
 class DashboardFactory
 {

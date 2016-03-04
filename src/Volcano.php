@@ -10,32 +10,31 @@ use \Khill\Lavacharts\Exceptions\ChartNotFound;
 use \Khill\Lavacharts\Exceptions\DashboardNotFound;
 
 /**
- * Volcano Class
+ * Class Volcano
  *
  * Storage class that holds all defined charts and dashboards.
  *
- * @category  Class
  * @package   Khill\Lavacharts
  * @since     2.0.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2016, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link      http://lavacharts.com                   Official Docs Site
- * @license   http://opensource.org/licenses/MIT MIT
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
 class Volcano
 {
     /**
      * Holds all of the defined Charts.
      *
-     * @var array
+     * @var \Khill\Lavacharts\Charts\Chart[]
      */
     private $charts = [];
 
     /**
      * Holds all of the defined Dashboards.
      *
-     * @var array
+     * @var \Khill\Lavacharts\Dashboards\Dashboard[]
      */
     private $dashboards = [];
 
@@ -62,9 +61,8 @@ class Volcano
     /**
      * Fetches an existing Chart or Dashboard from the volcano storage.
      *
-     * @access public
      * @since  3.1.0
-     * @param  string                        $type Type of Chart or Dashboard.
+     * @param  string                         $type  Type of Chart or Dashboard.
      * @param  \Khill\Lavacharts\Values\Label $label Label of the Chart or Dashboard.
      * @return \Khill\Lavacharts\Charts\Chart|\Khill\Lavacharts\Dashboards\Dashboard
      * @throws \Khill\Lavacharts\Exceptions\ChartNotFound
@@ -83,7 +81,7 @@ class Volcano
      * Returns all stored charts and dashboards
      *
      * @since  3.1.0
-     * @return array All the Renderables
+     * @return \Khill\Lavacharts\Configs\Renderable[]
      */
     public function getAll()
     {
@@ -103,7 +101,7 @@ class Volcano
      *
      * @param  string                         $type  Type of chart to check.
      * @param  \Khill\Lavacharts\Values\Label $label Identifying label of a chart to check.
-     * @return boolean
+     * @return bool
      */
     public function checkChart($type, Label $label)
     {
@@ -122,7 +120,7 @@ class Volcano
      * Simple true/false test if a dashboard exists.
      *
      * @param  \Khill\Lavacharts\Values\Label $label Identifying label of a dashboard to check.
-     * @return boolean
+     * @return bool
      */
     public function checkDashboard(Label $label)
     {

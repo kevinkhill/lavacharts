@@ -15,7 +15,7 @@ namespace Khill\Lavacharts\DataTables\Formats;
  * @copyright  (c) 2016, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @license    http://opensource.org/licenses/MIT      MIT
  * @see        https://developers.google.com/chart/interactive/docs/reference#arrowformatter
  */
 class ArrowFormat extends Format

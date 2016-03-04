@@ -8,13 +8,12 @@ use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Exceptions\InvalidChartType;
 
 /**
- * ChartBuilder Class
+ * Class ChartBuilder
  *
  * This class is used to build charts by setting the properties, instead of trying to cover
  * everything in the constructor.
  *
- * @package    Khill\Lavacharts
- * @subpackage Charts
+ * @package    Khill\Lavacharts\Builders
  * @since      3.1.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2016, KHill Designs
@@ -86,7 +85,7 @@ class ChartBuilder extends GenericBuilder
     /**
      * Sets the options for the chart.
      *
-     * @param array $options
+     * @param  array $options
      * @return \Khill\Lavacharts\Charts\ChartBuilder
      */
     public function setOptions($options)
