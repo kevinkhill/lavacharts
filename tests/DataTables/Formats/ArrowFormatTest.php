@@ -7,23 +7,41 @@ use \Khill\Lavacharts\DataTables\Formats\ArrowFormat;
 
 class ArrowFormatTest extends ProvidersTestCase
 {
+    public $arrowFormat;
+
+    public $json = '{"base":1}';
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->arrowFormat = new ArrowFormat([
+            'base' => 1
+        ]);
+    }
+
     /**
      * @covers \Khill\Lavacharts\DataTables\Formats\ArrowFormat
      */
-    public function testConstructorArgs()
+    public function testConstructorOptionAssignment()
     {
-        $arrowFormat = new ArrowFormat([
-            'base' => 1
-        ]);
-
-        $this->assertEquals(1, $arrowFormat->base);
+        $this->assertEquals(1, $this->arrowFormat['base']);
     }
 
     public function testGetType()
     {
-        $arrowFormat = new ArrowFormat;
+        $this->assertEquals('ArrowFormat', $this->arrowFormat->getType());
+    }
 
-        $this->assertEquals('ArrowFormat', ArrowFormat::TYPE);
-        $this->assertEquals('ArrowFormat', $arrowFormat->getType());
+    public function testToJsonForOptionsSerialization()
+    {
+        $this->assertEquals($this->json, $this->arrowFormat->toJson());
+    }
+
+    public function testToJavascriptForObjectSerialization()
+    {
+        $javascript = 'google.visualization.ArrowFormat('.$this->json.')';
+
+        $this->assertEquals($javascript, $this->arrowFormat->toJavascript());
     }
 }

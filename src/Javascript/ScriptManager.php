@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Javascript;
 
 use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Configs\Renderable;
+use \Khill\Lavacharts\Support\Renderable;
 use \Khill\Lavacharts\Dashboards\Dashboard;
 
 /**

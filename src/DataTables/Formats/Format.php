@@ -24,16 +24,6 @@ use \Khill\Lavacharts\Support\Contracts\JsonableInterface;
 class Format extends Customizable implements ScriptableInterface, JsonableInterface
 {
     /**
-     * Custom string representation of the Formatter.
-     *
-     * @return string The javascript visualization class as a string.
-     */
-    public function __toString()
-    {
-        return 'google.visualization.' . static::TYPE;
-    }
-
-    /**
      * Returns the format type.
      *
      * @since 3.0.0

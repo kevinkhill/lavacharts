@@ -7,12 +7,15 @@ use \Khill\Lavacharts\DataTables\Formats\NumberFormat;
 
 class NumberFormatTest extends ProvidersTestCase
 {
-    /**
-     * @covers \Khill\Lavacharts\DataTables\Formats\NumberFormat
-     */
-    public function testInstanceOf()
+    public $numberFormat;
+
+    public $json = '{"decimalSymbol":".","fractionDigits":2,"groupingSymbol":",","negativeColor":"red","negativeParens":true,"pattern":"#,###","prefix":"$","suffix":"\/hr"}';
+
+    public function setUp()
     {
-        $numberFormat = new NumberFormat([
+        parent::setUp();
+
+        $this->numberFormat = new NumberFormat([
             'decimalSymbol'  => '.',
             'fractionDigits' => 2,
             'groupingSymbol' => ',',
@@ -22,24 +25,42 @@ class NumberFormatTest extends ProvidersTestCase
             'prefix'         => '$',
             'suffix'         => '/hr'
         ]);
+    }
 
-        $numberFormatOptions = $numberFormat->getOptions();
-
-        $this->assertEquals('.', $numberFormatOptions['decimalSymbol']);
-        $this->assertEquals(2, $numberFormatOptions['fractionDigits']);
-        $this->assertEquals(',', $numberFormatOptions['groupingSymbol']);
-        $this->assertEquals('red', $numberFormatOptions['negativeColor']);
-        $this->assertTrue($numberFormatOptions['negativeParens']);
-        $this->assertEquals('#,###', $numberFormatOptions['pattern']);
-        $this->assertEquals('$', $numberFormatOptions['prefix']);
-        $this->assertEquals('/hr', $numberFormatOptions['suffix']);
+        /**
+     * @covers \Khill\Lavacharts\DataTables\Formats\NumberFormat
+     */
+    public function testConstructorOptionAssignment()
+    {
+        $this->assertEquals('.', $this->numberFormat['decimalSymbol']);
+        $this->assertEquals(2, $this->numberFormat['fractionDigits']);
+        $this->assertEquals(',', $this->numberFormat['groupingSymbol']);
+        $this->assertEquals('red', $this->numberFormat['negativeColor']);
+        $this->assertTrue($this->numberFormat['negativeParens']);
+        $this->assertEquals('#,###', $this->numberFormat['pattern']);
+        $this->assertEquals('$', $this->numberFormat['prefix']);
+        $this->assertEquals('/hr', $this->numberFormat['suffix']);
     }
 
     public function testGetType()
     {
         $numberFormat = new NumberFormat;
 
-        $this->assertEquals('NumberFormat', NumberFormat::TYPE);
         $this->assertEquals('NumberFormat', $numberFormat->getType());
+    }
+
+    public function testToJsonForOptionsSerialization()
+    {
+        $this->assertEquals($this->json, $this->numberFormat->toJson());
+    }
+
+    /**
+     * @depends testToJsonForOptionsSerialization
+     */
+    public function testToJavascriptForObjectSerialization()
+    {
+        $javascript = 'google.visualization.NumberFormat('.$this->json.')';
+
+        $this->assertEquals($javascript, $this->numberFormat->toJavascript());
     }
 }
