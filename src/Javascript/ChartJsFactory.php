@@ -65,7 +65,7 @@ class ChartJsFactory extends JavascriptFactory
             '}.bind(this));'.PHP_EOL;
 
         $this->formatTemplate =
-            'this.formats["col%1$s"] = new %2$s(%3$s);'.PHP_EOL.
+            'this.formats["col%1$s"] = new %2$s;'.PHP_EOL.
             'this.formats["col%1$s"].format(this.data, %1$s);'.PHP_EOL;
 
         parent::__construct(self::OUTPUT_TEMPLATE);
@@ -148,8 +148,7 @@ class ChartJsFactory extends JavascriptFactory
             $buffer .= sprintf(
                 $this->formatTemplate,
                 $index,
-                (string) $format,
-                $format->getOptionsJson()
+                $format->toJavascript()
             ).PHP_EOL;
         }
 

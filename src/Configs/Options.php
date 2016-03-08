@@ -33,7 +33,7 @@ class Options implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
      *
      * @param array $config
      */
-    public function __construct(array $config)
+    public function __construct(array $config = [])
     {
         $this->values = $config;
     }

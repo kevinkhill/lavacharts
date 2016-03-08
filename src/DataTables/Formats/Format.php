@@ -2,39 +2,27 @@
 
 namespace Khill\Lavacharts\DataTables\Formats;
 
-use \Khill\Lavacharts\Configs\Options;
-use \Khill\Lavacharts\Support\Traits\OptionsTrait as HasOptions;
+use Khill\Lavacharts\Support\Contracts\ScriptableInterface;
+use \Khill\Lavacharts\Support\Customizable;
+use \Khill\Lavacharts\Support\Contracts\JsonableInterface;
 
 /**
  * Class Format
  *
- * The base class for the individual configuration objects, providing common
+ * The base class for the individual format objects, providing common
  * functions to the child objects.
  *
  *
  * @package    Khill\Lavacharts\DataTables\Formats
  * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @since      3.0.0
  * @copyright  (c) 2016, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT      MIT
  */
-class Format implements \JsonSerializable
+class Format extends Customizable implements ScriptableInterface, JsonableInterface
 {
-    use HasOptions;
-
-    /**
-     * Builds the Options object.
-     * Passing an array of key value pairs will set the configuration for each
-     * child object created from this parent object.
-     *
-     * @param \Khill\Lavacharts\DataTables\Formats\Options $options
-     */
-    public function __construct(Options $options)
-    {
-        $this->options = $options;
-    }
-
     /**
      * Custom string representation of the Formatter.
      *
@@ -57,12 +45,23 @@ class Format implements \JsonSerializable
     }
 
     /**
-     * Custom serialization of the Format
+     * JSON representation of the Format.
      *
-     * @return array
+     * @return string
      */
-    public function jsonSerialize()
+    public function toJson()
     {
-        return $this->options;
+        return json_encode($this);
+    }
+
+    /**
+     * Javascript representation of the Format.
+     *
+     * @return string
+     */
+    public function toJavascript()
+    {
+        return 'google.visualization.' . $this->getType() .
+               '(' . $this->toJson() . ')';
     }
 }

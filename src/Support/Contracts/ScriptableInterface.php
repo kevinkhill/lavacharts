@@ -3,9 +3,9 @@
 namespace Khill\Lavacharts\Support\Contracts;
 
 /**
- * Interface WrappableInterface
+ * Interface ScriptableInterface
  *
- * Classes that implement this can be wrapped for use in a Dashboard.
+ * Classes that implement this provide a method for custom JSON output.
  *
  * @package   Khill\Lavacharts\Support\Contracts
  * @since     3.1.0
@@ -15,12 +15,12 @@ namespace Khill\Lavacharts\Support\Contracts;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-interface WrappableInterface
+interface ScriptableInterface
 {
     /**
-     * Returns the wrap type, either Control or Chart.
+     * Returns a customized Javascript representation of an object.
      *
      * @return string
      */
-    public function getWrapType();
+    public function toJavascript();
 }
