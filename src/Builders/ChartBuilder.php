@@ -19,7 +19,7 @@ use \Khill\Lavacharts\Exceptions\InvalidChartType;
  * @copyright  (c) 2016, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @license    http://opensource.org/licenses/MIT      MIT
  */
 class ChartBuilder extends GenericBuilder
 {
@@ -55,7 +55,7 @@ class ChartBuilder extends GenericBuilder
      * Set the type of chart to create.
      *
      * @param  string $type Type of chart.
-     * @return \Khill\Lavacharts\Charts\ChartBuilder
+     * @return self
      * @throws \Khill\Lavacharts\Exceptions\InvalidChartType description
      */
     public function setType($type)
@@ -72,8 +72,8 @@ class ChartBuilder extends GenericBuilder
     /**
      * Sets the DataTable for the chart.
      *
-     * @param \Khill\Lavacharts\DataTables\DataTable $datatable
-     * @return \Khill\Lavacharts\Charts\ChartBuilder
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable
+     * @return self
      */
     public function setDatatable(DataTable $datatable)
     {
@@ -86,7 +86,7 @@ class ChartBuilder extends GenericBuilder
      * Sets the options for the chart.
      *
      * @param  array $options
-     * @return \Khill\Lavacharts\Charts\ChartBuilder
+     * @return self
      */
     public function setOptions($options)
     {
@@ -99,7 +99,7 @@ class ChartBuilder extends GenericBuilder
      * Sets the charts output override.
      *
      * @param  bool $png
-     * @return \Khill\Lavacharts\Charts\ChartBuilder
+     * @return self
      */
     public function setPngOutput($png)
     {

@@ -30,9 +30,6 @@
     <testsuite name="javascript">
       <directory>../tests/Javascript/</directory>
     </testsuite>
-    <testsuite name="utils">
-      <directory>../tests/Utils/</directory>
-    </testsuite>
     <testsuite name="values">
       <directory>../tests/Values/</directory>
     </testsuite>

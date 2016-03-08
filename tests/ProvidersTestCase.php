@@ -46,6 +46,11 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
                        ->getMock();
     }
 
+    public function getMockDataTable()
+    {
+        return \Mockery::mock(self::NS.'\DataTables\DataTable')->makePartial();
+    }
+
     /**
      * Uses reflection to retrieve private member variables from objects.
      *

@@ -2,11 +2,8 @@
 
 namespace Khill\Lavacharts\Builders;
 
-use \Khill\Lavacharts\Configs\Options;
-use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
-use \Khill\Lavacharts\Exceptions\InvalidChartType;
 
 /**
  * Class GenericBuilder
@@ -19,7 +16,7 @@ use \Khill\Lavacharts\Exceptions\InvalidChartType;
  * @copyright  (c) 2016, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @license    http://opensource.org/licenses/MIT      MIT
  */
 class GenericBuilder
 {
@@ -41,7 +38,7 @@ class GenericBuilder
      * Creates and sets the label for the chart.
      *
      * @param  string|\Khill\Lavacharts\Values\Label $label
-     * @return \Khill\Lavacharts\Charts\ChartBuilder
+     * @return self
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      */
     public function setLabel($label)
@@ -55,7 +52,7 @@ class GenericBuilder
      * Creates and sets the elementId for the chart.
      *
      * @param  string|\Khill\Lavacharts\Values\ElementId $elementId
-     * @return \Khill\Lavacharts\Charts\ChartBuilder
+     * @return self
      * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
      */
     public function setElementId($elementId)
