@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Tests\Configs;
 
-use \Khill\Lavacharts\Configs\Renderable;
+use \Khill\Lavacharts\Support\Renderable;
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class RenderableTest extends ProvidersTestCase

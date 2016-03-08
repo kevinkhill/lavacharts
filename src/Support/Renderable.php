@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Configs;
+namespace Khill\Lavacharts\Support;
 
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
@@ -12,7 +12,7 @@ use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
  * This class is the parent to charts, dashboards, and controls since they
  * will need to be rendered onto the page.
  *
- * @package    Khill\Lavacharts\Configs
+ * @package    Khill\Lavacharts\Support
  * @since      3.1.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2016, KHill Designs

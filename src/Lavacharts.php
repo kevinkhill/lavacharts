@@ -6,14 +6,14 @@ use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Charts\Chart;
 use \Khill\Lavacharts\Charts\ChartFactory;
-use \Khill\Lavacharts\Configs\Renderable;
+use \Khill\Lavacharts\Support\Renderable;
 use \Khill\Lavacharts\Dashboards\DashboardFactory;
 use \Khill\Lavacharts\Dashboards\Filters\Filter;
 use \Khill\Lavacharts\Dashboards\Filters\FilterFactory;
 use \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use \Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
+use \Khill\Lavacharts\DataTables\Formats\Format;
 use \Khill\Lavacharts\DataTables\DataFactory;
-use \Khill\Lavacharts\DataTables\Formats\FormatFactory;
 use \Khill\Lavacharts\Javascript\ScriptManager;
 use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
@@ -122,17 +122,17 @@ class Lavacharts
             }
         }
 
-        //Formats
-        if ((bool) preg_match('/Format$/', $method)) {
-            $lavaClass = FormatFactory::create($method, $args[0]);
-        }
-
         //Filters
         if ((bool) preg_match('/Filter$/', $method)) {
             $type   = strtolower(str_replace('Filter', '', $method));
             $config = isset($args[1]) ? $args[1] : [];
 
             $lavaClass = FilterFactory::create($type, $args[0], $config);
+        }
+
+        //Formats
+        if ((bool) preg_match('/Format$/', $method)) {
+            $lavaClass = Format::Factory($method, $args[0]);
         }
 
         if (isset($lavaClass) == false) {

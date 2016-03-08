@@ -43,7 +43,6 @@ class ChartBuilderTest extends ProvidersTestCase
 
         $chart = $this->cb->getChart();
 
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Charts\\LineChart', $chart);
         $this->assertEquals('good', $chart->getOptions()->getValues()['tacos']);
     }
 

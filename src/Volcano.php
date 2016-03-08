@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts;
 
 use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Configs\Renderable;
+use \Khill\Lavacharts\Support\Renderable;
 use \Khill\Lavacharts\Charts\Chart;
 use \Khill\Lavacharts\Dashboards\Dashboard;
 use \Khill\Lavacharts\Exceptions\ChartNotFound;
