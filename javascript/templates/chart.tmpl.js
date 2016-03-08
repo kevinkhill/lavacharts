@@ -17,7 +17,6 @@ lava.on('jsapi:ready', function (google) {
         this.chart.draw(this.data, this.options);
 
         if (this.pngOutput === true) {
-            //window.google.visualization.events.addListener(this.chart, 'ready', this.drawPng);
             this.drawPng();
         }
 

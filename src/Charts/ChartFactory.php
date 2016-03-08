@@ -95,10 +95,12 @@ class ChartFactory
             if (is_array($args[2])) {
                 if (array_key_exists('elementId', $args[2])) {
                     $this->chartBuilder->setElementId($args[2]['elementId']);
+                    unset($args[2]['elementId']);
                 }
 
                 if (array_key_exists('png', $args[2])) {
                     $this->chartBuilder->setPngOutput($args[2]['png']);
+                    unset($args[2]['png']);
                 }
 
                 $this->chartBuilder->setOptions($args[2]);
