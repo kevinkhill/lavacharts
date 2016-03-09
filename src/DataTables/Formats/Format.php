@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables\Formats;
 
-use Khill\Lavacharts\Support\Contracts\ScriptableInterface;
+use Khill\Lavacharts\Support\Contracts\VisualizationInterface;
 use \Khill\Lavacharts\Support\Customizable;
 use \Khill\Lavacharts\Support\Contracts\JsonableInterface;
 
@@ -21,7 +21,7 @@ use \Khill\Lavacharts\Support\Contracts\JsonableInterface;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT      MIT
  */
-class Format extends Customizable implements ScriptableInterface, JsonableInterface
+class Format extends Customizable implements VisualizationInterface, JsonableInterface
 {
     /**
      * Factory method for creating new format objects.
@@ -63,9 +63,8 @@ class Format extends Customizable implements ScriptableInterface, JsonableInterf
      *
      * @return string
      */
-    public function toJavascript()
+    public function getJsClass()
     {
-        return 'google.visualization.' . $this->getType() .
-               '(' . $this->toJson() . ')';
+        return 'google.visualization.' . static::TYPE;
     }
 }

@@ -43,12 +43,5 @@ class ColumnChart extends Chart
      *
      * @var string
      */
-    const VIZ_PACKAGE = 'corechart';
-
-    /**
-     * Google's visualization class name.
-     *
-     * @var string
-     */
-    const VIZ_CLASS = 'google.visualization.ColumnChart';
+    const VISUALIZATION_PACKAGE = 'corechart';
 }

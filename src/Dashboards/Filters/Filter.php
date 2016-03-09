@@ -2,11 +2,10 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
-use \Khill\Lavacharts\Configs\Options;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Support\Traits\OptionsTrait as HasOptions;
+use \Khill\Lavacharts\Exceptions\InvalidFilterParam;
+use \Khill\Lavacharts\Support\Customizable;
 use \Khill\Lavacharts\Support\Traits\NonEmptyStringTrait as StringCheck;
-use \Khill\Lavacharts\Contracts\WrappableInterface as Wrappable;
+use \Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
 
 /**
  * Filter Parent Class
@@ -23,43 +22,39 @@ use \Khill\Lavacharts\Contracts\WrappableInterface as Wrappable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Filter implements Wrappable, \JsonSerializable
+class Filter extends Customizable implements Wrappable, \JsonSerializable
 {
-    use HasOptions, StringCheck;
+    use StringCheck;
 
     /**
-     * Wrapper type when used in a dashboard
+     * Type of wrapped class
      */
     const WRAP_TYPE = 'controlType';
 
     /**
      * Builds a new Filter Object.
-     *
      * Takes either a column label or a column index to filter. The options object will be
      * created internally, so no need to set defaults. The child filter objects will set them.
      *
      * @param  string|int $columnLabelOrIndex
-     * @param  array      $config Array of options to set.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @param  array      $options Array of options to set.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidFilterParam
      */
-    public function __construct($columnLabelOrIndex, $config = [])
+    public function __construct($columnLabelOrIndex, array $options = [])
     {
         if ($this->nonEmptyString($columnLabelOrIndex) === false && is_int($columnLabelOrIndex) === false) {
-            throw new InvalidConfigValue(
-                static::TYPE . '->' . __FUNCTION__,
-                'string|int'
-            );
+            throw new InvalidFilterParam($columnLabelOrIndex);
         }
 
         if (is_string($columnLabelOrIndex) === true) {
-            $config = array_merge($config, ['filterColumnLabel' => $columnLabelOrIndex]);
+            $options = array_merge($options, ['filterColumnLabel' => $columnLabelOrIndex]);
         }
 
         if (is_int($columnLabelOrIndex) === true) {
-            $config = array_merge($config, ['filterColumnIndex' => $columnLabelOrIndex]);
+            $options = array_merge($options, ['filterColumnIndex' => $columnLabelOrIndex]);
         }
 
-        $this->options = new Options($config);
+        parent::__construct($options);
     }
 
     /**
@@ -81,15 +76,5 @@ class Filter implements Wrappable, \JsonSerializable
     public function getWrapType()
     {
         return static::WRAP_TYPE;
-    }
-
-    /**
-     * Custom serialization of the Filter
-     *
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        return $this->options;
     }
 }

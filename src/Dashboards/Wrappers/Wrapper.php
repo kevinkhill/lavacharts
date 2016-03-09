@@ -5,6 +5,8 @@ namespace Khill\Lavacharts\Dashboards\Wrappers;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
 use \Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
+use \Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
+use \Khill\Lavacharts\Support\Contracts\JsClassInterface as JsClass;
 
 /**
  * Class Wrapper
@@ -20,7 +22,7 @@ use \Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Wrapper implements \JsonSerializable
+class Wrapper implements \JsonSerializable, Jsonable, JsClass
 {
     use HasElementId;
 
@@ -75,12 +77,32 @@ class Wrapper implements \JsonSerializable
     }
 
     /**
+     * Returns the JSON serialized version of the wrapper.
+     *
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this);
+    }
+
+    /**
+     * Returns a javascript string of the visualization class for the Wrapper.
+     *
+     * @return string
+     */
+    public function getJsClass()
+    {
+        return 'google.visualization.' . static::TYPE;
+    }
+
+    /**
      * Returns a javascript string with the constructor for the Wrapper.
      *
      * @return string
      */
-    public function toJavascript()
+    public function getJsConstructor()
     {
-        return sprintf('new %s(%s)', static::VIZ_CLASS, json_encode($this));
+        return sprintf('new %s(%s)', $this->getJsClass(), $this->toJson());
     }
 }

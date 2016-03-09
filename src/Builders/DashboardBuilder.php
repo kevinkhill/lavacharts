@@ -25,7 +25,7 @@ class DashboardBuilder extends GenericBuilder
      *
      * @var \Khill\Lavacharts\Dashboards\Bindings\Binding[]
      */
-    private $bindings = null;
+    private $bindings = [];
 
     /**
      * Set the bindings for the Dashboard.

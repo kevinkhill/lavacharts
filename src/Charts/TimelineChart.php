@@ -41,12 +41,16 @@ class TimelineChart extends Chart
      *
      * @var string
      */
-    const VIZ_PACKAGE = 'timeline';
+    const VISUALIZATION_PACKAGE = 'timeline';
 
     /**
-     * Google's visualization class name.
+     * Returns the google javascript package name.
      *
-     * @var string
+     * @since  3.1.0
+     * @return string
      */
-    const VIZ_CLASS = 'google.visualization.Timeline';
+    public function getJsClass()
+    {
+        return 'google.visualization.Timeline';
+    }
 }

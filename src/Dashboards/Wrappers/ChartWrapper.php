@@ -21,11 +21,11 @@ use \Khill\Lavacharts\Values\ElementId;
 class ChartWrapper extends Wrapper
 {
     /**
-     * Javascript chart class.
+     * Type of wrapper.
      *
      * @var string
      */
-    const VIZ_CLASS = 'google.visualization.ChartWrapper';
+    const TYPE = 'ChartWrapper';
 
     /**
      * Builds a ChartWrapper object.

@@ -3,8 +3,8 @@
 namespace Khill\Lavacharts\Javascript;
 
 use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Support\Renderable;
 use \Khill\Lavacharts\Dashboards\Dashboard;
+use \Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
 
 /**
  * ScriptManager Class

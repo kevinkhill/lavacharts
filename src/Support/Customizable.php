@@ -17,7 +17,6 @@ namespace Khill\Lavacharts\Support;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT      MIT
  */
-//@TODO replace options object???
 class Customizable implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
 {
     /**

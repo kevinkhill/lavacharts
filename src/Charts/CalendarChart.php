@@ -39,12 +39,16 @@ class CalendarChart extends Chart
      *
      * @var string
      */
-    const VIZ_PACKAGE = 'calendar';
+    const VISUALIZATION_PACKAGE = 'calendar';
 
     /**
-     * Google's visualization class name.
+     * Returns the google javascript package name.
      *
-     * @var string
+     * @since  3.1.0
+     * @return string
      */
-    const VIZ_CLASS = 'google.visualization.Calendar';
+    public function getJsClass()
+    {
+        return 'google.visualization.Calendar';
+    }
 }

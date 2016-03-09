@@ -2,14 +2,15 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Configs\Options;
-use \Khill\Lavacharts\Support\Renderable;
+use \Khill\Lavacharts\Support\Customizable;
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Support\Traits\OptionsTrait as HasOptions;
-use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
+use \Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
+use \Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
 use \Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
+use \Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
+use \Khill\Lavacharts\Support\Contracts\VisualizationInterface as Visualization;
 
 /**
  * Class Chart
@@ -25,12 +26,12 @@ use \Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Chart extends Renderable implements Wrappable
+class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Visualization
 {
-    use HasOptions, HasElementId;
+    use IsRenderable;
 
     /**
-     * Wrapper type when used in a dashboard
+     * Type of wrappable class
      */
     const WRAP_TYPE = 'chartType';
 
@@ -42,55 +43,29 @@ class Chart extends Renderable implements Wrappable
     protected $datatable;
 
     /**
-     * The renderable's unique elementId.
-     *
-     * @var \Khill\Lavacharts\Values\ElementId
-     */
-    protected $elementId;
-
-    /**
      * Builds a new chart with the given label.
      *
      * @param \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
      * @param \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param \Khill\Lavacharts\Configs\Options      $options Options fot the chart.
+     * @param array                                  $options Options fot the chart.
      * @param \Khill\Lavacharts\Values\ElementId     $elementId
      */
     public function __construct(
         Label $chartLabel,
         DataTable $datatable,
-        Options $options = null,
+        array $options = [],
         ElementId $elementId = null
     ) {
-        parent::__construct($chartLabel, $elementId);
+        parent::__construct($options);
 
         $this->datatable = $datatable;
-        $this->options   = $options;
-    }
-
-    /**
-     * This method will map any method calls for setting options.
-     *
-     * Before 3.0, methods could be used as well as config arrays for
-     * setting options on a chart. This will prevent BC breaks to anyone
-     * who upgrades to 3.0 but still has 2.5 syntax.
-     *
-     * @since  3.1.0
-     * @param  string $method The method that was called.
-     * @param  mixed  $arg    The argument to the method.
-     * @return \Khill\Lavacharts\Charts\Chart
-     */
-    public function __call($method, $arg)
-    {
-        $this->options[$method] = $arg;
-
-        return $this;
+        $this->initRenderable($chartLabel, $elementId);
     }
 
     /**
      * Returns the chart type.
      *
-     * @since 3.0.0
+     * @since  3.0.0
      * @return string
      */
     public function getType()
@@ -101,7 +76,7 @@ class Chart extends Renderable implements Wrappable
     /**
      * Returns the Filter wrap type.
      *
-     * @since 3.1.0
+     * @since  3.1.0
      * @return string
      */
     public function getWrapType()
@@ -112,7 +87,7 @@ class Chart extends Renderable implements Wrappable
     /**
      * Returns the chart version.
      *
-     * @since 3.1.0
+     * @since  3.1.0
      * @return string
      */
     public function getVersion()
@@ -123,23 +98,33 @@ class Chart extends Renderable implements Wrappable
     /**
      * Returns the chart visualization class.
      *
-     * @since 3.1.0
+     * @since  3.1.0
      * @return string
      */
-    public function getVizClass()
+    public function getJsPackage()
     {
-        return static::VIZ_CLASS;
+        return static::VISUALIZATION_PACKAGE;
     }
 
     /**
      * Returns the chart visualization package.
      *
-     * @since 3.1.0
+     * @since  3.1.0
      * @return string
      */
-    public function getVizPackage()
+    public function getJsClass()
     {
-        return static::VIZ_PACKAGE;
+        return 'google.visualization.' . static::TYPE;
+    }
+
+    /**
+     * Return a JSON representation of the chart, which would be the customizations.
+     *
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this);
     }
 
     /**
@@ -157,7 +142,6 @@ class Chart extends Renderable implements Wrappable
      * Returns a JSON string representation of the datatable.
      *
      * @since  2.5.0
-     * @throws \Khill\Lavacharts\Exceptions\DataTableNotFound
      * @return string
      */
     public function getDataTableJson()
@@ -173,7 +157,7 @@ class Chart extends Renderable implements Wrappable
      */
     public function getEvents()
     {
-        return $this->options['events'];
+        return $this['events'];
     }
 
     /**
@@ -183,7 +167,7 @@ class Chart extends Renderable implements Wrappable
      */
     public function hasEvents()
     {
-        return isset($this->options['events']);
+        return isset($this['events']);
     }
 
     /**

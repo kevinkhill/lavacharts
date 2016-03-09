@@ -37,12 +37,16 @@ class GaugeChart extends Chart
      *
      * @var string
      */
-    const VIZ_PACKAGE = 'gauge';
+    const VISUALIZATION_PACKAGE = 'gauge';
 
     /**
-     * Google's visualization class name.
+     * Returns the google javascript package name.
      *
-     * @var string
+     * @since  3.1.0
+     * @return string
      */
-    const VIZ_CLASS = 'google.visualization.Gauge';
+    public function getJsClass()
+    {
+        return 'google.visualization.Gauge';
+    }
 }

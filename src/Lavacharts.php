@@ -180,7 +180,6 @@ class Lavacharts
      * @param  array  $bindings Array of bindings to apply
      * @param  string $elemId
      * @return \Khill\Lavacharts\DataTables\DataTable
-     * @internal param string $label Label to give the Dashboard
      */
     public function Dashboard($label, $bindings = [], $elemId = '')
     {
@@ -202,7 +201,6 @@ class Lavacharts
      * @param  \Khill\Lavacharts\Dashboards\Filters\Filter $filter Filter to wrap
      * @param                                              $elementIdStr
      * @return \Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper
-     * @internal param string $elementId HTML element ID to output the control.
      */
     public function ControlWrapper(Filter $filter, $elementIdStr)
     {
@@ -219,7 +217,6 @@ class Lavacharts
      * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to wrap
      * @param  string                         $elementIdStr
      * @return \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper
-     * @internal param string $elementId HTML element ID to output the control.
      */
     public function ChartWrapper(Chart $chart, $elementIdStr)
     {

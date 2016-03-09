@@ -9,6 +9,7 @@ use \Khill\Lavacharts\Exceptions\InvalidTimeZone;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use \Khill\Lavacharts\Exceptions\InvalidRowProperty;
+use \Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
 
 /**
  * The DataTable object is used to hold the data passed into a visualization.
@@ -32,7 +33,7 @@ use \Khill\Lavacharts\Exceptions\InvalidRowProperty;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class DataTable implements \JsonSerializable
+class DataTable implements Jsonable, \JsonSerializable
 {
     use \Khill\Lavacharts\Support\Traits\ArrayIsMultiTrait;
     use \Khill\Lavacharts\Support\Traits\ArrayValuesTestTrait;
@@ -704,8 +705,6 @@ class DataTable implements \JsonSerializable
      *
      * Will include formats if defined
      *
-     *
-     * @codeCoverageIgnore
      * @return string JSON representation of the DataTable.
      */
     public function toJson()

@@ -39,12 +39,16 @@ class TableChart extends Chart
      *
      * @var string
      */
-    const VIZ_PACKAGE = 'table';
+    const VISUALIZATION_PACKAGE = 'table';
 
     /**
-     * Google's visualization class name.
+     * Returns the google javascript package name.
      *
-     * @var string
+     * @since  3.1.0
+     * @return string
      */
-    const VIZ_CLASS = 'google.visualization.Table';
+    public function getJsClass()
+    {
+        return 'google.visualization.Table';
+    }
 }

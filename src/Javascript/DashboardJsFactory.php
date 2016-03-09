@@ -60,18 +60,19 @@ class DashboardJsFactory extends JavascriptFactory
         $vars = [
             'label'     => $this->dashboard->getLabelStr(),
             'version'   => Dashboard::VERSION,
-            'class'     => Dashboard::VIZ_CLASS,
+            'class'     => $this->dashboard->getJsClass(),
             'packages'  => [
-                Dashboard::VIZ_PACKAGE
+                $this->dashboard->getJsPackage()
             ],
             'elemId'    => $this->dashboard->getElementIdStr(),
             'bindings'  => $this->processBindings()
         ];
 
+        /** @var \Khill\Lavacharts\Charts\Chart $chart */
         foreach ($boundCharts as $chart) {
             $vars['chartData'] = $chart->getDataTableJson();
 
-            array_push($vars['packages'], $chart::VIZ_PACKAGE);
+            array_push($vars['packages'], $chart->getJsPackage());
         }
 
         $vars['packages'] = json_encode(array_unique($vars['packages']));
@@ -88,24 +89,25 @@ class DashboardJsFactory extends JavascriptFactory
      */
     public function processBindings()
     {
-        $output = '';
+        $buffer = '';
         $bindings = $this->dashboard->getBindings();
 
+        /** @var \Khill\Lavacharts\Dashboards\Bindings\Binding $binding */
         foreach ($bindings as $binding) {
             switch ($binding::TYPE) {
                 case 'OneToOne':
-                    $controls = $binding->getControlWrappers()[0]->toJavascript();
-                    $charts   = $binding->getChartWrappers()[0]->toJavascript();
+                    $controls = $binding->getControlWrappers()[0]->getJsConstructor();
+                    $charts   = $binding->getChartWrappers()[0]->getJsConstructor();
                     break;
 
                 case 'OneToMany':
-                    $controls = $binding->getControlWrappers()[0]->toJavascript();
+                    $controls = $binding->getControlWrappers()[0]->getJsConstructor();
                     $charts   = $this->mapWrapperArray($binding->getChartWrappers());
                     break;
 
                 case 'ManyToOne':
                     $controls = $this->mapWrapperArray($binding->getControlWrappers());
-                    $charts   = $binding->getChartWrappers()[0]->toJavascript();
+                    $charts   = $binding->getChartWrappers()[0]->getJsConstructor();
                     break;
 
                 case 'ManyToMany':
@@ -114,10 +116,10 @@ class DashboardJsFactory extends JavascriptFactory
                     break;
             }
 
-            $output .= sprintf('this.dashboard.bind(%s, %s);', $controls, $charts);
+            $buffer .= sprintf('this.dashboard.bind(%s, %s);', $controls, $charts);
         }
 
-        return $output;
+        return $buffer;
     }
 
     /**
@@ -130,7 +132,7 @@ class DashboardJsFactory extends JavascriptFactory
     protected function mapWrapperArray($wrapperArray)
     {
         $wrappers = array_map(function ($wrapperArray) {
-            return $wrapperArray->toJavascript();
+            return $wrapperArray->getJsConstructor();
         }, $wrapperArray);
 
         return '[' . implode(', ', $wrappers) . ']';

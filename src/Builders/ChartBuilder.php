@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Builders;
 
-use \Khill\Lavacharts\Configs\Options;
 use \Khill\Lavacharts\Charts\ChartFactory;
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Exceptions\InvalidChartType;
@@ -40,9 +39,9 @@ class ChartBuilder extends GenericBuilder
     /**
      * Options for the chart.
      *
-     * @var \Khill\Lavacharts\Configs\Options
+     * @var array
      */
-    protected $options = null;
+    protected $options = [];
 
     /**
      * The chart's output override.
@@ -90,7 +89,7 @@ class ChartBuilder extends GenericBuilder
      */
     public function setOptions($options)
     {
-        $this->options = new Options($options);
+        $this->options = $options;
 
         return $this;
     }
@@ -124,7 +123,9 @@ class ChartBuilder extends GenericBuilder
             $this->elementId
         );
 
-        $lavachart->setPngOutput($this->pngOutput);
+        if (method_exists($lavachart, 'setPngOutput')) {
+            $lavachart->setPngOutput($this->pngOutput);
+        }
 
         return $lavachart;
     }

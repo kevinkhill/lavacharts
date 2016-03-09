@@ -3,11 +3,11 @@
 namespace Khill\Lavacharts;
 
 use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Support\Renderable;
 use \Khill\Lavacharts\Charts\Chart;
 use \Khill\Lavacharts\Dashboards\Dashboard;
 use \Khill\Lavacharts\Exceptions\ChartNotFound;
 use \Khill\Lavacharts\Exceptions\DashboardNotFound;
+use \Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
 
 /**
  * Class Volcano

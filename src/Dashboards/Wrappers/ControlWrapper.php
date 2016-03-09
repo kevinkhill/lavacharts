@@ -21,11 +21,11 @@ use \Khill\Lavacharts\Dashboards\Filters\Filter;
 class ControlWrapper extends Wrapper
 {
     /**
-     * Google's visualization class name.
+     * Type of wrapper.
      *
      * @var string
      */
-    const VIZ_CLASS = 'google.visualization.ControlWrapper';
+    const TYPE = 'ControlWrapper';
 
     /**
      * Builds a ControlWrapper object.

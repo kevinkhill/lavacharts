@@ -45,12 +45,5 @@ class GeoChart extends Chart
      *
      * @var string
      */
-    const VIZ_PACKAGE = 'geochart';
-
-    /**
-     * Google's visualization class name.
-     *
-     * @var string
-     */
-    const VIZ_CLASS = 'google.visualization.GeoChart';
+    const VISUALIZATION_PACKAGE = 'geochart';
 }

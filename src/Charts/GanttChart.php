@@ -42,12 +42,16 @@ class GanttChart extends Chart
      *
      * @var string
      */
-    const VIZ_PACKAGE = 'gantt';
+    const VISUALIZATION_PACKAGE = 'gantt';
 
     /**
-     * Google's visualization class name.
+     * Returns the google javascript package name.
      *
-     * @var string
+     * @since  3.1.0
+     * @return string
      */
-    const VIZ_CLASS = 'google.visualization.Gantt';
+    public function getJsClass()
+    {
+        return 'google.visualization.Gantt';
+    }
 }

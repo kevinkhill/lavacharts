@@ -1,13 +1,13 @@
 <?php
 
-namespace Khill\Lavacharts\Support;
+namespace Khill\Lavacharts\Support\Traits;
 
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
 
 /**
- * Renderable Class
+ * Trait RenderableTrait
  *
  * This class is the parent to charts, dashboards, and controls since they
  * will need to be rendered onto the page.
@@ -20,7 +20,7 @@ use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class RenderableTrai
+trait RenderableTrait
 {
     use HasElementId;
 
@@ -44,7 +44,7 @@ class RenderableTrai
      * @param \Khill\Lavacharts\Values\Label     $label
      * @param \Khill\Lavacharts\Values\ElementId $elementId
      */
-    public function __construct(Label $label, ElementId $elementId = null)
+    public function initRenderable(Label $label, ElementId $elementId = null)
     {
         $this->label = $label;
 
@@ -96,12 +96,12 @@ class RenderableTrai
      * This method removes invalid characters from the chart label
      * to use as an elementId.
      *
-     * @link http://stackoverflow.com/a/11330527/2503458
      * @access private
+     * @link   http://stackoverflow.com/a/11330527/2503458
      */
     private function generateElementId()
     {
-        $string = strtolower((string) $this->label);
+        $string = strtolower($this->getLabelStr());
         $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
         $string = preg_replace("/[\s-]+/", " ", $string);
         $string = preg_replace("/[\s_]/", "-", $string);

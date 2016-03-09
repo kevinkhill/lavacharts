@@ -39,12 +39,5 @@ class AnnotationChart extends Chart
      *
      * @var string
      */
-    const VIZ_PACKAGE = 'annotationchart';
-
-    /**
-     * Google's visualization class name.
-     *
-     * @var string
-     */
-    const VIZ_CLASS = 'google.visualization.AnnotationChart';
+    const VISUALIZATION_PACKAGE = 'annotationchart';
 }

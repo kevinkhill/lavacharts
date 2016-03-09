@@ -56,7 +56,6 @@ class ChartJsFactory extends JavascriptFactory
      */
     public function __construct(Chart $chart)
     {
-
         $this->chart = $chart;
 
         $this->eventTemplate =
@@ -65,7 +64,7 @@ class ChartJsFactory extends JavascriptFactory
             '}.bind(this));'.PHP_EOL;
 
         $this->formatTemplate =
-            'this.formats["col%1$s"] = new %2$s;'.PHP_EOL.
+            'this.formats["col%1$s"] = new %2$s(%3$s);'.PHP_EOL.
             'this.formats["col%1$s"].format(this.data, %1$s);'.PHP_EOL;
 
         parent::__construct(self::OUTPUT_TEMPLATE);
@@ -84,10 +83,10 @@ class ChartJsFactory extends JavascriptFactory
             'chartLabel'   => $this->chart->getLabelStr(),
             'chartType'    => $this->chart->getType(),
             'chartVer'     => $this->chart->getVersion(),
-            'chartClass'   => $this->chart->getVizClass(),
-            'chartPackage' => $this->chart->getVizPackage(),
+            'chartClass'   => $this->chart->getJsClass(),
+            'chartPackage' => $this->chart->getJsPackage(),
             'chartData'    => $this->chart->getDataTableJson(),
-            'chartOptions' => $this->chart->getOptionsJson(),
+            'chartOptions' => $this->chart->toJson(),
             'elemId'       => $this->chart->getElementIdStr(),
             'pngOutput'    => false,
             'formats'      => '',
@@ -142,13 +141,18 @@ class ChartJsFactory extends JavascriptFactory
         $buffer  = '';
         $columns = $this->chart->getDataTable()->getFormattedColumns();
 
+        /**
+         * @var int|string $index
+         * @var \Khill\Lavacharts\DataTables\Columns\Column $column
+         */
         foreach ($columns as $index => $column) {
             $format = $column->getFormat();
 
             $buffer .= sprintf(
                 $this->formatTemplate,
                 $index,
-                $format->toJavascript()
+                $format->getJsClass(),
+                $format->toJson()
             ).PHP_EOL;
         }
 

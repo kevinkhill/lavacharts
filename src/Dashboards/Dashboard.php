@@ -2,10 +2,12 @@
 
 namespace Khill\Lavacharts\Dashboards;
 
-use \Khill\Lavacharts\Support\Renderable;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
+use \Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
+use \Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
+use \Khill\Lavacharts\Support\Contracts\VisualizationInterface as Visualization;
 
 /**
  * Class Dashboard
@@ -23,8 +25,10 @@ use \Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Dashboard extends Renderable
+class Dashboard implements Renderable, Visualization
 {
+    use IsRenderable;
+
     /**
      * Javascript chart type.
      *
@@ -44,14 +48,7 @@ class Dashboard extends Renderable
      *
      * @var string
      */
-    const VIZ_PACKAGE = 'controls';
-
-    /**
-     * Javascript chart class.
-     *
-     * @var string
-     */
-    const VIZ_CLASS = 'google.visualization.Dashboard';
+    const VISUALIZATION_PACKAGE = 'controls';
 
     /**
      * Binding Factory for creating new bindings
@@ -75,11 +72,11 @@ class Dashboard extends Renderable
      * @param array                              $bindings  Array of bindings to apply
      * @param \Khill\Lavacharts\Values\ElementId $elementId Element Id for the Dashboard
      */
-    public function __construct(Label $label, $bindings = [], ElementId $elementId = null)
+    public function __construct(Label $label, array $bindings = [], ElementId $elementId = null)
     {
-        parent::__construct($label, $elementId);
-
         $this->bindingFactory = new BindingFactory;
+
+        $this->initRenderable($label, $elementId);
 
         if (empty($bindings) === false) {
             $this->setBindings($bindings);
@@ -95,6 +92,26 @@ class Dashboard extends Renderable
     public function getType()
     {
         return static::TYPE;
+    }
+
+    /**
+     * Returns the javascript visualization package name
+     *
+     * @return string
+     */
+    public function getJsPackage()
+    {
+        return static::VISUALIZATION_PACKAGE;
+    }
+
+    /**
+     * Returns the javascript visualization class name
+     *
+     * @return string
+     */
+    public function getJsClass()
+    {
+        return 'google.visualization.Dashboard';
     }
 
     /**

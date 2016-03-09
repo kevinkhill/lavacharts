@@ -26,7 +26,7 @@ class DateCell extends Cell
      * @param  string         $format
      * @param  array          $options
      */
-    public function __construct(Carbon $carbon = null, $format = '', $options = [])
+    public function __construct(Carbon $carbon = null, $format = '', array $options = [])
     {
         parent::__construct($carbon, $format, $options);
     }

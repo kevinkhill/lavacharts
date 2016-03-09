@@ -43,12 +43,5 @@ class BubbleChart extends Chart
      *
      * @var string
      */
-    const VIZ_PACKAGE = 'corechart';
-
-    /**
-     * Google's visualization class name.
-     *
-     * @var string
-     */
-    const VIZ_CLASS = 'google.visualization.BubbleChart';
+    const VISUALIZATION_PACKAGE = 'corechart';
 }

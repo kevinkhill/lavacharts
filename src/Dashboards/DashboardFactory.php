@@ -51,8 +51,14 @@ class DashboardFactory
     {
         $this->dashBuilder->setLabel($args[0]);
 
-        if (isset($args[1]) && is_string($args[1])) {
-            $this->dashBuilder->setElementId($args[1]);
+        if (isset($args[1])) {
+            if (is_string($args[1])) {
+                $this->dashBuilder->setElementId($args[1]);
+            }
+
+            if (is_array($args[1])) {
+                $this->dashBuilder->setBindings($args[1]);
+            }
         }
 
         if (isset($args[2])) {
