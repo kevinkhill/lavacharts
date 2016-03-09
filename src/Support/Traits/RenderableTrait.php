@@ -39,6 +39,13 @@ trait RenderableTrait
     protected $elementId;
 
     /**
+     * Status for if a chart is directly renderable or if it is part of a dashboard.
+     *
+     * @var bool
+     */
+    protected $renderableStatus = true;
+
+    /**
      * Sets the renderable's ElementId or generates on from a string
      *
      * @param \Khill\Lavacharts\Values\Label     $label
@@ -88,6 +95,28 @@ trait RenderableTrait
     public function getLabelStr()
     {
         return (string) $this->label;
+    }
+
+    /**
+     * Sets the renderable status of the Chart
+     *
+     * @since  3.1.0
+     * @param bool $renderable
+     */
+    public function setRenderable($renderable)
+    {
+        $this->renderableStatus = (bool) $renderable;
+    }
+
+    /**
+     * Returns the status of the renderability of the chart.
+     *
+     * @since  3.1.0
+     * @return bool
+     */
+    public function isRenderable()
+    {
+        return $this->renderableStatus;
     }
 
     /**
