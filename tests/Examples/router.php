@@ -14,7 +14,6 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
         $height = (int) floor($width*(6/19));
 
         $title = 'My'.$chart;
-        $id = strtolower($chart);
 
         require_once(__DIR__ . '/Charts/' . $chart . '.php');
     }
@@ -39,11 +38,14 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
 ?>
             <h1><?= $chart ?></h1>
             <div id="lavachart">
-                <? if ($chart == 'Dashboard') { ?>
-                    <div id="chart-div-id"></div>
-                    <div id="control-div-id"></div>
+                <? if (strpos($chart, 'To') > 0) { ?>
+                    <div id="chart1-div-id"></div>
+                    <div id="chart2-div-id"></div>
+                    <div id="control1-div-id"></div>
+                    <div id="control2-div-id"></div>
                 <? } ?>
             </div>
+
             <h1>Code</h1>
             <pre class="grey">
             <?php
@@ -58,9 +60,10 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
                 echo $lava->render('Dashboard', $title, 'lavachart');
             }
         } else {
-            echo '<h1>Charts</h1>';
-            echo '<ul>';
-
+?>
+            <h1>Charts</h1>
+            <ul>
+<?php
             $refObj = new \ReflectionClass($lava);
             $refProp = $refObj->getProperty('chartClasses');
             $refProp->setAccessible(true);
@@ -70,15 +73,17 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
             foreach ($charts as $chart) {
                 echo sprintf('<li><a href="%1$s">%1$s</a></li>', $chart);
             }
-            echo '</ul>';
+?>
+            </ul>
 
-            echo '<h1>Dashboards</h1>';
-            echo '<ul>';
-            echo '<li><a href="OneToOne">One to One</a></li>';
-            echo '<li><a href="OneToMany">One to Many</a></li>';
-            echo '<li><a href="ManyToOne">Many to One</a></li>';
-            echo '<li><a href="ManyToMany">Many to Many</a></li>';
-            echo '</ul>';
+            <h1>Dashboards</h1>
+            <ul>
+                <li><a href="OneToOne">One to One</a></li>
+                <li><a href="OneToMany">One to Many</a></li>
+                <li><a href="ManyToOne">Many to One</a></li>
+                <li><a href="ManyToMany">Many to Many</a></li>
+            </ul>
+<?php
         }
 ?>
     </body>

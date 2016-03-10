@@ -2,35 +2,54 @@
     $data = $lava->DataTable();
     $data->addStringColumn('Name');
     $data->addNumberColumn('Donuts Eaten');
+    $data->addNumberColumn('Age');
     $data->addRows([
-        ['Michael',   5],
-        ['Elisa',     7],
-        ['Robert',    3],
-        ['John',      2],
-        ['Jessica',   6],
-        ['Aaron',     1],
-        ['Margareth', 8]
+        ['Michael',   5, 23],
+        ['Elisa',     7, 28],
+        ['Robert',    3, 25],
+        ['John',      2, 22],
+        ['Jessica',   6, 26],
+        ['Aaron',     1, 28],
+        ['Margareth', 8, 20]
     ]);
 
-    $pieChart = $lava->PieChart($title, $data, [
+    $columnChart = $lava->ColumnChart($title, $data, [
+        'width' => $width,
+        'height' => $height,
+        'isStacked' => true,
+        'chartArea' => [
+            'left' => 30,
+            'top' => 15
+        ]
+    ]);
+
+    $areaChart = $lava->AreaChart($title, $data, [
         'width' => $width,
         'height' => $height,
         'chartArea' => [
-            'left' => 15,
+            'left' => 30,
             'top' => 15
-        ],
-        'pieSliceText' => 'value'
+        ]
     ]);
 
-    $filter  = $lava->NumberRangeFilter(1, [
-        'ui'=> [
+    $donutFilter = $lava->NumberRangeFilter(1, [
+        'ui' => [
             'label' => 'Donuts Eaten:',
             'labelStacking' => 'vertical'
         ]
     ]);
 
-    $controlWrap = $lava->ControlWrapper($filter, 'control-div-id');
-    $chartWrap   = $lava->ChartWrapper($pieChart, 'chart-div-id');
+    $ageFilter = $lava->NumberRangeFilter('Age', [
+        'ui' => [
+            'label' => 'Age:',
+            'labelStacking' => 'vertical'
+        ]
+    ]);
 
-    $dash = $lava->Dashboard($title)
-                 ->bind($controlWrap, $chartWrap);
+    $donutFilterWrap = $lava->ControlWrapper($donutFilter, 'control1-div-id');
+    $ageFilterWrap   = $lava->ControlWrapper($ageFilter, 'control2-div-id');
+    $columnChartWrap = $lava->ChartWrapper($columnChart, 'chart1-div-id');
+    $areaChartWrap   = $lava->ChartWrapper($areaChart, 'chart2-div-id');
+
+    $lava->Dashboard($title)
+         ->bind([$donutFilterWrap, $ageFilterWrap], [$columnChartWrap, $areaChartWrap]);
