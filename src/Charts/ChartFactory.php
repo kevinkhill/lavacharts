@@ -44,8 +44,7 @@ class ChartFactory
         'CandlestickChart',
         'ColumnChart',
         'ComboChart',
-        //'GanttChart',
-        //@TODO: Gantt charts have to use the new gstatic loader.js so some refactoring of lava.js is in order :(
+        //'GanttChart', @TODO: Gantt charts have to use the new gstatic loader.js so some refactoring of lava.js is in order :(
         'GaugeChart',
         'GeoChart',
         'HistogramChart',
@@ -103,6 +102,11 @@ class ChartFactory
                     unset($args[2]['png']);
                 }
 
+                if (array_key_exists('material', $args[2])) {
+                    $this->chartBuilder->setMaterialOutput($args[2]['material']);
+                    unset($args[2]['material']);
+                }
+
                 $this->chartBuilder->setOptions($args[2]);
             }
         }
@@ -117,7 +121,6 @@ class ChartFactory
     /**
      * Returns the array of supported chart types.
      *
-     * @access public
      * @since  3.1.0
      * @return array
      */
@@ -129,7 +132,6 @@ class ChartFactory
     /**
      * Returns the array of supported chart types.
      *
-     * @access public
      * @since  3.1.0
      * @param  string $type Type of chart to check.
      * @return bool
