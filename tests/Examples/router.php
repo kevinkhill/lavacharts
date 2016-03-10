@@ -52,9 +52,13 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
             ?>
             </pre>
 <?php
-            echo $lava->render($chart, $title, 'lavachart');
+            if (strpos($chart, 'Chart') > 0) {
+                echo $lava->render($chart, $title, 'lavachart');
+            } else {
+                echo $lava->render('Dashboard', $title, 'lavachart');
+            }
         } else {
-            echo '<h1>Supported Charts</h1>';
+            echo '<h1>Charts</h1>';
             echo '<ul>';
 
             $refObj = new \ReflectionClass($lava);
@@ -67,7 +71,14 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
                 echo sprintf('<li><a href="%1$s">%1$s</a></li>', $chart);
             }
             echo '</ul>';
-            echo '<ul><li><a href="Dashboard">Dashboard</a></li></ul>';
+
+            echo '<h1>Dashboards</h1>';
+            echo '<ul>';
+            echo '<li><a href="OneToOne">One to One</a></li>';
+            echo '<li><a href="OneToMany">One to Many</a></li>';
+            echo '<li><a href="ManyToOne">Many to One</a></li>';
+            echo '<li><a href="ManyToMany">Many to Many</a></li>';
+            echo '</ul>';
         }
 ?>
     </body>

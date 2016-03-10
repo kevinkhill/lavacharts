@@ -12,7 +12,7 @@
         ['Margareth', 8]
     ]);
 
-    $pieChart = $lava->PieChart($title, $data, [
+    $pieChart = $lava->PieChart('MyPie', $data, [
         'width' => $width,
         'height' => $height,
         'chartArea' => [
@@ -32,5 +32,5 @@
     $controlWrap = $lava->ControlWrapper($filter, 'control-div-id');
     $chartWrap   = $lava->ChartWrapper($pieChart, 'chart-div-id');
 
-    $dash = $lava->Dashboard('MyDashboard')
+    $dash = $lava->Dashboard($title)
                  ->bind($controlWrap, $chartWrap);
