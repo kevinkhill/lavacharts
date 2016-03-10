@@ -7,18 +7,8 @@
             ->addRow(['See Actors Other Work', 4])
             ->addRow(['Settle Argument', 89]);
 
-    $lava->DonutChart('IMDB', $reasons, [
+    $lava->DonutChart($title, $reasons, [
         'title'=>'Reasons I visit IMDB',
         'width' => $width,
         'height' => $height,
     ]);
-?>
-
-<html>
-    <head></head>
-    <body>
-        <div class="render" id="chart"></div>
-        <?= $lava->render('DonutChart', 'IMDB', 'chart'); ?>
-    </body>
-</html>
-

@@ -7,7 +7,7 @@
         $data->addRow([rand(20, 40), rand(100, 300)]);
     }
 
-    $lava->ScatterChart('AgeWeight', $data, [
+    $lava->ScatterChart($title, $data, [
         'title' => 'Age vs. Weight comparison',
         'width' => $width,
         'height' => $height,
@@ -25,12 +25,3 @@
             'position' => 'none'
         ]
     ]);
-?>
-
-<html>
-    <head></head>
-    <body>
-        <div class="render" id="chart"></div>
-        <?= $lava->render('ScatterChart', 'AgeWeight', 'chart'); ?>
-    </body>
-</html>

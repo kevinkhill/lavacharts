@@ -7,7 +7,7 @@
             ->addRow(['See Actors Other Work', 4])
             ->addRow(['Settle Argument', 89]);
 
-    $lava->PieChart('IMDB', $reasons, [
+    $lava->PieChart($title, $reasons, [
         'title' => 'Reasons I visit IMDB',
         'width' => $width,
         'height' => $height,
@@ -18,14 +18,4 @@
             ['offset' => 0.3]
         ]
     ]);
-?>
-
-<html>
-    <head></head>
-    <body>
-        <div class="render" id="chart"></div>
-        <?= $lava->render('PieChart', 'IMDB', 'chart'); ?>
-    </body>
-</html>
-
 

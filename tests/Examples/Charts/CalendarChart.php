@@ -10,7 +10,7 @@
         }
     }
 
-    $lava->CalendarChart('Sales', $sales, [
+    $lava->CalendarChart($title, $sales, [
         'title' => 'Cars Sold',
         'width' => $width,
         'height' => $height,
@@ -33,12 +33,3 @@
             'colors' => ['black', 'green']
         ]
     ]);
-?>
-
-<html>
-    <head></head>
-    <body>
-        <div class="render" id="chart"></div>
-        <?= $lava->render('CalendarChart', 'Sales', 'chart'); ?>
-    </body>
-</html>
