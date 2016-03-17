@@ -82,5 +82,10 @@
             "Khill\\Lavacharts\\Tests\\": "tests/"
         }
     },
+    "scripts": {
+        "test": "phpunit",
+        "cs": "phpcs -n --standard=PSR2 src tests",
+        "cbf" : "phpcbf -n --standard=PSR2 src tests"
+    },
     "minimum-stability": "stable"
 }

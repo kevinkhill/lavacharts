@@ -51,7 +51,7 @@ before_script:
   - mkdir -p build/logs
 
 script:
-  - phpunit -c configs/phpunit.xml.dist
+  - phpunit
   - npm test
 
 after_script:
