@@ -83,7 +83,7 @@ class PieChart extends Chart
     public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
     {
         $options = new Options($this->pieDefaults);
-var_dump(isset($this->donutDefaults));
+
         if (isset($this->donutDefaults)) {
             $options->extend($this->donutDefaults);
             $options->set('pieHole', 0.5);
