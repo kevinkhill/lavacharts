@@ -29,14 +29,6 @@ class ParentFormatTest extends ProvidersTestCase
         new DateFormat($badTypes);
     }
 
-    /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
-     */
-    public function testConstructorWithBadOption()
-    {
-        new DateFormat(['baked'=>'beans']);
-    }
-
     public function testGetOptions()
     {
         $this->assertInstanceOf('\Khill\Lavacharts\Options', $this->dateFormat->getOptions());

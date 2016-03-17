@@ -90,7 +90,7 @@ class CategoryFilterTest extends ProvidersTestCase
             ]
         ]);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\UIs\CategoryUI', $categoryFilter->ui);
+        $this->assertTrue(is_array($categoryFilter->ui));
     }
 
     /**
