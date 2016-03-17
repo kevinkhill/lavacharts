@@ -49,7 +49,14 @@ class JsonConfig implements \JsonSerializable
         }
 
         if (empty($config) === false) {
-            $this->setOptions($config);
+            /**
+             * Patching 3.1 behavior into 3.0
+             *
+             * Just realized that porting the customize method into here, will
+             * implement the 3.1 behavior of setting any option, regardless
+             * of each charts' "defaultOptions"
+             */
+            $this->options->setOptions($config, false);
         }
     }
 

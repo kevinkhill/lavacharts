@@ -1,3 +1,11 @@
+- 3.0.2
+  - Blade template extension bug fixes
+  - Combining the ```customize``` method into the constructor to provide
+    restriction free option setting without the extra method call.
+  
+- 3.0.1
+  - Bug fixes
+  
 - 3.0.0
   - Dropping support for PHP 5.3
     - Minimum version PHP 5.4+
