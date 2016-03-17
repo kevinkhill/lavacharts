@@ -54,7 +54,7 @@ class DonutChart extends PieChart
      */
     const VIZ_CLASS = 'google.visualization.PieChart';
 
-    private $donutDefaults = [
+    protected $donutDefaults = [
         'pieHole'
     ];
 
@@ -68,12 +68,7 @@ class DonutChart extends PieChart
      */
     public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
     {
-        $options = new Options($this->donutDefaults);
-        $options->set('pieHole', 0.5);
-
         parent::__construct($chartLabel, $datatable, $config);
-
-        $this->options->merge($options);
     }
 
     /**
