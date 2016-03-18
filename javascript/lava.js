@@ -10,6 +10,15 @@
 !function(t){"use strict";function e(){}e.prototype.on=function(t,e){return this._collection=this._collection||{},this._collection[t]=this._collection[t]||[],this._collection[t].push(e),this},e.prototype.once=function(t,e){function i(){o.off(t,i),e.apply(this,arguments)}var o=this;return i.listener=e,this.on(t,i),this},e.prototype.off=function(t,e){var i=this._collection[t],o=0;if(void 0!==i)for(o;o<i.length;o+=1)if(i[o]===e||i[o].listener===e){i.splice(o,1);break}return 0===i.length&&this.removeAllListeners(t),this},e.prototype.removeAllListeners=function(t){return this._collection=this._collection||{},delete this._collection[t],this},e.prototype.listeners=function(t){return this._collection=this._collection||{},this._collection[t]},e.prototype.emit=function(){if(void 0===this._collection)return this;var t,e=[].slice.call(arguments,0),i=e.shift(),o=this._collection[i],n=0;if(o)for(o=o.slice(0),t=o.length,n;t>n;n+=1)o[n].apply(this,e);return this},"function"==typeof t.define&&void 0!==t.define.amd?t.define("Jvent",[],function(){return e}):"undefined"!=typeof module&&void 0!==module.exports?module.exports=e:t.Jvent=e}(this);
 
 /**
+ * Array.some polyfill for IE8
+ *
+ * Link: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some?redirectlocale=en-US&redirectslug=JavaScript%2FReference%2FGlobal_Objects%2FArray%2Fsome
+ * Production steps of ECMA-262, Edition 5, 15.4.4.17
+ * Reference: http://es5.github.io/#x15.4.4.17
+ */
+if(!Array.prototype.some){Array.prototype.some=function(fun){'use strict';if(this==null){throw new TypeError('Array.prototype.some called on null or undefined');}if(typeof fun!=='function'){throw new TypeError();}var t=Object(this);var len=t.length>>>0;var thisArg=arguments.length>=2?arguments[1]:void 0;for(var i=0;i<len;i++){if(i in t&&fun.call(thisArg,t[i],i,t)){return true;}}return false;};}
+
+/**
  * lava.js
  *
  * Author:  Kevin Hill
@@ -182,8 +191,21 @@ var lava = lava || {};
       throw new Error('[Lavacharts] ' + typeof callback + ' is not a valid callback.');
     }
 
-    var chartTypes = Object.keys(lava.charts);
-    var LavaChart;
+    var LavaChart, chartTypes;
+
+    if (!Object.hasOwnProperty("keys")) {
+      chartTypes = (function() {
+        var k = [], p;
+
+        for (p in lava.charts) {
+          if (lava.charts.hasOwnProperty(p)) k[k.length] = p;
+        }
+
+        return k;
+      })();
+    } else {
+      chartTypes = Object.keys(lava.charts);
+    }
 
     var search = chartTypes.some(function (type) {
       if (typeof lava.charts[type][chartLabel] !== 'undefined') {
@@ -223,7 +245,7 @@ var lava = lava || {};
     }, delay);
   };
 
-  this.run = function () {
+  this.run = function (window) {
     var s = document.createElement('script');
     s.type = 'text/javascript';
     s.src = '//www.google.com/jsapi';
@@ -237,14 +259,29 @@ var lava = lava || {};
       }
     };
 
-    document.head.appendChild(s);
+    document.getElementsByTagName('head')[0].appendChild(s);
   };
+
+  /**
+   * Adding the redraw listener so the charts are responsive
+   *
+   * @author: alex <http://stackoverflow.com/users/31671/alex>
+   * @link: http://stackoverflow.com/questions/9743064/add-eventlistener-in-ie-javascript#9743107
+   */
+  this.attachRedrawHandler = function (window) {
+    if (window.addEventListener) {
+      window.addEventListener('resize', this.redrawCharts, false);
+    } else if (window.attachEvent) {
+      window.attachEvent('onresize', this.redrawCharts)
+    } else {
+      window['onresize'] = this.redrawCharts;
+    }
+  }
 
 }).apply(lava);
 
 /**
  * Adding the resize event listener for redrawing charts.
  */
-window.addEventListener("resize", window.lava.redrawCharts);
-
-lava.run();
+lava.attachRedrawHandler(window);
+lava.run(window);

@@ -1,6 +1,6 @@
 module.exports = function(config) {
     config.set({
-        basePath: '../javascript',
+        basePath: '..',
 
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
         frameworks: [
