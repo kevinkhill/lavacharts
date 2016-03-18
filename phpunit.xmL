@@ -35,12 +35,9 @@
   </testsuites>
 
   <filter>
-    <whitelist>
-      <directory>src/</directory>
-    </whitelist>
     <blacklist>
       <directory>vendor/</directory>
-      <directory>tests/Examples/</directory>
+      <directory>tests/</directory>
       <directory>src/Laravel/</directory>
       <directory>src/Symfony/</directory>
       <directory>src/Configs/</directory>
