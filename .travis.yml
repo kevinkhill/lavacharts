@@ -51,8 +51,8 @@ before_script:
   - mkdir -p build/logs
 
 script:
-  - composer run test
+  - ./vendor/bin/phpunit -c ./phpunit.xml
   - npm run test
 
 after_script:
-  - php vendor/bin/coveralls
+  - php ./vendor/bin/coveralls
