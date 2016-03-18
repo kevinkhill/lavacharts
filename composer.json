@@ -83,7 +83,7 @@
         }
     },
     "scripts": {
-        "test": "phpunit -c phpunit.xml",
+        "test": "phpunit -c ./phpunit.xml",
         "cs": "phpcs --standard=PSR2 src tests",
         "cbf" : "phpcbf --standard=PSR2 src tests"
     },
