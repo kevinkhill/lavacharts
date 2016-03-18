@@ -51,7 +51,7 @@ before_script:
   - mkdir -p build/logs
 
 script:
-  - ./vendor/bin/phpunit -c ./phpunit.xml
+  - composer run test
   - npm run test
 
 after_script:
