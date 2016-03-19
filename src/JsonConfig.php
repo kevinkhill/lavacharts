@@ -74,6 +74,20 @@ class JsonConfig implements \JsonSerializable
     }
 
     /**
+     * Coverall method for the use of chaining any option as a method
+     * instead of using the constructor.
+     *
+     * @since  3.0.2
+     * @param  string $method Option to set
+     * @param  string $param Values for the option
+     * @return \Khill\Lavacharts\JsonConfig
+     */
+    public function __call($method, $param)
+    {
+        return $this->setOption($method, $param);
+    }
+
+    /**
      * Gets the Options object for the JsonConfig
      *
      * @access public
