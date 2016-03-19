@@ -1,4 +1,4 @@
-# Lavacharts v3.0
+# Lavacharts 3.0
 [![Total Downloads](https://img.shields.io/packagist/dt/khill/lavacharts.svg?style=plastic)](https://packagist.org/packages/khill/lavacharts)
 [![License](https://img.shields.io/packagist/l/khill/lavacharts.svg?style=plastic)](http://opensource.org/licenses/MIT)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg?style=plastic)](https://php.net/)
@@ -17,24 +17,25 @@ Dev:
 [![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/master.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/master.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=master)
 
-## Version 3.0
-Upgrade guide: [Migrating from 2.5.x to 3.0.x](https://github.com/kevinkhill/lavacharts/wiki/Upgrading-from-2.5-to-3.0)
-
 ## Package Features
-- Lava.js module for interacting with charts client-side
+- **Updated!** All options are now supported, use the constructor to assign any customization
+ - Visit [Google's Chart Gallery](https://developers.google.com/chart/interactive/docs/gallery) for details on available options
+- Custom javascript module for interacting with charts client-side
   - AJAX data reloading
   - Fetching charts
   - Events integration
-- Column Formatters
-- Column Roles
-- Blade template extensions for laravel
+- Column Formatters & Roles
+- Blade template extensions for Laravel
 - Twig template extensions for Symfony
 - [Carbon](https://github.com/briannesbitt/Carbon) support for date/datetime/timeofday columns
 - Now supporting 12 Charts!
   - Area, Bar, Calendar, Column, Combo, Donut, Gauge, Geo, Line, Pie, Scatter, Table
-- [DataTablePlus](https://github.com/kevinkhill/datatableplus) package can be added to parse CSV files or Eloquent collections into DataTables.
+- [DataTablePlus](https://github.com/kevinkhill/datatableplus) package can be added to parse CSV files or Eloquent collections into DataTables. 
 
-## For complete documentation, please visit [lavacharts.com](http://lavacharts.com/)
+
+#### For complete documentation, please visit [lavacharts.com](http://lavacharts.com/)
+#### Upgrade guide: [Migrating from 2.5.x to 3.0.x](https://github.com/kevinkhill/lavacharts/wiki/Upgrading-from-2.5-to-3.0)
+
 
 ---
 
@@ -123,6 +124,12 @@ imports:
   - { resource: @LavachartsBundle/Resources/config/services.yml
 ```
 
+# Examples
+For examples, open your favorite terminal and navigate to the lavacharts folder...
+```bash
+$ cd tests/Examples && php -S 127.0.0.1:8000 -c php.ini router.php
+```
+Then point your browser to ```127.0.0.1:8000``` and check out some charts
 
 
 # Usage
