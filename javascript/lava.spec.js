@@ -1,4 +1,4 @@
-var Callback = function(){};
+var noop = function(){};
 
 var MockLineChart = function() {
   this.chart = {
@@ -29,7 +29,7 @@ describe('lava.js core functions', function() {
     it('should return a valid chart to the callback.', function() {
       lava.getChart('TestChart', function (gchart, lchart) {
         expect(gchart.prop).toEqual('thing');
-        
+
         expect(lchart.options.title).toEqual('Weather in October');
         expect(lchart.data.cols[0].type).toEqual('date');
       });
@@ -37,14 +37,14 @@ describe('lava.js core functions', function() {
 
     it('should throw an error if the chart is not found.', function() {
       expect(function() {
-        lava.getChart('Bee Population', Callback);
+        lava.getChart('Bee Population', noop);
       })
       .toThrow(new Error('[Lavacharts] Chart "Bee Population" was not found.'));
     });
 
     it('should throw an error if a string chart label is not given.', function() {
       expect(function() {
-        lava.getChart(1234, Callback);
+        lava.getChart(1234, noop);
       })
       .toThrow(new Error('[Lavacharts] number is not a valid chart label.'));
     });
@@ -70,9 +70,9 @@ describe('lava.js core functions', function() {
     });
 
     it('should load the json data into the chart.', function() {
-      lava.loadData('TestChart', {d1:100,d2:200}, function (chart) {
-        expect(chart.data.d1).toEqual(100);
-        expect(chart.data.d2).toEqual(200);
+      lava.loadData('TestChart', {d1:100,d2:200}, function (gchart, lchart) {
+        expect(lchart.data.d1).toEqual(100);
+        expect(lchart.data.d2).toEqual(200);
       });
     });
 

@@ -25,7 +25,7 @@
     "gulp-replace": "^0.5.4",
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.2.4",
-    "karma-chrome-launcher": "^0.2.0",
+    "karma-chrome-launcher": "^0.2.2",
     "karma-firefox-launcher": "^0.1.6",
     "karma-ie-launcher": "^0.2.0",
     "sh": "^0.0.3",

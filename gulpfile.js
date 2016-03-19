@@ -4,11 +4,11 @@ var gulp = require('gulp'),
  replace = require('gulp-replace'),
     argv = require('yargs').array('browsers').argv;
 
-gulp.task('karma', function (done) {
+gulp.task('test', function (done) {
     var karma = require('karma');
 
     var server = new karma.Server({
-        configFile: __dirname + 'javascript/karma/karma.conf.js',
+        configFile: __dirname + '/javascript/karma/karma.conf.js',
         singleRun: argv.dev ? false : true
     }, function(exitStatus) {
         done(exitStatus ? "There are failing unit tests" : undefined);

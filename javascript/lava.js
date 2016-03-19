@@ -140,7 +140,7 @@ var lava = lava || {};
       LavaChart.redraw();
 
       if (typeof callback == 'function') {
-        callback(LavaChart.chart);
+        callback(LavaChart.chart, LavaChart);
       }
     });
   };
@@ -150,13 +150,13 @@ var lava = lava || {};
       throw new Error('[Lavacharts] Dashboard "' + label + '" was not found.');
     }
 
-    var lavaDashboard = lava.dashboards[label];
+    var LavaDash = lava.dashboards[label];
 
     if (typeof callback !== 'function') {
       throw new Error('[Lavacharts] ' + typeof callback + ' is not a valid callback.');
     }
 
-    callback(lavaDashboard.dashboard, lavaDashboard);
+    callback(LavaDash.dashboard, LavaDash);
   };
 
   /**
