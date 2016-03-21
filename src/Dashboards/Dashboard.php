@@ -46,10 +46,15 @@ class Dashboard
      * Builds a new Dashboard with identifying label.
      *
      * @param \Khill\Lavacharts\Values\Label $label
+     * @param array                          $bindings
      */
-    public function __construct(Label $label)
+    public function __construct(Label $label, array $bindings = [])
     {
         $this->label = $label;
+
+        if (empty($bindings) === false) {
+            $this->setBindings($bindings);
+        }
     }
 
     /**
@@ -122,7 +127,7 @@ class Dashboard
      * @return \Khill\Lavacharts\Dashboards\Dashboard
      * @throws \Khill\Lavacharts\Exceptions\InvalidBindings
      */
-    public function setBindings($bindings)
+    public function setBindings(array $bindings)
     {
         foreach ($bindings as $binding) {
             $this->bind($binding[0], $binding[1]);

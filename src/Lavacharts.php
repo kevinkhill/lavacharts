@@ -191,13 +191,14 @@ class Lavacharts
      *
      * @since  3.0.0
      * @param  string $label
+     * @param  array  $bindings
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
-    public function Dashboard($label)
+    public function Dashboard($label, array $bindings = [])
     {
         $label = new Label($label);
 
-        return $this->dashboardFactory($label);
+        return $this->dashboardFactory($label, $bindings);
     }
 
     /**
@@ -301,14 +302,13 @@ class Lavacharts
 
     /**
      * Renders the chart into the page
-     *
      * Given a chart label and an HTML element id, this will output
      * all of the necessary javascript to generate the chart.
      *
      * @access public
      * @since  3.0.0
-     * @param  \Khill\Lavacharts\Values\Label     $chartLabel Label of a saved chart.
-     * @param  \Khill\Lavacharts\Values\ElementId $elementId  HTML element id to render the chart into.
+     * @param \Khill\Lavacharts\Values\Label      $label
+     * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to render the chart into.
      * @return string Javascript output
      * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
      */
@@ -549,7 +549,6 @@ class Lavacharts
 
     /**
      * Creates and stores Dashboards
-     *
      * If the Dashboard is found in the Volcano, then it is returned.
      * Otherwise, a new dashboard is created and stored in the Volcano.
      *
@@ -557,12 +556,14 @@ class Lavacharts
      * @since  3.0.0
      * @uses   \Khill\Lavacharts\Dashboards\Dashboard
      * @param  \Khill\Lavacharts\Values\Label $label Label of the dashboard.
+     * @param  array      \                   $bindings
      * @return \Khill\Lavacharts\Dashboards\Dashboard
+     * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
      */
-    private function dashboardFactory(Label $label)
+    private function dashboardFactory(Label $label, array $bindings = [])
     {
         if ($this->volcano->checkDashboard($label) === false) {
-            $dashboard = new Dashboard($label);
+            $dashboard = new Dashboard($label, $bindings);
 
             $this->volcano->storeDashboard($dashboard);
         }

@@ -64,7 +64,6 @@ class DashboardFactory extends JavascriptFactory
             'packages'  => [
                 Dashboard::VIZ_PACKAGE
             ],
-            //'chartData' => $boundChart->getDataTableJson(),
             'elemId'    => (string) $this->elementId,
             'bindings'  => $this->processBindings(),
             'dataVer'   => DataTable::VERSION,
@@ -72,7 +71,7 @@ class DashboardFactory extends JavascriptFactory
         ];
 
         foreach ($boundCharts as $chart) {
-            $vars['chartData'] = $chart->getDataTableJson();
+            $vars['chartData'] = json_encode($chart->getDataTable());
 
             array_push($vars['packages'], $chart::VIZ_PACKAGE);
         }
