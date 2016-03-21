@@ -556,7 +556,7 @@ class Lavacharts
      * @since  3.0.0
      * @uses   \Khill\Lavacharts\Dashboards\Dashboard
      * @param  \Khill\Lavacharts\Values\Label $label Label of the dashboard.
-     * @param  array      \                   $bindings
+     * @param  array                          $bindings
      * @return \Khill\Lavacharts\Dashboards\Dashboard
      * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
      */
@@ -615,7 +615,6 @@ class Lavacharts
     {
         if (isset($args) === false || (is_string($args[0]) === false && is_int($args[0]) === false)) {
             throw new InvalidConfigValue(
-                static::TYPE,
                 __FUNCTION__,
                 'string|int'
             );
