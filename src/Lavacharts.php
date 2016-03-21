@@ -421,7 +421,7 @@ class Lavacharts
      *
      * @access public
      * @since  3.0.0
-     * @param  \Khill\Lavacharts\Configs\Renderable $renderable A Chart or Dashboard.
+     * @param  \Khill\Lavacharts\Support\Renderable $renderable A Chart or Dashboard.
      * @return \Khill\Lavacharts\Charts\Chart|\Khill\Lavacharts\Dashboards\Dashboard
      */
     public function store(Renderable $renderable)
