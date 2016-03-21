@@ -50,16 +50,7 @@ class DashboardFactory
     public function create($args)
     {
         $this->dashBuilder->setLabel($args[0]);
-
-        if (isset($args[1])) {
-            if (is_string($args[1])) {
-                $this->dashBuilder->setElementId($args[1]);
-            }
-
-            if (is_array($args[1])) {
-                $this->dashBuilder->setBindings($args[1]);
-            }
-        }
+        $this->dashBuilder->setDataTable($args[1]);
 
         if (isset($args[2])) {
             if (is_string($args[2])) {
@@ -68,6 +59,16 @@ class DashboardFactory
 
             if (is_array($args[2])) {
                 $this->dashBuilder->setBindings($args[2]);
+            }
+        }
+
+        if (isset($args[3])) {
+            if (is_string($args[3])) {
+                $this->dashBuilder->setElementId($args[3]);
+            }
+
+            if (is_array($args[3])) {
+                $this->dashBuilder->setBindings($args[3]);
             }
         }
 

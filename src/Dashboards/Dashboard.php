@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\Dashboards;
 
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
+use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
 use \Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
 use \Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
@@ -65,18 +66,33 @@ class Dashboard implements Renderable, Visualization
     private $bindings = [];
 
     /**
+     * Datatable for the chart.
+     *
+     * @var \Khill\Lavacharts\DataTables\DataTable
+     */
+    private $datatable = null;
+
+    /**
      * Builds a new Dashboard
      * If passed an array of bindings, they will be applied upon instansiation.
      *
-     * @param \Khill\Lavacharts\Values\Label     $label     Label for the Dashboard
-     * @param array                              $bindings  Array of bindings to apply
-     * @param \Khill\Lavacharts\Values\ElementId $elementId Element Id for the Dashboard
+     * @param \Khill\Lavacharts\Values\Label         $label Label for the Dashboard
+     * @param \Khill\Lavacharts\DataTables\DataTable $datatable
+     * @param array                                  $bindings Array of bindings to apply
+     * @param \Khill\Lavacharts\Values\ElementId     $elementId Element Id for the Dashboard
      */
-    public function __construct(Label $label, array $bindings = [], ElementId $elementId = null)
+    public function __construct(
+        Label $label,
+        DataTable $datatable,
+        array $bindings = [],
+        ElementId $elementId = null
+    )
     {
         $this->bindingFactory = new BindingFactory;
 
         $this->initRenderable($label, $elementId);
+
+        $this->datatable = $datatable;
 
         if (empty($bindings) === false) {
             $this->setBindings($bindings);

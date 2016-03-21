@@ -28,7 +28,7 @@ use \Khill\Lavacharts\Support\Contracts\VisualizationInterface as Visualization;
  */
 class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Visualization
 {
-    use IsRenderable;
+    use HasData, IsRenderable;
 
     /**
      * Type of wrappable class
