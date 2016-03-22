@@ -7,6 +7,8 @@ use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
 use \Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
+use \Khill\Lavacharts\Support\Traits\DataTableTrait as HasDataTable;
+use \Khill\Lavacharts\Support\Contracts\DataTableInterface as DataTables;
 use \Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
 use \Khill\Lavacharts\Support\Contracts\VisualizationInterface as Visualization;
 
@@ -26,9 +28,9 @@ use \Khill\Lavacharts\Support\Contracts\VisualizationInterface as Visualization;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Dashboard implements Renderable, Visualization
+class Dashboard implements DataTables, Renderable, Visualization
 {
-    use IsRenderable;
+    use HasDataTable, IsRenderable;
 
     /**
      * Javascript chart type.
@@ -70,7 +72,7 @@ class Dashboard implements Renderable, Visualization
      *
      * @var \Khill\Lavacharts\DataTables\DataTable
      */
-    private $datatable = null;
+    private $datatable;
 
     /**
      * Builds a new Dashboard
