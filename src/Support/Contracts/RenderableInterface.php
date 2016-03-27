@@ -49,15 +49,4 @@ interface RenderableInterface
      * @return \Khill\Lavacharts\Values\Label
      */
     public function getLabelStr();
-
-    /**
-     * Generate an ElementId
-     *
-     * This method removes invalid characters from the chart label
-     * to use as an elementId.
-     *
-     * @link http://stackoverflow.com/a/11330527/2503458
-     * @access private
-     */
-    public function generateElementId();
 }
