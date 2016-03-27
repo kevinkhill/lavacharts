@@ -42,7 +42,8 @@ class ChartFactory extends JavascriptFactory
     {
         $this->chart        = $chart;
         $this->elementId    = $elementId;
-        $this->template     = $this->getTemplate();
+        $templatePath           = __DIR__ . '/../../javascript/templates/chart.tmpl.js';
+        $this->template     = file_get_contents(realpath($templatePath));
         $this->templateVars = $this->getTemplateVars();
     }
 
@@ -68,6 +69,7 @@ class ChartFactory extends JavascriptFactory
             'elemId'       => (string) $this->elementId,
             'dataVer'      => DataTable::VERSION,
             'dataClass'    => DataTable::VIZ_CLASS,
+            'pngOutput'    => false, //@TODO: Temporary fix for template var
             'formats'      => '',
             'events'       => ''
         ];
