@@ -101,9 +101,8 @@ class JavascriptFactory
      */
     public function getCoreJs()
     {
-        //$coreJs  = self::JSAPI;
         $coreJs  = self::JS_OPEN;
-        $coreJs .= file_get_contents(__DIR__.'/../../javascript/lava.js');
+        $coreJs .= file_get_contents(__DIR__.'/../../javascript/dist/lava.js');
         $coreJs .= self::JS_CLOSE;
 
         $this->coreJsRendered = true;
