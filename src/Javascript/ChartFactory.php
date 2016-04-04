@@ -42,7 +42,7 @@ class ChartFactory extends JavascriptFactory
     {
         $this->chart        = $chart;
         $this->elementId    = $elementId;
-        $templatePath           = __DIR__ . '/../../javascript/templates/chart.tmpl.js';
+        $templatePath       = __DIR__ . '/../../javascript/templates/chart.tmpl.js';
         $this->template     = file_get_contents(realpath($templatePath));
         $this->templateVars = $this->getTemplateVars();
     }
@@ -78,7 +78,7 @@ class ChartFactory extends JavascriptFactory
             $vars['formats'] = $this->buildFormatters();
         }
 
-        if ($this->chart->hasEvents()) {
+        if ($this->chart->hasEvents() !== false) {
             $vars['events'] = $this->buildEventCallbacks();
         }
 
@@ -98,8 +98,8 @@ class ChartFactory extends JavascriptFactory
 
         foreach ($events as $event => $callback) {
             $output .= sprintf(
-                'google.visualization.events.addListener($this.chart, "%1$s", function (event) {'.
-                '    return lava.event(event, $this.chart, %2$s);'.
+                'google.visualization.events.addListener(this.chart, "%1$s", function (event) {'.
+                '    return lava.event(event, this.chart, %2$s);'.
                 '});',
                 $event,
                 $callback
@@ -124,8 +124,8 @@ class ChartFactory extends JavascriptFactory
             $format = $column->getFormat();
 
             $output .= sprintf(
-                '$this.formats["col%1$s"] = new google.visualization.%2$s(%3$s);' .
-                '$this.formats["col%1$s"].format($this.data, %1$s);',
+                'this.formats["col%1$s"] = new google.visualization.%2$s(%3$s);' .
+                'this.formats["col%1$s"].format(this.data, %1$s);',
                 $index,
                 $format->getType(),
                 json_encode($format)
@@ -133,73 +133,5 @@ class ChartFactory extends JavascriptFactory
         }
 
         return $output;
-    }
-
-    /**
-     * Returns the dashboard javascript template.
-     *
-     * @since  3.0.0
-     * @access private
-     * @return string Javascript template
-     */
-    private function getTemplate()
-    {
-        return <<<'CHART'
-        lava.events.on('jsapi:ready', function (google) {
-            /**
-             * If the object does not exist for a given chart type, initialize it.
-             * This will prevent overriding keys when multiple charts of the same
-             * type are being rendered on the same page.
-             */
-            if ( typeof lava.charts.<chartType> == "undefined" ) {
-                lava.charts.<chartType> = {};
-            }
-
-            //Creating a new lavachart object
-            lava.charts.<chartType>["<chartLabel>"] = new lava.Chart();
-
-            //Checking if output div exists
-            if (! document.getElementById("<elemId>")) {
-                throw new Error('[Lavacharts] No matching element was found with ID "<elemId>"');
-            }
-
-            lava.charts.<chartType>["<chartLabel>"].render = function (data) {
-                var $this = lava.charts.<chartType>["<chartLabel>"];
-
-                $this.data = new <dataClass>(<chartData>, <dataVer>);
-
-                $this.options = <chartOptions>;
-
-                $this.chart = new <chartClass>(document.getElementById("<elemId>"));
-
-                <formats>
-
-                <events>
-
-                $this.chart.draw($this.data, $this.options);
-            };
-
-            lava.charts.<chartType>["<chartLabel>"].setData = function (data) {
-                var $this = lava.charts.<chartType>["<chartLabel>"];
-
-                $this.data = new <dataClass>(data, <dataVer>);
-            };
-
-            lava.charts.<chartType>["<chartLabel>"].redraw = function () {
-                var $this = lava.charts.<chartType>["<chartLabel>"];
-
-                $this.chart.draw($this.data, $this.options);
-            };
-
-            lava.registerChart("<chartType>", "<chartLabel>");
-
-            google.load('visualization', '<chartVer>', {
-                packages: ['<chartPackage>'],
-                callback: function() {
-                    lava.charts.<chartType>["<chartLabel>"].render();
-                }
-            });
-        });
-CHART;
     }
 }

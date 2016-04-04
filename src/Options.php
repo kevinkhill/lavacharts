@@ -140,7 +140,7 @@ class Options implements \JsonSerializable
         }
 
         if (array_key_exists($option, $this->values) === false) {
-            return null;
+            return false;
         } else {
             return $this->values[$option];
         }
