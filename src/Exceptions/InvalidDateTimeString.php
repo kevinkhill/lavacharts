@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidDateTimeString extends \Exception
+class InvalidDateTimeString extends LavaException
 {
     public function __construct($badString)
     {

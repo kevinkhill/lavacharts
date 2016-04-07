@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidControlWrapperParams extends \Exception
+class InvalidControlWrapperParams extends LavaException
 {
     public function __construct()
     {

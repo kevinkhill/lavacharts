@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidBindings extends \Exception
+class InvalidBindings extends LavaException
 {
     public function __construct($code = 0)
     {

@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidElementId extends \Exception
+class InvalidElementId extends LavaException
 {
     public function __construct($invalidElementId = '', $code = 0)
     {

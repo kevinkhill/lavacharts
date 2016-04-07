@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidColumnFormat extends \Exception
+class InvalidColumnFormat extends LavaException
 {
     public function __construct($format)
     {
