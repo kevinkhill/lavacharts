@@ -90,26 +90,19 @@ class ChartJsFactory extends JavascriptFactory
      */
     protected function getTemplateVars()
     {
-        /**
-         * Patching in 3.0 style template vars
-         */
-        if (version_compare(Lavacharts::VERSION, '3.1.0', '<')) {
-            $vars = $this->getTemplateVars3_0();
-        } else {
-            $vars = [
-                'chartLabel'   => $this->chart->getLabelStr(),
-                'chartType'    => $this->chart->getType(),
-                'chartVer'     => $this->chart->getVersion(),
-                'chartClass'   => $this->chart->getJsClass(),
-                'chartPackage' => $this->chart->getJsPackage(),
-                'chartData'    => $this->chart->getDataTableJson(),
-                'chartOptions' => $this->chart->toJson(),
-                'elemId'       => $this->chart->getElementIdStr(),
-                'pngOutput'    => false,
-                'formats'      => '',
-                'events'       => ''
-            ];
-        }
+        $vars = [
+            'chartLabel'   => $this->chart->getLabelStr(),
+            'chartType'    => $this->chart->getType(),
+            'chartVer'     => $this->chart->getVersion(),
+            'chartClass'   => $this->chart->getJsClass(),
+            'chartPackage' => $this->chart->getJsPackage(),
+            'chartData'    => $this->chart->getDataTableJson(),
+            'chartOptions' => $this->chart->toJson(),
+            'elemId'       => $this->elementId,//$this->chart->getElementIdStr(),
+            'pngOutput'    => false,
+            'formats'      => '',
+            'events'       => ''
+        ];
 
         if (method_exists($this->chart, 'getPngOutput')) {
             $vars['pngOutput'] = $this->chart->getPngOutput();
@@ -175,29 +168,5 @@ class ChartJsFactory extends JavascriptFactory
         }
 
         return $buffer;
-    }
-
-    /**
-     * Patching the template vars from the updated 3.1 style to 3.0
-     *
-     * @return array
-     */
-    private function getTemplateVars3_0()
-    {
-        $chart = $this->chart;
-
-        return [
-            'chartLabel'   => (string) $chart->getLabel(),
-            'chartType'    => $chart::TYPE,
-            'chartVer'     => $chart::VERSION,
-            'chartClass'   => $chart::VIZ_CLASS,
-            'chartPackage' => $chart::VIZ_PACKAGE,
-            'chartData'    => $chart->getDataTableJson(),
-            'chartOptions' => json_encode($chart),
-            'elemId'       => $this->elementId,
-            'pngOutput'    => false,
-            'formats'      => '',
-            'events'       => ''
-        ];
     }
 }

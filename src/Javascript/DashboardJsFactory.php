@@ -68,31 +68,22 @@ class DashboardJsFactory extends JavascriptFactory
     {
         $boundCharts = $this->dashboard->getBoundCharts();
 
-        /**
-         * Patching in 3.0 style template vars
-         */
-        if (version_compare(Lavacharts::VERSION, '3.1.0', '<')) {
-            $vars = $this->getTemplateVars3_0();
-        } else {
-            $vars = [
-                'label'    => $this->dashboard->getLabelStr(),
-                'version'  => Dashboard::VERSION,
-                'class'    => $this->dashboard->getJsClass(),
-                'packages' => [
-                    $this->dashboard->getJsPackage()
-                ],
-                'elemId'   => $this->chart->getElementIdStr(),
-                'bindings' => $this->processBindings()
-            ];
-        }
+        $vars = [
+            'label'    => $this->dashboard->getLabelStr(),
+            'version'  => Dashboard::VERSION,
+            'class'    => $this->dashboard->getJsClass(),
+            'packages' => [
+                $this->dashboard->getJsPackage()
+            ],
+            'elemId'   => $this->elementId,//$this->chart->getElementIdStr(),
+            'bindings' => $this->processBindings()
+        ];
 
         /** @var \Khill\Lavacharts\Charts\Chart $chart */
         foreach ($boundCharts as $chart) {
             $vars['chartData'] = $chart->getDataTableJson();
 
-            /* 3.0 style */
-            array_push($vars['packages'], $chart::VIZ_PACKAGE);
-            //array_push($vars['packages'], $chart->getJsPackage());
+            array_push($vars['packages'], $chart->getJsPackage());
         }
 
         $vars['packages'] = json_encode(array_unique($vars['packages']));
@@ -156,26 +147,5 @@ class DashboardJsFactory extends JavascriptFactory
         }, $wrapperArray);
 
         return '[' . implode(', ', $wrappers) . ']';
-    }
-
-    /**
-     * Patching the template vars from the updated 3.1 style to 3.0
-     *
-     * @return array
-     */
-    private function getTemplateVars3_0()
-    {
-        $dashboard = $this->dashboard;
-
-        return [
-            'label'    => (string) $dashboard->getLabel(),
-            'version'  => $dashboard::VERSION,
-            'class'    => $dashboard::VIZ_CLASS,
-            'packages' => [
-                $dashboard::VIZ_PACKAGE
-            ],
-            'elemId'   => $this->elementId,
-            'bindings' => $this->processBindings()
-        ];
     }
 }
