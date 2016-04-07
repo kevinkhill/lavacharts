@@ -2,36 +2,30 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Support\Traits\PngOutputTrait as PngRenderable;
-
 /**
- * GeoChart Class
+ * AnnotationChart Class
  *
- * A Geochart is a map of a country, a continent, or a region with two modes:
- * - The region mode colorizes whole regions, such as countries, provinces,
- *   or states.
- * - The marker mode marks designated regions using bubbles that are scaled
- *   according to a value that you specify.
+ * Annotation charts are interactive time series line charts that support annotations.
+ * Unlike the annotated timeline, which uses Flash, annotation charts are SVG/VML and
+ * should be preferred whenever possible.
  *
  *
  * @package   Khill\Lavacharts\Charts
- * @since     1.0.0
+ * @since     3.1.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2016, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class GeoChart extends Chart
+class AnnotationChart extends Chart
 {
-    use PngRenderable;
-
     /**
      * Javascript chart type.
      *
      * @var string
      */
-    const TYPE = 'GeoChart';
+    const TYPE = 'AnnotationChart';
 
     /**
      * Javascript chart version.
@@ -45,5 +39,5 @@ class GeoChart extends Chart
      *
      * @var string
      */
-    const VISUALIZATION_PACKAGE = 'geochart';
+    const VISUALIZATION_PACKAGE = 'annotationchart';
 }

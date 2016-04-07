@@ -5,24 +5,22 @@ namespace Khill\Lavacharts\Charts;
 use \Khill\Lavacharts\Support\Traits\PngOutputTrait as PngRenderable;
 
 /**
- * GeoChart Class
+ * BubbleChart Class
  *
- * A Geochart is a map of a country, a continent, or a region with two modes:
- * - The region mode colorizes whole regions, such as countries, provinces,
- *   or states.
- * - The marker mode marks designated regions using bubbles that are scaled
- *   according to a value that you specify.
+ * A bubble chart is used to visualize a data set with two to four dimensions.
+ * The first two dimensions are visualized as coordinates, the third as color
+ * and the fourth as size.
  *
  *
  * @package   Khill\Lavacharts\Charts
- * @since     1.0.0
+ * @since     3.1.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2016, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class GeoChart extends Chart
+class BubbleChart extends Chart
 {
     use PngRenderable;
 
@@ -31,7 +29,7 @@ class GeoChart extends Chart
      *
      * @var string
      */
-    const TYPE = 'GeoChart';
+    const TYPE = 'BubbleChart';
 
     /**
      * Javascript chart version.
@@ -45,5 +43,5 @@ class GeoChart extends Chart
      *
      * @var string
      */
-    const VISUALIZATION_PACKAGE = 'geochart';
+    const VISUALIZATION_PACKAGE = 'corechart';
 }

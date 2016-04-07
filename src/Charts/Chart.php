@@ -2,50 +2,41 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Options;
-use \Khill\Lavacharts\JsonConfig;
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Configs\Legend;
-use \Khill\Lavacharts\Configs\Tooltip;
-use \Khill\Lavacharts\Configs\TextStyle;
-use \Khill\Lavacharts\Configs\ChartArea;
-use \Khill\Lavacharts\Configs\Animation;
-use \Khill\Lavacharts\Configs\EventManager;
-use \Khill\Lavacharts\Configs\BackgroundColor;
+use \Khill\Lavacharts\Support\Customizable;
 use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Javascript\JavascriptFactory;
-use \Khill\Lavacharts\Exceptions\DataTableNotFound;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use \Khill\Lavacharts\Values\ElementId;
+use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
+use \Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
+use \Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
+use \Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
+use \Khill\Lavacharts\Support\Contracts\VisualizationInterface as Visualization;
 
 /**
- * Chart Class, Parent to all charts.
+ * Class Chart
  *
- * Has common properties and methods used between all the different charts.
+ * Parent to all charts which has common properties and methods
+ * used between all the different charts.
  *
  *
- * @package    Khill\Lavacharts
- * @subpackage Charts
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2015, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @package   Khill\Lavacharts\Charts
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2016, KHill Designs
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://lavacharts.com                   Official Docs Site
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Chart extends JsonConfig
+class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Visualization
 {
-    /**
-     * The chart's unique label.
-     *
-     * @var \Khill\Lavacharts\Values\Label
-     */
-    protected $label;
+    use IsRenderable;
 
     /**
-     * Sets a configuration option
-     *
-     * Takes an array with option => value, or an object created by
-     * one of the configOptions child objects.
+     * Type of wrappable class
+     */
+    const WRAP_TYPE = 'chartType';
+
+    /**
+     * Datatable for the chart.
      *
      * @var \Khill\Lavacharts\DataTables\DataTable
      */
@@ -54,24 +45,27 @@ class Chart extends JsonConfig
     /**
      * Builds a new chart with the given label.
      *
-     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param  \Khill\Lavacharts\Options              $options Options fot the chart.
-     * @param  array                                  $config Array of options to set on the chart.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @param \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
+     * @param \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
+     * @param array                                  $options Options fot the chart.
+     * @param \Khill\Lavacharts\Values\ElementId     $elementId
      */
-    public function __construct(Label $chartLabel, DataTable $datatable, Options $options, $config = [])
-    {
-        $this->label     = $chartLabel;
-        $this->datatable = $datatable;
+    public function __construct(
+        Label $chartLabel,
+        DataTable $datatable,
+        array $options = [],
+        ElementId $elementId = null
+    ) {
+        parent::__construct($options);
 
-        parent::__construct($options, $config);
+        $this->datatable = $datatable;
+        $this->initRenderable($chartLabel, $elementId);
     }
 
     /**
      * Returns the chart type.
      *
-     * @since 3.0.0
+     * @since  3.0.0
      * @return string
      */
     public function getType()
@@ -80,52 +74,100 @@ class Chart extends JsonConfig
     }
 
     /**
-     * Checks if any events have been assigned to the chart.
+     * Returns the Filter wrap type.
      *
-     * @access public
-     * @return bool
+     * @since  3.1.0
+     * @return string
      */
-    public function hasEvents()
+    public function getWrapType()
     {
-        return is_array($this->options->get('events')) && count($this->options->get('events')) > 0;
+        return static::WRAP_TYPE;
+    }
+
+    /**
+     * Returns the chart version.
+     *
+     * @since  3.1.0
+     * @return string
+     */
+    public function getVersion()
+    {
+        return static::VERSION;
+    }
+
+    /**
+     * Returns the chart visualization class.
+     *
+     * @since  3.1.0
+     * @return string
+     */
+    public function getJsPackage()
+    {
+        return static::VISUALIZATION_PACKAGE;
+    }
+
+    /**
+     * Returns the chart visualization package.
+     *
+     * @since  3.1.0
+     * @return string
+     */
+    public function getJsClass()
+    {
+        return 'google.visualization.' . static::TYPE;
+    }
+
+    /**
+     * Return a JSON representation of the chart, which would be the customizations.
+     *
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this);
+    }
+
+    /**
+     * Returns the DataTable
+     *
+     * @since  3.0.0
+     * @return \Khill\Lavacharts\DataTables\DataTable
+     */
+    public function getDataTable()
+    {
+        return $this->datatable;
+    }
+
+    /**
+     * Returns a JSON string representation of the datatable.
+     *
+     * @since  2.5.0
+     * @return string
+     */
+    public function getDataTableJson()
+    {
+        return json_encode($this->datatable);
     }
 
     /**
      * Retrieves the events if any have been assigned to the chart.
      *
-     * @access public
-     * @return \Khill\Lavacharts\Configs\EventManager
+     * @since  3.1.0
+     * @return array
      */
     public function getEvents()
     {
-        return $this->options->get('events');
+        return $this['events'];
     }
 
     /**
-     * Returns the chart label.
+     * Checks if any events have been assigned to the chart.
      *
-     * @access public
-     * @since  3.0.0
-     * @return \Khill\Lavacharts\Values\Label
+     * @return bool
      */
-    public function getLabel()
+    public function hasEvents()
     {
-        return $this->label;
-    }
-
-    /**
-     * Assigns a datatable to use for the Chart.
-     *1
-     * @deprecated Apply the DataTable to the chart in the constructor.
-     * @access public
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable
-     * @return \Khill\Lavacharts\Charts\Chart
-     */
-    public function datatable(DataTable $datatable)
-    {
-        $this->datatable = $datatable;
-
-        return $this;
+        return isset($this['events']);
     }
 
     /**
@@ -141,278 +183,12 @@ class Chart extends JsonConfig
      * If the setting is an object, per the google docs, then use multi-dimensional
      * arrays and they will be converted upon rendering.
      *
-     * @access public
      * @since  3.0.0
      * @param  array $optionArray Array of customization options for the chart
      * @return \Khill\Lavacharts\Charts\Chart
      */
     public function customize($optionArray)
     {
-        return $this->options->setOptions($optionArray, false);
-    }
-
-    /**
-     * Returns the DataTable
-     *
-     * @access public
-     * @since  3.0.0
-     * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\DataTableNotFound
-     */
-    public function getDataTable()
-    {
-        if (is_null($this->datatable)) {
-            throw new DataTableNotFound($this);
-        }
-
-        return $this->datatable;
-    }
-
-    /**
-     * Returns a JSON string representation of the datatable.
-     *
-     * @access public
-     * @since  2.5.0
-     * @throws \Khill\Lavacharts\Exceptions\DataTableNotFound
-     * @return string
-     */
-    public function getDataTableJson()
-    {
-        return json_encode($this->getDataTable());
-    }
-
-    /**
-     * Outputs the chart javascript into the page.
-     *
-     * Pass in a string of the html elementID that you want the chart to be
-     * rendered into.
-     *
-     * @deprecated Use the Lavacharts master object to keep track of charts to render.
-     * @codeCoverageIgnore
-     * @access public
-     * @since  2.0.0
-     * @param  string $elemId The id of an HTML element to render the chart into.
-     * @return string Javascript code blocks
-     * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
-     *
-     */
-    public function render($elemId)
-    {
-        trigger_error("Rendering directly from charts is deprecated. Use the render method off your main Lavacharts object.", E_USER_DEPRECATED);
-        $jsf = new JavascriptFactory;
-
-        return $jsf->getChartJs($this, $elemId);
-    }
-
-    /*****************************************************************************************************************
-     ** Options
-     *****************************************************************************************************************/
-
-    /**
-     * Set the animation options for a chart.
-     *
-     * @access public
-     * @param  array $animationConfig Animation options
-     * @return \Khill\Lavacharts\Charts\Chart
-     */
-    public function animation($animationConfig)
-    {
-        return $this->setOption(__FUNCTION__, new Animation($animationConfig));
-    }
-
-    /**
-     * The background color for the main area of the chart.
-     *
-     * Can be a simple HTML color string, or hex code, for example: 'red' or '#00cc00'
-     *
-     * @access public
-     * @param  array $backgroundColorConfig Options for the chart's background color
-     * @return \Khill\Lavacharts\Charts\Chart
-     */
-    public function backgroundColor($backgroundColorConfig)
-    {
-        return $this->setOption(__FUNCTION__, new BackgroundColor($backgroundColorConfig));
-    }
-
-    /**
-     * An object with members to configure the placement and size of the chart area
-     * (where the chart itself is drawn, excluding axis and legends).
-     *
-     * Two formats are supported: a number, or a number followed by %.
-     * A simple number is a value in pixels; a number followed by % is a percentage.
-     *
-     *
-     * @access public
-     * @param  array $chartAreaConfig Options for the chart area.
-     * @return \Khill\Lavacharts\Charts\Chart
-     */
-    public function chartArea($chartAreaConfig)
-    {
-        return $this->setOption(__FUNCTION__, new ChartArea($chartAreaConfig));
-    }
-
-    /**
-     * The colors to use for the chart elements.
-     *
-     * An array of strings, where each element is an HTML color string
-     * for example:['red','#004411']
-     *
-     *
-     * @access public
-     * @param  array $colorArray
-     * @return \Khill\Lavacharts\Charts\Chart
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function colors($colorArray)
-    {
-        if (Utils::arrayValuesCheck($colorArray, 'string') === false) {
-            throw new InvalidConfigValue(
-                static::TYPE . '->' . __FUNCTION__,
-                'array',
-                'with valid HTML colors'
-            );
-        }
-
-        return $this->setOption(__FUNCTION__, $colorArray);
-    }
-
-    /**
-     * The default font size, in pixels, of all text in the chart.
-     *
-     * You can override this using properties for specific chart elements.
-     *
-     *
-     * @access public
-     * @param  integer $fontSize
-     * @return \Khill\Lavacharts\Charts\Chart
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function fontSize($fontSize)
-    {
-        return $this->setIntOption(__FUNCTION__, $fontSize);
-    }
-
-    /**
-     * The default font face for all text in the chart.
-     *
-     * You can override this using properties for specific chart elements.
-     *
-     *
-     * @access public
-     * @param  string $fontName
-     * @return \Khill\Lavacharts\Charts\Chart
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function fontName($fontName)
-    {
-        return $this->setStringOption(__FUNCTION__, $fontName);
-    }
-
-    /**
-     * Height of the chart, in pixels.
-     *
-     *
-     * @access public
-     * @param  int $height
-     * @return \Khill\Lavacharts\Charts\Chart
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function height($height)
-    {
-        return $this->setIntOption(__FUNCTION__, $height);
-    }
-
-    /**
-     * An object with members to configure various aspects of the legend.
-     *
-     * To specify properties of this object, pass in an array of valid options.
-     *
-     *
-     * @access public
-     * @param  array $legendConfig Options for the chart's legend.
-     * @return \Khill\Lavacharts\Charts\Chart
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function legend($legendConfig)
-    {
-        return $this->setOption(__FUNCTION__, new Legend($legendConfig));
-    }
-
-    /**
-     * Text to display above the chart.
-     *
-     *
-     * @access public
-     * @param  string $title
-     * @return \Khill\Lavacharts\Charts\Chart
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function title($title)
-    {
-        return $this->setStringOption(__FUNCTION__, $title);
-    }
-
-    /**
-     * Where to place the chart title, compared to the chart area.
-     *
-     * Supported values:
-     * 'in'   - Draw the title inside the chart area.
-     * 'out'  - Draw the title outside the chart area.
-     * 'none' - Omit the title.
-     *
-     *
-     * @access public
-     * @param  string $titlePosition
-     * @return \Khill\Lavacharts\Charts\Chart
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function titlePosition($titlePosition)
-    {
-        $values = [
-            'in',
-            'out',
-            'none'
-        ];
-
-        return $this->setStringInArrayOption(__FUNCTION__, $titlePosition, $values);
-    }
-
-    /**
-     * An array of options for defining the title text style.
-     *
-     * @access public
-     * @uses   TextStyle
-     * @param  TextStyle $textStyle
-     * @return \Khill\Lavacharts\Charts\Chart
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function titleTextStyle($textStyle)
-    {
-        return $this->setOption(__FUNCTION__, new TextStyle($textStyle));
-    }
-
-    /**
-     * An object with members to configure various tooltip elements.
-     *
-     *
-     * @param  array $tooltip Options for the tooltips
-     * @return \Khill\Lavacharts\Charts\Chart
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function tooltip($tooltip)
-    {
-        return $this->setOption(__FUNCTION__, new Tooltip($tooltip));
-    }
-
-    /**
-     * Width of the chart, in pixels.
-     *
-     * @param  int $width
-     * @return \Khill\Lavacharts\Charts\Chart
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function width($width)
-    {
-        return $this->setIntOption(__FUNCTION__, $width);
+        return $this->setOptions($optionArray);
     }
 }
