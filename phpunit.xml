@@ -12,7 +12,6 @@
     <testsuite name="core">
       <file>tests/LavachartsTest.php</file>
       <file>tests/VolcanoTest.php</file>
-      <file>tests/OptionsTest.php</file>
     </testsuite>
     <testsuite name="charts">
       <directory>tests/Charts/</directory>
@@ -26,9 +25,6 @@
     <testsuite name="javascript">
       <directory>tests/Javascript/</directory>
     </testsuite>
-    <testsuite name="utils">
-      <directory>tests/Utils/</directory>
-    </testsuite>
     <testsuite name="values">
       <directory>tests/Values/</directory>
     </testsuite>
@@ -40,7 +36,6 @@
       <directory>tests/</directory>
       <directory>src/Laravel/</directory>
       <directory>src/Symfony/</directory>
-      <directory>src/Configs/</directory>
     </blacklist>
   </filter>
 

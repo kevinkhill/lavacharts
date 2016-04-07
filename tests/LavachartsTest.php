@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Tests;
 
+use Khill\Lavacharts\Charts\ChartFactory;
 use Khill\Lavacharts\Lavacharts;
 
 class LavachartsTest extends ProvidersTestCase
@@ -41,14 +42,14 @@ class LavachartsTest extends ProvidersTestCase
         $this->assertTrue($this->lava->exists('LineChart', 'TestChart'));
     }
 
-    public function testExistsWithNonExistantChartTypeInVolcano()
+    public function testExistsWithNonExistentChartTypeInVolcano()
     {
         $this->lava->LineChart('TestChart', $this->partialDataTable);
 
         $this->assertFalse($this->lava->exists('SheepChart', 'TestChart'));
     }
 
-    public function testExistsWithNonExistantChartLabelInVolcano()
+    public function testExistsWithNonExistentChartLabelInVolcano()
     {
         $this->lava->LineChart('WhaaaaatChart?', $this->partialDataTable);
 
@@ -260,45 +261,9 @@ class LavachartsTest extends ProvidersTestCase
 
     public function chartTypeProvider()
     {
-        return [
-            ['AreaChart'],
-            ['BarChart'],
-            ['CalendarChart'],
-            ['ColumnChart'],
-            ['ComboChart'],
-            ['DonutChart'],
-            ['GaugeChart'],
-            ['GeoChart'],
-            ['LineChart'],
-            ['PieChart'],
-            ['ScatterChart'],
-            ['TableChart']
-        ];
-    }
-
-    public function configTypeProvider()
-    {
-        return [
-            ['Animation'],
-            ['Annotation'],
-            ['BackgroundColor'],
-            ['BoxStyle'],
-            ['ChartArea'],
-            ['Color'],
-            ['ColorAxis'],
-            ['Crosshair'],
-            ['Gradient'],
-            ['HorizontalAxis'],
-            ['Legend'],
-            ['MagnifyingGlass'],
-            ['Series'],
-            ['SizeAxis'],
-            ['Slice'],
-            ['Stroke'],
-            ['TextStyle'],
-            ['Tooltip'],
-            ['VerticalAxis']
-        ];
+        return array_map(function ($chart) {
+            return [$chart];
+        }, ChartFactory::$CHART_TYPES);
     }
 
     public function formatTypeProvider()

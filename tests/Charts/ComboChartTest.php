@@ -32,28 +32,4 @@ class ComboChartTest extends ProvidersTestCase
     {
         $this->assertEquals('MyTestChart', (string) $this->ComboChart->getLabel());
     }
-
-    public function testSeriesType()
-    {
-        $this->ComboChart->seriesType('bars');
-
-        $this->assertEquals('bars', $this->ComboChart->seriesType);
-    }
-
-    /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testSeriesTypeWithBadValue()
-    {
-        $this->ComboChart->seriesType('cake');
-    }
-
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testSeriesTypeWithBadTypes($badTypes)
-    {
-        $this->ComboChart->seriesType($badTypes);
-    }
 }

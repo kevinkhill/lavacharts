@@ -21,7 +21,7 @@ use Khill\Lavacharts\Support\Contracts\JsonableInterface;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT      MIT
  */
-class Format extends Customizable implements VisualizationInterface, JsonableInterface
+class Format extends Customizable implements JsonableInterface
 {
     /**
      * Factory method for creating new format objects.

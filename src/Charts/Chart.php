@@ -171,6 +171,19 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
     }
 
     /**
+     * Allows setting of options via methods
+     *
+     * This is to prevent BC breaks from anyone using method of option setting.
+     *
+     * @param string $method Option to set.
+     * @param mixed  $arg    Value for the option.
+     */
+    public function __call($method, $arg)
+    {
+        $this->setOption($method, $arg);
+    }
+
+    /**
      * Sets any configuration option, with no checks for type / validity
      *
      *

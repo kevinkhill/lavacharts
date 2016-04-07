@@ -39,6 +39,17 @@ class Customizable implements \ArrayAccess, \IteratorAggregate, \JsonSerializabl
     /**
      * Sets the values of the customized class with an array of key value pairs.
      *
+     * @param string $option
+     * @param mixed  $value
+     */
+    public function setOption($option, $value)
+    {
+        $this->options[$option] = $value;
+    }
+
+    /**
+     * Sets the values of the customized class with an array of key value pairs.
+     *
      * @param array $options
      */
     public function setOptions(array $options)
