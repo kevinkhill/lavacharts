@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Configs\UIs;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Configs\UIs\DateRangeUI;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Configs\UIs\DateRangeUI;
 
 class DateRangeUITest extends ProvidersTestCase
 {

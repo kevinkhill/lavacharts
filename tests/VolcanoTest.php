@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Tests;
 
-use \Khill\Lavacharts\Volcano;
+use Khill\Lavacharts\Volcano;
 
 class VolcanoTest extends ProvidersTestCase
 {

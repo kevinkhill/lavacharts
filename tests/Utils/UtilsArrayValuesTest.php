@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Tests\Utils;
 
-use \Khill\Lavacharts\Utils;
+use Khill\Lavacharts\Utils;
 
 class UtilsTest extends \PHPUnit_Framework_TestCase
 {

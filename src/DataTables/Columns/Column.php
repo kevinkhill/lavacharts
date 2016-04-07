@@ -2,9 +2,8 @@
 
 namespace Khill\Lavacharts\DataTables\Columns;
 
-
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\DataTables\Formats\Format;
+use Khill\Lavacharts\DataTables\Formats\Format;
+use Khill\Lavacharts\Support\Traits\NonEmptyStringTrait as StringCheck;
 
 /**
  * Column Object
@@ -12,17 +11,18 @@ use \Khill\Lavacharts\DataTables\Formats\Format;
  * The Column object is used to define the different columns for a DataTable.
  *
  *
- * @package    Khill\Lavacharts
- * @subpackage DataTables\Columns
- * @since      3.0.0
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2015, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @package   Khill\Lavacharts\DataTables\Columns
+ * @since     3.0.0
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2016, KHill Designs
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://lavacharts.com                   Official Docs Site
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
 class Column implements \JsonSerializable
 {
+    use StringCheck;
+
     /**
      * Column type.
      *
@@ -54,11 +54,10 @@ class Column implements \JsonSerializable
     /**
      * Creates a new Column with the defined label.
      *
-     * @access public
-     * @param  string                                      $type Type of Column
-     * @param  string                                      $label Column label (optional).
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format
-     * @param  string                                      $role Column role (optional).
+     * @param  string                                      $type   Column type.
+     * @param  string                                      $label  Column label (optional).
+     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format Column format(optional).
+     * @param  string                                      $role   Column role (optional).
      */
     public function __construct($type, $label = '', Format $format = null, $role = '')
     {
@@ -71,7 +70,6 @@ class Column implements \JsonSerializable
     /**
      * Returns the type of column.
      *
-     * @access public
      * @return string Column type.
      */
     public function getType()
@@ -82,7 +80,6 @@ class Column implements \JsonSerializable
     /**
      * Returns the column label.
      *
-     * @access public
      * @return string Column label.
      */
     public function getLabel()
@@ -93,7 +90,6 @@ class Column implements \JsonSerializable
     /**
      * Returns the column formatter.
      *
-     * @access public
      * @return \Khill\Lavacharts\DataTables\Formats\Format
      */
     public function getFormat()
@@ -104,7 +100,6 @@ class Column implements \JsonSerializable
     /**
      * Returns the status of if the column is formatted.
      *
-     * @access public
      * @return boolean
      */
     public function isFormatted()
@@ -115,7 +110,6 @@ class Column implements \JsonSerializable
     /**
      * Returns the column role.
      *
-     * @access public
      * @return string
      */
     public function getRole()
@@ -126,7 +120,6 @@ class Column implements \JsonSerializable
     /**
      * Custom json serialization of the column.
      *
-     * @access public
      * @return array
      */
     public function jsonSerialize()
@@ -135,11 +128,11 @@ class Column implements \JsonSerializable
             'type' => $this->type
         ];
 
-        if (Utils::nonEmptyString($this->label) === true) {
+        if ($this->nonEmptyString($this->label) === true) {
             $values['label'] = $this->label;
         }
 
-        if (Utils::nonEmptyString($this->role) === true) {
+        if ($this->nonEmptyString($this->role) === true) {
             $values['p'] = ['role' => $this->role];
         }
 

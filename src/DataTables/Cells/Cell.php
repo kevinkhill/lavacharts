@@ -3,21 +3,22 @@
 namespace Khill\Lavacharts\DataTables\Cells;
 
 use Khill\Lavacharts\Exceptions\InvalidFunctionParam;
+use Khill\Lavacharts\Support\Customizable;
 
 /**
  * DataCell Object
  *
  * Holds the information for a data point
  *
- * @package    Khill\Lavacharts
- * @subpackage DataTables
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2015, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @package   Khill\Lavacharts\DataTables\Cells
+ * @since     3.0.0
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2016, KHill Designs
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://lavacharts.com                   Official Docs Site
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Cell implements \JsonSerializable
+class Cell extends Customizable implements \JsonSerializable
 {
     /**
      * The cell value.
@@ -58,8 +59,10 @@ class Cell implements \JsonSerializable
      * @param array|string $p An object that is a map of custom values applied to the cell
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
      */
-    public function __construct($v = null, $f = '', $p = [])
+    public function __construct($v = null, $f = '', array $p = [])
     {
+        parent::__construct($p);
+
         if (is_string($f) === false) {
             throw new InvalidFunctionParam($f, __FUNCTION__, 'string');
         }
@@ -70,7 +73,6 @@ class Cell implements \JsonSerializable
 
         $this->v = $v;
         $this->f = $f;
-        $this->p = $p;
     }
 
     /**
@@ -91,16 +93,6 @@ class Cell implements \JsonSerializable
     public function getFormat()
     {
         return $this->f;
-    }
-
-    /**
-     * Returns the cell customization options.
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return $this->p;
     }
 
     /**

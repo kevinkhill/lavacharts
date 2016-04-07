@@ -2,22 +2,22 @@
 
 namespace Khill\Lavacharts;
 
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Values\ElementId;
-use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Dashboards\Dashboard;
-use \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
-use \Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
-use \Khill\Lavacharts\Dashboards\Filters\Filter;
-use \Khill\Lavacharts\Javascript\ScriptManager;
-use \Khill\Lavacharts\Exceptions\InvalidDataTable;
-use \Khill\Lavacharts\Exceptions\InvalidLabel;
-use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Exceptions\InvalidFilterObject;
-use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
-use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
+use Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Charts\ChartFactory;
+use Khill\Lavacharts\Dashboards\Dashboard;
+use Khill\Lavacharts\Dashboards\DashboardFactory;
+use Khill\Lavacharts\Dashboards\Filters\Filter;
+use Khill\Lavacharts\Dashboards\Filters\FilterFactory;
+use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
+use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
+use Khill\Lavacharts\DataTables\DataFactory;
+use Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\DataTables\Formats\Format;
+use Khill\Lavacharts\Exceptions\InvalidLavaObject;
+use Khill\Lavacharts\Javascript\ScriptManager;
+use Khill\Lavacharts\Support\Html\HtmlFactory;
+use Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Values\Label;
 
 /**
  * Lavacharts - A PHP wrapper library for the Google Chart API
@@ -41,7 +41,7 @@ class Lavacharts
     /**
      * Holds all of the defined Charts and DataTables.
      *
-     * @var Volcano
+     * @var \Khill\Lavacharts\Volcano
      */
     private $volcano;
 
@@ -53,54 +53,21 @@ class Lavacharts
     private $scriptManager;
 
     /**
-     * Types of charts that can be created.
+     * ChartFactory for checking parameters and creating new charts.
      *
-     * @var array
+     * @var \Khill\Lavacharts\Charts\ChartFactory
      */
-    private $chartClasses = [
-        'AreaChart',
-        'BarChart',
-        'CalendarChart',
-        'ColumnChart',
-        'ComboChart',
-        'PieChart',
-        'DonutChart',
-        'GaugeChart',
-        'GeoChart',
-        'LineChart',
-        'ScatterChart',
-        'TableChart'
-    ];
+    private $chartFactory;
 
     /**
-     * Types of column formatters.
+     * DashboardFactory for checking parameters and creating new dashboards.
      *
-     * @var array
+     * @var \Khill\Lavacharts\Dashboards\DashboardFactory
      */
-    private $formatClasses = [
-        'ArrowFormat',
-        'BarFormat',
-        'DateFormat',
-        'NumberFormat'
-    ];
+    private $dashFactory;
 
     /**
-     * Types of filters.
-     *
-     * @var array
-     */
-    private $filterClasses = [
-        'CategoryFilter',
-        'ChartRangeFilter',
-        'DateRangeFilter',
-        'NumberRangeFilter',
-        'StringFilter'
-    ];
-
-    /**
-     * Creates Volcano & Javascript Factory
-     *
-     * @return Lavacharts
+     * Lavacharts constructor.
      */
     public function __construct()
     {
@@ -114,6 +81,8 @@ class Lavacharts
 
         $this->volcano       = new Volcano;
         $this->scriptManager = new ScriptManager;
+        $this->chartFactory  = new ChartFactory;
+        $this->dashFactory   = new DashboardFactory;
     }
 
     /**
@@ -122,39 +91,50 @@ class Lavacharts
      * @access public
      * @since  1.0.0
      * @param  string $method    Name of method
-     * @param  array  $arguments Passed arguments
+     * @param  array  $args Passed arguments
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidLavaObject
-     * @throws \Khill\Lavacharts\Exceptions\InvalidFilterObject
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
-     * @return mixed Returns Charts, DataTables, and Config Objects, Events, Filters
+     * @return mixed Returns Charts, Formats and Filters
      */
-    public function __call($method, $arguments)
+    public function __call($method, $args)
     {
         //Rendering Aliases
-        if ((bool) preg_match('/^render/', $method) === true) {
-            $type = str_replace('render', '', $method);
+        if ((bool)preg_match('/^render/', $method) === true) {
+            $type = ltrim($method, 'render');
 
-            if ($type !== 'Dashboard' && in_array($type, $this->chartClasses, true) === false) {
+            if ($type !== 'Dashboard' && in_array($type, ChartFactory::$CHART_TYPES, true) === false) {
                 throw new InvalidLavaObject($type);
             }
 
-            $lavaClass = $this->render($type, $arguments[0], $arguments[1]);
+            $lavaClass = $this->render($type, $args[0], $args[1]);
         }
 
         //Charts
-        if (in_array($method, $this->chartClasses)) {
-            $lavaClass = $this->chartFactory($method, $arguments);
-        }
-
-        //Formats
-        if (in_array($method, $this->formatClasses)) {
-            $lavaClass = $this->formatFactory($method, $arguments);
+        if (in_array($method, $this->chartFactory->getChartTypes())) {
+            if ($this->exists($method, $args[0])) {
+                $lavaClass = $this->volcano->get($method, $args[0]);
+            } else {
+                $chart = $this->chartFactory->create($method, $args);
+                $lavaClass = $this->volcano->store($chart);
+            }
         }
 
         //Filters
-        if ((bool) preg_match('/Filter$/', $method)) {
-            $lavaClass = $this->filterFactory($method, $arguments);
+        if ((bool)preg_match('/Filter$/', $method)) {
+            $type = strtolower(str_replace('Filter', '', $method));
+            $config = isset($args[1]) ? $args[1] : [];
+
+            $lavaClass = FilterFactory::create($type, $args[0], $config);
+        }
+
+        //Formats
+        if ((bool)preg_match('/Format$/', $method)) {
+            $lavaClass = Format::Factory($method, $args[0]);
+        }
+
+        if (isset($lavaClass) == false) {
+            throw new InvalidLavaObject($method);
         }
 
         return $lavaClass;
@@ -186,6 +166,17 @@ class Lavacharts
     }
 
     /**
+     * Get an instance of the DataFactory
+     *
+     * @since  3.0.0
+     * @return \Khill\Lavacharts\DataTables\DataFactory
+     */
+    public function DataFactory()
+    {
+        return new DataFactory;
+    }
+
+    /**
      * Create a new Dashboard
      *
      * @since  3.0.0
@@ -207,7 +198,7 @@ class Lavacharts
      * @uses   \Khill\Lavacharts\Values\ElementId
      * @param  \Khill\Lavacharts\Dashboards\Filters\Filter $filter Filter to wrap
      * @param  string $elementId HTML element ID to output the control.
-     * @return \Khill\Lavacharts\Dashboards\ControlWrapper
+     * @return \Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper
      */
     public function ControlWrapper(Filter $filter, $elementId)
     {
@@ -223,7 +214,7 @@ class Lavacharts
      * @uses   \Khill\Lavacharts\Values\ElementId
      * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to wrap
      * @param  string $elementId HTML element ID to output the control.
-     * @return \Khill\Lavacharts\Dashboards\ChartWrapper
+     * @return \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper
      */
     public function ChartWrapper(Chart $chart, $elementId)
     {
@@ -281,22 +272,22 @@ class Lavacharts
      */
     private function renderChart($type, Label $label, ElementId $elementId, $divDimensions = false)
     {
-        $jsOutput = '';
+        $buffer = '';
 
         if ($this->scriptManager->lavaJsRendered() === false) {
-            $jsOutput = $this->scriptManager->getLavaJsModule();
+            $buffer = $this->scriptManager->getLavaJsModule();
         }
 
         if ($divDimensions !== false) {
-            $jsOutput .= $this->div($elementId, $divDimensions);
+            $buffer .= HtmlFactory::createDiv($elementId, $divDimensions);
         }
 
-        $jsOutput .= $this->scriptManager->getJavascript(
-            $this->volcano->getChart($type, $label),
+        $buffer .= $this->scriptManager->getJavascript(
+            $this->volcano->get($type, $label),
             $elementId
         );
 
-        return $jsOutput;
+        return $buffer;
     }
 
     /**
@@ -313,18 +304,18 @@ class Lavacharts
      */
     private function renderDashboard(Label $label, ElementId $elementId)
     {
-        $jsOutput = '';
+        $buffer = '';
 
         if ($this->scriptManager->lavaJsRendered() === false) {
-            $jsOutput = $this->scriptManager->getLavaJsModule();
+            $buffer = $this->scriptManager->getLavaJsModule();
         }
 
-        $jsOutput .= $this->scriptManager->getJavascript(
-            $this->volcano->getDashboard($label),
+        $buffer .= $this->scriptManager->getJavascript(
+            $this->volcano->get('Dashboard', $label),
             $elementId
         );
 
-        return $jsOutput;
+        return $buffer;
     }
 
     /**
@@ -372,13 +363,7 @@ class Lavacharts
      */
     public function fetch($type, $label)
     {
-        $label = new Label($label);
-
-        if ($type == 'Dashboard') {
-            return $this->volcano->getDashboard($label);
-        } else {
-            return $this->volcano->getChart($type, $label);
-        }
+        return $this->volcano->get($type, $label);
     }
 
     /**
@@ -386,253 +371,12 @@ class Lavacharts
      *
      * @access public
      * @since  3.0.0
-     * @param  Chart|Dashboard $lavaObj Chart or Dashboard.
-     * @return boolean
+     * @param  Renderable $renderable A Chart or Dashboard.
+     * @return \Khill\Lavacharts\Charts\Chart|\Khill\Lavacharts\Dashboards\Dashboard
      */
-    public function store($lavaObj)
+    public function store(Renderable $renderable)
     {
-        if ($lavaObj instanceof Dashboard) {
-            return $this->volcano->storeDashboard($lavaObj);
-        }
-
-        if ($lavaObj instanceof Chart) {
-            return $this->volcano->storeChart($lavaObj);
-        }
-
-        return false;
-    }
-
-    /**
-     * Builds a div html element for the chart to be rendered into.
-     *
-     * Calling with no arguments will return a div with the ID set to what was
-     * given to the outputInto() function.
-     *
-     * Passing two (int)s will set the width and height respectivly and the div
-     * ID will be set via the string given in the outputInto() function.
-     *
-     *
-     * This is useful for the AnnotatedTimeLine Chart since it MUST have explicitly
-     * defined dimensions of the div it is rendered into.
-     *
-     * The other charts do not require height and width, but do require an ID of
-     * the div that will be receiving the chart.
-     *
-     * @access private
-     * @since  1.0.0
-     * @param  string               $elementId  Element id to apply to the div.
-     * @param  array                $dimensions Height & width of the div.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return string               HTML div element.
-     */
-    private function div($elementId, $dimensions = true)
-    {
-        if ($dimensions === true) {
-            return sprintf('<div id="%s"></div>', $elementId);
-        } else {
-            if (is_array($dimensions) && ! empty($dimensions)) {
-
-                $widthStr = '';
-                $heightStr = '';
-
-                if (array_key_exists('height', $dimensions)) {
-                    $heightType = $this->dimensionTypeCheck($dimensions['height']);
-                    $heightStr = ($heightType === 'integer') ? sprintf("height:%spx;", $dimensions['height']) : sprintf("height:%s;", $dimensions['height']);
-                }
-
-                if (array_key_exists('width', $dimensions)) {
-                    $widthType = $this->dimensionTypeCheck($dimensions['width']);
-                    $widthStr = ($widthType === 'integer') ? sprintf("width:%spx;", $dimensions['width']) : sprintf("width:%s;", $dimensions['width']);
-                }
-
-                return sprintf(
-                            '<div id="%s" style="%s%s"></div>',
-                            $elementId,
-                            $heightStr,
-                            $widthStr
-                        );
-
-            } else {
-                throw new InvalidDivDimensions();
-            }
-        }
-    }
-
-    /**
-     * Returns whether a given dimension value is an integer,
-     * percentage, or invalid.
-     *
-     * @access private
-     * @since  3.0.0
-     * @param  int|string $dimension An integer or a string representing a percent.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @return string
-     */
-    private function dimensionTypeCheck($dimension)
-    {
-        if (is_int($dimension) && $dimension > 0) {
-            return 'integer';
-        } else if (substr($dimension, -1) === '%' && (int) substr($dimension, 0, -1) > 0) {
-            return 'percentage';
-        } else {
-            throw new InvalidConfigValue(
-                __METHOD__,
-                'int|%',
-                'greater than 0'
-            );
-        }
-    }
-
-    /**
-     * Creates and stores Charts
-     *
-     * If args contains a label and datatable, a chart will be created,
-     * stored in the Volcano and returned.
-     *
-     * If args only contains a label, and the chart already exists in the
-     * Volcano, then it will  be returned.
-     *
-     * @access private
-     * @since  2.0.0
-     * @param  string $type Type of chart to fetch or create.
-     * @param  string $args Arguments from __call
-     * @return \Khill\Lavacharts\Charts\Chart
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
-     * @throws \Khill\Lavacharts\Exceptions\InvalidDataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
-     */
-    private function chartFactory($type, $args)
-    {
-        $chart     = null;
-        $datatable = null;
-
-        if (isset($args[0]) === false) {
-            throw new InvalidLabel;
-        } else {
-            $chartLabel = new Label($args[0]);
-        }
-
-        if ($this->volcano->checkChart($type, $chartLabel) === true) {
-            return $this->volcano->getChart($type, $chartLabel);
-        }
-
-        if (isset($args[1]) === false) {
-            throw new InvalidDataTable;
-        }
-
-        if ($args[1] instanceof DataTable === false) {
-            throw new InvalidDataTable($args[1]);
-        }
-
-        if (isset($args[2]) === true && is_array($args[2]) === false) {
-            throw new InvalidFunctionParam(
-                $args[2],
-                __FUNCTION__,
-                'array'
-            );
-        }
-
-        $chartObject = __NAMESPACE__ . '\\Charts\\' . $type;
-
-        if (isset($args[2]) === true && is_array($args[2]) === true) {
-            $chart = new $chartObject($chartLabel, $args[1], $args[2]);
-        } else {
-            $chart = new $chartObject($chartLabel, $args[1]);
-        }
-
-        $this->volcano->storeChart($chart);
-
-        return $chart;
-    }
-
-    /**
-     * Creates and stores Dashboards
-     * If the Dashboard is found in the Volcano, then it is returned.
-     * Otherwise, a new dashboard is created and stored in the Volcano.
-     *
-     * @access private
-     * @since  3.0.0
-     * @uses   \Khill\Lavacharts\Dashboards\Dashboard
-     * @param  \Khill\Lavacharts\Values\Label $label Label of the dashboard.
-     * @param  array                          $bindings
-     * @return \Khill\Lavacharts\Dashboards\Dashboard
-     * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
-     */
-    private function dashboardFactory(Label $label, array $bindings = [])
-    {
-        if ($this->volcano->checkDashboard($label) === false) {
-            $dashboard = new Dashboard($label, $bindings);
-
-            $this->volcano->storeDashboard($dashboard);
-        }
-
-        return $this->volcano->getDashboard($label);
-    }
-
-    /**
-     * Creates Format Objects
-     *
-     * @access private
-     * @since  2.0.0
-     * @param  string $type Type of format to create.
-     * @param  string $args Arguments from __call
-     * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
-     * @return \Khill\Lavacharts\DataTables\Formats\Format
-     */
-    private function formatFactory($type, $args)
-    {
-        $format = __NAMESPACE__ . '\\DataTables\\Formats\\' . $type;
-
-        if (isset($args[0]) === false) {
-            return new $format;
-        }
-
-        if (is_array($args[0]) === false || empty($args[0]) === true) {
-            throw new InvalidFunctionParam(
-                $args[0],
-                __FUNCTION__,
-                'array'
-            );
-        }
-
-        return new $format($args[0]);
-    }
-
-    /**
-     * Creates Filter Objects
-     *
-     * @access private
-     * @since  3.0.0
-     * @param  string $type Type of filter to create.
-     * @param  string $args Arguments from __call
-     * @return \Khill\Lavacharts\Dashboards\Filters\Filter
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws \Khill\Lavacharts\Exceptions\InvalidFilterObject
-     */
-    private function filterFactory($type, $args)
-    {
-        if (isset($args) === false || (is_string($args[0]) === false && is_int($args[0]) === false)) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string|int'
-            );
-        }
-
-        if (in_array($type, $this->filterClasses) === false) {
-            throw new InvalidFilterObject(
-                $type,
-                $this->filterClasses
-            );
-        }
-
-        $filter = __NAMESPACE__ . '\\Dashboards\\Filters\\' . $type;
-
-        if (isset($args[1]) === true && is_array($args[1]) === true) {
-            return new $filter($args[0], $args[1]);
-        } else {
-            return new $filter($args[0]);
-        }
+        return $this->volcano->store($renderable);
     }
 
     /**

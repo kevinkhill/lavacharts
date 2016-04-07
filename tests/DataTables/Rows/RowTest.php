@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\DataTables\Rows;
 
-use \Khill\Lavacharts\DataTables\Rows\Row;
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\DataTables\Rows\Row;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class RowTest extends ProvidersTestCase
 {

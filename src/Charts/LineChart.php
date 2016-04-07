@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Support\Traits\PngOutputTrait as PngRenderable;
+use Khill\Lavacharts\Support\Traits\PngOutputTrait as PngRenderable;
 
 /**
  * LineChart Class

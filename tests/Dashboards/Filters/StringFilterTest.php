@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Dashboards\Filters;
 
-use \Khill\Lavacharts\Dashboards\Filters\StringFilter;
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Dashboards\Filters\StringFilter;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class StringFilterTest extends ProvidersTestCase
 {

@@ -3,8 +3,8 @@
 namespace Khill\Lavacharts\DataTables\Rows;
 
 use Carbon\Carbon;
-use \Khill\Lavacharts\DataTables\Cells\DateCell;
-use \Khill\Lavacharts\Exceptions\InvalidColumnIndex;
+use Khill\Lavacharts\DataTables\Cells\DateCell;
+use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 
 /**
  * Row Object
@@ -12,14 +12,13 @@ use \Khill\Lavacharts\Exceptions\InvalidColumnIndex;
  * The row object contains all the data for a row, stored in an array, indexed by columns.
  *
  *
- * @package    Khill\Lavacharts
- * @subpackage DataTables\Rows
- * @since      3.0.0
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2015, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @package   Khill\Lavacharts\DataTables\Rows
+ * @since     3.0.0
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2016, KHill Designs
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://lavacharts.com                   Official Docs Site
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
 class Row implements \JsonSerializable
 {

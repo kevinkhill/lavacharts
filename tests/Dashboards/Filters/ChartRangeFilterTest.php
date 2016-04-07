@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Dashboards\Filters;
 
-use \Khill\Lavacharts\Dashboards\Filters\ChartRangeFilter;
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Dashboards\Filters\ChartRangeFilter;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class ChartRangeFilterTest extends ProvidersTestCase
 {

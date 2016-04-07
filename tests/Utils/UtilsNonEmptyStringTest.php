@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Utils;
 
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Utils;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class UtilsNonEmptyStringTest extends ProvidersTestCase
 {

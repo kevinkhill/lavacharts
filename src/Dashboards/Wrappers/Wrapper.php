@@ -2,11 +2,11 @@
 
 namespace Khill\Lavacharts\Dashboards\Wrappers;
 
-use \Khill\Lavacharts\Values\ElementId;
-use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
-use \Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
-use \Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
-use \Khill\Lavacharts\Support\Contracts\JsClassInterface as JsClass;
+use Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
+use Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
+use Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
+use Khill\Lavacharts\Support\Contracts\JsClassInterface as JsClass;
 
 /**
  * Class Wrapper

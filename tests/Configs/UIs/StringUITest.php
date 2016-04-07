@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Configs\UIs;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Configs\UIs\StringUI;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Configs\UIs\StringUI;
 
 class StringUITest extends ProvidersTestCase
 {

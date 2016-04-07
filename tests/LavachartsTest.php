@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Tests;
 
-use \Khill\Lavacharts\Lavacharts;
+use Khill\Lavacharts\Lavacharts;
 
 class LavachartsTest extends ProvidersTestCase
 {

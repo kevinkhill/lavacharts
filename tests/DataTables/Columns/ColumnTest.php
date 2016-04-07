@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\DataTables\Columns;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\DataTables\Columns\Column;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\DataTables\Columns\Column;
 
 class ColumnTest extends ProvidersTestCase
 {

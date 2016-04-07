@@ -2,10 +2,10 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
-use \Khill\Lavacharts\Exceptions\InvalidFilterParam;
-use \Khill\Lavacharts\Support\Customizable;
-use \Khill\Lavacharts\Support\Traits\NonEmptyStringTrait as StringCheck;
-use \Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
+use Khill\Lavacharts\Exceptions\InvalidFilterParam;
+use Khill\Lavacharts\Support\Customizable;
+use Khill\Lavacharts\Support\Traits\NonEmptyStringTrait as StringCheck;
+use Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
 
 /**
  * Filter Parent Class

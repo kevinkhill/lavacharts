@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboards\Bindings;
 
-use \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
+use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 
 /**
  * ManyToOne Binding Class

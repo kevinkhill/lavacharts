@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Dashboards;
 
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
+use Khill\Lavacharts\Values\Label;
+use Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
 
 class Dashboard
 {

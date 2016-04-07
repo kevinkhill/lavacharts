@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Configs;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Configs\Color;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Configs\Color;
 
 class ColorTest extends ProvidersTestCase
 {

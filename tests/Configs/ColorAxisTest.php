@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Configs;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Configs\ColorAxis;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Configs\ColorAxis;
 
 class ColorAxisTest extends ProvidersTestCase
 {

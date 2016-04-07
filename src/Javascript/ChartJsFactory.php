@@ -2,9 +2,9 @@
 
 namespace Khill\Lavacharts\Javascript;
 
-use \Khill\Lavacharts\Lavacharts;
-use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Lavacharts;
+use Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Values\ElementId;
 
 /**
  * ChartFactory Class

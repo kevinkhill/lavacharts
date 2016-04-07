@@ -2,9 +2,9 @@
 
 namespace Khill\Lavacharts\Tests\DataTables;
 
-use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Carbon\Carbon;
+use Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Carbon\Carbon;
 
 class DataTableTest extends ProvidersTestCase
 {

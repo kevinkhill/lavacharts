@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Configs;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Configs\Animation;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Configs\Animation;
 
 class AnimationTest extends ProvidersTestCase
 {

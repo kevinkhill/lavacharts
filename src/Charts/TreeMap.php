@@ -2,9 +2,9 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Options;
-use \Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Values\Label;
+use Khill\Lavacharts\Options;
+use Khill\Lavacharts\DataTables\DataTable;
 
 /**
  * TreeMap Chart Class

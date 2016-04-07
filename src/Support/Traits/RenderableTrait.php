@@ -2,9 +2,9 @@
 
 namespace Khill\Lavacharts\Support\Traits;
 
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Values\ElementId;
-use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
+use Khill\Lavacharts\Values\Label;
+use Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
 
 /**
  * Trait RenderableTrait

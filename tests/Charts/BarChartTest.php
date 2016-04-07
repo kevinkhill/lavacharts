@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Charts\BarChart;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Charts\BarChart;
 
 class BarChartTest extends ProvidersTestCase
 {

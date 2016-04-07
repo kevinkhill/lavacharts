@@ -2,10 +2,10 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
-use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Options;
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Options;
+use Khill\Lavacharts\Values\Label;
+use Khill\Lavacharts\DataTables\DataTable;
 
 /**
  * MockChart Class
@@ -24,31 +24,31 @@ use \Khill\Lavacharts\DataTables\DataTable;
  */
 class MockChart extends Chart
 {
-    use \Khill\Lavacharts\Traits\AnnotationsTrait;
-    use \Khill\Lavacharts\Traits\AreaOpacityTrait;
-    use \Khill\Lavacharts\Traits\AxisTitlesPositionTrait;
-    use \Khill\Lavacharts\Traits\BarGroupWidthTrait;
-    use \Khill\Lavacharts\Traits\ColorAxisTrait;
-    use \Khill\Lavacharts\Traits\CrosshairTrait;
-    use \Khill\Lavacharts\Traits\CurveTypeTrait;
-    use \Khill\Lavacharts\Traits\DataOpacityTrait;
-    use \Khill\Lavacharts\Traits\EnableInteractivityTrait;
-    use \Khill\Lavacharts\Traits\FocusTargetTrait;
-    use \Khill\Lavacharts\Traits\ForceIFrameTrait;
-    use \Khill\Lavacharts\Traits\HorizontalAxesTrait;
-    use \Khill\Lavacharts\Traits\HorizontalAxisTrait;
-    use \Khill\Lavacharts\Traits\InterpolateNullsTrait;
-    use \Khill\Lavacharts\Traits\IsStackedTrait;
-    use \Khill\Lavacharts\Traits\LineWidthTrait;
-    use \Khill\Lavacharts\Traits\OrientationTrait;
-    use \Khill\Lavacharts\Traits\PointShapeTrait;
-    use \Khill\Lavacharts\Traits\PointSizeTrait;
-    use \Khill\Lavacharts\Traits\ReverseCategoriesTrait;
-    use \Khill\Lavacharts\Traits\SelectionModeTrait;
-    use \Khill\Lavacharts\Traits\SeriesTrait;
-    use \Khill\Lavacharts\Traits\ThemeTrait;
-    use \Khill\Lavacharts\Traits\VerticalAxesTrait;
-    use \Khill\Lavacharts\Traits\VerticalAxisTrait;
+    use Khill\Lavacharts\Traits\AnnotationsTrait;
+    use Khill\Lavacharts\Traits\AreaOpacityTrait;
+    use Khill\Lavacharts\Traits\AxisTitlesPositionTrait;
+    use Khill\Lavacharts\Traits\BarGroupWidthTrait;
+    use Khill\Lavacharts\Traits\ColorAxisTrait;
+    use Khill\Lavacharts\Traits\CrosshairTrait;
+    use Khill\Lavacharts\Traits\CurveTypeTrait;
+    use Khill\Lavacharts\Traits\DataOpacityTrait;
+    use Khill\Lavacharts\Traits\EnableInteractivityTrait;
+    use Khill\Lavacharts\Traits\FocusTargetTrait;
+    use Khill\Lavacharts\Traits\ForceIFrameTrait;
+    use Khill\Lavacharts\Traits\HorizontalAxesTrait;
+    use Khill\Lavacharts\Traits\HorizontalAxisTrait;
+    use Khill\Lavacharts\Traits\InterpolateNullsTrait;
+    use Khill\Lavacharts\Traits\IsStackedTrait;
+    use Khill\Lavacharts\Traits\LineWidthTrait;
+    use Khill\Lavacharts\Traits\OrientationTrait;
+    use Khill\Lavacharts\Traits\PointShapeTrait;
+    use Khill\Lavacharts\Traits\PointSizeTrait;
+    use Khill\Lavacharts\Traits\ReverseCategoriesTrait;
+    use Khill\Lavacharts\Traits\SelectionModeTrait;
+    use Khill\Lavacharts\Traits\SeriesTrait;
+    use Khill\Lavacharts\Traits\ThemeTrait;
+    use Khill\Lavacharts\Traits\VerticalAxesTrait;
+    use Khill\Lavacharts\Traits\VerticalAxisTrait;
 
     const TYPE = 'MockChart';
 

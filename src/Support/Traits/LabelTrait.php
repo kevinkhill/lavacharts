@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Support\Traits;
 
-use \Khill\Lavacharts\Values\Label;
+use Khill\Lavacharts\Values\Label;
 
 /**
  * Trait LabelTrait

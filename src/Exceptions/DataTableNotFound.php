@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-use \Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Charts\Chart;
 
 class DataTableNotFound extends LavaException
 {

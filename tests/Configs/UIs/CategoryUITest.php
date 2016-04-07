@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Configs\UIs;
 
-use \Khill\Lavacharts\Configs\UIs\CategoryUI;
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Configs\UIs\CategoryUI;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class CategoryUITest extends ProvidersTestCase
 {

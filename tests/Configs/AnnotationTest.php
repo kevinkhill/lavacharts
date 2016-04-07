@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Configs;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Configs\Annotation;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Configs\Annotation;
 
 class AnnotationTest extends ProvidersTestCase
 {

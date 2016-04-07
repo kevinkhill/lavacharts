@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Exceptions\InvalidFilter;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidFilter;
 
 /**
  * Lavacharts - A PHP wrapper library for the Google Chart API

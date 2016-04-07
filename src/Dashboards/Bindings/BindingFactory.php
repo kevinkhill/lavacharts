@@ -2,9 +2,9 @@
 
 namespace Khill\Lavacharts\Dashboards\Bindings;
 
-use \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
-use \Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
-use \Khill\Lavacharts\Exceptions\InvalidBindings;
+use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
+use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
+use Khill\Lavacharts\Exceptions\InvalidBindings;
 
 /**
  * BindingFactory Class
@@ -21,7 +21,7 @@ use \Khill\Lavacharts\Exceptions\InvalidBindings;
  */
 class BindingFactory
 {
-    use \Khill\Lavacharts\Support\Traits\ArrayValuesTestTrait;
+    use Khill\Lavacharts\Support\Traits\ArrayValuesTestTrait;
 
     /**
      * Create a new Binding for the dashboard.

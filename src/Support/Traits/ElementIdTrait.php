@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Support\Traits;
 
-use \Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Values\ElementId;
 
 /**
  * Trait ElementIdTrait

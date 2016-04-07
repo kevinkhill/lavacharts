@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Configs;
 
-use \Khill\Lavacharts\Configs\Tooltip;
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Configs\Tooltip;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class TooltipTest extends ProvidersTestCase
 {

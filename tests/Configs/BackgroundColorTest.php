@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Tests\Configs;
 
-use \Khill\Lavacharts\Configs\BackgroundColor;
+use Khill\Lavacharts\Configs\BackgroundColor;
 
 class BackgroundColorTest extends \PHPUnit_Framework_TestCase
 {

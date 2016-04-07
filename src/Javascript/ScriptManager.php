@@ -2,10 +2,10 @@
 
 namespace Khill\Lavacharts\Javascript;
 
-use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Dashboards\Dashboard;
-//use \Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
-use \Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Dashboards\Dashboard;
+//use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
+use Khill\Lavacharts\Values\ElementId;
 
 /**
  * ScriptManager Class

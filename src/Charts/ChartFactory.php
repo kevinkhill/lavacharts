@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Builders\ChartBuilder;
-use \Khill\Lavacharts\Exceptions\InvalidDataTable;
+use Khill\Lavacharts\Builders\ChartBuilder;
+use Khill\Lavacharts\Exceptions\InvalidDataTable;
 
 /**
  * ChartFactory Class

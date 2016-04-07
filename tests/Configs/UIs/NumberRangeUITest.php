@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Configs\UIs;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Configs\UIs\NumberRangeUI;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Configs\UIs\NumberRangeUI;
 
 class NumberRangeUITest extends ProvidersTestCase
 {

@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Charts\PieChart;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Charts\PieChart;
 
 class PieChartTest extends ProvidersTestCase
 {

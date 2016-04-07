@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\DataTables\Rows;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\DataTables\Rows\NullRow;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\DataTables\Rows\NullRow;
 
 class NullRowTest extends ProvidersTestCase
 {

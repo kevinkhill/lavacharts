@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Dashboards;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Dashboards\ControlWrapper;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Dashboards\ControlWrapper;
 
 class ControlWrapperTest extends ProvidersTestCase
 {

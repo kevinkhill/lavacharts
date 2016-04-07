@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Tests\Configs;
 
-use \Khill\Lavacharts\Configs\Gradient;
+use Khill\Lavacharts\Configs\Gradient;
 
 class GradientTest extends \PHPUnit_Framework_TestCase
 {

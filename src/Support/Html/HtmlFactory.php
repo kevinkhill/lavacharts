@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Support\Html;
 
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidDivDimensions;
 
 /**
  * Temporary class until removal in 3.2
@@ -34,35 +34,36 @@ class HtmlFactory
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return string HTML div element.
      */
-    public function createDiv($elementId, $dimensions = true)
+    public static function createDiv($elementId, $dimensions = true)
     {
         if ($dimensions === true) {
             return sprintf('<div id="%s"></div>', $elementId);
         } else {
-            if (is_array($dimensions) && ! empty($dimensions)) {
-
-                $widthStr = '';
-                $heightStr = '';
-
-                if (array_key_exists('height', $dimensions)) {
-                    $heightType = $this->dimensionTypeCheck($dimensions['height']);
-                    $heightStr = ($heightType === 'integer') ? sprintf("height:%spx;", $dimensions['height']) : sprintf("height:%s;", $dimensions['height']);
-                }
-
-                if (array_key_exists('width', $dimensions)) {
-                    $widthType = $this->dimensionTypeCheck($dimensions['width']);
-                    $widthStr = ($widthType === 'integer') ? sprintf("width:%spx;", $dimensions['width']) : sprintf("width:%s;", $dimensions['width']);
-                }
-
-                return sprintf(
-                    '<div id="%s" style="%s%s"></div>',
-                    $elementId,
-                    $heightStr,
-                    $widthStr
-                );
-            } else {
+            if (is_array($dimensions) === false || empty($dimensions)) {
                 throw new InvalidDivDimensions();
             }
+
+            $widthStr = '';
+            $heightStr = '';
+
+            if (array_key_exists('height', $dimensions)) {
+                $heightType = self::dimensionTypeCheck($dimensions['height']);
+                $heightUnit = ($heightType === 'integer') ? 'px' : '';
+                $heightStr  = sprintf("height:%s%s;", $dimensions['height'], $heightUnit);
+            }
+
+            if (array_key_exists('width', $dimensions)) {
+                $widthType = self::dimensionTypeCheck($dimensions['width']);
+                $widthUnit = ($widthType === 'integer') ? 'px' : '';
+                $heightStr = sprintf("width:%s%s;", $dimensions['width'], $widthUnit);
+            }
+
+            return sprintf(
+                '<div id="%s" style="%s%s"></div>',
+                $elementId,
+                $heightStr,
+                $widthStr
+            );
         }
     }
 
@@ -76,7 +77,7 @@ class HtmlFactory
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @return string
      */
-    private function dimensionTypeCheck($dimension)
+    private static function dimensionTypeCheck($dimension)
     {
         if (is_int($dimension) && $dimension > 0) {
             return 'integer';

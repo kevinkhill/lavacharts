@@ -2,11 +2,11 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Options;
-use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Utils;
+use Khill\Lavacharts\Values\Label;
+use Khill\Lavacharts\Options;
+use Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 
 /**
  * DonutChart Class

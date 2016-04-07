@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class ChartTraitsTest extends ProvidersTestCase
 {

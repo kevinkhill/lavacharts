@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Tests\Configs\UIs;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class BaseUITest extends ProvidersTestCase
 {

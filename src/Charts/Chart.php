@@ -2,15 +2,15 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Support\Customizable;
-use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Values\ElementId;
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
-use \Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
-use \Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
-use \Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
-use \Khill\Lavacharts\Support\Contracts\VisualizationInterface as Visualization;
+use Khill\Lavacharts\Support\Customizable;
+use Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Values\Label;
+use Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
+use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
+use Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
+use Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
+use Khill\Lavacharts\Support\Contracts\VisualizationInterface as Visualization;
 
 /**
  * Class Chart

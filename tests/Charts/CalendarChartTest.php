@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Charts\CalendarChart;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Charts\CalendarChart;
 
 class CalendarChartTest extends ProvidersTestCase
 {

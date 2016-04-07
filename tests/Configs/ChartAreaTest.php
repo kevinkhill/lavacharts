@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Tests\Configs;
 
-use \Khill\Lavacharts\Configs\ChartArea;
+use Khill\Lavacharts\Configs\ChartArea;
 
 class ChartAreaTest extends \PHPUnit_Framework_TestCase
 {

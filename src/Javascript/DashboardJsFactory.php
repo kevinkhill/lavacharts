@@ -2,9 +2,9 @@
 
 namespace Khill\Lavacharts\Javascript;
 
-use \Khill\Lavacharts\Lavacharts;
-use \Khill\Lavacharts\Dashboards\Dashboard;
-use \Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Lavacharts;
+use Khill\Lavacharts\Dashboards\Dashboard;
+use Khill\Lavacharts\Values\ElementId;
 
 /**
  * DashboardFactory Class

@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Dashboards\Bindings;
 
-use \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
-use \Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
+use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
+use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 
 /**
  * Binding Class
