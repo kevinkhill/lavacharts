@@ -2,9 +2,8 @@
 
 namespace Khill\Lavacharts\Dashboards\Bindings;
 
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Dashboards\ChartWrapper;
-use \Khill\Lavacharts\Dashboards\ControlWrapper;
+use \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
+use \Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use \Khill\Lavacharts\Exceptions\InvalidBindings;
 
 /**
@@ -12,40 +11,58 @@ use \Khill\Lavacharts\Exceptions\InvalidBindings;
  *
  * Creates new bindings for dashboards.
  *
- * @package    Khill\Lavacharts
- * @subpackage Dashboards\Bindings
- * @since      3.0.0
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2015, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @package   Khill\Lavacharts\Dashboards\Bindings
+ * @since     3.0.0
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2016, KHill Designs
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://lavacharts.com                   Official Docs Site
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
 class BindingFactory
 {
+    use \Khill\Lavacharts\Support\Traits\ArrayValuesTestTrait;
+
     /**
      * Create a new Binding for the dashboard.
      *
-     * @param  mixed $arg1 One or array of many ControlWrappers
-     * @param  mixed $arg2 One or array of many ChartWrappers
+     * @param  mixed $controlWraps One or array of many ControlWrappers
+     * @param  mixed $chartWraps   One or array of many ChartWrappers
      * @throws \Khill\Lavacharts\Exceptions\InvalidBindings
      * @return \Khill\Lavacharts\Dashboards\Bindings\Binding
      */
-    public static function create($arg1, $arg2)
+    public function create($controlWraps, $chartWraps)
     {
-        $chartWrapperArrayCheck   = Utils::arrayValuesCheck($arg2, 'class', 'ChartWrapper');
-        $controlWrapperArrayCheck = Utils::arrayValuesCheck($arg1, 'class', 'ControlWrapper');
+        $chartWrapCheck   = $this->arrayValuesTest($chartWraps, 'class', 'ChartWrapper');
+        $controlWrapCheck = $this->arrayValuesTest($controlWraps, 'class', 'ControlWrapper');
 
-        if ($arg1 instanceof ControlWrapper && $arg2 instanceof ChartWrapper) {
-            return new OneToOne($arg1, $arg2);
-        } elseif ($arg1 instanceof ControlWrapper && $chartWrapperArrayCheck) {
-            return new OneToMany($arg1, $arg2);
-        } elseif ($controlWrapperArrayCheck && $arg2 instanceof ChartWrapper) {
-            return new ManyToOne($arg1, $arg2);
-        } elseif ($controlWrapperArrayCheck && $chartWrapperArrayCheck) {
-            return new ManyToMany($arg1, $arg2);
-        } else {
-            throw new InvalidBindings;
+        if ($controlWraps instanceof ControlWrapper && $chartWraps instanceof ChartWrapper) {
+            return new OneToOne($controlWraps, $chartWraps);
         }
+
+        if ($controlWraps instanceof ControlWrapper && $chartWrapCheck) {
+            return new OneToMany($controlWraps, $chartWraps);
+        }
+
+        if ($controlWrapCheck && $chartWraps instanceof ChartWrapper) {
+            return new ManyToOne($controlWraps, $chartWraps);
+        }
+
+        if ($controlWrapCheck && $chartWrapCheck) {
+            return new ManyToMany($controlWraps, $chartWraps);
+        }
+
+        throw new InvalidBindings;
+    }
+
+    /**
+     * @param  array $bindings
+     * @return array Array of bindings
+     */
+    public function createFromArray(array $bindings)
+    {
+        return array_map(function ($binding) {
+            return $this->create($binding[0], $binding[1]);
+        }, $bindings);
     }
 }

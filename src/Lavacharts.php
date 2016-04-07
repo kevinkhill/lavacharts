@@ -7,16 +7,15 @@ use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Charts\Chart;
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Dashboards\Dashboard;
-use \Khill\Lavacharts\Dashboards\ChartWrapper;
-use \Khill\Lavacharts\Dashboards\ControlWrapper;
+use \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
+use \Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use \Khill\Lavacharts\Dashboards\Filters\Filter;
-use \Khill\Lavacharts\Javascript\JavascriptFactory;
+use \Khill\Lavacharts\Javascript\ScriptManager;
 use \Khill\Lavacharts\Exceptions\InvalidDataTable;
 use \Khill\Lavacharts\Exceptions\InvalidLabel;
 use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidFilterObject;
-
 use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
 use \Khill\Lavacharts\Exceptions\InvalidDivDimensions;
 
@@ -49,9 +48,9 @@ class Lavacharts
     /**
      * JavascriptFactory for outputting lava.js and chart/dashboard javascript
      *
-     * @var JavascriptFactory
+     * @var \Khill\Lavacharts\Javascript\ScriptManager
      */
-    private $jsFactory;
+    private $scriptManager;
 
     /**
      * Types of charts that can be created.
@@ -113,8 +112,8 @@ class Lavacharts
             $loader->addNamespace('Khill\Lavacharts', __DIR__);
         }
 
-        $this->volcano   = new Volcano;
-        $this->jsFactory = new JavascriptFactory;
+        $this->volcano       = new Volcano;
+        $this->scriptManager = new ScriptManager;
     }
 
     /**
@@ -284,15 +283,15 @@ class Lavacharts
     {
         $jsOutput = '';
 
-        if ($this->jsFactory->coreJsRendered() === false) {
-            $jsOutput = $this->jsFactory->getCoreJs();
+        if ($this->scriptManager->lavaJsRendered() === false) {
+            $jsOutput = $this->scriptManager->getLavaJsModule();
         }
 
         if ($divDimensions !== false) {
             $jsOutput .= $this->div($elementId, $divDimensions);
         }
 
-        $jsOutput .= $this->jsFactory->getChartJs(
+        $jsOutput .= $this->scriptManager->getJavascript(
             $this->volcano->getChart($type, $label),
             $elementId
         );
@@ -316,11 +315,11 @@ class Lavacharts
     {
         $jsOutput = '';
 
-        if ($this->jsFactory->coreJsRendered() === false) {
-            $jsOutput = $this->jsFactory->getCoreJs();
+        if ($this->scriptManager->lavaJsRendered() === false) {
+            $jsOutput = $this->scriptManager->getLavaJsModule();
         }
 
-        $jsOutput .= $this->jsFactory->getDashboardJs(
+        $jsOutput .= $this->scriptManager->getJavascript(
             $this->volcano->getDashboard($label),
             $elementId
         );
@@ -337,7 +336,7 @@ class Lavacharts
      */
     public function jsapi()
     {
-        return $this->jsFactory->getCoreJs();
+        return $this->scriptManager->getLavaJsModule();
     }
 
     /**
