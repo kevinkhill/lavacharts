@@ -96,7 +96,7 @@ class Lavacharts
                 $lavaClass = $this->volcano->get($method, $args[0]);
             } else {
                 $chart = ChartFactory::create($method, $args);
-                
+
                 $lavaClass = $this->volcano->store($chart);
             }
         }
@@ -139,23 +139,12 @@ class Lavacharts
     }
 
     /**
-     * Get an instance of the DataFactory
-     *
-     * @since  3.0.3
-     * @return \Khill\Lavacharts\DataTables\DataFactory
-     */
-    public function DataFactory()
-    {
-        return new DataFactory;
-    }
-
-    /**
      * Create a new Dashboard
      *
      * @since  3.0.0
      * @param  string $label
      * @param  array  $bindings
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return \Khill\Lavacharts\Dashboards\Dashboard
      */
     public function Dashboard($label, array $bindings = [])
     {

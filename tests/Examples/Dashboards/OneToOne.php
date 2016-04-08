@@ -1,8 +1,8 @@
 <?php
-    $data = $lava->DataTable();
-    $data->addStringColumn('Name');
-    $data->addNumberColumn('Donuts Eaten');
-    $data->addRows([
+    $data = $lava->DataTable([
+        ['string', 'Name'],
+        ['string', 'Donuts Eaten']
+    ],[
         ['Michael',   5],
         ['Elisa',     7],
         ['Robert',    3],
