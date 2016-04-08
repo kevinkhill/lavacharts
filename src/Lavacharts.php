@@ -50,20 +50,6 @@ class Lavacharts
     private $scriptManager;
 
     /**
-     * ChartFactory for checking parameters and creating new charts.
-     *
-     * @var \Khill\Lavacharts\Charts\ChartFactory
-     */
-    private $chartFactory;
-
-    /**
-     * DashboardFactory for checking parameters and creating new dashboards.
-     *
-     * @var \Khill\Lavacharts\Dashboards\DashboardFactory
-     */
-    private $dashFactory;
-
-    /**
      * Lavacharts constructor.
      */
     public function __construct()
@@ -78,8 +64,6 @@ class Lavacharts
 
         $this->volcano       = new Volcano;
         $this->scriptManager = new ScriptManager;
-        $this->chartFactory  = new ChartFactory;
-        $this->dashFactory   = new DashboardFactory;
     }
 
     /**
@@ -99,7 +83,7 @@ class Lavacharts
         if ((bool)preg_match('/^render/', $method) === true) {
             $type = ltrim($method, 'render');
 
-            if ($type !== 'Dashboard' && in_array($type, $this->chartFactory->getChartTypes(), true) === false) {
+            if ($type !== 'Dashboard' && ChartFactory::isValidChart(types) === false) {
                 throw new InvalidLavaObject($type);
             }
 
@@ -107,15 +91,15 @@ class Lavacharts
         }
 
         //Charts
-        if (in_array($method, $this->chartFactory->getChartTypes())) {
+        if (ChartFactory::isValidChart($method)) {
             if ($this->exists($method, $args[0])) {
                 $lavaClass = $this->volcano->get($method, $args[0]);
             } else {
-                $chart = $this->chartFactory->create($method, $args);
+                $chart = ChartFactory::create($method, $args);
+                
                 $lavaClass = $this->volcano->store($chart);
             }
         }
-
         //Filters
         if ((bool)preg_match('/Filter$/', $method)) {
             $type = strtolower(str_replace('Filter', '', $method));
@@ -175,9 +159,18 @@ class Lavacharts
      */
     public function Dashboard($label, array $bindings = [])
     {
-        $dashboardFactory = __NAMESPACE__.'\\Dashboards\\Dashboard::Factory';
+        if ($this->exists(__FUNCTION__, $label)) {
+            $dashboard = $this->volcano->get(__FUNCTION__, $label);
+        } else {
+            $dashboard = call_user_func_array(
+                __NAMESPACE__ . '\\Dashboards\\Dashboard::Factory',
+                func_get_args()
+            );
 
-        return call_user_func_array($dashboardFactory, func_get_args());
+            $dashboard = $this->volcano->store($dashboard);
+        }
+
+        return $dashboard;
     }
 
     /**
