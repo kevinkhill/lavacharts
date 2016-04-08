@@ -21,8 +21,6 @@ use Khill\Lavacharts\Exceptions\InvalidBindings;
  */
 class BindingFactory
 {
-    use Khill\Lavacharts\Support\Traits\ArrayValuesTestTrait;
-
     /**
      * Create a new Binding for the dashboard.
      *
@@ -31,10 +29,19 @@ class BindingFactory
      * @throws \Khill\Lavacharts\Exceptions\InvalidBindings
      * @return \Khill\Lavacharts\Dashboards\Bindings\Binding
      */
-    public function create($controlWraps, $chartWraps)
+    public static function create($controlWraps, $chartWraps)
     {
-        $chartWrapCheck   = $this->arrayValuesTest($chartWraps, 'class', 'ChartWrapper');
-        $controlWrapCheck = $this->arrayValuesTest($controlWraps, 'class', 'ControlWrapper');
+        if ($chartWraps instanceof ChartWrapper === false) {
+            $chartWrapCheck = array_reduce($chartWraps, function ($prev, $curr) {
+                return $prev && $curr instanceof ChartWrapper;
+            }, true);
+        }
+
+        if ($controlWraps instanceof ControlWrapper === false) {
+            $controlWrapCheck = array_reduce($controlWraps, function ($prev, $curr) {
+                return $prev && $curr instanceof ControlWrapper;
+            }, true);
+        }
 
         if ($controlWraps instanceof ControlWrapper && $chartWraps instanceof ChartWrapper) {
             return new OneToOne($controlWraps, $chartWraps);
@@ -59,10 +66,10 @@ class BindingFactory
      * @param  array $bindings
      * @return array Array of bindings
      */
-    public function createFromArray(array $bindings)
+    public static function createFromArray(array $bindings)
     {
         return array_map(function ($binding) {
-            return $this->create($binding[0], $binding[1]);
+            return self::create($binding[0], $binding[1]);
         }, $bindings);
     }
 }
