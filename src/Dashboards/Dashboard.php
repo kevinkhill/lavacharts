@@ -64,6 +64,7 @@ class Dashboard implements Renderable, Visualization
      */
     public static function Factory($args)
     {
+        var_dump($args);die;
         $dashboard = new DashboardBuilder;
 
         $dashboard->setLabel($args[0]);

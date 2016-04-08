@@ -41,5 +41,5 @@
     $ageFilterWrap   = $lava->ControlWrapper($ageFilter, 'control2-div-id');
     $chartWrap       = $lava->ChartWrapper($columnChart, 'chart1-div-id');
 
-    $dash = $lava->Dashboard($title)
+    $dash = $lava->Dashboard('MyDash')
                  ->bind([$donutFilterWrap, $ageFilterWrap], $chartWrap);

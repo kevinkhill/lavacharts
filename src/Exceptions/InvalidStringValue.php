@@ -2,14 +2,14 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidDateTimeFormat extends LavaException
+class InvalidStringValue extends LavaException
 {
-    public function __construct($badString)
+    public function __construct($what)
     {
-        if (is_string($badString) && empty($badString)) {
-            $message = 'Must be a non empty string which follows standard DateTime Formatting';
+        if (empty($badString)) {
+            $message = $what . ' must be a non empty string';
         } else {
-            $message = gettype($badString) . ' is invalid, must be a datetime format string which Carbon can use.';
+            $message = 'Bad type for ' . $what . ', must be a non-empty string.';
         }
 
         parent::__construct($message);

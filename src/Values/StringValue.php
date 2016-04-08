@@ -1,6 +1,8 @@
 <?php
 
 namespace Khill\Lavacharts\Values;
+use Khill\Lavacharts\Exceptions\InvalidString;
+use Khill\Lavacharts\Exceptions\InvalidStringValue;
 
 /**
  * Class StringValue
@@ -22,15 +24,23 @@ class StringValue
      */
     private $value;
 
+    /**
+     * StringValue constructor.
+     *
+     * @param string $value
+     */
     public function __construct($value)
     {
         if (is_string($value) === false || empty($value) === true) {
-            throw new \Exception;
+            throw new InvalidStringValue($value);
         }
 
         $this->value = $value;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->value;

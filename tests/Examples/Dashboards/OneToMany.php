@@ -35,5 +35,5 @@
     $pieWrap  = $lava->ChartWrapper($pieChart, 'chart1-div-id');
     $barWrap  = $lava->ChartWrapper($barChart, 'chart2-div-id');
 
-    $dash = $lava->Dashboard($title)
+    $dash = $lava->Dashboard('MyDash')
                  ->bind($ctrlWrap, [$pieWrap, $barWrap]);

@@ -10,6 +10,7 @@ use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use Khill\Lavacharts\Exceptions\InvalidRowProperty;
 use Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
+use Khill\Lavacharts\Values\StringValue;
 
 /**
  * The DataTable object is used to hold the data passed into a visualization.
@@ -35,10 +36,6 @@ use Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
  */
 class DataTable implements Jsonable, \JsonSerializable
 {
-    use \Khill\Lavacharts\Support\Traits\ArrayIsMultiTrait;
-    use \Khill\Lavacharts\Support\Traits\ArrayValuesTestTrait;
-    use \Khill\Lavacharts\Support\Traits\NonEmptyStringTrait;
-
     /**
      * Timezone for dealing with datetime and Carbon objects.
      *
@@ -172,18 +169,15 @@ class DataTable implements Jsonable, \JsonSerializable
      *
      * @param  string $dateTimeFormat
      * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
      */
     public function setDateTimeFormat($dateTimeFormat)
     {
-        if ($this->nonEmptyString($dateTimeFormat) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'string'
-            );
+        try {
+            $this->dateTimeFormat = new StringValue($dateTimeFormat);
+        } catch (\Exception $e) {
+            throw new InvalidDateTimeFormat($dateTimeFormat);
         }
-
-        $this->dateTimeFormat = $dateTimeFormat;
 
         return $this;
     }
@@ -196,7 +190,7 @@ class DataTable implements Jsonable, \JsonSerializable
      */
     public function getDateTimeFormat()
     {
-        return $this->dateTimeFormat;
+        return (string) $this->dateTimeFormat;
     }
 
     /**
@@ -263,15 +257,8 @@ class DataTable implements Jsonable, \JsonSerializable
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function addColumns($arrayOfColumns)
+    public function addColumns(array $arrayOfColumns)
     {
-        if ($this->arrayIsMulti($arrayOfColumns) === false) {
-            throw new InvalidConfigValue(
-                __FUNCTION__,
-                'array of arrays'
-            );
-        }
-
         foreach ($arrayOfColumns as $columnArray) {
             call_user_func_array([$this, 'createColumnWithParams'], $columnArray);
         }
@@ -451,7 +438,11 @@ class DataTable implements Jsonable, \JsonSerializable
      */
     public function formatColumns($colFormatArr)
     {
-        if ($this->arrayValuesTest($colFormatArr, 'class', 'Format') === false) {
+        $arrayOfFormats = array_reduce($colFormatArr, function ($prev, $curr) {
+            return $prev && $curr instanceof Format;
+        }, true);
+
+        if ($arrayOfFormats) {
             throw new InvalidConfigValue(
                 'DataTable->' . __FUNCTION__,
                 'array',

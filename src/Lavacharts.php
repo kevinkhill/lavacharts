@@ -148,14 +148,14 @@ class Lavacharts
      */
     public function Dashboard($label, array $bindings = [])
     {
-        if ($this->exists(__FUNCTION__, $label)) {
-            $dashboard = $this->volcano->get(__FUNCTION__, $label);
+        if ($this->exists('Dashboard', $label)) {
+            $dashboard = $this->volcano->get('Dashboard', $label);
         } else {
             $dashboard = call_user_func_array(
                 __NAMESPACE__ . '\\Dashboards\\Dashboard::Factory',
                 func_get_args()
             );
-
+var_dump($dashboard);die;
             $dashboard = $this->volcano->store($dashboard);
         }
 

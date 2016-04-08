@@ -41,27 +41,27 @@ class Volcano
     /**
      * Stores a Chart or Dashboard in the Volcano.
      *
-     * @since  3.1.0
-     * @param  Renderable $renderable
-     * @return Renderable
+     * @since  3.0.3
+     * @param  \Khill\Lavacharts\Support\Contracts\RenderableInterface $renderable
+     * @return \Khill\Lavacharts\Support\Contracts\RenderableInterface|bool
      */
     public function store(Renderable $renderable)
     {
         if ($renderable instanceof Dashboard) {
-            $retVal = $this->storeDashboard($renderable);
+            return $this->storeDashboard($renderable);
         }
 
         if ($renderable instanceof Chart) {
-            $retVal = $this->storeChart($renderable);
+            return $this->storeChart($renderable);
         }
 
-        return $retVal;
+        return false;
     }
 
     /**
      * Fetches an existing Chart or Dashboard from the volcano storage.
      *
-     * @since  3.1.0
+     * @since  3.0.3
      * @param  string                         $type  Type of Chart or Dashboard.
      * @param  \Khill\Lavacharts\Values\Label $label Label of the Chart or Dashboard.
      * @return \Khill\Lavacharts\Charts\Chart|\Khill\Lavacharts\Dashboards\Dashboard
@@ -80,7 +80,7 @@ class Volcano
     /**
      * Returns all stored charts and dashboards
      *
-     * @since  3.1.0
+     * @since  3.0.3
      * @return Renderable[]
      */
     public function getAll()

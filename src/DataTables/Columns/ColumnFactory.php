@@ -5,7 +5,8 @@ namespace Khill\Lavacharts\DataTables\Columns;
 use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\Exceptions\InvalidColumnRole;
 use Khill\Lavacharts\Exceptions\InvalidColumnType;
-use Khill\Lavacharts\Support\Traits\NonEmptyStringTrait as StringCheck;
+use Khill\Lavacharts\Exceptions\InvalidStringValue;
+use Khill\Lavacharts\Values\StringValue;
 
 /**
  * ColumnFactory Class
@@ -24,8 +25,6 @@ use Khill\Lavacharts\Support\Traits\NonEmptyStringTrait as StringCheck;
  */
 class ColumnFactory
 {
-    use StringCheck;
-
     /**
      * Valid column types
      *
@@ -89,7 +88,7 @@ class ColumnFactory
 
         $columnArgs = func_get_args();
 
-        if ($this->nonEmptyString($label)) {
+        if (is_string($label) && !empty($label)) {
             $columnArgs[] = $label;
         }
 
@@ -97,7 +96,7 @@ class ColumnFactory
             $columnArgs[] = $format;
         }
 
-        if ($this->nonEmptyString($role) === true && in_array($role, $this->roles, true) === false) {
+        if (in_array($role, $this->roles, true) === false) {
             throw new InvalidColumnRole($role, $this->roles);
         }
 

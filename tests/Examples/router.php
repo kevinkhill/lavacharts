@@ -15,7 +15,7 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
         $width  = 600;
         $height = floor($width*(6/19));
 
-        $title = 'My'.$chart;
+        $title = 'My' . ((strpos($chart, 'To') > 0) ? 'Dashboard' : $chart);
         $id = strtolower($chart);
 
         if (strpos($chart, 'Chart') > 0) {
@@ -77,7 +77,7 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
             if (strpos($chart, 'Chart') > 0) {
                 echo $lava->render($chart, $title, 'lavachart');
             } else {
-                echo $lava->render('Dashboard', $title, 'lavachart');
+                echo $lava->render('Dashboard', 'MyDash', 'lavachart');
             }
         } else {
 ?>
