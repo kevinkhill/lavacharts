@@ -147,22 +147,14 @@ class Lavacharts
      * be created, otherwise a standard DataTable is returned.
      *
      * @since  3.0.0
-     * @param  string $timezone
+     * @param  mixed $args
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
-    public function DataTable($timezone = null)
+    public function DataTable($args = null)
     {
-        $datatable = '\Khill\Lavacharts\DataTablePlus\DataTablePlus';
+        $dataFactory = __NAMESPACE__.'\\DataTables\\DataFactory::DataTable';
 
-        if (class_exists($datatable) === false) {
-            $datatable = '\Khill\Lavacharts\DataTables\DataTable';
-        }
-
-        if (is_null($timezone) === false) {
-            return new $datatable($timezone);
-        } else {
-            return new $datatable;
-        }
+        return call_user_func_array($dataFactory, func_get_args());
     }
 
     /**
