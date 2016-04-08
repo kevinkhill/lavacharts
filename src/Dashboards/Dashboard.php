@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Dashboards;
 
 use Khill\Lavacharts\Values\Label;
+use Khill\Lavacharts\Builders\DashboardBuilder;
 use Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
 
 class Dashboard
@@ -55,6 +56,25 @@ class Dashboard
         if (empty($bindings) === false) {
             $this->setBindings($bindings);
         }
+    }
+    /**
+     * Creates a new Dashboard from the given arguments.
+     *
+     * @since  3.0.3
+     * @param  array $args Array of arguments for the dash
+     * @return \Khill\Lavacharts\Dashboards\Dashboard
+     */
+    public static function Factory($args)
+    {
+        $dashboard = new DashboardBuilder;
+
+        $dashboard->setLabel($args[0]);
+
+        if (isset($args[1]) && is_array($args[1])) {
+            $dashboard->setBindings($args[1]);
+        }
+
+        return $dashboard->getDashboard();
     }
 
     /**

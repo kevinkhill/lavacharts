@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Dashboards;
 
-use Khill\Lavacharts\Builders\DashboardBuilder;
 
 /**
  * DashboardFactory Class
@@ -34,7 +33,7 @@ class DashboardFactory
      */
     public function __construct()
     {
-        $this->dashBuilder = new DashboardBuilder;
+        //
     }
 
     /**

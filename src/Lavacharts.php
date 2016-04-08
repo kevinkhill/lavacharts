@@ -4,14 +4,11 @@ namespace Khill\Lavacharts;
 
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Charts\ChartFactory;
-use Khill\Lavacharts\Dashboards\Dashboard;
 use Khill\Lavacharts\Dashboards\DashboardFactory;
 use Khill\Lavacharts\Dashboards\Filters\Filter;
-use Khill\Lavacharts\Dashboards\Filters\FilterFactory;
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use Khill\Lavacharts\DataTables\DataFactory;
-use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Javascript\ScriptManager;
@@ -36,7 +33,7 @@ class Lavacharts
     /**
      * Lavacharts version
      */
-    const VERSION = '3.0.0';
+    const VERSION = '3.0.3';
 
     /**
      * Holds all of the defined Charts and DataTables.
@@ -88,7 +85,6 @@ class Lavacharts
     /**
      * Magic function to reduce repetitive coding and create aliases.
      *
-     * @access public
      * @since  1.0.0
      * @param  string $method    Name of method
      * @param  array  $args Passed arguments
@@ -103,7 +99,7 @@ class Lavacharts
         if ((bool)preg_match('/^render/', $method) === true) {
             $type = ltrim($method, 'render');
 
-            if ($type !== 'Dashboard' && in_array($type, ChartFactory::$CHART_TYPES, true) === false) {
+            if ($type !== 'Dashboard' && in_array($type, $this->chartFactory->getChartTypes(), true) === false) {
                 throw new InvalidLavaObject($type);
             }
 
@@ -125,7 +121,7 @@ class Lavacharts
             $type = strtolower(str_replace('Filter', '', $method));
             $config = isset($args[1]) ? $args[1] : [];
 
-            $lavaClass = FilterFactory::create($type, $args[0], $config);
+            $lavaClass = Filter::Factory($type, $args[0], $config);
         }
 
         //Formats
@@ -141,12 +137,13 @@ class Lavacharts
     }
 
     /**
-     * Create a new DataTable
+     * Create a new DataTable using the DataFactory
      *
      * If the additional DataTablePlus package is available, then one will
      * be created, otherwise a standard DataTable is returned.
      *
-     * @since  3.0.0
+     * @since  3.0.3
+     * @uses   \Khill\Lavacharts\DataTables\DataFactory
      * @param  mixed $args
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
@@ -160,7 +157,7 @@ class Lavacharts
     /**
      * Get an instance of the DataFactory
      *
-     * @since  3.0.0
+     * @since  3.0.3
      * @return \Khill\Lavacharts\DataTables\DataFactory
      */
     public function DataFactory()
@@ -178,9 +175,9 @@ class Lavacharts
      */
     public function Dashboard($label, array $bindings = [])
     {
-        $label = new Label($label);
+        $dashboardFactory = __NAMESPACE__.'\\Dashboards\\Dashboard::Factory';
 
-        return $this->dashboardFactory($label, $bindings);
+        return call_user_func_array($dashboardFactory, func_get_args());
     }
 
     /**
@@ -221,7 +218,6 @@ class Lavacharts
      * Given a type, label, and HTML element id, this will output
      * all of the necessary javascript to generate the chart or dashboard.
      *
-     * @access public
      * @since  2.0.0
      * @uses   \Khill\Lavacharts\Values\Label
      * @uses   \Khill\Lavacharts\Values\ElementId
@@ -251,7 +247,6 @@ class Lavacharts
      * Given a chart label and an HTML element id, this will output
      * all of the necessary javascript to generate the chart.
      *
-     * @access public
      * @since  3.0.0
      * @param  string                             $type
      * @param  \Khill\Lavacharts\Values\Label     $label
@@ -287,7 +282,6 @@ class Lavacharts
      * Given a chart label and an HTML element id, this will output
      * all of the necessary javascript to generate the chart.
      *
-     * @access public
      * @since  3.0.0
      * @param \Khill\Lavacharts\Values\Label      $label
      * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to render the chart into.
@@ -313,7 +307,6 @@ class Lavacharts
     /**
      * Outputs the link to the Google JSAPI
      *
-     * @access public
      * @since  2.3.0
      * @return string Google Chart API and lava.js script blocks
      */
@@ -325,7 +318,6 @@ class Lavacharts
     /**
      * Checks to see if the given chart or dashboard exists in the volcano storage.
      *
-     * @access public
      * @since  2.4.2
      * @uses   \Khill\Lavacharts\Values\Label
      * @param  string $type Type of object to check.
@@ -346,7 +338,6 @@ class Lavacharts
     /**
      * Fetches an existing Chart or Dashboard from the volcano storage.
      *
-     * @access public
      * @since  3.0.0
      * @uses   \Khill\Lavacharts\Values\Label
      * @param  string $type Type of Chart or Dashboard.
@@ -361,7 +352,6 @@ class Lavacharts
     /**
      * Stores a existing Chart or Dashboard into the volcano storage.
      *
-     * @access public
      * @since  3.0.0
      * @param  Renderable $renderable A Chart or Dashboard.
      * @return \Khill\Lavacharts\Charts\Chart|\Khill\Lavacharts\Dashboards\Dashboard

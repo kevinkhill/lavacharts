@@ -58,6 +58,34 @@ class Filter extends Customizable implements Wrappable, \JsonSerializable
     }
 
     /**
+     * Filter Factory for creating new filters
+     *
+     * @param string     $type
+     * @param string|int $columnLabelOrIndex
+     * @param array      $options
+     * @return \Khill\Lavacharts\Dashboards\Filters\Filter
+     * @throws \Khill\Lavacharts\Exceptions\InvalidFilterParam
+     */
+    public static function Factory($type, $columnLabelOrIndex, array $options = [])
+    {
+        if (is_string($type) === false) {
+            throw new InvalidFilterParam($type);
+        }
+
+        if (is_string($columnLabelOrIndex) === false && is_int($columnLabelOrIndex) === false) {
+            throw new InvalidFilterParam($columnLabelOrIndex);
+        }
+
+        if (strpos($type, 'range') !== false) {
+            $filter = ucfirst(str_replace('range', 'Range', $type));
+        }
+
+        $filter = __NAMESPACE__ . '\\' . $filter . 'Filter';
+
+        return new $filter($columnLabelOrIndex, $options);
+    }
+
+    /**
      * Returns the Filter type.
      *
      * @return string
