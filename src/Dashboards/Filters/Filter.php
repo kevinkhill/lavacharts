@@ -4,7 +4,6 @@ namespace Khill\Lavacharts\Dashboards\Filters;
 
 use Khill\Lavacharts\Exceptions\InvalidFilterParam;
 use Khill\Lavacharts\Support\Customizable;
-use Khill\Lavacharts\Support\Traits\NonEmptyStringTrait as StringCheck;
 use Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
 
 /**
@@ -24,8 +23,6 @@ use Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
  */
 class Filter extends Customizable implements Wrappable, \JsonSerializable
 {
-    use StringCheck;
-
     /**
      * Type of wrapped class
      */
@@ -36,22 +33,22 @@ class Filter extends Customizable implements Wrappable, \JsonSerializable
      * Takes either a column label or a column index to filter. The options object will be
      * created internally, so no need to set defaults. The child filter objects will set them.
      *
-     * @param  string|int $columnLabelOrIndex
+     * @param  string|int $cLabelOrIndex
      * @param  array      $options Array of options to set.
      * @throws \Khill\Lavacharts\Exceptions\InvalidFilterParam
      */
-    public function __construct($columnLabelOrIndex, array $options = [])
+    public function __construct($cLabelOrIndex, array $options = [])
     {
-        if ($this->nonEmptyString($columnLabelOrIndex) === false && is_int($columnLabelOrIndex) === false) {
-            throw new InvalidFilterParam($columnLabelOrIndex);
-        }
-
-        if (is_string($columnLabelOrIndex) === true) {
-            $options = array_merge($options, ['filterColumnLabel' => $columnLabelOrIndex]);
-        }
-
-        if (is_int($columnLabelOrIndex) === true) {
-            $options = array_merge($options, ['filterColumnIndex' => $columnLabelOrIndex]);
+        switch (gettype($cLabelOrIndex)) {
+            case 'string':
+                $options = array_merge($options, ['filterColumnLabel' => $cLabelOrIndex]);
+                break;
+            case 'integer':
+                $options = array_merge($options, ['filterColumnIndex' => $cLabelOrIndex]);
+                break;
+            default:
+                throw new InvalidFilterParam($cLabelOrIndex);
+                break;
         }
 
         parent::__construct($options);
@@ -61,19 +58,19 @@ class Filter extends Customizable implements Wrappable, \JsonSerializable
      * Filter Factory for creating new filters
      *
      * @param string     $type
-     * @param string|int $columnLabelOrIndex
+     * @param string|int $cLabelOrIndex
      * @param array      $options
      * @return \Khill\Lavacharts\Dashboards\Filters\Filter
      * @throws \Khill\Lavacharts\Exceptions\InvalidFilterParam
      */
-    public static function Factory($type, $columnLabelOrIndex, array $options = [])
+    public static function Factory($type, $cLabelOrIndex, array $options = [])
     {
         if (is_string($type) === false) {
             throw new InvalidFilterParam($type);
         }
 
-        if (is_string($columnLabelOrIndex) === false && is_int($columnLabelOrIndex) === false) {
-            throw new InvalidFilterParam($columnLabelOrIndex);
+        if (is_string($cLabelOrIndex) === false && is_int($cLabelOrIndex) === false) {
+            throw new InvalidFilterParam($cLabelOrIndex);
         }
 
         if (strpos($type, 'range') !== false) {
@@ -82,7 +79,7 @@ class Filter extends Customizable implements Wrappable, \JsonSerializable
 
         $filter = __NAMESPACE__ . '\\' . $filter . 'Filter';
 
-        return new $filter($columnLabelOrIndex, $options);
+        return new $filter($cLabelOrIndex, $options);
     }
 
     /**

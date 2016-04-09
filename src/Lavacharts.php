@@ -151,11 +151,11 @@ class Lavacharts
         if ($this->exists('Dashboard', $label)) {
             $dashboard = $this->volcano->get('Dashboard', $label);
         } else {
-            $dashboard = call_user_func_array(
+            $dashboard = call_user_func(
                 __NAMESPACE__ . '\\Dashboards\\Dashboard::Factory',
                 func_get_args()
             );
-var_dump($dashboard);die;
+
             $dashboard = $this->volcano->store($dashboard);
         }
 
