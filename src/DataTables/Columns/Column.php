@@ -3,7 +3,6 @@
 namespace Khill\Lavacharts\DataTables\Columns;
 
 use Khill\Lavacharts\DataTables\Formats\Format;
-use Khill\Lavacharts\Support\Traits\NonEmptyStringTrait as StringCheck;
 
 /**
  * Column Object
@@ -21,8 +20,6 @@ use Khill\Lavacharts\Support\Traits\NonEmptyStringTrait as StringCheck;
  */
 class Column implements \JsonSerializable
 {
-    use StringCheck;
-
     /**
      * Column type.
      *
@@ -128,11 +125,11 @@ class Column implements \JsonSerializable
             'type' => $this->type
         ];
 
-        if ($this->nonEmptyString($this->label) === true) {
+        if (is_string($this->label) && !empty($this->label)) {
             $values['label'] = $this->label;
         }
 
-        if ($this->nonEmptyString($this->role) === true) {
+        if (is_string($this->role) && !empty($this->role)) {
             $values['p'] = ['role' => $this->role];
         }
 

@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\DataTables;
 
 use Khill\Lavacharts\DataTables\Formats\Format;
-use Khill\Lavacharts\DataTables\Rows\RowFactory;
+use Khill\Lavacharts\DataTables\Rows\Row;
 use Khill\Lavacharts\DataTables\Columns\ColumnFactory;
 use Khill\Lavacharts\Exceptions\InvalidTimeZone;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
@@ -58,13 +58,6 @@ class DataTable implements Jsonable, \JsonSerializable
     protected $columnFactory;
 
     /**
-     * RowFactory for the DataTable
-     *
-     * @var \Khill\Lavacharts\DataTables\Rows\RowFactory
-     */
-    protected $rowFactory;
-
-    /**
      * Holds all of the DataTable's column objects.
      *
      * @var array
@@ -86,7 +79,6 @@ class DataTable implements Jsonable, \JsonSerializable
     public function __construct($timezone = null)
     {
         $this->columnFactory = new ColumnFactory;
-        $this->rowFactory    = new RowFactory($this);
 
         if ($timezone === null) {
             $timezone = date_default_timezone_get();
@@ -490,9 +482,15 @@ class DataTable implements Jsonable, \JsonSerializable
      */
     public function addRow(array $cellArray)
     {
-        if ($this->arrayIsMulti($cellArray) === false) {
-            $this->rows[] = $this->rowFactory->create($cellArray);
-        } else {//TODO: timeofday cells
+        $multiDimensionalArray = false;
+
+        if (count($cellArray) != count($cellArray, COUNT_RECURSIVE)) {
+            $multiDimensionalArray = true;
+        }
+
+        if ($multiDimensionalArray === false) {
+            $this->rows[] = Row::Factory($this, $cellArray);
+        } else { //TODO: timeofday cells
             $timeOfDayColumns = $this->getColumnsByType('timeofday');
 
             if (count($timeOfDayColumns) > 0) {

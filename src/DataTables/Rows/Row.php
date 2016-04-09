@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\DataTables\Rows;
 
 use Carbon\Carbon;
 use Khill\Lavacharts\DataTables\Cells\DateCell;
+use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 
 /**
@@ -43,6 +44,56 @@ class Row implements \JsonSerializable
                 return $cellValue;
             }
         }, $valueArray);
+    }
+
+    /**
+     * Creates a new Row object from an array of values.
+     *
+     * @param \Khill\Lavacharts\DataTables\DataTable $datatable
+     * @param  array                                 $valueArray Array of values to assign to the row.
+     * @return \Khill\Lavacharts\DataTables\Rows\Row
+     * @throws \Khill\Lavacharts\DataTables\Rows\InvalidCellCount
+     * @throws \Khill\Lavacharts\DataTables\Rows\InvalidRowDefinition
+     */
+    public static function Factory(DataTable $datatable, $valueArray)
+    {
+        if ($valueArray !== null && is_array($valueArray) === false) {
+            throw new InvalidRowDefinition($valueArray);
+        }
+
+        if ($valueArray === null || is_array($valueArray) && empty($valueArray)) {
+            return new NullRow($datatable->getColumnCount());
+        }
+
+        $cellCount   = count($valueArray);
+        $columnCount = $datatable->getColumnCount();
+
+        if ($cellCount > $columnCount) {
+            throw new InvalidCellCount($cellCount, $columnCount);
+        }
+
+        $columnTypes    = $datatable->getColumnTypes();
+        $dateTimeFormat = $datatable->getDateTimeFormat();
+
+        $rowData = [];
+
+        foreach ($valueArray as $index => $cell) {
+            if ((bool) preg_match('/date|datetime|timeofday/', $columnTypes[$index]) === true) {
+                if ($cell instanceof Carbon) {
+                    $rowData[] = new DateCell($cell);
+                } else {
+                    if (isset($dateTimeFormat)) {
+                        $rowData[] = DateCell::parseString($cell, $dateTimeFormat);
+                    } else {
+                        $rowData[] = DateCell::parseString($cell);
+                    }
+                }
+            } else {
+                $rowData[] = $cell;
+            }
+        }
+
+        return new self($rowData);
     }
 
     /**

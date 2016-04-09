@@ -42,53 +42,5 @@ class RowFactory
         $this->datatable = $datatable;
     }
 
-    /**
-     * Creates a new Row object.
-     *
-     * @param  array $valueArray Array of values to assign to the row.
-     * @return \Khill\Lavacharts\DataTables\Rows\Row
-     * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
-     * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeString
-     * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
-     */
-    public function create($valueArray)
-    {
-        if ($valueArray !== null && is_array($valueArray) === false) {
-            throw new InvalidRowDefinition($valueArray);
-        }
-
-        if ($valueArray === null || is_array($valueArray) === true && empty($valueArray) === true) {
-            return new NullRow($this->datatable->getColumnCount());
-        }
-
-        $cellCount   = count($valueArray);
-        $columnCount = $this->datatable->getColumnCount();
-
-        if ($cellCount > $columnCount) {
-            throw new InvalidCellCount($cellCount, $columnCount);
-        }
-
-        $columnTypes    = $this->datatable->getColumnTypes();
-        $dateTimeFormat = $this->datatable->getDateTimeFormat();
-
-        $rowData = [];
-
-        foreach ($valueArray as $index => $cell) {
-            if ((bool) preg_match('/date|datetime|timeofday/', $columnTypes[$index]) === true) {
-                if ($cell instanceof Carbon) {
-                    $rowData[] = new DateCell($cell);
-                } else {
-                    if (isset($dateTimeFormat)) {
-                        $rowData[] = DateCell::parseString($cell, $dateTimeFormat);
-                    } else {
-                        $rowData[] = DateCell::parseString($cell);
-                    }
-                }
-            } else {
-                $rowData[] = $cell;
-            }
-        }
-
-        return new Row($rowData);
-    }
+    
 }
