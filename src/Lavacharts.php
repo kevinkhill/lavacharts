@@ -55,7 +55,7 @@ class Lavacharts
     public function __construct()
     {
         if (!$this->usingComposer()) {
-            require_once(__DIR__.'/Psr4Autoloader.php');
+            require_once(__DIR__.'/Support/Psr4Autoloader.php');
 
             $loader = new Psr4Autoloader;
             $loader->register();
