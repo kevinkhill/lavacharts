@@ -5,6 +5,7 @@ namespace Khill\Lavacharts\Javascript;
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Dashboards\Dashboard;
 //use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
+use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Values\ElementId;
 
 /**
@@ -26,11 +27,11 @@ use Khill\Lavacharts\Values\ElementId;
 class ScriptManager
 {
     /**
-     * Directory to javascript sources.
+     * Lava.js module location.
      *
      * @var string
      */
-    const JS_DIR = '/../../javascript/';
+    const LAVA_JS = '/../../javascript/dist/lava.js';
 
     /**
      * Opening javascript tag.
@@ -47,26 +48,11 @@ class ScriptManager
     const JS_CLOSE = '</script>';
 
     /**
-     * Lava.js module location.
-     *
-     * @var string
-     */
-    const LAVA_JS = 'dist/lava.js';
-
-    /**
      * Tracks if the lava.js module and jsapi have been rendered.
      *
      * @var bool
      */
     protected $lavaJsRendered = false;
-
-    /**
-     *
-     */
-    public function __construct()
-    {
-        //
-    }
 
     /**
      * Returns true|false depending on if the lava.js module
@@ -82,45 +68,52 @@ class ScriptManager
     /**
      * Gets the lava.js module.
      *
-     * @return string Javascript code blocks.
+     * @return \Khill\Lavacharts\Support\Buffer
      */
     public function getLavaJsModule()
     {
-        $lavaJs = realpath(__DIR__ . self::JS_DIR . self::LAVA_JS);
+        $lavaJs = realpath(__DIR__ . self::LAVA_JS);
+        $buffer = new Buffer(file_get_contents($lavaJs));
 
         $this->lavaJsRendered = true;
 
-        return self::scriptTagWrap(file_get_contents($lavaJs));
+        return $this->scriptTagWrap($buffer);
     }
 
     /**
-     * Return the javascript of a renderable resource.
+     * Returns a buffer with the javascript of a renderable resource.
      *
-     * @param  Chart|Dashboard                   $renderable
-     * @param \Khill\Lavacharts\Values\ElementId $elementId
-     * @return string Javascript blocks
+     * @param  Chart|Dashboard                    $renderable
+     * @param  \Khill\Lavacharts\Values\ElementId $elementId
+     * @return \Khill\Lavacharts\Support\Buffer
      */
-    public function getJavascript($renderable, ElementId $elementId)
+    public function getOutputBuffer($renderable, ElementId $elementId)
     {
         if ($renderable instanceof Dashboard) {
-            $scriptFactory = new DashboardJsFactory($renderable, $elementId);
+            $jsFactory = new DashboardJsFactory($renderable, $elementId);
         }
 
         if ($renderable instanceof Chart) {
-            $scriptFactory = new ChartJsFactory($renderable, $elementId);
+            $jsFactory = new ChartJsFactory($renderable, $elementId);
         }
 
-        return $scriptFactory->getJavascript();
+        $buffer = $jsFactory->getOutputBuffer();
+
+        return $this->scriptTagWrap($buffer);
     }
 
     /**
-     * Wraps javascript within an html script tag
+     * Wraps a buffer with an html script tag
      *
-     * @param  string $javascript
-     * @return string HTML script tag with javascript
+     * @param \Khill\Lavacharts\Support\Buffer $buffer
+     * @return \Khill\Lavacharts\Support\Buffer
      */
-    public static function scriptTagWrap($javascript)
+    private function scriptTagWrap(Buffer $buffer)
     {
-        return PHP_EOL . self::JS_OPEN . PHP_EOL . $javascript . PHP_EOL . self::JS_CLOSE;
+        return $buffer->prepend(PHP_EOL)
+                      ->prepend(self::JS_OPEN)
+                      ->prepend(PHP_EOL)
+                      ->append(PHP_EOL)
+                      ->append(self::JS_CLOSE);
     }
 }

@@ -4,15 +4,14 @@ namespace Khill\Lavacharts;
 
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Charts\ChartFactory;
-use Khill\Lavacharts\Dashboards\DashboardFactory;
 use Khill\Lavacharts\Dashboards\Filters\Filter;
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
-use Khill\Lavacharts\DataTables\DataFactory;
 use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Javascript\ScriptManager;
 use Khill\Lavacharts\Support\Html\HtmlFactory;
+use Khill\Lavacharts\Support\Psr4Autoloader;
 use Khill\Lavacharts\Values\ElementId;
 use Khill\Lavacharts\Values\Label;
 
@@ -203,6 +202,7 @@ class Lavacharts
      * @since  2.0.0
      * @uses   \Khill\Lavacharts\Values\Label
      * @uses   \Khill\Lavacharts\Values\ElementId
+     * @uses   \Khill\Lavacharts\Support\Buffer
      * @param  string $type Type of object to render.
      * @param  string $label Label of the object to render.
      * @param  string $elementId HTML element id to render into.
@@ -215,86 +215,37 @@ class Lavacharts
         $elementId = new ElementId($elementId);
 
         if ($type == 'Dashboard') {
-            $output = $this->renderDashboard($label, $elementId);
+            $buffer = $this->renderDashboard($label, $elementId);
         } else {
-            $output = $this->renderChart($type, $label, $elementId, $divDimensions);
+            $buffer = $this->renderChart($type, $label, $elementId, $divDimensions);
         }
 
-        return $output;
+        return $buffer->getContents();
     }
 
     /**
-     * Renders the chart into the page
+     * Outputs the lava.js module for manual placement.
      *
-     * Given a chart label and an HTML element id, this will output
-     * all of the necessary javascript to generate the chart.
+     * Will be depreciating jsapi in the future
      *
-     * @since  3.0.0
-     * @param  string                             $type
-     * @param  \Khill\Lavacharts\Values\Label     $label
-     * @param  \Khill\Lavacharts\Values\ElementId $elementId     HTML element id to render the chart into.
-     * @param  mixed                              $divDimensions Set true for div creation, or pass an array with height & width
-     * @return string Javascript output
-     * @throws \Khill\Lavacharts\Exceptions\ChartNotFound
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions
+     * @since  3.0.3
+     * @return string Google Chart API and lava.js script blocks
      */
-    private function renderChart($type, Label $label, ElementId $elementId, $divDimensions = false)
+    public function lavajs()
     {
-        $buffer = '';
-
-        if ($this->scriptManager->lavaJsRendered() === false) {
-            $buffer = $this->scriptManager->getLavaJsModule();
-        }
-
-        if ($divDimensions !== false) {
-            $buffer .= HtmlFactory::createDiv($elementId, $divDimensions);
-        }
-
-        $buffer .= $this->scriptManager->getJavascript(
-            $this->volcano->get($type, $label),
-            $elementId
-        );
-
-        return $buffer;
-    }
-
-    /**
-     * Renders the chart into the page
-     * Given a chart label and an HTML element id, this will output
-     * all of the necessary javascript to generate the chart.
-     *
-     * @since  3.0.0
-     * @param \Khill\Lavacharts\Values\Label      $label
-     * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to render the chart into.
-     * @return string Javascript output
-     * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
-     */
-    private function renderDashboard(Label $label, ElementId $elementId)
-    {
-        $buffer = '';
-
-        if ($this->scriptManager->lavaJsRendered() === false) {
-            $buffer = $this->scriptManager->getLavaJsModule();
-        }
-
-        $buffer .= $this->scriptManager->getJavascript(
-            $this->volcano->get('Dashboard', $label),
-            $elementId
-        );
-
-        return $buffer;
+        return (string) $this->scriptManager->getLavaJsModule();
     }
 
     /**
      * Outputs the link to the Google JSAPI
      *
-     * @since  2.3.0
+     * @since      2.3.0
+     * @deprecated 3.0.3
      * @return string Google Chart API and lava.js script blocks
      */
     public function jsapi()
     {
-        return $this->scriptManager->getLavaJsModule();
+        return (string) $this->scriptManager->getLavaJsModule();
     }
 
     /**
@@ -359,5 +310,65 @@ class Lavacharts
         } else {
             return false;
         }
+    }
+
+    /**
+     * Renders the chart into the page
+     *
+     * Given a chart label and an HTML element id, this will output
+     * all of the necessary javascript to generate the chart.
+     *
+     * @since  3.0.0
+     * @param  string                             $type
+     * @param  \Khill\Lavacharts\Values\Label     $label
+     * @param  \Khill\Lavacharts\Values\ElementId $elementId     HTML element id to render the chart into.
+     * @param  bool|array                         $divDimensions Set true for div creation, or pass an array with height & width
+     * @return \Khill\Lavacharts\Support\Buffer
+     * @throws \Khill\Lavacharts\Exceptions\ChartNotFound
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions
+     */
+    private function renderChart($type, Label $label, ElementId $elementId, $divDimensions = false)
+    {
+        $buffer = $this->scriptManager->getOutputBuffer(
+            $this->volcano->get($type, $label),
+            $elementId
+        );
+
+        if ($this->scriptManager->lavaJsRendered() === false) {
+            $buffer->prepend($this->scriptManager->getLavaJsModule());
+        }
+
+        if ($divDimensions !== false) {
+            $buffer->append(HtmlFactory::createDiv($elementId, $divDimensions));
+        }
+
+        return $buffer;
+    }
+
+    /**
+     * Renders the chart into the page
+     * Given a chart label and an HTML element id, this will output
+     * all of the necessary javascript to generate the chart.
+     *
+     * @since  3.0.0
+     * @uses   \Khill\Lavacharts\Support\Buffer   $buffer
+     * @param  \Khill\Lavacharts\Values\Label     $label
+     * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to render the chart into.
+     * @return \Khill\Lavacharts\Support\Buffer
+     * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
+     */
+    private function renderDashboard(Label $label, ElementId $elementId)
+    {
+        $buffer = $this->scriptManager->getOutputBuffer(
+            $this->volcano->get('Dashboard', $label),
+            $elementId
+        );
+
+        if ($this->scriptManager->lavaJsRendered() === false) {
+            $buffer->prepend($this->scriptManager->getLavaJsModule());
+        }
+
+        return $buffer;
     }
 }
