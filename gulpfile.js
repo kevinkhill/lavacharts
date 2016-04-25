@@ -1,13 +1,13 @@
-var gulp = require('gulp'),
-   gutil = require('gulp-util'),
-    bump = require('gulp-bump'),
-  jshint = require('gulp-jshint'),
- stylish = require('jshint-stylish'),
- replace = require('gulp-replace'),
-    argv = require('yargs').array('browsers').argv,
-      fs = require('fs'),
+  var gulp = require('gulp'),
+     gutil = require('gulp-util'),
+      bump = require('gulp-bump'),
+    jshint = require('gulp-jshint'),
+   stylish = require('jshint-stylish'),
+   replace = require('gulp-replace'),
+      argv = require('yargs').array('browsers').argv,
+        fs = require('fs'),
 browserify = require('browserify'),
-watchify = require('watchify');
+  watchify = require('watchify');
 
 var pkg = require('./package.json');
 
@@ -62,14 +62,14 @@ function compile(watch) {
         });
     }
 
-    rebundle();
+    return rebundle();
 }
 
 function watch() {
     return compile(true);
 }
 
-gulp.task('build', compile);
-gulp.task('watch', watch);
+gulp.task('build', function() { return compile() });
+gulp.task('watch', function() { return watch() });
 
 gulp.task('default', ['watch']);
