@@ -31,13 +31,16 @@ class BindingFactory
      */
     public static function create($controlWraps, $chartWraps)
     {
-        if ($chartWraps instanceof ChartWrapper === false) {
+        $chartWrapCheck = false;
+        $controlWrapCheck = false;
+
+        if (is_array($chartWraps) === true) {
             $chartWrapCheck = array_reduce($chartWraps, function ($prev, $curr) {
                 return $prev && $curr instanceof ChartWrapper;
             }, true);
         }
 
-        if ($controlWraps instanceof ControlWrapper === false) {
+        if (is_array($controlWraps) === true) {
             $controlWrapCheck = array_reduce($controlWraps, function ($prev, $curr) {
                 return $prev && $curr instanceof ControlWrapper;
             }, true);

@@ -75,6 +75,8 @@ class Filter extends Customizable implements Wrappable, \JsonSerializable
 
         if (strpos($type, 'range') !== false) {
             $filter = ucfirst(str_replace('range', 'Range', $type));
+        } else {
+            $filter = $type;
         }
 
         $filter = __NAMESPACE__ . '\\' . $filter . 'Filter';

@@ -340,7 +340,7 @@ class Lavacharts
         }
 
         if ($divDimensions !== false) {
-            $buffer->append(HtmlFactory::createDiv($elementId, $divDimensions));
+            $buffer->prepend(HtmlFactory::createDiv($elementId, $divDimensions));
         }
 
         return $buffer;

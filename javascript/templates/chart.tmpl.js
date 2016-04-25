@@ -1,36 +1,43 @@
-lava.on('jsapi:ready', function (google) {
-    var chart = new lava.Chart('<chartType>', '<chartLabel>');
+/* jshint undef: true, unused: true */
+/* globals lava, google */
 
-    chart.setElement('<elemId>');
-    chart.setPngOutput(<pngOutput>);
+(function(){
+    "use strict";
 
-    chart.render = function (data) {
-        this.setData(<chartData>);
+    var $chart = lava.createChart('<chartType>', '<chartLabel>');
 
-        this.options = <chartOptions>;
+    $chart.init = function() {
+        $chart.package = '<chartPackage>';
+        $chart.setElement('<elemId>');
+        $chart.setPngOutput(<pngOutput>);
 
-        this.chart = new <chartClass>(this.element);
+        $chart.configure = function () {
+            $chart.render = function (data) {
+                $chart.setData(<chartData>);
 
-        <formats>
-        <events>
+                $chart.options = <chartOptions>;
 
-        this.chart.draw(this.data, this.options);
+                $chart.chart = new <chartClass>($chart.element);
 
-        if (this.pngOutput === true) {
-            this.drawPng();
-        }
+                <formats>
+                <events>
 
-        lava.emit('rendered');
+                $chart.chart.draw($chart.data, $chart.options);
+
+                if ($chart.pngOutput === true) {
+                    $chart.drawPng();
+                }
+
+                $chart.promises.rendered.resolve();
+                return $chart.promises.rendered.promise;
+            };
+
+            $chart.promises.configure.resolve();
+            return $chart.promises.configure.promise;
+        };
+
+        lava.emit('ready', $chart);
     };
 
-    lava.storeChart(chart);
-
-    google.load('visualization', '<chartVer>', {
-        packages: ['<chartPackage>'],
-        callback: function() {
-            lava.getChart('<chartLabel>', function (chart) {
-                chart.render();
-            });
-        }
-    });
-});
+    lava.store($chart);
+})();

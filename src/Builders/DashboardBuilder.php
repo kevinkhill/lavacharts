@@ -11,7 +11,7 @@ use Khill\Lavacharts\Dashboards\Dashboard;
  * everything in the constructor.
  *
  * @package    Khill\Lavacharts\Builders
- * @since      3.1.0
+ * @since      3.0.3
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2016, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page

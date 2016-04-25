@@ -55,6 +55,7 @@ class Dashboard implements Renderable, Visualization
             $this->setBindings($bindings);
         }
     }
+
     /**
      * Creates a new Dashboard from the given arguments.
      *
