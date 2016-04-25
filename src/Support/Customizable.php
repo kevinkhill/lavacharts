@@ -33,7 +33,7 @@ class Customizable implements \ArrayAccess, \IteratorAggregate, \JsonSerializabl
      */
     public function __construct(array $options = [])
     {
-        $this->setOptions($options);
+        $this->options = $options;
     }
 
     /**
