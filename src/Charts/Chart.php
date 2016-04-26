@@ -52,13 +52,6 @@ class Chart extends JsonConfig
     protected $datatable;
 
     /**
-     * Enabled chart events with callbacks.
-     *
-     * @var \Khill\Lavacharts\Configs\EventManager
-     */
-    protected $events;
-
-    /**
      * Default configuration options for the chart.
      *
      * @var array
@@ -95,7 +88,6 @@ class Chart extends JsonConfig
     {
         $this->label     = $chartLabel;
         $this->datatable = $datatable;
-        $this->events    = new EventManager;
 
         $options->extend($this->chartDefaults);
 
@@ -121,7 +113,7 @@ class Chart extends JsonConfig
      */
     public function hasEvents()
     {
-        return count($this->events) > 0;
+        return $this->options->hasValue('events');
     }
 
     /**
@@ -132,7 +124,7 @@ class Chart extends JsonConfig
      */
     public function getEvents()
     {
-        return $this->events;
+        return $this->options->get('events');
     }
 
     /**

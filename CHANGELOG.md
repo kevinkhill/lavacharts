@@ -1,3 +1,6 @@
+- 3.0.3
+  - Events bugfix
+  
 - 3.0.2
   - Blade template extension bug fixes
   - Combining the ```customize``` method into the constructor to provide
