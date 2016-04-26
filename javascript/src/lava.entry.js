@@ -1,16 +1,26 @@
+/* jshint undef: true, unused: true */
+/* globals window, require */
+
+/**
+ * Lava.js entry point for Browserify
+ */
 (function(){
-  "use strict"
+    "use strict";
 
-  this.lava = require('./lava.js');
+    var ready = require('document-ready');
 
-  /**
-   * Adding the resize event listener for redrawing charts.
-   */
-  this.addEventListener('resize', this.lava.redrawCharts);
+    this.lava = require('./lava/Lava.js');
 
-  /**
-   * Let's go!
-   */
-  this.lava.run();
+    ready(function() {
+        /**
+         * Adding the resize event listener for redrawing charts.
+         */
+        window.addEventListener('resize', lava.redrawCharts);
 
-}).apply(window);
+        /**
+         * Let's go!
+         */
+        lava.init();
+        lava.run();
+    });
+}.apply(window));

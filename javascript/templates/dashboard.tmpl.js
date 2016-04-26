@@ -1,28 +1,34 @@
-lava.on('jsapi:ready', function (google) {
-    var dash = new lava.Dashboard("<label>");
+/* jshint undef: true, unused: true */
+/* globals lava, google */
 
-    dash.setElement('<elemId>');
+(function(){
+    "use strict";
 
-    dash.render = function() {
-        this.dashboard = new <class>(this.element);
+    var $dash = lava.createDashboard('<label>');
 
-        this.setData(<chartData>);
+    $dash.init = function () {
+        $dash.setElement('<elemId>');
+        $dash.packages = <packages>;
 
-        <bindings>
+        $dash.configure = function () {
+            $dash.render = function (data) {
+                $dash.dashboard = new <class>($dash.element);
 
-        this.dashboard.draw(this.data);
+                $dash.setData(<chartData>);
 
-        lava.emit('rendered');
+                <bindings>
+
+                $dash.dashboard.draw($dash.data);
+
+                lava.emit('rendered', $dash);
+            };
+
+            $dash.deferred.resolve();
+            return $dash.deferred.promise;
+        };
+
+        lava.emit('ready', $dash);
     };
 
-    lava.storeDashboard(dash);
-
-    google.load('visualization', '<version>', {
-        packages: <packages>,
-        callback: function() {
-            lava.getDashboard('<label>', function (dash) {
-                dash.render();
-            });
-        }
-    });
-});
+    lava.store($dash);
+})();
