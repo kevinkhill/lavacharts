@@ -81,17 +81,6 @@ module.exports = (function() {
         this._errors = require('./Errors.js');
 
         /**
-         * Conditional debug logging method.
-         *
-         * @private
-         */
-        this._log = function (msg) {
-            if (lava._debug) {
-                console.log(msg);
-            }
-        };
-
-        /**
          * Apply the EventEmitter methods to Lava
          */
         EventEmitter.call(this);
@@ -405,8 +394,8 @@ module.exports = (function() {
 
                 var packages = $lava._getPackages();
 
-                $lava._log('google loaded');
-                $lava._log(packages);
+                console.log('google loaded');
+                console.log(packages);
 
                 google.charts.load('current', {
                     packages: packages
@@ -428,33 +417,33 @@ module.exports = (function() {
      * @public
      */
     Lava.prototype.init = function () {
-        this._log('lava.js init');
+        console.log('lava.js init');
 
         var $lava = this;
         var readyCount = 0;
 
         this.on('ready', function (renderable) {
-            $lava._log(renderable.uuid() + ' ready');
+            console.log(renderable.uuid() + ' ready');
 
             readyCount++;
 
             if (readyCount == $lava._getRenderables().length) {
-                $lava._log('loading google');
+                console.log('loading google');
 
                 $lava._loadGoogle().then(function() {
                     return $lava._mapRenderables(function (renderable) {
-                        $lava._log('configuring ' + renderable.uuid());
+                        console.log('configuring ' + renderable.uuid());
 
                         return renderable.configure();
                     });
                 }).then(function () {
                     return $lava._mapRenderables(function (renderable) {
-                        $lava._log('rendering ' + renderable.uuid());
+                        console.log('rendering ' + renderable.uuid());
 
                         return renderable.render();
                     });
                 }).then(function() {
-                    $lava._log('lava.js ready');
+                    console.log('lava.js ready');
 
                     $lava._readyCallback();
                 });
@@ -469,10 +458,10 @@ module.exports = (function() {
      * @public
      */
     Lava.prototype.run = function () {
-        this._log('lava.js running');
+        console.log('lava.js running');
 
         this._forEachRenderable(function (renderable) {
-            lava._log('init ' + renderable.uuid());
+            console.log('init ' + renderable.uuid());
 
             renderable.init();
         });

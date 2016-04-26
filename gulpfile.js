@@ -2,11 +2,16 @@
      gutil = require('gulp-util'),
       bump = require('gulp-bump'),
     jshint = require('gulp-jshint'),
+    uglify = require('gulp-uglify'),
+ streamify = require('gulp-streamify'),
+    gulpif = require('gulp-if'),
    stylish = require('jshint-stylish'),
    replace = require('gulp-replace'),
       argv = require('yargs').array('browsers').argv,
+    source = require('vinyl-source-stream'),
         fs = require('fs'),
 browserify = require('browserify'),
+  stripify = require('stripify'),
   watchify = require('watchify');
 
 var pkg = require('./package.json');
@@ -30,13 +35,17 @@ gulp.task('bump', function (done) { //-v=1.2.3
         .pipe(gulp.dest('./'));
 });
 
-function compile(watch) {
+function compile(prod, watch) {
     var bundler = watchify(browserify({
         debug: true,
         entries: [pkg.config.entry],
         cache: {},
         packageCache: {}
     }));
+
+    if (prod) {
+        bundler.transform('stripify');
+    }
 
     function rebundle() {
         return bundler.bundle()
@@ -51,7 +60,9 @@ function compile(watch) {
                 }
                 this.emit('end');
             })
-            .pipe(fs.createWriteStream('./javascript/dist/lava.js'));
+            .pipe(source('lava.js'))
+            .pipe(gulpif(prod, streamify(uglify())))
+            .pipe(gulp.dest('javascript/dist'));
     }
 
     if (watch) {
@@ -65,11 +76,8 @@ function compile(watch) {
     return rebundle();
 }
 
-function watch() {
-    return compile(true);
-}
-
-gulp.task('build', function() { return compile() });
-gulp.task('watch', function() { return watch() });
+gulp.task('build', function () { return compile(false, false) });
+gulp.task('release', function() { return compile(true, false); });
+gulp.task('watch', function() { return compile(false, true) });
 
 gulp.task('default', ['watch']);
