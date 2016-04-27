@@ -156,7 +156,9 @@ module.exports = (function() {
      * @param {Function} callback
      */
     Lava.prototype.loadData = function (label, json, callback) {
-        var callback = typeof callback !== 'undefined' ? callback : _.noop();
+        if (typeof callback == 'undefined') {
+            callback = _.noop;
+        }
 
         if (typeof callback !== 'function') {
             throw new this._errors.InvalidCallback(callback);
@@ -192,7 +194,9 @@ module.exports = (function() {
      * @param {Function} callback
      */
     Lava.prototype.loadOptions = function (label, json, callback) {
-        var callback = typeof callback !== 'undefined' ? callback : _.noop();
+        if (typeof callback == 'undefined') {
+            callback = _.noop;
+        }
 
         if (typeof callback !== 'function') {
             throw new this._errors.InvalidCallback(callback);
