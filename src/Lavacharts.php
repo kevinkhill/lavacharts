@@ -70,7 +70,8 @@ class Lavacharts
         'GeoChart',
         'LineChart',
         'ScatterChart',
-        'TableChart'
+        'TableChart',
+        'TreeMap'
     ];
 
     /**
