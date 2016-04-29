@@ -42,6 +42,7 @@ class ChartFactory
         'GeoChart',
         'HistogramChart',
         'LineChart',
+        'OrgChart',
         'PieChart',
         'SankeyChart',
         'ScatterChart',

@@ -85,6 +85,6 @@ class DateCell extends Cell
      */
     public function jsonSerialize()
     {
-        return (string) $this;
+        return ['v' => (string) $this];
     }
 }

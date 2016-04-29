@@ -90,8 +90,8 @@ class DataTable implements Jsonable, \JsonSerializable
     /**
      * Create a new DataCell for a value in a Row
      *
-     * @deprecated 3.1.0 Use the DataFactory instead
      * @see \Khill\Lavacharts\DataTables\DataFactory::cell
+     * @deprecated 3.0.5
      *
      * @since  3.0.0
      * @param  mixed  $v Value of the Cell
@@ -158,10 +158,9 @@ class DataTable implements Jsonable, \JsonSerializable
      * This method is used to set the format to be used to parse a string
      * passed to a cell in a date column, that was parsed incorrectly by Carbon::parse()
      *
-     *
      * @param  string $dateTimeFormat
      * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
+     * @throws \Khill\Lavacharts\DataTables\InvalidDateTimeFormat
      */
     public function setDateTimeFormat($dateTimeFormat)
     {
@@ -450,59 +449,43 @@ class DataTable implements Jsonable, \JsonSerializable
     }
 
     /**
-     * Add a row to the DataTable
+     * Add a row to the DataTable.
      *
-     * Each cell in the table is described by an array with the following properties:
+     * A row is an array of data, that is mapped to the columns, in order.
      *
-     * v [Optional] The cell value. The data type should match the column data type.
-     * If null, the whole object should be empty and have neither v nor f properties.
+     * A column value (cell) in the row is described by a single value:
+     * integer, string, date, etc.
+     * OR
+     * an array with the following properties to explicitly define a cell:
      *
-     * f [Optional] A string version of the v value, formatted for display. The
-     * values should match, so if you specify Date(2008, 0, 1) for v, you should
+     *
+     * $cell[0] - The cell value. The data type should match the column data type.
+     *
+     * $cell[1] - [Optional] A string version of the value, formatted for display. The
+     * values should match, so if you specify "2008-0-1" for [0], you should
      * specify "January 1, 2008" or some such string for this property. This value
-     * is not checked against the v value. The visualization will not use this value
+     * is not checked against the [0] value. The visualization will not use this value
      * for calculation, only as a label for display. If omitted, a string version
-     * of v will be used.
+     * of [0] will be used.
      *
-     * p [Optional] An object that is a map of custom values applied to the cell.
+     * $cell[2] - [Optional] An array that is a map of custom values applied to the cell.
      * These values can be of any JavaScript type. If your visualization supports
      * any cell-level properties, it will describe them; otherwise, this property
-     * will be ignored. Example: p:{style: 'border: 1px solid green;'}.
-     *
+     * will be ignored. Example: [$v, $f, "style: 'border: 1px solid green;'"]
      *
      * Cells in the row array should be in the same order as their column descriptions
      * in cols. To indicate a null cell, you can specify null. To indicate a row
      * with null for the first two cells, you would specify [null, null, {cell_val}].
      *
-     * @param  array $cellArray Array of values or DataCells.
+     * @param  array $valueArray Array of values describing cells.
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      */
-    public function addRow(array $cellArray)
+    public function addRow(array $valueArray)
     {
-        $multiDimensionalArray = false;
-
-        if (count($cellArray) != count($cellArray, COUNT_RECURSIVE)) {
-            $multiDimensionalArray = true;
-        }
-
-        if ($multiDimensionalArray === false) {
-            $this->rows[] = Row::create($this, $cellArray);
-        } else { //TODO: timeofday cells
-            $timeOfDayColumns = $this->getColumnsByType('timeofday');
-
-            if (count($timeOfDayColumns) > 0) {
-                foreach ($timeOfDayColumns as $cell) {
-                    $rowValues = $this->parseTimeOfDayRow($cell);
-                }
-            } else {
-                $rowValues = $this->parseExtendedCellArray($cellArray);
-            }
-
-            $this->rows[] = ['c' => $rowValues];
-        }
+        $this->rows[] = Row::create($this, $valueArray);
 
         return $this;
     }
@@ -731,43 +714,6 @@ class DataTable implements Jsonable, \JsonSerializable
             'cols' => $this->cols,
             'rows' => $this->rows,
         ];
-    }
-
-    /**
-     * Parses an extended cell definition, as and array defined with v,f,p
-     *
-     * @access protected
-     * @param  array $cellArray
-     * @return array
-     * @throws \Khill\Lavacharts\Exceptions\InvalidRowProperty
-     */
-    protected function parseExtendedCellArray($cellArray) //TODO: what is going on here
-    {
-        foreach ($cellArray as $prop => $value) {
-            if (in_array($value, ['v', 'f', 'p']) === false) {
-                throw new InvalidRowProperty;
-            }
-
-            $rowValues[] = [$prop => $value];
-        }
-
-        return $rowValues;
-    }
-
-    /**
-     * Parses a timeofday row definition.
-     *
-     * @access protected
-     * @param  array $cellArray
-     * @return array
-     */
-    protected function parseTimeOfDayRow($cellArray) //TODO: what is going on here
-    {
-        foreach ($cellArray as $cell) {
-            $rowValues[] = ['v' => $cell];
-        }
-
-        return $rowValues;
     }
 
     /**

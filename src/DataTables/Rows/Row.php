@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\DataTables\Rows;
 
 use Carbon\Carbon;
+use Khill\Lavacharts\DataTables\Cells\Cell;
 use Khill\Lavacharts\DataTables\Cells\DateCell;
 use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
@@ -26,7 +27,7 @@ class Row implements \JsonSerializable
     /**
      * Row values
      *
-     * @var Cell[]
+     * @var \Khill\Lavacharts\DataTables\Cells\Cell[]
      */
     protected $values;
 
@@ -77,19 +78,27 @@ class Row implements \JsonSerializable
 
         $rowData = [];
 
-        foreach ($valueArray as $index => $cell) {
+        foreach ($valueArray as $index => $cellValue) {
             if ((bool) preg_match('/date|datetime|timeofday/', $columnTypes[$index]) === true) {
-                if ($cell instanceof Carbon) {
-                    $rowData[] = new DateCell($cell);
+                if ($cellValue instanceof Carbon) {
+                    $rowData[] = new DateCell($cellValue);
                 } else {
                     if (isset($dateTimeFormat)) {
-                        $rowData[] = DateCell::parseString($cell, $dateTimeFormat);
+                        $rowData[] = DateCell::parseString($cellValue, $dateTimeFormat);
                     } else {
-                        $rowData[] = DateCell::parseString($cell);
+                        $rowData[] = DateCell::parseString($cellValue);
                     }
                 }
             } else {
-                $rowData[] = $cell;
+                if (is_array($cellValue) === true) {
+                    $cell = new \ReflectionClass(
+                        'Khill\\Lavacharts\\DataTables\\Cells\\Cell'
+                    );
+
+                    $rowData[] = $cell->newInstanceArgs($cellValue);
+                } else {
+                    $rowData[] = new Cell($cellValue);
+                }
             }
         }
 
@@ -121,10 +130,6 @@ class Row implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return [
-            'c' => array_map(function ($cellValue) {
-                return [ 'v' => $cellValue ];
-            }, $this->values)
-        ];
+        return ['c' => $this->values];
     }
 }
