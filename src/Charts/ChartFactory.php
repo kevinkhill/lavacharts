@@ -14,7 +14,7 @@ use Khill\Lavacharts\Exceptions\InvalidDataTable;
  *
  * @category  Class
  * @package   Khill\Lavacharts\Charts
- * @since     3.1.0
+ * @since     3.0.5
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2016, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
@@ -23,36 +23,6 @@ use Khill\Lavacharts\Exceptions\InvalidDataTable;
  */
 class ChartFactory
 {
-    /**
-     * Types of charts that can be created.
-     *
-     * @var array
-     */
-    public static $CHART_TYPES = [
-        'AreaChart',
-        'AnnotationChart',
-        'BarChart',
-        'BubbleChart',
-        'CalendarChart',
-        'CandlestickChart',
-        'ColumnChart',
-        'ComboChart',
-        'GanttChart',
-        'GaugeChart',
-        'GeoChart',
-        'HistogramChart',
-        'LineChart',
-        'OrgChart',
-        'PieChart',
-        'SankeyChart',
-        'ScatterChart',
-        'SteppedAreaChart',
-        'TableChart',
-        'TimelineChart',
-        'TreemapChart',
-        'WordtreeChart'
-    ];
-
     /**
      * Create new chart from type with DataTable and config passed
      * from the main Lavacharts class.
@@ -103,27 +73,37 @@ class ChartFactory
     }
 
     /**
-     * Returns the array of supported chart types.
+     * Returns an array of supported chart types.
      *
      * @access public
-     * @since  3.1.0
+     * @since  3.0.5
      * @return array
      */
     public static function getChartTypes()
     {
-        return static::$CHART_TYPES;
+        $types = [];
+
+        foreach (new \IteratorIterator(new \FilesystemIterator(__DIR__)) as $file) {
+            $filename = $file->getFilename();
+
+            if (!in_array($filename, ['Chart.php', 'ChartFactory.php'])) {
+                $types[] = rtrim($filename, '.php');
+            }
+        }
+
+        return $types;
     }
 
     /**
      * Returns the array of supported chart types.
      *
      * @access public
-     * @since  3.1.0
+     * @since  3.0.5
      * @param  string $type Type of chart to check.
      * @return bool
      */
     public static function isValidChart($type)
     {
-        return in_array($type, self::$CHART_TYPES, true);
+        return in_array($type, self::getChartTypes(), true);
     }
 }

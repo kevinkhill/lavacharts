@@ -76,7 +76,7 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
     /**
      * Returns the Filter wrap type.
      *
-     * @since  3.1.0
+     * @since  3.0.5
      * @return string
      */
     public function getWrapType()
@@ -87,7 +87,7 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
     /**
      * Returns the chart version.
      *
-     * @since  3.1.0
+     * @since  3.0.5
      * @return string
      */
     public function getVersion()
@@ -98,7 +98,7 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
     /**
      * Returns the chart visualization class.
      *
-     * @since  3.1.0
+     * @since  3.0.5
      * @return string
      */
     public function getJsPackage()
@@ -109,7 +109,7 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
     /**
      * Returns the chart visualization package.
      *
-     * @since  3.1.0
+     * @since  3.0.5
      * @return string
      */
     public function getJsClass()
@@ -152,7 +152,7 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
     /**
      * Retrieves the events if any have been assigned to the chart.
      *
-     * @since  3.1.0
+     * @since  3.0.5
      * @return array
      */
     public function getEvents()

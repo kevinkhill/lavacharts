@@ -11,7 +11,7 @@ use Khill\Lavacharts\Support\Traits\PngOutputTrait as PngRenderable;
  *
  *
  * @package   Khill\Lavacharts\Charts
- * @since     3.1.0
+ * @since     3.0.5
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2016, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page

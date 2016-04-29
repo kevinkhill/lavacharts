@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Charts;
 
 /**
- * WordtreeChart Class
+ * TreeMap Chart Class
  *
  *
  * A visual representation of a data tree, where each node can have zero or more
@@ -22,21 +22,21 @@ namespace Khill\Lavacharts\Charts;
  * long to show, the name will be truncated with an ellipsis (...).
  *
  * @package   Khill\Lavacharts\Charts
- * @since     3.1.0
+ * @since     3.0.5
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2016, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class WordtreeChart extends Chart
+class TreeMapChart extends Chart
 {
     /**
      * Javascript chart type.
      *
      * @var string
      */
-    const TYPE = 'WordtreeChart';
+    const TYPE = 'TreeMapChart';
 
     /**
      * Javascript chart version.
@@ -50,16 +50,16 @@ class WordtreeChart extends Chart
      *
      * @var string
      */
-    const VISUALIZATION_PACKAGE = 'wordtree';
+    const VISUALIZATION_PACKAGE = 'treemap';
 
     /**
      * Returns the google javascript package name.
      *
-     * @since  3.1.0
+     * @since  3.0.5
      * @return string
      */
     public function getJsClass()
     {
-        return 'google.visualization.WordTree';
+        return 'google.visualization.TreeMap';
     }
 }
