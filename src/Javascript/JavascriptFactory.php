@@ -55,9 +55,16 @@ class JavascriptFactory
 
         $this->buffer = new Buffer($this->template);
 
+        /** Replacing the template variables with values */
         foreach ($this->templateVars as $var => $value) {
             $this->buffer->replace('<'.$var.'>', $value);
         }
+
+        /** Converting string dates to date constructors */
+        $this->buffer->pregReplace('/"Date\(((:?[0-9]+,?)+)\)"/', 'new Date(\1)');
+
+        /** Converting string nulls to actual nulls */
+        $this->buffer->pregReplace('/"null"/', 'null');
     }
 
     /**

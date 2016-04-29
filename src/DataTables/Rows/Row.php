@@ -26,14 +26,14 @@ class Row implements \JsonSerializable
     /**
      * Row values
      *
-     * @var array
+     * @var Cell[]
      */
     protected $values;
 
     /**
      * Creates a new Row object with the given values.
      *
-     * @param  array $valueArray Array of row values.
+     * @param array $valueArray Array of row values.
      */
     public function __construct($valueArray)
     {
@@ -55,7 +55,7 @@ class Row implements \JsonSerializable
      * @throws \Khill\Lavacharts\DataTables\Rows\InvalidCellCount
      * @throws \Khill\Lavacharts\DataTables\Rows\InvalidRowDefinition
      */
-    public static function Factory(DataTable $datatable, $valueArray)
+    public static function create(DataTable $datatable, $valueArray)
     {
         if ($valueArray !== null && is_array($valueArray) === false) {
             throw new InvalidRowDefinition($valueArray);

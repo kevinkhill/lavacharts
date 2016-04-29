@@ -102,7 +102,7 @@ class Buffer implements Jsonable
     }
 
     /**
-     * Find and replace content in the buffer using regex
+     * Find and replace content in the buffer using str_replace
      *
      * @param  string $search
      * @param  string $replace
@@ -111,6 +111,20 @@ class Buffer implements Jsonable
     public function replace($search, $replace)
     {
         $this->contents = str_replace($search, $replace, $this->contents);
+
+        return $this;
+    }
+
+    /**
+     * Find and replace content in the buffer using preg_replace
+     *
+     * @param  string $search
+     * @param  string $replace
+     * @return self
+     */
+    public function pregReplace($search, $replace)
+    {
+        $this->contents = preg_replace($search, $replace, $this->contents);
 
         return $this;
     }

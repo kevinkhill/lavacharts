@@ -489,7 +489,7 @@ class DataTable implements Jsonable, \JsonSerializable
         }
 
         if ($multiDimensionalArray === false) {
-            $this->rows[] = Row::Factory($this, $cellArray);
+            $this->rows[] = Row::create($this, $cellArray);
         } else { //TODO: timeofday cells
             $timeOfDayColumns = $this->getColumnsByType('timeofday');
 
