@@ -4,6 +4,7 @@ namespace Khill\Lavacharts;
 
 use Khill\Lavacharts\Values\Label;
 use Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Charts\ChartFactory;
 use Khill\Lavacharts\Dashboards\Dashboard;
 use Khill\Lavacharts\Exceptions\ChartNotFound;
 use Khill\Lavacharts\Exceptions\DashboardNotFound;
@@ -42,20 +43,20 @@ class Volcano
      * Stores a Chart or Dashboard in the Volcano.
      *
      * @since  3.0.3
-     * @param  \Khill\Lavacharts\Support\Contracts\RenderableInterface $renderable
-     * @return \Khill\Lavacharts\Support\Contracts\RenderableInterface|bool
+     * @param  Renderable $renderable
+     * @return Chart|Dashboard
      */
     public function store(Renderable $renderable)
     {
         if ($renderable instanceof Dashboard) {
-            return $this->storeDashboard($renderable);
+            $retVal = $this->storeDashboard($renderable);
         }
 
         if ($renderable instanceof Chart) {
-            return $this->storeChart($renderable);
+            $retVal = $this->storeChart($renderable);
         }
 
-        return false;
+        return $retVal;
     }
 
     /**
@@ -64,7 +65,7 @@ class Volcano
      * @since  3.0.3
      * @param  string                         $type  Type of Chart or Dashboard.
      * @param  \Khill\Lavacharts\Values\Label $label Label of the Chart or Dashboard.
-     * @return \Khill\Lavacharts\Charts\Chart|\Khill\Lavacharts\Dashboards\Dashboard
+     * @return Chart|Dashboard
      * @throws \Khill\Lavacharts\Exceptions\ChartNotFound
      * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
      */
@@ -105,11 +106,7 @@ class Volcano
      */
     public function checkChart($type, Label $label)
     {
-        if ((is_string($type) && strlen($type) > 0) === false) {
-            return false;
-        }
-
-        if (array_key_exists($type, $this->charts) === false) {
+        if (ChartFactory::isValidChart($type) === false) {
             return false;
         }
 
@@ -128,7 +125,7 @@ class Volcano
     }
 
     /**
-     * Stores a chart in the volcano datastore and gives it back.
+     * Stores a chart in the volcano and gives it back.
      *
      * @access private
      * @param  Chart $chart Chart to store in the volcano.
@@ -142,7 +139,7 @@ class Volcano
     }
 
     /**
-     * Stores a dashboard in the volcano datastore and gives it back.
+     * Stores a dashboard in the volcano and gives it back.
      *
      * @access private
      * @param  Dashboard $dashboard Dashboard to store in the volcano.

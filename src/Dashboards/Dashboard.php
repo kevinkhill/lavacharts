@@ -163,16 +163,6 @@ class Dashboard implements Renderable, Visualization
     }
 
     /**
-     * Returns the dashboard label.
-     *
-     * @return \Khill\Lavacharts\Values\Label
-     */
-    public function getLabel()
-    {
-        return $this->label;
-    }
-
-    /**
      * Batch add an array of bindings.
      *
      * This method can set all bindings at once instead of chaining multiple bind methods.
