@@ -2,22 +2,16 @@
 
 namespace Khill\Lavacharts\Tests;
 
+use Khill\Lavacharts\DataTables\Columns\ColumnFactory;
 
 abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * Partial DataTable for use throughout various tests
+     *
+     * @var \Khill\Lavacharts\DataTables\DataTable
      */
     protected $partialDataTable;
-
-    protected $columnTypes = [
-        'boolean',
-        'number',
-        'string',
-        'date',
-        'datetime',
-        'timeofday'
-    ];
 
     public function setUp()
     {
@@ -46,7 +40,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
     {
         return array_map(function ($columnType) {
             return [$columnType];
-        }, $this->columnTypes);
+        }, ColumnFactory::$types);
     }
 
     public function nonIntOrPercentProvider()

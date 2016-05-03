@@ -8,16 +8,10 @@ use Carbon\Carbon;
 
 class DataTableTest extends ProvidersTestCase
 {
+    /**
+     * @var \Khill\Lavacharts\DataTables\DataTable
+     */
     public $DataTable;
-
-    public $fullColumnNames = [
-        'BooleanColumn',
-        'NumberColumn',
-        'StringColumn',
-        'DateColumn',
-        'DateTimeColumn',
-        'TimeOfDayColumn'
-    ];
 
     public $columnLabels = [
         'Admin',
@@ -41,11 +35,18 @@ class DataTableTest extends ProvidersTestCase
         $this->DataTable = new DataTable();
     }
 
-    public function columnNameProvider()
+    public function columnCreationNameProvider()
     {
         return array_map(function ($columnName) {
             return [$columnName];
-        }, $this->fullColumnNames);
+        }, [
+            'BooleanColumn',
+            'NumberColumn',
+            'StringColumn',
+            'DateColumn',
+            'DateTimeColumn',
+            'TimeOfDayColumn'
+        ]);
     }
 
     public function columnTypeAndLabelProvider()
@@ -89,16 +90,16 @@ class DataTableTest extends ProvidersTestCase
      * @dataProvider nonStringProvider
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidTimeZone
      */
-    public function testSetTimezoneWithBadType($badVals)
+    public function testSetTimezoneWithBadType($badTypes)
     {
-        $this->DataTable->setTimezone($badVals);
+        $this->DataTable->setTimezone($badTypes);
     }
 
     /**
      * @depends testSetTimezoneMethod
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidTimeZone
      */
-    public function testSetTimezoneWithInvalidTimezone($badVals)
+    public function testSetTimezoneWithInvalidTimezone($badTypes)
     {
         $this->DataTable->setTimezone('Murica');
     }
@@ -126,11 +127,11 @@ class DataTableTest extends ProvidersTestCase
     /**
      * @depends testSetDateTimeFormat
      * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
      */
-    public function testSetDateTimeFormatWithBadTypes($badVals)
+    public function testSetDateTimeFormatWithBadTypes($badTypes)
     {
-        $this->DataTable->setDateTimeFormat($badVals);
+        $this->DataTable->setDateTimeFormat($badTypes);
     }
 
     /**
@@ -144,16 +145,6 @@ class DataTableTest extends ProvidersTestCase
     }
 
     /**
-     * @covers \Khill\Lavacharts\DataTables\DataTable::cell
-     */
-    public function testStaticallyCreateDataCell()
-    {
-        $cell = DataTable::cell(5);
-
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Cells\Cell', $cell);
-    }
-
-    /**
      * @dataProvider columnTypeProvider
      */
     public function testAddColumnByType($columnType)
@@ -163,6 +154,18 @@ class DataTableTest extends ProvidersTestCase
         $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
 
         $this->assertEquals($columnType, $this->getPrivateProperty($column, 'type'));
+    }
+
+    /**
+     * @depends testAddColumnByType
+     */
+    public function testGetColumnByIndex()
+    {
+        $this->DataTable->addColumn('number');
+
+        $column = $this->DataTable->getColumn(0);
+
+        $this->assertEquals($column->getType(), 'number');
     }
 
     /**
@@ -190,7 +193,7 @@ class DataTableTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider columnNameProvider
+     * @dataProvider columnCreationNameProvider
      * @covers \Khill\Lavacharts\DataTables\DataTable::addBooleanColumn
      * @covers \Khill\Lavacharts\DataTables\DataTable::addStringColumn
      * @covers \Khill\Lavacharts\DataTables\DataTable::addNumberColumn
@@ -198,38 +201,39 @@ class DataTableTest extends ProvidersTestCase
      * @covers \Khill\Lavacharts\DataTables\DataTable::addDateTimeColumn
      * @covers \Khill\Lavacharts\DataTables\DataTable::addTimeOfDayColumn
      */
-    public function testAddColumnViaNamedAlias($className)
+    public function testAddColumnViaNamedAlias($columnType)
     {
-        call_user_func([$this->DataTable, 'add' . $className]);
+        call_user_func([$this->DataTable, 'add' . $columnType]);
 
         $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
 
-        $type = strtolower(str_replace('Column', '', $className));
+        $type = strtolower(str_replace('Column', '', $columnType));
 
         $this->assertEquals($type, $this->getPrivateProperty($column, 'type'));
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @covers \Khill\Lavacharts\DataTables\DataTable::addColumn
+     * @expectedExceptionMessageRegExp /call_user_func_array\(\) expects parameter 2 to be array, \w+ given/
+     * @covers \Khill\Lavacharts\DataTables\DataTable::addColumns
      */
     public function testAddColumnsWithBadTypesInArray()
     {
         $this->DataTable->addColumns([
-            'hotdogs',
-            15.6244
+            5.6,
+            15.6244,
+            'hotdogs'
         ]);
     }
 
     /**
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnType
-     * @covers \Khill\Lavacharts\DataTables\DataTable::addColumn
+     * @covers \Khill\Lavacharts\DataTables\DataTable::addColumns
      */
     public function testAddColumnsWithBadValuesInArray()
     {
         $this->DataTable->addColumns([
             [5, 'falcons'],
-            [false, 'tacos']
+            ['tacos', false]
         ]);
     }
 
@@ -252,9 +256,9 @@ class DataTableTest extends ProvidersTestCase
      * @covers \Khill\Lavacharts\DataTables\DataTable::addRoleColumn
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
-    public function testAddRoleColumnWithBadColumnTypes($badVals)
+    public function testAddRoleColumnWithBadColumnTypes($badTypes)
     {
-        $this->DataTable->addRoleColumn($badVals, 'interval');
+        $this->DataTable->addRoleColumn($badTypes, 'interval');
     }
 
     /**
@@ -263,9 +267,9 @@ class DataTableTest extends ProvidersTestCase
      * @covers \Khill\Lavacharts\DataTables\DataTable::addRoleColumn
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnRole
      */
-    public function testAddRoleColumnWithBadRoleTypes($badVals)
+    public function testAddRoleColumnWithBadRoleTypes($badTypes)
     {
-        $this->DataTable->addRoleColumn('number', $badVals);
+        $this->DataTable->addRoleColumn('number', $badTypes);
     }
 
     /**
@@ -308,11 +312,11 @@ class DataTableTest extends ProvidersTestCase
      * @dataProvider nonIntProvider
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
-    public function testDropColumnWithBadType($badVals)
+    public function testDropColumnWithBadType($badTypes)
     {
         $this->DataTable->addNumberColumn();
 
-        $this->DataTable->dropColumn($badVals);
+        $this->DataTable->dropColumn($badTypes);
     }
 
     /**
@@ -710,7 +714,7 @@ class DataTableTest extends ProvidersTestCase
      * @depends testFormatColumns
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function testFormatColumnsWithBadType($badVals)
+    public function testFormatColumnsWithBadType($badTypes)
     {
         $mockDateFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
         $mockNumberFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
@@ -718,7 +722,7 @@ class DataTableTest extends ProvidersTestCase
         $this->DataTable->addDateColumn();
         $this->DataTable->addNumberColumn();
 
-        $this->DataTable->formatColumns($badVals);
+        $this->DataTable->formatColumns($badTypes);
     }
 
     /**

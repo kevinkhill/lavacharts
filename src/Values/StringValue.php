@@ -27,15 +27,28 @@ class StringValue
     /**
      * StringValue constructor.
      *
-     * @param string $value
+     * @param  string $value
+     * @throws \Khill\Lavacharts\Exceptions\InvalidStringValue
      */
     public function __construct($value)
     {
         if (is_string($value) === false || empty($value) === true) {
-            throw new InvalidStringValue($value);
+            throw new InvalidStringValue;
         }
 
         $this->value = $value;
+    }
+
+    /**
+     * Check a value if is string and not empty without creating
+     * an instance.
+     *
+     * @param  string $value
+     * @return string
+     */
+    public static function check($value)
+    {
+        return (string) new self($value);
     }
 
     /**

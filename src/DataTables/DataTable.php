@@ -5,10 +5,10 @@ namespace Khill\Lavacharts\DataTables;
 use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\DataTables\Rows\Row;
 use Khill\Lavacharts\DataTables\Columns\ColumnFactory;
+use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use Khill\Lavacharts\Exceptions\InvalidTimeZone;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
-use Khill\Lavacharts\Exceptions\InvalidRowProperty;
 use Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
 use Khill\Lavacharts\Values\StringValue;
 
@@ -154,18 +154,17 @@ class DataTable implements Jsonable, \JsonSerializable
 
     /**
      * Sets the format to be used by Carbon::createFromFormat()
-     *
      * This method is used to set the format to be used to parse a string
      * passed to a cell in a date column, that was parsed incorrectly by Carbon::parse()
      *
      * @param  string $dateTimeFormat
      * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\DataTables\InvalidDateTimeFormat
+     * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
      */
     public function setDateTimeFormat($dateTimeFormat)
     {
         try {
-            $this->dateTimeFormat = new StringValue($dateTimeFormat);
+            $this->dateTimeFormat = StringValue::check($dateTimeFormat);
         } catch (\Exception $e) {
             throw new InvalidDateTimeFormat($dateTimeFormat);
         }
