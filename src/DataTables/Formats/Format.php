@@ -24,13 +24,13 @@ use Khill\Lavacharts\Support\Contracts\JsonableInterface;
 class Format extends Customizable implements JsonableInterface
 {
     /**
-     * Factory method for creating new format objects.
+     * Static method for creating new format objects.
      *
      * @param string $type
      * @param array  $options
      * @return \Khill\Lavacharts\DataTables\Formats\Format
      */
-    public static function Factory($type, array $options = [])
+    public static function create($type, array $options = [])
     {
         $format =  __NAMESPACE__ . '\\' . $type;
 

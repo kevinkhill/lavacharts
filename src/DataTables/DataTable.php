@@ -2,15 +2,16 @@
 
 namespace Khill\Lavacharts\DataTables;
 
+use Khill\Lavacharts\Values\StringValue;
 use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\DataTables\Rows\Row;
 use Khill\Lavacharts\DataTables\Columns\ColumnFactory;
+use Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use Khill\Lavacharts\Exceptions\InvalidTimeZone;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
-use Khill\Lavacharts\Values\StringValue;
 
 /**
  * The DataTable object is used to hold the data passed into a visualization.
@@ -163,11 +164,11 @@ class DataTable implements Jsonable, \JsonSerializable
      */
     public function setDateTimeFormat($dateTimeFormat)
     {
-        try {
-            $this->dateTimeFormat = StringValue::check($dateTimeFormat);
-        } catch (\Exception $e) {
+        if (StringValue::isNonEmpty($dateTimeFormat) === false) {
             throw new InvalidDateTimeFormat($dateTimeFormat);
         }
+
+        $this->dateTimeFormat = $dateTimeFormat;
 
         return $this;
     }
@@ -245,11 +246,15 @@ class DataTable implements Jsonable, \JsonSerializable
      *
      * @param  array $arrayOfColumns Array of columns to batch add to the DataTable.
      * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnDefinition
      */
     public function addColumns(array $arrayOfColumns)
     {
         foreach ($arrayOfColumns as $columnArray) {
+            if (is_array($columnArray) === false) {
+                throw new InvalidColumnDefinition($columnArray);
+            }
+
             call_user_func_array([$this, 'createColumnWithParams'], $columnArray);
         }
 
@@ -369,12 +374,12 @@ class DataTable implements Jsonable, \JsonSerializable
      *
      * @access protected
      * @param  string $type Type of column to create
-     * @param  string $label Label for the column. (Optional)
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object. (Optional)
-     * @param  string $role A role for the column. (Optional)
+     * @param  string $label Label for the column.
+     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object.
+     * @param  string $role A role for the column.
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
-    protected function createColumnWithParams($type, $label = '', $format = null, $role = '')
+    protected function createColumnWithParams($type, $label = '', Format $format = null, $role = '')
     {
         $this->cols[] = $this->columnFactory->create($type, $label, $format, $role);
 
@@ -410,7 +415,7 @@ class DataTable implements Jsonable, \JsonSerializable
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
-    public function formatColumn($index, Format $format)
+    public function formatColumn($index, Format $format = null)
     {
         $this->indexCheck($index);
 
@@ -422,25 +427,12 @@ class DataTable implements Jsonable, \JsonSerializable
     /**
      * Sets the format of multiple columns.
      *
-     * @param  array $colFormatArr
+     * @param  array $formatArray
      * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function formatColumns($colFormatArr)
+    public function formatColumns(array $formatArray)
     {
-        $arrayOfFormats = array_reduce($colFormatArr, function ($prev, $curr) {
-            return $prev && $curr instanceof Format;
-        }, true);
-
-        if ($arrayOfFormats) {
-            throw new InvalidConfigValue(
-                'DataTable->' . __FUNCTION__,
-                'array',
-                'Where the keys are column indices and the values Format objects'
-            );
-        }
-
-        foreach ($colFormatArr as $index => $format) {
+        foreach ($formatArray as $index => $format) {
             $this->formatColumn($index, $format);
         }
 
@@ -455,34 +447,36 @@ class DataTable implements Jsonable, \JsonSerializable
      * A column value (cell) in the row is described by a single value:
      * integer, string, date, etc.
      * OR
-     * an array with the following properties to explicitly define a cell:
+     * an array with the following properties to explicitly define a cell.
+     * OR
+     * a null to create a null row.
      *
+     * Cell Properties:
+     *  $cell[0] - The cell value. The data type should match the column data type.
      *
-     * $cell[0] - The cell value. The data type should match the column data type.
+     *  $cell[1] - [Optional] A string version of the value, formatted for display. The
+     *  values should match, so if you specify "2008-0-1" for [0], you should
+     *  specify "January 1, 2008" or some such string for this property. This value
+     *  is not checked against the [0] value. The visualization will not use this value
+     *  for calculation, only as a label for display. If omitted, a string version
+     *  of [0] will be used.
      *
-     * $cell[1] - [Optional] A string version of the value, formatted for display. The
-     * values should match, so if you specify "2008-0-1" for [0], you should
-     * specify "January 1, 2008" or some such string for this property. This value
-     * is not checked against the [0] value. The visualization will not use this value
-     * for calculation, only as a label for display. If omitted, a string version
-     * of [0] will be used.
-     *
-     * $cell[2] - [Optional] An array that is a map of custom values applied to the cell.
-     * These values can be of any JavaScript type. If your visualization supports
-     * any cell-level properties, it will describe them; otherwise, this property
-     * will be ignored. Example: [$v, $f, "style: 'border: 1px solid green;'"]
+     *  $cell[2] - [Optional] An array that is a map of custom values applied to the cell.
+     *  These values can be of any JavaScript type. If your visualization supports
+     *  any cell-level properties, it will describe them; otherwise, this property
+     *  will be ignored. Example: [$v, $f, "style: 'border: 1px solid green;'"]
      *
      * Cells in the row array should be in the same order as their column descriptions
      * in cols. To indicate a null cell, you can specify null. To indicate a row
      * with null for the first two cells, you would specify [null, null, {cell_val}].
      *
-     * @param  array $valueArray Array of values describing cells.
+     * @param  array|null $valueArray Array of values describing cells or null for a null row.
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      */
-    public function addRow(array $valueArray)
+    public function addRow(array $valueArray = null)
     {
         $this->rows[] = Row::create($this, $valueArray);
 
@@ -563,7 +557,7 @@ class DataTable implements Jsonable, \JsonSerializable
      */
     public function getColumnsByType($type)
     {
-        $this->columnFactory->typeCheck($type);
+        ColumnFactory::isValidType($type);
 
         $indices = [];
 
@@ -716,7 +710,7 @@ class DataTable implements Jsonable, \JsonSerializable
     }
 
     /**
-     * Used to check if a number is a valid column index of the DataTable
+     * Used to isNonEmpty if a number is a valid column index of the DataTable
      *
      * @access protected
      * @param  int $index

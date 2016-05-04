@@ -3,10 +3,14 @@
 namespace Khill\Lavacharts\DataTables\Rows;
 
 use Carbon\Carbon;
+use Khill\Lavacharts\Values\StringValue;
 use Khill\Lavacharts\DataTables\Cells\Cell;
 use Khill\Lavacharts\DataTables\Cells\DateCell;
 use Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Exceptions\InvalidCellCount;
 use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
+use Khill\Lavacharts\Exceptions\InvalidDate;
+use Khill\Lavacharts\Exceptions\InvalidRowDefinition;
 
 /**
  * Row Object
@@ -22,7 +26,7 @@ use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Row implements \JsonSerializable
+class Row implements \ArrayAccess, \JsonSerializable
 {
     /**
      * Row values
@@ -53,8 +57,8 @@ class Row implements \JsonSerializable
      * @param \Khill\Lavacharts\DataTables\DataTable $datatable
      * @param  array                                 $valueArray Array of values to assign to the row.
      * @return \Khill\Lavacharts\DataTables\Rows\Row
-     * @throws \Khill\Lavacharts\DataTables\Rows\InvalidCellCount
-     * @throws \Khill\Lavacharts\DataTables\Rows\InvalidRowDefinition
+     * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
+     * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
      */
     public static function create(DataTable $datatable, $valueArray)
     {
@@ -80,6 +84,12 @@ class Row implements \JsonSerializable
 
         foreach ($valueArray as $index => $cellValue) {
             if ((bool) preg_match('/date|datetime|timeofday/', $columnTypes[$index]) === true) {
+                if (StringValue::isNonEmpty($cellValue) === false &&
+                    $cellValue instanceof Carbon === false
+                ) {
+                    throw new InvalidDate($cellValue);
+                }
+
                 if ($cellValue instanceof Carbon) {
                     $rowData[] = new DateCell($cellValue);
                 } else {
@@ -108,12 +118,11 @@ class Row implements \JsonSerializable
     /**
      * Returns a column value from the Row.
      *
-     * @access public
      * @param  int $columnIndex Column value to fetch from the row.
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
-     * @return mixed
+     * @return \Khill\Lavacharts\DataTables\Cells\Cell
      */
-    public function getColumnValue($columnIndex)
+    public function getCell($columnIndex)
     {
         if (is_int($columnIndex) === false || isset($this->values[$columnIndex]) === false) {
             throw new InvalidColumnIndex($columnIndex, count($this->values));
@@ -125,11 +134,49 @@ class Row implements \JsonSerializable
     /**
      * Custom json serialization of the row.
      *
-     * @access public
      * @return array
      */
     public function jsonSerialize()
     {
         return ['c' => $this->values];
+    }
+
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     */
+    public function offsetSet($offset, $value)
+    {
+        if (is_null($offset)) {
+            $this->values[] = $value;
+        } else {
+            $this->values[$offset] = $value;
+        }
+    }
+
+    /**
+     * @param mixed $offset
+     * @return bool
+     */
+    public function offsetExists($offset)
+    {
+        return isset($this->values[$offset]);
+    }
+
+    /**
+     * @param mixed $offset
+     */
+    public function offsetUnset($offset)
+    {
+        unset($this->values[$offset]);
+    }
+
+    /**
+     * @param mixed $offset
+     * @return mixed|null
+     */
+    public function offsetGet($offset)
+    {
+        return isset($this->values[$offset]) ? $this->values[$offset] : null;
     }
 }

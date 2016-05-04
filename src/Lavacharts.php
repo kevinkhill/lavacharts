@@ -109,7 +109,7 @@ class Lavacharts
 
         //Formats
         if ((bool)preg_match('/Format$/', $method)) {
-            $lavaClass = Format::Factory($method, $args[0]);
+            $lavaClass = Format::create($method, $args[0]);
         }
 
         if (isset($lavaClass) == false) {
@@ -151,7 +151,7 @@ class Lavacharts
             $dashboard = $this->volcano->get('Dashboard', $label);
         } else {
             $dashboard = call_user_func(
-                __NAMESPACE__ . '\\Dashboards\\Dashboard::Factory',
+                __NAMESPACE__ . '\\Dashboards\\Dashboard::create',
                 func_get_args()
             );
 
@@ -253,8 +253,8 @@ class Lavacharts
      *
      * @since  2.4.2
      * @uses   \Khill\Lavacharts\Values\Label
-     * @param  string $type Type of object to check.
-     * @param  string $label Label of the object to check.
+     * @param  string $type Type of object to isNonEmpty.
+     * @param  string $label Label of the object to isNonEmpty.
      * @return boolean
      */
     public function exists($type, $label)
@@ -297,7 +297,7 @@ class Lavacharts
     /**
      * Checks if running in composer environment
      *
-     * This will check if the folder 'composer' is within the path to Lavacharts.
+     * This will isNonEmpty if the folder 'composer' is within the path to Lavacharts.
      *
      * @access private
      * @since  2.4.0

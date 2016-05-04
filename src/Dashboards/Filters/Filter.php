@@ -55,7 +55,7 @@ class Filter extends Customizable implements Wrappable, \JsonSerializable
     }
 
     /**
-     * Filter Factory for creating new filters
+     * Filter create for creating new filters
      *
      * @param string     $type
      * @param string|int $cLabelOrIndex

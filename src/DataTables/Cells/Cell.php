@@ -112,6 +112,7 @@ class Cell implements \JsonSerializable
         if (empty($this->f) === false) {
             $json['f'] = $this->f;
         }
+        
         if (empty($this->p) === false) {
             $json['p'] = $this->p;
         }

@@ -41,7 +41,7 @@ class RowTest extends ProvidersTestCase
 
     /**
      * @depends testConstructorWithCarbon
-     * @covers \Khill\Lavacharts\DataTables\Rows\Row::getColumnValue
+     * @covers \Khill\Lavacharts\DataTables\Rows\Row::getCell
      */
     public function testGetColumnValue()
     {
@@ -49,15 +49,15 @@ class RowTest extends ProvidersTestCase
 
         $row = new Row([$mockCarbon, 1, 2.0]);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Cells\DateCell', $row->getColumnValue(0));
-        $this->assertEquals(1, $row->getColumnValue(1));
-        $this->assertEquals(2.0, $row->getColumnValue(2));
+        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Cells\DateCell', $row->getCell(0));
+        $this->assertEquals(1, $row->getCell(1));
+        $this->assertEquals(2.0, $row->getCell(2));
     }
 
     /**
      * @depends testConstructorWithCarbon
      * @dataProvider nonIntProvider
-     * @covers \Khill\Lavacharts\DataTables\Rows\Row::getColumnValue
+     * @covers \Khill\Lavacharts\DataTables\Rows\Row::getCell
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
     public function testGetColumnValueWithBadType($badTypes)
@@ -66,19 +66,19 @@ class RowTest extends ProvidersTestCase
 
         $row = new Row([$mockCarbon, 1, 2.0]);
 
-        $row->getColumnValue($badTypes);
+        $row->getCell($badTypes);
     }
 
     /**
      * @depends testConstructorWithCarbon
-     * @covers \Khill\Lavacharts\DataTables\Rows\Row::getColumnValue
+     * @covers \Khill\Lavacharts\DataTables\Rows\Row::getCell
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
     public function testGetColumnValueWithInvalidColumnIndex()
     {
         $row = new Row([1]);
 
-        $row->getColumnValue(41);
+        $row->getCell(41);
     }
 
     /**

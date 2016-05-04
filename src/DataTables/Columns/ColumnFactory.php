@@ -2,11 +2,11 @@
 
 namespace Khill\Lavacharts\DataTables\Columns;
 
+use Khill\Lavacharts\Exceptions\InvalidColumnRole;
+use Khill\Lavacharts\Values\Role;
 use Khill\Lavacharts\Values\StringValue;
 use Khill\Lavacharts\DataTables\Formats\Format;
-use Khill\Lavacharts\Exceptions\InvalidColumnRole;
 use Khill\Lavacharts\Exceptions\InvalidColumnType;
-use Khill\Lavacharts\Exceptions\InvalidStringValue;
 
 /**
  * ColumnFactory Class
@@ -41,35 +41,6 @@ class ColumnFactory
     ];
 
     /**
-     * Valid column roles
-     *
-     * @var array
-     */
-    public static $roles = [
-        'annotation',
-        'annotationText',
-        'certainty',
-        'emphasis',
-        'interval',
-        'scope',
-        'style',
-        'tooltip'
-    ];
-
-    /**
-     * Valid column descriptions
-     *
-     * @var array
-     */
-    public static $desc = [
-        'type',
-        'label',
-        'id',
-        'role',
-        'pattern'
-    ];
-
-    /**
      * Creates a new column object.
      *
      * @access public
@@ -84,32 +55,24 @@ class ColumnFactory
      */
     public function create($type, $label = '', Format $format = null, $role = '')
     {
-        if (in_array($type, self::$types, true) === false) {
-            throw new InvalidColumnType($type, self::$types);
-        }
+        self::isValidType($type);
 
         $columnArgs = func_get_args();
 
-        try {
-            $columnArgs[] = StringValue::check($label);
-        } catch (InvalidStringValue $e) {
-            //
+        if (StringValue::isNonEmpty($label)) {
+            $columnArgs[] = $label;
         }
 
         if ($format !== null) {
             $columnArgs[] = $format;
         }
 
-        try {
-            $role = StringValue::check($role);
+        if (is_string($role) === false) {
+            throw new InvalidColumnRole($role, Role::$roles);
+        }
 
-            if (in_array($role, self::$roles) === false) {
-                throw new InvalidColumnRole($role, self::$roles);
-            }
-
-            $columnArgs[] = $role;
-        } catch (InvalidStringValue $e) {
-            //
+        if (StringValue::isNonEmpty($role)) {
+            $columnArgs[] = new Role($role);
         }
 
         $column = new \ReflectionClass(__NAMESPACE__ . '\\Column');
@@ -124,7 +87,7 @@ class ColumnFactory
      * @param  \Khill\Lavacharts\DataTables\Formats\Format $format
      * @return \Khill\Lavacharts\DataTables\Columns\Column
      */
-    public function applyFormat(Column $column, Format $format)
+    public function applyFormat(Column $column, Format $format = null)
     {
         return $this->create(
             $column->getType(),
@@ -132,5 +95,18 @@ class ColumnFactory
             $format,
             $column->getRole()
         );
+    }
+
+    /**
+     * Checks if a given type is a valid column type
+     *
+     * @param  string $type
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
+     */
+    public static function isValidType($type)
+    {
+        if (in_array($type, self::$types, true) === false) {
+            throw new InvalidColumnType($type, self::$types);
+        }
     }
 }

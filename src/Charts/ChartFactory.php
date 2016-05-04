@@ -99,7 +99,7 @@ class ChartFactory
      *
      * @access public
      * @since  3.0.5
-     * @param  string $type Type of chart to check.
+     * @param  string $type Type of chart to isNonEmpty.
      * @return bool
      */
     public static function isValidChart($type)

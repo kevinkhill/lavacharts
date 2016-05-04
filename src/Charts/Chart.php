@@ -190,7 +190,7 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
      * This is method was added in 2.5 as a bandaid to remove the handcuffs from
      * users who want to add options that Google has added, that I have not.
      * I didn't intend to restrict the user to only select options, as the
-     * goal was to type check and validate. This method can be used to set
+     * goal was to type isNonEmpty and validate. This method can be used to set
      * any option, just pass in arrays with key value pairs for any setting.
      *
      * If the setting is an object, per the google docs, then use multi-dimensional

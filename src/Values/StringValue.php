@@ -1,7 +1,7 @@
 <?php
 
 namespace Khill\Lavacharts\Values;
-use Khill\Lavacharts\Exceptions\InvalidString;
+
 use Khill\Lavacharts\Exceptions\InvalidStringValue;
 
 /**
@@ -17,12 +17,12 @@ use Khill\Lavacharts\Exceptions\InvalidStringValue;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class StringValue
+class StringValue implements \JsonSerializable
 {
     /**
      * @var string
      */
-    private $value;
+    protected $value;
 
     /**
      * StringValue constructor.
@@ -44,17 +44,31 @@ class StringValue
      * an instance.
      *
      * @param  string $value
-     * @return string
+     * @return bool
      */
-    public static function check($value)
+    public static function isNonEmpty($value)
     {
-        return (string) new self($value);
+        try {
+            new self($value);
+
+            return true;
+        } catch (InvalidStringValue $e) {
+            return false;
+        }
     }
 
     /**
      * @return string
      */
     public function __toString()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @return string
+     */
+    public function jsonSerialize()
     {
         return $this->value;
     }

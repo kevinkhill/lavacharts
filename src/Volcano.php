@@ -100,8 +100,8 @@ class Volcano
     /**
      * Simple true/false test if a chart exists.
      *
-     * @param  string $type  Type of chart to check.
-     * @param  Label  $label Identifying label of a chart to check.
+     * @param  string $type  Type of chart to isNonEmpty.
+     * @param  Label  $label Identifying label of a chart to isNonEmpty.
      * @return bool
      */
     public function checkChart($type, Label $label)
@@ -116,7 +116,7 @@ class Volcano
     /**
      * Simple true/false test if a dashboard exists.
      *
-     * @param  Label $label Identifying label of a dashboard to check.
+     * @param  Label $label Identifying label of a dashboard to isNonEmpty.
      * @return bool
      */
     public function checkDashboard(Label $label)
