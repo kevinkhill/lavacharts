@@ -249,6 +249,9 @@ class LavachartsTest extends ProvidersTestCase
         $this->lava->LineChart(5, $this->partialDataTable);
     }
 
+    /**
+     * @depends testCreatingChartsViaMagicMethodOfLavaObject
+     */
     public function testStoreChartIntoVolcano()
     {
         $mockPieChart = \Mockery::mock('\\Khill\\Lavacharts\\Charts\PieChart', [
@@ -264,7 +267,18 @@ class LavachartsTest extends ProvidersTestCase
     {
         $this->lava->jsapi();
 
-        $this->assertTrue($this->getPrivateProperty($this->lava, 'jsFactory')->coreJsRendered());
+        $this->assertTrue(
+            $this->inspect($this->lava, 'scriptManager')->lavaJsRendered()
+        );
+    }
+
+    public function testLavaJsMethodWithCoreJsTracking()
+    {
+        $this->lava->lavajs();
+
+        $this->assertTrue(
+            $this->inspect($this->lava, 'scriptManager')->lavaJsRendered()
+        );
     }
 
     public function formatTypeProvider()

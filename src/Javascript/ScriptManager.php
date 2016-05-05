@@ -17,7 +17,7 @@ use Khill\Lavacharts\Values\ElementId;
  *
  * @category   Class
  * @package    Khill\Lavacharts\Javascript
- * @since      3.1.0
+ * @since      3.0.5
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2016, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
@@ -52,7 +52,7 @@ class ScriptManager
      *
      * @var bool
      */
-    protected $lavaJsRendered = false;
+    private $lavaJsRendered = false;
 
     /**
      * Returns true|false depending on if the lava.js module

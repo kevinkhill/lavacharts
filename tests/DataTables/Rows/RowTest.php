@@ -16,7 +16,7 @@ class RowTest extends ProvidersTestCase
     {
         $row = new Row(['bob', 1, 2.0]);
 
-        $values = $this->getPrivateProperty($row, 'values');
+        $values = $this->inspect($row, 'values');
 
         $this->assertEquals('bob', $values[0]);
         $this->assertEquals(1, $values[1]);
@@ -32,7 +32,7 @@ class RowTest extends ProvidersTestCase
 
         $row = new Row([$mockCarbon, 1, 2.0]);
 
-        $values = $this->getPrivateProperty($row, 'values');
+        $values = $this->inspect($row, 'values');
 
         $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Cells\DateCell', $values[0]);
         $this->assertEquals(1, $values[1]);

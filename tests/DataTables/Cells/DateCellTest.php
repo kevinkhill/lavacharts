@@ -23,9 +23,9 @@ class DateCellTest extends ProvidersTestCase
 
         $column = new DateCell($mockCarbon, 'start', ['color'=>'red']);
 
-        $this->assertInstanceOf('Carbon\Carbon', $this->getPrivateProperty($column, 'v'));
-        $this->assertEquals('start', $this->getPrivateProperty($column, 'f'));
-        $this->assertTrue(is_array($this->getPrivateProperty($column, 'p')));
+        $this->assertInstanceOf('Carbon\Carbon', $this->inspect($column, 'v'));
+        $this->assertEquals('start', $this->inspect($column, 'f'));
+        $this->assertTrue(is_array($this->inspect($column, 'p')));
     }
 
 

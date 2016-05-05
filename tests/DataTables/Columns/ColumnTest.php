@@ -21,7 +21,7 @@ class ColumnTest extends ProvidersTestCase
     {
         $column = new Column('number');
 
-        $this->assertEquals('number', $this->getPrivateProperty($column, 'type'));
+        $this->assertEquals('number', $this->inspect($column, 'type'));
     }
 
     /**
@@ -32,7 +32,7 @@ class ColumnTest extends ProvidersTestCase
     {
         $column = new Column('number', 'MyLabel');
 
-        $this->assertEquals('MyLabel', $this->getPrivateProperty($column, 'label'));
+        $this->assertEquals('MyLabel', $this->inspect($column, 'label'));
     }
 
     /**
@@ -44,7 +44,7 @@ class ColumnTest extends ProvidersTestCase
         $mockFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
         $column = new Column('number', 'MyLabel', $mockFormat);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Formats\NumberFormat', $this->getPrivateProperty($column, 'format'));
+        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Formats\NumberFormat', $this->inspect($column, 'format'));
     }
 
     /**
@@ -56,7 +56,7 @@ class ColumnTest extends ProvidersTestCase
         $mockFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
         $column = new Column('number', 'MyLabel', $mockFormat, 'interval');
 
-        $this->assertEquals('interval', $this->getPrivateProperty($column, 'role'));
+        $this->assertEquals('interval', $this->inspect($column, 'role'));
     }
 
     /**

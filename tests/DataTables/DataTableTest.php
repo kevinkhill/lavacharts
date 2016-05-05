@@ -53,14 +53,14 @@ class DataTableTest extends ProvidersTestCase
 
     public function privateColumnAccess($index = null)
     {
-        $cols = $this->getPrivateProperty($this->DataTable, 'cols');
+        $cols = $this->inspect($this->DataTable, 'cols');
 
         return is_int($index) ? $cols[$index] : $cols;
     }
 
     public function privateRowAccess($index = null)
     {
-        $rows = $this->getPrivateProperty($this->DataTable, 'rows');
+        $rows = $this->inspect($this->DataTable, 'rows');
 
         return is_int($index) ? $rows[$index] : $rows;
     }
@@ -85,7 +85,7 @@ class DataTableTest extends ProvidersTestCase
 
     public function testDefaultTimezoneUponCreation()
     {
-        $tz = $this->getPrivateProperty($this->DataTable, 'timezone');
+        $tz = $this->inspect($this->DataTable, 'timezone');
 
         $this->assertEquals($this->tzLA, $tz->getName());
     }
@@ -94,7 +94,7 @@ class DataTableTest extends ProvidersTestCase
     {
         $datatable = new DataTable($this->tzNY);
 
-        $tz = $this->getPrivateProperty($datatable, 'timezone');
+        $tz = $this->inspect($datatable, 'timezone');
 
         $this->assertEquals($this->tzNY, $tz->getName());
     }
@@ -103,7 +103,7 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->DataTable->setTimezone($this->tzNY);
 
-        $tz = $this->getPrivateProperty($this->DataTable, 'timezone');
+        $tz = $this->inspect($this->DataTable, 'timezone');
 
         $this->assertEquals($this->tzNY, $tz->getName());
     }
@@ -142,7 +142,7 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->DataTable->setDateTimeFormat('YYYY-mm-dd');
 
-        $format = $this->getPrivateProperty($this->DataTable, 'dateTimeFormat');
+        $format = $this->inspect($this->DataTable, 'dateTimeFormat');
 
         $this->assertEquals('YYYY-mm-dd', $format);
     }
@@ -406,7 +406,7 @@ class DataTableTest extends ProvidersTestCase
 
         $row = $this->privateRowAccess(0);
 
-        $this->assertNull($this->getPrivateProperty($row, 'values')[0]);
+        $this->assertNull($this->inspect($row, 'values')[0]);
     }
 
     /**
@@ -420,7 +420,7 @@ class DataTableTest extends ProvidersTestCase
 
         $row = $this->privateRowAccess(0);
 
-        $this->assertNull($this->getPrivateProperty($row, 'values')[0]);
+        $this->assertNull($this->inspect($row, 'values')[0]);
     }
 
     /**
@@ -593,7 +593,7 @@ class DataTableTest extends ProvidersTestCase
 
         $this->assertInstanceOf(
             DATATABLE_NS.'Formats\DateFormat',
-            $this->getPrivateProperty($column, 'format')
+            $this->inspect($column, 'format')
         );
     }
 
@@ -635,12 +635,12 @@ class DataTableTest extends ProvidersTestCase
 
         $this->assertInstanceOf(
             DATATABLE_NS.'Formats\DateFormat',
-            $this->getPrivateProperty($columns[0], 'format')
+            $this->inspect($columns[0], 'format')
         );
 
         $this->assertInstanceOf(
             DATATABLE_NS.'Formats\NumberFormat',
-            $this->getPrivateProperty($columns[2], 'format')
+            $this->inspect($columns[2], 'format')
         );
     }
 
@@ -668,12 +668,12 @@ class DataTableTest extends ProvidersTestCase
 
         $this->assertInstanceOf(
             DATATABLE_NS.'Formats\DateFormat',
-            $this->getPrivateProperty($columns[0], 'format')
+            $this->inspect($columns[0], 'format')
         );
 
         $this->assertInstanceOf(
             DATATABLE_NS.'Formats\NumberFormat',
-            $this->getPrivateProperty($columns[2], 'format')
+            $this->inspect($columns[2], 'format')
         );
     }
 
@@ -757,7 +757,7 @@ class DataTableTest extends ProvidersTestCase
         $column = $this->DataTable->getColumn(1);
 
         $this->assertInstanceOf(DATATABLE_NS.'Columns\Column', $column);
-        $this->assertEquals('Test2', $this->getPrivateProperty($column, 'label'));
+        $this->assertEquals('Test2', $this->inspect($column, 'label'));
     }
 
     /**

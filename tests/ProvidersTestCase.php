@@ -30,7 +30,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
      * @param  string $prop
      * @return mixed
      */
-    public function getPrivateProperty($obj, $prop)
+    public function inspect($obj, $prop)
     {
         $refObj = new \ReflectionClass($obj);
         $refProp = $refObj->getProperty($prop);

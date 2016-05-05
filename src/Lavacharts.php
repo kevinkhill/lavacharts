@@ -8,6 +8,7 @@ use Khill\Lavacharts\Dashboards\Filters\Filter;
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use Khill\Lavacharts\DataTables\Formats\Format;
+use Khill\Lavacharts\Exceptions\InvalidLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Javascript\ScriptManager;
 use Khill\Lavacharts\Support\Html\HtmlFactory;
@@ -32,7 +33,7 @@ class Lavacharts
     /**
      * Lavacharts version
      */
-    const VERSION = '3.0.3';
+    const VERSION = '3.0.5';
 
     /**
      * Holds all of the defined Charts and DataTables.
@@ -79,10 +80,10 @@ class Lavacharts
     public function __call($method, $args)
     {
         //Rendering Aliases
-        if ((bool)preg_match('/^render/', $method) === true) {
+        if ((bool) preg_match('/^render/', $method) === true) {
             $type = ltrim($method, 'render');
 
-            if ($type !== 'Dashboard' && ChartFactory::isValidChart(types) === false) {
+            if ($type !== 'Dashboard' && ChartFactory::isValidChart($type) === false) {
                 throw new InvalidLavaObject($type);
             }
 
@@ -91,6 +92,10 @@ class Lavacharts
 
         //Charts
         if (ChartFactory::isValidChart($method)) {
+            if (isset($args[0]) === false) {
+                throw new InvalidLabel;
+            }
+
             if ($this->exists($method, $args[0])) {
                 $lavaClass = $this->volcano->get($method, $args[0]);
             } else {
@@ -99,17 +104,19 @@ class Lavacharts
                 $lavaClass = $this->volcano->store($chart);
             }
         }
-        //Filters
-        if ((bool)preg_match('/Filter$/', $method)) {
-            $type = strtolower(str_replace('Filter', '', $method));
-            $config = isset($args[1]) ? $args[1] : [];
 
-            $lavaClass = Filter::Factory($type, $args[0], $config);
+        //Filters
+        if ((bool) preg_match('/Filter$/', $method)) {
+            $options = isset($args[1]) ? $args[1] : [];
+
+            $lavaClass = Filter::create($method, $args[0], $options);
         }
 
         //Formats
-        if ((bool)preg_match('/Format$/', $method)) {
-            $lavaClass = Format::create($method, $args[0]);
+        if ((bool) preg_match('/Format$/', $method)) {
+            $options = isset($args[0]) ? $args[0] : [];
+
+            $lavaClass = Format::create($method, $options);
         }
 
         if (isset($lavaClass) == false) {

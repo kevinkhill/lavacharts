@@ -21,9 +21,9 @@ class CellTest extends ProvidersTestCase
     {
         $column = new Cell(1, 'low', ['textstyle' => ['fontName' => 'Arial']]);
 
-        $this->assertEquals(1, $this->getPrivateProperty($column, 'v'));
-        $this->assertEquals('low', $this->getPrivateProperty($column, 'f'));
-        $this->assertTrue(is_array($this->getPrivateProperty($column, 'p')));
+        $this->assertEquals(1, $this->inspect($column, 'v'));
+        $this->assertEquals('low', $this->inspect($column, 'f'));
+        $this->assertTrue(is_array($this->inspect($column, 'p')));
     }
 
     /**

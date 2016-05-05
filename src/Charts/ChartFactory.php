@@ -75,7 +75,6 @@ class ChartFactory
     /**
      * Returns an array of supported chart types.
      *
-     * @access public
      * @since  3.0.5
      * @return array
      */
@@ -97,7 +96,6 @@ class ChartFactory
     /**
      * Returns the array of supported chart types.
      *
-     * @access public
      * @since  3.0.5
      * @param  string $type Type of chart to isNonEmpty.
      * @return bool

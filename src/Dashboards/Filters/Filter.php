@@ -55,15 +55,15 @@ class Filter extends Customizable implements Wrappable, \JsonSerializable
     }
 
     /**
-     * Filter create for creating new filters
+     * create method for creating new filters
      *
-     * @param string     $type
-     * @param string|int $cLabelOrIndex
-     * @param array      $options
+     * @param string     $type          Type of filter to create
+     * @param string|int $cLabelOrIndex Column label or index
+     * @param array      $options       Customization options for the filter
      * @return \Khill\Lavacharts\Dashboards\Filters\Filter
      * @throws \Khill\Lavacharts\Exceptions\InvalidFilterParam
      */
-    public static function Factory($type, $cLabelOrIndex, array $options = [])
+    public static function create($type, $cLabelOrIndex, array $options = [])
     {
         if (is_string($type) === false) {
             throw new InvalidFilterParam($type);
@@ -73,13 +73,7 @@ class Filter extends Customizable implements Wrappable, \JsonSerializable
             throw new InvalidFilterParam($cLabelOrIndex);
         }
 
-        if (strpos($type, 'range') !== false) {
-            $filter = ucfirst(str_replace('range', 'Range', $type));
-        } else {
-            $filter = $type;
-        }
-
-        $filter = __NAMESPACE__ . '\\' . $filter . 'Filter';
+        $filter = __NAMESPACE__ . '\\' . $type;
 
         return new $filter($cLabelOrIndex, $options);
     }
@@ -97,7 +91,7 @@ class Filter extends Customizable implements Wrappable, \JsonSerializable
     /**
      * Returns the Filter wrap type.
      *
-     * @since 3.1.0
+     * @since 3.0.5
      * @return string
      */
     public function getWrapType()
