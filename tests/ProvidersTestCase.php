@@ -2,7 +2,10 @@
 
 namespace Khill\Lavacharts\Tests;
 
+use Khill\Lavacharts\Charts\ChartFactory;
 use Khill\Lavacharts\DataTables\Columns\ColumnFactory;
+
+define('DATATABLE_NS', "\\Khill\\Lavacharts\\DataTables\\");
 
 abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -36,11 +39,51 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         return $refProp->getValue($obj);
     }
 
+    /**
+     * DataProvider for the column types
+     *
+     * @return array
+     */
     public function columnTypeProvider()
     {
         return array_map(function ($columnType) {
             return [$columnType];
         }, ColumnFactory::$types);
+    }
+
+    /**
+     * DataProvider for the chart types
+     *
+     * @return array
+     */
+    public function chartTypeProvider()
+    {
+        return array_map(function ($chartType) {
+            return [$chartType];
+        }, ChartFactory::getChartTypes());
+    }
+
+
+    /**
+     * Create a mock Label with the given string
+     *
+     * @param  string $label
+     * @return \Mockery\Mock
+     */
+    public function getMockLabel($label)
+    {
+        return \Mockery::mock('\Khill\Lavacharts\Values\Label', [$label])->makePartial();
+    }
+
+
+    /**
+     * Create a mock DataTable
+     *
+     * @return \Mockery\Mock
+     */
+    public function getMockDataTable()
+    {
+        return \Mockery::mock('Khill\Lavacharts\DataTables\DataTable')->makePartial();
     }
 
     public function nonIntOrPercentProvider()

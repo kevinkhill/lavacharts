@@ -27,12 +27,12 @@ class LavachartsTest extends ProvidersTestCase
 
     public function testCreateDataTableViaAlias()
     {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\DataTables\\DataTable', $this->lava->DataTable());
+        $this->assertInstanceOf(DATATABLE_NS.'DataTable', $this->lava->DataTable());
     }
 
     public function testCreateDataTableViaAliasWithTimezone()
     {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\DataTables\\DataTable', $this->lava->DataTable('America/Los_Angeles'));
+        $this->assertInstanceOf(DATATABLE_NS.'DataTable', $this->lava->DataTable('America/Los_Angeles'));
     }
 
     public function testExistsWithExistingChartInVolcano()
@@ -77,12 +77,20 @@ class LavachartsTest extends ProvidersTestCase
         $this->assertFalse($this->lava->exists('LineChart', $badTypes));
     }
 
+
     /**
      * @dataProvider chartTypeProvider
      */
-    public function testCreateChartsViaAlias($chartType)
+    public function testCreatingChartsViaMagicMethodOfLavaObject($chartType)
     {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Charts\\'.$chartType, $this->lava->$chartType('testchart', $this->partialDataTable));
+        $chart = $this->lava->$chartType(
+            'My Fancy '.$chartType,
+            $this->getMockDataTable()
+        );
+
+        $this->assertEquals('My Fancy '.$chartType, $chart->getLabelStr());
+        $this->assertEquals($chartType, $chart->getType());
+        $this->assertInstanceOf(DATATABLE_NS.'DataTable', $chart->getDataTable());
     }
 
     /**
@@ -257,13 +265,6 @@ class LavachartsTest extends ProvidersTestCase
         $this->lava->jsapi();
 
         $this->assertTrue($this->getPrivateProperty($this->lava, 'jsFactory')->coreJsRendered());
-    }
-
-    public function chartTypeProvider()
-    {
-        return array_map(function ($chart) {
-            return [$chart];
-        }, ChartFactory::$CHART_TYPES);
     }
 
     public function formatTypeProvider()

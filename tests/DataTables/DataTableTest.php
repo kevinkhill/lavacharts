@@ -7,8 +7,6 @@ use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Carbon\Carbon;
 
-define('DATATABLE_NS', "\\Khill\\Lavacharts\\DataTables\\");
-
 class DataTableTest extends ProvidersTestCase
 {
     /**
