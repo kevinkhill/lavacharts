@@ -100,13 +100,17 @@ class Volcano
     /**
      * Simple true/false test if a chart exists.
      *
-     * @param  string $type  Type of chart to isNonEmpty.
-     * @param  Label  $label Identifying label of a chart to isNonEmpty.
+     * @param  string $type  Type of chart to check.
+     * @param  Label  $label Identifying label of a chart to check.
      * @return bool
      */
     public function checkChart($type, Label $label)
     {
         if (ChartFactory::isValidChart($type) === false) {
+            return false;
+        }
+
+        if (array_key_exists($type, $this->charts) === false) {
             return false;
         }
 
@@ -153,7 +157,7 @@ class Volcano
     }
 
     /**
-     * Retrieves a chart from the volcano datastore.
+     * Retrieves a chart from the volcano.
      *
      * @access private
      * @param  string $type  Type of chart to store.
@@ -171,7 +175,7 @@ class Volcano
     }
 
     /**
-     * Retrieves a dashboard from the volcano datastore.
+     * Retrieves a dashboard from the volcano.
      *
      * @access private
      * @param  Label $label Identifying label for the dashboard.
