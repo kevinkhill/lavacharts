@@ -171,19 +171,6 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
     }
 
     /**
-     * Allows setting of options via methods
-     *
-     * This is to prevent BC breaks from anyone using method of option setting.
-     *
-     * @param string $method Option to set.
-     * @param mixed  $arg    Value for the option.
-     */
-    public function __call($method, $arg)
-    {
-        $this->setOption($method, $arg);
-    }
-
-    /**
      * Sets any configuration option, with no checks for type / validity
      *
      *
@@ -197,11 +184,13 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
      * arrays and they will be converted upon rendering.
      *
      * @since  3.0.0
-     * @param  array $optionArray Array of customization options for the chart
+     * @param  array $options Array of customization options for the chart
      * @return \Khill\Lavacharts\Charts\Chart
      */
-    public function customize($optionArray)
+    public function customize(array $options)
     {
-        return $this->setOptions($optionArray);
+        $this->setOptions($options);
+
+        return $this;
     }
 }

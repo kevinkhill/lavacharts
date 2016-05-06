@@ -17,14 +17,14 @@ namespace Khill\Lavacharts\Support;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT      MIT
  */
-class Customizable implements \ArrayAccess, \IteratorAggregate, \JsonSerializable
+class Customizable implements \ArrayAccess, \JsonSerializable
 {
     /**
      * Customization options.
      *
      * @var array
      */
-    private $options;
+    protected $options;
 
     /**
      * Customizable constructor.
@@ -34,6 +34,24 @@ class Customizable implements \ArrayAccess, \IteratorAggregate, \JsonSerializabl
     public function __construct(array $options = [])
     {
         $this->options = $options;
+    }
+
+    /**
+     * Allow the setting of options via named option methods
+     *
+     * This is to prevent BC breaks from anyone using this style
+     * of setting options.
+     *
+     * @param string $method Option to set.
+     * @param mixed  $arg    Value for the option.
+     */
+    public function __call($method, $arg)
+    {
+        if (is_array($arg) === false) {
+            $this->options[$method] = $arg;
+        } else {
+            $this->options[$method] = $arg[0];
+        }
     }
 
     /**
@@ -58,24 +76,25 @@ class Customizable implements \ArrayAccess, \IteratorAggregate, \JsonSerializabl
     }
 
     /**
+     * Merge a set of options with the existing options.
+     *
+     * @since 3.0.5
+     * @param array $options
+     */
+    public function mergeOptions(array $options)
+    {
+        $this->options = array_merge($this->options, $options);
+    }
+
+    /**
      * Retrieves all of the set options
      *
-     * @since  3.1.0
+     * @since  3.0.5
      * @return array
      */
     public function getOptions()
     {
         return $this->options;
-    }
-
-    /**
-     * Allows for the options to be traversed with foreach.
-     *
-     * @since  3.1.0
-     */
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->options);
     }
 
     /**

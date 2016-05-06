@@ -32,11 +32,10 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
      */
     public function inspect($obj, $prop)
     {
-        $refObj = new \ReflectionClass($obj);
-        $refProp = $refObj->getProperty($prop);
-        $refProp->setAccessible(true);
+        $refObj = new \ReflectionProperty($obj, $prop);
+        $refObj->setAccessible(true);
 
-        return $refProp->getValue($obj);
+        return $refObj->getValue($obj);
     }
 
     /**

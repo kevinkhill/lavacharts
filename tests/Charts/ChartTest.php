@@ -2,19 +2,18 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
+use Khill\Lavacharts\Charts\LineChart;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class ChartTest extends ProvidersTestCase
 {
-    public $mockChart;
-
-    public function setUp()
+    public function makeLineChart($options = [])
     {
-        parent::setUp();
-
-        $label = $this->getMockLabel('TestChart');
-
-        //$this->mockChart = new MockChart($label, $this->partialDataTable);
+        return new LineChart(
+            $this->getMockLabel('TestChart'),
+            $this->getMockDataTable(),
+            $options
+        );
     }
 
     /**
@@ -34,43 +33,83 @@ class ChartTest extends ProvidersTestCase
         $this->assertInstanceOf(DATATABLE_NS.'DataTable', $chart->getDataTable());
     }
 
-    public function testTooltipWithValidValues()
+    /**
+     * @depends testInstanceCreation
+     */
+    public function testSettingOptionsWithConstructor()
     {
-        $this->mockChart->tooltip([]);
+        $chart = $this->makeLineChart(
+            ['colors' => ['red', 'green']]
+        );
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Configs\Tooltip', $this->mockChart->tooltip);
+        $options = $this->inspect($chart, 'options');
+
+        $this->assertTrue(is_array($options));
+        $this->assertTrue(isset($options['colors']));
+        $this->assertEquals(['red', 'green'], $options['colors']);
     }
 
     /**
-     * @dataProvider nonArrayProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @depends testSettingOptionsWithConstructor
      */
-    public function testTooltipWithBadTypes($badTypes)
+    public function testGetOptions()
     {
-        $this->mockChart->tooltip($badTypes);
-    }
+        $chart = $this->makeLineChart(
+            ['colors' => ['red', 'green']]
+        );
 
-    public function testWidthWithValidValue()
-    {
-        $this->mockChart->width(800);
-        $this->assertEquals(800, $this->mockChart->width);
-    }
+        $options = $chart->getOptions();
 
-    /**
-     * @dataProvider nonIntProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testWidthWithBadTypes($badTypes)
-    {
-        $this->mockChart->width($badTypes);
+        $this->assertTrue(is_array($options));
+        $this->assertEquals(['red', 'green'], $options['colors']);
     }
 
     /**
-     * @depends testTitleWithValidValue
-     * @depends testWidthWithValidValue
-     * @depends testHeightWithValidValue
+     * @depends testGetOptions
      */
-    public function testSetOptionsWithArrayOfValidOptions()
+    public function testSettingOptionsViaMagicMethod()
+    {
+        $chart = $this->makeLineChart();
+
+        $chart->legend(['position' => 'out']);
+
+        $options = $chart->getOptions();
+
+        $this->assertEquals('out', $options['legend']['position']);
+    }
+
+    /**
+     * @depends testGetOptions
+     */
+    public function testSettingArrayValueOptionViaMagicMethod()
+    {
+        $chart = $this->makeLineChart();
+
+        $chart->legend(['position' => 'out']);
+
+        $options = $chart->getOptions();
+
+        $this->assertEquals('out', $options['legend']['position']);
+    }
+
+    /**
+     * @depends testGetOptions
+     */
+    public function testSettingStringValueOptionViaMagicMethod()
+    {
+        $chart = $this->makeLineChart();
+
+        $chart->title('Charts!');
+
+        $options = $chart->getOptions();
+
+        $this->assertEquals('Charts!', $options['title']);
+    }
+
+    /**
+     * @depends testGetOptions
+     */
+    public function testSetOptions()
     {
         $expected = [
             'title' => 'My Cool Chart',
@@ -78,50 +117,74 @@ class ChartTest extends ProvidersTestCase
             'height' => 768
         ];
 
-        $this->mockChart->setOptions($expected);
+        $chart = $this->makeLineChart();
+        $chart->setOptions($expected);
 
-        $this->assertEquals($expected, $this->mockChart->getOptions()->getValues());
+        $options = $chart->getOptions();
+
+        $this->assertTrue(is_array($options));
+        $this->assertEquals('My Cool Chart', $options['title']);
+        $this->assertEquals(1024, $options['width']);
+        $this->assertEquals(768, $options['height']);
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     * @depends testSetOptions
+     * @depends testGetOptions
      */
-    public function testSetOptionsWithArrayOfBadOptions()
+    public function testMergeOptions()
     {
-        $this->mockChart->setOptions([
-            'tibtle' => 'My Cool Chart',
-            'widmth' => 1024,
-            'heaight' => 768
-        ]);
+        $expected = [
+            'title' => 'My Cool Chart'
+        ];
+
+        $chart = $this->makeLineChart();
+
+        $chart->setOptions($expected);
+
+        $chart->mergeOptions(['width' => 1024]);
+
+        $options = $chart->getOptions();
+
+        $this->assertEquals('My Cool Chart', $options['title']);
+        $this->assertEquals(1024, $options['width']);
     }
 
     /**
-     * @dataProvider nonArrayProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @depends testSetOptions
+     * @depends testGetOptions
      */
-    public function testSetOptionsWithBadTypes($badTypes)
+    public function testCustomize()
     {
-        $this->mockChart->setOptions($badTypes);
-    }
+        $expected = [
+            'title' => 'My Cool Chart',
+            'width' => 1024,
+            'height' => 768
+        ];
 
-    public function testGettingNonExistentOptionValue()
-    {
-        $this->assertNull($this->mockChart->bananas);
+        $chart = $this->makeLineChart();
+        $chart->customize($expected);
+
+        $options = $chart->getOptions();
+
+        $this->assertEquals('My Cool Chart', $options['title']);
+        $this->assertEquals(1024, $options['width']);
+        $this->assertEquals(768, $options['height']);
     }
 
     /**
-     * @depends testTitleWithValidValue
-     * @depends testWidthWithValidValue
-     * @depends testHeightWithValidValue
+     * @depends testSettingOptionsViaMagicMethod
      */
     public function testOptionsToJson()
     {
-        $this->mockChart->title('My Cool Chart');
-        $this->mockChart->width(1024);
-        $this->mockChart->height(768);
+        $chart = $this->makeLineChart();
+
+        $chart->title('My Cool Chart');
+        $chart->width(1024);
+        $chart->height(768);
 
         $expected = '{"title":"My Cool Chart","width":1024,"height":768}';
 
-        $this->assertEquals($expected, json_encode($this->mockChart));
+        $this->assertEquals($expected, json_encode($chart));
     }
 }
