@@ -29,7 +29,7 @@ class Wrapper implements \JsonSerializable, Jsonable, JsClass
     /**
      * The contents of the wrap, either Chart or Filter.
      *
-     * @var \Khill\Lavacharts\Charts\Chart|\Khill\Lavacharts\Dashboards\Filters\Filter
+     * @var \Khill\Lavacharts\Support\Contracts\WrappableInterface
      */
     protected $contents;
 

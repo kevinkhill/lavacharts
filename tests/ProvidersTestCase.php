@@ -20,7 +20,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->partialDataTable = \Mockery::mock('Khill\Lavacharts\DataTables\DataTable')->makePartial();
+        $this->partialDataTable = \Mockery::mock(DATATABLE_NS.'DataTable')->makePartial();
     }
 
     /**
@@ -62,7 +62,6 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         }, ChartFactory::getChartTypes());
     }
 
-
     /**
      * Create a mock Label with the given string
      *
@@ -74,6 +73,16 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         return \Mockery::mock('\Khill\Lavacharts\Values\Label', [$label])->makePartial();
     }
 
+    /**
+     * Create a mock ElementId with the given string
+     *
+     * @param  string $label
+     * @return \Mockery\Mock
+     */
+    public function getMockElementId($label)
+    {
+        return \Mockery::mock('\Khill\Lavacharts\Values\ElementId', [$label])->makePartial();
+    }
 
     /**
      * Create a mock DataTable
