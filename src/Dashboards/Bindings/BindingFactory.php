@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\Dashboards\Bindings;
 
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
+use Khill\Lavacharts\Dashboards\Wrappers\Wrapper;
 use Khill\Lavacharts\Exceptions\InvalidBindings;
 
 /**
@@ -31,34 +32,27 @@ class BindingFactory
      */
     public static function create($controlWraps, $chartWraps)
     {
-        $chartWrapCheck = false;
-        $controlWrapCheck = false;
-
-        if (is_array($chartWraps) === true) {
-            $chartWrapCheck = array_reduce($chartWraps, function ($prev, $curr) {
-                return $prev && $curr instanceof ChartWrapper;
-            }, true);
-        }
-
-        if (is_array($controlWraps) === true) {
-            $controlWrapCheck = array_reduce($controlWraps, function ($prev, $curr) {
-                return $prev && $curr instanceof ControlWrapper;
-            }, true);
-        }
-
-        if ($controlWraps instanceof ControlWrapper && $chartWraps instanceof ChartWrapper) {
+        if ($controlWraps instanceof ControlWrapper &&
+            $chartWraps instanceof ChartWrapper
+        ) {
             return new OneToOne($controlWraps, $chartWraps);
         }
 
-        if ($controlWraps instanceof ControlWrapper && $chartWrapCheck) {
+        if ($controlWraps instanceof ControlWrapper &&
+            self::isArrayOfWrappers($chartWraps)
+        ) {
             return new OneToMany($controlWraps, $chartWraps);
         }
 
-        if ($controlWrapCheck && $chartWraps instanceof ChartWrapper) {
+        if (self::isArrayOfWrappers($controlWraps) &&
+            $chartWraps instanceof ChartWrapper
+        ) {
             return new ManyToOne($controlWraps, $chartWraps);
         }
 
-        if ($controlWrapCheck && $chartWrapCheck) {
+        if (self::isArrayOfWrappers($controlWraps) &&
+            self::isArrayOfWrappers($chartWraps)
+        ) {
             return new ManyToMany($controlWraps, $chartWraps);
         }
 
@@ -74,5 +68,15 @@ class BindingFactory
         return array_map(function ($binding) {
             return self::create($binding[0], $binding[1]);
         }, $bindings);
+    }
+
+    private static function isArrayOfWrappers(array $array)
+    {
+        return array_reduce($array, function ($prev, $curr) {
+            return $prev && is_subclass_of(
+                $curr,
+                '\Khill\Lavacharts\Dashboards\Wrappers\Wrapper'
+            );
+        }, true);
     }
 }
