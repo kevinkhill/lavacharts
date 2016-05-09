@@ -55,7 +55,7 @@ class Wrapper implements \JsonSerializable, Jsonable, JsClass
     /**
      * Unwraps and returns the wrapped object.
      *
-     * @return \Khill\Lavacharts\Charts\Chart|\Khill\Lavacharts\Dashboards\Filters\Filter
+     * @return \Khill\Lavacharts\Support\Contracts\WrappableInterface
      */
     public function unwrap()
     {
@@ -63,7 +63,7 @@ class Wrapper implements \JsonSerializable, Jsonable, JsClass
     }
 
     /**
-     * Custom serialization of the ChartWrapper.
+     * Custom serialization of the Wrapper.
      *
      * @return array
      */
@@ -77,7 +77,7 @@ class Wrapper implements \JsonSerializable, Jsonable, JsClass
     }
 
     /**
-     * Returns the JSON serialized version of the wrapper.
+     * Returns the JSON serialized version of the Wrapper.
      *
      * @return string
      */

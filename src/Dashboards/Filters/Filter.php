@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
+use Khill\Lavacharts\Exceptions\InvalidFilterObject;
 use Khill\Lavacharts\Exceptions\InvalidFilterParam;
 use Khill\Lavacharts\Support\Customizable;
 use Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
@@ -55,7 +56,7 @@ class Filter extends Customizable implements Wrappable, \JsonSerializable
     }
 
     /**
-     * create method for creating new filters
+     * Static create method for creating new filters
      *
      * @param string     $type          Type of filter to create
      * @param string|int $cLabelOrIndex Column label or index

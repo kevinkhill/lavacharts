@@ -24,9 +24,13 @@ class ChartWrapperTest extends ProvidersTestCase
         return \Mockery::mock('\Khill\Lavacharts\Charts\LineChart')
             ->shouldReceive('setRenderable')
             ->once()
+            ->with(false)
             ->shouldReceive('getType')
             ->once()
             ->andReturn('LineChart')
+            ->shouldReceive('getWrapType')
+            ->once()
+            ->andReturn('chartType')
             ->shouldReceive('jsonSerialize')
             ->once()
             ->andReturn([
@@ -49,6 +53,9 @@ class ChartWrapperTest extends ProvidersTestCase
         $this->assertEquals('TestLabel', $chartWrapper->getElementIdStr());
     }
 
+    /**
+     * @covers \Khill\Lavacharts\Dashboards\Wrappers\Wrapper::unwrap
+     */
     public function testUnwrap()
     {
         $areaChart = \Mockery::mock('\Khill\Lavacharts\Charts\AreaChart')->makePartial();
@@ -58,24 +65,27 @@ class ChartWrapperTest extends ProvidersTestCase
         $this->assertInstanceOf('\Khill\Lavacharts\Charts\AreaChart', $chartWrapper->unwrap());
     }
 
-    public function testJsonSerialization()
+    /**
+     * @covers \Khill\Lavacharts\Dashboards\Wrappers\Wrapper::getJsClass
+     */
+    public function testGetJsClass()
     {
         $chart = \Mockery::mock('\Khill\Lavacharts\Charts\LineChart')
             ->shouldReceive('setRenderable')
             ->once()
-            ->shouldReceive('getType')
-            ->once()
-            ->andReturn('LineChart')
-            ->shouldReceive('getWrapType')
-            ->once()
-            ->andReturn('chartType')
-            ->shouldReceive('jsonSerialize')
-            ->once()
-            ->andReturn([
-                'Option1' => 5,
-                'Option2' => true
-            ])
+            ->with(false)
             ->getMock();
+
+        $chartWrapper = new ChartWrapper($chart, $this->mockElementId);
+
+        $javascript = 'google.visualization.ChartWrapper';
+
+        $this->assertEquals($javascript, $chartWrapper->getJsClass());
+    }
+
+    public function testJsonSerialize()
+    {
+        $chart = $this->getMockLineChart();
 
         $chartWrapper = new ChartWrapper($chart, $this->mockElementId);
 
@@ -87,53 +97,20 @@ class ChartWrapperTest extends ProvidersTestCase
      */
     public function testToJson()
     {
-        $chart = \Mockery::mock('\Khill\Lavacharts\Charts\LineChart')
-            ->shouldReceive('setRenderable')
-            ->once()
-            ->shouldReceive('getType')
-            ->once()
-            ->andReturn('LineChart')
-            ->shouldReceive('getWrapType')
-            ->once()
-            ->andReturn('chartType')
-            ->shouldReceive('jsonSerialize')
-            ->once()
-            ->andReturn([
-                'Option1' => 5,
-                'Option2' => true
-            ])
-            ->getMock();
+        $chart = $this->getMockLineChart();
 
         $chartWrapper = new ChartWrapper($chart, $this->mockElementId);
 
         $this->assertEquals($this->jsonOutput, $chartWrapper->toJson());
     }
 
-    public function testGetJsClass()
-    {
-        $chartWrapper = new ChartWrapper($this->getMockLineChart(), $this->mockElementId);
-
-        $javascript = 'google.visualization.ChartWrapper';
-
-        $this->assertEquals($javascript, $chartWrapper->getJsClass());
-    }
-
     /**
-     * @depends testJsonSerialization
+     * @depends testGetJsClass
+     * @depends testToJson
      */
     public function testGetJsConstructor()
     {
-
-        $chart = \Mockery::mock('\Khill\Lavacharts\Charts\LineChart')
-            ->shouldReceive('setRenderable')
-            ->once()
-            ->shouldReceive('getType')
-            ->once()
-            ->andReturn('LineChart')
-            ->shouldReceive('getWrapType')
-            ->once()
-            ->andReturn('chartType')
-            ->getMock();
+        $chart = $this->getMockLineChart();
 
         $chartWrapper = new ChartWrapper($chart, $this->mockElementId);
 

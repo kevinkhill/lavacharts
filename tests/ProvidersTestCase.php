@@ -94,6 +94,17 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         return \Mockery::mock('Khill\Lavacharts\DataTables\DataTable')->makePartial();
     }
 
+    public function nonStringOrIntProvider()
+    {
+        return [
+            [3.2],
+            [true],
+            [false],
+            [[]],
+            [new \stdClass]
+        ];
+    }
+
     public function nonIntOrPercentProvider()
     {
         return [
@@ -101,6 +112,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
             [true],
             [false],
             [[]],
+            ['notapercent'],
             [new \stdClass]
         ];
     }
