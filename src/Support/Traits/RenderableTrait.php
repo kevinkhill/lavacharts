@@ -128,7 +128,7 @@ trait RenderableTrait
      * @access private
      * @link   http://stackoverflow.com/a/11330527/2503458
      */
-    private function generateElementId()
+    public function generateElementId()
     {
         $string = strtolower($this->getLabelStr());
         $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
