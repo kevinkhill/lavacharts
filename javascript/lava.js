@@ -248,7 +248,7 @@ var lava = lava || {};
   this.run = function (window) {
     var s = document.createElement('script');
     s.type = 'text/javascript';
-    s.src = '//www.google.com/jsapi';
+    s.src = 'https://www.google.com/jsapi';
     s.onload = s.onreadystatechange = function (event) {
       event = event || window.event;
 
