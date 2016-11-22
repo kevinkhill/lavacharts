@@ -24,6 +24,13 @@ use Khill\Lavacharts\Exceptions\InvalidEventCallback;
 use Khill\Lavacharts\Exceptions\InvalidDivDimensions;
 use Khill\Lavacharts\Exceptions\InvalidConfigProperty;
 
+/**
+ * Class Lavacharts
+ *
+ * @package Khill\Lavacharts
+ *
+ * @method DataTable
+ */
 class Lavacharts
 {
     /**
