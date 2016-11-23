@@ -8,7 +8,7 @@ cache:
 
 before_script:
 - apt-get update -yqq
-- apt-get install php-zip git nodejs -yqq
+- apt-get install git unzip nodejs -yqq
 - curl -sS https://getcomposer.org/installer | php
 #- echo 'date.timezone = "America/Los_Angeles"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 - mkdir -p build/logs

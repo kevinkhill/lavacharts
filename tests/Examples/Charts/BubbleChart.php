@@ -16,8 +16,8 @@
     ]);
 
     $lava->BubbleChart($title, $data, [
-        'width' => '100%',
-        'height' => 600,
+        'width' => 400,
+        'height' => 400,
         'chartArea' => ['width' => 400],
         'title' => 'Correlation between life expectancy, fertility rate ' .
                'and population of some world countries (2010)',

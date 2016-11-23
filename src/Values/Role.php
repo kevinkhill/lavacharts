@@ -38,7 +38,6 @@ class Role extends StringValue
     public function __construct($role)
     {
         try {
-            var_dump($role);
             parent::__construct($role);
 
             if (in_array($this->value, self::$roles) === false) {

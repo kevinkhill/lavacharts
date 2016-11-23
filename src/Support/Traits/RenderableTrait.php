@@ -125,7 +125,7 @@ trait RenderableTrait
      * This method removes invalid characters from the chart label
      * to use as an elementId.
      *
-     * @access private
+     * @access public
      * @link   http://stackoverflow.com/a/11330527/2503458
      */
     public function generateElementId()

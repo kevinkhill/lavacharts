@@ -33,7 +33,7 @@
           ['Zaire',     'Africa',             8,                               10]
         ]);
 
-    $lava->TreemapChart($title, $data, [
+    $lava->TreeMapChart($title, $data, [
         'width' => $width,
         'height' => $height
     ]);
