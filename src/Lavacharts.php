@@ -15,6 +15,7 @@ use Khill\Lavacharts\Support\Html\HtmlFactory;
 use Khill\Lavacharts\Support\Psr4Autoloader;
 use Khill\Lavacharts\Values\ElementId;
 use Khill\Lavacharts\Values\Label;
+use Khill\Lavacharts\Values\StringValue;
 
 /**
  * Lavacharts - A PHP wrapper library for the Google Chart API
@@ -33,7 +34,14 @@ class Lavacharts
     /**
      * Lavacharts version
      */
-    const VERSION = '3.0.5';
+    const VERSION = '3.1.0';
+
+    /**
+     * Locale for the DataTable.
+     *
+     * @var string
+     */
+    private $locale = 'en';
 
     /**
      * Holds all of the defined Charts and DataTables.
@@ -43,7 +51,7 @@ class Lavacharts
     private $volcano;
 
     /**
-     * JavascriptFactory for outputting lava.js and chart/dashboard javascript
+     * ScriptManager for outputting lava.js and chart/dashboard javascript
      *
      * @var \Khill\Lavacharts\Javascript\ScriptManager
      */
@@ -231,6 +239,36 @@ class Lavacharts
     }
 
     /**
+     * Locales are used to customize text for a country or language.
+     *
+     * This will affect the formatting of values such as currencies, dates, and numbers.
+     *
+     * By default, Lavacharts is loaded with the "en" locale. You can override this default
+     * by explicitly specifying a locale when creating the DataTable.
+     *
+     * @since  3.1.0
+     * @param  string $locale
+     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @throws \Khill\Lavacharts\Exceptions\InvalidStringValue
+     */
+    public function setLocale($locale = 'en')
+    {
+        $this->locale = new StringValue($locale);
+
+        return $this;
+    }
+    /**
+     * Returns the current locale used in the DataTable
+     *
+     * @since  3.1.0
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
      * Outputs the lava.js module for manual placement.
      *
      * Will be depreciating jsapi in the future
@@ -240,7 +278,11 @@ class Lavacharts
      */
     public function lavajs()
     {
-        return (string) $this->scriptManager->getLavaJsModule();
+        $config = [
+            'locale' => $this->locale
+        ];
+
+        return (string) $this->scriptManager->getLavaJsModule($config);
     }
 
     /**
@@ -252,7 +294,7 @@ class Lavacharts
      */
     public function jsapi()
     {
-        return (string) $this->scriptManager->getLavaJsModule();
+        return $this->lavajs();
     }
 
     /**
@@ -343,7 +385,7 @@ class Lavacharts
         );
 
         if ($this->scriptManager->lavaJsRendered() === false) {
-            $buffer->prepend($this->scriptManager->getLavaJsModule());
+            $buffer->prepend($this->lavajs());
         }
 
         if ($divDimensions !== false) {
@@ -373,7 +415,7 @@ class Lavacharts
         );
 
         if ($this->scriptManager->lavaJsRendered() === false) {
-            $buffer->prepend($this->scriptManager->getLavaJsModule());
+            $buffer->prepend($this->lavajs());
         }
 
         return $buffer;

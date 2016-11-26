@@ -45,9 +45,17 @@ module.exports = (function() {
          * @type {{jsapi: string, gstatic: string}}
          */
         this.urls = {
-            jsapi:   '//www.google.com/jsapi',
-            gstatic: '//www.gstatic.com/charts/loader.js'
+            jsapi:   'https://www.google.com/jsapi',
+            gstatic: 'https://www.gstatic.com/charts/loader.js'
         };
+
+        /**
+         * Array of config items.
+         *
+         * @type {Array}
+         * @private
+         */
+        this._config = CONFIG_JSON;
 
         /**
          * Array of charts stored in the module.
@@ -367,6 +375,16 @@ module.exports = (function() {
     };
 
     /**
+     * Returns the defined locale of the charts.
+     *
+     * @private
+     * @return {String}
+     */
+    Lava.prototype._getLocale = function () {
+        return this._config.locale;
+    };
+
+    /**
      * Returns an array of the google packages to load.
      *
      * @private
@@ -397,12 +415,14 @@ module.exports = (function() {
                 this.onload = this.onreadystatechange = null;
 
                 var packages = $lava._getPackages();
+                var locale   = $lava._getLocale();
 
                 console.log('google loaded');
                 console.log(packages);
 
                 google.charts.load('current', {
-                    packages: packages
+                    packages: packages,
+                    language: locale
                 });
 
                 google.charts.setOnLoadCallback(deferred.resolve);

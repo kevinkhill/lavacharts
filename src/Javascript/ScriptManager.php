@@ -68,12 +68,15 @@ class ScriptManager
     /**
      * Gets the lava.js module.
      *
+     * @param  array $config
      * @return \Khill\Lavacharts\Support\Buffer
      */
-    public function getLavaJsModule()
+    public function getLavaJsModule(array $config = [])
     {
         $lavaJs = realpath(__DIR__ . self::LAVA_JS);
         $buffer = new Buffer(file_get_contents($lavaJs));
+
+        $buffer->pregReplace('/CONFIG_JSON/', json_encode($config));
 
         $this->lavaJsRendered = true;
 
