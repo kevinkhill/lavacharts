@@ -7,7 +7,7 @@ use Khill\Lavacharts\Exceptions\InvalidStringValue;
 /**
  * Class StringValue
  *
- * Creates a new String value object while checking if it is a non empty and actually a string.
+ * Creates a new String value object while checking if it is non empty and actually a string.
  *
  * @package   Khill\Lavacharts\Values
  * @since     3.0.0
