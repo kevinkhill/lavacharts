@@ -360,28 +360,28 @@ class DataTable implements Jsonable, \JsonSerializable
      * @since  3.0.0
      * @param  string $type Type of data the column will define.
      * @param  string $role Type of role that the data will represent.
+     * @param  array  $options Customization of the role.
      * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
-     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnRole
      */
-    public function addRoleColumn($type, $role)
+    public function addRoleColumn($type, $role, array $options = [])
     {
-        return $this->createColumnWithParams($type, '', null, $role);
+        return $this->createColumnWithParams($type, '', null, $role, $options);
     }
 
     /**
      * Supplemental function to create columns from strings.
      *
      * @access protected
-     * @param  string $type Type of column to create
-     * @param  string $label Label for the column.
+     * @param  string                                      $type   Type of column to create
+     * @param  string                                      $label  Label for the column.
      * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object.
-     * @param  string $role A role for the column.
+     * @param  string                                      $role   A role for the column.
+     * @param  array                                       $options Extra, column specific options
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
-    protected function createColumnWithParams($type, $label = '', Format $format = null, $role = '')
+    protected function createColumnWithParams($type, $label = '', Format $format = null, $role = '', array $options = [])
     {
-        $this->cols[] = $this->columnFactory->create($type, $label, $format, $role);
+        $this->cols[] = $this->columnFactory->create($type, $label, $format, $role, $options);
 
         return $this;
     }

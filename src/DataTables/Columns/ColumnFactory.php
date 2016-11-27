@@ -45,39 +45,26 @@ class ColumnFactory
      *
      * @access public
      * @since  3.0.0
-     * @param  string                                      $type Type of column to create.
-     * @param  string                                      $label A label for the column.
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format Column formatter for the data.
-     * @param  string                                      $role A role for the column to play.
+     * @param  string                                      $type    Type of column to create.
+     * @param  string                                      $label   A label for the column.
+     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format  Column formatter for the data.
+     * @param  string                                      $role    A role for the column to play.
+     * @param  array                                       $options Column options.
      * @return \Khill\Lavacharts\DataTables\Columns\Column
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnRole
-     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
-    public function create($type, $label = '', Format $format = null, $role = '')
+    public function create($type, $label = '', Format $format = null, $role = '', array $options = [])
     {
         self::isValidType($type);
 
-        $columnArgs = func_get_args();
+        $builder = new ColumnBuilder();
+        $builder->setType($type);
+        $builder->setLabel($label);
+        $builder->setFormat($format);
+        $builder->setRole($role);
+        $builder->setOptions($options);
 
-        if (StringValue::isNonEmpty($label)) {
-            $columnArgs[] = $label;
-        }
-
-        if ($format !== null) {
-            $columnArgs[] = $format;
-        }
-
-        if (is_string($role) === false) {
-            throw new InvalidColumnRole($role, Role::$roles);
-        }
-
-        if (StringValue::isNonEmpty($role)) {
-            $columnArgs[] = new Role($role);
-        }
-
-        $column = new \ReflectionClass(__NAMESPACE__ . '\\Column');
-
-        return $column->newInstanceArgs($columnArgs);
+        return $builder->getResult();
     }
 
     /**
