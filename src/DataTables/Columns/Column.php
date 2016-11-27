@@ -20,7 +20,7 @@ use Khill\Lavacharts\Values\Role;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Column extends Customizable implements \JsonSerializable
+class Column extends Customizable
 {
     /**
      * Column type.
