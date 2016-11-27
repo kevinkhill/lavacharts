@@ -1,5 +1,5 @@
 <?php
-    use \Khill\Lavacharts\DataTables\DataFactory;
+    use Khill\Lavacharts\DataTables\DataFactory;
 
     $data = DataFactory::arrayToDataTable([
         ['Mon', 20, 28, 38, 45],
@@ -11,7 +11,6 @@
     ], true);
 
     $lava->CandlestickChart($title, $data, [
-        'elementId' => 'lavachart',
         'legend' => 'none',
         'height' => 400
     ]);

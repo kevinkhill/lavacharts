@@ -12,7 +12,7 @@ namespace Khill\Lavacharts\Dashboards\Filters;
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
- * @see        https://developers.google.com/chart/interactive/docs/gallery/controls#--googlevisualizationnumberrangefilter
+ * @see       https://developers.google.com/chart/interactive/docs/gallery/controls#--googlevisualizationnumberrangefilter
  */
 class NumberRangeFilter extends Filter
 {

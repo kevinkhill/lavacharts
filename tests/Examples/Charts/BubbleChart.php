@@ -1,5 +1,5 @@
 <?php
-    use \Khill\Lavacharts\DataTables\DataFactory;
+    use Khill\Lavacharts\DataTables\DataFactory;
 
     $data = DataFactory::arrayToDataTable([
         ['ID', 'Life Expectancy', 'Fertility Rate', 'Region',     'Population'],
@@ -16,9 +16,8 @@
     ]);
 
     $lava->BubbleChart($title, $data, [
-        'elementId' => 'lavachart',
-        'width' => '100%',
-        'height' => 600,
+        'width' => 400,
+        'height' => 400,
         'chartArea' => ['width' => 400],
         'title' => 'Correlation between life expectancy, fertility rate ' .
                'and population of some world countries (2010)',

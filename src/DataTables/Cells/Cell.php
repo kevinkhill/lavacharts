@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\DataTables\Cells;
 
-use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
-use \Khill\Lavacharts\Support\Customizable;
+use Khill\Lavacharts\Exceptions\InvalidFunctionParam;
+use Khill\Lavacharts\Support\Customizable;
 
 /**
  * DataCell Object
@@ -25,24 +25,24 @@ class Cell extends Customizable implements \JsonSerializable
      *
      * @var string
      */
-    protected $v = null;
+    protected $v;
 
     /**
      * A string version of the v value. (Optional)
      *
      * @var string
      */
-    protected $f = '';
+    protected $f;
 
     /**
-     * An object that is a map of custom values applied to the cell. (Optional)
+     * An array that is a map of custom values applied to the cell. (Optional)
      *
      * @var array
      */
-    protected $p = [];
+    protected $p;
 
     /**
-     * Defines a DataCell for a DataTable
+     * Defines a Cell for a DataTable
      *
      * Each cell in the table holds a value. Cells optionally can take a
      * "formatted" version of the data; this is a string version of the data,
@@ -54,9 +54,9 @@ class Cell extends Customizable implements \JsonSerializable
      * numeric cell values of 1, 2, and 3.
      *
      *
-     * @param  string      $v The cell value
-     * @param  string      $f A string version of the v value
-     * @param array|string $p An object that is a map of custom values applied to the cell
+     * @param  string       $v The cell value
+     * @param  string       $f A string version of the v value
+     * @param  array|string $p A map of custom values applied to the cell
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
      */
     public function __construct($v = null, $f = '', array $p = [])
@@ -65,10 +65,6 @@ class Cell extends Customizable implements \JsonSerializable
 
         if (is_string($f) === false) {
             throw new InvalidFunctionParam($f, __FUNCTION__, 'string');
-        }
-
-        if (is_array($p) === false) {
-            throw new InvalidFunctionParam($p, __FUNCTION__, 'array');
         }
 
         $this->v = $v;
@@ -96,20 +92,28 @@ class Cell extends Customizable implements \JsonSerializable
     }
 
     /**
-     * Custom serialization of the DataCell
+     * Returns the custom values of the cell.
+     *
+     * @return string
+     */
+    public function getCustomValues()
+    {
+        return $this->f;
+    }
+
+    /**
+     * Custom serialization of the Cell
      *
      * @return array
      */
     public function jsonSerialize()
     {
-        $json = [];
+        $json = ['v' => $this->v];
 
-        if (is_null($this->v) === false) {
-            $json['v'] = $this->v;
-        }
         if (empty($this->f) === false) {
             $json['f'] = $this->f;
         }
+        
         if (empty($this->p) === false) {
             $json['p'] = $this->p;
         }

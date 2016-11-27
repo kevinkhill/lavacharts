@@ -2,12 +2,13 @@
 
 namespace Khill\Lavacharts;
 
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Dashboards\Dashboard;
-use \Khill\Lavacharts\Exceptions\ChartNotFound;
-use \Khill\Lavacharts\Exceptions\DashboardNotFound;
-use \Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
+use Khill\Lavacharts\Values\Label;
+use Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Charts\ChartFactory;
+use Khill\Lavacharts\Dashboards\Dashboard;
+use Khill\Lavacharts\Exceptions\ChartNotFound;
+use Khill\Lavacharts\Exceptions\DashboardNotFound;
+use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
 
 /**
  * Class Volcano
@@ -41,9 +42,9 @@ class Volcano
     /**
      * Stores a Chart or Dashboard in the Volcano.
      *
-     * @since  3.1.0
-     * @param  \Khill\Lavacharts\Configs\Renderable $renderable
-     * @return \Khill\Lavacharts\Charts\Chart|\Khill\Lavacharts\Dashboards\Dashboard
+     * @since  3.0.3
+     * @param  Renderable $renderable
+     * @return Chart|Dashboard
      */
     public function store(Renderable $renderable)
     {
@@ -61,10 +62,10 @@ class Volcano
     /**
      * Fetches an existing Chart or Dashboard from the volcano storage.
      *
-     * @since  3.1.0
+     * @since  3.0.3
      * @param  string                         $type  Type of Chart or Dashboard.
      * @param  \Khill\Lavacharts\Values\Label $label Label of the Chart or Dashboard.
-     * @return \Khill\Lavacharts\Charts\Chart|\Khill\Lavacharts\Dashboards\Dashboard
+     * @return Chart|Dashboard
      * @throws \Khill\Lavacharts\Exceptions\ChartNotFound
      * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
      */
@@ -80,8 +81,8 @@ class Volcano
     /**
      * Returns all stored charts and dashboards
      *
-     * @since  3.1.0
-     * @return \Khill\Lavacharts\Configs\Renderable[]
+     * @since  3.0.3
+     * @return Renderable[]
      */
     public function getAll()
     {
@@ -99,13 +100,13 @@ class Volcano
     /**
      * Simple true/false test if a chart exists.
      *
-     * @param  string                         $type  Type of chart to check.
-     * @param  \Khill\Lavacharts\Values\Label $label Identifying label of a chart to check.
+     * @param  string $type  Type of chart to check.
+     * @param  Label  $label Identifying label of a chart to check.
      * @return bool
      */
     public function checkChart($type, Label $label)
     {
-        if ((is_string($type) && strlen($type) > 0) === false) {
+        if (ChartFactory::isValidChart($type) === false) {
             return false;
         }
 
@@ -119,7 +120,7 @@ class Volcano
     /**
      * Simple true/false test if a dashboard exists.
      *
-     * @param  \Khill\Lavacharts\Values\Label $label Identifying label of a dashboard to check.
+     * @param  Label $label Identifying label of a dashboard to isNonEmpty.
      * @return bool
      */
     public function checkDashboard(Label $label)
@@ -128,11 +129,11 @@ class Volcano
     }
 
     /**
-     * Stores a chart in the volcano datastore and gives it back.
+     * Stores a chart in the volcano and gives it back.
      *
      * @access private
-     * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to store in the volcano.
-     * @return \Khill\Lavacharts\Charts\Chart
+     * @param  Chart $chart Chart to store in the volcano.
+     * @return Chart
      */
     private function storeChart(Chart $chart)
     {
@@ -142,11 +143,11 @@ class Volcano
     }
 
     /**
-     * Stores a dashboard in the volcano datastore and gives it back.
+     * Stores a dashboard in the volcano and gives it back.
      *
      * @access private
-     * @param  \Khill\Lavacharts\Dashboards\Dashboard $dashboard Dashboard to store in the volcano.
-     * @return \Khill\Lavacharts\Dashboards\Dashboard
+     * @param  Dashboard $dashboard Dashboard to store in the volcano.
+     * @return Dashboard
      */
     private function storeDashboard(Dashboard $dashboard)
     {
@@ -156,13 +157,13 @@ class Volcano
     }
 
     /**
-     * Retrieves a chart from the volcano datastore.
+     * Retrieves a chart from the volcano.
      *
      * @access private
      * @param  string $type  Type of chart to store.
-     * @param  \Khill\Lavacharts\Values\Label $label Identifying label for the chart.
-     * @throws \Khill\Lavacharts\Exceptions\ChartNotFound
-     * @return \Khill\Lavacharts\Charts\Chart
+     * @param  Label  $label Identifying label for the chart.
+     * @throws ChartNotFound
+     * @return Chart
      */
     private function getChart($type, Label $label)
     {
@@ -174,12 +175,12 @@ class Volcano
     }
 
     /**
-     * Retrieves a dashboard from the volcano datastore.
+     * Retrieves a dashboard from the volcano.
      *
      * @access private
-     * @param  \Khill\Lavacharts\Values\Label $label Identifying label for the dashboard.
-     * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
-     * @return \Khill\Lavacharts\Dashboards\Dashboard
+     * @param  Label $label Identifying label for the dashboard.
+     * @throws DashboardNotFound
+     * @return Dashboard
      */
     private function getDashboard(Label $label)
     {

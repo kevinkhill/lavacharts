@@ -44,7 +44,7 @@ class TableChart extends Chart
     /**
      * Returns the google javascript package name.
      *
-     * @since  3.1.0
+     * @since  3.0.5
      * @return string
      */
     public function getJsClass()

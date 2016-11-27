@@ -3,8 +3,8 @@
 namespace Khill\Lavacharts\DataTables\Formats;
 
 use Khill\Lavacharts\Support\Contracts\VisualizationInterface;
-use \Khill\Lavacharts\Support\Customizable;
-use \Khill\Lavacharts\Support\Contracts\JsonableInterface;
+use Khill\Lavacharts\Support\Customizable;
+use Khill\Lavacharts\Support\Contracts\JsonableInterface;
 
 /**
  * Class Format
@@ -21,16 +21,16 @@ use \Khill\Lavacharts\Support\Contracts\JsonableInterface;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT      MIT
  */
-class Format extends Customizable implements VisualizationInterface, JsonableInterface
+class Format extends Customizable implements JsonableInterface
 {
     /**
-     * Factory method for creating new format objects.
+     * Static method for creating new format objects.
      *
      * @param string $type
      * @param array  $options
      * @return \Khill\Lavacharts\DataTables\Formats\Format
      */
-    public static function Factory($type, array $options = [])
+    public static function create($type, array $options = [])
     {
         $format =  __NAMESPACE__ . '\\' . $type;
 

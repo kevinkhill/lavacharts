@@ -2,7 +2,7 @@
 
 require('../../vendor/autoload.php');
 
-use \Khill\Lavacharts\Charts\ChartFactory;
+use Khill\Lavacharts\Charts\ChartFactory;
 
 $lava = new \Khill\Lavacharts\Lavacharts;
 
@@ -15,21 +15,28 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
         $width  = 600;
         $height = floor($width*(6/19));
 
-        $title = 'My'.$chart;
+        $title = 'My' . ((strpos($chart, 'To') > 0) ? 'Dashboard' : $chart);
         $id = strtolower($chart);
 
-        require_once(__DIR__ . '/Charts/' . $chart . '.php');
+        if (strpos($chart, 'Chart') > 0) {
+            require_once(__DIR__ . '/Charts/' . $chart . '.php');
+        } else {
+            require_once(__DIR__ . '/Dashboards/' . $chart . '.php');
+        }
     }
 }
 ?>
 
 <html>
     <head>
-        <title>Lavacharts Test</title>
+        <title>Lavacharts Examples</title>
         <style type="text/css">
+            h1, h2 {font-family:Helvetica,Verdana,sans-serif;}
             #logo{text-align:center}
             #lavachart{width:99%}
+            .float{float:left;padding:0 20px;margin-left:20px;}
             .grey{background-color:#f3f3f3;border:1px solid #666}
+            ul{list-style-type:none;margin:0;padding:0}li{font:200 16px/1.5 Helvetica,Verdana,sans-serif;border-bottom:1px solid #ccc}li:last-child{border:none}li a{text-decoration:none;color:#000;display:block;width:200px;-webkit-transition:font-size .2s ease,background-color .2s ease;-moz-transition:font-size .2s ease,background-color .2s ease;-o-transition:font-size .2s ease,background-color .2s ease;-ms-transition:font-size .2s ease,background-color .2s ease;transition:font-size .2s ease,background-color .2s ease}li a:hover{font-size:18px;background:#f6f6f6}
         </style>
     </head>
     <body>
@@ -47,28 +54,55 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
 ?>
             <h1><?= $chart ?></h1>
             <div id="lavachart">
-                <? if ($chart == 'Dashboard') { ?>
-                    <div id="chart-div-id"></div>
-                    <div id="control-div-id"></div>
+                <? if (strpos($chart, 'To') > 0) { ?>
+                    <div id="chart1-div-id"></div>
+                    <div id="chart2-div-id"></div>
+                    <div id="control1-div-id"></div>
+                    <div id="control2-div-id"></div>
                 <? } ?>
             </div>
-            <h1>Code</h1>
+            <h2>Code</h2>
             <pre class="grey">
             <?php
-                $file = file_get_contents(__DIR__ . '/Charts/' . $chart . '.php');
+                if (strpos($chart, 'Chart') > 0) {
+                    $file = file_get_contents(__DIR__ . '/Charts/' . $chart . '.php');
+                } else {
+                    $file = file_get_contents(__DIR__ . '/Dashboards/' . $chart . '.php');
+                }
+
                 echo ltrim($file, '<?php');
             ?>
             </pre>
 <?php
-            echo $lava->render($chart, $title);
+            if (strpos($chart, 'Chart') > 0) {
+                echo $lava->render($chart, $title, 'lavachart');
+            } else {
+                echo $lava->render('Dashboard', 'MyDash', 'lavachart');
+            }
         } else {
-            echo '<h1>Supported Charts</h1>';
-            echo '<ul>';
+?>
+            <div class="float">
+            <h1>Charts</h1>
+            <ul>
+<?php
             foreach (ChartFactory::getChartTypes() as $chart) {
                 echo sprintf('<li><a href="%1$s">%1$s</a></li>', $chart);
             }
-            echo '</ul>';
-            echo '<ul><li><a href="Dashboard">Dashboard</a></li></ul>';
+?>
+            </ul>
+            </div>
+
+            <div class="float">
+                <h1>Dashboards</h1>
+                <ul>
+                    <li><a href="OneToOne">One to One</a></li>
+                    <li><a href="OneToMany">One to Many</a></li>
+                    <li><a href="ManyToOne">Many to One</a></li>
+                    <li><a href="ManyToMany">Many to Many</a></li>
+                    <li><a href="OneToOneDateFilter">One to One [DateFilter]</a></li>
+                </ul>
+            </div>
+<?php
         }
 ?>
     </body>

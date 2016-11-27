@@ -2,7 +2,9 @@
 
 namespace Khill\Lavacharts\Javascript;
 
-use \Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Lavacharts;
+use Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Values\ElementId;
 
 /**
  * ChartFactory Class
@@ -26,7 +28,7 @@ class ChartJsFactory extends JavascriptFactory
      *
      * @var string
      */
-    const OUTPUT_TEMPLATE = 'templates/chart.tmpl.js';
+    const OUTPUT_TEMPLATE = '/../../javascript/templates/chart.tmpl.js';
 
     /**
      * Chart to create javascript from.
@@ -50,13 +52,22 @@ class ChartJsFactory extends JavascriptFactory
     protected $formatTemplate;
 
     /**
+     * Element Id to render into
+     *
+     * @var string
+     */
+    private $elementId;
+
+    /**
      * Creates a new ChartJsFactory with the javascript template.
      *
-     * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to process
+     * @param  \Khill\Lavacharts\Charts\Chart    $chart Chart to process
+     * @param \Khill\Lavacharts\Values\ElementId $elementId
      */
-    public function __construct(Chart $chart)
+    public function __construct(Chart $chart, ElementId $elementId)
     {
-        $this->chart = $chart;
+        $this->chart     = $chart;
+        $this->elementId = $elementId;
 
         $this->eventTemplate =
             'google.visualization.events.addListener(this.chart, "%s", function (event) {'.PHP_EOL.
@@ -67,19 +78,7 @@ class ChartJsFactory extends JavascriptFactory
             'this.formats["col%1$s"] = new %2$s(%3$s);'.PHP_EOL.
             'this.formats["col%1$s"].format(this.data, %1$s);'.PHP_EOL;
 
-        parent::__construct(self::OUTPUT_TEMPLATE);
-    }
-
-    /**
-     * Builds the template variables from the chart.
-     *
-     * @since  3.0.0
-     * @access protected
-     * @return string Javascript code block.
-     */
-    protected function getTemplateVars()
-    {
-        $vars = [
+        $this->templateVars = [
             'chartLabel'   => $this->chart->getLabelStr(),
             'chartType'    => $this->chart->getType(),
             'chartVer'     => $this->chart->getVersion(),
@@ -87,34 +86,34 @@ class ChartJsFactory extends JavascriptFactory
             'chartPackage' => $this->chart->getJsPackage(),
             'chartData'    => $this->chart->getDataTableJson(),
             'chartOptions' => $this->chart->toJson(),
-            'elemId'       => $this->chart->getElementIdStr(),
+            'elemId'       => $this->elementId,//$this->chart->getElementIdStr(),
             'pngOutput'    => false,
             'formats'      => '',
             'events'       => ''
         ];
 
         if (method_exists($this->chart, 'getPngOutput')) {
-            $vars['pngOutput'] = $this->chart->getPngOutput();
+            $this->templateVars['pngOutput'] = $this->chart->getPngOutput();
         }
 
         if ($this->chart->getDataTable()->hasFormattedColumns()) {
-            $vars['formats'] = $this->buildFormatters();
+            $this->templateVars['formats'] = $this->buildFormatters();
         }
 
         if ($this->chart->hasEvents()) {
-            $vars['events'] = $this->buildEventCallbacks();
+            $this->templateVars['events'] = $this->buildEventCallbacks();
         }
 
-        return $vars;
+        parent::__construct(self::OUTPUT_TEMPLATE);
     }
 
     /**
      * Builds the javascript object of event callbacks.
      *
-     * @access protected
+     * @access private
      * @return string Javascript code block.
      */
-    protected function buildEventCallbacks()
+    private function buildEventCallbacks()
     {
         $buffer = '';
         $events = $this->chart->getEvents();
@@ -133,10 +132,10 @@ class ChartJsFactory extends JavascriptFactory
     /**
      * Builds the javascript for the datatable column formatters.
      *
-     * @access protected
+     * @access private
      * @return string Javascript code block.
      */
-    protected function buildFormatters()
+    private function buildFormatters()
     {
         $buffer  = '';
         $columns = $this->chart->getDataTable()->getFormattedColumns();

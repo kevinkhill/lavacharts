@@ -2,7 +2,9 @@
 
 namespace Khill\Lavacharts\Javascript;
 
-use \Khill\Lavacharts\Dashboards\Dashboard;
+use Khill\Lavacharts\Lavacharts;
+use Khill\Lavacharts\Dashboards\Dashboard;
+use Khill\Lavacharts\Values\ElementId;
 
 /**
  * DashboardFactory Class
@@ -26,58 +28,56 @@ class DashboardJsFactory extends JavascriptFactory
      *
      * @var string
      */
-    const OUTPUT_TEMPLATE = 'templates/dashboard.tmpl.js';
+    const OUTPUT_TEMPLATE = '/../../javascript/templates/dashboard.tmpl.js';
 
     /**
      * Dashboard to generate javascript from.
      *
      * @var \Khill\Lavacharts\Dashboards\Dashboard
      */
-    protected $dashboard;
+    private $dashboard;
+
+    /**
+     * Element Id to render into
+     *
+     * @var string
+     */
+    private $elementId;
 
     /**
      * Creates a new DashboardFactory with the javascript template.
      *
      * @param \Khill\Lavacharts\Dashboards\Dashboard $dashboard
+     * @param \Khill\Lavacharts\Values\ElementId     $elementId
      */
-    public function __construct(Dashboard $dashboard)
+    public function __construct(Dashboard $dashboard, ElementId $elementId)
     {
         $this->dashboard = $dashboard;
+        $this->elementId = $elementId;
 
-        parent::__construct(self::OUTPUT_TEMPLATE);
-    }
-
-    /**
-     * Builds the Javascript code block for a Dashboard
-     *
-     * @access protected
-     * @return string Javascript code block.
-     */
-    protected function getTemplateVars()
-    {
         $boundCharts = $this->dashboard->getBoundCharts();
 
-        $vars = [
-            'label'     => $this->dashboard->getLabelStr(),
-            'version'   => Dashboard::VERSION,
-            'class'     => $this->dashboard->getJsClass(),
-            'packages'  => [
+        $this->templateVars = [
+            'label'    => $this->dashboard->getLabelStr(),
+            'version'  => Dashboard::VERSION,
+            'class'    => $this->dashboard->getJsClass(),
+            'packages' => [
                 $this->dashboard->getJsPackage()
             ],
-            'elemId'    => $this->dashboard->getElementIdStr(),
-            'bindings'  => $this->processBindings()
+            'elemId'   => $this->elementId,//$this->chart->getElementIdStr(),
+            'bindings' => $this->processBindings()
         ];
 
         /** @var \Khill\Lavacharts\Charts\Chart $chart */
         foreach ($boundCharts as $chart) {
-            $vars['chartData'] = $chart->getDataTableJson();
+            $this->templateVars['chartData'] = $chart->getDataTableJson();
 
-            array_push($vars['packages'], $chart->getJsPackage());
+            array_push($this->templateVars['packages'], $chart->getJsPackage());
         }
 
-        $vars['packages'] = json_encode(array_unique($vars['packages']));
+        $this->templateVars['packages'] = json_encode(array_unique($this->templateVars['packages']));
 
-        return $vars;
+        parent::__construct(self::OUTPUT_TEMPLATE);
     }
 
     /**
@@ -85,9 +85,10 @@ class DashboardJsFactory extends JavascriptFactory
      *
      * Turns the chart and control wrappers into new Google Visualization Objects.
      *
+     * @access private
      * @return string
      */
-    public function processBindings()
+    private function processBindings()
     {
         $buffer = '';
         $bindings = $this->dashboard->getBindings();
@@ -125,11 +126,11 @@ class DashboardJsFactory extends JavascriptFactory
     /**
      * Map the wrapper values from the array to javascript notation.
      *
-     * @access protected
+     * @access private
      * @param  array $wrapperArray Array of control or chart wrappers
      * @return string Json notation for the wrappers
      */
-    protected function mapWrapperArray($wrapperArray)
+    private function mapWrapperArray($wrapperArray)
     {
         $wrappers = array_map(function ($wrapperArray) {
             return $wrapperArray->getJsConstructor();

@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Formats;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\DataTables\Formats\DateFormat;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\DataTables\Formats\DateFormat;
 
 class DateFormatTest extends ProvidersTestCase
 {

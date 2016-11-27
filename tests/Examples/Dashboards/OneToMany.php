@@ -12,7 +12,7 @@
         ['Margareth', 8]
     ]);
 
-    $pieChart = $lava->PieChart('Stuff', $data, [
+    $pieChart = $lava->PieChart('MyPie', $data, [
         'width' => $width,
         'height' => $height,
         'chartArea' => [
@@ -22,6 +22,8 @@
         'pieSliceText' => 'value'
     ]);
 
+    $barChart = $lava->BarChart('MyBar', $data);
+
     $filter = $lava->NumberRangeFilter(1, [
         'ui' => [
             'label' => 'Donuts Eaten:',
@@ -29,10 +31,9 @@
         ]
     ]);
 
-    $controlWrap = $lava->ControlWrapper($filter, 'control-div-id');
-    $chartWrap   = $lava->ChartWrapper($pieChart, 'chart-div-id');
+    $ctrlWrap = $lava->ControlWrapper($filter, 'control1-div-id');
+    $pieWrap  = $lava->ChartWrapper($pieChart, 'chart1-div-id');
+    $barWrap  = $lava->ChartWrapper($barChart, 'chart2-div-id');
 
-    $lava->Dashboard($title, [
-        [$controlWrap, $chartWrap]
-    ], 'lavachart');
-?>
+    $dash = $lava->Dashboard('MyDash')
+                 ->bind($ctrlWrap, [$pieWrap, $barWrap]);

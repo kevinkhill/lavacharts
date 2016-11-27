@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables\Cells;
 
-use \Carbon\Carbon;
+use Carbon\Carbon;
 
 /**
  * DateCell Class
@@ -85,6 +85,6 @@ class DateCell extends Cell
      */
     public function jsonSerialize()
     {
-        return (string) $this;
+        return ['v' => (string) $this];
     }
 }

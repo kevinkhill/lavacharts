@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Builders\ChartBuilder;
-use \Khill\Lavacharts\Exceptions\InvalidDataTable;
+use Khill\Lavacharts\Builders\ChartBuilder;
+use Khill\Lavacharts\Exceptions\InvalidDataTable;
 
 /**
  * ChartFactory Class
@@ -14,7 +14,7 @@ use \Khill\Lavacharts\Exceptions\InvalidDataTable;
  *
  * @category  Class
  * @package   Khill\Lavacharts\Charts
- * @since     3.1.0
+ * @since     3.0.5
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2016, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
@@ -23,50 +23,6 @@ use \Khill\Lavacharts\Exceptions\InvalidDataTable;
  */
 class ChartFactory
 {
-    /**
-     * Instance of the ChartBuilder for, well, building charts.
-     *
-     * @var \Khill\Lavacharts\Charts\ChartBuilder
-     */
-    private $chartBuilder;
-
-    /**
-     * Types of charts that can be created.
-     *
-     * @var array
-     */
-    public static $CHART_TYPES = [
-        'AreaChart',
-        'AnnotationChart',
-        'BarChart',
-        'BubbleChart',
-        'CalendarChart',
-        'CandlestickChart',
-        'ColumnChart',
-        'ComboChart',
-        //'GanttChart',
-        //@TODO: Gantt charts have to use the new gstatic loader.js so some refactoring of lava.js is in order :(
-        'GaugeChart',
-        'GeoChart',
-        'HistogramChart',
-        'LineChart',
-        'PieChart',
-        'SankeyChart',
-        'ScatterChart',
-        'SteppedAreaChart',
-        'TableChart',
-        'TimelineChart',
-        'TreemapChart'
-    ];
-
-    /**
-     * ChartFactory constructor.
-     */
-    public function __construct()
-    {
-        $this->chartBuilder = new ChartBuilder;
-    }
-
     /**
      * Create new chart from type with DataTable and config passed
      * from the main Lavacharts class.
@@ -77,65 +33,75 @@ class ChartFactory
      * @throws \Khill\Lavacharts\Exceptions\InvalidChartType
      * @throws \Khill\Lavacharts\Exceptions\InvalidDataTable
      */
-    public function create($type, $args)
+    public static function create($type, $args)
     {
         if (isset($args[1]) === false) {
             throw new InvalidDataTable;
         }
 
-        $this->chartBuilder->setType($type)
-                           ->setLabel($args[0])
-                           ->setDatatable($args[1]);
+        $builder = new ChartBuilder;
+
+        $builder->setType($type)
+                ->setLabel($args[0])
+                ->setDatatable($args[1]);
 
         if (isset($args[2])) {
             if (is_string($args[2])) {
-                $this->chartBuilder->setElementId($args[2]);
+                $builder->setElementId($args[2]);
             }
 
             if (is_array($args[2])) {
                 if (array_key_exists('elementId', $args[2])) {
-                    $this->chartBuilder->setElementId($args[2]['elementId']);
+                    $builder->setElementId($args[2]['elementId']);
                     unset($args[2]['elementId']);
                 }
 
                 if (array_key_exists('png', $args[2])) {
-                    $this->chartBuilder->setPngOutput($args[2]['png']);
+                    $builder->setPngOutput($args[2]['png']);
                     unset($args[2]['png']);
                 }
 
-                $this->chartBuilder->setOptions($args[2]);
+                $builder->setOptions($args[2]);
             }
         }
 
         if (isset($args[3])) {
-            $this->chartBuilder->setElementId($args[3]);
+            $builder->setElementId($args[3]);
         }
 
-        return $this->chartBuilder->getChart();
+        return $builder->getChart();
     }
 
     /**
-     * Returns the array of supported chart types.
+     * Returns an array of supported chart types.
      *
-     * @access public
-     * @since  3.1.0
+     * @since  3.0.5
      * @return array
      */
     public static function getChartTypes()
     {
-        return static::$CHART_TYPES;
+        $types = [];
+
+        foreach (new \IteratorIterator(new \FilesystemIterator(__DIR__)) as $file) {
+            $filename = $file->getFilename();
+
+            if (!in_array($filename, ['Chart.php', 'ChartFactory.php'])) {
+                $types[] = rtrim($filename, '.php');
+            }
+        }
+
+        return $types;
     }
 
     /**
      * Returns the array of supported chart types.
      *
-     * @access public
-     * @since  3.1.0
-     * @param  string $type Type of chart to check.
+     * @since  3.0.5
+     * @param  string $type Type of chart to isNonEmpty.
      * @return bool
      */
     public static function isValidChart($type)
     {
-        return in_array($type, self::$CHART_TYPES, true);
+        return in_array($type, self::getChartTypes(), true);
     }
 }

@@ -11,7 +11,6 @@
              ->addRow(['2013-1-1', 1100, 550, 1462]);
 
     $lava->ComboChart($title, $finances, [
-        'elementId' => 'lavachart',
         'title' => 'Company Performance',
         'width' => $width,
         'height' => $height,

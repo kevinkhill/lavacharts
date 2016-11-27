@@ -1,21 +1,9 @@
 engines:
-  duplication:
-    enabled: true
-    config:
-      languages:
-      - javascript
-      - php
-  fixme:
+  phpcodesniffer:
     enabled: true
   phpmd:
     enabled: true
 
-ratings:
-  paths:
-  - "**.js"
-  - "**.php"
-
 exclude_paths:
-  - tests/
-  - vendor/
-  - src/Symfony/Bundle/Resources/docs/
+- javascript/*
+- tests/**/*

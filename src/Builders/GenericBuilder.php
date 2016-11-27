@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Builders;
 
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Values\Label;
+use Khill\Lavacharts\Values\ElementId;
 
 /**
  * Class GenericBuilder

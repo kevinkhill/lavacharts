@@ -11,7 +11,6 @@
     }
 
     $lava->CalendarChart($title, $sales, [
-        'elementId' => 'lavachart',
         'title' => 'Cars Sold',
         'width' => $width,
         'height' => $height,

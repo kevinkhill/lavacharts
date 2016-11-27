@@ -1,5 +1,5 @@
 <?php
-    use \Khill\Lavacharts\DataTables\DataFactory;
+    use Khill\Lavacharts\DataTables\DataFactory;
 
     $data = DataFactory::DataTable([
         ['string', 'Director (Year)'],
@@ -13,7 +13,6 @@
     ]);
 
     $lava->SteppedAreaChart($title, $data, [
-        'elementId' => 'lavachart',
         'title' => 'The decline of \'The 39 Steps\'',
         'width' => $width,
         'height' => $height,

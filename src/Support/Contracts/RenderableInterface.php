@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Support\Contracts;
 
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Values\Label;
+use Khill\Lavacharts\Values\ElementId;
 
 /**
  * Interface RenderableInterface
@@ -57,7 +57,6 @@ interface RenderableInterface
      * to use as an elementId.
      *
      * @link http://stackoverflow.com/a/11330527/2503458
-     * @access private
      */
     public function generateElementId();
 }

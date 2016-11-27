@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Javascript;
 
+use Khill\Lavacharts\Support\Buffer;
+
 /**
  * JavascriptFactory Class
  *
@@ -20,16 +22,9 @@ namespace Khill\Lavacharts\Javascript;
 class JavascriptFactory
 {
     /**
-     * Directory to javascript sources.
-     *
-     * @var string
-     */
-    const JS_DIR = '/../../javascript/';
-
-    /**
      * Javascript output buffer.
      *
-     * @var string
+     * @var \Khill\Lavacharts\Support\Buffer
      */
     protected $buffer;
 
@@ -41,48 +36,44 @@ class JavascriptFactory
     protected $template;
 
     /**
-     * Map of template vars to values.
+     * Array of variables and values to apply to the javascript template.
      *
      * @var array
      */
     protected $templateVars;
 
     /**
-     * Create a new JavascriptFactory based off of an output template.
+     * JavascriptFactory constructor.
      *
-     * @param string $outputTemplate Location of the js output template.
+     * @param string $outputTemplate
      */
     public function __construct($outputTemplate)
     {
-        $templateDir = realpath(__DIR__ . self::JS_DIR . $outputTemplate);
+        $this->template = file_get_contents(
+            realpath(__DIR__ . $outputTemplate)
+        );
 
-        $this->template     = file_get_contents($templateDir);
-        $this->templateVars = $this->getTemplateVars();
-    }
+        $this->buffer = new Buffer($this->template);
 
-    /**
-     * Parses the javascript template and wraps the output in a script tag.
-     *
-     * @return string Javascript code block.
-     */
-    public function getJavascript()
-    {
-        $this->parseTemplate();
-
-        return ScriptManager::scriptTagWrap($this->buffer);
-    }
-
-    /**
-     * Parses javascript templates with the value mappings
-     *
-     * @return string Javascript
-     */
-    protected function parseTemplate()
-    {
-        $this->buffer = $this->template;
-
-        foreach ($this->templateVars as $key => $value) {
-            $this->buffer = preg_replace("/<$key>/", $value, $this->buffer);
+        /** Replacing the template variables with values */
+        foreach ($this->templateVars as $var => $value) {
+            $this->buffer->replace('<'.$var.'>', $value);
         }
+
+        /** Converting string dates to date constructors */
+        $this->buffer->pregReplace('/"Date\(((:?[0-9]+,?)+)\)"/', 'new Date(\1)');
+
+        /** Converting string nulls to actual nulls */
+        $this->buffer->pregReplace('/"null"/', 'null');
+    }
+
+    /**
+     * Returns the output buffer for the javascript.
+     *
+     * @return \Khill\Lavacharts\Support\Buffer
+     */
+    public function getOutputBuffer()
+    {
+        return $this->buffer;
     }
 }

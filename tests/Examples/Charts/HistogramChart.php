@@ -1,5 +1,5 @@
 <?php
-    use \Khill\Lavacharts\DataTables\DataFactory;
+    use Khill\Lavacharts\DataTables\DataFactory;
 
     $data = DataFactory::arrayToDataTable([
         ['Dinosaur', 'Length'],
@@ -34,7 +34,6 @@
     ]);
 
     $lava->HistogramChart($title, $data, [
-        'elementId' => 'lavachart',
         'title' => 'Lengths of dinosaurs, in meters',
         'legend' => 'none'
     ]);

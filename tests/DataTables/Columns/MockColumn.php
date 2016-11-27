@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Tests\DataTables\Columns;
 
-use \Khill\Lavacharts\DataTables\Columns\Column;
+use Khill\Lavacharts\DataTables\Columns\Column;
 
 class MockColumn extends Column
 {

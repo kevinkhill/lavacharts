@@ -1,0 +1,24 @@
+# Select image from https://hub.docker.com/_/php/
+image: php:5.6
+
+# Select what we should cache
+cache:
+  paths:
+  - vendor/
+
+before_script:
+- apt-get update -yqq
+- apt-get install git unzip nodejs -yqq
+- curl -sS https://getcomposer.org/installer | php
+#- echo 'date.timezone = "America/Los_Angeles"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+- mkdir -p build/logs
+- php composer.phar install --no-progress --no-interaction --prefer-dist
+- npm install --no-progress --production
+
+after_script:
+  - php ./vendor/bin/coveralls
+  
+test:
+  script:
+  - php composer.phar run test
+  - npm run test

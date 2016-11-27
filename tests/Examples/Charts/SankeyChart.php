@@ -15,7 +15,6 @@
     $colors = ['#a6cee3', '#b2df8a', '#fb9a99', '#fdbf6f', '#cab2d6', '#ffff99', '#1f78b4', '#33a02c'];
 
     $lava->SankeyChart($title, $data, [
-        'elementId' => 'lavachart',
         'width' => $width,
         'height' => $height,
         'legend' => [

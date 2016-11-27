@@ -2,8 +2,9 @@
 
 namespace Khill\Lavacharts\DataTables\Columns;
 
-use \Khill\Lavacharts\DataTables\Formats\Format;
-use \Khill\Lavacharts\Support\Traits\NonEmptyStringTrait as StringCheck;
+use Khill\Lavacharts\DataTables\Formats\Format;
+use Khill\Lavacharts\Support\Customizable;
+use Khill\Lavacharts\Values\Role;
 
 /**
  * Column Object
@@ -19,7 +20,7 @@ use \Khill\Lavacharts\Support\Traits\NonEmptyStringTrait as StringCheck;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Column implements \JsonSerializable
+class Column extends Customizable
 {
     use StringCheck;
 
@@ -54,13 +55,16 @@ class Column implements \JsonSerializable
     /**
      * Creates a new Column with the defined label.
      *
-     * @param  string                                      $type   Column type.
-     * @param  string                                      $label  Column label (optional).
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format Column format(optional).
-     * @param  string                                      $role   Column role (optional).
+     * @param  string                                      $type    Column type.
+     * @param  string                                      $label   Column label (optional).
+     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format  Column format(optional).
+     * @param  string                                      $role    Column role (optional).
+     * @param  array                                       $options Column options (optional).
      */
-    public function __construct($type, $label = '', Format $format = null, $role = '')
+    public function __construct($type, $label = '', Format $format = null, $role = null, array $options = [])
     {
+        parent::__construct($options);
+
         $this->type   = $type;
         $this->label  = $label;
         $this->format = $format;
@@ -128,12 +132,16 @@ class Column implements \JsonSerializable
             'type' => $this->type
         ];
 
-        if ($this->nonEmptyString($this->label) === true) {
+        if (is_string($this->label) && !empty($this->label)) {
             $values['label'] = $this->label;
         }
 
-        if ($this->nonEmptyString($this->role) === true) {
+        if ($this->role instanceof Role) {
             $values['p'] = ['role' => $this->role];
+
+            if (count($this->getOptions()) > 0) {
+                $values['p'] = array_merge($values['p'], $this->getOptions());
+            }
         }
 
         return $values;

@@ -24,6 +24,5 @@
         ]);
 
     $lava->AnnotationChart($title, $data, [
-        'elementId' => 'lavachart',
         'displayAnnotations' => true
     ]);

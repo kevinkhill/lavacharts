@@ -2,15 +2,19 @@
 
 namespace Khill\Lavacharts\Tests\DataTables;
 
-use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Carbon\Carbon;
+use Khill\Lavacharts\DataTables\Columns\ColumnFactory;
+use Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Carbon\Carbon;
 
 class DataTableTest extends ProvidersTestCase
 {
+    /**
+     * @var \Khill\Lavacharts\DataTables\DataTable
+     */
     public $DataTable;
 
-    public $fullColumnNames = [
+    public $columnTypes = [
         'BooleanColumn',
         'NumberColumn',
         'StringColumn',
@@ -20,6 +24,7 @@ class DataTableTest extends ProvidersTestCase
     ];
 
     public $columnLabels = [
+        'tooltip',
         'Admin',
         'Unique Visitors',
         'People In Group',
@@ -41,18 +46,37 @@ class DataTableTest extends ProvidersTestCase
         $this->DataTable = new DataTable();
     }
 
-    public function columnNameProvider()
+    public function createMock($class)
+    {
+        return \Mockery::mock(DATATABLE_NS.$class);
+    }
+
+    public function privateColumnAccess($index = null)
+    {
+        $cols = $this->inspect($this->DataTable, 'cols');
+
+        return is_int($index) ? $cols[$index] : $cols;
+    }
+
+    public function privateRowAccess($index = null)
+    {
+        $rows = $this->inspect($this->DataTable, 'rows');
+
+        return is_int($index) ? $rows[$index] : $rows;
+    }
+
+    public function columnCreationNameProvider()
     {
         return array_map(function ($columnName) {
             return [$columnName];
-        }, $this->fullColumnNames);
+        }, $this->columnTypes);
     }
 
     public function columnTypeAndLabelProvider()
     {
         $columns = [];
 
-        foreach ($this->columnTypes as $index => $type) {
+        foreach (ColumnFactory::$types as $index => $type) {
             $columns[] = [$type, $this->columnLabels[$index]];
         }
 
@@ -61,7 +85,7 @@ class DataTableTest extends ProvidersTestCase
 
     public function testDefaultTimezoneUponCreation()
     {
-        $tz = $this->getPrivateProperty($this->DataTable, 'timezone');
+        $tz = $this->inspect($this->DataTable, 'timezone');
 
         $this->assertEquals($this->tzLA, $tz->getName());
     }
@@ -70,7 +94,7 @@ class DataTableTest extends ProvidersTestCase
     {
         $datatable = new DataTable($this->tzNY);
 
-        $tz = $this->getPrivateProperty($datatable, 'timezone');
+        $tz = $this->inspect($datatable, 'timezone');
 
         $this->assertEquals($this->tzNY, $tz->getName());
     }
@@ -79,7 +103,7 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->DataTable->setTimezone($this->tzNY);
 
-        $tz = $this->getPrivateProperty($this->DataTable, 'timezone');
+        $tz = $this->inspect($this->DataTable, 'timezone');
 
         $this->assertEquals($this->tzNY, $tz->getName());
     }
@@ -89,16 +113,16 @@ class DataTableTest extends ProvidersTestCase
      * @dataProvider nonStringProvider
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidTimeZone
      */
-    public function testSetTimezoneWithBadType($badVals)
+    public function testSetTimezoneWithBadType($badTypes)
     {
-        $this->DataTable->setTimezone($badVals);
+        $this->DataTable->setTimezone($badTypes);
     }
 
     /**
      * @depends testSetTimezoneMethod
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidTimeZone
      */
-    public function testSetTimezoneWithInvalidTimezone($badVals)
+    public function testSetTimezoneWithInvalidTimezone($badTypes)
     {
         $this->DataTable->setTimezone('Murica');
     }
@@ -118,7 +142,7 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->DataTable->setDateTimeFormat('YYYY-mm-dd');
 
-        $format = $this->getPrivateProperty($this->DataTable, 'dateTimeFormat');
+        $format = $this->inspect($this->DataTable, 'dateTimeFormat');
 
         $this->assertEquals('YYYY-mm-dd', $format);
     }
@@ -126,11 +150,11 @@ class DataTableTest extends ProvidersTestCase
     /**
      * @depends testSetDateTimeFormat
      * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
      */
-    public function testSetDateTimeFormatWithBadTypes($badVals)
+    public function testSetDateTimeFormatWithBadTypes($badTypes)
     {
-        $this->DataTable->setDateTimeFormat($badVals);
+        $this->DataTable->setDateTimeFormat($badTypes);
     }
 
     /**
@@ -144,25 +168,15 @@ class DataTableTest extends ProvidersTestCase
     }
 
     /**
-     * @covers \Khill\Lavacharts\DataTables\DataTable::cell
-     */
-    public function testStaticallyCreateDataCell()
-    {
-        $cell = DataTable::cell(5);
-
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Cells\Cell', $cell);
-    }
-
-    /**
      * @dataProvider columnTypeProvider
      */
     public function testAddColumnByType($columnType)
     {
         $this->DataTable->addColumn($columnType);
 
-        $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
+        $column = $this->privateColumnAccess(0);
 
-        $this->assertEquals($columnType, $this->getPrivateProperty($column, 'type'));
+        $this->assertEquals($columnType, $column->getType());
     }
 
     /**
@@ -173,9 +187,9 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->DataTable->addColumn([$columnType]);
 
-        $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
+        $column = $this->privateColumnAccess(0);
 
-        $this->assertEquals($columnType, $this->getPrivateProperty($column, 'type'));
+        $this->assertEquals($columnType, $column->getType());
     }
 
     /**
@@ -190,7 +204,7 @@ class DataTableTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider columnNameProvider
+     * @dataProvider columnCreationNameProvider
      * @covers \Khill\Lavacharts\DataTables\DataTable::addBooleanColumn
      * @covers \Khill\Lavacharts\DataTables\DataTable::addStringColumn
      * @covers \Khill\Lavacharts\DataTables\DataTable::addNumberColumn
@@ -198,38 +212,39 @@ class DataTableTest extends ProvidersTestCase
      * @covers \Khill\Lavacharts\DataTables\DataTable::addDateTimeColumn
      * @covers \Khill\Lavacharts\DataTables\DataTable::addTimeOfDayColumn
      */
-    public function testAddColumnViaNamedAlias($className)
+    public function testAddColumnViaNamedAlias($columnType)
     {
-        call_user_func([$this->DataTable, 'add' . $className]);
+        call_user_func([$this->DataTable, 'add' . $columnType]);
 
-        $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
+        $column = $this->privateColumnAccess(0);
 
-        $type = strtolower(str_replace('Column', '', $className));
+        $type = strtolower(str_replace('Column', '', $columnType));
 
-        $this->assertEquals($type, $this->getPrivateProperty($column, 'type'));
+        $this->assertEquals($type, $column->getType());
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @covers \Khill\Lavacharts\DataTables\DataTable::addColumn
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnDefinition
+     * @covers \Khill\Lavacharts\DataTables\DataTable::addColumns
      */
     public function testAddColumnsWithBadTypesInArray()
     {
         $this->DataTable->addColumns([
-            'hotdogs',
-            15.6244
+            5.6,
+            15.6244,
+            'hotdogs'
         ]);
     }
 
     /**
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnType
-     * @covers \Khill\Lavacharts\DataTables\DataTable::addColumn
+     * @covers \Khill\Lavacharts\DataTables\DataTable::addColumns
      */
     public function testAddColumnsWithBadValuesInArray()
     {
         $this->DataTable->addColumns([
             [5, 'falcons'],
-            [false, 'tacos']
+            ['tacos', false]
         ]);
     }
 
@@ -240,10 +255,10 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->DataTable->addRoleColumn('number', 'interval');
 
-        $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
+        $column = $this->privateColumnAccess(0);
 
-        $this->assertEquals('number', $this->getPrivateProperty($column, 'type'));
-        $this->assertEquals('interval', $this->getPrivateProperty($column, 'role'));
+        $this->assertEquals('number', $column->getType());
+        $this->assertEquals('interval', $column->getRole());
     }
 
     /**
@@ -252,20 +267,20 @@ class DataTableTest extends ProvidersTestCase
      * @covers \Khill\Lavacharts\DataTables\DataTable::addRoleColumn
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
-    public function testAddRoleColumnWithBadColumnTypes($badVals)
+    public function testAddRoleColumnWithBadColumnTypes($badTypes)
     {
-        $this->DataTable->addRoleColumn($badVals, 'interval');
+        $this->DataTable->addRoleColumn($badTypes, 'interval');
     }
 
     /**
      * @dataProvider nonStringProvider
-     * @depends testAddRoleColumn
+     * depends testAddRoleColumn
      * @covers \Khill\Lavacharts\DataTables\DataTable::addRoleColumn
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnRole
      */
-    public function testAddRoleColumnWithBadRoleTypes($badVals)
+    public function testAddRoleColumnWithBadRoleTypes($badTypes)
     {
-        $this->DataTable->addRoleColumn('number', $badVals);
+        $this->DataTable->addRoleColumn('number', $badTypes);
     }
 
     /**
@@ -287,18 +302,18 @@ class DataTableTest extends ProvidersTestCase
         $this->DataTable->addNumberColumn();
         $this->DataTable->addStringColumn();
 
-        $columns = $this->getPrivateProperty($this->DataTable, 'cols');
+        $columns = $this->privateColumnAccess();
 
         $this->assertEquals(3, count($columns));
         $this->assertEquals('number', $columns[1]->getType());
 
         $this->DataTable->dropColumn(1);
-        $columns = $this->getPrivateProperty($this->DataTable, 'cols');
+        $columns = $this->privateColumnAccess();
         $this->assertEquals(2, count($columns));
         $this->assertEquals('string', $columns[1]->getType());
 
         $this->DataTable->dropColumn(1);
-        $columns = $this->getPrivateProperty($this->DataTable, 'cols');
+        $columns = $this->privateColumnAccess();
         $this->assertEquals(1, count($columns));
         $this->assertFalse(isset($columns[1]));
     }
@@ -308,11 +323,11 @@ class DataTableTest extends ProvidersTestCase
      * @dataProvider nonIntProvider
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
-    public function testDropColumnWithBadType($badVals)
+    public function testDropColumnWithBadType($badTypes)
     {
         $this->DataTable->addNumberColumn();
 
-        $this->DataTable->dropColumn($badVals);
+        $this->DataTable->dropColumn($badTypes);
     }
 
     /**
@@ -338,7 +353,7 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->DataTable->addColumn($columnType, $columnLabel);
 
-        $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
+        $column = $this->privateColumnAccess(0);
 
         $this->assertEquals($columnType, $column->getType());
         $this->assertEquals($columnLabel, $column->getLabel());
@@ -351,7 +366,7 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->DataTable->addColumn(['date', 'Days in March']);
 
-        $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
+        $column = $this->privateColumnAccess(0);
 
         $this->assertEquals('date', $column->getType());
         $this->assertEquals('Days in March', $column->getLabel());
@@ -368,7 +383,7 @@ class DataTableTest extends ProvidersTestCase
             ['number', 'Temperature'],
         ]);
 
-        $columns = $this->getPrivateProperty($this->DataTable, 'cols');
+        $columns = $this->privateColumnAccess();
 
         $this->assertEquals('date', $columns[0]->getType());
         $this->assertEquals('Days in March', $columns[0]->getLabel());
@@ -389,9 +404,9 @@ class DataTableTest extends ProvidersTestCase
         $this->DataTable->addDateColumn();
         $this->DataTable->addRow([]);
 
-        $row = $this->getPrivateProperty($this->DataTable, 'rows')[0];
+        $row = $this->privateRowAccess(0);
 
-        $this->assertNull($this->getPrivateProperty($row, 'values')[0]);
+        $this->assertNull($this->inspect($row, 'values')[0]);
     }
 
     /**
@@ -403,13 +418,13 @@ class DataTableTest extends ProvidersTestCase
         $this->DataTable->addDateColumn();
         $this->DataTable->addRow(null);
 
-        $row = $this->getPrivateProperty($this->DataTable, 'rows')[0];
+        $row = $this->privateRowAccess(0);
 
-        $this->assertNull($this->getPrivateProperty($row, 'values')[0]);
+        $this->assertNull($this->inspect($row, 'values')[0]);
     }
 
     /**
-     * @depends testAddColumnViaNamedAlias
+     * depends testAddColumnViaNamedAlias
      * @covers \Khill\Lavacharts\DataTables\DataTable::addRow
      */
     public function testAddRowWithDate()
@@ -417,11 +432,12 @@ class DataTableTest extends ProvidersTestCase
         $this->DataTable->addDateColumn();
         $this->DataTable->addRow([Carbon::parse('March 24th, 1988')]);
 
-        $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
-        $row    = $this->getPrivateProperty($this->DataTable, 'rows')[0];
+        $column = $this->privateColumnAccess(0);
+        $row    = $this->privateRowAccess(0);
 
         $this->assertEquals('date', $column->getType());
-        $this->assertEquals('Date(1988,2,24,0,0,0)', $row->getColumnValue(0));
+        $this->assertInstanceOf('\Khill\Lavacharts\Datatables\Cells\DateCell', $row[0]);
+        $this->assertEquals('Date(1988,2,24,0,0,0)', (string) $row[0]);
     }
 
     /**
@@ -436,16 +452,16 @@ class DataTableTest extends ProvidersTestCase
 
         $this->DataTable->addRow([Carbon::parse('March 24th, 1988'), 12345, 67890]);
 
-        $columns = $this->getPrivateProperty($this->DataTable, 'cols');
-        $row     = $this->getPrivateProperty($this->DataTable, 'rows')[0];
+        $columns = $this->privateColumnAccess();
+        $row     = $this->privateRowAccess(0);
 
         $this->assertEquals('date', $columns[0]->getType());
         $this->assertEquals('number', $columns[1]->getType());
         $this->assertEquals('number', $columns[2]->getType());
 
-        $this->assertEquals('Date(1988,2,24,0,0,0)', $row->getColumnValue(0));
-        $this->assertEquals(12345, $row->getColumnValue(1));
-        $this->assertEquals(67890, $row->getColumnValue(2));
+        $this->assertEquals('Date(1988,2,24,0,0,0)', $row->getCell(0));
+        $this->assertEquals(12345, $row->getCell(1)->getValue());
+        $this->assertEquals(67890, $row->getCell(2)->getValue());
     }
 
     /**
@@ -465,39 +481,20 @@ class DataTableTest extends ProvidersTestCase
 
         $this->DataTable->addRows($rows);
 
-        $columns = $this->getPrivateProperty($this->DataTable, 'cols');
-        $rows    = $this->getPrivateProperty($this->DataTable, 'rows');
+        $columns = $this->privateColumnAccess();
+        $rows    = $this->privateRowAccess();
 
         $this->assertEquals('date', $columns[0]->getType());
         $this->assertEquals('number', $columns[1]->getType());
         $this->assertEquals('number', $columns[2]->getType());
 
-        $this->assertEquals('Date(1988,2,24,0,0,0)', $rows[0]->getColumnValue(0));
-        $this->assertEquals(12345, $rows[0]->getColumnValue(1));
-        $this->assertEquals(67890, $rows[0]->getColumnValue(2));
+        $this->assertEquals('Date(1988,2,24,0,0,0)', (string) $rows[0]->getCell(0));
+        $this->assertEquals(12345, $rows[0]->getCell(1)->getValue());
+        $this->assertEquals(67890, $rows[0]->getCell(2)->getValue());
 
-        $this->assertEquals('Date(1988,2,25,0,0,0)', $rows[1]->getColumnValue(0));
-        $this->assertEquals(1122, $rows[1]->getColumnValue(1));
-        $this->assertEquals(3344, $rows[1]->getColumnValue(2));
-    }
-
-    /**
-     * @depends testAddColumnViaNamedAlias
-     * @depends testAddRowsWithMultipleColumnsWithDateAndNumbers
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidRowDefinition
-     * @covers \Khill\Lavacharts\DataTables\DataTable::addRows
-     */
-    public function testAddRowsWithBadColumnValue()
-    {
-        $this->DataTable->addDateColumn();
-        $this->DataTable->addNumberColumn();
-
-        $rows = [
-            [Carbon::parse('March 24th, 1988'), 12345],
-            234.234
-        ];
-
-        $this->DataTable->addRows($rows);
+        $this->assertEquals('Date(1988,2,25,0,0,0)', (string) $rows[1]->getCell(0));
+        $this->assertEquals(1122, $rows[1]->getCell(1)->getValue());
+        $this->assertEquals(3344, $rows[1]->getCell(2)->getValue());
     }
 
     /**
@@ -516,7 +513,7 @@ class DataTableTest extends ProvidersTestCase
     /**
      * @depends testAddColumnViaNamedAlias
      * @dataProvider nonCarbonOrDateStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidDateTimeString
+     * @expectedException \Exception
      * @covers \Khill\Lavacharts\DataTables\DataTable::addRow
      */
     public function testAddRowWithBadDateTypes($badDate)
@@ -556,8 +553,8 @@ class DataTableTest extends ProvidersTestCase
 
         $rows = $this->DataTable->getRows();
 
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Rows\Row', $rows[0]);
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Rows\Row', $rows[1]);
+        $this->assertInstanceOf(DATATABLE_NS.'Rows\Row', $rows[0]);
+        $this->assertInstanceOf(DATATABLE_NS.'Rows\Row', $rows[1]);
     }
 
     /**
@@ -586,15 +583,18 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testFormatColumn()
     {
-        $mockDateFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
+        $mockDateFormat = $this->createMock('Formats\DateFormat');
 
         $this->DataTable->addDateColumn();
 
         $this->DataTable->formatColumn(0, $mockDateFormat);
 
-        $column = $this->getPrivateProperty($this->DataTable, 'cols')[0];
+        $column = $this->privateColumnAccess(0);
 
-        $this->assertInstanceOf('Khill\Lavacharts\DataTables\Formats\DateFormat', $this->getPrivateProperty($column, 'format'));
+        $this->assertInstanceOf(
+            DATATABLE_NS.'Formats\DateFormat',
+            $this->inspect($column, 'format')
+        );
     }
 
     /**
@@ -605,7 +605,7 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testFormatColumnWithBadIndex()
     {
-        $mockDateFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
+        $mockDateFormat = $this->createMock('Formats\DateFormat');
 
         $this->DataTable->addDateColumn();
 
@@ -619,21 +619,29 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testFormatColumns()
     {
-        $mockDateFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
-        $mockNumberFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
+        $mockDateFormat = $this->createMock('Formats\DateFormat');
+        $mockNumberFormat = $this->createMock('Formats\NumberFormat');
 
         $this->DataTable->addDateColumn();
         $this->DataTable->addNumberColumn();
+        $this->DataTable->addNumberColumn();
 
         $this->DataTable->formatColumns([
-            $mockDateFormat,
-            $mockNumberFormat
+            0 => $mockDateFormat,
+            2 => $mockNumberFormat
         ]);
 
-        $columns = $this->getPrivateProperty($this->DataTable, 'cols');
+        $columns = $this->privateColumnAccess();
 
-        $this->assertInstanceOf('Khill\Lavacharts\DataTables\Formats\DateFormat', $this->getPrivateProperty($columns[0], 'format'));
-        $this->assertInstanceOf('Khill\Lavacharts\DataTables\Formats\NumberFormat', $this->getPrivateProperty($columns[1], 'format'));
+        $this->assertInstanceOf(
+            DATATABLE_NS.'Formats\DateFormat',
+            $this->inspect($columns[0], 'format')
+        );
+
+        $this->assertInstanceOf(
+            DATATABLE_NS.'Formats\NumberFormat',
+            $this->inspect($columns[2], 'format')
+        );
     }
 
     /**
@@ -643,8 +651,8 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testGetFormattedColumns()
     {
-        $mockDateFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
-        $mockNumberFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
+        $mockDateFormat = $this->createMock('Formats\DateFormat');
+        $mockNumberFormat = $this->createMock('Formats\NumberFormat');
 
         $this->DataTable->addDateColumn();
         $this->DataTable->addNumberColumn();
@@ -658,8 +666,15 @@ class DataTableTest extends ProvidersTestCase
 
         $columns = $this->DataTable->getFormattedColumns();
 
-        $this->assertInstanceOf('Khill\Lavacharts\DataTables\Formats\DateFormat', $this->getPrivateProperty($columns[0], 'format'));
-        $this->assertInstanceOf('Khill\Lavacharts\DataTables\Formats\NumberFormat', $this->getPrivateProperty($columns[2], 'format'));
+        $this->assertInstanceOf(
+            DATATABLE_NS.'Formats\DateFormat',
+            $this->inspect($columns[0], 'format')
+        );
+
+        $this->assertInstanceOf(
+            DATATABLE_NS.'Formats\NumberFormat',
+            $this->inspect($columns[2], 'format')
+        );
     }
 
     /**
@@ -669,8 +684,8 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testHasFormattedColumns()
     {
-        $mockDateFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
-        $mockNumberFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
+        $mockDateFormat = $this->createMock('Formats\DateFormat');
+        $mockNumberFormat = $this->createMock('Formats\NumberFormat');
 
         $this->DataTable->addDateColumn();
         $this->DataTable->addNumberColumn();
@@ -692,52 +707,12 @@ class DataTableTest extends ProvidersTestCase
      */
     public function testHasFormattedColumnsWithNoFormattedColumns()
     {
-        $mockDateFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
-        $mockNumberFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
-
         $this->DataTable->addDateColumn();
         $this->DataTable->addNumberColumn();
         $this->DataTable->addNumberColumn();
         $this->DataTable->addNumberColumn();
-
 
         $this->assertFalse($this->DataTable->hasFormattedColumns());
-    }
-
-    /**
-     * @dataProvider nonArrayProvider
-     * @depends testAddColumnViaNamedAlias
-     * @depends testFormatColumns
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testFormatColumnsWithBadType($badVals)
-    {
-        $mockDateFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
-        $mockNumberFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
-
-        $this->DataTable->addDateColumn();
-        $this->DataTable->addNumberColumn();
-
-        $this->DataTable->formatColumns($badVals);
-    }
-
-    /**
-     * @dataProvider nonArrayProvider
-     * @depends testAddColumnViaNamedAlias
-     * @depends testFormatColumns
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testFormatColumnsWithArrayOfNonFormats()
-    {
-        $mockDateFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\DateFormat');
-        $mockNumberFormat = \Mockery::mock('Khill\Lavacharts\DataTables\Formats\NumberFormat');
-
-        $this->DataTable->addDateColumn();
-        $this->DataTable->addNumberColumn();
-
-        $this->DataTable->formatColumns([
-            4, 'tacos'
-        ]);
     }
 
      /**
@@ -754,20 +729,20 @@ class DataTableTest extends ProvidersTestCase
             [Carbon::parse('March 25th, 1988 8:02:06'), 1122, 3344]
         ]);
 
-        $columns = $this->getPrivateProperty($this->DataTable, 'cols');
-        $rows    = $this->getPrivateProperty($this->DataTable, 'rows');
+        $columns = $this->privateColumnAccess();
+        $rows    = $this->privateRowAccess();
 
         $this->assertEquals('datetime', $columns[0]->getType());
         $this->assertEquals('number', $columns[1]->getType());
         $this->assertEquals('number', $columns[2]->getType());
 
-        $this->assertEquals('Date(1988,2,24,8,1,5)', $rows[0]->getColumnValue(0));
-        $this->assertEquals(12345, $rows[0]->getColumnValue(1));
-        $this->assertEquals(67890, $rows[0]->getColumnValue(2));
+        $this->assertEquals('Date(1988,2,24,8,1,5)', $rows[0]->getCell(0));
+        $this->assertEquals(12345, $rows[0]->getCell(1)->getValue());
+        $this->assertEquals(67890, $rows[0]->getCell(2)->getValue());
 
-        $this->assertEquals('Date(1988,2,25,8,2,6)', $rows[1]->getColumnValue(0));
-        $this->assertEquals(1122, $rows[1]->getColumnValue(1));
-        $this->assertEquals(3344, $rows[1]->getColumnValue(2));
+        $this->assertEquals('Date(1988,2,25,8,2,6)', $rows[1]->getCell(0));
+        $this->assertEquals(1122, $rows[1]->getCell(1)->getValue());
+        $this->assertEquals(3344, $rows[1]->getCell(2)->getValue());
     }
 
     /**
@@ -781,8 +756,8 @@ class DataTableTest extends ProvidersTestCase
 
         $column = $this->DataTable->getColumn(1);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Columns\Column', $column);
-        $this->assertEquals('Test2', $this->getPrivateProperty($column, 'label'));
+        $this->assertInstanceOf(DATATABLE_NS.'Columns\Column', $column);
+        $this->assertEquals('Test2', $this->inspect($column, 'label'));
     }
 
     /**
@@ -796,8 +771,8 @@ class DataTableTest extends ProvidersTestCase
         $columns = $this->DataTable->getColumns();
 
         $this->assertTrue(is_array($columns));
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Columns\Column', $columns[0]);
-        $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Columns\Column', $columns[1]);
+        $this->assertInstanceOf(DATATABLE_NS.'Columns\Column', $columns[0]);
+        $this->assertInstanceOf(DATATABLE_NS.'Columns\Column', $columns[1]);
     }
 
     /**
@@ -886,11 +861,9 @@ class DataTableTest extends ProvidersTestCase
     public function testBare()
     {
         $this->DataTable->addNumberColumn('num')->addRows([[1],[2],[3],[4]]);
+
         $this->assertEquals($this->DataTable->getRowCount(), 4);
 
-        $this->assertEquals($this->DataTable->bare(), 0);
+        $this->assertEquals($this->DataTable->bare()->getRowCount(), 0);
     }
 }
-
-
-

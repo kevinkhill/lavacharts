@@ -1,65 +1,25 @@
   var gulp = require('gulp'),
-       log = require('gulp-util').log,
-     spawn = require('child_process').spawn,
-      exec = require('child_process').exec,
-        sh = require('sh'),
+     gutil = require('gulp-util'),
       bump = require('gulp-bump'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
-    rename = require('gulp-rename'),
+ streamify = require('gulp-streamify'),
+    gulpif = require('gulp-if'),
+   stylish = require('jshint-stylish'),
    replace = require('gulp-replace'),
-sourcemaps = require('gulp-sourcemaps'),
+      argv = require('yargs').array('browsers').argv,
     source = require('vinyl-source-stream'),
-    buffer = require('vinyl-buffer'),
-      argv = require('yargs').array('browsers').argv;
+        fs = require('fs'),
+browserify = require('browserify'),
+  stripify = require('stripify'),
+  watchify = require('watchify');
 
 var pkg = require('./package.json');
 
-
-gulp.task('default', [
-    'jshint',
-    'browserify'
-]);
-
-gulp.task('browserify', function (done) {
-    function bundle() {
-        b.bundle()
-         .pipe(source('lava.js'))
-         .pipe(gulp.dest('./javascript/dist'));
-    }
-
-    var b = require('browserify')({
-        entries: [pkg.config.entry],
-        cache: {},
-        packageCache: {},
-        plugin: [require('watchify')]
-    });
-
-    b.on('log', function (msg) {
-        log(msg);
-    });
-
-    b.on('update', bundle);
-
-    bundle();
-});
-
 gulp.task('jshint', function (done) {
-    return gulp.src('./javascript/src/**/*.js')
-               .pipe(jshint());
-});
-
-gulp.task('karma', function (done) {
-    var karma = require('karma');
-
-    var server = new karma.Server({
-        configFile: __dirname + '/configs/karma.conf.js',
-        singleRun: argv.dev ? false : true
-    }, function(exitStatus) {
-        done(exitStatus ? "There are failing unit tests" : undefined);
-    });
-
-    server.start();
+    gulp.src('./javascript/src/**/*.js')
+        .pipe(jshint())
+        .pipe(jshint.reporter(stylish));
 });
 
 gulp.task('bump', function (done) { //-v=1.2.3
@@ -75,10 +35,49 @@ gulp.task('bump', function (done) { //-v=1.2.3
         .pipe(gulp.dest('./'));
 });
 
-gulp.task('php:cs', function (done) {
-    sh('./vendor/bin/phpcs -n --standard=PSR2 ./src ./tests');
-});
+function compile(prod, watch) {
+    var bundler = watchify(browserify({
+        debug: true,
+        entries: [pkg.config.entry],
+        cache: {},
+        packageCache: {}
+    }));
 
-gulp.task('php:fix', function (done) {
-    sh('./vendor/bin/phpcbf -n --standard=PSR2 ./src ./tests');
-});
+    if (prod) {
+        bundler.transform('stripify');
+    }
+
+    function rebundle() {
+        return bundler.bundle()
+            .on('error', function(err){
+                if (err instanceof SyntaxError) {
+                    gutil.log(gutil.colors.red('Syntax Error'));
+                    console.log(err.message);
+                    // console.log(err.filename+":"+err.loc.line);
+                    console.log(err.codeFrame);
+                } else {
+                    gutil.log(gutil.colors.red('Error'), err.message);
+                }
+                this.emit('end');
+            })
+            .pipe(source('lava.js'))
+            .pipe(gulpif(prod, streamify(uglify())))
+            .pipe(gulp.dest('javascript/dist'));
+    }
+
+    if (watch) {
+        bundler.on('update', function() {
+            gutil.log(gutil.colors.green('-> bundling...'));
+
+            rebundle();
+        });
+    }
+
+    return rebundle();
+}
+
+gulp.task('build', function () { return compile(false, false) });
+gulp.task('release', function() { return compile(true, false); });
+gulp.task('watch', function() { return compile(false, true) });
+
+gulp.task('default', ['watch']);

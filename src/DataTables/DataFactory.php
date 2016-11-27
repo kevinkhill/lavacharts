@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\DataTables;
 
-use \Khill\Lavacharts\DataTables\Cells\Cell;
-use \Khill\Lavacharts\Exceptions\InvalidJson;
+use Khill\Lavacharts\DataTables\Cells\Cell;
+use Khill\Lavacharts\Exceptions\InvalidJson;
 
 /**
  * Class DataFactory
@@ -23,26 +23,38 @@ use \Khill\Lavacharts\Exceptions\InvalidJson;
 class DataFactory
 {
     /**
-     * Create new DataTables.
-     * This method will create an empty DataTable, with a timezone if
-     * passed a string, or without a timezone if passed nothing.
+     * Creates a new DataTable
      *
-     * @param  null   $columns
-     * @param  null   $rows
+     * This method will create an empty DataTable, with a timezone if
+     * passed a string as the first parameter or with no timezone if passed nothing.
+     *
+     * If the first parameter is an array, then the array will be attempted to be
+     * used as columns for a new DataTable.
+     *
+     * If given an array for the second parameter, then it will be interpreted as
+     * row definitions.
+     *
+     * @param  mixed  $columns  Array of columns or timezone
+     * @param  array  $rows     Array of rows
      * @param  string $timezone Timezone to use while using Carbon
      * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public static function DataTable($columns = null, $rows = null, $timezone = null)
+    public static function DataTable($columns = null, array $rows = [], $timezone = null)
     {
         if ($columns === null || gettype($columns) === 'string') {
             $timezone = $columns;
         }
-
+        
         $datatable = self::emptyDataTable($timezone);
 
-        if (is_array($columns) && is_array($rows)) {
-            $datatable->addColumns($columns)->addRows($rows);
+        if (is_array($columns)) {
+            $datatable->addColumns($columns);
+        }
+
+        if (is_array($rows)) {
+            $datatable->addRows($rows);
+        } else if ($rows instanceof \Closure) {
+            $datatable->addRows($rows());
         }
 
         return $datatable;

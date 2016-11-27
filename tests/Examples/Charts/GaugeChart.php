@@ -7,7 +7,6 @@
           ->addRow(['Graphics', rand(0,100)]);
 
     $lava->GaugeChart($title, $temps, [
-        'elementId' => 'lavachart',
         'width' => $width,
         'height' => $height,
         'greenFrom' => 0,

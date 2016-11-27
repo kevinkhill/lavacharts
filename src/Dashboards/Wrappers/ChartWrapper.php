@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Dashboards\Wrappers;
 
-use \Khill\Lavacharts\Charts\Chart;
-use \Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Values\ElementId;
 
 /**
  * Class ChartWrapper

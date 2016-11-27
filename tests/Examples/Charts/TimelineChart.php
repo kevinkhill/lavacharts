@@ -1,5 +1,5 @@
 <?php
-    use \Carbon\Carbon;
+    use Carbon\Carbon;
 
     $data = $lava->DataTable();
     $data->addStringColumn('Room');
@@ -17,7 +17,6 @@
 
 
     $lava->TimelineChart($title, $data, [
-        'elementId' => 'lavachart',
         'title' => 'Classes',
         'width' => $width,
         'height' => $height,

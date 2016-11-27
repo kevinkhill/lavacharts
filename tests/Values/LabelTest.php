@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Values;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Values\Label;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Values\Label;
 
 class LabelTest extends ProvidersTestCase
 {

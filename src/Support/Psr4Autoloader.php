@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts;
+namespace Khill\Lavacharts\Support;
 
 /**
  * PSR4 Autoloader Class

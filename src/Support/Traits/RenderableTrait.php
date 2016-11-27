@@ -2,9 +2,9 @@
 
 namespace Khill\Lavacharts\Support\Traits;
 
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Values\ElementId;
-use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
+use Khill\Lavacharts\Values\Label;
+use Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
 
 /**
  * Trait RenderableTrait
@@ -125,10 +125,10 @@ trait RenderableTrait
      * This method removes invalid characters from the chart label
      * to use as an elementId.
      *
-     * @access private
+     * @access public
      * @link   http://stackoverflow.com/a/11330527/2503458
      */
-    private function generateElementId()
+    public function generateElementId()
     {
         $string = strtolower($this->getLabelStr());
         $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);

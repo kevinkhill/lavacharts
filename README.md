@@ -1,4 +1,4 @@
-# Lavacharts v3.0
+# Lavacharts 3.0
 [![Total Downloads](https://img.shields.io/packagist/dt/khill/lavacharts.svg?style=plastic)](https://packagist.org/packages/khill/lavacharts)
 [![License](https://img.shields.io/packagist/l/khill/lavacharts.svg?style=plastic)](http://opensource.org/licenses/MIT)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg?style=plastic)](https://php.net/)
@@ -13,29 +13,30 @@ Stable:
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/3.0.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=3.0)
 
 Dev:
-[![Current Development](https://img.shields.io/badge/release-dev--3.1-brightgreen.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/master)
+[![Development Release](https://img.shields.io/badge/release-dev--3.1-brightgreen.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/master)
 [![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/master.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/master.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=master)
 
-## Version 3.0
-Upgrade guide: [Migrating from 2.5.x to 3.0.x](https://github.com/kevinkhill/lavacharts/wiki/Upgrading-from-2.5-to-3.0)
-
 
 ## Package Features
-- Lava.js module for interacting with charts client-side
+- **Updated!** All options are now supported, use the constructor to assign any customization
+ - Visit [Google's Chart Gallery](https://developers.google.com/chart/interactive/docs/gallery) for details on available options
+- Custom javascript module for interacting with charts client-side
   - AJAX data reloading
   - Fetching charts
   - Events integration
-- Column Formatters
-- Column Roles
-- Blade template extensions for laravel
+- Column Formatters & Roles
+- Blade template extensions for Laravel
 - Twig template extensions for Symfony
 - [Carbon](https://github.com/briannesbitt/Carbon) support for date/datetime/timeofday columns
-- Now supporting *19* Chart Types!
-  - Annotation, Area, Bar, Bubble, Calendar, Candlestick, Column, Combo, Donut, Gauge, Geo, Histogram, Line, Pie, Sankey, Scatter, SteppedArea, Table, Timeline and Treemap
-- [DataTablePlus](https://github.com/kevinkhill/datatableplus) package can be added to parse CSV files or Eloquent collections into DataTables.
+- Now supporting 12 Charts!
+  - Area, Bar, Calendar, Column, Combo, Donut, Gauge, Geo, Line, Pie, Scatter, Table
+- [DataTablePlus](https://github.com/kevinkhill/datatableplus) package can be added to parse CSV files or Eloquent collections into DataTables. 
 
-## For complete documentation, please visit [lavacharts.com](http://lavacharts.com/)
+
+#### For complete documentation, please visit [lavacharts.com](http://lavacharts.com/)
+#### Upgrade guide: [Migrating from 2.5.x to 3.0.x](https://github.com/kevinkhill/lavacharts/wiki/Upgrading-from-2.5-to-3.0)
+
 
 ---
 
@@ -51,14 +52,85 @@ $ composer update
 ```
 
 ## Framework Agnostic
-If you are using Lavacharts with Silex, Lumen or your own Composer project, that's no problem! Just make sure to:  
-```require 'vendor/autoload.php';```  
-within you project and create an instance of Lavacharts:  
-```$lava = new Khill\Lavacharts\Lavacharts;```
-  
-#### Or, Framework Integration
- > For Laravel integration, use the [khill/lavacharts-laravel](https://github.com/kevinkhill/lavacharts-laravel) composer package  
- > For Symfony integration, use the [khill/lavacharts-symfony](https://github.com/kevinkhill/lavacharts-symfony) composer package
+If you are using Lavacharts with Silex, Lumen or your own Composer project, that's no problem! Just make sure to:
+```require 'vendor/autoload.php';``` within you project and create an instance of Lavacharts: ```$lava = new Khill\Lavacharts\Lavacharts;```
+
+
+## Laravel
+To integrate lavacharts into Laravel, a ServiceProvider has been included.
+
+### Laravel 5.x
+Register Lavacharts in your app by adding this line to the end of the providers array in ```config/app.php```:
+```php
+<?php
+// config/app.php
+
+// ...
+'providers' => [
+    ...
+
+    Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
+],
+```
+The ```Lava::``` alias will be registered automatically via the service provider.
+
+### Laravel 4.x
+Register Lavacharts in your app by adding this line to the end of the providers array in ```app/config/app.php```:
+
+```php
+<?php
+// app/config/app.php
+
+// ...
+'providers' => array(
+    // ...
+
+    "Khill\Lavacharts\Laravel\LavachartsServiceProvider",
+),
+```
+The ```Lava::``` alias will be registered automatically via the service provider.
+
+
+## Symfony 2.x
+Also included is a Bundle for Symfony to create a service that can be pulled from the Container.
+
+### Add Bundle
+Add the bundle to the AppKernel:
+```php
+<?php
+// app/AppKernel.php
+
+// ...
+class AppKernel extends Kernel
+{
+    public function registerBundles()
+    {
+        $bundles = array(
+            // ...
+
+            new Khill\Lavacharts\Symfony\Bundle\LavachartsBundle(),
+        );
+
+        // ...
+    }
+
+    // ...
+}
+```
+### Import Config
+Add the service definition to the ```app/config/config.yml``` file
+```yaml
+imports:
+  # ...
+  - { resource: @LavachartsBundle/Resources/config/services.yml
+```
+
+# Examples
+For examples, open your favorite terminal and navigate to the lavacharts folder...
+```bash
+$ cd tests/Examples && php -S 127.0.0.1:8000 -c php.ini router.php
+```
+Then point your browser to ```127.0.0.1:8000``` and check out some charts
 
 
 # Usage
