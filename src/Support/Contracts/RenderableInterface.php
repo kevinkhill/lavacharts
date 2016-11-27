@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Support\Contracts;
 
-use Khill\Lavacharts\Values\Label;
-use Khill\Lavacharts\Values\ElementId;
+use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Values\ElementId;
 
 /**
  * Interface RenderableInterface
@@ -49,14 +49,4 @@ interface RenderableInterface
      * @return \Khill\Lavacharts\Values\Label
      */
     public function getLabelStr();
-
-    /**
-     * Generate an ElementId
-     *
-     * This method removes invalid characters from the chart label
-     * to use as an elementId.
-     *
-     * @link http://stackoverflow.com/a/11330527/2503458
-     */
-    public function generateElementId();
 }

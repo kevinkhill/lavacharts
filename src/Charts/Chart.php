@@ -2,15 +2,17 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\Support\Customizable;
-use Khill\Lavacharts\DataTables\DataTable;
-use Khill\Lavacharts\Values\ElementId;
-use Khill\Lavacharts\Values\Label;
-use Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
-use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
-use Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
-use Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
-use Khill\Lavacharts\Support\Contracts\VisualizationInterface as Visualization;
+use \Khill\Lavacharts\Support\Customizable;
+use \Khill\Lavacharts\DataTables\DataTable;
+use \Khill\Lavacharts\Values\ElementId;
+use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
+use \Khill\Lavacharts\Support\Traits\DataTableTrait as HasDataTable;
+use \Khill\Lavacharts\Support\Contracts\DataTableInterface as DataTables;
+use \Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
+use \Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
+use \Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
+use \Khill\Lavacharts\Support\Contracts\VisualizationInterface as Visualization;
 
 /**
  * Class Chart
@@ -26,9 +28,9 @@ use Khill\Lavacharts\Support\Contracts\VisualizationInterface as Visualization;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Visualization
+class Chart extends Customizable implements DataTables, Renderable, Wrappable, Jsonable, Visualization
 {
-    use IsRenderable;
+    use HasDataTable, IsRenderable;
 
     /**
      * Type of wrappable class
@@ -76,7 +78,7 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
     /**
      * Returns the Filter wrap type.
      *
-     * @since  3.0.5
+     * @since  3.1.0
      * @return string
      */
     public function getWrapType()
@@ -87,7 +89,7 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
     /**
      * Returns the chart version.
      *
-     * @since  3.0.5
+     * @since  3.1.0
      * @return string
      */
     public function getVersion()
@@ -98,7 +100,7 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
     /**
      * Returns the chart visualization class.
      *
-     * @since  3.0.5
+     * @since  3.1.0
      * @return string
      */
     public function getJsPackage()
@@ -109,7 +111,7 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
     /**
      * Returns the chart visualization package.
      *
-     * @since  3.0.5
+     * @since  3.1.0
      * @return string
      */
     public function getJsClass()
@@ -128,31 +130,9 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
     }
 
     /**
-     * Returns the DataTable
-     *
-     * @since  3.0.0
-     * @return \Khill\Lavacharts\DataTables\DataTable
-     */
-    public function getDataTable()
-    {
-        return $this->datatable;
-    }
-
-    /**
-     * Returns a JSON string representation of the datatable.
-     *
-     * @since  2.5.0
-     * @return string
-     */
-    public function getDataTableJson()
-    {
-        return json_encode($this->datatable);
-    }
-
-    /**
      * Retrieves the events if any have been assigned to the chart.
      *
-     * @since  3.0.5
+     * @since  3.1.0
      * @return array
      */
     public function getEvents()
@@ -177,20 +157,18 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
      * This is method was added in 2.5 as a bandaid to remove the handcuffs from
      * users who want to add options that Google has added, that I have not.
      * I didn't intend to restrict the user to only select options, as the
-     * goal was to type isNonEmpty and validate. This method can be used to set
+     * goal was to type check and validate. This method can be used to set
      * any option, just pass in arrays with key value pairs for any setting.
      *
      * If the setting is an object, per the google docs, then use multi-dimensional
      * arrays and they will be converted upon rendering.
      *
      * @since  3.0.0
-     * @param  array $options Array of customization options for the chart
+     * @param  array $optionArray Array of customization options for the chart
      * @return \Khill\Lavacharts\Charts\Chart
      */
-    public function customize(array $options)
+    public function customize($optionArray)
     {
-        $this->setOptions($options);
-
-        return $this;
+        return $this->setOptions($optionArray);
     }
 }

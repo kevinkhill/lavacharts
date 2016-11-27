@@ -2,9 +2,9 @@
 
 namespace Khill\Lavacharts\Support\Traits;
 
-use Khill\Lavacharts\Values\Label;
-use Khill\Lavacharts\Values\ElementId;
-use Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
+use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Values\ElementId;
+use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
 
 /**
  * Trait RenderableTrait
@@ -56,7 +56,12 @@ trait RenderableTrait
         $this->label = $label;
 
         if ($elementId === null) {
-            $this->generateElementId();
+            $string = strtolower($this->getLabelStr());
+            $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
+            $string = preg_replace("/[\s-]+/", " ", $string);
+            $string = preg_replace("/[\s_]/", "-", $string);
+
+            $this->setElementId($string);
         } else {
             $this->elementId = $elementId;
         }
@@ -117,24 +122,5 @@ trait RenderableTrait
     public function isRenderable()
     {
         return $this->renderableStatus;
-    }
-
-    /**
-     * Generate an ElementId
-     *
-     * This method removes invalid characters from the chart label
-     * to use as an elementId.
-     *
-     * @access public
-     * @link   http://stackoverflow.com/a/11330527/2503458
-     */
-    public function generateElementId()
-    {
-        $string = strtolower($this->getLabelStr());
-        $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
-        $string = preg_replace("/[\s-]+/", " ", $string);
-        $string = preg_replace("/[\s_]/", "-", $string);
-
-        $this->setElementId($string);
     }
 }

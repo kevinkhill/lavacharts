@@ -22,7 +22,7 @@ class FilterFactory
     public static $FILTER_TYPES = [
         'category',
         'chartrange',
-        'date',
+        'daterange',
         'numberrange',
         'string'
     ];

@@ -2,20 +2,22 @@
 
 namespace Khill\Lavacharts;
 
-use Khill\Lavacharts\Charts\Chart;
-use Khill\Lavacharts\Charts\ChartFactory;
-use Khill\Lavacharts\Dashboards\Filters\Filter;
-use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
-use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
-use Khill\Lavacharts\DataTables\Formats\Format;
-use Khill\Lavacharts\Exceptions\InvalidLabel;
-use Khill\Lavacharts\Exceptions\InvalidLavaObject;
-use Khill\Lavacharts\Javascript\ScriptManager;
-use Khill\Lavacharts\Support\Html\HtmlFactory;
-use Khill\Lavacharts\Support\Psr4Autoloader;
-use Khill\Lavacharts\Values\ElementId;
-use Khill\Lavacharts\Values\Label;
-use Khill\Lavacharts\Values\StringValue;
+use \Khill\Lavacharts\Values\Label;
+use \Khill\Lavacharts\Values\ElementId;
+use \Khill\Lavacharts\Charts\Chart;
+use \Khill\Lavacharts\Charts\ChartFactory;
+use \Khill\Lavacharts\Support\Renderable;
+use \Khill\Lavacharts\Dashboards\DashboardFactory;
+use \Khill\Lavacharts\Dashboards\Filters\Filter;
+use \Khill\Lavacharts\Dashboards\Filters\FilterFactory;
+use \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
+use \Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
+use \Khill\Lavacharts\DataTables\Formats\Format;
+use \Khill\Lavacharts\DataTables\DataFactory;
+use \Khill\Lavacharts\Javascript\ScriptManager;
+use \Khill\Lavacharts\Exceptions\InvalidLavaObject;
+use \Khill\Lavacharts\Exceptions\InvalidFunctionParam;
+use \Khill\Lavacharts\Support\Html\HtmlFactory;
 
 /**
  * Lavacharts - A PHP wrapper library for the Google Chart API
@@ -36,13 +38,6 @@ class Lavacharts
     const VERSION = '3.1.0';
 
     /**
-     * Locale for the DataTable.
-     *
-     * @var string
-     */
-    private $locale = 'en';
-
-    /**
      * Holds all of the defined Charts and DataTables.
      *
      * @var \Khill\Lavacharts\Volcano
@@ -57,12 +52,28 @@ class Lavacharts
     private $scriptManager;
 
     /**
-     * Lavacharts constructor.
+     * ChartFactory for checking parameters and creating new charts.
+     *
+     * @var \Khill\Lavacharts\Charts\ChartFactory
+     */
+    private $chartFactory;
+
+    /**
+     * DashboardFactory for checking parameters and creating new dashboards.
+     *
+     * @var \Khill\Lavacharts\Dashboards\DashboardFactory
+     */
+    private $dashFactory;
+
+    /**
+     * Creates Volcano & Javascript Factory
+     *
+     * @return Lavacharts
      */
     public function __construct()
     {
         if (!$this->usingComposer()) {
-            require_once(__DIR__.'/Support/Psr4Autoloader.php');
+            require_once(__DIR__.'/Psr4Autoloader.php');
 
             $loader = new Psr4Autoloader;
             $loader->register();
@@ -70,12 +81,16 @@ class Lavacharts
         }
 
         $this->volcano       = new Volcano;
+        $this->html          = new HtmlFactory;
         $this->scriptManager = new ScriptManager;
+        $this->chartFactory  = new ChartFactory;
+        $this->dashFactory   = new DashboardFactory;
     }
 
     /**
      * Magic function to reduce repetitive coding and create aliases.
      *
+     * @access public
      * @since  1.0.0
      * @param  string $method    Name of method
      * @param  array  $args Passed arguments
@@ -90,7 +105,7 @@ class Lavacharts
         if ((bool) preg_match('/^render/', $method) === true) {
             $type = ltrim($method, 'render');
 
-            if ($type !== 'Dashboard' && ChartFactory::isValidChart($type) === false) {
+            if ($type !== 'Dashboard' && in_array($type, ChartFactory::$CHART_TYPES, true) === false) {
                 throw new InvalidLavaObject($type);
             }
 
@@ -98,32 +113,26 @@ class Lavacharts
         }
 
         //Charts
-        if (ChartFactory::isValidChart($method)) {
-            if (isset($args[0]) === false) {
-                throw new InvalidLabel;
-            }
-
+        if (in_array($method, $this->chartFactory->getChartTypes())) {
             if ($this->exists($method, $args[0])) {
                 $lavaClass = $this->volcano->get($method, $args[0]);
             } else {
-                $chart = ChartFactory::create($method, $args);
-
+                $chart = $this->chartFactory->create($method, $args);
                 $lavaClass = $this->volcano->store($chart);
             }
         }
 
         //Filters
         if ((bool) preg_match('/Filter$/', $method)) {
-            $options = isset($args[1]) ? $args[1] : [];
+            $type   = strtolower(str_replace('Filter', '', $method));
+            $config = isset($args[1]) ? $args[1] : [];
 
-            $lavaClass = Filter::create($method, $args[0], $options);
+            $lavaClass = FilterFactory::create($type, $args[0], $config);
         }
 
         //Formats
         if ((bool) preg_match('/Format$/', $method)) {
-            $options = isset($args[0]) ? $args[0] : [];
-
-            $lavaClass = Format::create($method, $options);
+            $lavaClass = Format::Factory($method, $args[0]);
         }
 
         if (isset($lavaClass) == false) {
@@ -134,21 +143,30 @@ class Lavacharts
     }
 
     /**
-     * Create a new DataTable using the DataFactory
+     * Create a new DataTable with the DataFactory
      *
      * If the additional DataTablePlus package is available, then one will
      * be created, otherwise a standard DataTable is returned.
      *
-     * @since  3.0.3
+     * @since  3.1.0
      * @uses   \Khill\Lavacharts\DataTables\DataFactory
-     * @param  mixed $args
+     * @param  string $timezone
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
-    public function DataTable($args = null)
+    public function DataTable($timezone = null)
     {
-        $dataFactory = __NAMESPACE__.'\\DataTables\\DataFactory::DataTable';
+        return DataFactory::DataTable($timezone);
+    }
 
-        return call_user_func_array($dataFactory, func_get_args());
+    /**
+     * Get an instance of the DataFactory
+     *
+     * @since  3.1.0
+     * @return \Khill\Lavacharts\DataTables\DataFactory
+     */
+    public function DataFactory()
+    {
+        return new \Khill\Lavacharts\DataTables\DataFactory;
     }
 
     /**
@@ -159,19 +177,16 @@ class Lavacharts
      *
      * @since  3.0.0
      * @param  string $label
-     * @param  array  $bindings
-     * @return \Khill\Lavacharts\Dashboards\Dashboard
+     * @param  array  $bindings Array of bindings to apply
+     * @param  string $elemId
+     * @return \Khill\Lavacharts\DataTables\DataTable
      */
-    public function Dashboard($label, array $bindings = [])
+    public function Dashboard($label, $bindings = [], $elemId = '')
     {
-        if ($this->exists('Dashboard', $label)) {
-            $dashboard = $this->volcano->get('Dashboard', $label);
+        if ($this->exists(__FUNCTION__, $label)) {
+            $dashboard = $this->volcano->get(__FUNCTION__, $label);
         } else {
-            $dashboard = call_user_func(
-                __NAMESPACE__ . '\\Dashboards\\Dashboard::create',
-                func_get_args()
-            );
-
+            $dashboard = $this->dashFactory->create(func_get_args());
             $dashboard = $this->volcano->store($dashboard);
         }
 
@@ -184,7 +199,7 @@ class Lavacharts
      * @since  3.0.0
      * @uses   \Khill\Lavacharts\Values\ElementId
      * @param  \Khill\Lavacharts\Dashboards\Filters\Filter $filter Filter to wrap
-     * @param  string $elementId HTML element ID to output the control.
+     * @param                                              $elementIdStr
      * @return \Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper
      */
     public function ControlWrapper(Filter $filter, $elementIdStr)
@@ -200,7 +215,7 @@ class Lavacharts
      * @since  3.0.0
      * @uses   \Khill\Lavacharts\Values\ElementId
      * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to wrap
-     * @param  string $elementId HTML element ID to output the control.
+     * @param  string                         $elementIdStr
      * @return \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper
      */
     public function ChartWrapper(Chart $chart, $elementIdStr)
@@ -218,9 +233,8 @@ class Lavacharts
      * @since  2.0.0
      * @uses   \Khill\Lavacharts\Values\Label
      * @uses   \Khill\Lavacharts\Values\ElementId
-     * @uses   \Khill\Lavacharts\Support\Buffer
-     * @param  string $type Type of object to render.
-     * @param  string $label Label of the object to render.
+     * @param  string $type Type of renderable.
+     * @param         $labelStr
      * @param  string $elementId HTML element id to render into.
      * @param  mixed  $divDimensions Set true for div creation, or pass an array with height & width
      * @return string
@@ -231,80 +245,149 @@ class Lavacharts
         $label = new Label($labelStr);
 
         if ($type == 'Dashboard') {
-            $buffer = $this->renderDashboard($label, $elementId);
+            $output = $this->renderDashboard($label);
         } else {
-            $buffer = $this->renderChart($type, $label, $elementId, $divDimensions);
+            if ($divDimensions) {
+                $msg  = "The generation of div's through the render method is depreciated.";
+                $msg .= " Define the div's in page and assign the chart the div's ID.";
+
+                trigger_error($msg, E_USER_DEPRECATED);
+            }
+
+            if ($elementId) {
+                $msg  = "Passing the div's element ID via the render method is depreciated.";
+                $msg .= " Assign the element ID to the chart during creation.";
+
+                trigger_error($msg, E_USER_DEPRECATED);
+            }
+
+            $output = $this->renderChart($type, $label, $elementId, $divDimensions);
         }
 
-        return $buffer->getContents();
+        return $output;
     }
 
     /**
-     * Locales are used to customize text for a country or language.
+     * Renders all charts and dashboards that have been defined
      *
-     * This will affect the formatting of values such as currencies, dates, and numbers.
-     *
-     * By default, Lavacharts is loaded with the "en" locale. You can override this default
-     * by explicitly specifying a locale when creating the DataTable.
+     * No more individually calling render with chart types and titles.
+     * The single method call in the view will parse all charts and dashboards
+     * into javascript and output all the script tags.
      *
      * @since  3.1.0
-     * @param  string $locale
-     * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidStringValue
+     * @return string Javascript html blocks
      */
-    public function setLocale($locale = 'en')
+    public function renderAll()
     {
-        $this->locale = new StringValue($locale);
+        $buffer = '';
 
-        return $this;
-    }
-    /**
-     * Returns the current locale used in the DataTable
-     *
-     * @since  3.1.0
-     * @return string
-     */
-    public function getLocale()
-    {
-        return $this->locale;
+        if ($this->scriptManager->lavaJsRendered() === false) {
+            $buffer = $this->scriptManager->getLavaJsModule();
+        }
+
+        foreach ($this->volcano->getAll() as $renderable) {
+            $buffer .= $this->scriptManager->getJavascript($renderable);
+        }
+
+        return $buffer;
     }
 
     /**
-     * Outputs the lava.js module for manual placement.
+     * Renders the chart into the page
      *
-     * Will be depreciating jsapi in the future
+     * Given a chart label and an HTML element id, this will output
+     * all of the necessary javascript to generate the chart.
      *
-     * @since  3.0.3
-     * @return string Google Chart API and lava.js script blocks
+     *
+     * @access private
+     * @since  3.0.0
+     * @param  string                             $type
+     * @param  \Khill\Lavacharts\Values\Label     $label
+     * @param  \Khill\Lavacharts\Values\ElementId $elementId     HTML element id to render the chart into.
+     * @param  mixed                              $divDimensions Set true for div creation, or pass an array
+     *                                                           with height & width
+     * @return string Javascript output
+     * @throws \Khill\Lavacharts\Exceptions\ChartNotFound
+     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions
      */
-    public function lavajs()
+    private function renderChart($type, Label $label, $elementId = null, $divDimensions = false)
     {
-        $config = [
-            'locale' => $this->locale
-        ];
+        $buffer = '';
 
-        return (string) $this->scriptManager->getLavaJsModule($config);
+        if ($this->scriptManager->lavaJsRendered() === false) {
+            $buffer = $this->scriptManager->getLavaJsModule();
+        }
+
+        $chart = $this->volcano->get($type, $label);
+
+        if (is_null($elementId)) {
+            $elementId = $chart->getElementId();
+        }
+
+        if ($divDimensions !== false) {
+            $buffer .= $this->html->createDiv($elementId, $divDimensions);
+        }
+
+        $buffer .= $this->scriptManager->getJavascript($chart);
+
+        return $buffer;
+    }
+
+    /**
+     * Renders the chart into the page
+     * Given a chart label and an HTML element id, this will output
+     * all of the necessary javascript to generate the chart.
+     *
+     * @access private
+     * @since  3.0.0
+     * @param \Khill\Lavacharts\Values\Label $label
+     * @return string Javascript output
+     * @internal param \Khill\Lavacharts\Values\Label $chartLabel Label of a saved chart.
+     * @internal param \Khill\Lavacharts\Values\ElementId $elementId HTML element id to render the chart into.
+     */
+    private function renderDashboard(Label $label)
+    {
+        $buffer = '';
+
+        if ($this->scriptManager->lavaJsRendered() === false) {
+            $buffer = $this->scriptManager->getLavaJsModule();
+        }
+
+        $buffer .= $this->scriptManager->getJavascript(
+            $this->volcano->get('Dashboard', $label)
+        );
+
+        return $buffer;
     }
 
     /**
      * Outputs the link to the Google JSAPI
      *
-     * @since      2.3.0
-     * @deprecated 3.0.3
+     *
+     * @deprecated 3.1.0 Manual script tag location output is no longer needed,
+     *                   lava.js injects the script into the head.
+     *
+     * @access public
+     * @since  2.3.0
      * @return string Google Chart API and lava.js script blocks
      */
     public function jsapi()
     {
-        return $this->lavajs();
+        $errorMsg = 'Using the jsapi() method is deprecated since lava.js injects the jsapi into the head.';
+        trigger_error($errorMsg, E_USER_DEPRECATED);
+
+        return $this->scriptManager->getLavaJsModule();
     }
 
     /**
      * Checks to see if the given chart or dashboard exists in the volcano storage.
      *
+     * @access public
      * @since  2.4.2
      * @uses   \Khill\Lavacharts\Values\Label
-     * @param  string $type Type of object to isNonEmpty.
-     * @param  string $label Label of the object to isNonEmpty.
+     * @param  string $type Type of object to check.
+     * @param  string $label Label of the object to check.
      * @return boolean
      */
     public function exists($type, $label)
@@ -321,6 +404,7 @@ class Lavacharts
     /**
      * Fetches an existing Chart or Dashboard from the volcano storage.
      *
+     * @access public
      * @since  3.0.0
      * @uses   \Khill\Lavacharts\Values\Label
      * @param  string $type Type of Chart or Dashboard.
@@ -335,8 +419,9 @@ class Lavacharts
     /**
      * Stores a existing Chart or Dashboard into the volcano storage.
      *
+     * @access public
      * @since  3.0.0
-     * @param  Renderable $renderable A Chart or Dashboard.
+     * @param  \Khill\Lavacharts\Support\Renderable $renderable A Chart or Dashboard.
      * @return \Khill\Lavacharts\Charts\Chart|\Khill\Lavacharts\Dashboards\Dashboard
      */
     public function store(Renderable $renderable)
@@ -345,9 +430,38 @@ class Lavacharts
     }
 
     /**
+     * Creates Format Objects
+     *
+     * @access private
+     * @since  2.0.0
+     * @param  string $type Type of format to create.
+     * @param  string $args Arguments from __call
+     * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
+     * @return \Khill\Lavacharts\DataTables\Formats\Format
+     */
+    private function formatFactory($type, $args)
+    {
+        $format = __NAMESPACE__ . '\\DataTables\\Formats\\' . $type;
+
+        if (isset($args[0]) === false) {
+            return new $format;
+        }
+
+        if (is_array($args[0]) === false || empty($args[0]) === true) {
+            throw new InvalidFunctionParam(
+                $args[0],
+                __FUNCTION__,
+                'array'
+            );
+        }
+
+        return new $format($args[0]);
+    }
+
+    /**
      * Checks if running in composer environment
      *
-     * This will isNonEmpty if the folder 'composer' is within the path to Lavacharts.
+     * This will check if the folder 'composer' is within the path to Lavacharts.
      *
      * @access private
      * @since  2.4.0
@@ -360,65 +474,5 @@ class Lavacharts
         } else {
             return false;
         }
-    }
-
-    /**
-     * Renders the chart into the page
-     *
-     * Given a chart label and an HTML element id, this will output
-     * all of the necessary javascript to generate the chart.
-     *
-     * @since  3.0.0
-     * @param  string                             $type
-     * @param  \Khill\Lavacharts\Values\Label     $label
-     * @param  \Khill\Lavacharts\Values\ElementId $elementId     HTML element id to render the chart into.
-     * @param  bool|array                         $divDimensions Set true for div creation, or pass an array with height & width
-     * @return \Khill\Lavacharts\Support\Buffer
-     * @throws \Khill\Lavacharts\Exceptions\ChartNotFound
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions
-     */
-    private function renderChart($type, Label $label, ElementId $elementId, $divDimensions = false)
-    {
-        $buffer = $this->scriptManager->getOutputBuffer(
-            $this->volcano->get($type, $label),
-            $elementId
-        );
-
-        if ($this->scriptManager->lavaJsRendered() === false) {
-            $buffer->prepend($this->lavajs());
-        }
-
-        if ($divDimensions !== false) {
-            $buffer->prepend(HtmlFactory::createDiv($elementId, $divDimensions));
-        }
-
-        return $buffer;
-    }
-
-    /**
-     * Renders the chart into the page
-     * Given a chart label and an HTML element id, this will output
-     * all of the necessary javascript to generate the chart.
-     *
-     * @since  3.0.0
-     * @uses   \Khill\Lavacharts\Support\Buffer   $buffer
-     * @param  \Khill\Lavacharts\Values\Label     $label
-     * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to render the chart into.
-     * @return \Khill\Lavacharts\Support\Buffer
-     * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
-     */
-    private function renderDashboard(Label $label, ElementId $elementId)
-    {
-        $buffer = $this->scriptManager->getOutputBuffer(
-            $this->volcano->get('Dashboard', $label),
-            $elementId
-        );
-
-        if ($this->scriptManager->lavaJsRendered() === false) {
-            $buffer->prepend($this->lavajs());
-        }
-
-        return $buffer;
     }
 }

@@ -44,11 +44,18 @@ class ChartBuilder extends GenericBuilder
     protected $options = [];
 
     /**
-     * The chart's output override.
+     * The chart's png output override.
      *
      * @var bool
      */
     protected $pngOutput = false;
+
+    /**
+     * The chart's material output override.
+     *
+     * @var bool
+     */
+    protected $materialOutput = false;
 
     /**
      * Set the type of chart to create.
@@ -108,6 +115,19 @@ class ChartBuilder extends GenericBuilder
     }
 
     /**
+     * Sets the charts output override.
+     *
+     * @param  bool $material
+     * @return self
+     */
+    public function setMaterialOutput($material)
+    {
+        $this->materialOutput = (is_bool($material) ? $material : false);
+
+        return $this;
+    }
+
+    /**
      * Creates the chart from the assigned values.
      *
      * @return \Khill\Lavacharts\Charts\Chart
@@ -125,6 +145,10 @@ class ChartBuilder extends GenericBuilder
 
         if (method_exists($lavachart, 'setPngOutput')) {
             $lavachart->setPngOutput($this->pngOutput);
+        }
+
+        if (method_exists($lavachart, 'setMaterialOutput')) {
+            $lavachart->setMaterialOutput($this->materialOutput);
         }
 
         return $lavachart;

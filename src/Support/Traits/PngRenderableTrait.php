@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Support\Traits;
 
 /**
- * Class PngOutputTrait
+ * Trait PngRenderableTrait
  *
  * When applied to a Chart, it will enable the output of the Chart as a PNG vs SVG
  *
@@ -15,14 +15,14 @@ namespace Khill\Lavacharts\Support\Traits;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-trait PngOutputTrait
+trait PngRenderableTrait
 {
     /**
      * Chart output override.
      *
      * @var bool
      */
-    private $pngOutput = false;
+    private $png = false;
 
     /**
      * Sets the chart to be output as a PNG instead of SVG.
@@ -31,7 +31,7 @@ trait PngOutputTrait
      */
     public function setPngOutput($png)
     {
-        $this->pngOutput = $png;
+        $this->png = $png;
     }
 
     /**
@@ -41,6 +41,6 @@ trait PngOutputTrait
      */
     public function getPngOutput()
     {
-        return $this->pngOutput;
+        return $this->png;
     }
 }

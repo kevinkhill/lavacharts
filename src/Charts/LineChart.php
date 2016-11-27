@@ -2,7 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\Support\Traits\PngOutputTrait as PngRenderable;
+use \Khill\Lavacharts\Support\Traits\PngRenderableTrait as PngRenderable;
+use \Khill\Lavacharts\Support\Traits\MaterialRenderableTrait as MaterialRenderable;
 
 /**
  * LineChart Class
@@ -21,7 +22,7 @@ use Khill\Lavacharts\Support\Traits\PngOutputTrait as PngRenderable;
  */
 class LineChart extends Chart
 {
-    use PngRenderable;
+    use PngRenderable, MaterialRenderable;
 
     /**
      * Javascript chart type.
@@ -43,4 +44,34 @@ class LineChart extends Chart
      * @var string
      */
     const VISUALIZATION_PACKAGE = 'corechart';
+
+    /**
+     * Returns the chart visualization class.
+     *
+     * @since  3.1.0
+     * @return string
+     */
+    public function getJsPackage()
+    {
+        if ($this->material) {
+            return 'line';
+        } else {
+            return static::VISUALIZATION_PACKAGE;
+        }
+    }
+
+    /**
+     * Returns the chart visualization package.
+     *
+     * @since  3.1.0
+     * @return string
+     */
+    public function getJsClass()
+    {
+        if ($this->material) {
+            return 'google.charts.Line';
+        } else {
+            return 'google.visualization.' . static::TYPE;
+        }
+    }
 }

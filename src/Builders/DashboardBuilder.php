@@ -2,7 +2,8 @@
 
 namespace Khill\Lavacharts\Builders;
 
-use Khill\Lavacharts\Dashboards\Dashboard;
+use \Khill\Lavacharts\Dashboards\Dashboard;
+use \Khill\Lavacharts\DataTables\DataTable;
 
 /**
  * Class DashboardBuilder
@@ -21,17 +22,24 @@ use Khill\Lavacharts\Dashboards\Dashboard;
 class DashboardBuilder extends GenericBuilder
 {
     /**
+     * Datatable for the chart.
+     *
+     * @var \Khill\Lavacharts\DataTables\DataTable
+     */
+    protected $datatable = null;
+
+    /**
      * Bindings to use for the dashboard.
      *
      * @var \Khill\Lavacharts\Dashboards\Bindings\Binding[]
      */
-    private $bindings = [];
+    protected $bindings = [];
 
     /**
      * Set the bindings for the Dashboard.
      *
-     * @param \Khill\Lavacharts\Dashboards\Bindings\Binding[] $bindings Array of bindings
-     * @return self
+     * @param  \Khill\Lavacharts\Dashboards\Bindings\Binding[] $bindings Array of bindings
+     * @return $this
      */
     public function setBindings(array $bindings)
     {
@@ -41,14 +49,28 @@ class DashboardBuilder extends GenericBuilder
     }
 
     /**
+     * Set the DataTable for the dashboard
+     *
+     * @param \Khill\Lavacharts\DataTables\DataTable $datatable
+     * @return $this
+     */
+    public function setDataTable(DataTable $datatable)
+    {
+        $this->datatable = $datatable;
+
+        return $this;
+    }
+
+    /**
      * Returns the built Dashboard.
      *
-     * @return \Khill\Lavacharts\Dashboards\Dashboard
+     * @return $this
      */
     public function getDashboard()
     {
         return new Dashboard(
             $this->label,
+            $this->datatable,
             $this->bindings,
             $this->elementId
         );
