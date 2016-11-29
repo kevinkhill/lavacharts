@@ -37,7 +37,7 @@ class Lavacharts
     /**
      * Lavacharts version
      */
-    const VERSION = '3.0.0';
+    const VERSION = '3.0.4';
 
     /**
      * Holds all of the defined Charts and DataTables.
@@ -70,7 +70,8 @@ class Lavacharts
         'GeoChart',
         'LineChart',
         'ScatterChart',
-        'TableChart'
+        'TableChart',
+        'TreeMap'
     ];
 
     /**
