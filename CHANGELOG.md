@@ -1,4 +1,7 @@
-- 3.0.3
+- 3.1.0-beta1
+  - Adding setLocale() method for changing language of charts.
+  
+- 3.1.0-alpha
   - Adding more supported chart types
     - AnnotationChart
     - BubbleChart
@@ -32,7 +35,13 @@
     - Use the given config and router to start the examples page ```php -S 127.0.0.1:8000 -c php.ini router.php```
   - All exceptions now extend LavaException if the user wants to have a catch all
     - Utils class removed, broken into traits, and applied to classes that needed the methods
-          
+
+- 3.0.4
+  - Fixing bug where TreeMap was not in list of chartClasses
+
+- 3.0.3
+  - Events Bugfix
+
 - 3.0.2
   - Blade template extension bug fixes
   - Combining the ```customize``` method into the constructor to provide
