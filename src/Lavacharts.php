@@ -34,7 +34,7 @@ class Lavacharts
     /**
      * Lavacharts version
      */
-    const VERSION = '3.1.0';
+    const VERSION = '3.1.0-beta';
 
     /**
      * Locale for the DataTable.
