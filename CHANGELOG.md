@@ -1,4 +1,7 @@
-- 3.1.0-beta
+- 3.1.0-beta1
+  - Adding setLocale() method for changing language of charts.
+  
+- 3.1.0-alpha
   - Adding more supported chart types
     - AnnotationChart
     - BubbleChart
