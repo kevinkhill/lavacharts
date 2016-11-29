@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidCellCount extends \Exception
+class InvalidCellCount extends LavaException
 {
     public function __construct($cellCount, $columnCount, $code = 0)
     {

@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidFunctionParam extends \Exception
+class InvalidFunctionParam extends LavaException
 {
     public function __construct($badParam, $function, $requiredParam)
     {

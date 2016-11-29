@@ -2,12 +2,11 @@
 
 namespace Khill\Lavacharts\Tests\Dashboards;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Dashboards\ControlWrapper;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 
 class ControlWrapperTest extends ProvidersTestCase
 {
-    public $ControlWrapper;
     public $mockElementId;
     public $jsonOutput;
 
@@ -15,13 +14,20 @@ class ControlWrapperTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->mockElementId = \Mockery::mock('\Khill\Lavacharts\Values\ElementId', ['TestId'])->makePartial();
-        $this->jsonOutput = '{"controlType":"NumberRangeFilter","containerId":"TestId","options":{"Option1":5,"Option2":true}}';
+        $this->mockElementId = $this->getMockElementId('TestLabel');
 
-        $mockNumberFilter = \Mockery::mock('\Khill\Lavacharts\Dashboards\Filters\NumberRangeFilter')
+        $this->jsonOutput = '{"options":{"Option1":5,"Option2":true},"containerId":"TestLabel","controlType":"NumberRangeFilter"}';
+    }
+
+    public function getMockFilter()
+    {
+        return \Mockery::mock('\Khill\Lavacharts\Dashboards\Filters\NumberRangeFilter')
             ->shouldReceive('getType')
             ->once()
             ->andReturn('NumberRangeFilter')
+            ->shouldReceive('getWrapType')
+            ->once()
+            ->andReturn('controlType')
             ->shouldReceive('jsonSerialize')
             ->once()
             ->andReturn([
@@ -29,19 +35,56 @@ class ControlWrapperTest extends ProvidersTestCase
                 'Option2' => true
             ])
             ->getMock();
-
-        $this->ControlWrapper = new ControlWrapper($mockNumberFilter, $this->mockElementId);
     }
 
-    public function testJsonSerializationOutput()
+    /**
+     * @covers \Khill\Lavacharts\Dashboards\Wrappers\Wrapper::getJsClass
+     */
+    public function testGetJsClass()
     {
-        $this->assertEquals($this->jsonOutput, json_encode($this->ControlWrapper));
+        $filter = \Mockery::mock('\Khill\Lavacharts\Dashboards\Filters\StringFilter');
+
+        $controlWrapper = new ControlWrapper($filter, $this->mockElementId);
+
+        $javascript = 'google.visualization.ControlWrapper';
+
+        $this->assertEquals($javascript, $controlWrapper->getJsClass());
     }
 
-    public function testToJavascriptOutput()
+    public function testJsonSerialize()
     {
-        $javascript = 'new google.visualization.ControlWrapper('.$this->jsonOutput.')';
+        $filter = $this->getMockFilter();
 
-        $this->assertEquals($javascript, $this->ControlWrapper->toJavascript());
+        $controlWrapper = new ControlWrapper($filter, $this->mockElementId);
+
+        $this->assertEquals($this->jsonOutput, json_encode($controlWrapper));
+    }
+
+    /**
+     * @depends testJsonSerialize
+     */
+    public function testToJson()
+    {
+        $filter = $this->getMockFilter();
+
+        $controlWrapper = new ControlWrapper($filter, $this->mockElementId);
+
+        $this->assertEquals($this->jsonOutput, $controlWrapper->toJson());
+    }
+
+    /**
+     * @depends testGetJsClass
+     * @depends testToJson
+     */
+    public function testGetJsConstructor()
+    {
+        $filter = $this->getMockFilter();
+
+        $controlWrapper = new ControlWrapper($filter, $this->mockElementId);
+
+        $this->assertEquals(
+            'new google.visualization.ControlWrapper('.$this->jsonOutput.')',
+            $controlWrapper->getJsConstructor()
+        );
     }
 }

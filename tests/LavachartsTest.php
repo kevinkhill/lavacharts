@@ -2,7 +2,8 @@
 
 namespace Khill\Lavacharts\Tests;
 
-use \Khill\Lavacharts\Lavacharts;
+use Khill\Lavacharts\Charts\ChartFactory;
+use Khill\Lavacharts\Lavacharts;
 
 class LavachartsTest extends ProvidersTestCase
 {
@@ -26,12 +27,12 @@ class LavachartsTest extends ProvidersTestCase
 
     public function testCreateDataTableViaAlias()
     {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\DataTables\\DataTable', $this->lava->DataTable());
+        $this->assertInstanceOf(DATATABLE_NS.'DataTable', $this->lava->DataTable());
     }
 
     public function testCreateDataTableViaAliasWithTimezone()
     {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\DataTables\\DataTable', $this->lava->DataTable('America/Los_Angeles'));
+        $this->assertInstanceOf(DATATABLE_NS.'DataTable', $this->lava->DataTable('America/Los_Angeles'));
     }
 
     public function testExistsWithExistingChartInVolcano()
@@ -41,14 +42,14 @@ class LavachartsTest extends ProvidersTestCase
         $this->assertTrue($this->lava->exists('LineChart', 'TestChart'));
     }
 
-    public function testExistsWithNonExistantChartTypeInVolcano()
+    public function testExistsWithNonExistentChartTypeInVolcano()
     {
         $this->lava->LineChart('TestChart', $this->partialDataTable);
 
         $this->assertFalse($this->lava->exists('SheepChart', 'TestChart'));
     }
 
-    public function testExistsWithNonExistantChartLabelInVolcano()
+    public function testExistsWithNonExistentChartLabelInVolcano()
     {
         $this->lava->LineChart('WhaaaaatChart?', $this->partialDataTable);
 
@@ -76,28 +77,20 @@ class LavachartsTest extends ProvidersTestCase
         $this->assertFalse($this->lava->exists('LineChart', $badTypes));
     }
 
+
     /**
      * @dataProvider chartTypeProvider
      */
-    public function testCreateChartsViaAlias($chartType)
+    public function testCreatingChartsViaMagicMethodOfLavaObject($chartType)
     {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Charts\\'.$chartType, $this->lava->$chartType('testchart', $this->partialDataTable));
-    }
+        $chart = $this->lava->$chartType(
+            'My Fancy '.$chartType,
+            $this->getMockDataTable()
+        );
 
-    /**
-     * @dataProvider formatTypeProvider
-     */
-    public function testCreateFormatObjectsViaAlias($formatType)
-    {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\DataTables\\Formats\\'.$formatType, $this->lava->$formatType());
-    }
-
-    /**
-     * @dataProvider filterTypeProvider
-     */
-    public function testCreateFilterObjectsViaAlias($filterType)
-    {
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Dashboards\\Filters\\'.$filterType, $this->lava->$filterType(0));
+        $this->assertEquals('My Fancy '.$chartType, $chart->getLabelStr());
+        $this->assertEquals($chartType, $chart->getType());
+        $this->assertInstanceOf(DATATABLE_NS.'DataTable', $chart->getDataTable());
     }
 
     /**
@@ -240,6 +233,9 @@ class LavachartsTest extends ProvidersTestCase
         $this->lava->LineChart(5, $this->partialDataTable);
     }
 
+    /**
+     * @depends testCreatingChartsViaMagicMethodOfLavaObject
+     */
     public function testStoreChartIntoVolcano()
     {
         $mockPieChart = \Mockery::mock('\\Khill\\Lavacharts\\Charts\PieChart', [
@@ -255,50 +251,18 @@ class LavachartsTest extends ProvidersTestCase
     {
         $this->lava->jsapi();
 
-        $this->assertTrue($this->getPrivateProperty($this->lava, 'jsFactory')->coreJsRendered());
+        $this->assertTrue(
+            $this->inspect($this->lava, 'scriptManager')->lavaJsRendered()
+        );
     }
 
-    public function chartTypeProvider()
+    public function testLavaJsMethodWithCoreJsTracking()
     {
-        return [
-            ['AreaChart'],
-            ['BarChart'],
-            ['CalendarChart'],
-            ['ColumnChart'],
-            ['ComboChart'],
-            ['DonutChart'],
-            ['GaugeChart'],
-            ['GeoChart'],
-            ['LineChart'],
-            ['PieChart'],
-            ['ScatterChart'],
-            ['TableChart']
-        ];
-    }
+        $this->lava->lavajs();
 
-    public function configTypeProvider()
-    {
-        return [
-            ['Animation'],
-            ['Annotation'],
-            ['BackgroundColor'],
-            ['BoxStyle'],
-            ['ChartArea'],
-            ['Color'],
-            ['ColorAxis'],
-            ['Crosshair'],
-            ['Gradient'],
-            ['HorizontalAxis'],
-            ['Legend'],
-            ['MagnifyingGlass'],
-            ['Series'],
-            ['SizeAxis'],
-            ['Slice'],
-            ['Stroke'],
-            ['TextStyle'],
-            ['Tooltip'],
-            ['VerticalAxis']
-        ];
+        $this->assertTrue(
+            $this->inspect($this->lava, 'scriptManager')->lavaJsRendered()
+        );
     }
 
     public function formatTypeProvider()
@@ -310,16 +274,4 @@ class LavachartsTest extends ProvidersTestCase
             ['NumberFormat']
         ];
     }
-
-    public function filterTypeProvider()
-    {
-        return [
-            ['CategoryFilter'],
-            ['ChartRangeFilter'],
-            ['DateRangeFilter'],
-            ['NumberRangeFilter'],
-            ['StringFilter']
-        ];
-    }
-
 }

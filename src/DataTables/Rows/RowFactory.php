@@ -14,14 +14,13 @@ use \Khill\Lavacharts\Exceptions\InvalidRowDefinition;
  * The RowFactory creates new rows for the DataTables.
  *
  *
- * @package    Khill\Lavacharts
- * @subpackage DataTables\Rows
- * @since      3.0.0
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2015, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @package   Khill\Lavacharts\DataTables\Rows
+ * @since     3.0.0
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2016, KHill Designs
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://lavacharts.com                   Official Docs Site
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
 class RowFactory
 {
@@ -48,7 +47,6 @@ class RowFactory
      *
      * @param  array $valueArray Array of values to assign to the row.
      * @return \Khill\Lavacharts\DataTables\Rows\Row
-     * @throws \Khill\Lavacharts\Exceptions\FailedCarbonParsing
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeString
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
@@ -80,7 +78,7 @@ class RowFactory
                 if ($cell instanceof Carbon) {
                     $rowData[] = new DateCell($cell);
                 } else {
-    		    if (isset($dateTimeFormat)) {
+                    if (isset($dateTimeFormat)) {
                         $rowData[] = DateCell::parseString($cell, $dateTimeFormat);
                     } else {
                         $rowData[] = DateCell::parseString($cell);

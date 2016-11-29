@@ -2,39 +2,39 @@
 
 namespace Khill\Lavacharts\DataTables\Formats;
 
+use Khill\Lavacharts\Support\Contracts\VisualizationInterface;
+use Khill\Lavacharts\Support\Customizable;
+use Khill\Lavacharts\Support\Contracts\JsonableInterface;
+
 /**
- * Format Parent Class
+ * Class Format
  *
- * The base class for the individual configuration objects, providing common
+ * The base class for the individual format objects, providing common
  * functions to the child objects.
  *
  *
- * @package    Khill\Lavacharts
- * @subpackage Formats
+ * @package    Khill\Lavacharts\DataTables\Formats
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2015, KHill Designs
+ * @since      3.0.0
+ * @copyright  (c) 2016, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @license    http://opensource.org/licenses/MIT      MIT
  */
-
-use \Khill\Lavacharts\Options;
-use \Khill\Lavacharts\JsonConfig;
-
-class Format extends JsonConfig
+class Format extends Customizable implements JsonableInterface
 {
     /**
-     * Builds the Options object.
-     * Passing an array of key value pairs will set the configuration for each
-     * child object created from this parent object.
+     * Static method for creating new format objects.
      *
-     * @param  \Khill\Lavacharts\Options $options
-     * @param  array                     $config Array of options.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @param string $type
+     * @param array  $options
+     * @return \Khill\Lavacharts\DataTables\Formats\Format
      */
-    public function __construct(Options $options, $config)
+    public static function create($type, array $options = [])
     {
-        parent::__construct($options, $config);
+        $format =  __NAMESPACE__ . '\\' . $type;
+
+        return new $format($options);
     }
 
     /**
@@ -46,5 +46,25 @@ class Format extends JsonConfig
     public function getType()
     {
         return static::TYPE;
+    }
+
+    /**
+     * JSON representation of the Format.
+     *
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this);
+    }
+
+    /**
+     * Javascript representation of the Format.
+     *
+     * @return string
+     */
+    public function getJsClass()
+    {
+        return 'google.visualization.' . static::TYPE;
     }
 }

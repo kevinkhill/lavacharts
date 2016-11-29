@@ -2,28 +2,30 @@
 
 namespace Khill\Lavacharts\Tests;
 
+use Khill\Lavacharts\Charts\ChartFactory;
+use Khill\Lavacharts\DataTables\Columns\ColumnFactory;
+
+define('DATATABLE_NS', "\\Khill\\Lavacharts\\DataTables\\");
 
 abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Namespace for Mocks
+     */
+    const NS = '\Khill\Lavacharts';
+
+    /**
      * Partial DataTable for use throughout various tests
+     *
+     * @var \Khill\Lavacharts\DataTables\DataTable
      */
     protected $partialDataTable;
-
-    protected $columnTypes = [
-        'boolean',
-        'number',
-        'string',
-        'date',
-        'datetime',
-        'timeofday'
-    ];
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->partialDataTable = \Mockery::mock('Khill\Lavacharts\DataTables\DataTable')->makePartial();
+        $this->partialDataTable = \Mockery::mock(DATATABLE_NS.'DataTable')->makePartial();
     }
 
     /**
@@ -33,20 +35,79 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
      * @param  string $prop
      * @return mixed
      */
-    public function getPrivateProperty($obj, $prop)
+    public function inspect($obj, $prop)
     {
-        $refObj = new \ReflectionClass($obj);
-        $refProp = $refObj->getProperty($prop);
-        $refProp->setAccessible(true);
+        $refObj = new \ReflectionProperty($obj, $prop);
+        $refObj->setAccessible(true);
 
-        return $refProp->getValue($obj);
+        return $refObj->getValue($obj);
     }
 
+    /**
+     * DataProvider for the column types
+     *
+     * @return array
+     */
     public function columnTypeProvider()
     {
         return array_map(function ($columnType) {
             return [$columnType];
-        }, $this->columnTypes);
+        }, ColumnFactory::$types);
+    }
+
+    /**
+     * DataProvider for the chart types
+     *
+     * @return array
+     */
+    public function chartTypeProvider()
+    {
+        return array_map(function ($chartType) {
+            return [$chartType];
+        }, ChartFactory::getChartTypes());
+    }
+
+    /**
+     * Create a mock Label with the given string
+     *
+     * @param  string $label
+     * @return \Mockery\Mock
+     */
+    public function getMockLabel($label)
+    {
+        return \Mockery::mock('\Khill\Lavacharts\Values\Label', [$label])->makePartial();
+    }
+
+    /**
+     * Create a mock ElementId with the given string
+     *
+     * @param  string $label
+     * @return \Mockery\Mock
+     */
+    public function getMockElementId($label)
+    {
+        return \Mockery::mock('\Khill\Lavacharts\Values\ElementId', [$label])->makePartial();
+    }
+
+    /**
+     * Create a mock DataTable
+     *
+     * @return \Mockery\Mock
+     */
+    public function getMockDataTable()
+    {
+        return \Mockery::mock('Khill\Lavacharts\DataTables\DataTable')->makePartial();
+    }
+
+    public function nonStringOrIntProvider()
+    {
+        return [
+            [3.2],
+            [true],
+            [false],
+            [[]],
+            [new \stdClass]
+        ];
     }
 
     public function nonIntOrPercentProvider()
@@ -56,6 +117,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
             [true],
             [false],
             [[]],
+            ['notapercent'],
             [new \stdClass]
         ];
     }

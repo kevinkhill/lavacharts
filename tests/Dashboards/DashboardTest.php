@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Dashboards;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\Dashboards\Dashboard;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Dashboards\Dashboard;
 
 class DashboardTest extends ProvidersTestCase
 {

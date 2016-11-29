@@ -4,7 +4,9 @@
     "keywords": [
         "charts",
         "graphs",
-        "google"
+        "google",
+        "laravel",
+        "symfony"
     ],
     "homepage": "http://lavacharts.com",
     "license": "MIT",
@@ -63,6 +65,8 @@
         "nesbot/carbon": "~1.14"
     },
     "suggest": {
+        "khill/lavacharts-laravel": "Integrates a service provider, facade and blade template extensions.",
+        "khill/lavacharts-symfony": "Integrates a bundle with service locater and twig template extensions.",
         "khill/datatableplus": "Adds extra features to DataTables such as csv and laravel collection parsing."
     },
     "autoload": {
@@ -75,7 +79,8 @@
         "mybuilder/phpunit-accelerator": "~1.1",
         "mockery/mockery": "~0.9",
         "squizlabs/php_codesniffer": "~2.5",
-        "satooshi/php-coveralls": "~1.0"
+        "satooshi/php-coveralls": "~1.0",
+        "codeclimate/php-test-reporter": "~0.3"
     },
     "autoload-dev": {
         "psr-4": {
@@ -86,6 +91,11 @@
         "test": "phpunit -c phpunit.xml",
         "cs": "phpcs --standard=PSR2 src tests",
         "cbf" : "phpcbf --standard=PSR2 src tests"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.1.x-dev"
+        }
     },
     "minimum-stability": "stable"
 }

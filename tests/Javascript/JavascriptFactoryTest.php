@@ -2,9 +2,9 @@
 
 namespace Khill\Lavacharts\Tests\Javascript;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Javascript\JavascriptFactory;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Javascript\JavascriptFactory;
 
 class JavascriptFactoryTest extends ProvidersTestCase
 {

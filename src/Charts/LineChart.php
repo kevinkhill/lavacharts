@@ -2,9 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Options;
-use \Khill\Lavacharts\DataTables\DataTable;
+use \Khill\Lavacharts\Support\Traits\PngRenderableTrait as PngRenderable;
+use \Khill\Lavacharts\Support\Traits\MaterialRenderableTrait as MaterialRenderable;
 
 /**
  * LineChart Class
@@ -13,30 +12,17 @@ use \Khill\Lavacharts\DataTables\DataTable;
  * tips when hovering over points.
  *
  *
- * @package    Khill\Lavacharts
- * @subpackage Charts
- * @since      1.0.0
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2015, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @package   Khill\Lavacharts\Charts
+ * @since     1.0.0
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2016, KHill Designs
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://lavacharts.com                   Official Docs Site
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
 class LineChart extends Chart
 {
-    /**
-     * Common Methods
-     */
-    use \Khill\Lavacharts\Traits\AxisTitlesPositionTrait;
-    use \Khill\Lavacharts\Traits\CurveTypeTrait;
-    use \Khill\Lavacharts\Traits\FocusTargetTrait;
-    use \Khill\Lavacharts\Traits\HorizontalAxisTrait;
-    use \Khill\Lavacharts\Traits\InterpolateNullsTrait;
-    use \Khill\Lavacharts\Traits\LineWidthTrait;
-    use \Khill\Lavacharts\Traits\PointSizeTrait;
-    use \Khill\Lavacharts\Traits\TrendlinesTrait;
-    use \Khill\Lavacharts\Traits\VerticalAxesTrait;
-    use \Khill\Lavacharts\Traits\VerticalAxisTrait;
+    use PngRenderable, MaterialRenderable;
 
     /**
      * Javascript chart type.
@@ -57,44 +43,35 @@ class LineChart extends Chart
      *
      * @var string
      */
-    const VIZ_PACKAGE = 'corechart';
+    const VISUALIZATION_PACKAGE = 'corechart';
 
     /**
-     * Google's visualization class name.
+     * Returns the chart visualization class.
      *
-     * @var string
+     * @since  3.1.0
+     * @return string
      */
-    const VIZ_CLASS = 'google.visualization.LineChart';
-
-    /**
-     * Default configuration options for the chart.
-     *
-     * @var array
-     */
-    private $lineDefaults = [
-        'axisTitlesPosition',
-        'curveType',
-        'focusTarget',
-        'hAxis',
-        'interpolateNulls',
-        'lineWidth',
-        'pointSize',
-        'trendlines',
-        'vAxes',
-        'vAxis'
-    ];
-
-    /**
-     * Builds a new LineChart with the given label, datatable and options.
-     *
-     * @param  \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param array                                   $config
-     */
-    public function __construct(Label $chartLabel, DataTable $datatable, $config = [])
+    public function getJsPackage()
     {
-        $options = new Options($this->lineDefaults);
+        if ($this->material) {
+            return 'line';
+        } else {
+            return static::VISUALIZATION_PACKAGE;
+        }
+    }
 
-        parent::__construct($chartLabel, $datatable, $options, $config);
+    /**
+     * Returns the chart visualization package.
+     *
+     * @since  3.1.0
+     * @return string
+     */
+    public function getJsClass()
+    {
+        if ($this->material) {
+            return 'google.charts.Line';
+        } else {
+            return 'google.visualization.' . static::TYPE;
+        }
     }
 }

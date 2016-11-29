@@ -10,5 +10,10 @@
 
     $lava->AreaChart($title, $data, [
         'width' => $width,
-        'height' => $height
+        'height' => $height,
+        'legend' => 'none',
+        'chartArea'=> [
+            'left' => 50,
+            'width' => '90%'
+        ],
     ]);

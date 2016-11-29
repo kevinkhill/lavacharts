@@ -2,32 +2,53 @@
 
 namespace Khill\Lavacharts\Tests\Formats;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\DataTables\Formats\DateFormat;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\DataTables\Formats\DateFormat;
 
 class DateFormatTest extends ProvidersTestCase
 {
-    /**
-     * @covers \Khill\Lavacharts\DataTables\Formats\DateFormat
-     */
-    public function testConstructorArgs()
+    public $dateFormat;
+
+    public $json = '{"formatType":"short","pattern":"Y-m-d","timeZone":"PDT"}';
+
+    public function setUp()
     {
-        $dateFormat = new DateFormat([
+        $this->dateFormat = new DateFormat([
             'formatType' => 'short',
             'pattern'    => 'Y-m-d',
             'timeZone'   => 'PDT'
         ]);
+    }
 
-        $this->assertEquals('short', $dateFormat->formatType);
-        $this->assertEquals('Y-m-d', $dateFormat->pattern);
-        $this->assertEquals('PDT', $dateFormat->timeZone);
+    /**
+     * @covers \Khill\Lavacharts\DataTables\Formats\BarFormat
+     */
+    public function testConstructorOptionAssignment()
+    {
+        $this->assertEquals('short', $this->dateFormat['formatType']);
+        $this->assertEquals('Y-m-d', $this->dateFormat['pattern']);
+        $this->assertEquals('PDT',   $this->dateFormat['timeZone']);
     }
 
     public function testGetType()
     {
-        $dateFormat = new DateFormat;
+        $this->dateFormat = new DateFormat;
 
-        $this->assertEquals('DateFormat', DateFormat::TYPE);
-        $this->assertEquals('DateFormat', $dateFormat->getType());
+        $this->assertEquals('DateFormat', $this->dateFormat->getType());
+    }
+
+    public function testToJsonForOptionsSerialization()
+    {
+        $this->assertEquals($this->json, $this->dateFormat->toJson());
+    }
+
+    /**
+     * @depends testToJsonForOptionsSerialization
+     */
+    public function testToJavascriptForObjectSerialization()
+    {
+        $javascript = 'google.visualization.DateFormat('.$this->json.')';
+
+        $this->assertEquals($javascript, $this->dateFormat->toJavascript());
     }
 }

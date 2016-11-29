@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\DataTables\Rows;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\DataTables\Rows\NullRow;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\DataTables\Rows\NullRow;
 
 class NullRowTest extends ProvidersTestCase
 {
@@ -14,7 +14,7 @@ class NullRowTest extends ProvidersTestCase
     {
         $row = new NullRow(3);
 
-        $values = $this->getPrivateProperty($row, 'values');
+        $values = $this->inspect($row, 'values');
 
         $this->assertNull($values[0]);
         $this->assertNull($values[1]);

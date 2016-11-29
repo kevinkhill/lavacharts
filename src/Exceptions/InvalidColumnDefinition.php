@@ -2,12 +2,13 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidColumnDefinition extends \Exception
+class InvalidColumnDefinition extends LavaException
 {
-    public function __construct($invalidCol, $code = 0)
+    public function __construct($invalidCol)
     {
-        $message = gettype($invalidCol) . " is an invalid column definition, must be an array with 1-3 strings defining type, desc, id";
+        $msg = gettype($invalidCol);
+        $msg.= " is not valid for a column definition, must be an array.";
 
-        parent::__construct($message, $code);
+        parent::__construct($msg);
     }
 }

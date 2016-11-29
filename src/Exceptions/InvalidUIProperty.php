@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidUIProperty extends \Exception
+class InvalidUIProperty extends LavaException
 {
     public function __construct($rejectedProp, $acceptedProps)
     {

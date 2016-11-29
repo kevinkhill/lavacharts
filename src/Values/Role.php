@@ -2,25 +2,29 @@
 
 namespace Khill\Lavacharts\Values;
 
-use \Khill\Lavacharts\Exceptions\InvalidColumnRole;
+use Khill\Lavacharts\Exceptions\InvalidColumnRole;
 
 /**
  * Role Value Object
  *
+ * Creates a new label for a chart or dashboard while checking if it is a non empty string.
  *
- * Creates a new Role object for a column roles while checking if it is a non empty string.
- *
- * @category  Class
- * @package   Khill\Lavacharts
+ * @package   Khill\Lavacharts\Values
+ * @since     3.0.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2015, KHill Designs
+ * @copyright (c) 2016, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link      http://lavacharts.com                   Official Docs Site
- * @license   http://opensource.org/licenses/MIT MIT
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
 class Role extends StringValue
 {
-    private $validRoles = [
+    /**
+     * Valid column roles
+     *
+     * @var array
+     */
+    public static $roles = [
         'annotation',
         'annotationText',
         'certainty',
@@ -31,18 +35,16 @@ class Role extends StringValue
         'tooltip'
     ];
 
-    /**
-     * Creates a new Role object.
-     *
-     * @param  string $type
-     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnRole
-     */
-    public function __construct($type)
+    public function __construct($role)
     {
-        if (in_array($type, $this->validRoles) === false) {
-            throw new InvalidColumnRole($type);
-        }
+        try {
+            parent::__construct($role);
 
-        parent::__construct($type);
+            if (in_array($this->value, self::$roles) === false) {
+                throw new InvalidColumnRole($this->value, self::$roles);
+            }
+        } catch (\Exception $e) {
+            throw new InvalidColumnRole($role, self::$roles);
+        }
     }
 }

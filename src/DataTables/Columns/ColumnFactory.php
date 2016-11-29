@@ -2,10 +2,11 @@
 
 namespace Khill\Lavacharts\DataTables\Columns;
 
-use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\DataTables\Formats\Format;
-use \Khill\Lavacharts\Exceptions\InvalidColumnRole;
-use \Khill\Lavacharts\Exceptions\InvalidColumnType;
+use Khill\Lavacharts\Exceptions\InvalidColumnRole;
+use Khill\Lavacharts\Values\Role;
+use Khill\Lavacharts\Values\StringValue;
+use Khill\Lavacharts\DataTables\Formats\Format;
+use Khill\Lavacharts\Exceptions\InvalidColumnType;
 
 /**
  * ColumnFactory Class
@@ -14,22 +15,24 @@ use \Khill\Lavacharts\Exceptions\InvalidColumnType;
  * the type of column to create, all others are optional.
  *
  *
- * @package    Khill\Lavacharts
- * @subpackage DataTables\Columns
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2015, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @package   Khill\Lavacharts\DataTables\Columns
+ * @since     3.0.0
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2016, KHill Designs
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://lavacharts.com                   Official Docs Site
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
 class ColumnFactory
 {
+    use StringCheck;
+
     /**
      * Valid column types
      *
      * @var array
      */
-    public static $TYPES = [
+    public static $types = [
         'role',
         'string',
         'number',
@@ -40,76 +43,30 @@ class ColumnFactory
     ];
 
     /**
-     * Valid column roles
-     *
-     * @var array
-     */
-    public static $ROLES = [
-        'annotation',
-        'annotationText',
-        'certainty',
-        'emphasis',
-        'interval',
-        'scope',
-        'style',
-        'tooltip'
-    ];
-
-    /**
-     * Valid column descriptions
-     *
-     * @var array
-     */
-    public static $desc = [
-        'type',
-        'label',
-        'id',
-        'role',
-        'pattern'
-    ];
-
-    /**
      * Creates a new column object.
      *
      * @access public
      * @since  3.0.0
-     * @param  string                                      $type Type of column to create.
-     * @param  string                                      $label A label for the column.
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format Column formatter for the data.
-     * @param  string                                      $role A role for the column to play.
+     * @param  string                                      $type    Type of column to create.
+     * @param  string                                      $label   A label for the column.
+     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format  Column formatter for the data.
+     * @param  string                                      $role    A role for the column to play.
+     * @param  array                                       $options Column options.
      * @return \Khill\Lavacharts\DataTables\Columns\Column
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnRole
-     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
-    public static function create($type, $label = '', Format $format = null, $role = '')
+    public function create($type, $label = '', Format $format = null, $role = '', array $options = [])
     {
-        if (Utils::nonEmptyStringInArray($type, self::$TYPES) === false) {
-            throw new InvalidColumnType($type, self::$TYPES);
-        }
+        self::isValidType($type);
 
-        $columnArgs = [$type];
+        $builder = new ColumnBuilder();
+        $builder->setType($type);
+        $builder->setLabel($label);
+        $builder->setFormat($format);
+        $builder->setRole($role);
+        $builder->setOptions($options);
 
-        if (Utils::nonEmptyString($label) === true) {
-            $columnArgs[] = $label;
-        } else {
-            $columnArgs[] = '';
-        }
-
-        if ($format !== null) {
-            $columnArgs[] = $format;
-        } else {
-            $columnArgs[] = null;
-        }
-
-        if (is_string($role) === false || ($role != '' && in_array($role, self::$ROLES, true) === false)) {
-            throw new InvalidColumnRole($role, self::$ROLES);
-        }
-
-        $columnArgs[] = $role;
-
-        $column = new \ReflectionClass('\Khill\Lavacharts\DataTables\Columns\Column');
-
-        return $column->newInstanceArgs($columnArgs);
+        return $builder->getResult();
     }
 
     /**
@@ -119,8 +76,26 @@ class ColumnFactory
      * @param  \Khill\Lavacharts\DataTables\Formats\Format $format
      * @return \Khill\Lavacharts\DataTables\Columns\Column
      */
-    public static function applyFormat(Column $column, Format $format)
+    public function applyFormat(Column $column, Format $format = null)
     {
-        return ColumnFactory::create($column->getType(), $column->getLabel(), $format, $column->getRole());
+        return $this->create(
+            $column->getType(),
+            $column->getLabel(),
+            $format,
+            $column->getRole()
+        );
+    }
+
+    /**
+     * Checks if a given type is a valid column type
+     *
+     * @param  string $type
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
+     */
+    public static function isValidType($type)
+    {
+        if (in_array($type, self::$types, true) === false) {
+            throw new InvalidColumnType($type, self::$types);
+        }
     }
 }

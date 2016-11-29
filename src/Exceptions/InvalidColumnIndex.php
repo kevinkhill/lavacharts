@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidColumnIndex extends \Exception
+class InvalidColumnIndex extends LavaException
 {
     public function __construct($columnIndex, $count)
     {

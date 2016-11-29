@@ -90,7 +90,7 @@ class CategoryFilterTest extends ProvidersTestCase
             ]
         ]);
 
-        $this->assertTrue(is_array($categoryFilter->ui));
+        $this->assertInstanceOf('\Khill\Lavacharts\Configs\UIs\CategoryUI', $categoryFilter->ui);
     }
 
     /**
@@ -106,7 +106,7 @@ class CategoryFilterTest extends ProvidersTestCase
     public function testValues()
     {
         $categoryFilter = new CategoryFilter('age');
-        $categoryFilter->values([20,30,40]);
+        $categoryFilter->setOptions([20,30,40]);
 
         $this->assertTrue(is_array($categoryFilter->values));
         $this->assertEquals([20,30,40], $categoryFilter->values);

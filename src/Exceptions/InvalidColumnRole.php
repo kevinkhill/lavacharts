@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidColumnRole extends \Exception
+class InvalidColumnRole extends LavaException
 {
     public function __construct($invalidRole, $validRoles)
     {

@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Tests\Formats;
 
-use \Khill\Lavacharts\Tests\ProvidersTestCase;
-use \Khill\Lavacharts\DataTables\Formats\DateFormat;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\DataTables\Formats\DateFormat;
 
 class ParentFormatTest extends ProvidersTestCase
 {
@@ -27,6 +27,14 @@ class ParentFormatTest extends ProvidersTestCase
     public function testConstructorWithBadTypes($badTypes)
     {
         new DateFormat($badTypes);
+    }
+
+    /**
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigProperty
+     */
+    public function testConstructorWithBadOption()
+    {
+        new DateFormat(['baked'=>'beans']);
     }
 
     public function testGetOptions()

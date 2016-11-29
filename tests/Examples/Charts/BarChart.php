@@ -1,14 +1,17 @@
 <?php
-  $votes = $lava->DataTable();
-  $votes->addStringColumn('Food')
-        ->addNumberColumn('Votes')
-        ->addRow(array('Tacos', rand(1000,5000)))
-        ->addRow(array('Salad', rand(1000,5000)))
-        ->addRow(array('Pizza', rand(1000,5000)))
-        ->addRow(array('Apples', rand(1000,5000)))
-        ->addRow(array('Fish', rand(1000,5000)));
+    $votes = $lava->DataTable();
+    $votes->addStringColumn('Food')
+          ->addNumberColumn('Votes')
+          ->addRow(['Tacos', rand(1000,5000)])
+          ->addRow(['Salad', rand(1000,5000)])
+          ->addRow(['Pizza', rand(1000,5000)])
+          ->addRow(['Apples', rand(1000,5000)])
+          ->addRow(['Fish', rand(1000,5000)]);
 
-  $lava->BarChart($title, $votes, [
-      'width' => $width,
-      'height' => $height
-  ]);
+    $lava->BarChart($title, $votes, [
+        'width' => $width,
+        'height' => $height,
+        'legend' => [
+            'position' => 'top'
+        ]
+    ]);

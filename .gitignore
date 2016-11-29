@@ -1,15 +1,11 @@
 node_modules/
 vendor/
-tmp/
 build/
-cache/
 .idea/
 
-*.sublime-*
 npm-debug.log
-
-bootstrap/compiled.php
 composer.phar
 
-*DS_Store
 *.sublime-*
+*___jb*
+*DS_Store
