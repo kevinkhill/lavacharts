@@ -18,7 +18,7 @@ Dev:
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/master.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=master)
 
 ## Package Features
-- **Updated!** All options are now supported, use the constructor to assign any customization
+- **Updated!** Any option for customizing charts that Google supports, Lavacharts should as well. Just use the chart constructor to assign any customization options you wish!
  - Visit [Google's Chart Gallery](https://developers.google.com/chart/interactive/docs/gallery) for details on available options
 - Custom javascript module for interacting with charts client-side
   - AJAX data reloading
@@ -28,7 +28,7 @@ Dev:
 - Blade template extensions for Laravel
 - Twig template extensions for Symfony
 - [Carbon](https://github.com/briannesbitt/Carbon) support for date/datetime/timeofday columns
-- Now supporting 22 Charts!
+- Now supporting **22** Charts!
   - Annotation, Area, Bar, Bubble, Calendar, Candlestick, Column, Combo, Gantt, Gauge, Geo, Histogram, Line, Org, Pie, Sankey, Scatter, SteppedArea, Table, Timeline, TreeMap, and WordTree!
 - [DataTablePlus](https://github.com/kevinkhill/datatableplus) package can be added to parse CSV files or Eloquent collections into DataTables. 
 
