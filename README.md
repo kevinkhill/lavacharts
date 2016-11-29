@@ -28,8 +28,8 @@ Dev:
 - Blade template extensions for Laravel
 - Twig template extensions for Symfony
 - [Carbon](https://github.com/briannesbitt/Carbon) support for date/datetime/timeofday columns
-- Now supporting 12 Charts!
-  - Area, Bar, Calendar, Column, Combo, Donut, Gauge, Geo, Line, Pie, Scatter, Table
+- Now supporting 22 Charts!
+  - Annotation, Area, Bar, Bubble, Calendar, Candlestick, Column, Combo, Gantt, Gauge, Geo, Histogram, Line, Org, Pie, Sankey, Scatter, SteppedArea, Table, Timeline, TreeMap, and WordTree!
 - [DataTablePlus](https://github.com/kevinkhill/datatableplus) package can be added to parse CSV files or Eloquent collections into DataTables. 
 
 
