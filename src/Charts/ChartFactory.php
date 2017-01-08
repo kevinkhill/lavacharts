@@ -67,6 +67,14 @@ class ChartFactory
     }
 
     /**
+     * ChartFactory constructor.
+     */
+    public static function build($type, $args)
+    {
+        return (new self)->create($type, $args);
+    }
+
+    /**
      * Create new chart from type with DataTable and config passed
      * from the main Lavacharts class.
      *

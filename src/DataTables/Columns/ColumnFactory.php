@@ -2,11 +2,11 @@
 
 namespace Khill\Lavacharts\DataTables\Columns;
 
-use Khill\Lavacharts\Exceptions\InvalidColumnRole;
 use Khill\Lavacharts\Values\Role;
 use Khill\Lavacharts\Values\StringValue;
 use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\Exceptions\InvalidColumnType;
+use Khill\Lavacharts\Exceptions\InvalidColumnRole;
 
 /**
  * ColumnFactory Class
@@ -25,8 +25,6 @@ use Khill\Lavacharts\Exceptions\InvalidColumnType;
  */
 class ColumnFactory
 {
-    use StringCheck;
-
     /**
      * Valid column types
      *
@@ -55,8 +53,13 @@ class ColumnFactory
      * @return \Khill\Lavacharts\DataTables\Columns\Column
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnRole
      */
-    public function create($type, $label = '', Format $format = null, $role = '', array $options = [])
-    {
+    public function create(
+        $type,
+        $label = '',
+        Format $format = null,
+        $role = '',
+        array $options = []
+    ) {
         self::isValidType($type);
 
         $builder = new ColumnBuilder();

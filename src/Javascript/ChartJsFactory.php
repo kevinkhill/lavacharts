@@ -26,7 +26,7 @@ class ChartJsFactory extends JavascriptFactory
      *
      * @var string
      */
-    const OUTPUT_TEMPLATE = 'templates/chart.tmpl.js';
+    const OUTPUT_TEMPLATE = 'javascript/templates/chart.tmpl.js';
 
     /**
      * Chart to create javascript from.
@@ -66,6 +66,8 @@ class ChartJsFactory extends JavascriptFactory
         $this->formatTemplate =
             'this.formats["col%1$s"] = new %2$s(%3$s);'.PHP_EOL.
             'this.formats["col%1$s"].format(this.data, %1$s);'.PHP_EOL;
+
+        $this->templateVars = $this->getTemplateVars();
 
         parent::__construct(self::OUTPUT_TEMPLATE);
     }

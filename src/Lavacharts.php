@@ -107,7 +107,7 @@ class Lavacharts
             if ($this->exists($method, $args[0])) {
                 $lavaClass = $this->volcano->get($method, $args[0]);
             } else {
-                $chart = ChartFactory::create($method, $args);
+                $chart = ChartFactory::build($method, $args);
 
                 $lavaClass = $this->volcano->store($chart);
             }
@@ -328,6 +328,8 @@ class Lavacharts
      */
     public function fetch($type, $label)
     {
+        $label = new Label($label);
+
         return $this->volcano->get($type, $label);
     }
 
