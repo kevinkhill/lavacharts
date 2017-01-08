@@ -12,6 +12,8 @@
         fs = require('fs'),
 browserify = require('browserify'),
   stripify = require('stripify'),
+   phantom = require("gulp-phantom"),
+   connect = require('gulp-connect-php'),
   watchify = require('watchify');
 
 var pkg = require('./package.json');
@@ -81,3 +83,21 @@ gulp.task('release', function() { return compile(true, false); });
 gulp.task('watch', function() { return compile(false, true) });
 
 gulp.task('default', ['watch']);
+
+gulp.task('demos', function() {
+    var base = './tests/Examples/';
+    connect.server({
+        base: base,
+        port: 8080,
+        ini: base + 'php.ini',
+        router: base + 'demo.php'
+    });
+});
+
+gulp.task('phantom', function() {
+  gulp.src("./javascript/phantomjs/render.js")
+      .pipe(phantom({
+          ext: json
+      }))
+      .pipe(gulp.dest("./data/"));
+});

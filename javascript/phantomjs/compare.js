@@ -8,16 +8,12 @@ var rendersDir = './javascript/phantomjs/renders/';
 var args = process.argv;
 var chart = args[2];
 
-resemble(rendersDir + chart + '.png')
-    .compareTo(rendersDir + chart + '2.png')
-    .onComplete(function (data) {
-        console.log(data);
-    /*
-     {
-     misMatchPercentage : 100, // %
-     isSameDimensions: true, // or false
-     dimensionDifference: { width: 0, height: -1 }, // defined if dimensions are not the same
-     getImageDataUrl: function(){}
-     }
-     */
+resemble(rendersDir + chart + '.png').compareTo(rendersDir + chart + '.png').onComplete(function (data) {
+    //console.log(data);
+
+    if (Number(data.misMatchPercentage) <= 0.01) {
+        console.log('Pass!');
+    } else {
+        console.log('Fail!');
+    }
 });
