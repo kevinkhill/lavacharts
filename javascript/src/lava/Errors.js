@@ -10,11 +10,11 @@
  * @copyright (c) 2015, KHill Designs
  * @license   MIT
  */
-var ce = require('node-custom-errors');
-var LavachartsError = ce.create({
-    name: 'LavachartsError',
-    abstract: true
-});
+var LavachartsError = function (message) {
+    this.name = 'LavachartsError';
+    this.message = (message || '');
+};
+LavachartsError.prototype = Error.prototype;
 
 /**
  * InvalidCallback Error
@@ -22,13 +22,12 @@ var LavachartsError = ce.create({
  * thrown when when anything but a function is given as a callback
  * @type {function}
  */
-module.exports.InvalidCallback = ce.create({
-    name: 'InvalidCallback',
-    parent: LavachartsError,
-    construct: function (callback) {
-        this.message = '[Lavacharts] ' + typeof callback + ' is not a valid callback.';
-    }
-});
+var InvalidCallback = function (callback) {
+    this.name = 'InvalidCallback';
+    this.message = '[Lavacharts] ' + typeof callback + ' is not a valid callback.';
+};
+InvalidCallback.prototype = LavachartsError.prototype;
+module.exports.InvalidCallback = InvalidCallback;
 
 /**
  * InvalidLabel Error
@@ -37,13 +36,11 @@ module.exports.InvalidCallback = ce.create({
  *
  * @type {function}
  */
-module.exports.InvalidLabel = ce.create({
-    name: 'InvalidLabel',
-    parent: LavachartsError,
-    construct: function (label) {
-        this.message = '[Lavacharts] "' + typeof label + '" is not a valid label.';
-    }
-});
+module.exports.InvalidLabel = function (label) {
+    this.name = 'InvalidLabel';
+    this.message = '[Lavacharts] "' + typeof label + '" is not a valid label.';
+};
+module.exports.InvalidLabel.prototype = Error.prototype;
 
 /**
  * ElementIdNotFound Error
@@ -52,13 +49,11 @@ module.exports.InvalidLabel = ce.create({
  *
  * @type {function}
  */
-module.exports.ElementIdNotFound = ce.create({
-    name: 'ElementIdNotFound',
-    parent: LavachartsError,
-    construct: function (elemId) {
-        this.message = '[Lavacharts] DOM node #' + elemId + ' was not found.';
-    }
-});
+module.exports.ElementIdNotFound = function (elemId) {
+    this.name = 'ElementIdNotFound';
+    this.message = '[Lavacharts] DOM node #' + elemId + ' was not found.';
+};
+module.exports.ElementIdNotFound.prototype = Error.prototype;
 
 /**
  * ChartNotFound Error
@@ -67,13 +62,11 @@ module.exports.ElementIdNotFound = ce.create({
  *
  * @type {function}
  */
-module.exports.ChartNotFound = ce.create({
-    name: 'ChartNotFound',
-    parent: LavachartsError,
-    construct: function (label) {
-        this.message = '[Lavacharts] Chart with label "' + label + '" was not found.';
-    }
-});
+module.exports.ChartNotFound = function (label) {
+    this.name = 'ChartNotFound';
+    this.message = '[Lavacharts] Chart with label "' + label + '" was not found.';
+};
+module.exports.ChartNotFound.prototype = Error.prototype;
 
 /**
  * DashboardNotFound Error
@@ -82,10 +75,8 @@ module.exports.ChartNotFound = ce.create({
  *
  * @type {function}
  */
-module.exports.DashboardNotFound = ce.create({
-    name: 'DashboardNotFound',
-    parent: LavachartsError,
-    construct: function (label) {
-        this.message = '[Lavacharts] Dashboard with label "' + label + '" was not found.';
-    }
-});
+module.exports.DashboardNotFound = function (label) {
+    this.name = 'DashboardNotFound';
+    this.message = '[Lavacharts] Dashboard with label "' + label + '" was not found.';
+};
+module.exports.DashboardNotFound.prototype = Error.prototype;
