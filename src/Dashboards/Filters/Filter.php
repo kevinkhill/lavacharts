@@ -24,8 +24,6 @@ use Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
  */
 class Filter extends Customizable implements Wrappable, \JsonSerializable
 {
-    use StringCheck;
-
     /**
      * Type of wrapped class
      */

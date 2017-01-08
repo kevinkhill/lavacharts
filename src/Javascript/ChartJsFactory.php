@@ -26,7 +26,7 @@ class ChartJsFactory extends JavascriptFactory
      *
      * @var string
      */
-    const OUTPUT_TEMPLATE = 'templates/chart.tmpl.js';
+    const OUTPUT_TEMPLATE = 'chart.tmpl.js';
 
     /**
      * Chart to create javascript from.

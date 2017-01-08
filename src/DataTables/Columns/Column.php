@@ -22,8 +22,6 @@ use Khill\Lavacharts\Values\Role;
  */
 class Column extends Customizable
 {
-    use StringCheck;
-
     /**
      * Column type.
      *

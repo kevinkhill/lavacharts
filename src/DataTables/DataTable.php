@@ -56,25 +56,25 @@ class DataTable implements Jsonable, \JsonSerializable
     protected $rowFactory;
 
     /**
-     * ColumnFactory for the DataTable
-     *
-     * @var \Khill\Lavacharts\DataTables\Columns\ColumnFactory
-     */
-    protected $columnFactory;
-
-    /**
-     * Holds all of the DataTable's column objects.
+     * Array of the DataTable's column objects.
      *
      * @var array
      */
     protected $cols = [];
 
     /**
-     * Holds all of the DataTable's row objects.
+     * Array of the DataTable's row objects.
      *
      * @var array
      */
     protected $rows = [];
+
+    /**
+     * Holds all of the DataTable's row objects.
+     *
+     * @var string
+     */
+    protected $dateTimeFormat;
 
     /**
      * Creates a new DataTable

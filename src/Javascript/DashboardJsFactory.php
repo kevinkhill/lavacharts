@@ -28,7 +28,7 @@ class DashboardJsFactory extends JavascriptFactory
      *
      * @var string
      */
-    const OUTPUT_TEMPLATE = '/../../javascript/templates/dashboard.tmpl.js';
+    const OUTPUT_TEMPLATE = 'dashboard.tmpl.js';
 
     /**
      * Dashboard to generate javascript from.

@@ -71,7 +71,8 @@ class Lavacharts
         }
 
         $this->volcano       = new Volcano;
-        $this->scriptManager = new ScriptManager;
+        $this->chartFactory  = new ChartFactory;
+        $this->scriptManager = new ScriptManager(__DIR__);
     }
 
     /**
@@ -107,7 +108,7 @@ class Lavacharts
             if ($this->exists($method, $args[0])) {
                 $lavaClass = $this->volcano->get($method, $args[0]);
             } else {
-                $chart = ChartFactory::create($method, $args);
+                $chart = $this->chartFactory->create($method, $args);
 
                 $lavaClass = $this->volcano->store($chart);
             }
@@ -328,6 +329,8 @@ class Lavacharts
      */
     public function fetch($type, $label)
     {
+        $label = new Label($label);
+
         return $this->volcano->get($type, $label);
     }
 

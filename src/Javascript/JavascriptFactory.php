@@ -50,13 +50,13 @@ class JavascriptFactory
     public function __construct($outputTemplate)
     {
         $this->template = file_get_contents(
-            realpath(__DIR__ . $outputTemplate)
+            realpath(__DIR__ . '/../../javascript/templates/' . $outputTemplate)
         );
 
         $this->buffer = new Buffer($this->template);
 
         /** Replacing the template variables with values */
-        foreach ($this->templateVars as $var => $value) {
+        foreach ($this->getTemplateVars() as $var => $value) {
             $this->buffer->replace('<'.$var.'>', $value);
         }
 

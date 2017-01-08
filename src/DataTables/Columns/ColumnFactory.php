@@ -25,8 +25,6 @@ use Khill\Lavacharts\Exceptions\InvalidColumnType;
  */
 class ColumnFactory
 {
-    use StringCheck;
-
     /**
      * Valid column types
      *

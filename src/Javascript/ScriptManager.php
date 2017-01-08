@@ -55,6 +55,25 @@ class ScriptManager
     private $lavaJsRendered = false;
 
     /**
+     * Root directory of Lavacharts.
+     *
+     * @var string
+     */
+    protected $rootDir;
+
+    /**
+     * ScriptManager constructor.
+     *
+     * Sets the root dir of lavacharts for finding relevant files.
+     *
+     * @param string $rootDir
+     */
+    public function __construct($rootDir)
+    {
+        $this->rootDir = $rootDir;
+    }
+
+    /**
      * Returns true|false depending on if the lava.js module
      * has be output to the page
      *
