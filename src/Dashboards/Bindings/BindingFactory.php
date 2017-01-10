@@ -5,6 +5,7 @@ namespace Khill\Lavacharts\Dashboards\Bindings;
 use \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use \Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use \Khill\Lavacharts\Exceptions\InvalidBindings;
+use \Khill\Lavacharts\Support\Traits\ArrayValuesTestTrait as ArrayValuesTest;
 
 /**
  * BindingFactory Class
@@ -21,7 +22,7 @@ use \Khill\Lavacharts\Exceptions\InvalidBindings;
  */
 class BindingFactory
 {
-    use \Khill\Lavacharts\Support\Traits\ArrayValuesTestTrait;
+    use ArrayValuesTest;
 
     /**
      * Create a new Binding for the dashboard.
@@ -53,5 +54,12 @@ class BindingFactory
         }
 
         throw new InvalidBindings;
+    }
+
+    public function createFromArray(array $arrayOfWraps)
+    {
+        foreach ($arrayOfWraps as $wraps) {
+            //$this
+        }
     }
 }

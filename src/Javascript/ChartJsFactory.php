@@ -75,7 +75,7 @@ class ChartJsFactory extends JavascriptFactory
      *
      * @since  3.0.0
      * @access protected
-     * @return string Javascript code block.
+     * @return array
      */
     protected function getTemplateVars()
     {

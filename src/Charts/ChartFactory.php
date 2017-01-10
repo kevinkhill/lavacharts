@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Builders\ChartBuilder;
+use Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Exceptions\InvalidDataTable;
 
 /**
@@ -78,7 +79,7 @@ class ChartFactory
      */
     public function create($type, $args)
     {
-        if (isset($args[1]) === false) {
+        if ($args[1] !== null && $args[1] instanceof DataTable === false) {
             throw new InvalidDataTable;
         }
 

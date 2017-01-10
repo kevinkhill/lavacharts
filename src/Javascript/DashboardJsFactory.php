@@ -55,29 +55,39 @@ class DashboardJsFactory extends JavascriptFactory
         $this->dashboard = $dashboard;
         $this->elementId = $elementId;
 
-        $boundCharts = $this->dashboard->getBoundCharts();
+        parent::__construct(self::OUTPUT_TEMPLATE);
+    }
 
-        $this->templateVars = [
-            'label'    => $this->dashboard->getLabelStr(),
-            'version'  => Dashboard::VERSION,
-            'class'    => $this->dashboard->getJsClass(),
-            'packages' => [
+    /**
+     * Builds the template variables from the chart.
+     *
+     * @since  3.1.0
+     * @access protected
+     * @return array
+     */
+    protected function getTemplateVars()
+    {
+        $vars = [
+            'elemId'    => $this->elementId,//$this->chart->getElementIdStr(),
+            'label'     => $this->dashboard->getLabelStr(),
+            'version'   => Dashboard::VERSION,
+            'class'     => $this->dashboard->getJsClass(),
+            'packages'  => [
                 $this->dashboard->getJsPackage()
             ],
-            'elemId'   => $this->elementId,//$this->chart->getElementIdStr(),
-            'bindings' => $this->processBindings()
+            'bindings' => $this->processBindings(),
+            'chartData' =>$this->dashboard->getDataTableJson()
         ];
 
         /** @var \Khill\Lavacharts\Charts\Chart $chart */
-        foreach ($boundCharts as $chart) {
-            $this->templateVars['chartData'] = $chart->getDataTableJson();
+        foreach ($this->dashboard->getBoundCharts() as $chart) {
 
-            array_push($this->templateVars['packages'], $chart->getJsPackage());
+            array_push($vars['packages'], $chart->getJsPackage());
         }
 
-        $this->templateVars['packages'] = json_encode(array_unique($this->templateVars['packages']));
+        $vars['packages'] = json_encode(array_unique($vars['packages']));
 
-        parent::__construct(self::OUTPUT_TEMPLATE);
+        return $vars;
     }
 
     /**

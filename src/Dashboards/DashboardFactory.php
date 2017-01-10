@@ -23,7 +23,7 @@ use \Khill\Lavacharts\Builders\DashboardBuilder;
 class DashboardFactory
 {
     /**
-     * Instance of the DashboardBuilder for, well, building charts.
+     * Instance of the DashboardBuilder
      *
      * @var \Khill\Lavacharts\Builders\DashboardBuilder
      */

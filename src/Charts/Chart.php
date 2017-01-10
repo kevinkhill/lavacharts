@@ -46,7 +46,7 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
      */
     public function __construct(
         Label $chartLabel,
-        DataTable $datatable,
+        DataTable $datatable = null,
         array $options = [],
         ElementId $elementId = null
     ) {

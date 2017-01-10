@@ -64,15 +64,16 @@ class DashboardBuilder extends GenericBuilder
     /**
      * Returns the built Dashboard.
      *
-     * @return $this
+     * @return \Khill\Lavacharts\Dashboards\Dashboard
      */
     public function getDashboard()
     {
-        return new Dashboard(
+        $dash = new Dashboard(
             $this->label,
             $this->datatable,
-            $this->bindings,
             $this->elementId
         );
+
+        return $dash->setBindings($this->bindings);
     }
 }
