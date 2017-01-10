@@ -1,6 +1,6 @@
 <?php
 
-require('../../vendor/autoload.php');
+require(realpath(__DIR__ . '/../../vendor/autoload.php'));
 
 $lava = new \Khill\Lavacharts\Lavacharts;
 
@@ -52,6 +52,13 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
                 echo $lava->render('Dashboard', 'MyDash', 'lavachart');
             }
 ?>
+    <script type="text/javascript">
+        lava.ready(function () {
+            if (typeof window.callPhantom === 'function') {
+                window.callPhantom({ hello: 'world' });
+            }
+        });
+    </script>
     </body>
 </html>
 

@@ -25,6 +25,7 @@
     "gulp-phantom": "0.0.6",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
+    "gulp-spawn": "^0.3.0",
     "gulp-streamify": "^1.0.2",
     "gulp-uglify": "^1.5.3",
     "gulp-util": "^3.0.7",

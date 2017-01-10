@@ -1,6 +1,6 @@
 <?php
 
-require('../../vendor/autoload.php');
+require('vendor/autoload.php');
 
 use \Khill\Lavacharts\Charts\ChartFactory;
 
