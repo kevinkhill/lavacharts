@@ -24,10 +24,10 @@ use Khill\Lavacharts\Values\StringValue;
  * @category  Class
  * @package   Khill\Lavacharts
  * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2015, KHill Designs
+ * @copyright (c) 2016, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link      http://lavacharts.com                   Official Docs Site
- * @license   http://opensource.org/licenses/MIT MIT
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
 class Lavacharts
 {
@@ -37,7 +37,7 @@ class Lavacharts
     const VERSION = '3.1.0-beta';
 
     /**
-     * Locale for the DataTable.
+     * Locale for the Charts and Dashboards.
      *
      * @var string
      */
@@ -79,8 +79,8 @@ class Lavacharts
      * Magic function to reduce repetitive coding and create aliases.
      *
      * @since  1.0.0
-     * @param  string $method    Name of method
-     * @param  array  $args Passed arguments
+     * @param  string $method Name of method
+     * @param  array  $args   Passed arguments
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidLavaObject
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
@@ -249,7 +249,7 @@ class Lavacharts
      *
      * @since  3.1.0
      * @param  string $locale
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return $this
      * @throws \Khill\Lavacharts\Exceptions\InvalidStringValue
      */
     public function setLocale($locale = 'en')

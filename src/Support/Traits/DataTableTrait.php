@@ -20,9 +20,17 @@ use \Khill\Lavacharts\DataTables\DataTable;
 trait DataTableTrait
 {
     /**
+     * Datatable for the renderable.
+     *
+     * @var \Khill\Lavacharts\DataTables\DataTable
+     */
+    private $datatable;
+
+    /**
      * Sets the DataTable
      *
      * @since  3.1.0
+     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
     public function setDataTable(DataTable $datatable)

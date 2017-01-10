@@ -6,8 +6,8 @@ use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
-use \Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
 use \Khill\Lavacharts\Support\Traits\DataTableTrait as HasDataTable;
+use \Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
 use \Khill\Lavacharts\Support\Contracts\DataTableInterface as DataTables;
 use \Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
 use \Khill\Lavacharts\Support\Contracts\VisualizationInterface as Visualization;
@@ -66,13 +66,6 @@ class Dashboard implements DataTables, Renderable, Visualization
      * @var array
      */
     private $bindings = [];
-
-    /**
-     * Datatable for the chart.
-     *
-     * @var \Khill\Lavacharts\DataTables\DataTable
-     */
-    private $datatable;
 
     /**
      * Builds a new Dashboard

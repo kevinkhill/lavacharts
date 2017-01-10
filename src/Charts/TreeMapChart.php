@@ -29,14 +29,14 @@ namespace Khill\Lavacharts\Charts;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class TreemapChart extends Chart
+class TreeMapChart extends Chart
 {
     /**
      * Javascript chart type.
      *
      * @var string
      */
-    const TYPE = 'TreemapChart';
+    const TYPE = 'TreeMapChart';
 
     /**
      * Javascript chart version.
