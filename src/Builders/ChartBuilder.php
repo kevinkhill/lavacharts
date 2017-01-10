@@ -15,7 +15,7 @@ use Khill\Lavacharts\Exceptions\InvalidChartType;
  * @package    Khill\Lavacharts\Builders
  * @since      3.1.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2016, KHill Designs
+ * @copyright  (c) 2017, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT      MIT
@@ -81,7 +81,7 @@ class ChartBuilder extends GenericBuilder
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable
      * @return self
      */
-    public function setDatatable(DataTable $datatable)
+    public function setDatatable(DataTable $datatable = null)
     {
         $this->datatable = $datatable;
 

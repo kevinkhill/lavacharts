@@ -14,7 +14,7 @@ use Khill\Lavacharts\Support\Buffer;
  * @package    Khill\Lavacharts\Javascript
  * @since      2.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2016, KHill Designs
+ * @copyright  (c) 2017, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
@@ -52,13 +52,13 @@ class JavascriptFactory
         $projectRoot = __DIR__ . '/../../';
 
         $this->template = file_get_contents(
-            realpath($projectRoot . $outputTemplate)
+            realpath(__DIR__ . '/../../javascript/templates/' . $outputTemplate)
         );
 
         $this->buffer = new Buffer($this->template);
 
         /** Replacing the template variables with values */
-        foreach ($this->templateVars as $var => $value) {
+        foreach ($this->getTemplateVars() as $var => $value) {
             $this->buffer->replace('<'.$var.'>', $value);
         }
 

@@ -13,7 +13,7 @@
         ['Margareth', 8, 20]
     ]);
 
-    $columnChart = $lava->ColumnChart($title, $data, [
+    $columnChart = $lava->ColumnChart($title, null, [
         'width' => $width,
         'height' => $height,
         'isStacked' => true,
@@ -41,5 +41,5 @@
     $ageFilterWrap   = $lava->ControlWrapper($ageFilter, 'control2-div-id');
     $chartWrap       = $lava->ChartWrapper($columnChart, 'chart1-div-id');
 
-    $dash = $lava->Dashboard('MyDash')
+    $dash = $lava->Dashboard('MyDashboard', $data, 'ManyToOneDash')
                  ->bind([$donutFilterWrap, $ageFilterWrap], $chartWrap);

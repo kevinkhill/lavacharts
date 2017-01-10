@@ -19,10 +19,10 @@ use Khill\Lavacharts\Values\ElementId;
  * @package    Khill\Lavacharts\Javascript
  * @since      3.0.5
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2016, KHill Designs
+ * @copyright  (c) 2017, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @license    http://opensource.org/licenses/MIT      MIT
  */
 class ScriptManager
 {
@@ -53,6 +53,14 @@ class ScriptManager
      * @var bool
      */
     private $lavaJsRendered = false;
+
+    /**
+     * ScriptManager constructor.
+     */
+    public function __construct()
+    {
+        //
+    }
 
     /**
      * Returns true|false depending on if the lava.js module
@@ -90,14 +98,14 @@ class ScriptManager
      * @param  \Khill\Lavacharts\Values\ElementId $elementId
      * @return \Khill\Lavacharts\Support\Buffer
      */
-    public function getOutputBuffer($renderable, ElementId $elementId)
+    public function getOutputBuffer($renderable/*, ElementId $elementId*/)
     {
         if ($renderable instanceof Dashboard) {
-            $jsFactory = new DashboardJsFactory($renderable, $elementId);
+            $jsFactory = new DashboardJsFactory($renderable, $renderable->getElementId());
         }
 
         if ($renderable instanceof Chart) {
-            $jsFactory = new ChartJsFactory($renderable, $elementId);
+            $jsFactory = new ChartJsFactory($renderable, $renderable->getElementId());
         }
 
         $buffer = $jsFactory->getOutputBuffer();

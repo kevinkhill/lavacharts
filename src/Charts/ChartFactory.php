@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Charts;
 
 use \Khill\Lavacharts\Builders\ChartBuilder;
+use Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Exceptions\InvalidDataTable;
 
 /**
@@ -16,7 +17,7 @@ use \Khill\Lavacharts\Exceptions\InvalidDataTable;
  * @package   Khill\Lavacharts\Charts
  * @since     3.1.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2016, KHill Designs
+ * @copyright (c) 2017, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
@@ -55,7 +56,7 @@ class ChartFactory
         'SteppedAreaChart',
         'TableChart',
         'TimelineChart',
-        'TreemapChart'
+        'TreeMapChart'
     ];
 
     /**
@@ -86,7 +87,7 @@ class ChartFactory
      */
     public function create($type, $args)
     {
-        if (isset($args[1]) === false) {
+        if ($args[1] !== null && $args[1] instanceof DataTable === false) {
             throw new InvalidDataTable;
         }
 

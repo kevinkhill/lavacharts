@@ -14,7 +14,7 @@ use \Khill\Lavacharts\Charts\Chart;
  * @package    Khill\Lavacharts\Javascript
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2016, KHill Designs
+ * @copyright  (c) 2017, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
@@ -26,7 +26,7 @@ class ChartJsFactory extends JavascriptFactory
      *
      * @var string
      */
-    const OUTPUT_TEMPLATE = 'javascript/templates/chart.tmpl.js';
+    const OUTPUT_TEMPLATE = 'chart.tmpl.js';
 
     /**
      * Chart to create javascript from.
@@ -77,7 +77,7 @@ class ChartJsFactory extends JavascriptFactory
      *
      * @since  3.0.0
      * @access protected
-     * @return string Javascript code block.
+     * @return array
      */
     protected function getTemplateVars()
     {

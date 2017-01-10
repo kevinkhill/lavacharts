@@ -16,7 +16,7 @@ use Khill\Lavacharts\Values\ElementId;
  * @package    Khill\Lavacharts\Javascript
  * @since      3.0.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2016, KHill Designs
+ * @copyright  (c) 2017, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
@@ -28,7 +28,7 @@ class DashboardJsFactory extends JavascriptFactory
      *
      * @var string
      */
-    const OUTPUT_TEMPLATE = 'javascript/templates/dashboard.tmpl.js';
+    const OUTPUT_TEMPLATE = 'dashboard.tmpl.js';
 
     /**
      * Dashboard to generate javascript from.
@@ -55,29 +55,39 @@ class DashboardJsFactory extends JavascriptFactory
         $this->dashboard = $dashboard;
         $this->elementId = $elementId;
 
-        $boundCharts = $this->dashboard->getBoundCharts();
+        parent::__construct(self::OUTPUT_TEMPLATE);
+    }
 
-        $this->templateVars = [
-            'label'    => $this->dashboard->getLabelStr(),
-            'version'  => Dashboard::VERSION,
-            'class'    => $this->dashboard->getJsClass(),
-            'packages' => [
+    /**
+     * Builds the template variables from the chart.
+     *
+     * @since  3.1.0
+     * @access protected
+     * @return array
+     */
+    protected function getTemplateVars()
+    {
+        $vars = [
+            'elemId'    => $this->elementId,//$this->chart->getElementIdStr(),
+            'label'     => $this->dashboard->getLabelStr(),
+            'version'   => Dashboard::VERSION,
+            'class'     => $this->dashboard->getJsClass(),
+            'packages'  => [
                 $this->dashboard->getJsPackage()
             ],
-            'elemId'   => $this->elementId,//$this->chart->getElementIdStr(),
-            'bindings' => $this->processBindings()
+            'bindings' => $this->processBindings(),
+            'chartData' =>$this->dashboard->getDataTableJson()
         ];
 
         /** @var \Khill\Lavacharts\Charts\Chart $chart */
-        foreach ($boundCharts as $chart) {
-            $this->templateVars['chartData'] = $chart->getDataTableJson();
+        foreach ($this->dashboard->getBoundCharts() as $chart) {
 
-            array_push($this->templateVars['packages'], $chart->getJsPackage());
+            array_push($vars['packages'], $chart->getJsPackage());
         }
 
-        $this->templateVars['packages'] = json_encode(array_unique($this->templateVars['packages']));
+        $vars['packages'] = json_encode(array_unique($vars['packages']));
 
-        parent::__construct(self::OUTPUT_TEMPLATE);
+        return $vars;
     }
 
     /**

@@ -15,7 +15,7 @@ use Khill\Lavacharts\Exceptions\InvalidJson;
  * @package   Khill\Lavacharts\DataTables
  * @since     3.1.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2016, KHill Designs
+ * @copyright (c) 2017, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
@@ -44,7 +44,7 @@ class DataFactory
         if ($columns === null || gettype($columns) === 'string') {
             $timezone = $columns;
         }
-        
+
         $datatable = self::emptyDataTable($timezone);
 
         if (is_array($columns)) {

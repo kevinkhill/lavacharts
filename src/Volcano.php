@@ -18,7 +18,7 @@ use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
  * @package   Khill\Lavacharts
  * @since     2.0.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2016, KHill Designs
+ * @copyright (c) 2017, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
@@ -65,7 +65,7 @@ class Volcano
      * @since  3.0.3
      * @param  string                         $type  Type of Chart or Dashboard.
      * @param  \Khill\Lavacharts\Values\Label $label Label of the Chart or Dashboard.
-     * @return Chart|Dashboard
+     * @return Renderable
      * @throws \Khill\Lavacharts\Exceptions\ChartNotFound
      * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
      */

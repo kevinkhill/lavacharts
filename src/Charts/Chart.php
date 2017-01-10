@@ -6,10 +6,11 @@ use Khill\Lavacharts\Support\Customizable;
 use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Values\ElementId;
 use Khill\Lavacharts\Values\Label;
+use Khill\Lavacharts\Support\Traits\DataTableTrait as HasDataTable;
 use Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
-use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
-use Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
 use Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
+use Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
+use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
 use Khill\Lavacharts\Support\Contracts\VisualizationInterface as Visualization;
 
 /**
@@ -21,26 +22,19 @@ use Khill\Lavacharts\Support\Contracts\VisualizationInterface as Visualization;
  *
  * @package   Khill\Lavacharts\Charts
  * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2016, KHill Designs
+ * @copyright (c) 2017, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
 class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Visualization
 {
-    use IsRenderable;
+    use HasDataTable, IsRenderable;
 
     /**
      * Type of wrappable class
      */
     const WRAP_TYPE = 'chartType';
-
-    /**
-     * Datatable for the chart.
-     *
-     * @var \Khill\Lavacharts\DataTables\DataTable
-     */
-    protected $datatable;
 
     /**
      * Builds a new chart with the given label.
@@ -52,7 +46,7 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
      */
     public function __construct(
         Label $chartLabel,
-        DataTable $datatable,
+        DataTable $datatable = null,
         array $options = [],
         ElementId $elementId = null
     ) {
@@ -125,28 +119,6 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
     public function toJson()
     {
         return json_encode($this);
-    }
-
-    /**
-     * Returns the DataTable
-     *
-     * @since  3.0.0
-     * @return \Khill\Lavacharts\DataTables\DataTable
-     */
-    public function getDataTable()
-    {
-        return $this->datatable;
-    }
-
-    /**
-     * Returns a JSON string representation of the datatable.
-     *
-     * @since  2.5.0
-     * @return string
-     */
-    public function getDataTableJson()
-    {
-        return json_encode($this->datatable);
     }
 
     /**

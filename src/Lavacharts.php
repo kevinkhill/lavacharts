@@ -4,9 +4,11 @@ namespace Khill\Lavacharts;
 
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Charts\ChartFactory;
+use Khill\Lavacharts\Dashboards\DashboardFactory;
 use Khill\Lavacharts\Dashboards\Filters\Filter;
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
+use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\Exceptions\InvalidLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
@@ -16,6 +18,7 @@ use Khill\Lavacharts\Support\Psr4Autoloader;
 use Khill\Lavacharts\Values\ElementId;
 use Khill\Lavacharts\Values\Label;
 use Khill\Lavacharts\Values\StringValue;
+use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
 
 /**
  * Lavacharts - A PHP wrapper library for the Google Chart API
@@ -24,10 +27,10 @@ use Khill\Lavacharts\Values\StringValue;
  * @category  Class
  * @package   Khill\Lavacharts
  * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2015, KHill Designs
+ * @copyright (c) 2017, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link      http://lavacharts.com                   Official Docs Site
- * @license   http://opensource.org/licenses/MIT MIT
+ * @license   http://opensource.org/licenses/MIT      MIT
  */
 class Lavacharts
 {
@@ -37,7 +40,7 @@ class Lavacharts
     const VERSION = '3.1.0-beta';
 
     /**
-     * Locale for the DataTable.
+     * Locale for the Charts and Dashboards.
      *
      * @var string
      */
@@ -71,15 +74,17 @@ class Lavacharts
         }
 
         $this->volcano       = new Volcano;
-        $this->scriptManager = new ScriptManager;
+        $this->chartFactory  = new ChartFactory;
+        $this->dashFactory   = new DashboardFactory;
+        $this->scriptManager = new ScriptManager(__DIR__);
     }
 
     /**
      * Magic function to reduce repetitive coding and create aliases.
      *
      * @since  1.0.0
-     * @param  string $method    Name of method
-     * @param  array  $args Passed arguments
+     * @param  string $method Name of method
+     * @param  array  $args   Passed arguments
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidLavaObject
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
@@ -107,7 +112,7 @@ class Lavacharts
             if ($this->exists($method, $args[0])) {
                 $lavaClass = $this->volcano->get($method, $args[0]);
             } else {
-                $chart = ChartFactory::build($method, $args);
+                $chart = $this->chartFactory->create($method, $args);
 
                 $lavaClass = $this->volcano->store($chart);
             }
@@ -160,17 +165,14 @@ class Lavacharts
      * @param  array  $bindings
      * @return \Khill\Lavacharts\Dashboards\Dashboard
      */
-    public function Dashboard($label, array $bindings = [])
+    public function Dashboard($label, DataTable $dataTable)
     {
         if ($this->exists('Dashboard', $label)) {
             $dashboard = $this->volcano->get('Dashboard', $label);
         } else {
-            $dashboard = call_user_func(
-                __NAMESPACE__ . '\\Dashboards\\Dashboard::create',
-                func_get_args()
+            $dashboard = $this->volcano->store(
+                $this->dashFactory->create(func_get_args())
             );
-
-            $dashboard = $this->volcano->store($dashboard);
         }
 
         return $dashboard;
@@ -224,15 +226,15 @@ class Lavacharts
      * @param  mixed  $divDimensions Set true for div creation, or pass an array with height & width
      * @return string
      */
-    public function render($type, $label, $elementId, $divDimensions = false)
+    public function render($type, $label, /*$elementId, */$divDimensions = false)
     {
         $label     = new Label($label);
-        $elementId = new ElementId($elementId);
+        //$elementId = new ElementId($elementId);
 
         if ($type == 'Dashboard') {
-            $buffer = $this->renderDashboard($label, $elementId);
+            $buffer = $this->renderDashboard($label/*, $elementId*/);
         } else {
-            $buffer = $this->renderChart($type, $label, $elementId, $divDimensions);
+            $buffer = $this->renderChart($type, $label, /*$elementId, */$divDimensions);
         }
 
         return $buffer->getContents();
@@ -248,7 +250,7 @@ class Lavacharts
      *
      * @since  3.1.0
      * @param  string $locale
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return $this
      * @throws \Khill\Lavacharts\Exceptions\InvalidStringValue
      */
     public function setLocale($locale = 'en')
@@ -322,13 +324,18 @@ class Lavacharts
      *
      * @since  3.0.0
      * @uses   \Khill\Lavacharts\Values\Label
-     * @param  string $type Type of Chart or Dashboard.
+     * @param  string $type  Type of Chart or Dashboard.
      * @param  string $label Label of the Chart or Dashboard.
-     * @return mixed
+     * @return Renderable
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLavaObject
      */
     public function fetch($type, $label)
     {
         $label = new Label($label);
+
+        if (strpos($type, 'Chart') === false && $type != 'Dashboard') {
+            throw new InvalidLavaObject($type);
+        }
 
         return $this->volcano->get($type, $label);
     }
@@ -379,11 +386,11 @@ class Lavacharts
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions
      */
-    private function renderChart($type, Label $label, ElementId $elementId, $divDimensions = false)
+    private function renderChart($type, Label $label, /*ElementId $elementId, */$divDimensions = false)
     {
         $buffer = $this->scriptManager->getOutputBuffer(
-            $this->volcano->get($type, $label),
-            $elementId
+            $this->volcano->get($type, $label)/*,
+            $elementId*/
         );
 
         if ($this->scriptManager->lavaJsRendered() === false) {
@@ -409,11 +416,11 @@ class Lavacharts
      * @return \Khill\Lavacharts\Support\Buffer
      * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
      */
-    private function renderDashboard(Label $label, ElementId $elementId)
+    private function renderDashboard(Label $label/*, ElementId $elementId*/)
     {
         $buffer = $this->scriptManager->getOutputBuffer(
-            $this->volcano->get('Dashboard', $label),
-            $elementId
+            $this->volcano->get('Dashboard', $label)/*,
+            $elementId*/
         );
 
         if ($this->scriptManager->lavaJsRendered() === false) {

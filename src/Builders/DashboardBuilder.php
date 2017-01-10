@@ -14,7 +14,7 @@ use \Khill\Lavacharts\DataTables\DataTable;
  * @package    Khill\Lavacharts\Builders
  * @since      3.0.3
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2016, KHill Designs
+ * @copyright  (c) 2017, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
@@ -64,15 +64,16 @@ class DashboardBuilder extends GenericBuilder
     /**
      * Returns the built Dashboard.
      *
-     * @return $this
+     * @return \Khill\Lavacharts\Dashboards\Dashboard
      */
     public function getDashboard()
     {
-        return new Dashboard(
+        $dash = new Dashboard(
             $this->label,
             $this->datatable,
-            $this->bindings,
             $this->elementId
         );
+
+        return $dash->setBindings($this->bindings);
     }
 }

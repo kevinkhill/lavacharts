@@ -13,7 +13,7 @@
         ['Margareth', 8, 20]
     ]);
 
-    $columnChart = $lava->ColumnChart($title, $data, [
+    $columnChart = $lava->ColumnChart($title, null, [
         'width' => $width,
         'height' => $height,
         'isStacked' => true,
@@ -23,7 +23,7 @@
         ]
     ]);
 
-    $areaChart = $lava->AreaChart($title, $data, [
+    $areaChart = $lava->AreaChart($title, null, [
         'width' => $width,
         'height' => $height,
         'chartArea' => [
@@ -51,5 +51,5 @@
     $columnChartWrap = $lava->ChartWrapper($columnChart, 'chart1-div-id');
     $areaChartWrap   = $lava->ChartWrapper($areaChart, 'chart2-div-id');
 
-    $lava->Dashboard('MyDash')
+    $lava->Dashboard('MyDashboard', $data, 'ManyToManyDash')
          ->bind([$donutFilterWrap, $ageFilterWrap], [$columnChartWrap, $areaChartWrap]);

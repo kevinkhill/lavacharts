@@ -1,6 +1,6 @@
 {
   "name": "lavacharts",
-  "version": "3.0.3",
+  "version": "3.1.0",
   "description": "Wrapper library for the Google Chart API",
   "homepage": "http://lavacharts.com",
   "author": "Kevin Hill",
@@ -10,19 +10,22 @@
     "node": "10.*"
   },
   "dependencies": {
+    "custom-error-generator": "^7.0.0",
     "document-ready": "^1.0.0",
     "lodash": "^4.11.1",
-    "node-custom-errors": "^0.1.6",
     "q": "^1.4.1"
   },
   "devDependencies": {
     "browserify": "^11.1.0",
     "gulp": "^3.9.0",
     "gulp-bump": "^0.3.0",
+    "gulp-connect-php": "0.0.8",
     "gulp-if": "^2.0.0",
     "gulp-jshint": "^1.10.0",
+    "gulp-phantom": "0.0.6",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
+    "gulp-spawn": "^0.3.0",
     "gulp-streamify": "^1.0.2",
     "gulp-uglify": "^1.5.3",
     "gulp-util": "^3.0.7",
@@ -35,6 +38,8 @@
     "karma-jasmine": "^0.3.5",
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-sinon": "^1.0.4",
+    "node-resemble-js": "^0.2.0",
+    "phantomjs-prebuilt": "^2.1.14",
     "sinon": "^1.17.3",
     "stripify": "^4.0.0",
     "vinyl-source-stream": "^1.1.0",

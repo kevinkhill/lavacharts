@@ -6,8 +6,8 @@ use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
-use \Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
 use \Khill\Lavacharts\Support\Traits\DataTableTrait as HasDataTable;
+use \Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
 use \Khill\Lavacharts\Support\Contracts\DataTableInterface as DataTables;
 use \Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
 use \Khill\Lavacharts\Support\Contracts\VisualizationInterface as Visualization;
@@ -23,7 +23,7 @@ use \Khill\Lavacharts\Support\Contracts\VisualizationInterface as Visualization;
  * @package   Khill\Lavacharts\Dashboards
  * @since     3.0.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2016, KHill Designs
+ * @copyright (c) 2017, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
@@ -47,7 +47,7 @@ class Dashboard implements DataTables, Renderable, Visualization
     const VERSION = '1';
 
     /**
-     * Javascript chart package.
+     * Javascript package.
      *
      * @var string
      */
@@ -68,25 +68,17 @@ class Dashboard implements DataTables, Renderable, Visualization
     private $bindings = [];
 
     /**
-     * Datatable for the chart.
-     *
-     * @var \Khill\Lavacharts\DataTables\DataTable
-     */
-    private $datatable;
-
-    /**
      * Builds a new Dashboard
-     * If passed an array of bindings, they will be applied upon instansiation.
+     *
+     * If passed an array of bindings, they will be applied upon creation.
      *
      * @param \Khill\Lavacharts\Values\Label         $label Label for the Dashboard
      * @param \Khill\Lavacharts\DataTables\DataTable $datatable
-     * @param array                                  $bindings Array of bindings to apply
      * @param \Khill\Lavacharts\Values\ElementId     $elementId Element Id for the Dashboard
      */
     public function __construct(
         Label $label,
         DataTable $datatable,
-        array $bindings = [],
         ElementId $elementId = null
     )
     {
@@ -95,10 +87,6 @@ class Dashboard implements DataTables, Renderable, Visualization
         $this->initRenderable($label, $elementId);
 
         $this->datatable = $datatable;
-
-        if (empty($bindings) === false) {
-            $this->setBindings($bindings);
-        }
     }
 
     /**
@@ -130,32 +118,6 @@ class Dashboard implements DataTables, Renderable, Visualization
     public function getJsClass()
     {
         return 'google.visualization.Dashboard';
-    }
-
-    /**
-     * Batch add an array of bindings.
-     *
-     * This method can set all bindings at once instead of chaining multiple bind methods.
-     *
-     * @param  array $bindings
-     * @return \Khill\Lavacharts\Dashboards\Dashboard
-     * @throws \Khill\Lavacharts\Exceptions\InvalidBindings
-     */
-    public function setBindings($bindings)
-    {
-        $this->bindings = $this->bindingFactory->createFromArray($bindings);
-
-        return $this;
-    }
-
-    /**
-     * Fetch the dashboard's bindings.
-     *
-     * @return array
-     */
-    public function getBindings()
-    {
-        return $this->bindings;
     }
 
     /**
@@ -199,5 +161,31 @@ class Dashboard implements DataTables, Renderable, Visualization
         $this->bindings[] = $this->bindingFactory->create($controlWraps, $chartWraps);
 
         return $this;
+    }
+
+    /**
+     * Batch add an array of bindings.
+     *
+     * This method can set all bindings at once instead of chaining multiple bind methods.
+     *
+     * @param  array $bindings
+     * @return \Khill\Lavacharts\Dashboards\Dashboard
+     * @throws \Khill\Lavacharts\Exceptions\InvalidBindings
+     */
+    public function setBindings($bindings)
+    {
+        $this->bindings = $this->bindingFactory->createFromArray($bindings);
+
+        return $this;
+    }
+
+    /**
+     * Fetch the dashboard's bindings.
+     *
+     * @return array
+     */
+    public function getBindings()
+    {
+        return $this->bindings;
     }
 }
