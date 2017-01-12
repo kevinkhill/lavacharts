@@ -126,15 +126,14 @@ gulp.task('render', function (done) {
         });
 
         renderer.on('close', function (code) {
-            const chartIn  = renderOutputDir+'/'+chart+'.png';
-            const chartOut = renderOutputDir+'/'+chart+'_trimmed.png'
+            const chartPath = renderOutputDir+'/'+chart+'.png';
 
             if (fs.existsSync(chartIn)) {
-                execSync('convert ' + chartIn + ' -trim +repage ' + chartOut);
+                execSync('convert ' + chartPath + ' -trim +repage ' + chartPath);
 
-                console.log('[' + chart + '] Cropped to ' + chartOut);
+                console.log('[' + chart + '] Successfully Cropped.');
             } else {
-                console.log('[' + chart + '] Cannot crop ' + chartIn + ', not found.');
+                console.log('[' + chart + '] ' + chartPath + ' not found.');
             }
 
             phpServerEnd(done);
