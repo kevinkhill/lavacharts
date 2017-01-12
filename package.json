@@ -53,9 +53,6 @@
   "bugs": {
     "url": "https://github.com/kevinkhill/lavacharts/issues"
   },
-  "config": {
-    "entry": "./javascript/src/lava.entry.js"
-  },
   "scripts": {
     "test": "./node_modules/.bin/karma start --singleRun",
     "jsdoc": "./node_modules/.bin/jsdoc -d build/jsdoc --package package.json javascript/src/lava/Lava.js"

@@ -17,11 +17,11 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
 
         if (strpos($chartType, 'Chart') > 0) {
             require_once(__DIR__ . '/Charts/' . $chartType . '.php');
+            $id = $lava->fetch($chartType, $title)->getElementId();
         } else {
             require_once(__DIR__ . '/Dashboards/' . $chartType . '.php');
+            $id = $lava->fetch('Dashboard', $title)->getElementId();
         }
-
-        $id = $lava->fetch($chartType, $title)->getElementId();
     }
 }
 ?>
@@ -47,15 +47,17 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
             </div>
 <?php
             if (strpos($chartType, 'Chart') > 0) {
-                echo $lava->render($chartType, $title, 'lavachart');
+                echo $lava->render($chartType, $title);
             } else {
-                echo $lava->render('Dashboard', 'MyDash', 'lavachart');
+                echo $lava->render('Dashboard', $title);
             }
 ?>
     <script type="text/javascript">
-        lava.ready(function () {
+        lava.ready(function() {
+            console.log('Lava.js ready');
+
             if (typeof window.callPhantom === 'function') {
-                window.callPhantom({ hello: 'world' });
+                window.callPhantom({ lava: 'ready' });
             }
         });
     </script>
