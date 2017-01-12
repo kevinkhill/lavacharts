@@ -128,7 +128,7 @@ gulp.task('render', function (done) {
         renderer.on('close', function (code) {
             const chartPath = renderOutputDir+'/'+chart+'.png';
 
-            if (fs.existsSync(chartIn)) {
+            if (fs.existsSync(chartPath)) {
                 execSync('convert ' + chartPath + ' -trim +repage ' + chartPath);
 
                 console.log('[' + chart + '] Successfully Cropped.');
