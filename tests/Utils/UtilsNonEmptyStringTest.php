@@ -32,4 +32,46 @@ class UtilsNonEmptyStringTest extends ProvidersTestCase
     {
         $this->assertFalse(Utils::nonEmptyString($badTypes));
     }
+
+    /**
+     * @dataProvider iterableWithStrings
+     *
+     * @param \Traversable|string[] $iterable
+     */
+    public function testNonEmptyStringInArrayWithValidTraversableWithStrings($iterable)
+    {
+        $this->assertTrue(Utils::nonEmptyStringInArray($iterable[0], $iterable));
+    }
+
+    /**
+     * @dataProvider iterableInArrayWithBadData
+     *
+     * @param \Traversable|string[] $iterable
+     * @param string                $nonExistingString
+     */
+    public function testNonEmptyStringInArrayWithBadData($iterable, $nonExistingString)
+    {
+        $this->assertFalse(Utils::nonEmptyStringInArray($nonExistingString, $iterable));
+    }
+
+    /**
+     * @dataProvider iterableInArrayWithGoodData
+     *
+     * @param \Traversable|string[] $iterable
+     */
+    public function testCheckIfInArrayForValueWithGoodData($iterable)
+    {
+        $this->assertTrue(Utils::checkInArrayForValue($iterable[1], $iterable));
+    }
+
+    /**
+     * @dataProvider iterableInArrayWithBadData
+     *
+     * @param \Traversable|string[] $iterable
+     * @param mixed                 $valueToCheck
+     */
+    public function testCheckIfInArrayForValueWithBadData($iterable, $valueToCheck)
+    {
+        $this->assertFalse(Utils::checkInArrayForValue($valueToCheck, $iterable));
+    }
 }
