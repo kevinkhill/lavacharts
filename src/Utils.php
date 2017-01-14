@@ -13,7 +13,7 @@ class Utils
      */
     public static function arrayToPipedString($defaultValues)
     {
-        if (self::checkTraversable($defaultValues)) {
+        if (self::checkIterable($defaultValues)) {
             natcasesort($defaultValues);
 
             return '[ ' . implode(' | ', $defaultValues) . ' ]';
@@ -32,7 +32,7 @@ class Utils
      */
     public static function arrayIsMulti($variable)
     {
-        if (self::checkTraversable($variable)) {
+        if (self::checkIterable($variable)) {
             if (count(array_filter((array)$variable, 'self::checkArrayAccess')) > 0) {
                 return true;
             } else {
@@ -50,7 +50,7 @@ class Utils
      *
      * @return bool
      */
-    public static function checkTraversable($variable)
+    public static function checkIterable($variable)
     {
         if (is_array($variable) || $variable instanceof \Traversable) {
             return true;
@@ -85,7 +85,7 @@ class Utils
     {
         $status = true;
 
-        if (self::checkTraversable($array) && is_string($type)) {
+        if (self::checkIterable($array) && is_string($type)) {
             if ($type === 'class' && is_string($className) && ! empty($className)) {
                 foreach ($array as $item) {
                     if (! is_null($item)) {
@@ -211,12 +211,33 @@ class Utils
      */
     public static function nonEmptyStringInArray($var, $arr)
     {
-        $arrayCheck = (self::checkTraversable($arr) === true && in_array($var, $arr) === true);
-
-        if (self::nonEmptyString($var) && $arrayCheck) {
+        if (self::nonEmptyString($var) && self::checkInArrayForValue($var, $arr)) {
             return true;
         } else {
             return false;
         }
+    }
+
+    /**
+     * @param mixed              $value
+     * @param array|\Traversable $iterable
+     *
+     * @return bool
+     */
+    public static function checkInArrayForValue($value, $iterable)
+    {
+        // first check if it's tra
+        if(self::checkIterable($iterable) === true){
+
+            if (is_array($iterable) !== true) {
+                // make the iterator an array
+                $iterable = iterator_to_array($iterable);
+            }
+
+            // check if the value is in the array
+            return in_array($value, $iterable);
+        }
+
+        return false;
     }
 }
