@@ -187,12 +187,15 @@ class Utils
     /**
      * Checks if variable is a non-empty string
      *
-     * @param  string $var
+     * @param  string|object $var String or object implementing __toString
      * @return bool
      */
     public static function nonEmptyString($var)
     {
-        if (is_string($var) && strlen($var) > 0) {
+        if (
+            (is_string($var) || (is_object($var) && method_exists($var, '__toString')))
+            && strlen((string)$var) > 0
+        ) {
             return true;
         } else {
             return false;
