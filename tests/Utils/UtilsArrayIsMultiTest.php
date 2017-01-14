@@ -21,9 +21,31 @@ class UtilsArrayIsMultiTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonArrayProvider
+     *
+     * @param $notArray
      */
     public function testArrayIsMultiWithNonArray($notArray)
     {
         $this->assertFalse(Utils::arrayIsMulti($notArray));
+    }
+
+    /**
+     * @dataProvider traversableProvider
+     *
+     * @param $traversable
+     */
+    public function testArrayIsMultiWithTraversable($traversable)
+    {
+        $this->assertTrue(Utils::arrayIsMulti($traversable));
+    }
+
+    /**
+     * @dataProvider arrayAccessProvider
+     *
+     * @param $arrayAccessAr
+     */
+    public function testArrayIsMultiWithArrayAccessArray($arrayAccessAr)
+    {
+        $this->assertTrue(Utils::arrayIsMulti($arrayAccessAr));
     }
 }
