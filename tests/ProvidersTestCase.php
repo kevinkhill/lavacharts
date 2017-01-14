@@ -177,12 +177,12 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function traversableProvider ()
+    public function traversableProvider()
     {
         $collection = new Collection([
-            ['data'],
-            ['data'],
-            ['data'],
+            ['IAmAString'],
+            ['IAmASecondString'],
+            ['IAmAThirdString'],
         ]);
 
         return [
@@ -190,16 +190,88 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function arrayAccessProvider ()
+    public function arrayAccessProvider()
     {
         $arrayAccessArray = [
-            [new Collection(['data'])],
-            [new Collection(['data'])],
-            [new Collection(['data'])]
+            [new Collection(['IAmAString'])],
+            [new Collection(['IAmASecondString'])],
+            [new Collection(['IAmAThirdString'])]
         ];
 
         return [
             [$arrayAccessArray],
+        ];
+    }
+
+    public function iterableWithStrings()
+    {
+        $stringsArray = [
+            'IAmAString',
+            'IAmASecondString',
+            'IAmAThirdString',
+        ];
+        $stringsCollection = new Collection($stringsArray);
+
+        $objectsArray = [
+            new TestClassWithToString('IAmAString'),
+            new TestClassWithToString('IAmASecondString'),
+            new TestClassWithToString('IAmAThirdString'),
+        ];
+        $objectsCollection = new Collection($objectsArray);
+
+        return [
+            [$stringsArray],
+            [$objectsArray],
+            [$stringsCollection],
+            [$objectsCollection],
+        ];
+    }
+
+    public function iterableInArrayWithGoodData()
+    {
+        $stringsArray = [
+            'IAmAString',
+            'IAmASecondString',
+            'IAmAThirdString',
+        ];
+        $stringsCollection = new Collection($stringsArray);
+
+        $objectsArray = [
+            new TestClassWithToString('IAmAString'),
+            new TestClassWithToString('IAmASecondString'),
+            new TestClassWithToString('IAmAThirdString'),
+        ];
+        $objectsCollection = new Collection($objectsArray);
+
+        return [
+            [$stringsArray],
+            [$objectsArray],
+            [$stringsCollection],
+            [$objectsCollection],
+        ];
+    }
+
+    public function iterableInArrayWithBadData()
+    {
+        $stringsArray = [
+            'IAmAString',
+            'IAmASecondString',
+            'IAmAThirdString',
+        ];
+        $stringsCollection = new Collection($stringsArray);
+
+        $objectsArray = [
+            new TestClassWithToString('IAmAString'),
+            new TestClassWithToString('IAmASecondString'),
+            new TestClassWithToString('IAmAThirdString'),
+        ];
+        $objectsCollection = new Collection($objectsArray);
+
+        return [
+            [$stringsArray, 'nonExisting'],
+            [$objectsArray, 'nonExisting'],
+            [$stringsCollection, 'nonExisting'],
+            [$objectsCollection, 'nonExisting'],
         ];
     }
 }
