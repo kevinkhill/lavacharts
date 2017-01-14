@@ -7,9 +7,15 @@ use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class UtilsNonEmptyStringTest extends ProvidersTestCase
 {
-    public function testWithValidString()
+
+    /**
+     * @dataProvider validStringProvider
+     *
+     * @param string|object $variable
+     */
+    public function testWithValidString($variable)
     {
-        $this->assertTrue(Utils::nonEmptyString('Im not empty!'));
+        $this->assertTrue(Utils::nonEmptyString($variable));
     }
 
     public function testWithEmptyString()
@@ -19,6 +25,8 @@ class UtilsNonEmptyStringTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
+     *
+     * @param mixed $badTypes
      */
     public function testWithBadTypes($badTypes)
     {
