@@ -2,11 +2,12 @@
 
 namespace Khill\Lavacharts\DataTables\Rows;
 
-use \Carbon\Carbon;
-use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\DataTables\Cells\DateCell;
-use \Khill\Lavacharts\Exceptions\InvalidCellCount;
-use \Khill\Lavacharts\Exceptions\InvalidRowDefinition;
+use Carbon\Carbon;
+use Khill\Lavacharts\DataTables\Cells\DateCell;
+use Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Exceptions\InvalidCellCount;
+use Khill\Lavacharts\Exceptions\InvalidRowDefinition;
+use Khill\Lavacharts\Utils;
 
 /**
  * RowFactory Class
@@ -14,17 +15,18 @@ use \Khill\Lavacharts\Exceptions\InvalidRowDefinition;
  * The RowFactory creates new rows for the DataTables.
  *
  *
- * @package    Khill\Lavacharts
- * @subpackage DataTables\Rows
- * @since      3.0.0
- * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @package        Khill\Lavacharts
+ * @subpackage     DataTables\Rows
+ * @since          3.0.0
+ * @author         Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @link           http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link           http://lavacharts.com                   Official Docs Site
+ * @license        http://opensource.org/licenses/MIT MIT
  */
 class RowFactory
 {
+
     /**
      * DataTable to reference when creating new rows.
      *
@@ -36,6 +38,7 @@ class RowFactory
      * Creates a new RowFactory instance.
      *
      * @access public
+     *
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable
      */
     public function __construct(DataTable $datatable)
@@ -46,8 +49,10 @@ class RowFactory
     /**
      * Creates a new Row object.
      *
-     * @param  array $valueArray Array of values to assign to the row.
+     * @param  array|\ArrayAccess $valueArray Array of values to assign to the row.
+     *
      * @return \Khill\Lavacharts\DataTables\Rows\Row
+     * TODO: check this Exception
      * @throws \Khill\Lavacharts\Exceptions\FailedCarbonParsing
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeString
@@ -55,11 +60,11 @@ class RowFactory
      */
     public function create($valueArray)
     {
-        if ($valueArray !== null && is_array($valueArray) === false) {
+        if ($valueArray !== null && Utils::checkArrayAccess($valueArray) === false) {
             throw new InvalidRowDefinition($valueArray);
         }
 
-        if ($valueArray === null || is_array($valueArray) === true && empty($valueArray) === true) {
+        if ($valueArray === null || Utils::checkArrayAccess($valueArray) === true && empty($valueArray) === true) {
             return new NullRow($this->datatable->getColumnCount());
         }
 
@@ -80,7 +85,7 @@ class RowFactory
                 if ($cell instanceof Carbon) {
                     $rowData[] = new DateCell($cell);
                 } else {
-    		    if (isset($dateTimeFormat)) {
+                    if (isset($dateTimeFormat)) {
                         $rowData[] = DateCell::parseString($cell, $dateTimeFormat);
                     } else {
                         $rowData[] = DateCell::parseString($cell);
