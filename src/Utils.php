@@ -5,15 +5,15 @@ namespace Khill\Lavacharts;
 class Utils
 {
     /**
-     * Takes an array of values and ouputs them as a string between
+     * Takes an array of values and outputs them as a string between
      * brackets and separated by a pipe.
      *
-     * @param array Array of default values
+     * @param array $defaultValues Array of default values
      * @return string Converted array to string.
      */
     public static function arrayToPipedString($defaultValues)
     {
-        if (is_array($defaultValues)) {
+        if (self::checkTraversable($defaultValues)) {
             natcasesort($defaultValues);
 
             return '[ ' . implode(' | ', $defaultValues) . ' ]';
@@ -85,7 +85,7 @@ class Utils
     {
         $status = true;
 
-        if (is_array($array) && is_string($type)) {
+        if (self::checkTraversable($array) && is_string($type)) {
             if ($type === 'class' && is_string($className) && ! empty($className)) {
                 foreach ($array as $item) {
                     if (! is_null($item)) {
@@ -208,7 +208,7 @@ class Utils
      */
     public static function nonEmptyStringInArray($var, $arr)
     {
-        $arrayCheck = (is_array($arr) === true && in_array($var, $arr) === true);
+        $arrayCheck = (self::checkTraversable($arr) === true && in_array($var, $arr) === true);
 
         if (self::nonEmptyString($var) && $arrayCheck) {
             return true;
