@@ -5,7 +5,6 @@ namespace Khill\Lavacharts\DataTables\Cells;
 use \Carbon\Carbon;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use \Khill\Lavacharts\Utils;
-use \Khill\Lavacharts\Exceptions\FailedCarbonParsing;
 use \Khill\Lavacharts\Exceptions\InvalidDateTimeString;
 
 /**
@@ -46,7 +45,6 @@ class DateCell extends Cell
      * @param  string $dateTimeString
      * @param  string $dateTimeFormat
      * @return \Khill\Lavacharts\DataTables\Cells\Cell
-     * @throws \Khill\Lavacharts\Exceptions\FailedCarbonParsing
      * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
      * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeString
      */

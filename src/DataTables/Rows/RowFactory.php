@@ -52,11 +52,10 @@ class RowFactory
      * @param  array|\ArrayAccess $valueArray Array of values to assign to the row.
      *
      * @return \Khill\Lavacharts\DataTables\Rows\Row
-     * TODO: check this Exception
-     * @throws \Khill\Lavacharts\Exceptions\FailedCarbonParsing
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeString
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
+     * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
      */
     public function create($valueArray)
     {
