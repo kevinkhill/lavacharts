@@ -25,14 +25,15 @@ class Utils
     /**
      * Simple test to see if array is multi-dimensional.
      *
-     * @param array Array of values.
+     * @param array|\Traversable $variable A Traversable object or array filled with ArrayAccess implementing objects a simple array
+     *
      * @return bool Returns true is first element in the array is an array,
      *              otherwise false.
      */
-    public static function arrayIsMulti($array)
+    public static function arrayIsMulti($variable)
     {
-        if (is_array($array)) {
-            if (count(array_filter($array, 'is_array')) > 0) {
+        if (self::checkTraversable($variable)) {
+            if (count(array_filter((array)$variable, 'self::checkArrayAccess')) > 0) {
                 return true;
             } else {
                 return false;
@@ -40,6 +41,36 @@ class Utils
         } else {
             return false;
         }
+    }
+
+    /**
+     * Test to check if passed array/object is Traversable
+     *
+     * @param array|\Traversable $variable
+     *
+     * @return bool
+     */
+    public static function checkTraversable($variable)
+    {
+        if (is_array($variable) || $variable instanceof \Traversable) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param array|\ArrayAccess $variable
+     *
+     * @return bool
+     */
+    public static function checkArrayAccess($variable)
+    {
+        if (is_array($variable) || ($variable instanceof \ArrayAccess && $variable instanceof \Countable)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
