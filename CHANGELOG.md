@@ -1,14 +1,20 @@
+- 3.0.5
+  - Fixing bug in Blade template exension.
+
+- 3.0.4
+  - Fixing bug where TreeMap was not in list of chartClasses
+
 - 3.0.3
   - Events bugfix
-  
+
 - 3.0.2
   - Blade template extension bug fixes
   - Combining the ```customize``` method into the constructor to provide
     restriction free option setting without the extra method call.
-  
+
 - 3.0.1
   - Bug fixes
-  
+
 - 3.0.0
   - Dropping support for PHP 5.3
     - Minimum version PHP 5.4+
@@ -26,7 +32,7 @@
     - Refactored all ConfigObject creation into the classes, no more manually instantiation.
     - Removed Event classes in favor of associative array definitions of events.
   - DataTable Improvements
-    - Added support for csv file read/write and Laravel collection parsing into DataTables, 
+    - Added support for csv file read/write and Laravel collection parsing into DataTables,
       just add the separate package to composer "khill/datatableplus":"dev-master".
       DataTablePlus extends the DataTable to add the extra functions and Lavacharts will seamlessly
       create DataTablePluses over DataTables if available via composer.
@@ -34,7 +40,7 @@
   - Added Format#formatColumn method to format datatable columns.
   - Added new formats.
    - ArrowFormat
-   - BarFormat 
+   - BarFormat
   - lava.js has been refactored:
     - lava.get() replaced with:
       - getChart(label, callback) -> callback(Google chartObj, Lava chartObj)
@@ -53,10 +59,10 @@
 
 - 2.5.6
   - Fixes for AJAX chart loading
-  
+
 - 2.5.5
   - Blade extensions fix
-  
+
 - 2.5.4
   - Fixed namespace bug
 
