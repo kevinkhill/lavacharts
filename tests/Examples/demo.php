@@ -54,9 +54,9 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
         <?php
         if ($chartType !== "") {
         ?>
-            <div id="<? $id ?>">
-                <? if (strpos($chartType, 'To') > 0) { ?>
-                    <div id="chart1-div-id"></div>
+            <? if (strpos($chartType, 'To') > 0) { ?>
+            <div id="<?= $id ?>">
+                <div id="chart1-div-id"></div>
                     <div id="chart2-div-id"></div>
                     <div id="control1-div-id"></div>
                     <div id="control2-div-id"></div>

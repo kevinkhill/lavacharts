@@ -14,17 +14,18 @@
 browserify = require('browserify'),
   stripify = require('stripify'),
       exec = require('child_process').exec,
+     spawn = require('child_process').spawn,
   execSync = require('child_process').execSync,
    phantom = require('gulp-phantom'),
    connect = require('gulp-connect-php'),
   watchify = require('watchify');
 
-var pkg = require('./package.json');
+var renderOutputDir = './javascript/phantomjs/renders';
 
 function compile(prod, watch) {
     var bundler = watchify(browserify({
         debug: true,
-        entries: [pkg.config.entry],
+        entries: ['./javascript/src/lava.entry.js'],
         cache: {},
         packageCache: {}
     }));
@@ -72,24 +73,31 @@ function getChartTypes(callback) {
     });
 }
 
-function renderChart(chartType, callback) {
+function renderChart(type, callback) {
     const phantom = './node_modules/.bin/phantomjs';
     const renderScript = './javascript/phantomjs/render.js';
 
-    console.log('Starting render of ' + chartType);
+    console.log('[' + type + '] Launching phantom.');
 
-    exec([phantom, renderScript, chartType].join(' '), callback);
+    //return exec([phantom, renderScript, type].join(' '), callback);
+    return spawn(phantom, [renderScript, type]);
 }
 
-function phpServer(router, callback) {
+function phpServer(router, port, callback) {
     const base = './tests/Examples/';
 
     connect.server({
         base: base,
-        port: 8080,
+        port: port || 8080,
         ini: base + 'php.ini',
         router: base + router
     }, callback || function(){});
+}
+
+function phpServerEnd(done) {
+    connect.closeServer(function() {
+        done();
+    });
 }
 
 gulp.task('watch',   function() { return compile(false, true)  });
@@ -105,18 +113,62 @@ gulp.task('charts', function() {
 });
 
 gulp.task('demos', function() {
-    phpServer('demo.php');
+    phpServer('demo.php', 8080);
 });
 
-gulp.task('render', function() {
-    phpServer('renderer.php', function() {
+gulp.task('render', function (done) {
+    phpServer('renderer.php', 5000, function() {
+        var chart    = 'PieChart';
+        var renderer = renderChart(chart);
+
+        renderer.stdout.on('data', function (data) {
+            console.log('['+chart+'] ' + data);
+        });
+
+        renderer.on('close', function (code) {
+            const chartPath = renderOutputDir+'/'+chart+'.png';
+
+            if (fs.existsSync(chartPath)) {
+                execSync('convert ' + chartPath + ' -trim +repage ' + chartPath);
+
+                console.log('[' + chart + '] Successfully Cropped.');
+            } else {
+                console.log('[' + chart + '] ' + chartPath + ' not found.');
+            }
+
+            phpServerEnd(done);
+        });
+    });
+});
+
+
+/*
+gulp.task('render', function (done) {
+    phpServer('renderer.php', 8081, function() {
         getChartTypes(function (charts) {
             renders = [];
 
             charts.forEach(function (chart) {
-                renderChart(chart, function (error, stdout, stderr) {
-                    var deferred = Q.defer();
+                var promise = Q.defer();
 
+                var renderer = renderChart(chart);
+
+                renderer.stdout.on('data', function (data) {
+                    promise.notify('stdout: ' + data);
+                });
+
+                renderer.stderr.on('data', function (data) {
+                    promise.reject('stderr: ' + data);
+                });
+
+                renderer.on('close', function (code) {
+                    promise.resolve(code);
+                });
+
+                renders.push(promise);
+
+/!*
+                renderChart(chart, function (error, stdout, stderr) {
                     if (error) {
                         deferred.reject(new Error(error));
                     } else {
@@ -125,10 +177,10 @@ gulp.task('render', function() {
                     }
 
                     renders.push(deferred);
-                });
+                });*!/
             });
 
-            Q.allSettled(renders)
+            Q.all(renders)
             .then(function (results) {
                 results.forEach(function (result) {
                     if (result.state === "fulfilled") {
@@ -137,16 +189,18 @@ gulp.task('render', function() {
                         console.log(result.reason);
                     }
                 });
-            }).then(function () {
+            }).progress(function (progress) {
+                console.log(progress);
+            })
+            /!*.then(function () {
                 connect.closeServer(function() {
                     console.log('Finished renders.')
                 });
-            });
+            })*!/;
         });
-    }, function() {
-        console.log('server');
     });
 });
+*/
 
 gulp.task('phantom', function() {
     gulp.src("./javascript/phantomjs/render.js")

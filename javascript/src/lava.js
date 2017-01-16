@@ -235,7 +235,7 @@ lava.prototype.loadJsapi = function() {
 
   s.type = 'text/javascript';
   s.async = true;
-  s.src = '//www.google.com/jsapi';
+  s.src = 'https://www.google.com/jsapi';
   s.onload = s.onreadystatechange = function (event) {
     event = event || window.event;
 

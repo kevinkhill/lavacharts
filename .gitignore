@@ -2,6 +2,7 @@ node_modules/
 vendor/
 build/
 .idea/
+javascript/phantomjs/renders/
 
 npm-debug.log
 composer.phar
