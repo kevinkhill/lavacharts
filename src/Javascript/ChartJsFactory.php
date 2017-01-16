@@ -87,7 +87,7 @@ class ChartJsFactory extends JavascriptFactory
             'chartPackage' => $this->chart->getJsPackage(),
             'chartData'    => $this->chart->getDataTableJson(),
             'elemId'       => $this->chart->getElementIdStr(),
-            'chartOptions' => $this->chart->toJson(),
+            //'chartOptions' => $this->chart->toJson(),
             'pngOutput'    => false,
             'formats'      => '',
             'events'       => ''
@@ -97,7 +97,7 @@ class ChartJsFactory extends JavascriptFactory
             $vars['pngOutput'] = $this->chart->getPngOutput();
         }
 
-        if (method_exists($this->chart, 'getMaterialOutput')) {
+        if (method_exists($this->chart, 'getMaterialOutput') && $this->chart->getMaterialOutput() === true) {
             $vars['chartOptions'] = sprintf(
                 $this->chart->getJsClass() . '.convertOptions(%s)',
                 $this->chart->toJson()
