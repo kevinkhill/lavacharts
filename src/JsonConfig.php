@@ -291,10 +291,10 @@ class JsonConfig implements \JsonSerializable
     /**
      * Custom serialization of the JsonConfig object.
      *
-     * @return array
+     * @return string
      */
     public function jsonSerialize()
     {
-        return $this->options;
+        return json_encode($this->options);
     }
 }

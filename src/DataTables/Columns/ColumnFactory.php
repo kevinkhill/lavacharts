@@ -73,15 +73,16 @@ class ColumnFactory
      *
      * @access public
      * @since  3.0.0
-     * @param  string                                      $type Type of column to create.
-     * @param  string                                      $label A label for the column.
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format Column formatter for the data.
-     * @param  string                                      $role A role for the column to play.
+     * @param  string                                      $type    Type of column to create.
+     * @param  string                                      $label   A label for the column.
+     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format  Column formatter for the data.
+     * @param  string                                      $role    A role for the column to play.
+     * @param array                                        $options Options for the column.
      * @return \Khill\Lavacharts\DataTables\Columns\Column
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnRole
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
-    public static function create($type, $label = '', Format $format = null, $role = '')
+    public static function create($type, $label = '', Format $format = null, $role = '', array $options = [])
     {
         if (Utils::nonEmptyStringInArray($type, self::$TYPES) === false) {
             throw new InvalidColumnType($type, self::$TYPES);
@@ -106,6 +107,7 @@ class ColumnFactory
         }
 
         $columnArgs[] = $role;
+        $columnArgs[] = $options;
 
         $column = new \ReflectionClass('\Khill\Lavacharts\DataTables\Columns\Column');
 

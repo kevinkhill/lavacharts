@@ -37,7 +37,7 @@ class Lavacharts
     /**
      * Lavacharts version
      */
-    const VERSION = '3.0.4';
+    const VERSION = '3.0.6';
 
     /**
      * Holds all of the defined Charts and DataTables.

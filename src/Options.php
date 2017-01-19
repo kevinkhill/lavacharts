@@ -21,7 +21,7 @@ use \Khill\Lavacharts\Exceptions\InvalidOption;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Options implements \JsonSerializable
+class Options implements \JsonSerializable, \Countable
 {
     /**
      * Default options that can be set.
@@ -53,6 +53,18 @@ class Options implements \JsonSerializable
         }
 
         $this->options = $options;
+    }
+
+    /**
+     * Returns the number of set options.
+     *
+     * @since  3.0.6
+     * @access public
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->options);
     }
 
     /**
