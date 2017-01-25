@@ -16,14 +16,14 @@ use \Illuminate\Foundation\AliasLoader;
  * @package    Khill\Lavacharts
  * @subpackage Laravel
  * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2015, KHill Designs
+ * @copyright  (c) 2017, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
 class LavachartsServiceProvider extends ServiceProvider
 {
-    protected $defer = false;
+    protected $defer = true;
 
     public function boot()
     {
@@ -39,22 +39,20 @@ class LavachartsServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app['lavacharts'] = $this->app->share(
-            function () {
-                return new Lavacharts;
-            }
-        );
+        $this->app->singleton('lavacharts', function() {
+            return new Lavacharts;
+        });
 
-        $this->app->booting(
-            function () {
-                $loader = AliasLoader::getInstance();
-                $loader->alias('Lava', 'Khill\Lavacharts\Laravel\LavachartsFacade');
-            }
-        );
+        $this->app->booting(function() {
+            $loader = AliasLoader::getInstance();
+            $loader->alias('Lava', 'Khill\Lavacharts\Laravel\LavachartsFacade');
+        });
+
     }
 
     public function provides()
     {
         return ['lavacharts'];
     }
+
 }
