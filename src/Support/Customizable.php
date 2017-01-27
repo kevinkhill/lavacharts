@@ -98,6 +98,17 @@ class Customizable implements \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Returns true / false depending if any options have been set.
+     *
+     * @since  3.1.0
+     * @return bool
+     */
+    public function hasOptions()
+    {
+        return count($this->options) > 0;
+    }
+
+    /**
      * Custom serialization of the Options object.
      *
      * @return array

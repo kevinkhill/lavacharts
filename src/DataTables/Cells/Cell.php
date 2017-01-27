@@ -18,7 +18,7 @@ use Khill\Lavacharts\Support\Customizable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Cell extends Customizable implements \JsonSerializable
+class Cell extends Customizable
 {
     /**
      * The cell value.
@@ -61,14 +61,40 @@ class Cell extends Customizable implements \JsonSerializable
      */
     public function __construct($v = null, $f = '', array $p = [])
     {
-        parent::__construct($p);
-
         if (is_string($f) === false) {
             throw new InvalidFunctionParam($f, __FUNCTION__, 'string');
         }
 
         $this->v = $v;
         $this->f = $f;
+
+        parent::__construct($p);
+    }
+
+    /**
+     * Mapping the 'p' attribute of the cell to it's options.
+     *
+     * @param  string $attr
+     * @return array
+     */
+    public function __get($attr)
+    {
+        if ($attr == 'p') {
+            return $this->getOptions();
+        }
+    }
+
+    /**
+     * Allowing the 'p' attribute to be checked for options by using the hasOptions method.
+     *
+     * @param  string $attr
+     * @return bool
+     */
+    function __isset($attr)
+    {
+        if ($attr == 'p') {
+            return $this->hasOptions();
+        }
     }
 
     /**
@@ -110,12 +136,12 @@ class Cell extends Customizable implements \JsonSerializable
     {
         $json = ['v' => $this->v];
 
-        if (empty($this->f) === false) {
+        if ( ! empty($this->f)) {
             $json['f'] = $this->f;
         }
 
-        if (empty($this->p) === false) {
-            $json['p'] = $this->p;
+        if ( ! empty($this->options)) {
+            $json['p'] = $this->getOptions();
         }
 
         return $json;

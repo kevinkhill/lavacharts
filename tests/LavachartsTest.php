@@ -7,6 +7,11 @@ use Khill\Lavacharts\Lavacharts;
 
 class LavachartsTest extends ProvidersTestCase
 {
+    /**
+     * @var Lavacharts
+     */
+    public $lava;
+
     public function setUp()
     {
         parent::setUp();
@@ -218,14 +223,6 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidDataTable
-     */
-    public function testCreateChartWithMissingDataTable()
-    {
-        $this->lava->LineChart('Cool Chart');
-    }
-
-    /**
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidLabel
      */
     public function testCreateChartWithInvalidLabel()
@@ -238,13 +235,13 @@ class LavachartsTest extends ProvidersTestCase
      */
     public function testStoreChartIntoVolcano()
     {
-        $mockPieChart = \Mockery::mock('\\Khill\\Lavacharts\\Charts\PieChart', [
+        $mockPieChart = \Mockery::mock('\\Khill\\Lavacharts\\Charts\\PieChart', [
             $this->mockLabel,
             $this->partialDataTable
         ])->shouldReceive('getLabel')->andReturn('MockLabel')->getMock();
 
         $this->assertTrue($this->lava->store($mockPieChart));
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Charts\PieChart', $this->lava->fetch('PieChart', 'MockLabel'));
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\Charts\\PieChart', $this->lava->fetch('PieChart', 'MockLabel'));
     }
 
     public function testJsapiMethodWithCoreJsTracking()
