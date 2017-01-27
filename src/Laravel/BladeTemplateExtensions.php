@@ -41,18 +41,21 @@ $charts = [
     'TableChart'
 ];
 
-foreach ($charts as $chart) {
-    if (method_exists($blade, 'directive')) {
-        // Laravel 5
 
+foreach ($charts as $chart) {
+
+    if (method_exists($blade, 'directive')) {
+// Laravel 5
         $blade->directive(strtolower($chart), function ($expression) use ($chart) {
             $expression = ltrim($expression, '(');
+            $expression = rtrim($expression, ')');
 
-            return "<?php echo Lava::render('$chart', $expression; ?>";
+            return "<?php echo \Lava::render('$chart', $expression); ?>";
         });
-    } else {
-        // Laravel 4
 
+    } else {
+
+// Laravel 4
         $blade->extend(
             function ($view, $compiler) use ($chart) {
                 $pattern = $compiler->createMatcher(strtolower($chart));
@@ -61,5 +64,6 @@ foreach ($charts as $chart) {
                 return preg_replace($pattern, $output, $view);
             }
         );
+
     }
 }
