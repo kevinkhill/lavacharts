@@ -54,17 +54,7 @@ trait RenderableTrait
     public function initRenderable(Label $label, ElementId $elementId = null)
     {
         $this->label = $label;
-
-        if ($elementId === null) {
-            $string = strtolower($this->getLabelStr());
-            $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
-            $string = preg_replace("/[\s-]+/", " ", $string);
-            $string = preg_replace("/[\s_]/", "-", $string);
-
-            $this->setElementId($string);
-        } else {
-            $this->elementId = $elementId;
-        }
+        $this->elementId = $elementId;
     }
 
     /**

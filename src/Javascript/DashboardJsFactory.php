@@ -19,7 +19,7 @@ use Khill\Lavacharts\Values\ElementId;
  * @copyright  (c) 2017, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @license    http://opensource.org/licenses/MIT      MIT
  */
 class DashboardJsFactory extends JavascriptFactory
 {
@@ -38,22 +38,13 @@ class DashboardJsFactory extends JavascriptFactory
     private $dashboard;
 
     /**
-     * Element Id to render into
-     *
-     * @var string
-     */
-    private $elementId;
-
-    /**
      * Creates a new DashboardFactory with the javascript template.
      *
      * @param \Khill\Lavacharts\Dashboards\Dashboard $dashboard
-     * @param \Khill\Lavacharts\Values\ElementId     $elementId
      */
-    public function __construct(Dashboard $dashboard, ElementId $elementId)
+    public function __construct(Dashboard $dashboard)
     {
         $this->dashboard = $dashboard;
-        $this->elementId = $elementId;
 
         parent::__construct(self::OUTPUT_TEMPLATE);
     }
@@ -68,7 +59,7 @@ class DashboardJsFactory extends JavascriptFactory
     protected function getTemplateVars()
     {
         $vars = [
-            'elemId'    => $this->elementId,//$this->chart->getElementIdStr(),
+            'elemId'    => $this->dashboard->getElementIdStr(),
             'label'     => $this->dashboard->getLabelStr(),
             'version'   => Dashboard::VERSION,
             'class'     => $this->dashboard->getJsClass(),

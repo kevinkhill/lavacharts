@@ -36,6 +36,17 @@ trait ElementIdTrait
     }
 
     /**
+     * Check to see if the class has it's elementId set.
+     *
+     * @since  3.1.0
+     * @return bool
+     */
+    public function hasElementId()
+    {
+        return isset($this->elementId);
+    }
+
+    /**
      * Returns the ElementId.
      *
      * @return \Khill\Lavacharts\Values\ElementId
@@ -46,9 +57,9 @@ trait ElementIdTrait
     }
 
     /**
-     * Returns the ElementId.
+     * Returns the ElementId as a string.
      *
-     * @return \Khill\Lavacharts\Values\ElementId
+     * @return string
      */
     public function getElementIdStr()
     {

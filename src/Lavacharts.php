@@ -161,8 +161,8 @@ class Lavacharts
      * Create a new Dashboard
      *
      * @since  3.0.0
-     * @param  string $label
-     * @param  array  $bindings
+     * @param  string                                 $label
+     * @param  \Khill\Lavacharts\DataTables\DataTable $dataTable
      * @return \Khill\Lavacharts\Dashboards\Dashboard
      */
     public function Dashboard($label, DataTable $dataTable)
@@ -208,36 +208,6 @@ class Lavacharts
         $elementId = new ElementId($elementId);
 
         return new ChartWrapper($chart, $elementId);
-    }
-
-    /**
-     * Renders Charts or Dashboards into the page
-     *
-     * Given a type, label, and HTML element id, this will output
-     * all of the necessary javascript to generate the chart or dashboard.
-     *
-     * @since  2.0.0
-     * @uses   \Khill\Lavacharts\Values\Label
-     * @uses   \Khill\Lavacharts\Values\ElementId
-     * @uses   \Khill\Lavacharts\Support\Buffer
-     * @param  string $type Type of object to render.
-     * @param  string $label Label of the object to render.
-     * @param  string $elementId HTML element id to render into.
-     * @param  mixed  $divDimensions Set true for div creation, or pass an array with height & width
-     * @return string
-     */
-    public function render($type, $label, /*$elementId, */$divDimensions = false)
-    {
-        $label     = new Label($label);
-        //$elementId = new ElementId($elementId);
-
-        if ($type == 'Dashboard') {
-            $buffer = $this->renderDashboard($label/*, $elementId*/);
-        } else {
-            $buffer = $this->renderChart($type, $label, /*$elementId, */$divDimensions);
-        }
-
-        return $buffer->getContents();
     }
 
     /**
@@ -326,7 +296,7 @@ class Lavacharts
      * @uses   \Khill\Lavacharts\Values\Label
      * @param  string $type  Type of Chart or Dashboard.
      * @param  string $label Label of the Chart or Dashboard.
-     * @return Renderable
+     * @return \Khill\Lavacharts\Support\Contracts\RenderableInterface
      * @throws \Khill\Lavacharts\Exceptions\InvalidLavaObject
      */
     public function fetch($type, $label)
@@ -344,8 +314,8 @@ class Lavacharts
      * Stores a existing Chart or Dashboard into the volcano storage.
      *
      * @since  3.0.0
-     * @param  Renderable $renderable A Chart or Dashboard.
-     * @return \Khill\Lavacharts\Charts\Chart|\Khill\Lavacharts\Dashboards\Dashboard
+     * @param  \Khill\Lavacharts\Support\Contracts\RenderableInterface $renderable A Chart or Dashboard.
+     * @return \Khill\Lavacharts\Support\Contracts\RenderableInterface
      */
     public function store(Renderable $renderable)
     {
@@ -353,21 +323,43 @@ class Lavacharts
     }
 
     /**
-     * Checks if running in composer environment
+     * Renders Charts or Dashboards into the page
      *
-     * This will isNonEmpty if the folder 'composer' is within the path to Lavacharts.
+     * Given a type, label, and HTML element id, this will output
+     * all of the necessary javascript to generate the chart or dashboard.
      *
-     * @access private
-     * @since  2.4.0
-     * @return boolean
+     * As of version 3.1, the elementId parameter is optional, but only
+     * if the elementId was set explicitly to the Renderable.
+     *
+     * @since  2.0.0
+     * @uses   \Khill\Lavacharts\Values\Label
+     * @uses   \Khill\Lavacharts\Values\ElementId
+     * @uses   \Khill\Lavacharts\Support\Buffer
+     * @param  string $type       Type of object to render.
+     * @param  string $label      Label of the object to render.
+     * @param  mixed  $elementId  HTML element id to render into.
+     * @param  mixed  $div        Set true for div creation, or pass an array with height & width
+     * @return string
      */
-    private function usingComposer()
+    public function render($type, $label, $elementId = null, $div = false)
     {
-        if (strpos(realpath(__FILE__), 'composer') !== false) {
-            return true;
-        } else {
-            return false;
+        $label = new Label($label);
+
+        if (is_string($elementId)) {
+            $elementId = new ElementId($elementId);
         }
+
+        if (is_array($elementId)) {
+            $div = $elementId;
+        }
+
+        if ($type == 'Dashboard') {
+            $buffer = $this->renderDashboard($label, $elementId);
+        } else {
+            $buffer = $this->renderChart($type, $label, $elementId, $div);
+        }
+
+        return $buffer->getContents();
     }
 
     /**
@@ -379,26 +371,30 @@ class Lavacharts
      * @since  3.0.0
      * @param  string                             $type
      * @param  \Khill\Lavacharts\Values\Label     $label
-     * @param  \Khill\Lavacharts\Values\ElementId $elementId     HTML element id to render the chart into.
-     * @param  bool|array                         $divDimensions Set true for div creation, or pass an array with height & width
+     * @param  \Khill\Lavacharts\Values\ElementId $elementId HTML element id to render the chart into.
+     * @param  bool|array                         $div       Set true for div creation, or pass an array with height & width
      * @return \Khill\Lavacharts\Support\Buffer
      * @throws \Khill\Lavacharts\Exceptions\ChartNotFound
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions
      */
-    private function renderChart($type, Label $label, /*ElementId $elementId, */$divDimensions = false)
+    private function renderChart($type, Label $label, ElementId $elementId = null, $div = false)
     {
-        $buffer = $this->scriptManager->getOutputBuffer(
-            $this->volcano->get($type, $label)/*,
-            $elementId*/
-        );
+        /** @var \Khill\Lavacharts\Charts\Chart $chart */
+        $chart = $this->volcano->get($type, $label);
+
+        if ($elementId instanceof ElementId) {
+            $chart->setElementId($elementId);
+        }
+
+        $buffer = $this->scriptManager->getOutputBuffer($chart);
 
         if ($this->scriptManager->lavaJsRendered() === false) {
             $buffer->prepend($this->lavajs());
         }
 
-        if ($divDimensions !== false) {
-            $buffer->prepend(HtmlFactory::createDiv($elementId, $divDimensions));
+        if ($div !== false) {
+            $buffer->prepend(HtmlFactory::createDiv($chart->getElementIdStr(), $div));
         }
 
         return $buffer;
@@ -416,17 +412,39 @@ class Lavacharts
      * @return \Khill\Lavacharts\Support\Buffer
      * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
      */
-    private function renderDashboard(Label $label/*, ElementId $elementId*/)
+    private function renderDashboard(Label $label, ElementId $elementId = null)
     {
-        $buffer = $this->scriptManager->getOutputBuffer(
-            $this->volcano->get('Dashboard', $label)/*,
-            $elementId*/
-        );
+        /** @var \Khill\Lavacharts\Dashboards\Dashboard $dashboard */
+        $dashboard = $this->volcano->get('Dashboard', $label);
+
+        if ($elementId instanceof ElementId) {
+            $dashboard->setElementId($elementId);
+        }
+
+        $buffer = $this->scriptManager->getOutputBuffer($dashboard);
 
         if ($this->scriptManager->lavaJsRendered() === false) {
             $buffer->prepend($this->lavajs());
         }
 
         return $buffer;
+    }
+
+    /**
+     * Checks if running in composer environment
+     *
+     * This will check if the folder 'composer' is within the path to Lavacharts.
+     *
+     * @access private
+     * @since  2.4.0
+     * @return boolean
+     */
+    private function usingComposer()
+    {
+        if (strpos(realpath(__FILE__), 'composer') !== false) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

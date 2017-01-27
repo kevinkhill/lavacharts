@@ -43,8 +43,8 @@ class Volcano
      * Stores a Chart or Dashboard in the Volcano.
      *
      * @since  3.0.3
-     * @param  Renderable $renderable
-     * @return Chart|Dashboard
+     * @param  \Khill\Lavacharts\Support\Contracts\RenderableInterface $renderable
+     * @return \Khill\Lavacharts\Support\Contracts\RenderableInterface
      */
     public function store(Renderable $renderable)
     {
@@ -65,7 +65,7 @@ class Volcano
      * @since  3.0.3
      * @param  string                         $type  Type of Chart or Dashboard.
      * @param  \Khill\Lavacharts\Values\Label $label Label of the Chart or Dashboard.
-     * @return Renderable
+     * @return \Khill\Lavacharts\Support\Contracts\RenderableInterface
      * @throws \Khill\Lavacharts\Exceptions\ChartNotFound
      * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
      */

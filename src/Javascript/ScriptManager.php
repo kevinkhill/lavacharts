@@ -4,9 +4,10 @@ namespace Khill\Lavacharts\Javascript;
 
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Dashboards\Dashboard;
-//use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
-use Khill\Lavacharts\Support\Buffer;
+use Khill\Lavacharts\Exceptions\ElementIdException;
 use Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Support\Buffer;
+use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
 
 /**
  * ScriptManager Class
@@ -55,14 +56,6 @@ class ScriptManager
     private $lavaJsRendered = false;
 
     /**
-     * ScriptManager constructor.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Returns true|false depending on if the lava.js module
      * has be output to the page
      *
@@ -94,18 +87,23 @@ class ScriptManager
     /**
      * Returns a buffer with the javascript of a renderable resource.
      *
-     * @param  Chart|Dashboard                    $renderable
-     * @param  \Khill\Lavacharts\Values\ElementId $elementId
+     *
+     * @param  \Khill\Lavacharts\Support\Contracts\RenderableInterface $renderable
      * @return \Khill\Lavacharts\Support\Buffer
+     * @throws \Khill\Lavacharts\Exceptions\ElementIdException
      */
-    public function getOutputBuffer($renderable/*, ElementId $elementId*/)
+    public function getOutputBuffer(Renderable $renderable)
     {
+        if ($renderable->hasElementId() === false) {
+            throw new ElementIdException($renderable);
+        }
+
         if ($renderable instanceof Dashboard) {
-            $jsFactory = new DashboardJsFactory($renderable, $renderable->getElementId());
+            $jsFactory = new DashboardJsFactory($renderable);
         }
 
         if ($renderable instanceof Chart) {
-            $jsFactory = new ChartJsFactory($renderable, $renderable->getElementId());
+            $jsFactory = new ChartJsFactory($renderable);
         }
 
         $buffer = $jsFactory->getOutputBuffer();

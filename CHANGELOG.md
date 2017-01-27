@@ -1,3 +1,9 @@
+- 3.1.0-beta2
+  - Adjusting elementId precedence to prevent backwards compatability breaks and enable new features. The order of precedence goes as follows:
+    - An elementId string passed to the render method will override an elementId set to the chart.
+    - Setting the elementId on the chart or dashboard as an option during creation is prefered, to enable the bonus feature that the ```renderAll()``` method can be used. 
+    - It is recommended to move all of the elementId strings on ```render()``` methods into the constructor, as an option: ```['elementId' => 'render-to-div']```
+    
 - 3.1.0-beta1
   - Adding setLocale() method for changing language of charts.
   

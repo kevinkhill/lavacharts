@@ -17,7 +17,7 @@ use \Khill\Lavacharts\Charts\Chart;
  * @copyright  (c) 2017, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @license    http://opensource.org/licenses/MIT      MIT
  */
 class ChartJsFactory extends JavascriptFactory
 {

@@ -42,18 +42,17 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
      * @param \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
      * @param \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
      * @param array                                  $options Options fot the chart.
-     * @param \Khill\Lavacharts\Values\ElementId     $elementId
      */
-    public function __construct(
-        Label $chartLabel,
-        DataTable $datatable = null,
-        array $options = [],
-        ElementId $elementId = null
-    ) {
+    public function __construct(Label $chartLabel, DataTable $datatable = null, array $options = [])
+    {
         parent::__construct($options);
 
+        $this->label = $chartLabel;
         $this->datatable = $datatable;
-        $this->initRenderable($chartLabel, $elementId);
+
+        if (array_key_exists('elementId', $options)) {
+            $this->elementId = new ElementId($options['elementId']);
+        }
     }
 
     /**
