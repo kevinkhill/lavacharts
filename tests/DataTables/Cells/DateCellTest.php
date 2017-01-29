@@ -66,15 +66,13 @@ class DateCellTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider nonStringProvider
+     * @dataProvider nonStringOrNullProvider
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidDateTimeString
      * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::parseString
      */
     public function testParseStringWithBadTypesForDateTime($badTypes)
     {
-        if ($badTypes != null) {
-            DateCell::parseString($badTypes);
-        }
+        DateCell::parseString($badTypes);
     }
 
     /**
@@ -88,12 +86,11 @@ class DateCellTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException \InvalidArgumentException
      * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::parseString
      */
-    public function testParseStringWithBadTypesForFormat($badTypes)
+    public function testParseStringWithBadTypesForFormat()
     {
-        DateCell::parseString('1/2/2003', $badTypes);
+        DateCell::parseString('1/2/2003', ['imnotaformat']);
     }
 
     /**

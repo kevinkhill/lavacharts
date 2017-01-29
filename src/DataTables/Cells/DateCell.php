@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Khill\Lavacharts\Exceptions\CarbonParseError;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeString;
+use Khill\Lavacharts\Exceptions\InvalidStringValue;
+use Khill\Lavacharts\Values\StringValue;
 
 /**
  * DateCell Class
@@ -51,26 +53,47 @@ class DateCell extends Cell
         if ($dateTimeString === null) {
             return new DateCell();
         }
-/* @TODO remove this?
-        if (is_string($dateTimeString) == false) {
-            throw new InvalidDateTimeString($dateTimeString);
-        }*/
 
-        if (empty($dateTimeFormat) === true) {
+        if (StringValue::isNonEmpty($dateTimeString) === false) {
+            throw new InvalidDateTimeString($dateTimeString);
+        }
+
+        if (StringValue::isNonEmpty($dateTimeFormat)) {
             try {
-                $carbon = Carbon::parse($dateTimeString);
-            } catch (\InvalidArgumentException $e) {
-                throw new InvalidDateTimeString($dateTimeString);
+                return self::createFromFormat($dateTimeFormat, $dateTimeString);
+            } catch (\Exception $e) {
+                throw new InvalidDateTimeFormat($dateTimeFormat);
             }
         } else {
             try {
-                $carbon = Carbon::createFromFormat($dateTimeFormat, $dateTimeString);
-            } catch (\InvalidArgumentException $e) {
-                throw new InvalidDateTimeFormat($dateTimeFormat);
+                $carbon = Carbon::parse($dateTimeString);
+
+                return new DateCell($carbon);
+            } catch (\Exception $e) {
+                throw new InvalidDateTimeString($dateTimeString);
             }
         }
+    }
 
-        return new DateCell($carbon);
+    /**
+     * Create a new DateCell from a datetime string and a format.
+     *
+     * Carbon is used to validate the input.
+     *
+     * @param  string $format
+     * @param  string $datetime
+     * @return \Khill\Lavacharts\DataTables\Cells\DateCell
+     * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
+     */
+    public static function createFromFormat($format, $datetime)
+    {
+        try {
+            $carbon = Carbon::createFromFormat($format, $datetime);
+
+            return new self($carbon);
+        } catch (\InvalidArgumentException $e) {
+            throw new InvalidDateTimeFormat($format);
+        }
     }
 
     /**

@@ -7,8 +7,6 @@ use Khill\Lavacharts\DataTables\Columns\Column;
 
 class ColumnTest extends ProvidersTestCase
 {
-    public $Column;
-
     public function setUp()
     {
         parent::setUp();

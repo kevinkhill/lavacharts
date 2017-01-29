@@ -48,7 +48,7 @@ class Column extends Customizable
      *
      * @var string
      */
-    protected $role = '';
+    protected $role = null;
 
     /**
      * Creates a new Column with the defined label.
@@ -66,7 +66,10 @@ class Column extends Customizable
         $this->type   = $type;
         $this->label  = $label;
         $this->format = $format;
-        $this->role   = $role;
+
+        if ($role != null) {
+            $this->role = new Role($role);
+        }
     }
 
     /**
@@ -135,9 +138,9 @@ class Column extends Customizable
         }
 
         if ($this->role instanceof Role) {
-            $values['p'] = ['role' => $this->role];
+            $values['p'] = ['role' => (string) $this->role];
 
-            if (count($this->getOptions()) > 0) {
+            if ($this->hasOptions()) {
                 $values['p'] = array_merge($values['p'], $this->getOptions());
             }
         }

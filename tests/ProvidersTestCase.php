@@ -145,10 +145,9 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function nonConfigObjectProvider()
+    public function nonStringOrNullProvider()
     {
         return [
-            ['stringy'],
             [9],
             [1.2],
             [true],

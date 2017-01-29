@@ -7,8 +7,15 @@ use Khill\Lavacharts\DataTables\Columns\ColumnFactory;
 
 class ColumnFactoryTest extends ProvidersTestCase
 {
-    public function __construct()
+    /**
+     * @var \Khill\Lavacharts\DataTables\Columns\ColumnFactory
+     */
+    public $columnFactory;
+
+    public function setUp()
     {
+        parent::setUp();
+
         $this->columnFactory = new ColumnFactory;
     }
 
@@ -89,7 +96,9 @@ class ColumnFactoryTest extends ProvidersTestCase
         $this->assertEquals($columnType, $this->inspect($column, 'type'));
         $this->assertEquals('Label', $this->inspect($column, 'label'));
         $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Formats\NumberFormat', $this->inspect($column, 'format'));
-        $this->assertEquals('interval', $this->inspect($column, 'role'));
+        $this->assertInstanceOf('\Khill\Lavacharts\Values\Role', $this->inspect($column, 'role'));
+        //@TODO remove me
+        //$this->assertEquals('interval', $this->inspect($column, 'role'));
     }
 
     /**

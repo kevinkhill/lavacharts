@@ -49,9 +49,9 @@ class ColumnBuilder
     /**
      * Column role.
      *
-     * @var string
+     * @var \Khill\Lavacharts\Values\Role
      */
-    private $role = '';
+    private $role = null;
 
     /**
      * Column options
@@ -78,7 +78,7 @@ class ColumnBuilder
     /**
      * Sets the column label.
      *
-     * @return string Column label.
+     * @param  string $label
      */
     public function setLabel($label)
     {
@@ -90,7 +90,7 @@ class ColumnBuilder
      *
      * @param \Khill\Lavacharts\DataTables\Formats\Format $format
      */
-    public function setFormat(Format $format = null)
+    public function setFormat(Format $format)
     {
         $this->format = $format;
     }
@@ -98,12 +98,12 @@ class ColumnBuilder
     /**
      * Sets the column role.
      *
-     * @param string $role
+     * @param  string $role
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnRole
      */
     public function setRole($role)
     {
-        if ($role !== '') {
+        if (StringValue::isNonEmpty($role)) {
             $this->role = new Role($role);
         }
     }
