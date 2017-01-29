@@ -5,11 +5,23 @@ namespace Khill\Lavacharts\Tests\DataTables\Columns;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\DataTables\Columns\Column;
 
+/**
+ * @property \Mockery\Mock mockRole
+ * @property \Mockery\Mock mockFormat
+ */
 class ColumnTest extends ProvidersTestCase
 {
     public function setUp()
     {
         parent::setUp();
+
+        $this->mockRole   = \Mockery::mock('\Khill\Lavacharts\Values\Role')
+                                    ->shouldReceive('__toString')
+                                    ->zeroOrMoreTimes()
+                                    ->andReturn('interval')
+                                    ->getMock();
+
+        $this->mockFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
     }
 
     /**
@@ -39,8 +51,7 @@ class ColumnTest extends ProvidersTestCase
      */
     public function testConstructorWithTypeAndLabelAndFormat()
     {
-        $mockFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
-        $column = new Column('number', 'MyLabel', $mockFormat);
+        $column = new Column('number', 'MyLabel', $this->mockFormat);
 
         $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Formats\NumberFormat', $this->inspect($column, 'format'));
     }
@@ -51,10 +62,9 @@ class ColumnTest extends ProvidersTestCase
      */
     public function testConstructorWithTypeAndLabelAndFormatAndRole()
     {
-        $mockFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
-        $column = new Column('number', 'MyLabel', $mockFormat, 'interval');
+        $column = new Column('number', 'MyLabel', $this->mockFormat, $this->mockRole);
 
-        $this->assertEquals('interval', $this->inspect($column, 'role'));
+        $this->assertInstanceOf('\Khill\Lavacharts\Values\Role', $this->inspect($column, 'role'));
     }
 
     /**
@@ -85,9 +95,7 @@ class ColumnTest extends ProvidersTestCase
      */
     public function testIsFormatted()
     {
-        $mockFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
-
-        $column = new Column('number', 'MyLabel', $mockFormat);
+        $column = new Column('number', 'MyLabel', $this->mockFormat);
 
         $this->assertTrue($column->isFormatted());
     }
@@ -97,9 +105,7 @@ class ColumnTest extends ProvidersTestCase
      */
     public function testGetFormat()
     {
-        $mockFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
-
-        $column = new Column('number', 'MyLabel', $mockFormat);
+        $column = new Column('number', 'MyLabel', $this->mockFormat);
 
         $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Formats\NumberFormat', $column->getFormat());
     }
@@ -109,9 +115,7 @@ class ColumnTest extends ProvidersTestCase
      */
     public function testGetRole()
     {
-        $mockFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
-
-        $column = new Column('number', 'MyLabel', $mockFormat, 'interval');
+        $column = new Column('number', 'MyLabel', $this->mockFormat, $this->mockRole);
 
         $this->assertEquals('interval', $column->getRole());
     }
@@ -122,9 +126,7 @@ class ColumnTest extends ProvidersTestCase
      */
     public function testJsonSerialization()
     {
-        $mockFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
-
-        $column = new Column('number', 'MyLabel', $mockFormat, 'interval');
+        $column = new Column('number', 'MyLabel', $this->mockFormat, $this->mockRole);
 
         $json = '{"type":"number","label":"MyLabel","p":{"role":"interval"}}';
 

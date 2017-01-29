@@ -47,7 +47,7 @@ class ColumnFactoryTest extends ProvidersTestCase
      */
     public function testCreateColumnsWithBadTypes($badTypes)
     {
-        ColumnFactory::create($badTypes);
+        $this->columnFactory->create($badTypes);
     }
 
     /**
@@ -57,7 +57,7 @@ class ColumnFactoryTest extends ProvidersTestCase
      */
     public function testCreateColumnsWithTypeAndLabel($columnType)
     {
-        $column = ColumnFactory::create($columnType, 'Label');
+        $column = $this->columnFactory->create($columnType, 'Label');
 
         $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Columns\Column', $column);
         $this->assertEquals($columnType, $this->inspect($column, 'type'));
@@ -73,7 +73,7 @@ class ColumnFactoryTest extends ProvidersTestCase
     {
         $mockFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
 
-        $column = ColumnFactory::create($columnType, 'Label', $mockFormat);
+        $column = $this->columnFactory->create($columnType, 'Label', $mockFormat);
 
         $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Columns\Column', $column);
         $this->assertEquals($columnType, $this->inspect($column, 'type'));
@@ -90,7 +90,7 @@ class ColumnFactoryTest extends ProvidersTestCase
     {
         $mockFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
 
-        $column = ColumnFactory::create($columnType, 'Label', $mockFormat, 'interval');
+        $column = $this->columnFactory->create($columnType, 'Label', $mockFormat, 'interval');
 
         $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Columns\Column', $column);
         $this->assertEquals($columnType, $this->inspect($column, 'type'));
@@ -110,6 +110,6 @@ class ColumnFactoryTest extends ProvidersTestCase
     {
         $mockFormat = \Mockery::mock('\Khill\Lavacharts\DataTables\Formats\NumberFormat')->makePartial();
 
-        ColumnFactory::create('number', 'Label', $mockFormat, 'tacos');
+        $this->columnFactory->create('number', 'Label', $mockFormat, 'tacos');
     }
 }

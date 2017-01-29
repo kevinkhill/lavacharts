@@ -56,20 +56,17 @@ class Column extends Customizable
      * @param  string                                      $type    Column type.
      * @param  string                                      $label   Column label (optional).
      * @param  \Khill\Lavacharts\DataTables\Formats\Format $format  Column format(optional).
-     * @param  string                                      $role    Column role (optional).
+     * @param  \Khill\Lavacharts\Values\Role               $role    Column role (optional).
      * @param  array                                       $options Column options (optional).
      */
-    public function __construct($type, $label = '', Format $format = null, $role = null, array $options = [])
+    public function __construct($type, $label = '', Format $format = null, Role $role = null, array $options = [])
     {
         parent::__construct($options);
 
         $this->type   = $type;
         $this->label  = $label;
         $this->format = $format;
-
-        if ($role != null) {
-            $this->role = new Role($role);
-        }
+        $this->role   = $role;
     }
 
     /**

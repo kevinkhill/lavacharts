@@ -90,7 +90,7 @@ class ColumnBuilder
      *
      * @param \Khill\Lavacharts\DataTables\Formats\Format $format
      */
-    public function setFormat(Format $format)
+    public function setFormat(Format $format = null)
     {
         $this->format = $format;
     }
