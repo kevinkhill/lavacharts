@@ -5,10 +5,11 @@ namespace Khill\Lavacharts\Tests\Formats;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\DataTables\Formats\NumberFormat;
 
+/**
+ * @property \Khill\Lavacharts\DataTables\Formats\NumberFormat numberFormat
+ */
 class NumberFormatTest extends ProvidersTestCase
 {
-    public $numberFormat;
-
     public $json = '{"decimalSymbol":".","fractionDigits":2,"groupingSymbol":",","negativeColor":"red","negativeParens":true,"pattern":"#,###","prefix":"$","suffix":"\/hr"}';
 
     public function setUp()
@@ -27,7 +28,7 @@ class NumberFormatTest extends ProvidersTestCase
         ]);
     }
 
-        /**
+    /**
      * @covers \Khill\Lavacharts\DataTables\Formats\NumberFormat
      */
     public function testConstructorOptionAssignment()
@@ -49,18 +50,26 @@ class NumberFormatTest extends ProvidersTestCase
         $this->assertEquals('NumberFormat', $numberFormat->getType());
     }
 
-    public function testToJsonForOptionsSerialization()
+    public function testGetJsClass()
+    {
+        $jsClass = 'google.visualization.NumberFormat';
+
+        $this->assertEquals($jsClass, $this->numberFormat->getJsClass());
+    }
+
+    /**
+     * @covers \Khill\Lavacharts\DataTables\Formats\DateFormat::toJson()
+     */
+    public function testToJson()
     {
         $this->assertEquals($this->json, $this->numberFormat->toJson());
     }
 
     /**
-     * @depends testToJsonForOptionsSerialization
+     * @covers \Khill\Lavacharts\DataTables\Formats\DateFormat::jsonSerialize()
      */
-    public function testToJavascriptForObjectSerialization()
+    public function testJsonSerialization()
     {
-        $javascript = 'google.visualization.NumberFormat('.$this->json.')';
-
-        $this->assertEquals($javascript, $this->numberFormat->toJavascript());
+        $this->assertEquals($this->json, json_encode($this->numberFormat));
     }
 }

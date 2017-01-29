@@ -5,10 +5,11 @@ namespace Khill\Lavacharts\Tests\Formats;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\DataTables\Formats\ArrowFormat;
 
+/**
+ * @property \Khill\Lavacharts\DataTables\Formats\ArrowFormat arrowFormat
+ */
 class ArrowFormatTest extends ProvidersTestCase
 {
-    public $arrowFormat;
-
     public $json = '{"base":1}';
 
     public function setUp()
@@ -33,15 +34,26 @@ class ArrowFormatTest extends ProvidersTestCase
         $this->assertEquals('ArrowFormat', $this->arrowFormat->getType());
     }
 
-    public function testToJsonForOptionsSerialization()
+    public function testGetJsClass()
+    {
+        $jsClass = 'google.visualization.ArrowFormat';
+
+        $this->assertEquals($jsClass, $this->arrowFormat->getJsClass());
+    }
+
+    /**
+     * @covers \Khill\Lavacharts\DataTables\Formats\ArrowFormat::toJson()
+     */
+    public function testToJson()
     {
         $this->assertEquals($this->json, $this->arrowFormat->toJson());
     }
 
-    public function testToJavascriptForObjectSerialization()
+    /**
+     * @covers \Khill\Lavacharts\DataTables\Formats\ArrowFormat::jsonSerialize()
+     */
+    public function testJsonSerialization()
     {
-        $javascript = 'google.visualization.ArrowFormat('.$this->json.')';
-
-        $this->assertEquals($javascript, $this->arrowFormat->toJavascript());
+        $this->assertEquals($this->json, json_encode($this->arrowFormat));
     }
 }

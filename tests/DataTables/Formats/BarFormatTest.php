@@ -5,10 +5,11 @@ namespace Khill\Lavacharts\Tests\Formats;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\DataTables\Formats\BarFormat;
 
+/**
+ * @property \Khill\Lavacharts\DataTables\Formats\BarFormat barFormat
+ */
 class BarFormatTest extends ProvidersTestCase
 {
-    public $barFormat;
-
     public $json = '{"base":10,"colorNegative":"red","colorPositive":"green","drawZeroLine":false,"max":100,"min":10,"showValue":true,"width":20}';
 
     public function setUp()
@@ -47,18 +48,26 @@ class BarFormatTest extends ProvidersTestCase
         $this->assertEquals('BarFormat', $this->barFormat->getType());
     }
 
-    public function testToJsonForOptionsSerialization()
+    public function testGetJsClass()
+    {
+        $jsClass = 'google.visualization.BarFormat';
+
+        $this->assertEquals($jsClass, $this->barFormat->getJsClass());
+    }
+
+    /**
+     * @covers \Khill\Lavacharts\DataTables\Formats\BarFormat::toJson()
+     */
+    public function testToJson()
     {
         $this->assertEquals($this->json, $this->barFormat->toJson());
     }
 
     /**
-     * @depends testToJsonForOptionsSerialization
+     * @covers \Khill\Lavacharts\DataTables\Formats\BarFormat::jsonSerialize()
      */
-    public function testToJavascriptForObjectSerialization()
+    public function testJsonSerialization()
     {
-        $javascript = 'google.visualization.BarFormat('.$this->json.')';
-
-        $this->assertEquals($javascript, $this->barFormat->toJavascript());
+        $this->assertEquals($this->json, json_encode($this->barFormat));
     }
 }

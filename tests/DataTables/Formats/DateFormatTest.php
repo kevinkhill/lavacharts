@@ -5,10 +5,11 @@ namespace Khill\Lavacharts\Tests\Formats;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\DataTables\Formats\DateFormat;
 
+/**
+ * @property \Khill\Lavacharts\DataTables\Formats\DateFormat dateFormat
+ */
 class DateFormatTest extends ProvidersTestCase
 {
-    public $dateFormat;
-
     public $json = '{"formatType":"short","pattern":"Y-m-d","timeZone":"PDT"}';
 
     public function setUp()
@@ -21,7 +22,7 @@ class DateFormatTest extends ProvidersTestCase
     }
 
     /**
-     * @covers \Khill\Lavacharts\DataTables\Formats\BarFormat
+     * @covers \Khill\Lavacharts\DataTables\Formats\DateFormat
      */
     public function testConstructorOptionAssignment()
     {
@@ -37,18 +38,26 @@ class DateFormatTest extends ProvidersTestCase
         $this->assertEquals('DateFormat', $this->dateFormat->getType());
     }
 
-    public function testToJsonForOptionsSerialization()
+    public function testGetJsClass()
+    {
+        $jsClass = 'google.visualization.DateFormat';
+
+        $this->assertEquals($jsClass, $this->dateFormat->getJsClass());
+    }
+
+    /**
+     * @covers \Khill\Lavacharts\DataTables\Formats\DateFormat::toJson()
+     */
+    public function testToJson()
     {
         $this->assertEquals($this->json, $this->dateFormat->toJson());
     }
 
     /**
-     * @depends testToJsonForOptionsSerialization
+     * @covers \Khill\Lavacharts\DataTables\Formats\DateFormat::jsonSerialize()
      */
-    public function testToJavascriptForObjectSerialization()
+    public function testJsonSerialization()
     {
-        $javascript = 'google.visualization.DateFormat('.$this->json.')';
-
-        $this->assertEquals($javascript, $this->dateFormat->toJavascript());
+        $this->assertEquals($this->json, json_encode($this->dateFormat));
     }
 }
