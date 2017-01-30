@@ -84,8 +84,9 @@ class Dashboard implements DataTables, Renderable, Visualization
     {
         $this->bindingFactory = new BindingFactory;
 
-        $this->elementId = $elementId;
-        $this->datatable = $datatable;
+        $this->setLabel($label);
+        $this->setElementId($elementId);
+        $this->setDataTable($datatable);
     }
 
     /**

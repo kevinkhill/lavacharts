@@ -6,6 +6,7 @@ use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Charts\ChartFactory;
 use Khill\Lavacharts\Dashboards\DashboardFactory;
 use Khill\Lavacharts\Dashboards\Filters\Filter;
+use Khill\Lavacharts\Dashboards\Filters\FilterFactory;
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use Khill\Lavacharts\DataTables\DataTable;
@@ -76,7 +77,7 @@ class Lavacharts
         $this->volcano       = new Volcano;
         $this->chartFactory  = new ChartFactory;
         $this->dashFactory   = new DashboardFactory;
-        $this->scriptManager = new ScriptManager(__DIR__);
+        $this->scriptManager = new ScriptManager;
     }
 
     /**
@@ -122,7 +123,7 @@ class Lavacharts
         if ((bool) preg_match('/Filter$/', $method)) {
             $options = isset($args[1]) ? $args[1] : [];
 
-            $lavaClass = Filter::create($method, $args[0], $options);
+            $lavaClass = FilterFactory::create($method, $args[0], $options);
         }
 
         //Formats

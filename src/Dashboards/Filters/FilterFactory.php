@@ -21,6 +21,11 @@ use Khill\Lavacharts\Exceptions\InvalidParamType;
  */
 class FilterFactory
 {
+    /**
+     * Valid filter types
+     *
+     * @var array
+     */
     public static $FILTER_TYPES = [
         'Category',
         'ChartRange',
@@ -29,8 +34,22 @@ class FilterFactory
         'String'
     ];
 
-    public static function create($type, $columnLabelOrIndex, $config = [])
+    /**
+     * Create a new Filter.
+     *
+     * @param  string     $type
+     * @param  string|int $columnLabelOrIndex
+     * @param  array      $config
+     * @return \Khill\Lavacharts\Dashboards\Filters\Filter
+     * @throws \Khill\Lavacharts\Exceptions\InvalidFilterType
+     * @throws \Khill\Lavacharts\Exceptions\InvalidParamType
+     */
+    public static function create($type, $columnLabelOrIndex, array $config = [])
     {
+        if (is_string($type)) {
+            $type = str_replace('Filter', '', $type);
+        }
+
         if (in_array($type, self::$FILTER_TYPES, true) === false) {
             throw new InvalidFilterType($type);
         }
@@ -44,6 +63,12 @@ class FilterFactory
         return new $filter($columnLabelOrIndex, $config);
     }
 
+    /**
+     * Build the namespace to create a new filter.
+     *
+     * @param  string $filter
+     * @return string
+     */
     private static function makeNamespace($filter)
     {
         if (strpos($filter, 'range') !== false) {
