@@ -6,29 +6,29 @@ use Khill\Lavacharts\Builders\ChartBuilder;
 use Khill\Lavacharts\Charts\LineChart;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 
+/**
+ * @property \Khill\Lavacharts\Builders\ChartBuilder builder
+ */
 class ChartBuilderTest extends ProvidersTestCase
 {
-    /**
-     * @var \Khill\Lavacharts\Builders\ChartBuilder
-     */
-    public $cb;
-
     public function setUp()
     {
         parent::setUp();
 
-        $this->cb = new ChartBuilder();
+        $this->builder = new ChartBuilder();
     }
 
     public function testWithLabelAndDataTable()
     {
-        $this->cb->setType('LineChart');
-        $this->cb->setLabel('taco');
-        $this->cb->setDatatable($this->getMockDataTable());
+        $this->builder->setType('LineChart');
+        $this->builder->setLabel('taco');
+        $this->builder->setDatatable($this->getMockDataTable());
 
-        $chart = $this->cb->getChart();
+        $chart = $this->builder->getChart();
 
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Charts\\LineChart', $chart);
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $chart);
+        $this->assertEquals('taco', $chart->getLabelStr());
+        $this->assertInstanceOf('\Khill\Lavacharts\Datatables\Datatable', $chart->getDataTable());
     }
 
     /**
@@ -36,14 +36,16 @@ class ChartBuilderTest extends ProvidersTestCase
      */
     public function testWithLabelAndDataTableAndOptions()
     {
-        $this->cb->setType('LineChart');
-        $this->cb->setLabel('taco');
-        $this->cb->setDatatable($this->getMockDataTable());
-        $this->cb->setOptions(['tacos' => 'good']);
+        $this->builder->setType('LineChart');
+        $this->builder->setLabel('taco');
+        $this->builder->setDatatable($this->getMockDataTable());
+        $this->builder->setOptions(['tacos' => 'good']);
 
-        $chart = $this->cb->getChart();
+        $chart = $this->builder->getChart();
+        $options = $chart->getOptions();
 
-        $this->assertEquals('good', $chart->getOptions()->getValues()['tacos']);
+        $this->assertArrayHasKey('tacos', $options);
+        $this->assertEquals('good', $options['tacos']);
     }
 
     /**
@@ -52,14 +54,17 @@ class ChartBuilderTest extends ProvidersTestCase
      */
     public function testWithLabelAndDataTableAndOptionsAndElementId()
     {
-        $this->cb->setType('LineChart');
-        $this->cb->setLabel('taco');
-        $this->cb->setDatatable($this->getMockDataTable());
-        $this->cb->setOptions(['tacos' => 'good']);
-        $this->cb->setElementId('platter');
+        $this->builder->setType('LineChart');
+        $this->builder->setLabel('taco');
+        $this->builder->setDatatable($this->getMockDataTable());
+        $this->builder->setOptions(['tacos' => 'good']);
+        $this->builder->setElementId('platter');
 
-        $chart = $this->cb->getChart();
+        $chart = $this->builder->getChart();
 
-        $this->assertEquals('platter', $this->getPrivateProperty($chart, 'elementId'));
+        $elementId = $this->inspect($chart, 'elementId');
+
+        $this->assertInstanceOf('\Khill\Lavacharts\Values\ElementId', $elementId);
+        $this->assertEquals('platter', (string) $elementId);
     }
 }

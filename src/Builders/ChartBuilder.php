@@ -136,21 +136,29 @@ class ChartBuilder extends GenericBuilder
     {
         $chart =  '\\Khill\\Lavacharts\\Charts\\' . $this->type;
 
-        $lavachart = new $chart(
+        /** @var \Khill\Lavacharts\Charts\Chart $newChart */
+        $newChart = new $chart(
             $this->label,
             $this->datatable,
-            $this->options,
-            $this->elementId
+            $this->options
         );
 
-        if (method_exists($lavachart, 'setPngOutput')) {
-            $lavachart->setPngOutput($this->pngOutput);
+        if (array_key_exists('elementId', $this->options)) {
+            $newChart->setElementId($this->options['elementId']);
         }
 
-        if (method_exists($lavachart, 'setMaterialOutput')) {
-            $lavachart->setMaterialOutput($this->materialOutput);
+        if (isset($this->elementId)) {
+            $newChart->setElementId($this->elementId);
         }
 
-        return $lavachart;
+        if (method_exists($newChart, 'setPngOutput')) {
+            $newChart->setPngOutput($this->pngOutput);
+        }
+
+        if (method_exists($newChart, 'setMaterialOutput')) {
+            $newChart->setMaterialOutput($this->materialOutput);
+        }
+
+        return $newChart;
     }
 }
