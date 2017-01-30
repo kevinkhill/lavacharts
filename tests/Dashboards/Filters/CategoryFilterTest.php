@@ -14,9 +14,6 @@ class CategoryFilterTest extends ProvidersTestCase
         $this->assertEquals(2, $categoryFilter['filterColumnIndex']);
     }
 
-    /**
-     * @covers \Khill\Lavacharts\Dashboards\Filters\Filter::filterColumnLabel
-     */
     public function testSettingColumnLabelWithConstructor()
     {
         $categoryFilter = new CategoryFilter('cities');
