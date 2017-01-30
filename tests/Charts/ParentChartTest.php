@@ -4,10 +4,11 @@ namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
+/**
+ * @property \Khill\Lavacharts\Tests\Charts\MockChart mockChart
+ */
 class ChartAndTraitsTest extends ProvidersTestCase
 {
-    public $mockChart;
-
     public function setUp()
     {
         parent::setUp();
@@ -29,23 +30,28 @@ class ChartAndTraitsTest extends ProvidersTestCase
         $this->assertInstanceOf('\Khill\Lavacharts\DataTables\DataTable', $this->mockChart->getDataTable());
     }
 
-    /**
-     * @dataProvider nonArrayProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testSetOptionsWithBadTypes($badTypes)
+    public function testCustomizeMethodToSetOptions()
     {
-        $this->mockChart->setOptions($badTypes);
+        $this->mockChart->customize([
+            'title'  => 'My Cool Chart',
+            'width'  => 1024,
+            'height' => 768
+        ]);
+
+        $options = $this->inspect($this->mockChart, 'options');
+
+        $this->assertArrayHasKey('title', $options);
+        $this->assertEquals('My Cool Chart', $options['title']);
+
+        $this->assertArrayHasKey('width', $options);
+        $this->assertEquals(1024, $options['width']);
+
+        $this->assertArrayHasKey('height', $options);
+        $this->assertEquals(768, $options['height']);
     }
 
-    public function testGettingNonExistentOptionValue()
-    {
-        $this->assertNull($this->mockChart->bananas);
-    }
-
     /**
-     * @depends testWidthWithValidValue
-     * @depends testHeightWithValidValue
+     * @depends testCustomizeMethodToSetOptions
      */
     public function testOptionsToJson()
     {
