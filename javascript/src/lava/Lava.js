@@ -50,12 +50,18 @@ module.exports = (function() {
         };
 
         /**
-         * Array of config items.
+         * JSON object of config items.
          *
          * @type {Array}
          * @private
          */
-        this._config = CONFIG_JSON;
+        this._config = (function() {
+            if (typeof CONFIG_JSON == 'undefined') {
+                return {};
+            } else {
+                return CONFIG_JSON;
+            }
+        })();
 
         /**
          * Array of charts stored in the module.
@@ -105,11 +111,11 @@ module.exports = (function() {
      * @param {Chart|Dashboard} renderable
      */
     Lava.prototype.store = function (renderable) {
-        if (renderable instanceof lava.Chart) {
+        if (renderable instanceof this.Chart) {
             this.storeChart(renderable);
         }
 
-        if (renderable instanceof lava.Dashboard) {
+        if (renderable instanceof this.Dashboard) {
             this.storeDashboard(renderable);
         }
     };
@@ -335,7 +341,7 @@ module.exports = (function() {
 
         var dash = _.find(this._dashboards, {label: label});
 
-        if (dash instanceof lava.Dashboard === false) {
+        if (dash instanceof this.Dashboard === false) {
             throw new this._errors.DashboardNotFound(label);
         }
 
@@ -400,7 +406,7 @@ module.exports = (function() {
     /**
      * Load Google's apis and resolve the promise when ready.
      */
-    Lava.prototype._loadGoogle = function (callback) {
+    Lava.prototype._loadGoogle = function() {
         var $lava = this;
         var s = document.createElement('script');
         var deferred = Q.defer();
