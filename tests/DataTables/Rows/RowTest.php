@@ -7,16 +7,6 @@ use Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class RowTest extends ProvidersTestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-
-        /**
-         * Setting timezone to avoid warning from Carbon
-         */
-        date_default_timezone_set('America/Los_Angeles');
-    }
-
     /**
      * @covers \Khill\Lavacharts\DataTables\Rows\Row::__construct
      */

@@ -25,6 +25,11 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
+        /**
+         * Setting timezone to avoid warning from Carbon
+         */
+        date_default_timezone_set('America/Los_Angeles');
+
         $this->partialDataTable = \Mockery::mock(DATATABLE_NS.'DataTable')->makePartial();
     }
 

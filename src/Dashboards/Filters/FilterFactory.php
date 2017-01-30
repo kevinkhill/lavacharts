@@ -4,9 +4,11 @@ namespace Khill\Lavacharts\Dashboards\Filters;
 
 use \Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use \Khill\Lavacharts\Exceptions\InvalidFilter;
+use Khill\Lavacharts\Exceptions\InvalidFilterType;
+use Khill\Lavacharts\Exceptions\InvalidParamType;
 
 /**
- * Lavacharts - A PHP wrapper library for the Google Chart API
+ * FilterFactory creates new filters for use in a dashboard.
  *
  *
  * @package   Khill\Lavacharts\Dashboards\Filters
@@ -20,24 +22,21 @@ use \Khill\Lavacharts\Exceptions\InvalidFilter;
 class FilterFactory
 {
     public static $FILTER_TYPES = [
-        'category',
-        'chartrange',
-        'daterange',
-        'numberrange',
-        'string'
+        'Category',
+        'ChartRange',
+        'DateRange',
+        'NumberRange',
+        'String'
     ];
 
     public static function create($type, $columnLabelOrIndex, $config = [])
     {
-        if (in_array($type, self::$FILTER_TYPES) === false) {
-            throw new InvalidFilter($type, self::$FILTER_TYPES);
+        if (in_array($type, self::$FILTER_TYPES, true) === false) {
+            throw new InvalidFilterType($type);
         }
 
         if (is_string($columnLabelOrIndex) === false && is_int($columnLabelOrIndex) === false) {
-            throw new InvalidConfigValue(
-                'columnLabelOrIndex',
-                'string|int'
-            );
+            throw new InvalidParamType($columnLabelOrIndex, 'string | int');
         }
 
         $filter = self::makeNamespace($type);

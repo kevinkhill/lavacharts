@@ -4,6 +4,13 @@ namespace Khill\Lavacharts\Tests;
 
 use Khill\Lavacharts\Volcano;
 
+/**
+ * @property \Mockery\MockInterface    mockDashboard
+ * @property \Mockery\MockInterface    mockLineChart
+ * @property \Mockery\Mock             mockBadLabel
+ * @property \Mockery\Mock             mockGoodLabel
+ * @property \Khill\Lavacharts\Volcano volcano
+ */
 class VolcanoTest extends ProvidersTestCase
 {
     /**
@@ -21,13 +28,19 @@ class VolcanoTest extends ProvidersTestCase
 
         $this->mockBadLabel = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['Pumpkins'])->makePartial();
 
-        $this->mockLineChart = \Mockery::mock(new \Khill\Lavacharts\Charts\LineChart(
+        $this->mockLineChart = \Mockery::mock('\Khill\Lavacharts\Charts\LineChart', [
             $this->mockGoodLabel,
-            $this->partialDataTable
-        ))->shouldReceive('getLabel')->andReturn('TestRenderable')->getMock();
+            $this->getMockDataTable()
+        ])->shouldReceive('getLabel')
+          ->andReturn('TestRenderable')
+          ->shouldReceive('getType')
+          ->zeroOrMoreTimes()
+          ->andReturn('LineChart')
+          ->getMock();
 
         $this->mockDashboard = \Mockery::mock('\Khill\Lavacharts\Dashboards\Dashboard', [
-            $this->mockGoodLabel
+            $this->mockGoodLabel,
+            $this->getMockDataTable()
         ])->shouldReceive('getLabel')->andReturn('TestRenderable')->getMock();
     }
 
@@ -38,9 +51,9 @@ class VolcanoTest extends ProvidersTestCase
     {
         $this->volcano->store($this->mockLineChart);
 
-        $volcanoCharts = $this->getPrivateProperty($this->volcano, 'charts');
+        $volcanoCharts = $this->inspect($this->volcano, 'charts');
 
-        $chart = $volcanoCharts['LineChart'][$this->mockLabelStr];
+        $chart = $volcanoCharts['LineChart']['TestRenderable'];
 
         $this->assertInstanceOf(self::NS.'\Charts\Chart', $chart);
     }
@@ -50,12 +63,14 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testStoreWithDashboard()
     {
-        $chart = \Mockery::mock(new \Khill\Lavacharts\Charts\LineChart(
+        $chart = \Mockery::mock('\Khill\Lavacharts\Dashboards\Dashboard', [
             $this->mockGoodLabel,
-            $this->partialDataTable
-        ));
+            $this->getMockDataTable()
+        ])->shouldReceive('getLabel')
+          ->andReturn('TestRenderable')
+          ->getMock();
 
-        $this->assertEquals($this->Volcano->store($chart), $chart);
+        $this->assertEquals($this->volcano->store($chart), $chart);
     }
 
     /**
@@ -64,17 +79,12 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testCheckChart()
     {
-        $chart = \Mockery::mock(new \Khill\Lavacharts\Charts\LineChart(
-            $this->mockGoodLabel,
-            $this->partialDataTable
-        ));
+        $this->volcano->store($this->mockLineChart);
 
-        $this->Volcano->store($chart);
+        $this->assertTrue($this->volcano->checkChart('LineChart', $this->mockGoodLabel));
 
-        $this->assertTrue($this->Volcano->checkChart('LineChart', $this->mockGoodLabel));
-
-        $this->assertFalse($this->Volcano->checkChart('LaserChart', $this->mockGoodLabel));
-        $this->assertFalse($this->Volcano->checkChart('LineChart', $this->mockBadLabel));
+        $this->assertFalse($this->volcano->checkChart('LaserChart', $this->mockGoodLabel));
+        $this->assertFalse($this->volcano->checkChart('LineChart', $this->mockBadLabel));
     }
 
     /**
@@ -84,9 +94,9 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testGetChart()
     {
-        $this->Volcano->store($this->mockLineChart);
+        $this->volcano->store($this->mockLineChart);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $this->Volcano->get('LineChart', $this->mockGoodLabel));
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $this->volcano->get('LineChart', $this->mockGoodLabel));
     }
 
     /**
@@ -98,8 +108,8 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testGetChartWithBadChartType()
     {
-        $this->Volcano->store($this->mockLineChart);
-        $this->Volcano->get('LaserChart', $this->mockGoodLabel);
+        $this->volcano->store($this->mockLineChart);
+        $this->volcano->get('LaserChart', $this->mockGoodLabel);
     }
 
     /**
@@ -111,8 +121,8 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testGetChartWithNonExistentLabel()
     {
-        $this->Volcano->store($this->mockLineChart);
-        $this->Volcano->get('LineChart', $this->mockBadLabel);
+        $this->volcano->store($this->mockLineChart);
+        $this->volcano->get('LineChart', $this->mockBadLabel);
     }
 
 
@@ -122,7 +132,7 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testStoreDashboard()
     {
-        $this->assertEquals($this->Volcano->store($this->mockDashboard), $this->mockDashboard);
+        $this->assertEquals($this->volcano->store($this->mockDashboard), $this->mockDashboard);
     }
 
     /**
@@ -131,9 +141,9 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testCheckDashboard()
     {
-        $this->Volcano->store($this->mockDashboard);
+        $this->volcano->store($this->mockDashboard);
 
-        $this->assertTrue($this->Volcano->checkDashboard($this->mockGoodLabel));
+        $this->assertTrue($this->volcano->checkDashboard($this->mockGoodLabel));
     }
 
     /**
@@ -143,9 +153,9 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testGetDashboard()
     {
-        $this->Volcano->store($this->mockDashboard);
+        $this->volcano->store($this->mockDashboard);
 
-        $dash = $this->Volcano->get('Dashboard', $this->mockGoodLabel);
+        $dash = $this->volcano->get('Dashboard', $this->mockGoodLabel);
 
         $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Dashboard', $dash);
     }
@@ -159,9 +169,9 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testGetDashboardWithBadLabel()
     {
-        $this->Volcano->store($this->mockDashboard);
+        $this->volcano->store($this->mockDashboard);
 
-        $this->Volcano->get('Dashboard', $this->mockBadLabel);
+        $this->volcano->get('Dashboard', $this->mockBadLabel);
     }
 
     /**
@@ -172,10 +182,10 @@ class VolcanoTest extends ProvidersTestCase
      */
     public function testGetAll()
     {
-        $this->Volcano->store($this->mockLineChart);
-        $this->Volcano->store($this->mockDashboard);
+        $this->volcano->store($this->mockLineChart);
+        $this->volcano->store($this->mockDashboard);
 
-        foreach ($this->Volcano->getAll() as $renderable) {
+        foreach ($this->volcano->getAll() as $renderable) {
             $this->assertInstanceOf('\Khill\Lavacharts\Support\Contracts\RenderableInterface', $renderable);
         }
     }

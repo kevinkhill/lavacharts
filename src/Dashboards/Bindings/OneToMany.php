@@ -32,7 +32,7 @@ class OneToMany extends Binding
      * @param \Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper $controlWrapper
      * @param array                                                $chartWrappers
      */
-    public function __construct(ControlWrapper $controlWrapper, $chartWrappers)
+    public function __construct(ControlWrapper $controlWrapper, array $chartWrappers)
     {
         parent::__construct([$controlWrapper], $chartWrappers);
     }

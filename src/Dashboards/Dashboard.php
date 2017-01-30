@@ -84,8 +84,7 @@ class Dashboard implements DataTables, Renderable, Visualization
     {
         $this->bindingFactory = new BindingFactory;
 
-        $this->initRenderable($label, $elementId);
-
+        $this->elementId = $elementId;
         $this->datatable = $datatable;
     }
 
@@ -151,8 +150,8 @@ class Dashboard implements DataTables, Renderable, Visualization
      * - If an array of ControlWrappers is passed with and array of ChartWrappers, then
      *   a ManyToMany binding is created.
      *
-     * @param  \Khill\Lavacharts\Dashboards\ControlWrapper|array $controlWraps
-     * @param  \Khill\Lavacharts\Dashboards\ChartWrapper|array   $chartWraps
+     * @param  \Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper|array $controlWraps
+     * @param  \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper|array   $chartWraps
      * @return \Khill\Lavacharts\Dashboards\Dashboard
      * @throws \Khill\Lavacharts\Exceptions\InvalidBindings
      */
@@ -172,9 +171,11 @@ class Dashboard implements DataTables, Renderable, Visualization
      * @return \Khill\Lavacharts\Dashboards\Dashboard
      * @throws \Khill\Lavacharts\Exceptions\InvalidBindings
      */
-    public function setBindings($bindings)
+    public function setBindings(array $bindings)
     {
-        $this->bindings = $this->bindingFactory->createFromArray($bindings);
+        $this->bindings = array_map(function ($bindingPair) {
+            return $this->bindingFactory->create($bindingPair[0], $bindingPair[1]);
+        }, $bindings);
 
         return $this;
     }

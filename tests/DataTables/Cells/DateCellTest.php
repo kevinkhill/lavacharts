@@ -7,19 +7,6 @@ use Khill\Lavacharts\DataTables\Cells\DateCell;
 
 class DateCellTest extends ProvidersTestCase
 {
-    public $Cell;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        /**
-         * Setting timezone to avoid warning from Carbon
-         */
-        date_default_timezone_set('America/Los_Angeles');
-
-    }
-
     /**
      * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::__construct
      */

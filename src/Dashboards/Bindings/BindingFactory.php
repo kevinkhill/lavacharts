@@ -5,7 +5,6 @@ namespace Khill\Lavacharts\Dashboards\Bindings;
 use \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use \Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use \Khill\Lavacharts\Exceptions\InvalidBindings;
-use \Khill\Lavacharts\Support\Traits\ArrayValuesTestTrait as ArrayValuesTest;
 
 /**
  * BindingFactory Class
@@ -22,8 +21,6 @@ use \Khill\Lavacharts\Support\Traits\ArrayValuesTestTrait as ArrayValuesTest;
  */
 class BindingFactory
 {
-    use ArrayValuesTest;
-
     /**
      * Create a new Binding for the dashboard.
      *
@@ -34,32 +31,22 @@ class BindingFactory
      */
     public function create($controlWraps, $chartWraps)
     {
-        $chartWrapCheck   = $this->arrayValuesTest($chartWraps, 'class', 'ChartWrapper');
-        $controlWrapCheck = $this->arrayValuesTest($controlWraps, 'class', 'ControlWrapper');
-
         if ($controlWraps instanceof ControlWrapper && $chartWraps instanceof ChartWrapper) {
             return new OneToOne($controlWraps, $chartWraps);
         }
 
-        if ($controlWraps instanceof ControlWrapper && $chartWrapCheck) {
+        if ($controlWraps instanceof ControlWrapper && is_array($chartWraps)) {
             return new OneToMany($controlWraps, $chartWraps);
         }
 
-        if ($controlWrapCheck && $chartWraps instanceof ChartWrapper) {
+        if (is_array($controlWraps) && $chartWraps instanceof ChartWrapper) {
             return new ManyToOne($controlWraps, $chartWraps);
         }
 
-        if ($controlWrapCheck && $chartWrapCheck) {
+        if (is_array($chartWraps) && is_array($controlWraps)) {
             return new ManyToMany($controlWraps, $chartWraps);
         }
 
         throw new InvalidBindings;
-    }
-
-    public function createFromArray(array $arrayOfWraps)
-    {
-        foreach ($arrayOfWraps as $wraps) {
-            //$this
-        }
     }
 }

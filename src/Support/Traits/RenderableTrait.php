@@ -46,18 +46,6 @@ trait RenderableTrait
     protected $renderableStatus = true;
 
     /**
-     * Sets the renderable's ElementId or generates on from a string
-     *
-     * @param \Khill\Lavacharts\Values\Label     $label
-     * @param \Khill\Lavacharts\Values\ElementId $elementId
-     */
-    public function initRenderable(Label $label, ElementId $elementId = null)
-    {
-        $this->label = $label;
-        $this->elementId = $elementId;
-    }
-
-    /**
      * Creates and/or sets the Label.
      *
      * @param  string|\Khill\Lavacharts\Values\Label $label

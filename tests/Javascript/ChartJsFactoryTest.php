@@ -19,8 +19,6 @@ class ChartJsFactoryTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        date_default_timezone_set('America/Los_Angeles');
-
         $this->mockChartLabel = \Mockery::mock('\Khill\Lavacharts\Values\Label', ['TestChart'])->makePartial();
         $this->mockElementId = \Mockery::mock('\Khill\Lavacharts\Values\ElementId', ['my-chart'])->makePartial();
 

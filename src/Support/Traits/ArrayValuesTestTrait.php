@@ -51,4 +51,11 @@ trait ArrayValuesTestTrait
 
         return $status;
     }
+
+    protected function isArrayOfClass(array $array, $class)
+    {
+        return array_walk($array, function ($value, $key, $class) {
+            return $value instanceof $class;
+        }, $class);
+    }
 }

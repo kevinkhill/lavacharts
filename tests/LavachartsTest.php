@@ -5,13 +5,11 @@ namespace Khill\Lavacharts\Tests;
 use Khill\Lavacharts\Charts\ChartFactory;
 use Khill\Lavacharts\Lavacharts;
 
+/**
+ * @property \Khill\Lavacharts\Lavacharts lava
+ */
 class LavachartsTest extends ProvidersTestCase
 {
-    /**
-     * @var Lavacharts
-     */
-    public $lava;
-
     public function setUp()
     {
         parent::setUp();
@@ -191,7 +189,7 @@ class LavachartsTest extends ProvidersTestCase
     /**
      * @depends testCreateDataTableViaAlias
      */
-    public function testCreateFormatObjectViaAliasWithConsructorConfig()
+    public function testCreateFormatObjectViaAliasWithConstructorConfig()
     {
         $dt = $this->lava->DataTable();
 
@@ -235,13 +233,22 @@ class LavachartsTest extends ProvidersTestCase
      */
     public function testStoreChartIntoVolcano()
     {
-        $mockPieChart = \Mockery::mock('\\Khill\\Lavacharts\\Charts\\PieChart', [
+        $mockPieChart = \Mockery::mock('\Khill\Lavacharts\Charts\PieChart', [
             $this->mockLabel,
-            $this->partialDataTable
-        ])->shouldReceive('getLabel')->andReturn('MockLabel')->getMock();
+            $this->getMockDataTable()
+        ])->shouldReceive('getType')
+          ->andReturn('PieChart')
+          ->shouldReceive('getLabel')
+          ->andReturn('MockLabel')
+          ->getMock();
 
-        $this->assertTrue($this->lava->store($mockPieChart));
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Charts\\PieChart', $this->lava->fetch('PieChart', 'MockLabel'));
+        $this->lava->store($mockPieChart);
+
+        $volcano = $this->inspect($this->lava, 'volcano');
+        $charts = $this->inspect($volcano, 'charts');
+
+        $this->assertArrayHasKey('PieChart', $charts);
+        $this->assertInstanceOf('\Khill\Lavacharts\Charts\PieChart', $charts['PieChart']['MockLabel']);
     }
 
     public function testJsapiMethodWithCoreJsTracking()

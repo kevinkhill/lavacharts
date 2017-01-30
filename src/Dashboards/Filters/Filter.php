@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
-use Khill\Lavacharts\Exceptions\InvalidFilterObject;
-use Khill\Lavacharts\Exceptions\InvalidFilterParam;
+use Khill\Lavacharts\Exceptions\InvalidFilterType;
+use Khill\Lavacharts\Exceptions\InvalidParamType;
 use Khill\Lavacharts\Support\Customizable;
 use Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
 
@@ -22,7 +22,7 @@ use Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Filter extends Customizable implements Wrappable, \JsonSerializable
+class Filter extends Customizable implements Wrappable
 {
     /**
      * Type of wrapped class
@@ -36,7 +36,7 @@ class Filter extends Customizable implements Wrappable, \JsonSerializable
      *
      * @param  string|int $cLabelOrIndex
      * @param  array      $options Array of options to set.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidFilterParam
+     * @throws \Khill\Lavacharts\Exceptions\InvalidParamType
      */
     public function __construct($cLabelOrIndex, array $options = [])
     {
@@ -48,35 +48,11 @@ class Filter extends Customizable implements Wrappable, \JsonSerializable
                 $options = array_merge($options, ['filterColumnIndex' => $cLabelOrIndex]);
                 break;
             default:
-                throw new InvalidFilterParam($cLabelOrIndex);
+                throw new InvalidParamType($cLabelOrIndex, 'string | int');
                 break;
         }
 
         parent::__construct($options);
-    }
-
-    /**
-     * Static create method for creating new filters
-     *
-     * @param string     $type          Type of filter to create
-     * @param string|int $cLabelOrIndex Column label or index
-     * @param array      $options       Customization options for the filter
-     * @return \Khill\Lavacharts\Dashboards\Filters\Filter
-     * @throws \Khill\Lavacharts\Exceptions\InvalidFilterParam
-     */
-    public static function create($type, $cLabelOrIndex, array $options = [])
-    {
-        if (is_string($type) === false) {
-            throw new InvalidFilterParam($type);
-        }
-
-        if (is_string($cLabelOrIndex) === false && is_int($cLabelOrIndex) === false) {
-            throw new InvalidFilterParam($cLabelOrIndex);
-        }
-
-        $filter = __NAMESPACE__ . '\\' . $type;
-
-        return new $filter($cLabelOrIndex, $options);
     }
 
     /**

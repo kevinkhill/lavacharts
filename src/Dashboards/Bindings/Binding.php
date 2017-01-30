@@ -37,7 +37,7 @@ class Binding
      * @param array $chartWrappers
      * @param array $controlWrappers
      */
-    public function __construct($controlWrappers, $chartWrappers)
+    public function __construct(array $controlWrappers, array $chartWrappers)
     {
         $this->chartWrappers   = $chartWrappers;
         $this->controlWrappers = $controlWrappers;
@@ -54,6 +54,18 @@ class Binding
     }
 
     /**
+     * Get the a specific ChartWrap
+     *
+     * @since  3.1.0
+     * @param  int $index Which chart wrap to retrieve
+     * @return array
+     */
+    public function getChartWrap($index)
+    {
+        return $this->chartWrappers[$index];
+    }
+
+    /**
      * Get the ControlWrappers
      *
      * @return array
@@ -61,5 +73,17 @@ class Binding
     public function getControlWrappers()
     {
         return $this->controlWrappers;
+    }
+
+    /**
+     * Get the a specific ControlWrap
+     *
+     * @since  3.1.0
+     * @param  int $index Which control wrap to retrieve
+     * @return array
+     */
+    public function getControlWrap($index)
+    {
+        return $this->controlWrappers[$index];
     }
 }
