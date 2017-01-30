@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables\Rows;
 
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
+use Khill\Lavacharts\Exceptions\InvalidParamType;
 
 /**
  * NullRow Object
@@ -24,15 +24,12 @@ class NullRow extends Row
      * Creates a new NullRow object
      *
      * @param  int $numOfCols Number of null columns to create.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @throws \Khill\Lavacharts\Exceptions\InvalidParamType
      */
     public function __construct($numOfCols)
     {
         if (is_int($numOfCols) === false) {
-            throw new InvalidConfigValue(
-                'NullRow->__construct()',
-                'int'
-            );
+            throw new InvalidParamType($numOfCols, 'integer');
         }
 
         parent::__construct(array_fill(0, $numOfCols, null));

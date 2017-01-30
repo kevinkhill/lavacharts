@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\DataTables;
 
+use Khill\Lavacharts\Exceptions\InvalidColumnRole;
+use Khill\Lavacharts\Values\Role;
 use Khill\Lavacharts\Values\StringValue;
 use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\DataTables\Rows\Row;
@@ -362,13 +364,18 @@ class DataTable implements Jsonable, \JsonSerializable
      * Adds a new column for defining a data role.
      *
      * @since  3.0.0
-     * @param  string $type Type of data the column will define.
-     * @param  string $role Type of role that the data will represent.
+     * @param  string $type    Type of data the column will define.
+     * @param  string $role    Type of role that the data will represent.
      * @param  array  $options Customization of the role.
      * @return \Khill\Lavacharts\DataTables\DataTable
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnRole
      */
     public function addRoleColumn($type, $role, array $options = [])
     {
+        if (Role::isValid($role) === false) {
+            throw new InvalidColumnRole($role);
+        }
+
         return $this->createColumnWithParams($type, '', null, $role, $options);
     }
 

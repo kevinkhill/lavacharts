@@ -29,24 +29,14 @@ class CellTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidFunctionParam
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidParamType
      * @covers \Khill\Lavacharts\DataTables\Cells\Cell::__construct
      */
     public function testConstructorArgFormatWithBadType($badTypes)
     {
-        $column = new Cell(1, $badTypes);
+        new Cell(1, $badTypes);
     }
-
-    /**
-     * @dataProvider nonArrayProvider
-     * @expectedException \TypeError
-     * @covers \Khill\Lavacharts\DataTables\Cells\Cell::__construct
-     */
-    public function testConstructorArgOptionsWithBadType($badTypes)
-    {
-        $column = new Cell(1, 'low', $badTypes);
-    }
-
+    
     /**
      * @depends testConstructorArgs
      * @covers \Khill\Lavacharts\DataTables\Cells\Cell::getValue

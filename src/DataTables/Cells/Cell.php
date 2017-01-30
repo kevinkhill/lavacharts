@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables\Cells;
 
-use Khill\Lavacharts\Exceptions\InvalidFunctionParam;
+use Khill\Lavacharts\Exceptions\InvalidParamType;
 use Khill\Lavacharts\Support\Customizable;
 
 /**
@@ -57,12 +57,12 @@ class Cell extends Customizable
      * @param  string       $v The cell value
      * @param  string       $f A string version of the v value
      * @param  array|string $p A map of custom values applied to the cell
-     * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
+     * @throws \Khill\Lavacharts\Exceptions\InvalidParamType
      */
-    public function __construct($v = null, $f = '', array $p = [])
+    public function __construct($v, $f = '', array $p = [])
     {
         if (is_string($f) === false) {
-            throw new InvalidFunctionParam($f, __FUNCTION__, 'string');
+            throw new InvalidParamType($f, 'string');
         }
 
         $this->v = $v;
@@ -74,6 +74,7 @@ class Cell extends Customizable
     /**
      * Mapping the 'p' attribute of the cell to it's options.
      *
+     * @since  3.1.0
      * @param  string $attr
      * @return array
      */
@@ -87,6 +88,7 @@ class Cell extends Customizable
     /**
      * Allowing the 'p' attribute to be checked for options by using the hasOptions method.
      *
+     * @since  3.1.0
      * @param  string $attr
      * @return bool
      */

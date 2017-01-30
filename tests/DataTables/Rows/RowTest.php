@@ -7,7 +7,15 @@ use Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class RowTest extends ProvidersTestCase
 {
-    public $Row;
+    public function setUp()
+    {
+        parent::setUp();
+
+        /**
+         * Setting timezone to avoid warning from Carbon
+         */
+        date_default_timezone_set('America/Los_Angeles');
+    }
 
     /**
      * @covers \Khill\Lavacharts\DataTables\Rows\Row::__construct
@@ -18,9 +26,9 @@ class RowTest extends ProvidersTestCase
 
         $values = $this->inspect($row, 'values');
 
-        $this->assertEquals('bob', $values[0]);
-        $this->assertEquals(1, $values[1]);
-        $this->assertEquals(2.0, $values[2]);
+        $this->assertEquals('bob', $values[0]->getValue());
+        $this->assertEquals(1, $values[1]->getValue());
+        $this->assertEquals(2.0, $values[2]->getValue());
     }
 
     /**
@@ -35,8 +43,8 @@ class RowTest extends ProvidersTestCase
         $values = $this->inspect($row, 'values');
 
         $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Cells\DateCell', $values[0]);
-        $this->assertEquals(1, $values[1]);
-        $this->assertEquals(2.0, $values[2]);
+        $this->assertEquals(1, $values[1]->getValue());
+        $this->assertEquals(2.0, $values[2]->getValue());
     }
 
     /**
@@ -50,8 +58,8 @@ class RowTest extends ProvidersTestCase
         $row = new Row([$mockCarbon, 1, 2.0]);
 
         $this->assertInstanceOf('\Khill\Lavacharts\DataTables\Cells\DateCell', $row->getCell(0));
-        $this->assertEquals(1, $row->getCell(1));
-        $this->assertEquals(2.0, $row->getCell(2));
+        $this->assertEquals(1, $row->getCell(1)->getValue());
+        $this->assertEquals(2.0, $row->getCell(2)->getValue());
     }
 
     /**

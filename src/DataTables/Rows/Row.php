@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\DataTables\Rows;
 
 use Carbon\Carbon;
+use Khill\Lavacharts\DataTables\Cells\NullCell;
 use Khill\Lavacharts\Values\StringValue;
 use Khill\Lavacharts\DataTables\Cells\Cell;
 use Khill\Lavacharts\DataTables\Cells\DateCell;
@@ -36,7 +37,13 @@ class Row implements \ArrayAccess, \JsonSerializable
     protected $values;
 
     /**
-     * Creates a new Row object with the given values.
+     * Creates a new Row object with the given values from an array.
+     *
+     * While iterating through the array, if the value is a...
+     *  - Carbon instance, create a DateCell
+     *  - null value, create a NullCell
+     *  - primitive value, create a Cell
+     *  - Cell, pass it through
      *
      * @param array $valueArray Array of row values.
      */
@@ -45,9 +52,17 @@ class Row implements \ArrayAccess, \JsonSerializable
         $this->values = array_map(function ($cellValue) {
             if ($cellValue instanceof Carbon) {
                 return new DateCell($cellValue);
-            } else {
+            }
+
+            if (is_null($cellValue)) {
+                return new NullCell();
+            }
+
+            if ($cellValue instanceof Cell) {
                 return $cellValue;
             }
+
+            return new Cell($cellValue);
         }, $valueArray);
     }
 
@@ -58,6 +73,7 @@ class Row implements \ArrayAccess, \JsonSerializable
      * @param  array                                 $valueArray Array of values to assign to the row.
      * @return \Khill\Lavacharts\DataTables\Rows\Row
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
+     * @throws \Khill\Lavacharts\Exceptions\InvalidDate
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
      */
     public static function create(DataTable $datatable, $valueArray)
@@ -107,7 +123,7 @@ class Row implements \ArrayAccess, \JsonSerializable
 
                     $rowData[] = $cell->newInstanceArgs($cellValue);
                 } else {
-                    $rowData[] = new Cell($cellValue);
+                    $rowData[] = $cellValue;
                 }
             }
         }

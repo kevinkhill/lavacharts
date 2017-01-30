@@ -16,15 +16,15 @@ class NullRowTest extends ProvidersTestCase
 
         $values = $this->inspect($row, 'values');
 
-        $this->assertNull($values[0]);
-        $this->assertNull($values[1]);
-        $this->assertNull($values[2]);
+        array_walk($values, function ($value) {
+            $this->assertNull($value->getValue());
+}       );
     }
 
     /**
      * @covers \Khill\Lavacharts\DataTables\Rows\NullRow::__construct
      * @dataProvider nonIntProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidParamType
      */
     public function testConstructorWithBadTypes($badTypes)
     {

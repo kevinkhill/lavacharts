@@ -65,6 +65,13 @@ class DataTableTest extends ProvidersTestCase
         return is_int($index) ? $rows[$index] : $rows;
     }
 
+    public function privateCellAccess($rowIndex, $cellIndex)
+    {
+        $row = $this->privateRowAccess($rowIndex);
+
+        return $row[$cellIndex];
+    }
+
     public function columnCreationNameProvider()
     {
         return array_map(function ($columnName) {
@@ -406,7 +413,7 @@ class DataTableTest extends ProvidersTestCase
 
         $row = $this->privateRowAccess(0);
 
-        $this->assertNull($this->inspect($row, 'values')[0]);
+        $this->assertNull($this->inspect($row, 'values')[0]->getValue());
     }
 
     /**
@@ -420,7 +427,7 @@ class DataTableTest extends ProvidersTestCase
 
         $row = $this->privateRowAccess(0);
 
-        $this->assertNull($this->inspect($row, 'values')[0]);
+        $this->assertNull($this->inspect($row, 'values')[0]->getValue());
     }
 
     /**
@@ -433,11 +440,11 @@ class DataTableTest extends ProvidersTestCase
         $this->DataTable->addRow([Carbon::parse('March 24th, 1988')]);
 
         $column = $this->privateColumnAccess(0);
-        $row    = $this->privateRowAccess(0);
+        $cell   = $this->privateCellAccess(0, 0);
 
         $this->assertEquals('date', $column->getType());
-        $this->assertInstanceOf('\Khill\Lavacharts\Datatables\Cells\DateCell', $row[0]);
-        $this->assertEquals('Date(1988,2,24,0,0,0)', (string) $row[0]);
+        $this->assertInstanceOf('\Khill\Lavacharts\Datatables\Cells\DateCell', $cell);
+        $this->assertEquals('Date(1988,2,24,0,0,0)', (string) $cell);
     }
 
     /**

@@ -40,11 +40,27 @@ class Role extends StringValue
         try {
             parent::__construct($role);
 
-            if (in_array($this->value, self::$roles) === false) {
+            if (static::isValid($role) === false) {
                 throw new InvalidColumnRole($this->value, self::$roles);
             }
         } catch (\Exception $e) {
             throw new InvalidColumnRole($role, self::$roles);
+        }
+    }
+
+    /**
+     * Checks if a given value is a valid role.
+     *
+     * @since  3.1.0
+     * @param  string $role
+     * @return bool
+     */
+    public static function isValid($role)
+    {
+        if (is_string($role) && in_array($role, static::$roles)) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

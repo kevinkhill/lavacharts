@@ -12,6 +12,12 @@ class DateCellTest extends ProvidersTestCase
     public function setUp()
     {
         parent::setUp();
+
+        /**
+         * Setting timezone to avoid warning from Carbon
+         */
+        date_default_timezone_set('America/Los_Angeles');
+
     }
 
     /**
