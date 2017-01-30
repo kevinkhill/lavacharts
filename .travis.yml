@@ -41,14 +41,14 @@ notifications:
     on_start: false     # default: false
 
 before_install:
-  - nvm install 0.10
-  - nvm use 0.10
+  - nvm install 0.12
+  - nvm use 0.12
   - npm config set spin false
   - composer selfupdate
 
 install:
   - composer install --no-progress --no-interaction --prefer-dist
-  - npm install --no-progress --production
+  - npm install --no-progress
 
 before_script:
   - echo 'date.timezone = "America/Los_Angeles"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
