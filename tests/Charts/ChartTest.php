@@ -45,7 +45,7 @@ class ChartTest extends ProvidersTestCase
         $options = $this->inspect($chart, 'options');
 
         $this->assertTrue(is_array($options));
-        $this->assertTrue(isset($options['colors']));
+        $this->assertArrayHasKey('colors', $options);
         $this->assertEquals(['red', 'green'], $options['colors']);
     }
 
@@ -75,20 +75,8 @@ class ChartTest extends ProvidersTestCase
 
         $options = $chart->getOptions();
 
-        $this->assertEquals('out', $options['legend']['position']);
-    }
-
-    /**
-     * @depends testGetOptions
-     */
-    public function testSettingArrayValueOptionViaMagicMethod()
-    {
-        $chart = $this->makeLineChart();
-
-        $chart->legend(['position' => 'out']);
-
-        $options = $chart->getOptions();
-
+        $this->assertArrayHasKey('legend', $options);
+        $this->assertArrayHasKey('position', $options['legend']);
         $this->assertEquals('out', $options['legend']['position']);
     }
 

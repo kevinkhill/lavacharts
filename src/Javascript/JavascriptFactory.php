@@ -47,7 +47,7 @@ class JavascriptFactory
      *
      * @param string $outputTemplate
      */
-    public function __construct($outputTemplate)
+     public function __construct($outputTemplate)
     {
         $this->template = file_get_contents(
             realpath(__DIR__ . '/../../javascript/templates/' . $outputTemplate)
