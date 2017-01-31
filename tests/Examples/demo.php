@@ -19,13 +19,11 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
 
         if (strpos($chartType, 'Chart') > 0) {
             require_once(__DIR__ . '/Charts/' . $chartType . '.php');
-            /*$elemId = $lava->fetch($chartType, $title)->getElementIdStr();*/
         } else {
             require_once(__DIR__ . '/Dashboards/' . $chartType . '.php');
-            /*$elemId = $lava->fetch('Dashboard', $title)->getElementIdStr();*/
         }
 
-        $elemId = str_random(12);
+        $elemId = sha1(microtime());
     }
 }
 ?>
