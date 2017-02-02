@@ -117,7 +117,7 @@ gulp.task('charts', function() {
 });
 
 gulp.task('demos', function() {
-    phpServer('demo.php', 8080);
+    phpServer('demo.php', process.env.PORT || 6000);
 });
 
 gulp.task('render', function (done) {
