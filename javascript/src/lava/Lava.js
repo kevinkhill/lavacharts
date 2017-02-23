@@ -414,24 +414,38 @@ module.exports = (function() {
             if (event.type === "load" || (/loaded|complete/.test(this.readyState))) {
                 this.onload = this.onreadystatechange = null;
 
-                var packages = $lava._getPackages();
-                var locale   = $lava._getLocale();
-
-                console.log('google loaded');
-                console.log(packages);
-
-                google.charts.load('current', {
-                    packages: packages,
-                    language: locale
-                });
-
-                google.charts.setOnLoadCallback(deferred.resolve);
+                $lava._setLoadCallback();
             }
         };
 
-        document.head.appendChild(s);
+        var isScriptLoaded = false;
+        var scripts = document.getElementsByTagName('script');
+        for (var i = scripts.length; i--;) {
+            if (scripts[i].src == s.src) isScriptLoaded = true;
+        }
+
+        if (!isScriptLoaded) {
+            document.head.appendChild(s);
+        }
 
         return deferred.promise;
+    };
+
+    Lava.prototype._setLoadCallback = function () {
+      var $lava = this;
+
+      var packages = $lava._getPackages();
+      var locale = $lava._getLocale();
+
+      console.log('google loaded');
+      console.log(packages);
+
+      google.charts.load('current', {
+        packages: packages,
+        language: locale
+      });
+
+      google.charts.setOnLoadCallback(deferred.resolve);
     };
 
     /**
