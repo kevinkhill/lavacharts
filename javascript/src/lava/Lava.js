@@ -420,24 +420,46 @@ module.exports = (function() {
             if (event.type === "load" || (/loaded|complete/.test(this.readyState))) {
                 this.onload = this.onreadystatechange = null;
 
-                var packages = $lava._getPackages();
-                var locale   = $lava._getLocale();
-
-                console.log('google loaded');
-                console.log(packages);
-
-                google.charts.load('current', {
-                    packages: packages,
-                    language: locale
-                });
-
-                google.charts.setOnLoadCallback(deferred.resolve);
+                $lava._setLoadCallback(deferred);
             }
         };
 
-        document.head.appendChild(s);
+        var isScriptLoaded = false;
+        var scripts = document.getElementsByTagName('script');
+        for (var i = scripts.length; i--;) {
+            if (scripts[i].src == s.src) {
+                isScriptLoaded = true;
+                console.log('Script is loaded already');
+            }
+        }
+
+        if (!isScriptLoaded) {
+            document.head.appendChild(s);
+            console.log("Script isn't loaded so append it to head");
+        }else{
+          console.log('Call load callback, when no script is required to be appended to head');
+          // when no script is needed to be appended, call the google.charts.load to load the rest of the packages
+          $lava._setLoadCallback(deferred);
+        }
 
         return deferred.promise;
+    };
+
+    Lava.prototype._setLoadCallback = function (deferred) {
+      var $lava = this;
+
+      var packages = $lava._getPackages();
+      var locale = $lava._getLocale();
+
+      console.log('Google loaded with packages:');
+      console.log(packages);
+
+      google.charts.load('current', {
+        packages: packages,
+        language: locale
+      });
+
+      google.charts.setOnLoadCallback(deferred.resolve);
     };
 
     /**
