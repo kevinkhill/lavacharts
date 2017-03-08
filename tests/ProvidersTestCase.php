@@ -3,6 +3,8 @@
 namespace Khill\Lavacharts\Tests;
 
 
+use Illuminate\Support\Collection;
+
 abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -56,7 +58,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
             [true],
             [false],
             [[]],
-            [new \stdClass]
+            [new \stdClass],
         ];
     }
 
@@ -67,7 +69,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
             [14.6342],
             [true],
             [false],
-            [new \stdClass()]
+            [new \stdClass()],
         ];
     }
 
@@ -79,7 +81,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
             [14.6342],
             [true],
             [false],
-            [new \stdClass()]
+            [new \stdClass()],
         ];
     }
 
@@ -92,7 +94,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
             [true],
             [false],
             [[]],
-            [new \stdClass()]
+            [new \stdClass()],
         ];
     }
 
@@ -105,7 +107,15 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
             [false],
             [null],
             [[]],
-            [new \stdClass()]
+            [new \stdClass()],
+        ];
+    }
+
+    public function validStringProvider()
+    {
+        return [
+            ['Im not empty!'],
+            [new TestClassWithToString()],
         ];
     }
 
@@ -116,7 +126,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
             [9],
             [1.2],
             [[]],
-            [new \stdClass()]
+            [new \stdClass()],
         ];
     }
 
@@ -128,7 +138,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
             [true],
             [false],
             [[]],
-            [new \stdClass()]
+            [new \stdClass()],
         ];
     }
 
@@ -140,7 +150,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
             [true],
             [false],
             [[]],
-            [new \stdClass()]
+            [new \stdClass()],
         ];
     }
 
@@ -151,7 +161,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
             [true],
             [false],
             [[]],
-            [new \stdClass()]
+            [new \stdClass()],
         ];
     }
 
@@ -163,7 +173,105 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
             [1.2],
             [true],
             [false],
-            [new \stdClass()]
+            [new \stdClass()],
+        ];
+    }
+
+    public function traversableProvider()
+    {
+        $collection = new Collection([
+            ['IAmAString'],
+            ['IAmASecondString'],
+            ['IAmAThirdString'],
+        ]);
+
+        return [
+            [$collection],
+        ];
+    }
+
+    public function arrayAccessProvider()
+    {
+        $arrayAccessArray = [
+            [new Collection(['IAmAString'])],
+            [new Collection(['IAmASecondString'])],
+            [new Collection(['IAmAThirdString'])]
+        ];
+
+        return [
+            [$arrayAccessArray],
+        ];
+    }
+
+    public function iterableWithStrings()
+    {
+        $stringsArray = [
+            'IAmAString',
+            'IAmASecondString',
+            'IAmAThirdString',
+        ];
+        $stringsCollection = new Collection($stringsArray);
+
+        $objectsArray = [
+            new TestClassWithToString('IAmAString'),
+            new TestClassWithToString('IAmASecondString'),
+            new TestClassWithToString('IAmAThirdString'),
+        ];
+        $objectsCollection = new Collection($objectsArray);
+
+        return [
+            [$stringsArray],
+            [$objectsArray],
+            [$stringsCollection],
+            [$objectsCollection],
+        ];
+    }
+
+    public function iterableInArrayWithGoodData()
+    {
+        $stringsArray = [
+            'IAmAString',
+            'IAmASecondString',
+            'IAmAThirdString',
+        ];
+        $stringsCollection = new Collection($stringsArray);
+
+        $objectsArray = [
+            new TestClassWithToString('IAmAString'),
+            new TestClassWithToString('IAmASecondString'),
+            new TestClassWithToString('IAmAThirdString'),
+        ];
+        $objectsCollection = new Collection($objectsArray);
+
+        return [
+            [$stringsArray],
+            [$objectsArray],
+            [$stringsCollection],
+            [$objectsCollection],
+        ];
+    }
+
+    public function iterableInArrayWithBadData()
+    {
+        $stringsArray = [
+            'IAmAString',
+            'IAmASecondString',
+            'IAmAThirdString',
+        ];
+        $stringsCollection = new Collection($stringsArray);
+
+        $objectsArray = [
+            new TestClassWithToString('IAmAString'),
+            new TestClassWithToString('IAmASecondString'),
+            new TestClassWithToString('IAmAThirdString'),
+        ];
+        $objectsCollection = new Collection($objectsArray);
+
+        return [
+            [$stringsArray, 'nonExisting'],
+            [$objectsArray, 'nonExisting'],
+            [$stringsCollection, 'nonExisting'],
+            [$objectsCollection, 'nonExisting'],
         ];
     }
 }

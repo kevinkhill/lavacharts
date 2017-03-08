@@ -7,9 +7,15 @@ use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class UtilsNonEmptyStringTest extends ProvidersTestCase
 {
-    public function testWithValidString()
+
+    /**
+     * @dataProvider validStringProvider
+     *
+     * @param string|object $variable
+     */
+    public function testWithValidString($variable)
     {
-        $this->assertTrue(Utils::nonEmptyString('Im not empty!'));
+        $this->assertTrue(Utils::nonEmptyString($variable));
     }
 
     public function testWithEmptyString()
@@ -19,9 +25,53 @@ class UtilsNonEmptyStringTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
+     *
+     * @param mixed $badTypes
      */
     public function testWithBadTypes($badTypes)
     {
         $this->assertFalse(Utils::nonEmptyString($badTypes));
+    }
+
+    /**
+     * @dataProvider iterableWithStrings
+     *
+     * @param \Traversable|string[] $iterable
+     */
+    public function testNonEmptyStringInArrayWithValidTraversableWithStrings($iterable)
+    {
+        $this->assertTrue(Utils::nonEmptyStringInArray($iterable[0], $iterable));
+    }
+
+    /**
+     * @dataProvider iterableInArrayWithBadData
+     *
+     * @param \Traversable|string[] $iterable
+     * @param string                $nonExistingString
+     */
+    public function testNonEmptyStringInArrayWithBadData($iterable, $nonExistingString)
+    {
+        $this->assertFalse(Utils::nonEmptyStringInArray($nonExistingString, $iterable));
+    }
+
+    /**
+     * @dataProvider iterableInArrayWithGoodData
+     *
+     * @param \Traversable|string[] $iterable
+     */
+    public function testCheckIfInArrayForValueWithGoodData($iterable)
+    {
+        $this->assertTrue(Utils::checkInArrayForValue($iterable[1], $iterable));
+    }
+
+    /**
+     * @dataProvider iterableInArrayWithBadData
+     *
+     * @param \Traversable|string[] $iterable
+     * @param mixed                 $valueToCheck
+     */
+    public function testCheckIfInArrayForValueWithBadData($iterable, $valueToCheck)
+    {
+        $this->assertFalse(Utils::checkInArrayForValue($valueToCheck, $iterable));
     }
 }
