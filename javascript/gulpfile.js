@@ -20,12 +20,12 @@ browserify = require('browserify'),
    connect = require('gulp-connect-php'),
   watchify = require('watchify');
 
-var renderOutputDir = './javascript/phantomjs/renders';
+var renderOutputDir = './phantomjs/renders';
 
 function compile(prod, watch) {
     var bundler = browserify({
         debug: true,
-        entries: ['./javascript/src/lava.entry.js'],
+        entries: ['./src/lava.entry.js'],
         cache: {},
         packageCache: {}
     });
@@ -53,7 +53,7 @@ function compile(prod, watch) {
             })
             .pipe(source('lava.js'))
             .pipe(gulpif(prod, streamify(uglify())))
-            .pipe(gulp.dest('javascript/dist'));
+            .pipe(gulp.dest('dist'));
     }
 
     if (watch) {
@@ -79,7 +79,7 @@ function getChartTypes(callback) {
 
 function renderChart(type, callback) {
     const phantom = './node_modules/.bin/phantomjs';
-    const renderScript = './javascript/phantomjs/render.js';
+    const renderScript = './phantomjs/render.js';
 
     console.log('[' + type + '] Launching phantom.');
 
@@ -146,7 +146,7 @@ gulp.task('render', function (done) {
 });
 
 gulp.task('phantom', function() {
-    gulp.src("./javascript/phantomjs/render.js")
+    gulp.src("./phantomjs/render.js")
         .pipe(phantom({
             ext: json
         }))
@@ -154,7 +154,7 @@ gulp.task('phantom', function() {
 });
 
 gulp.task('jshint', function (done) {
-    return gulp.src('./javascript/src/**/*.js')
+    return gulp.src('./src/**/*.js')
                .pipe(jshint())
                .pipe(jshint.reporter(stylish));
 });
