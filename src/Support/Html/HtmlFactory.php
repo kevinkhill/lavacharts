@@ -55,7 +55,7 @@ class HtmlFactory
             if (array_key_exists('width', $dimensions)) {
                 $widthType = self::dimensionTypeCheck($dimensions['width']);
                 $widthUnit = ($widthType === 'integer') ? 'px' : '';
-                $heightStr = sprintf("width:%s%s;", $dimensions['width'], $widthUnit);
+                $widthStr = sprintf("width:%s%s;", $dimensions['width'], $widthUnit);
             }
 
             return sprintf(
