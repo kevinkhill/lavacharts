@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\DataTables;
 
+use DateTimeZone;
+use JsonSerializable;
 use Khill\Lavacharts\Exceptions\InvalidColumnRole;
 use Khill\Lavacharts\Values\Role;
 use Khill\Lavacharts\Values\StringValue;
@@ -37,12 +39,8 @@ use Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class DataTable implements Jsonable, \JsonSerializable
+class DataTable implements Jsonable, JsonSerializable
 {
-    use \Khill\Lavacharts\Support\Traits\ArrayIsMultiTrait;
-    use \Khill\Lavacharts\Support\Traits\ArrayValuesTestTrait;
-    use \Khill\Lavacharts\Support\Traits\NonEmptyStringTrait;
-
     /**
      * Timezone for dealing with datetime and Carbon objects.
      *
@@ -140,7 +138,7 @@ class DataTable implements Jsonable, \JsonSerializable
     public function setTimezone($timezone)
     {
         try {
-            $this->timezone = new \DateTimeZone($timezone);
+            $this->timezone = new DateTimeZone($timezone);
         } catch (\Exception $e) {
             throw new InvalidTimeZone($timezone);
         }
