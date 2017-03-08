@@ -1,3 +1,9 @@
+- 3.0.7
+  - Added support for Traversable and ArrayAccess when adding rows to datatables.
+
+- 3.0.6
+  - Refactored the LavachartsServiceProvider to use `singleton` over `share` since it was removed in Laravel 5.4
+
 - 3.0.5
   - Fixing bug in Blade template exension.
 
