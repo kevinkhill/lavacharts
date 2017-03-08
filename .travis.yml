@@ -26,7 +26,7 @@ cache:
     - $HOME/.composer/cache
     - $HOME/.npm
     - vendor
-    - node_modules
+    - javascript/node_modules
 
 addons:
     code_climate:
@@ -41,14 +41,14 @@ notifications:
     on_start: false     # default: false
 
 before_install:
+  - composer selfupdate
   - nvm install 0.12
   - nvm use 0.12
-  - npm config set spin false
-  - composer selfupdate
+  - cd javascript && npm config set spin false
 
 install:
   - composer install --no-progress --no-interaction --prefer-dist
-  - npm install --no-progress
+  - cd javascript && npm install --no-progress
 
 before_script:
   - echo 'date.timezone = "America/Los_Angeles"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
@@ -56,7 +56,7 @@ before_script:
 
 script:
   - composer run test
-  - npm run test
+  - cd javascript && npm run test
 
 after_script:
   - php ./vendor/bin/coveralls
