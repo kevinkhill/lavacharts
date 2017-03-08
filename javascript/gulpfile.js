@@ -31,7 +31,7 @@ function compile(prod, watch) {
     });
 
     if (watch) {
-        var bundler = watchify(bundler);
+        bundler = watchify(bundler);
     }
 
     if (prod) {
@@ -68,7 +68,7 @@ function compile(prod, watch) {
 }
 
 function getChartTypes(callback) {
-    exec('php ./tests/Examples/chartTypes.php', function (error, stdout, stderr) {
+    exec('php ../tests/Examples/chartTypes.php', function (error, stdout, stderr) {
         console.log(stderr);
 
         var charts = eval(stdout);
@@ -88,7 +88,7 @@ function renderChart(type, callback) {
 }
 
 function phpServer(router, port, callback) {
-    const base = './tests/Examples/';
+    const base = '../tests/Examples/';
 
     connect.server({
         base: base,
