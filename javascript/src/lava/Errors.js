@@ -7,7 +7,7 @@
  *
  * @module    lava/Errors
  * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2015, KHill Designs
+ * @copyright (c) 2017, KHill Designs
  * @license   MIT
  */
 var LavachartsError = function (message) {

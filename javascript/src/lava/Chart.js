@@ -2,12 +2,33 @@
 /* globals document, google, require, module */
 
 /**
+ * Chart class used for storing all the needed configuration for rendering.
+ *
+ * @typedef {Function} Chart
+ * @property {string} label - Label for the chart.
+ * @property {string} type - Type of chart.
+ * @property {Object} element - Html element in which to render the chart.
+ * @property {Object} chart - Google chart object.
+ * @property {string} package - Type of Google chart package to load.
+ * @property {boolean} pngOutput - Should the chart be displayed as a PNG.
+ * @property {Object} data - Datatable for the chart.
+ * @property {Object} options - Configuration options for the chart.
+ * @property {Array} formats - Formatters to apply to the chart data.
+ * @property {Object} promises - Promises used in the rendering chain.
+ * @property {Function} init - Initializes the chart.
+ * @property {Function} configure - Configures the chart.
+ * @property {Function} render - Renders the chart.
+ * @property {Function} uuid - Creates identification string for the chart.
+ * @property {Object} _errors - Collection of errors to be thrown.
+ */
+
+/**
  * Chart module
  *
  * @class     Chart
  * @module    lava/Chart
  * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2015, KHill Designs
+ * @copyright (c) 2017, KHill Designs
  * @license   MIT
  */
 module.exports = (function() {
@@ -21,8 +42,8 @@ module.exports = (function() {
      * This is the javascript version of a lavachart with methods for interacting with
      * the google chart and the PHP lavachart output.
      *
-     * @param {String} type
-     * @param {String} label
+     * @param {string} type
+     * @param {string} label
      * @constructor
      */
     function Chart (type, label) {
