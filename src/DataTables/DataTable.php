@@ -4,18 +4,18 @@ namespace Khill\Lavacharts\DataTables;
 
 use DateTimeZone;
 use JsonSerializable;
-use Khill\Lavacharts\Exceptions\InvalidColumnRole;
-use Khill\Lavacharts\Values\Role;
-use Khill\Lavacharts\Values\StringValue;
 use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\DataTables\Rows\Row;
 use Khill\Lavacharts\DataTables\Columns\ColumnFactory;
 use Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
+use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
+use Khill\Lavacharts\Exceptions\InvalidColumnRole;
+use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use Khill\Lavacharts\Exceptions\InvalidTimeZone;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
-use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
+use Khill\Lavacharts\Values\Role;
+use Khill\Lavacharts\Values\StringValue;
 
 /**
  * The DataTable object is used to hold the data passed into a visualization.
@@ -128,20 +128,17 @@ class DataTable implements Jsonable, JsonSerializable
     /**
      * Sets the Timezone that Carbon will use when parsing dates
      *
-     * This will use the passed timezone, falling back to the default from php.ini,
-     * and falling back from that to America/Los_Angeles
-     *
      * @param  string $timezone
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidTimeZone
      */
     public function setTimezone($timezone)
     {
-        try {
-            $this->timezone = new DateTimeZone($timezone);
-        } catch (\Exception $e) {
+        if ($this->isValidTimezone($timezone) === false) {
             throw new InvalidTimeZone($timezone);
         }
+
+        $this->timezone = new DateTimeZone($timezone);
 
         return $this;
     }
@@ -746,4 +743,28 @@ class DataTable implements Jsonable, JsonSerializable
 
         return $this;
     }
+
+    /**
+     * Checks the variable against the built-in list of valid php timezones.
+     *
+     * Returns true if in the list, otherwise false.
+     *
+     * @param string $tz
+     * @return bool
+     */
+    protected function isValidTimezone($tz) {
+        $timezoneList = call_user_func_array('array_merge', timezone_abbreviations_list());
+
+        $timezones = array_map(function ($timezone) {
+            if ($timezone['timezone_id'] != null) {
+                return $timezone['timezone_id'];
+            }
+        }, $timezoneList);
+
+        $timezones = array_filter($timezones, 'is_string');
+        $timezones = array_unique($timezones);
+
+        return in_array($tz, $timezones, true);
+    }
+
 }
