@@ -2,11 +2,13 @@
 
 namespace Khill\Lavacharts\DataTables\Rows;
 
-use \Carbon\Carbon;
-use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\DataTables\Cells\DateCell;
-use \Khill\Lavacharts\Exceptions\InvalidCellCount;
-use \Khill\Lavacharts\Exceptions\InvalidRowDefinition;
+use ArrayAccess;
+use Carbon\Carbon;
+use Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\DataTables\Cells\DateCell;
+use Khill\Lavacharts\Exceptions\InvalidCellCount;
+use Khill\Lavacharts\Exceptions\InvalidRowDefinition;
+use Khill\Lavacharts\Support\Traits\ParameterValidatorsTrait as ParameterValidators;
 
 /**
  * RowFactory Class
@@ -24,6 +26,8 @@ use \Khill\Lavacharts\Exceptions\InvalidRowDefinition;
  */
 class RowFactory
 {
+    use ParameterValidators;
+
     /**
      * DataTable to reference when creating new rows.
      *
@@ -43,25 +47,25 @@ class RowFactory
     }
 
     /**
-     * Creates a new Row object.
+     * Creates a new Row object from a collection of values.
      *
-     * @param  array $valueArray Array of values to assign to the row.
+     * @param  array|ArrayAccess $rowDef Collection of values to assign to the row.
      * @return \Khill\Lavacharts\DataTables\Rows\Row
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeString
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
      */
-    public function create($valueArray)
+    public function create($rowDef)
     {
-        if ($valueArray !== null && is_array($valueArray) === false) {
-            throw new InvalidRowDefinition($valueArray);
+        if ($rowDef !== null && $this->behavesAsArray($rowDef)) {
+            throw new InvalidRowDefinition($rowDef);
         }
 
-        if ($valueArray === null || is_array($valueArray) === true && empty($valueArray) === true) {
+        if ($rowDef === null || ($this->behavesAsArray($rowDef) && empty($rowDef))) {
             return new NullRow($this->datatable->getColumnCount());
         }
 
-        $cellCount   = count($valueArray);
+        $cellCount   = count($rowDef);
         $columnCount = $this->datatable->getColumnCount();
 
         if ($cellCount > $columnCount) {
@@ -73,7 +77,7 @@ class RowFactory
 
         $rowData = [];
 
-        foreach ($valueArray as $index => $cell) {
+        foreach ($rowDef as $index => $cell) {
             if ((bool) preg_match('/date|datetime|timeofday/', $columnTypes[$index]) === true) {
                 if ($cell instanceof Carbon) {
                     $rowData[] = new DateCell($cell);
