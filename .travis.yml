@@ -27,7 +27,7 @@ cache:
     - $HOME/.composer/cache
     - $HOME/.npm
     - vendor
-    - javascript/node_modules
+#    - javascript/node_modules
 
 addons:
     code_climate:
@@ -43,13 +43,13 @@ notifications:
 
 before_install:
   - composer selfupdate
-  - nvm install 0.12
-  - nvm use 0.12
-  - $(cd $TRAVIS_BUILD_DIR/javascript && npm config set spin false)
+#  - nvm install 0.12
+#  - nvm use 0.12
+#  - cd $TRAVIS_BUILD_DIR/javascript && npm config set spin false
 
 install:
   - composer install --no-progress --no-interaction --prefer-dist
-  - $(cd $TRAVIS_BUILD_DIR/javascript && npm install --no-progress)
+#  - cd $TRAVIS_BUILD_DIR/javascript && npm install --no-progress
 
 before_script:
   - mkdir -p build/logs
@@ -57,7 +57,7 @@ before_script:
 
 script:
   - composer run test
-  - $(cd $TRAVIS_BUILD_DIR/javascript && npm run test)
+#  - cd $TRAVIS_BUILD_DIR/javascript && npm run test
 
 after_script:
   - php ./vendor/bin/coveralls
