@@ -32,7 +32,9 @@ class Role extends StringValue
         'interval',
         'scope',
         'style',
-        'tooltip'
+        'tooltip',
+        'data',
+        'domain',
     ];
 
     public function __construct($role)
