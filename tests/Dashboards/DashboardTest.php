@@ -15,7 +15,8 @@ class DashboardTest extends DashboardsTestCase
 
         $this->dashboard = new Dashboard(
             \Mockery::mock('\Khill\Lavacharts\Values\Label', ['myDash'])->makePartial(),
-            $this->partialDataTable
+            $this->partialDataTable,
+            \Mockery::mock('\Khill\Lavacharts\Values\ElementId', ['my-dash'])->makePartial()
         );
     }
 

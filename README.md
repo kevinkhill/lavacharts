@@ -14,7 +14,7 @@ Stable:
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/3.0.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=3.0)
 
 Dev:
-[![Development Release](https://img.shields.io/badge/release-dev--3.1-brightgreen.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/master)
+[![Development Release](https://img.shields.io/badge/release-3.1.x--dev-brightgreen.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/master)
 [![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/master.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/master.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=master)
 
@@ -32,12 +32,12 @@ Dev:
 - [Carbon](https://github.com/briannesbitt/Carbon) support for date/datetime/timeofday columns
 - Now supporting **22** Charts!
   - Annotation, Area, Bar, Bubble, Calendar, Candlestick, Column, Combo, Gantt, Gauge, Geo, Histogram, Line, Org, Pie, Sankey, Scatter, SteppedArea, Table, Timeline, TreeMap, and WordTree!
-- [DataTablePlus](https://github.com/kevinkhill/datatableplus) package can be added to parse CSV files or Eloquent collections into DataTables. 
+- [DataTablePlus](https://github.com/kevinkhill/datatableplus) package can be added to parse CSV files or Eloquent collections into DataTables.
 
 
 #### For complete documentation, please visit [lavacharts.com](http://lavacharts.com/)
 #### Upgrade guide: [Migrating from 2.5.x to 3.0.x](https://github.com/kevinkhill/lavacharts/wiki/Upgrading-from-2.5-to-3.0)
-
+#### For contributing, a handy guide [can be found here](https://github.com/kevinkhill/lavacharts/blob/master/.github/CONTRIBUTING.md)
 
 ---
 
@@ -188,7 +188,7 @@ $lava->LineChart('Stocks', $data, [
     'colors' => ['blue', '#F4C1D8']
 ]);
 ```
-    
+
 #### Output ID
 The chart will needs to be output into a div on the page, so an html ID for a div is needed.
 Here is where you want your chart ```<div id="stocks-div"></div>```
@@ -202,13 +202,13 @@ Here is where you want your chart ```<div id="stocks-div"></div>```
         'elementId' => 'stocks-div'
         'title' => 'Stock Market Trends'
     ]);
-``` 
+```
  - The 4th parameter will also work:
 ```php
     $lava->LineChart('Stocks', $data, [
         'title' => 'Stock Market Trends'
     ], 'stocks-div');
-``` 
+```
 
 
 ## View

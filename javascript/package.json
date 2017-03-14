@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "engines": {
-    "node": "10.*"
+    "node": "0.12.*"
   },
   "dependencies": {
     "custom-error-generator": "^7.0.0",
@@ -16,7 +16,7 @@
     "q": "^1.4.1"
   },
   "devDependencies": {
-    "browserify": "^11.1.0",
+    "browserify": "^14.0.0",
     "gulp": "^3.9.0",
     "gulp-bump": "^0.3.0",
     "gulp-connect-php": "0.0.8",

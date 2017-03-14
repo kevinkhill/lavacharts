@@ -17,6 +17,11 @@
             "role": "Creator"
         },
         {
+            "name": "twify93",
+            "homepage": "https://github.com/twify93",
+            "role": "Contributor"
+        },
+        {
             "name": "SendDerek",
             "homepage": "https://github.com/SendDerek",
             "role": "Contributor"
@@ -75,7 +80,7 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.5",
+        "phpunit/phpunit": "~4.8",
         "mybuilder/phpunit-accelerator": "~1.1",
         "mockery/mockery": "~0.9",
         "squizlabs/php_codesniffer": "~2.5",

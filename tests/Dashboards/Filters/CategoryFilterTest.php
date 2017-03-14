@@ -7,9 +7,6 @@ use \Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class CategoryFilterTest extends ProvidersTestCase
 {
-    /**
-     * @covers \Khill\Lavacharts\Dashboards\Filters\Filter::filterColumnIndex
-     */
     public function testSettingColumnIndexWithConstructor()
     {
         $categoryFilter = new CategoryFilter(2);
@@ -17,9 +14,6 @@ class CategoryFilterTest extends ProvidersTestCase
         $this->assertEquals(2, $categoryFilter['filterColumnIndex']);
     }
 
-    /**
-     * @covers \Khill\Lavacharts\Dashboards\Filters\Filter::filterColumnLabel
-     */
     public function testSettingColumnLabelWithConstructor()
     {
         $categoryFilter = new CategoryFilter('cities');

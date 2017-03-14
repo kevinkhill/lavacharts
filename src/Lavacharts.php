@@ -111,7 +111,9 @@ class Lavacharts
             }
 
             if ($this->exists($method, $args[0])) {
-                $lavaClass = $this->volcano->get($method, $args[0]);
+                $label = new Label($args[0]);
+
+                $lavaClass = $this->volcano->get($method, $label);
             } else {
                 $chart = $this->chartFactory->create($method, $args);
 

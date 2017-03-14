@@ -2,9 +2,9 @@ module.exports = function (config) {
     config.set({
         frameworks: ['jasmine','sinon'],
         files: [
-            'node_modules/jasmine-sinon/lib/jasmine-sinon.js',
-            'javascript/dist/lava.js',
-            'javascript/tests/lava.spec.js'
+            './node_modules/jasmine-sinon/lib/jasmine-sinon.js',
+            './dist/lava.js',
+            './tests/lava.spec.js'
         ],
         singleRun: false,
         reporters: ['dots'],

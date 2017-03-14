@@ -1,12 +1,13 @@
-node_modules/
 vendor/
 build/
 .idea/
+
+javascript/node_modules/
 javascript/phantomjs/renders/
 
-npm-debug.log
 composer.phar
 
+*.log
 *.sublime-*
 *___jb*
 *DS_Store

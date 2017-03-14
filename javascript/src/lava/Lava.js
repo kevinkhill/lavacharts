@@ -2,12 +2,12 @@
 /* globals window, document, console, google, module, require */
 
 /**
- * Lava module
+ * lava.js module
  *
  * @module    lava/Lava
  * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2015, KHill Designs
- * @license   MIT
+ * @copyright (c) 2017, KHill Designs
+ * @license   http://opensource.org/licenses/MIT MIT
  */
 module.exports = (function() {
     'use strict';
@@ -18,13 +18,6 @@ module.exports = (function() {
     var EventEmitter = require('events');
 
     function Lava() {
-        /**
-         * Setting the debug flag
-         *
-         * @type {boolean}
-         */
-        this._debug = true;
-
         /**
          * Defining the Chart class within the module.
          *
@@ -40,22 +33,26 @@ module.exports = (function() {
         this.Dashboard = require('./Dashboard.js');
 
         /**
-         * Urls to Google's resources
+         * Urls to Google's static loader
          *
-         * @type {{jsapi: string, gstatic: string}}
+         * @type {string}
+         * @public
          */
-        this.urls = {
-            jsapi:   'https://www.google.com/jsapi',
-            gstatic: 'https://www.gstatic.com/charts/loader.js'
-        };
+        this.gstaticUrl = 'https://www.gstatic.com/charts/loader.js';
 
         /**
-         * Array of config items.
+         * JSON object of config items.
          *
-         * @type {Array}
+         * @type {Object}
          * @private
          */
-        this._config = CONFIG_JSON;
+        this._config = (function () {
+            if (typeof CONFIG_JSON == 'undefined') {
+                return {};
+            } else {
+                return CONFIG_JSON;
+            }
+        }());
 
         /**
          * Array of charts stored in the module.
@@ -100,16 +97,72 @@ module.exports = (function() {
     util.inherits(Lava, EventEmitter);
 
     /**
+     * Initialize the Lava.js module by attaching the event listeners
+     * and calling the charts' and dashboards' init methods
+     *
+     * @public
+     */
+    Lava.prototype.init = function () {
+        console.log('lava.js init');
+
+        var $lava = this;
+        var readyCount = 0;
+
+        this.on('ready', function (renderable) {
+            console.log(renderable.uuid() + ' ready');
+
+            readyCount++;
+
+            if (readyCount == $lava._getRenderables().length) {
+                console.log('loading google');
+
+                $lava._loadGoogle().then(function() {
+                    return $lava._mapRenderables(function (renderable) {
+                        console.log('configuring ' + renderable.uuid());
+
+                        return renderable.configure();
+                    });
+                }).then(function() {
+                    return $lava._mapRenderables(function (renderable) {
+                        console.log('rendering ' + renderable.uuid());
+
+                        return renderable.render();
+                    });
+                }).then(function() {
+                    console.log('lava.js ready, firing callback');
+
+                    $lava._readyCallback();
+                });
+            }
+        });
+    };
+
+    /**
+     * Runs the Lava.js module by calling all the renderables' init methods
+     *
+     * @public
+     */
+    Lava.prototype.run = function () {
+        console.log('lava.js running');
+
+        this._forEachRenderable(function (renderable) {
+            console.log('init ' + renderable.uuid());
+
+            renderable.init();
+        });
+    };
+
+    /**
      * Stores a renderable lava object within the module.
      *
      * @param {Chart|Dashboard} renderable
      */
     Lava.prototype.store = function (renderable) {
-        if (renderable instanceof lava.Chart) {
+        if (renderable instanceof this.Chart) {
             this.storeChart(renderable);
         }
 
-        if (renderable instanceof lava.Dashboard) {
+        if (renderable instanceof this.Dashboard) {
             this.storeDashboard(renderable);
         }
     };
@@ -159,8 +212,8 @@ module.exports = (function() {
      * a chart can be dynamically update in page, without reloads.
      *
      * @public
-     * @param {String} label
-     * @param {String} json
+     * @param {string} label
+     * @param {string} json
      * @param {Function} callback
      */
     Lava.prototype.loadData = function (label, json, callback) {
@@ -197,8 +250,8 @@ module.exports = (function() {
      * This can be used to update a chart dynamically, without reloads.
      *
      * @public
-     * @param {String} label
-     * @param {String} json
+     * @param {string} label
+     * @param {string} json
      * @param {Function} callback
      */
     Lava.prototype.loadOptions = function (label, json, callback) {
@@ -225,7 +278,7 @@ module.exports = (function() {
      * This method is attached to the window resize event with a 300ms debounce
      * to make the charts responsive to the browser resizing.
      */
-    Lava.prototype.redrawCharts = function () {
+    Lava.prototype.redrawCharts = function() {
         _.debounce(_.bind(function () {
             this._forEachRenderable(function (renderable) {
                 renderable.redraw();
@@ -237,8 +290,8 @@ module.exports = (function() {
      * Create a new Chart.
      *
      * @public
-     * @param  {String} type Type of chart to create
-     * @param  {String} type Label for the chart
+     * @param  {string} type Type of chart to create
+     * @param  {string} label Label for the chart
      * @return {Chart}
      */
     Lava.prototype.createChart = function (type, label) {
@@ -269,7 +322,7 @@ module.exports = (function() {
      * for some examples relative to LineCharts.
      *
      * @public
-     * @param  {String}   label
+     * @param  {string}   label
      * @param  {Function} callback
      * @throws InvalidLabel
      * @throws InvalidCallback
@@ -297,7 +350,7 @@ module.exports = (function() {
      * Create a new Dashboard with a given label.
      *
      * @public
-     * @param  {String} label
+     * @param  {string} label
      * @return {Dashboard}
      */
     Lava.prototype.createDashboard = function (label) {
@@ -318,7 +371,7 @@ module.exports = (function() {
      * Retrieve a Dashboard from Lava.js
      *
      * @public
-     * @param  {String}   label    Dashboard label.
+     * @param  {string}   label    Dashboard label
      * @param  {Function} callback Callback function
      * @throws InvalidLabel
      * @throws InvalidCallback
@@ -335,7 +388,7 @@ module.exports = (function() {
 
         var dash = _.find(this._dashboards, {label: label});
 
-        if (dash instanceof lava.Dashboard === false) {
+        if (dash instanceof this.Dashboard === false) {
             throw new this._errors.DashboardNotFound(label);
         }
 
@@ -378,7 +431,7 @@ module.exports = (function() {
      * Returns the defined locale of the charts.
      *
      * @private
-     * @return {String}
+     * @return {string}
      */
     Lava.prototype._getLocale = function () {
         return this._config.locale;
@@ -398,98 +451,93 @@ module.exports = (function() {
     };
 
     /**
-     * Load Google's apis and resolve the promise when ready.
+     * Check if Google's Static Loader is in page.
+     *
+     * @private
+     * @returns {boolean}
      */
-    Lava.prototype._loadGoogle = function (callback) {
-        var $lava = this;
-        var s = document.createElement('script');
-        var deferred = Q.defer();
+    Lava.prototype._googleIsLoaded = function () {
+        var scripts = document.getElementsByTagName('script');
+        var loaded = false;
 
-        s.type = 'text/javascript';
-        s.async = true;
-        s.src = this.urls.gstatic;
-        s.onload = s.onreadystatechange = function (event) {
+        for (var i = scripts.length; i--;) {
+            if (scripts[i].src == this.gstaticUrl) {
+                loaded = true;
+            }
+        }
+
+        return loaded;
+    };
+
+    /**
+     * Create a new script tag for the Google Static Loader.
+     *
+     * @private
+     * @param {Deferred} deferred
+     * @returns {HtmlElement}
+     */
+    Lava.prototype._createScriptTag = function (deferred) {
+        var script = document.createElement('script');
+        var $lava = this;
+
+        script.type = 'text/javascript';
+        script.async = true;
+        script.src = this.gstaticUrl;
+        script.onload = script.onreadystatechange = function (event) {
             event = event || window.event;
 
             if (event.type === "load" || (/loaded|complete/.test(this.readyState))) {
                 this.onload = this.onreadystatechange = null;
 
-                var packages = $lava._getPackages();
-                var locale   = $lava._getLocale();
-
-                console.log('google loaded');
-                console.log(packages);
-
-                google.charts.load('current', {
-                    packages: packages,
-                    language: locale
-                });
-
-                google.charts.setOnLoadCallback(deferred.resolve);
+                $lava._googleChartLoader(deferred);
             }
         };
 
-        document.head.appendChild(s);
+        return script;
+    };
+
+    /**
+     * Load the Google Static Loader and resolve the promise when ready.
+     *
+     * @private
+     * @returns {Promise}
+     */
+    Lava.prototype._loadGoogle = function () {
+        var $lava = this;
+        var deferred = Q.defer();
+        var script = this._createScriptTag(deferred);
+
+        if (this._googleIsLoaded()) {
+            console.log('static loader found, running callback');
+
+            $lava._googleChartLoader(deferred);
+        } else {
+            console.log('static loader not found, appending');
+
+            document.head.appendChild(script);
+        }
 
         return deferred.promise;
     };
 
     /**
-     * Initialize the Lava.js module by attaching the event listeners
-     * and calling the charts' and dashboards' init methods
+     * Runs the Google chart loader and resolves the promise.
      *
-     * @public
+     * @param {Deferred} deferred
+     * @private
      */
-    Lava.prototype.init = function () {
-        console.log('lava.js init');
+    Lava.prototype._googleChartLoader = function (deferred) {
+        var config = {
+            packages: this._getPackages(),
+            language: this._getLocale()
+        };
 
-        var $lava = this;
-        var readyCount = 0;
+        console.log('google loaded with packages', config.packages);
 
-        this.on('ready', function (renderable) {
-            console.log(renderable.uuid() + ' ready');
+        google.charts.load('current', config);
 
-            readyCount++;
-
-            if (readyCount == $lava._getRenderables().length) {
-                console.log('loading google');
-
-                $lava._loadGoogle().then(function() {
-                    return $lava._mapRenderables(function (renderable) {
-                        console.log('configuring ' + renderable.uuid());
-
-                        return renderable.configure();
-                    });
-                }).then(function () {
-                    return $lava._mapRenderables(function (renderable) {
-                        console.log('rendering ' + renderable.uuid());
-
-                        return renderable.render();
-                    });
-                }).then(function() {
-                    console.log('lava.js ready');
-
-                    $lava._readyCallback();
-                });
-            }
-        });
-    };
-
-
-    /**
-     * Runs the Lava.js module by calling all the renderables' init methods
-     *
-     * @public
-     */
-    Lava.prototype.run = function () {
-        console.log('lava.js running');
-
-        this._forEachRenderable(function (renderable) {
-            console.log('init ' + renderable.uuid());
-
-            renderable.init();
-        });
+        google.charts.setOnLoadCallback(deferred.resolve);
     };
 
     return new Lava();
-})();
+}());
