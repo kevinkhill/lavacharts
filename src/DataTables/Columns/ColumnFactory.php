@@ -52,7 +52,9 @@ class ColumnFactory
         'interval',
         'scope',
         'style',
-        'tooltip'
+        'tooltip',
+        'data',
+        'domain'
     ];
 
     /**
