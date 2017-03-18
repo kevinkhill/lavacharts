@@ -95,7 +95,9 @@
     "scripts": {
         "test": "phpunit -c phpunit.xml",
         "cs": "phpcs --standard=PSR2 src tests",
-        "cbf" : "phpcbf --standard=PSR2 src tests"
+        "cbf" : "phpcbf --standard=PSR2 src tests",
+        "lavajs:pull" : "git subtree --prefix=javascript pull lavajs master",
+        "lavajs:push" : "git subtree --prefix=javascript push lavajs master"
     },
     "minimum-stability": "stable"
 }
