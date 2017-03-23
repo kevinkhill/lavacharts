@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "custom-error-generator": "^7.0.0",
-    "document-ready": "^1.0.0",
-    "lodash": "^4.11.1",
+    "document-ready": "^1.0.3",
+    "lodash": "^4.17.4",
     "q": "^1.4.1"
   },
   "devDependencies": {
