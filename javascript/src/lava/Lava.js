@@ -278,13 +278,13 @@ module.exports = (function() {
      * This method is attached to the window resize event with a 300ms debounce
      * to make the charts responsive to the browser resizing.
      */
-    Lava.prototype.redrawCharts = function() {
-        _.debounce(_.bind(function () {
-            this._forEachRenderable(function (renderable) {
-                renderable.redraw();
-            });
-        }, this), 300);
-    };
+    Lava.prototype.redrawHandler = _.debounce(function() {
+        window.lava._forEachRenderable(function (renderable) {
+            console.log('redrawing '+renderable.uuid());
+
+            renderable.redraw();
+        });
+    }, 250);
 
     /**
      * Create a new Chart.
@@ -532,7 +532,7 @@ module.exports = (function() {
             language: this._getLocale()
         };
 
-        console.log('google loaded with packages', config.packages);
+        console.log('google loaded with configuration ', config);
 
         google.charts.load('current', config);
 

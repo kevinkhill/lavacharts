@@ -7,6 +7,17 @@
 (function(){
     "use strict";
 
+    function addEvent (object, type, callback) {
+        if (object == null || typeof(object) == 'undefined') return;
+        if (object.addEventListener) {
+            object.addEventListener(type, callback, false);
+        } else if (object.attachEvent) {
+            object.attachEvent("on" + type, callback);
+        } else {
+            object["on"+type] = callback;
+        }
+    }
+
     var ready = require('document-ready');
 
     this.lava = require('./lava/Lava.js');
@@ -15,7 +26,7 @@
         /**
          * Adding the resize event listener for redrawing charts.
          */
-        window.addEventListener('resize', window.lava.redrawCharts);
+        addEvent(window, 'resize', window.lava.redrawHandler);
 
         /**
          * Let's go!

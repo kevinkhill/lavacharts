@@ -56,7 +56,8 @@ class ChartFactory
         'SteppedAreaChart',
         'TableChart',
         'TimelineChart',
-        'TreeMapChart'
+        'TreeMapChart',
+        'WordTreeChart',
     ];
 
     /**
