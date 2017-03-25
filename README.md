@@ -55,7 +55,7 @@ If you are using Lavacharts with Silex, Lumen or your own Composer project, that
 
 
 ## Laravel
-To integrate lavacharts into Laravel, a ServiceProvider has been included.
+To integrate lavacharts into Laravel, a ServiceProvider and Facade have been included.
 
 ### Laravel 5.x
 Register Lavacharts in your app by adding this line to the end of the providers array in ```config/app.php```:
@@ -69,8 +69,12 @@ Register Lavacharts in your app by adding this line to the end of the providers 
 
     Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
 ],
+'aliases' => [
+    ...
+    
+    'Lava' => Khill\Lavacharts\Laravel\LavachartsFacade::class,
+]
 ```
-The ```Lava::``` alias will be registered automatically via the service provider.
 
 ### Laravel 4.x
 Register Lavacharts in your app by adding this line to the end of the providers array in ```app/config/app.php```:
@@ -83,11 +87,14 @@ Register Lavacharts in your app by adding this line to the end of the providers 
 'providers' => array(
     // ...
 
-    "Khill\Lavacharts\Laravel\LavachartsServiceProvider",
+    'Khill\Lavacharts\Laravel\LavachartsServiceProvider',
 ),
+'aliases' => array(
+    ...
+    
+    'Lava' => 'Khill\Lavacharts\Laravel\LavachartsFacade',
+)
 ```
-The ```Lava::``` alias will be registered automatically via the service provider.
-
 
 ## Symfony 2.x
 Also included is a Bundle for Symfony to create a service that can be pulled from the Container.
