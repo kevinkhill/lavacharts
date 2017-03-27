@@ -24,6 +24,8 @@ class Role extends StringValue
         'annotation',
         'annotationText',
         'certainty',
+        'data',
+        'domain',
         'emphasis',
         'interval',
         'scope',
