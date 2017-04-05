@@ -1,5 +1,5 @@
-# Lavacharts 3.1 Beta
-## :smile: This is a work in progress, so there is no guarantee that it works :smile:
+# Lavacharts 3.1
+
 [![Total Downloads](https://img.shields.io/packagist/dt/khill/lavacharts.svg?style=plastic)](https://packagist.org/packages/khill/lavacharts)
 [![License](https://img.shields.io/packagist/l/khill/lavacharts.svg?style=plastic)](http://opensource.org/licenses/MIT)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg?style=plastic)](https://php.net/)
@@ -10,11 +10,11 @@ Lavacharts is a graphing / chart library for PHP5.4+ that wraps the Google Chart
 
 Stable:
 [![Current Release](https://img.shields.io/github/release/kevinkhill/lavacharts.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/releases)
-[![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/3.0.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
-[![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/3.0.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=3.0)
+[![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/3.1.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
+[![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/3.1.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=3.1)
 
 Dev:
-[![Development Release](https://img.shields.io/badge/release-3.1.x--dev-brightgreen.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/master)
+[![Development Release](https://img.shields.io/badge/release-3.2.x--dev-brightgreen.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/master)
 [![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/master.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/master.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=master)
 
@@ -32,7 +32,6 @@ Dev:
 - [Carbon](https://github.com/briannesbitt/Carbon) support for date/datetime/timeofday columns
 - Now supporting **22** Charts!
   - Annotation, Area, Bar, Bubble, Calendar, Candlestick, Column, Combo, Gantt, Gauge, Geo, Histogram, Line, Org, Pie, Sankey, Scatter, SteppedArea, Table, Timeline, TreeMap, and WordTree!
-- [DataTablePlus](https://github.com/kevinkhill/datatableplus) package can be added to parse CSV files or Eloquent collections into DataTables.
 
 
 #### For complete documentation, please visit [lavacharts.com](http://lavacharts.com/)
@@ -44,7 +43,7 @@ Dev:
 ## Installing
 In your project's main ```composer.json``` file, add this line to the requirements:
 ```json
-"khill/lavacharts": "dev-3.1"
+"khill/lavacharts": "~3.1"
 ```
 
 Run Composer to install Lavacharts:

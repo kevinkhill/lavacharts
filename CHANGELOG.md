@@ -1,3 +1,6 @@
+- 3.1.0
+  - Public Release
+
 - 3.1.0-beta2
   - Adjusting elementId precedence to prevent backwards compatability breaks and enable new features. The order of precedence goes as follows:
     - An elementId string passed to the render method will override an elementId set to the chart.
