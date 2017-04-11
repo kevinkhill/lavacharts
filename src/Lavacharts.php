@@ -4,6 +4,7 @@ namespace Khill\Lavacharts;
 
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Charts\ChartFactory;
+use Khill\Lavacharts\Dashboards\Dashboard;
 use Khill\Lavacharts\Dashboards\DashboardFactory;
 use Khill\Lavacharts\Dashboards\Filters\Filter;
 use Khill\Lavacharts\Dashboards\Filters\FilterFactory;
@@ -38,7 +39,7 @@ class Lavacharts
     /**
      * Lavacharts version
      */
-    const VERSION = '3.1.0-beta';
+    const VERSION = '3.1.1';
 
     /**
      * Locale for the Charts and Dashboards.
@@ -93,17 +94,6 @@ class Lavacharts
      */
     public function __call($method, $args)
     {
-        //Rendering Aliases
-        if ((bool) preg_match('/^render/', $method) === true) {
-            $type = ltrim($method, 'render');
-
-            if ($type !== 'Dashboard' && ChartFactory::isValidChart($type) === false) {
-                throw new InvalidLavaObject($type);
-            }
-
-            $lavaClass = $this->render($type, $args[0], $args[1]);
-        }
-
         //Charts
         if (ChartFactory::isValidChart($method)) {
             if (isset($args[0]) === false) {
@@ -363,6 +353,29 @@ class Lavacharts
         }
 
         return $buffer->getContents();
+    }
+
+    /**
+     * Renders all charts and dashboards that have been defined
+     *
+     * @since  3.1.0
+     * @return string
+     */
+    public function renderAll()
+    {
+        $output = '';
+
+        if ($this->scriptManager->lavaJsRendered() === false) {
+            $output = $this->scriptManager->getLavaJsModule();
+        }
+
+        $renderables = $this->volcano->getAll();
+
+        foreach ($renderables as $renderable) {
+            $output .= $this->scriptManager->getOutputBuffer($renderable);
+        }
+
+        return $output;
     }
 
     /**
