@@ -97,24 +97,11 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider chartTypeProvider
-     * @depends testCreateDataTableViaAlias
-     */
-    public function testRenderChartAliases($chartType)
-    {
-        $chart = $this->lava->$chartType('test', $this->partialDataTable);
-
-        $renderAlias = 'render'.$chartType;
-
-        $this->assertTrue(is_string($this->lava->$renderAlias('test', 'test-div')));
-    }
-
-    /**
      * @depends testCreateDataTableViaAlias
      */
     public function testDirectRenderChart()
     {
-        $chart = $this->lava->LineChart('test', $this->partialDataTable);
+        $this->lava->LineChart('test', $this->partialDataTable);
 
         $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div')));
     }
@@ -134,7 +121,7 @@ class LavachartsTest extends ProvidersTestCase
      */
     public function testDirectRenderChartWithDivAndDimensions()
     {
-        $chart = $this->lava->LineChart('test', $this->partialDataTable);
+        $this->lava->LineChart('test', $this->partialDataTable);
 
         $dims = [
             'height' => 200,
@@ -149,7 +136,7 @@ class LavachartsTest extends ProvidersTestCase
      */
     public function testDirectRenderChartWithDivAndBadDimensionKeys()
     {
-        $chart = $this->lava->LineChart('test', $this->partialDataTable);
+        $this->lava->LineChart('test', $this->partialDataTable);
 
         $dims = [
             'heiXght' => 200,
@@ -165,7 +152,7 @@ class LavachartsTest extends ProvidersTestCase
      */
     public function testDirectRenderChartWithDivAndBadDimensionType()
     {
-        $chart = $this->lava->LineChart('test', $this->partialDataTable);
+        $this->lava->LineChart('test', $this->partialDataTable);
 
         $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div', 'TacosTacosTacos')));
     }
@@ -199,7 +186,7 @@ class LavachartsTest extends ProvidersTestCase
 
         $dt->addDateColumn('dates', $df);
 
-        $chart = $this->lava->LineChart('test', $dt);
+        $this->lava->LineChart('test', $dt);
 
         $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div')));
     }
