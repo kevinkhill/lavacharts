@@ -41,7 +41,7 @@ Dev:
 ---
 
 ## Installing
-In your project's main ```composer.json``` file, add this line to the requirements:
+In your project's main `composer.json` file, add this line to the requirements:
 ```json
 "khill/lavacharts": "~3.1"
 ```
@@ -53,14 +53,14 @@ $ composer update
 
 ## Framework Agnostic
 If you are using Lavacharts with Silex, Lumen or your own Composer project, that's no problem! Just make sure to:
-```require 'vendor/autoload.php';``` within you project and create an instance of Lavacharts: ```$lava = new Khill\Lavacharts\Lavacharts;```
+`require 'vendor/autoload.php';` within you project and create an instance of Lavacharts: `$lava = new Khill\Lavacharts\Lavacharts;`
 
 
 ## Laravel
 To integrate lavacharts into Laravel, a ServiceProvider has been included.
 
 ### Laravel 5.x
-Register Lavacharts in your app by adding this line to the end of the providers array in ```config/app.php```:
+Register Lavacharts in your app by adding these lines to the respective arrays found in `config/app.php`:
 ```php
 <?php
 // config/app.php
@@ -71,11 +71,18 @@ Register Lavacharts in your app by adding this line to the end of the providers 
 
     Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
 ],
+
+// ...
+'aliases' => [
+    ...
+    
+    'Lava' => Khill\Lavacharts\Laravel\LavachartsFacade::class,
+]
 ```
-The ```Lava::``` alias will be registered automatically via the service provider.
+
 
 ### Laravel 4.x
-Register Lavacharts in your app by adding this line to the end of the providers array in ```app/config/app.php```:
+Register Lavacharts in your app by adding these lines to the respective arrays found in `app/config/app.php`:
 
 ```php
 <?php
@@ -87,22 +94,29 @@ Register Lavacharts in your app by adding this line to the end of the providers 
 
     "Khill\Lavacharts\Laravel\LavachartsServiceProvider",
 ),
+
+// ...
+'aliases' => array(
+    // ...
+    
+    'Lava' => "Khill\Lavacharts\Laravel\LavachartsFacade",
+)
 ```
-The ```Lava::``` alias will be registered automatically via the service provider.
 
 
-## Symfony 2.x
-Also included is a Bundle for Symfony to create a service that can be pulled from the Container.
+## Symfony
+The package also includes a Bundle for Symfony to enable Lavacharts as a service that can be pulled from the Container.
 
 ### Add Bundle
-Add the bundle to the AppKernel:
+Add the bundle to the registerBundles method in the AppKernel, found at `app/AppKernel.php`:
 ```php
 <?php
 // app/AppKernel.php
 
-// ...
 class AppKernel extends Kernel
 {
+    // ..
+    
     public function registerBundles()
     {
         $bundles = array(
@@ -110,27 +124,16 @@ class AppKernel extends Kernel
 
             new Khill\Lavacharts\Symfony\Bundle\LavachartsBundle(),
         );
-
-        // ...
     }
-
-    // ...
 }
 ```
 ### Import Config
-Add the service definition to the ```app/config/config.yml``` file
+Add the service definition to the `app/config/config.yml` file
 ```yaml
 imports:
   # ...
-  - { resource: @LavachartsBundle/Resources/config/services.yml
+  - { resource: "@LavachartsBundle/Resources/config/services.yml"
 ```
-
-# Examples
-For examples, open your favorite terminal and navigate to the lavacharts folder...
-```bash
-$ cd tests/Examples && php -S 127.0.0.1:8000 -c php.ini router.php
-```
-Then point your browser to ```127.0.0.1:8000``` and check out some charts
 
 
 # Usage
@@ -157,7 +160,7 @@ $data->addDateColumn('Day of Month')
 for ($a = 1; $a < 30; $a++)
 {
     $rowData = [
-      "2014-8-$a", rand(800,1000), rand(800,1000)
+      "2017-4-$a", rand(800,1000), rand(800,1000)
     ];
 
     $data->addRow($rowData);
@@ -173,7 +176,7 @@ $data->addColumns([
 ]];
 ```
 
-Or you can ```use \Khill\Lavacharts\DataTables\DataFactory``` [to create DataTables in another way](https://gist.github.com/kevinkhill/0c7c5f6211c7fd8f9658)
+Or you can `use \Khill\Lavacharts\DataTables\DataFactory` [to create DataTables in another way](https://gist.github.com/kevinkhill/0c7c5f6211c7fd8f9658)
 
 #### Chart Options
 Customize your chart, with any options found in google's documentation. Break objects down into arrays and pass to the chart.
@@ -190,7 +193,7 @@ $lava->LineChart('Stocks', $data, [
 
 #### Output ID
 The chart will needs to be output into a div on the page, so an html ID for a div is needed.
-Here is where you want your chart ```<div id="stocks-div"></div>```
+Here is where you want your chart `<div id="stocks-div"></div>`
  - If no options for the chart are set, then the third parameter is the id of the output:
 ```php
   $lava->LineChart('Stocks', $data, 'stocks-div');
@@ -212,6 +215,11 @@ Here is where you want your chart ```<div id="stocks-div"></div>```
 
 ## View
 Pass the main lavacharts instance to the view, because all of the defined charts are stored within, and render!
+```php
+<?= $lava->render('LineChart', 'Stocks', 'stocks-div'); ?>
+```
+
+Or if you have multiple charts, you can condense theh view code withL
 ```php
 <?= $lava->renderAll(); ?>
 ```
