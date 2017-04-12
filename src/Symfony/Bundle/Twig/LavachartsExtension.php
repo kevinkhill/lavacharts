@@ -8,13 +8,6 @@ use Khill\Lavacharts\Charts\ChartFactory;
 class LavachartsExtension extends \Twig_Extension
 {
     /**
-     * Twig Extension Name
-     *
-     * @var string
-     */
-    const NAME = 'lavacharts_twig_extension';
-
-    /**
      * The Lavacharts object passed in from the service container.
      *
      * @var \Khill\Lavacharts\Lavacharts
@@ -32,9 +25,16 @@ class LavachartsExtension extends \Twig_Extension
     }
 
     /**
-     * Add Twig functions as short-cut methods to the rendering methods.
+     * Add Twig functions to utilize Lavacharts from the container.
      *
-     * @return array
+     * To render, just use the lowercase name of the chart:
+     * and pass through the raw filter.
+     *
+     * Example:
+     *  {{ linechart('Stocks")|raw }}
+     *
+     *
+     * @return array Array of twig functions
      */
     public function getFunctions()
     {
@@ -44,24 +44,19 @@ class LavachartsExtension extends \Twig_Extension
 
         foreach ($renderables as $renderable) {
             $renderFunctions[] = new \Twig_SimpleFunction(strtolower($renderable),
-                function($label, $elementId) use ($renderable) {
-                    return $this->renderChart($renderable, $label, $elementId);
+                function($label) use ($renderable) {
+                    try {
+                        $elementId = func_get_arg(1);
+
+                        return $this->lava->render($renderable, $label, $elementId);
+                    } catch (\Exception $e) {
+                        return $this->lava->render($renderable, $label);
+                    }
                 }
             );
         }
 
         return $renderFunctions;
-    }
-
-    /**
-     * @param string $type
-     * @param string $label
-     * @param string $elementId
-     * @return string
-     */
-    public function renderChart($type, $label, $elementId)
-    {
-        return $this->lava->render($type, $label, $elementId);
     }
 
     /**
@@ -71,6 +66,6 @@ class LavachartsExtension extends \Twig_Extension
      */
     public function getName()
     {
-        return self::NAME;
+        return 'lavacharts_twig_extension';
     }
 }
