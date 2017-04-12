@@ -8,7 +8,7 @@ Open a command console, enter your project directory and execute the
 following command to download the latest stable version of this bundle:
 
 ```bash
-$ composer require khill/lavacharts "~3.0"
+$ composer require khill/lavacharts
 ```
 
 This command requires you to have Composer installed globally, as explained
