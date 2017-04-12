@@ -38,23 +38,27 @@ class LavachartsExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        $renderables = array_merge(['dashboard'], ChartFactory::$CHART_TYPES);
+        $renderableTypes = array_merge(['dashboard'], ChartFactory::$CHART_TYPES);
 
         $renderFunctions = [];
 
-        foreach ($renderables as $renderable) {
-            $renderFunctions[] = new \Twig_SimpleFunction(strtolower($renderable),
-                function($label) use ($renderable) {
+        foreach ($renderableTypes as $type) {
+            $renderFunctions[] = new \Twig_SimpleFunction(strtolower($type),
+                function($label) use ($type) {
                     try {
                         $elementId = func_get_arg(1);
 
-                        return $this->lava->render($renderable, $label, $elementId);
+                        return $this->lava->render($type, $label, $elementId);
                     } catch (\Exception $e) {
-                        return $this->lava->render($renderable, $label);
+                        return $this->lava->render($type, $label);
                     }
                 }
             );
         }
+
+        $renderFunctions[] = new \Twig_SimpleFunction('renderAll', function() {
+            return $this->lava->renderAll();
+        });
 
         return $renderFunctions;
     }
