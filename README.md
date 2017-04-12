@@ -173,7 +173,7 @@ $data->addColumns([
     ['date', 'Day of Month'],
     ['number', 'Projected'],
     ['number', 'Official']
-]];
+]);
 ```
 
 Or you can `use \Khill\Lavacharts\DataTables\DataFactory` [to create DataTables in another way](https://gist.github.com/kevinkhill/0c7c5f6211c7fd8f9658)
