@@ -1,3 +1,6 @@
+- 3.1.3 
+  - Adding JavascriptDate class that mimics the way the Javascript Date object is created. (I wanted to be able to copy and paste google's examples into addRows)
+  
 - 3.1.1 & 3.1.2
   - Adding back and repairing the Symfony Bundle
   

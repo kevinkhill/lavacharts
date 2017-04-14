@@ -101,12 +101,15 @@ class Row implements \ArrayAccess, \JsonSerializable
         foreach ($valueArray as $index => $cellValue) {
             if ((bool) preg_match('/date|datetime|timeofday/', $columnTypes[$index]) === true) {
                 if (StringValue::isNonEmpty($cellValue) === false &&
-                    $cellValue instanceof Carbon === false
+                    $cellValue instanceof Carbon === false &&
+                    $cellValue !== null
                 ) {
                     throw new InvalidDate($cellValue);
                 }
 
-                if ($cellValue instanceof Carbon) {
+                if ($cellValue === null) {
+                    $rowData[] = new NullCell;
+                } else if ($cellValue instanceof Carbon) {
                     $rowData[] = new DateCell($cellValue);
                 } else {
                     if (isset($dateTimeFormat)) {

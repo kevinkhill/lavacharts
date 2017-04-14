@@ -35,7 +35,7 @@ class JavascriptDate extends Carbon
         if (isset($args[3]) === false) {
             $hour = $defaults['hour'];
             $minute = isset($args[4]) ? $args[4] : $defaults['minute'];
-            $second = isset($args[5]) ? $args[5] : $defaults['minute'];
+            $second = isset($args[5]) ? $args[5] : $defaults['second'];
         } else {
             $minute = isset($args[4]) ? $args[4] : 0;
             $second = isset($args[5]) ? $args[5] : 0;
