@@ -65,14 +65,12 @@
         "source": "https://github.com/kevinkhill/lavacharts",
         "issues": "https://github.com/kevinkhill/lavacharts/issues"
     },
+    "suggest": {
+        "khill/datatableplus": "Adds extra features to DataTables such as csv and laravel collection parsing."
+    },
     "require": {
         "php": ">=5.4.0",
         "nesbot/carbon": "~1.14"
-    },
-    "suggest": {
-        "khill/lavacharts-laravel": "Integrates a service provider, facade and blade template extensions.",
-        "khill/lavacharts-symfony": "Integrates a bundle with service locater and twig template extensions.",
-        "khill/datatableplus": "Adds extra features to DataTables such as csv and laravel collection parsing."
     },
     "autoload": {
         "psr-4": {
