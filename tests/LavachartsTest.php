@@ -99,7 +99,7 @@ class LavachartsTest extends ProvidersTestCase
     /**
      * @depends testCreateDataTableViaAlias
      */
-    public function testDirectRenderChart()
+    public function testRenderChart()
     {
         $this->lava->LineChart('test', $this->partialDataTable);
 
@@ -107,19 +107,35 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @depends testCreateDataTableViaAlias
+     * depends testCreateDataTableViaAlias
      */
-    public function testDirectRenderChartWithDivNoDimensions()
+    public function testRenderChartWithElementIdAndDivWithNoDimensions()
     {
         $this->lava->LineChart('test', $this->partialDataTable);
 
-        $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div', true)));
+        $output = $this->lava->render('LineChart', 'test', 'test-div', true);
+
+        $this->assertStringHasString($output, '<div id="test-div"></div>');
+    }
+
+    /**
+     * depends testCreateDataTableViaAlias
+     */
+    public function testRenderChartWithNoElementIdAndDivNoDimensions()
+    {
+        $this->lava->LineChart('test', $this->partialDataTable, [
+            'elementId' => 'test-div'
+        ]);
+
+        $output = $this->lava->render('LineChart', 'test', true);
+
+        $this->assertStringHasString($output, '<div id="test-div"></div>');
     }
 
     /**
      * @depends testCreateDataTableViaAlias
      */
-    public function testDirectRenderChartWithDivAndDimensions()
+    public function testRenderChartWithDivAndDimensions()
     {
         $this->lava->LineChart('test', $this->partialDataTable);
 
@@ -134,7 +150,7 @@ class LavachartsTest extends ProvidersTestCase
     /**
      * @depends testCreateDataTableViaAlias
      */
-    public function testDirectRenderChartWithDivAndBadDimensionKeys()
+    public function testRenderChartWithDivAndBadDimensionKeys()
     {
         $this->lava->LineChart('test', $this->partialDataTable);
 
@@ -150,7 +166,7 @@ class LavachartsTest extends ProvidersTestCase
      * @depends testCreateDataTableViaAlias
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidDivDimensions
      */
-    public function testDirectRenderChartWithDivAndBadDimensionType()
+    public function testRenderChartWithDivAndBadDimensionType()
     {
         $this->lava->LineChart('test', $this->partialDataTable);
 
@@ -161,7 +177,7 @@ class LavachartsTest extends ProvidersTestCase
      * @depends testCreateDataTableViaAlias
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
-    public function testDirectRenderChartWithDivAndDimensionsWithBadValues()
+    public function testRenderChartWithDivAndDimensionsWithBadValues()
     {
         $this->lava->LineChart('my-chart', $this->partialDataTable);
 

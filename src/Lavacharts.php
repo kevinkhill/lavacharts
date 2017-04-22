@@ -39,7 +39,7 @@ class Lavacharts
     /**
      * Lavacharts version
      */
-    const VERSION = '3.1.1';
+    const VERSION = '3.1.4';
 
     /**
      * Locale for the Charts and Dashboards.
@@ -343,7 +343,7 @@ class Lavacharts
         }
 
         if (is_array($elementId)) {
-            $div = $elementId;
+            $div = $elementId; // @TODO allow missing element ids to use renderable instance's id
         }
 
         if ($type == 'Dashboard') {

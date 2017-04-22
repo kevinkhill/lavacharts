@@ -34,6 +34,17 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Checks if a string contains another string
+     *
+     * @param $haystack
+     * @param $needle
+     */
+    public function assetStringHasString($haystack, $needle)
+    {
+        $this->assertTrue(strpos($haystack, $needle) !== false);
+    }
+
+    /**
      * Uses reflection to retrieve private member variables from objects.
      *
      * @param  object $obj
