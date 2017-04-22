@@ -4,6 +4,7 @@
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
  streamify = require('gulp-streamify'),
+    notify = require('gulp-notify'),
     gulpif = require('gulp-if'),
    stylish = require('jshint-stylish'),
         fs = require('fs'),
@@ -18,7 +19,8 @@ browserify = require('browserify'),
   execSync = require('child_process').execSync,
    phantom = require('gulp-phantom'),
    connect = require('gulp-connect-php'),
-  watchify = require('watchify');
+  watchify = require('watchify'),
+  notifier = require('node-notifier');
 
 var renderOutputDir = './phantomjs/renders';
 
@@ -58,7 +60,14 @@ function compile(prod, watch) {
 
     if (watch) {
         bundler.on('update', function() {
-            gutil.log(gutil.colors.green('-> bundling...'));
+            var msg = 'lava.js re-bundling...';
+
+            gutil.log(gutil.colors.green(msg));
+
+            notifier.notify({
+                title: 'Browserify',
+                message:msg
+            });
 
             rebundle();
         });

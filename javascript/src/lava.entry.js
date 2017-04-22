@@ -7,26 +7,31 @@
 (function(){
     "use strict";
 
-    function addEvent (object, type, callback) {
-        if (object == null || typeof(object) == 'undefined') return;
-        if (object.addEventListener) {
-            object.addEventListener(type, callback, false);
-        } else if (object.attachEvent) {
-            object.attachEvent("on" + type, callback);
-        } else {
-            object["on"+type] = callback;
-        }
-    }
-
+    var window = this;
+    var debounced = null;
+    var debounceTimeout = 250;
+    var bind = require('lodash').bind;
     var ready = require('document-ready');
+    var addResizeEvent = require('./lava/Utils').addResizeEvent;
 
-    this.lava = require('./lava/Lava.js');
+    window.lava = require('./lava/Lava.js');
 
+    /**
+     * Once the window is ready...
+     */
     ready(function() {
         /**
          * Adding the resize event listener for redrawing charts.
          */
-        addEvent(window, 'resize', window.lava.redrawHandler);
+        addResizeEvent(function (event) {
+            var redraw = bind(event.target.lava.redrawCharts, window.lava);
+
+            console.log('Window resized, redrawing charts');
+
+            clearTimeout(debounced);
+
+            debounced = setTimeout(redraw, debounceTimeout);
+        });
 
         /**
          * Let's go!

@@ -13,6 +13,7 @@ module.exports = (function() {
     'use strict';
 
     var Q = require('q');
+    // var Promise = require('bluebird');
     var _ = require('lodash');
     var util = require('util');
     var EventEmitter = require('events');
@@ -113,7 +114,7 @@ module.exports = (function() {
 
             readyCount++;
 
-            if (readyCount == $lava._getRenderables().length) {
+            if (readyCount === $lava._getRenderables().length) {
                 console.log('loading google');
 
                 $lava._loadGoogle().then(function() {
@@ -217,7 +218,7 @@ module.exports = (function() {
      * @param {Function} callback
      */
     Lava.prototype.loadData = function (label, json, callback) {
-        if (typeof callback == 'undefined') {
+        if (typeof callback === 'undefined') {
             callback = _.noop;
         }
 
@@ -226,13 +227,13 @@ module.exports = (function() {
         }
 
         this.getChart(label, function (chart) {
-            if (typeof json.data != 'undefined') {
+            if (typeof json.data !== 'undefined') {
                 chart.setData(json.data);
             } else {
                 chart.setData(json);
             }
 
-            if (typeof json.formats != 'undefined') {
+            if (typeof json.formats !== 'undefined') {
                 chart.applyFormats(json.formats);
             }
 
@@ -255,8 +256,8 @@ module.exports = (function() {
      * @param {Function} callback
      */
     Lava.prototype.loadOptions = function (label, json, callback) {
-        if (typeof callback == 'undefined') {
-            callback = _.noop;
+        if (typeof callback === 'undefined') {
+            var callback = callback || _.noop;
         }
 
         if (typeof callback !== 'function') {
@@ -278,13 +279,15 @@ module.exports = (function() {
      * This method is attached to the window resize event with a 300ms debounce
      * to make the charts responsive to the browser resizing.
      */
-    Lava.prototype.redrawHandler = _.debounce(function() {
-        window.lava._forEachRenderable(function (renderable) {
+    Lava.prototype.redrawCharts = function() {
+        this._forEachRenderable(function (renderable) {
             console.log('redrawing '+renderable.uuid());
 
-            renderable.redraw();
+            var redraw = _.bind(renderable.redraw, renderable);
+
+            redraw();
         });
-    }, 250);
+    };
 
     /**
      * Create a new Chart.
@@ -329,11 +332,11 @@ module.exports = (function() {
      * @throws ChartNotFound
      */
     Lava.prototype.getChart = function (label, callback) {
-        if (typeof label != 'string') {
+        if (typeof label !== 'string') {
             throw new this._errors.InvalidLabel(label);
         }
 
-        if (typeof callback != 'function') {
+        if (typeof callback !== 'function') {
             throw new this._errors.InvalidCallback(callback);
         }
 
@@ -461,39 +464,12 @@ module.exports = (function() {
         var loaded = false;
 
         for (var i = scripts.length; i--;) {
-            if (scripts[i].src == this.gstaticUrl) {
+            if (scripts[i].src === this.gstaticUrl) {
                 loaded = true;
             }
         }
 
         return loaded;
-    };
-
-    /**
-     * Create a new script tag for the Google Static Loader.
-     *
-     * @private
-     * @param {Deferred} deferred
-     * @returns {HtmlElement}
-     */
-    Lava.prototype._createScriptTag = function (deferred) {
-        var script = document.createElement('script');
-        var $lava = this;
-
-        script.type = 'text/javascript';
-        script.async = true;
-        script.src = this.gstaticUrl;
-        script.onload = script.onreadystatechange = function (event) {
-            event = event || window.event;
-
-            if (event.type === "load" || (/loaded|complete/.test(this.readyState))) {
-                this.onload = this.onreadystatechange = null;
-
-                $lava._googleChartLoader(deferred);
-            }
-        };
-
-        return script;
     };
 
     /**
@@ -521,9 +497,36 @@ module.exports = (function() {
     };
 
     /**
+     * Create a new script tag for the Google Static Loader.
+     *
+     * @private
+     * @param {Promise} deferred
+     * @returns {Element}
+     */
+    Lava.prototype._createScriptTag = function (deferred) {
+        var script = document.createElement('script');
+        var $lava = this;
+
+        script.type = 'text/javascript';
+        script.async = true;
+        script.src = this.gstaticUrl;
+        script.onload = script.onreadystatechange = function (event) {
+            event = event || window.event;
+
+            if (event.type === "load" || (/loaded|complete/.test(this.readyState))) {
+                this.onload = this.onreadystatechange = null;
+
+                $lava._googleChartLoader(deferred);
+            }
+        };
+
+        return script;
+    };
+
+    /**
      * Runs the Google chart loader and resolves the promise.
      *
-     * @param {Deferred} deferred
+     * @param {Promise} deferred
      * @private
      */
     Lava.prototype._googleChartLoader = function (deferred) {
