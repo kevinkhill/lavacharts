@@ -1,4 +1,4 @@
-# Lavacharts 3.1
+# Lavacharts 3.1.4
 
 [![Total Downloads](https://img.shields.io/packagist/dt/khill/lavacharts.svg?style=plastic)](https://packagist.org/packages/khill/lavacharts)
 [![License](https://img.shields.io/packagist/l/khill/lavacharts.svg?style=plastic)](http://opensource.org/licenses/MIT)
