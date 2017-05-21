@@ -28,7 +28,7 @@ class Volcano
     /**
      * Holds all of the defined Charts.
      *
-     * @var \Khill\Lavacharts\Charts\Chart[]
+     * @var \Khill\Lavacharts\Charts\Chart[][]
      */
     private $charts = [];
 
@@ -38,6 +38,16 @@ class Volcano
      * @var \Khill\Lavacharts\Dashboards\Dashboard[]
      */
     private $dashboards = [];
+
+    /**
+     * Volcano constructor
+     */
+    public function __construct()
+    {
+        foreach (ChartFactory::getChartTypes() as $chartType) {
+            $this->charts[$chartType] = [];
+        }
+    }
 
     /**
      * Stores a Chart or Dashboard in the Volcano.
