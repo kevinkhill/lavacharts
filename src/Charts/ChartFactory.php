@@ -27,7 +27,7 @@ class ChartFactory
     /**
      * Instance of the ChartBuilder for, well, building charts.
      *
-     * @var \Khill\Lavacharts\Charts\ChartBuilder
+     * @var \Khill\Lavacharts\Builders\ChartBuilder
      */
     private $chartBuilder;
 
@@ -45,6 +45,7 @@ class ChartFactory
         'CandlestickChart',
         'ColumnChart',
         'ComboChart',
+        'DonutChart',
         'GanttChart',
         'GaugeChart',
         'GeoChart',

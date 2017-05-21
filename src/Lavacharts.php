@@ -39,7 +39,7 @@ class Lavacharts
     /**
      * Lavacharts version
      */
-    const VERSION = '3.1.1';
+    const VERSION = '3.1.5';
 
     /**
      * Locale for the Charts and Dashboards.
