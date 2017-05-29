@@ -193,16 +193,16 @@ module.exports = (function() {
      * access to the chart within the event callback.
      *
      * @param {Object} event
-     * @param {Object} chart
+     * @param {Object} lavachart
      * @param {Function} callback
      * @return {Function}
      */
-    Lava.prototype.event = function (event, chart, callback) {
+    Lava.prototype.event = function (event, lavachart, callback) {
         if (typeof callback !== 'function') {
             throw new this._errors.InvalidCallback(callback);
         }
 
-        return callback(event, chart);
+        return callback(event, lavachart.chart, lavachart.data);
     };
 
     /**
