@@ -757,14 +757,14 @@ class DataTable implements Jsonable, JsonSerializable
 
         $timezones = array_map(function ($timezone) {
             if ($timezone['timezone_id'] != null) {
-                return $timezone['timezone_id'];
+                return strtolower($timezone['timezone_id']);
             }
         }, $timezoneList);
 
         $timezones = array_filter($timezones, 'is_string');
         $timezones = array_unique($timezones);
 
-        return in_array($tz, $timezones, true);
+        return in_array(strtolower($tz), $timezones, true);
     }
 
 }
