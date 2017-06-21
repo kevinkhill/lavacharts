@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { LavaJsService } from '../../../../../projects/lavacharts/lavacharts/javascript/src/angular/LavaJsService';
+import { LavaJsService } from './LavaJsService';
 
 @NgModule({
     providers: [

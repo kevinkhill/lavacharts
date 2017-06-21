@@ -5,7 +5,7 @@ import WindowRefService from '../angular/WindowRefService'
 @Injectable()
 export class LavaJsService {
     private _lava: LavaJs;
-    private _window: Window;
+    private _window: any;
 
     constructor (
         windowRef: WindowRefService
@@ -26,7 +26,7 @@ export class LavaJsService {
      *
      * @return {LavaJs}
      */
-    get lava(): LavaJs {
+    public getInstance(): LavaJs {
         return this._window.lava;
     }
 }
