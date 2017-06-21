@@ -13,6 +13,7 @@
       argv = require('yargs').array('browsers').argv,
     source = require('vinyl-source-stream'),
 browserify = require('browserify'),
+  babelify = require('babelify'),
   stripify = require('stripify'),
       exec = require('child_process').exec,
      spawn = require('child_process').spawn,
@@ -30,7 +31,8 @@ function compile(prod, watch) {
         entries: ['./src/lava.entry.js'],
         cache: {},
         packageCache: {}
-    });
+    })
+    .transform(babelify, { presets: ['es2015'] });
 
     if (watch) {
         bundler = watchify(bundler);

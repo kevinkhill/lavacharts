@@ -15,6 +15,7 @@ use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\Exceptions\InvalidLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Javascript\ScriptManager;
+use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Support\Html\HtmlFactory;
 use Khill\Lavacharts\Support\Psr4Autoloader;
 use Khill\Lavacharts\Values\ElementId;
@@ -359,23 +360,32 @@ class Lavacharts
      * Renders all charts and dashboards that have been defined
      *
      * @since  3.1.0
+     * @param array $options
      * @return string
      */
-    public function renderAll()
+    public function renderAll(array $options = [])
     {
-        $output = '';
+        $output = new Buffer(
+            $this->scriptManager->getLavaJsModule()
+        );
 
-        if ($this->scriptManager->lavaJsRendered() === false) {
-            $output = $this->scriptManager->getLavaJsModule();
+        if (array_key_exists('lavaJs', $options) && $options['lavaJs'] === false) {
+            $output->setContents();
         }
+
+//        if ($this->scriptManager->lavaJsRendered() === false) {
+//
+//        }
 
         $renderables = $this->volcano->getAll();
 
         foreach ($renderables as $renderable) {
-            $output .= $this->scriptManager->getOutputBuffer($renderable);
+            $output->append(
+                $this->scriptManager->getOutputBuffer($renderable)
+            );
         }
 
-        return $output;
+        return $output->getContents();
     }
 
     /**

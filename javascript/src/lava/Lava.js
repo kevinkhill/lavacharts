@@ -1,6 +1,12 @@
 /* jshint undef: true, unused: true */
 /* globals window, document, console, google, module, require */
 
+const Q = require('q');
+// const Promise = require('bluebird');
+const _ = require('lodash');
+const util = require('util');
+const EventEmitter = require('events');
+
 /**
  * lava.js module
  *
@@ -9,16 +15,10 @@
  * @copyright (c) 2017, KHill Designs
  * @license   http://opensource.org/licenses/MIT MIT
  */
-module.exports = (function() {
-    'use strict';
+export default class LavaJs extends EventEmitter {
+    constructor() {
+        super();
 
-    var Q = require('q');
-    // var Promise = require('bluebird');
-    var _ = require('lodash');
-    var util = require('util');
-    var EventEmitter = require('events');
-
-    function Lava() {
         /**
          * Defining the Chart class within the module.
          *
@@ -48,7 +48,7 @@ module.exports = (function() {
          * @private
          */
         this._config = (function () {
-            if (typeof CONFIG_JSON == 'undefined') {
+            if (typeof CONFIG_JSON === 'undefined') {
                 return {};
             } else {
                 return CONFIG_JSON;
@@ -85,29 +85,20 @@ module.exports = (function() {
          * @private
          */
         this._errors = require('./Errors.js');
-
-        /**
-         * Apply the EventEmitter methods to Lava
-         */
-        EventEmitter.call(this);
     }
-
-    /**
-     * Inherit from the EventEmitter
-     */
-    util.inherits(Lava, EventEmitter);
 
     /**
      * Initialize the Lava.js module by attaching the event listeners
      * and calling the charts' and dashboards' init methods
      *
-     * @public
+     * @private
      */
-    Lava.prototype.init = function () {
-        console.log('lava.js init');
+    _init() {
+        console.log('lava.js initializing');
 
-        var $lava = this;
-        var readyCount = 0;
+        const $lava = this;
+
+        let readyCount = 0;
 
         this.on('ready', function (renderable) {
             console.log(renderable.uuid() + ' ready');
@@ -143,8 +134,10 @@ module.exports = (function() {
      *
      * @public
      */
-    Lava.prototype.run = function () {
+    run() {
         console.log('lava.js running');
+
+        this._init();
 
         this._forEachRenderable(function (renderable) {
             console.log('init ' + renderable.uuid());
@@ -158,7 +151,7 @@ module.exports = (function() {
      *
      * @param {Chart|Dashboard} renderable
      */
-    Lava.prototype.store = function (renderable) {
+    store(renderable) {
         if (renderable instanceof this.Chart) {
             this.storeChart(renderable);
         }
@@ -177,7 +170,7 @@ module.exports = (function() {
      * @public
      * @param {Function} callback
      */
-    Lava.prototype.ready = function (callback) {
+    ready(callback) {
         if (typeof callback !== 'function') {
             throw new this._errors.InvalidCallback(callback);
         }
@@ -197,7 +190,7 @@ module.exports = (function() {
      * @param {Function} callback
      * @return {Function}
      */
-    Lava.prototype.event = function (event, lavachart, callback) {
+    event(event, lavachart, callback) {
         if (typeof callback !== 'function') {
             throw new this._errors.InvalidCallback(callback);
         }
@@ -217,7 +210,7 @@ module.exports = (function() {
      * @param {string} json
      * @param {Function} callback
      */
-    Lava.prototype.loadData = function (label, json, callback) {
+    loadData(label, json, callback) {
         if (typeof callback === 'undefined') {
             callback = _.noop;
         }
@@ -255,9 +248,9 @@ module.exports = (function() {
      * @param {string} json
      * @param {Function} callback
      */
-    Lava.prototype.loadOptions = function (label, json, callback) {
+    loadOptions(label, json, callback) {
         if (typeof callback === 'undefined') {
-            var callback = callback || _.noop;
+            const callback = callback || _.noop;
         }
 
         if (typeof callback !== 'function') {
@@ -279,11 +272,11 @@ module.exports = (function() {
      * This method is attached to the window resize event with a 300ms debounce
      * to make the charts responsive to the browser resizing.
      */
-    Lava.prototype.redrawCharts = function() {
+    redrawCharts() {
         this._forEachRenderable(function (renderable) {
             console.log('redrawing '+renderable.uuid());
 
-            var redraw = _.bind(renderable.redraw, renderable);
+            const redraw = _.bind(renderable.redraw, renderable);
 
             redraw();
         });
@@ -297,7 +290,7 @@ module.exports = (function() {
      * @param  {string} label Label for the chart
      * @return {Chart}
      */
-    Lava.prototype.createChart = function (type, label) {
+    createChart(type, label) {
         return new this.Chart(type, label);
     };
 
@@ -307,7 +300,7 @@ module.exports = (function() {
      * @public
      * @param {Chart} chart
      */
-    Lava.prototype.storeChart = function (chart) {
+    storeChart(chart) {
         this._charts.push(chart);
     };
 
@@ -331,7 +324,7 @@ module.exports = (function() {
      * @throws InvalidCallback
      * @throws ChartNotFound
      */
-    Lava.prototype.getChart = function (label, callback) {
+    getChart(label, callback) {
         if (typeof label !== 'string') {
             throw new this._errors.InvalidLabel(label);
         }
@@ -340,7 +333,7 @@ module.exports = (function() {
             throw new this._errors.InvalidCallback(callback);
         }
 
-        var chart = _.find(this._charts, {label: label});
+        const chart = _.find(this._charts, {label: label});
 
         if (!chart) {
             throw new this._errors.ChartNotFound(label);
@@ -356,7 +349,7 @@ module.exports = (function() {
      * @param  {string} label
      * @return {Dashboard}
      */
-    Lava.prototype.createDashboard = function (label) {
+    createDashboard(label) {
         return new this.Dashboard(label);
     };
 
@@ -366,7 +359,7 @@ module.exports = (function() {
      * @public
      * @param {Dashboard} dash
      */
-    Lava.prototype.storeDashboard = function (dash) {
+    storeDashboard(dash) {
         this._dashboards.push(dash);
     };
 
@@ -380,8 +373,8 @@ module.exports = (function() {
      * @throws InvalidCallback
      * @throws DashboardNotFound
      */
-    Lava.prototype.getDashboard = function (label, callback) {
-        if (typeof label != 'string') {
+    getDashboard(label, callback) {
+        if (typeof label !== 'string') {
             throw new this._errors.InvalidLabel(label);
         }
 
@@ -389,7 +382,7 @@ module.exports = (function() {
             throw new this._errors.InvalidCallback(callback);
         }
 
-        var dash = _.find(this._dashboards, {label: label});
+        const dash = _.find(this._dashboards, {label: label});
 
         if (dash instanceof this.Dashboard === false) {
             throw new this._errors.DashboardNotFound(label);
@@ -404,7 +397,7 @@ module.exports = (function() {
      * @private
      * @return {Array}
      */
-    Lava.prototype._getRenderables = function () {
+    _getRenderables() {
         return _.concat(this._charts, this._dashboards);
     };
 
@@ -414,7 +407,7 @@ module.exports = (function() {
      * @private
      * @param {Function} callback
      */
-    Lava.prototype._forEachRenderable = function (callback) {
+    _forEachRenderable(callback) {
         _.forEach(this._getRenderables(), callback);
     };
 
@@ -426,7 +419,7 @@ module.exports = (function() {
      * @param {Function} callback
      * @return {Array}
      */
-    Lava.prototype._mapRenderables = function (callback) {
+    _mapRenderables(callback) {
         return _.map(this._getRenderables(), callback);
     };
 
@@ -436,7 +429,7 @@ module.exports = (function() {
      * @private
      * @return {string}
      */
-    Lava.prototype._getLocale = function () {
+    _getLocale() {
         return this._config.locale;
     };
 
@@ -446,7 +439,7 @@ module.exports = (function() {
      * @private
      * @return {Array}
      */
-    Lava.prototype._getPackages = function () {
+    _getPackages() {
         return _.union(
             _.map(this._charts, 'package'),
             _.flatten(_.map(this._dashboards, 'packages'))
@@ -459,11 +452,12 @@ module.exports = (function() {
      * @private
      * @returns {boolean}
      */
-    Lava.prototype._googleIsLoaded = function () {
-        var scripts = document.getElementsByTagName('script');
-        var loaded = false;
+    _googleIsLoaded() {
+        const scripts = document.getElementsByTagName('script');
 
-        for (var i = scripts.length; i--;) {
+        let loaded = false;
+
+        for (let i = scripts.length; i--;) {
             if (scripts[i].src === this.gstaticUrl) {
                 loaded = true;
             }
@@ -478,10 +472,10 @@ module.exports = (function() {
      * @private
      * @returns {Promise}
      */
-    Lava.prototype._loadGoogle = function () {
-        var $lava = this;
-        var deferred = Q.defer();
-        var script = this._createScriptTag(deferred);
+    _loadGoogle() {
+        const $lava = this;
+        const deferred = Q.defer();
+        const script = this._createScriptTag(deferred);
 
         if (this._googleIsLoaded()) {
             console.log('static loader found, running callback');
@@ -503,9 +497,9 @@ module.exports = (function() {
      * @param {Promise} deferred
      * @returns {Element}
      */
-    Lava.prototype._createScriptTag = function (deferred) {
-        var script = document.createElement('script');
-        var $lava = this;
+    _createScriptTag(deferred) {
+        const script = document.createElement('script');
+        const $lava = this;
 
         script.type = 'text/javascript';
         script.async = true;
@@ -529,8 +523,8 @@ module.exports = (function() {
      * @param {Promise} deferred
      * @private
      */
-    Lava.prototype._googleChartLoader = function (deferred) {
-        var config = {
+    _googleChartLoader(deferred) {
+        const config = {
             packages: this._getPackages(),
             language: this._getLocale()
         };
@@ -541,6 +535,6 @@ module.exports = (function() {
 
         google.charts.setOnLoadCallback(deferred.resolve);
     };
+}
 
-    return new Lava();
-}());
+// module.exports = LavaJs;
