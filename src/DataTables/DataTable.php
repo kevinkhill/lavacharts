@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\DataTables;
 
 use DateTimeZone;
 use JsonSerializable;
+use Khill\Lavacharts\DataTables\Columns\Column;
 use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\DataTables\Rows\Row;
 use Khill\Lavacharts\DataTables\Columns\ColumnFactory;
@@ -15,7 +16,6 @@ use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use Khill\Lavacharts\Exceptions\InvalidTimeZone;
 use Khill\Lavacharts\Support\Contracts\Jsonable as Jsonable;
 use Khill\Lavacharts\Support\Contracts\DataTable as DataTableInterface;
-use Khill\Lavacharts\Support\Traits\ToDataTableTrait as ToDataTable;
 use Khill\Lavacharts\Values\Role;
 use Khill\Lavacharts\Values\StringValue;
 
@@ -60,14 +60,14 @@ class DataTable implements DataTableInterface, Jsonable, JsonSerializable
     /**
      * Array of the DataTable's column objects.
      *
-     * @var array
+     * @var Column[]
      */
     protected $cols = [];
 
     /**
      * Array of the DataTable's row objects.
      *
-     * @var array
+     * @var Row[]
      */
     protected $rows = [];
 
