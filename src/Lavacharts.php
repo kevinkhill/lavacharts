@@ -64,6 +64,15 @@ class Lavacharts
     private $scriptManager;
 
     /**
+     * Configuration options for Lavacharts
+     *
+     * @var array
+     */
+    private $options = [
+        'autorun' => true
+    ];
+
+    /**
      * Lavacharts constructor.
      */
     public function __construct()
@@ -359,23 +368,21 @@ class Lavacharts
     /**
      * Renders all charts and dashboards that have been defined
      *
+     * Available options are:
+     * - lavaJs => bool Toggle the output of the lava.js module.
+     *
+     *
      * @since  3.1.0
-     * @param array $options
+     * @param array $options Options for rendering
      * @return string
      */
     public function renderAll(array $options = [])
     {
+        $this->options = array_merge($this->options, $options);
+
         $output = new Buffer(
-            $this->scriptManager->getLavaJsModule()
+            $this->scriptManager->getLavaJsModule($options)
         );
-
-        if (array_key_exists('lavaJs', $options) && $options['lavaJs'] === false) {
-            $output->setContents();
-        }
-
-//        if ($this->scriptManager->lavaJsRendered() === false) {
-//
-//        }
 
         $renderables = $this->volcano->getAll();
 

@@ -1,6 +1,6 @@
 {
-  "name": "lavacharts",
-  "version": "3.1.4",
+  "name": "@lavacharts/lava.js",
+  "version": "3.2.0b1",
   "description": "Wrapper library for the Google Chart API",
   "homepage": "http://lavacharts.com",
   "author": "Kevin Hill",
@@ -17,9 +17,10 @@
     "q": "^1.5.0"
   },
   "devDependencies": {
-    "@angular/core": "^4.2.3",
+    "@angular/core": "^4.2.4",
     "babel-preset-es2015": "^6.24.1",
     "babelify": "^7.3.0",
+    "browser-sync": "^2.18.12",
     "browserify": "^14.4.0",
     "gulp": "^3.9.1",
     "gulp-bump": "^0.3.0",

@@ -15,7 +15,7 @@ const EventEmitter = require('events');
  * @copyright (c) 2017, KHill Designs
  * @license   http://opensource.org/licenses/MIT MIT
  */
-export default class LavaJs extends EventEmitter {
+export class LavaJs extends EventEmitter {
     constructor() {
         super();
 
@@ -47,13 +47,7 @@ export default class LavaJs extends EventEmitter {
          * @type {Object}
          * @private
          */
-        this._config = (function () {
-            if (typeof CONFIG_JSON === 'undefined') {
-                return {};
-            } else {
-                return CONFIG_JSON;
-            }
-        }());
+        this._config = CONFIG_JSON;
 
         /**
          * Array of charts stored in the module.

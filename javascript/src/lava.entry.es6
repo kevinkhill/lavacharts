@@ -7,14 +7,17 @@
 (function(){
     "use strict";
 
-    var window = this;
-    var debounced = null;
-    var debounceTimeout = 250;
-    var bind = require('lodash').bind;
-    var ready = require('document-ready');
-    var addResizeEvent = require('./lava/Utils').addResizeEvent;
+    const LavaJs = require('./lava/Lava').LavaJs;
 
-    window.lava = require('./lava/Lava.js');
+    let window = this;
+
+    let debounced = null;
+    let debounceTimeout = 250;
+    let bind = require('lodash').bind;
+    let ready = require('document-ready');
+    let addResizeEvent = require('./lava/Utils').addResizeEvent;
+
+    this.lava = new LavaJs; //require('./lava/Lava');
 
     /**
      * Once the window is ready...
@@ -36,7 +39,6 @@
         /**
          * Let's go!
          */
-        window.lava.init();
-        window.lava.run();
+        // window.lava.run();
     });
 }.apply(window));

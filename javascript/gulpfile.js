@@ -15,6 +15,7 @@
 browserify = require('browserify'),
   babelify = require('babelify'),
   stripify = require('stripify'),
+     bSync = require('browser-sync').create()
       exec = require('child_process').exec,
      spawn = require('child_process').spawn,
   execSync = require('child_process').execSync,
@@ -28,7 +29,7 @@ var renderOutputDir = './phantomjs/renders';
 function compile(prod, watch) {
     var bundler = browserify({
         debug: true,
-        entries: ['./src/lava.entry.js'],
+        entries: ['./src/lava.entry.es6'],
         cache: {},
         packageCache: {}
     })
@@ -36,6 +37,12 @@ function compile(prod, watch) {
 
     if (watch) {
         bundler = watchify(bundler);
+
+        bSync.init({
+            proxy: "angular.dev"
+        });
+
+        gulp.watch("src/**/*").on('change', bSync.reload);
     }
 
     if (prod) {
