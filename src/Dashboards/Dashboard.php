@@ -9,7 +9,7 @@ use Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
 use Khill\Lavacharts\Support\Contracts\DataTable;
 use Khill\Lavacharts\Support\Contracts\Renderable;
 use Khill\Lavacharts\Support\Contracts\JsPackage;
-use Khill\Lavacharts\Support\Traits\DataTableTrait as HasDataTable;
+use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
 use Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
 
 /**

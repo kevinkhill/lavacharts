@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Support\Traits;
 
-use \Khill\Lavacharts\DataTables\DataTable;
+use \Khill\Lavacharts\Support\Contracts\DataTable;
 
 /**
  * Trait DataTableTrait
@@ -17,7 +17,7 @@ use \Khill\Lavacharts\DataTables\DataTable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-trait DataTableTrait
+trait HasDataTableTrait
 {
     /**
      * Datatable for the renderable.
@@ -30,12 +30,12 @@ trait DataTableTrait
      * Sets the DataTable
      *
      * @since  3.1.0
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @param  DataTable $datatable
+     * @return self
      */
     public function setDataTable(DataTable $datatable)
     {
-        $this->datatable = $datatable;
+        $this->datatable = $datatable->getDataTable();
 
         return $this;
     }

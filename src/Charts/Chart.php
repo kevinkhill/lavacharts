@@ -2,15 +2,15 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Values\ElementId;
 use Khill\Lavacharts\Values\Label;
 use Khill\Lavacharts\Support\Customizable;
+use Khill\Lavacharts\Support\Contracts\DataTable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
-use Khill\Lavacharts\Support\Contracts\Wrappable;
-use Khill\Lavacharts\Support\Contracts\Renderable;
 use Khill\Lavacharts\Support\Contracts\JsPackage;
-use Khill\Lavacharts\Support\Traits\DataTableTrait as HasDataTable;
+use Khill\Lavacharts\Support\Contracts\Renderable;
+use Khill\Lavacharts\Support\Contracts\Wrappable;
+use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
 use Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
 
 /**
@@ -27,7 +27,7 @@ use Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Chart extends Customizable implements Renderable, Wrappable, Jsonable, JsPackage
+class Chart extends Customizable implements DataTable, Renderable, Wrappable, Jsonable, JsPackage
 {
     use HasDataTable, IsRenderable;
 
@@ -48,7 +48,7 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, JsP
         parent::__construct($options);
 
         $this->label = $chartLabel;
-        $this->datatable = $datatable;
+        $this->datatable = $datatable->getDataTable();
 
         if (array_key_exists('elementId', $options)) {
             $this->elementId = new ElementId($options['elementId']);

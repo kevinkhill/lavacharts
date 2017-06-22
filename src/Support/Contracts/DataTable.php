@@ -9,7 +9,7 @@ namespace Khill\Lavacharts\Support\Contracts;
  *
  *
  * @package   Khill\Lavacharts\Support\Contracts
- * @since     3.1.0
+ * @since     3.1.6
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
@@ -19,26 +19,10 @@ namespace Khill\Lavacharts\Support\Contracts;
 interface DataTable
 {
     /**
-     * Sets the DataTable
-     *
-     * @since 3.1.0
-     * @param \Khill\Lavacharts\Support\Contracts\DataTable $datatable
-     */
-    public function setDataTable(DataTable $datatable);
-
-    /**
      * Returns the DataTable
      *
      * @since  3.0.0
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
     public function getDataTable();
-
-    /**
-     * Returns a JSON string representation of the datatable.
-     *
-     * @since  2.5.0
-     * @return string
-     */
-    public function getDataTableJson();
 }

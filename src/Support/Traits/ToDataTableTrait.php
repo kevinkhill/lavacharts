@@ -2,8 +2,6 @@
 
 namespace Khill\Lavacharts\Support\Traits;
 
-use Khill\Lavacharts\DataTables\DataTable;
-
 /**
  * Trait ToDataTableTrait
  *
@@ -33,7 +31,7 @@ trait ToDataTableTrait
      */
     public function toDataTable()
     {
-        $data = new DataTable;
+        $data = new \Khill\Lavacharts\DataTables\DataTable;
 
         if (method_exists($this, 'getColumns')) {
             $data->addColumns($this->getColumns());

@@ -14,6 +14,8 @@ use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use Khill\Lavacharts\Exceptions\InvalidTimeZone;
 use Khill\Lavacharts\Support\Contracts\Jsonable as Jsonable;
+use Khill\Lavacharts\Support\Contracts\DataTable as DataTableInterface;
+use Khill\Lavacharts\Support\Traits\ToDataTableTrait as ToDataTable;
 use Khill\Lavacharts\Values\Role;
 use Khill\Lavacharts\Values\StringValue;
 
@@ -39,7 +41,7 @@ use Khill\Lavacharts\Values\StringValue;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class DataTable implements Jsonable, JsonSerializable
+class DataTable implements DataTableInterface, Jsonable, JsonSerializable
 {
     /**
      * Timezone for dealing with datetime and Carbon objects.
@@ -90,6 +92,17 @@ class DataTable implements Jsonable, JsonSerializable
         }
 
         $this->setTimezone($timezone);
+    }
+
+    /**
+     * Since a DataTable is a DataTable, return it!
+     *
+     * @since  3.1.6
+     * @return \Khill\Lavacharts\DataTables\DataTable
+     */
+    public function getDataTable()
+    {
+        return $this;
     }
 
     /**
@@ -766,5 +779,4 @@ class DataTable implements Jsonable, JsonSerializable
 
         return in_array(strtolower($tz), $timezones, true);
     }
-
 }
