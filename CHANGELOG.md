@@ -1,29 +1,41 @@
 - 3.2.0
   - Dropping support for PHP5.4
-  - Adding the ability to customize the package globally with options:
-    - `auto_run => true`
-      - If set to false, then the javascript method `lava.run()` is not ran on page load. (Useful for Angular devs that want to render on demand.)
-    - `locale => 'en'`
-      - The language to use with generated labels on the chart / dashboard.
+  - Adding support for Angular
 
-- 3.1.3 
+- 3.1.6
+    - Adding `DataTableInterface` and `ToDataTableTrait`
+      - Any class can be automatically converted to a DataTable and passed in when creating Charts.
+      - An example use would be to apply this interface to a database model (Eloquent anyone?) and then it can be defined to return columns and rows and transform into a DataTable.
+    - Adding global configuration of Lavacharts
+      - The available config values are [documented in the source](https://github.com/kevinkhill/lavacharts/blob/3.2/src/Laravel/config/lavacharts.php).
+         When Lavacharts is initialized, these config options are loaded as defaults.
+      - If using Laravel, the config file can be published with:
+        - `php artisan vendor:publish --provider=\Khill\Lavacharts\Laravel\LavachartsServiceProvider.php`
+
+- 3.1.5
+  - Adding DonutChart as an alias for PieChart back.
+
+- 3.1.4
+  - Resize bug fixed
+
+- 3.1.3
   - Adding JavascriptDate class that mimics the way the Javascript Date object is created. (I wanted to be able to copy and paste google's examples into addRows)
-  
+
 - 3.1.1 & 3.1.2
   - Adding back and repairing the Symfony Bundle
-  
+
 - 3.1.0
   - Public Release
 
 - 3.1.0-beta2
-  - Adjusting elementId precedence to prevent backwards compatability breaks and enable new features. The order of precedence goes as follows:
+  - Adjusting elementId precedence to prevent backwards compatibility breaks and enable new features. The order of precedence goes as follows:
     - An elementId string passed to the render method will override an elementId set to the chart.
     - It is recommended to move all of the elementId strings on `render()` methods into the constructor, as an option: `['elementId' => 'render-to-div']`
-    - Setting the elementId as an option during creation is preferred, to enable the use of the new feature, `renderAll()`, that will output all defined charts to the page. 
-    
+    - Setting the elementId as an option during creation is preferred, to enable the use of the new feature, `renderAll()`, that will output all defined charts to the page.
+
 - 3.1.0-beta1
   - Adding setLocale() method for changing language of charts.
-  
+
 - 3.1.0-alpha
   - Adding more supported chart types
     - AnnotationChart
@@ -69,10 +81,10 @@
   - Blade template extension bug fixes
   - Combining the `customize` method into the constructor to provide
     restriction free option setting without the extra method call.
-  
+
 - 3.0.1
   - Bug fixes
-  
+
 - 3.0.0
   - Dropping support for PHP 5.3
     - Minimum version PHP 5.4+
