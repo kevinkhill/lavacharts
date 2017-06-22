@@ -6,6 +6,7 @@ const Q = require('q');
 const _ = require('lodash');
 const util = require('util');
 const EventEmitter = require('events');
+const VERSION = require('../../package.json').version;
 
 /**
  * lava.js module
@@ -18,6 +19,13 @@ const EventEmitter = require('events');
 export class LavaJs extends EventEmitter {
     constructor() {
         super();
+
+        /**
+         * Version of the module.
+         *
+         * @type {string}
+         */
+        this.VERSION = VERSION;
 
         /**
          * Defining the Chart class within the module.
@@ -47,7 +55,7 @@ export class LavaJs extends EventEmitter {
          * @type {Object}
          * @private
          */
-        this._config = CONFIG_JSON;
+        this.options = CONFIG_JSON;
 
         /**
          * Array of charts stored in the module.
@@ -424,7 +432,7 @@ export class LavaJs extends EventEmitter {
      * @return {string}
      */
     _getLocale() {
-        return this._config.locale;
+        return this.options.locale;
     };
 
     /**

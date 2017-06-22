@@ -16,6 +16,7 @@ use Khill\Lavacharts\Exceptions\InvalidLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Javascript\ScriptManager;
 use Khill\Lavacharts\Support\Buffer;
+use Khill\Lavacharts\Support\Customizable;
 use Khill\Lavacharts\Support\Html\HtmlFactory;
 use Khill\Lavacharts\Support\Psr4Autoloader;
 use Khill\Lavacharts\Values\ElementId;
@@ -35,19 +36,22 @@ use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Lavacharts
+class Lavacharts extends Customizable
 {
     /**
      * Lavacharts version
      */
-    const VERSION = '3.1.5';
+    const VERSION = '3.2.0';
 
     /**
-     * Locale for the Charts and Dashboards.
+     * Configuration options for Lavacharts
      *
-     * @var string
+     * @var array
      */
-    private $locale = 'en';
+    private $defaultOptions = [
+        'auto_run' => true,
+        'locale' => 'en'
+    ];
 
     /**
      * Holds all of the defined Charts and DataTables.
@@ -64,19 +68,30 @@ class Lavacharts
     private $scriptManager;
 
     /**
-     * Configuration options for Lavacharts
+     * The chart factory for creating new charts.
      *
-     * @var array
+     * @var \Khill\Lavacharts\Charts\ChartFactory
      */
-    private $options = [
-        'autorun' => true
-    ];
+    private $chartFactory;
+
+    /**
+     * the dashboard factory for creating dashboards.
+     *
+     * @var \Khill\Lavacharts\Dashboards\DashboardFactory
+     */
+    private $dashFactory;
 
     /**
      * Lavacharts constructor.
+     *
+     * @param array $options
      */
-    public function __construct()
+    public function __construct(array $options = [])
     {
+        parent::__construct($this->defaultOptions);
+
+        $this->mergeOptions($options);
+
         if (!$this->usingComposer()) {
             require_once(__DIR__.'/Support/Psr4Autoloader.php');
 
@@ -89,6 +104,45 @@ class Lavacharts
         $this->chartFactory  = new ChartFactory;
         $this->dashFactory   = new DashboardFactory;
         $this->scriptManager = new ScriptManager;
+    }
+
+    /**
+     * Get the value of an option.
+     *
+     * @since 3.2.0
+     * @param string $key Option to get
+     * @return mixed|null
+     */
+    public function getOption($key)
+    {
+        if (array_key_exists($key, $this->options)) {
+            return $this->options[$key];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the array of set options.
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Set the value of an option.
+     *
+     * @since 3.2.0
+     * @param string $key Option to set
+     * @param mixed $value Value of the option
+     * @return mixed
+     */
+    public function setOption($key, $value)
+    {
+        $this->options[$key] = $value;
     }
 
     /**
@@ -221,6 +275,7 @@ class Lavacharts
      * By default, Lavacharts is loaded with the "en" locale. You can override this default
      * by explicitly specifying a locale when creating the DataTable.
      *
+     * @deprecated 3.2.0
      * @since  3.1.0
      * @param  string $locale
      * @return $this
@@ -228,19 +283,20 @@ class Lavacharts
      */
     public function setLocale($locale = 'en')
     {
-        $this->locale = new StringValue($locale);
+        $this->options['locale'] = new StringValue($locale);
 
         return $this;
     }
     /**
      * Returns the current locale used in the DataTable
      *
+     * @deprecated 3.2.0
      * @since  3.1.0
      * @return string
      */
     public function getLocale()
     {
-        return $this->locale;
+        return $this->options['locale'];
     }
 
     /**
@@ -249,15 +305,14 @@ class Lavacharts
      * Will be depreciating jsapi in the future
      *
      * @since  3.0.3
+     * @param array $options
      * @return string Google Chart API and lava.js script blocks
      */
-    public function lavajs()
+    public function lavajs(array $options = [])
     {
-        $config = [
-            'locale' => $this->locale
-        ];
+        $this->options = array_merge($options, $this->options);
 
-        return (string) $this->scriptManager->getLavaJsModule($config);
+        return (string) $this->scriptManager->getLavaJsModule($this->options);
     }
 
     /**
@@ -381,7 +436,7 @@ class Lavacharts
         $this->options = array_merge($this->options, $options);
 
         $output = new Buffer(
-            $this->scriptManager->getLavaJsModule($options)
+            $this->scriptManager->getLavaJsModule($this->options)
         );
 
         $renderables = $this->volcano->getAll();

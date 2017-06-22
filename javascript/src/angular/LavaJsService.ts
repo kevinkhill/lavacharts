@@ -9,9 +9,9 @@ export class LavaJsService {
     private _window: any;
 
     constructor() {
-        console.log('Lava.js service provider loaded.');
-
         this._window = getWindow();
+
+        console.log('Lava.js service provider loaded.');
     }
 
     /**

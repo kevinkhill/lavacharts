@@ -17,7 +17,7 @@
     let ready = require('document-ready');
     let addResizeEvent = require('./lava/Utils').addResizeEvent;
 
-    this.lava = new LavaJs; //require('./lava/Lava');
+    this.lava = new LavaJs;
 
     /**
      * Once the window is ready...
@@ -27,7 +27,7 @@
          * Adding the resize event listener for redrawing charts.
          */
         addResizeEvent(function (event) {
-            var redraw = bind(event.target.lava.redrawCharts, window.lava);
+            const redraw = bind(event.target.lava.redrawCharts, window.lava);
 
             console.log('Window resized, redrawing charts');
 
@@ -39,6 +39,8 @@
         /**
          * Let's go!
          */
-        // window.lava.run();
+        if (window.lava.options.auto_run === true) {
+            window.lava.run();
+        }
     });
 }.apply(window));
