@@ -28,7 +28,7 @@ class Volcano
     /**
      * Holds all of the defined Charts.
      *
-     * @var \Khill\Lavacharts\Charts\Chart[][]
+     * @var \Khill\Lavacharts\Charts\Chart[]
      */
     private $charts = [];
 

@@ -29,30 +29,20 @@ use Khill\Lavacharts\Values\StringValue;
  * Lavacharts - A PHP wrapper library for the Google Chart API
  *
  *
- * @category  Class
  * @package   Khill\Lavacharts
+ * @since     1.0.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Lavacharts extends Customizable implements \JsonSerializable, Jsonable
+final class Lavacharts extends Customizable implements \JsonSerializable, Jsonable
 {
     /**
      * Lavacharts version
      */
     const VERSION = '3.2.0';
-
-    /**
-     * Configuration options for Lavacharts
-     *
-     * @var array
-     */
-    private $defaultOptions = [
-        'auto_run' => true,
-        'locale' => 'en'
-    ];
 
     /**
      * Holds all of the defined Charts and DataTables.
@@ -89,11 +79,11 @@ class Lavacharts extends Customizable implements \JsonSerializable, Jsonable
      */
     public function __construct(array $options = [])
     {
-        parent::__construct($this->defaultOptions);
+        parent::__construct($this->getDefaultConfig());
 
         $this->mergeOptions($options);
 
-        if (!$this->usingComposer()) {
+        if ( ! $this->usingComposer()) {
             require_once(__DIR__.'/Support/Psr4Autoloader.php');
 
             $loader = new Psr4Autoloader;
@@ -514,5 +504,16 @@ class Lavacharts extends Customizable implements \JsonSerializable, Jsonable
         } else {
             return false;
         }
+    }
+
+    /**
+     * Loads the default configuration options from the defaults file.
+     *
+     * @since  3.1.6
+     * @return array
+     */
+    private function getDefaultConfig()
+    {
+        return require(__DIR__.'/Laravel/config/lavacharts.php');
     }
 }
