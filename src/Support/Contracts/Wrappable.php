@@ -3,9 +3,9 @@
 namespace Khill\Lavacharts\Support\Contracts;
 
 /**
- * Interface VisualizationInterface
+ * Wrappable Interface
  *
- * Classes that implement this provide a method for custom JSON output.
+ * Classes that implement this can be wrapped for use in a Dashboard.
  *
  * @package   Khill\Lavacharts\Support\Contracts
  * @since     3.1.0
@@ -15,12 +15,12 @@ namespace Khill\Lavacharts\Support\Contracts;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-interface VisualizationInterface extends JsClassInterface
+interface Wrappable
 {
     /**
-     * Returns the name of the Javascript object of a Google chart component.
+     * Returns the wrap type, either Control or Chart.
      *
      * @return string
      */
-    public function getJsPackage();
+    public function getWrapType();
 }

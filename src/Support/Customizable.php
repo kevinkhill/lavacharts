@@ -17,7 +17,7 @@ namespace Khill\Lavacharts\Support;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT      MIT
  */
-class Customizable implements \ArrayAccess, \JsonSerializable
+class Customizable implements \ArrayAccess/*, \JsonSerializable*/
 {
     /**
      * Customization options.
@@ -76,14 +76,19 @@ class Customizable implements \ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Merge a set of options with the existing options.
+     * Get the value of an option.
      *
-     * @since 3.0.5
-     * @param array $options
+     * @since 3.2.0
+     * @param string $key Option to get
+     * @return mixed|null
      */
-    public function mergeOptions(array $options)
+    public function getOption($key)
     {
-        $this->options = array_merge($this->options, $options);
+        if (array_key_exists($key, $this->options)) {
+            return $this->options[$key];
+        }
+
+        return null;
     }
 
     /**
@@ -95,6 +100,17 @@ class Customizable implements \ArrayAccess, \JsonSerializable
     public function getOptions()
     {
         return $this->options;
+    }
+
+    /**
+     * Merge a set of options with the existing options.
+     *
+     * @since 3.0.5
+     * @param array $options
+     */
+    public function mergeOptions(array $options)
+    {
+        $this->options = array_merge($this->options, $options);
     }
 
     /**
@@ -113,10 +129,10 @@ class Customizable implements \ArrayAccess, \JsonSerializable
      *
      * @return array
      */
-    public function jsonSerialize()
-    {
-        return $this->options;
-    }
+//    public function jsonSerialize()
+//    {
+//        return $this->options;
+//    }
 
     /**
      * @param mixed $offset

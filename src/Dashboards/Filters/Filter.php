@@ -5,7 +5,7 @@ namespace Khill\Lavacharts\Dashboards\Filters;
 use Khill\Lavacharts\Exceptions\InvalidFilterType;
 use Khill\Lavacharts\Exceptions\InvalidParamType;
 use Khill\Lavacharts\Support\Customizable;
-use Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
+use Khill\Lavacharts\Support\Contracts\Wrappable;
 
 /**
  * Filter Parent Class

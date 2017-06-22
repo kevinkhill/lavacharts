@@ -25,7 +25,7 @@ class DashboardFactory
     /**
      * Instance of the DashboardBuilder
      *
-     * @var \Khill\Lavacharts\Builders\DashboardBuilder
+     * @var DashboardBuilder
      */
     private $dashBuilder;
 

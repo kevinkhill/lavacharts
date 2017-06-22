@@ -4,9 +4,9 @@ namespace Khill\Lavacharts\Dashboards\Wrappers;
 
 use Khill\Lavacharts\Values\ElementId;
 use Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
-use Khill\Lavacharts\Support\Contracts\WrappableInterface as Wrappable;
-use Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
-use Khill\Lavacharts\Support\Contracts\JsClassInterface as JsClass;
+use Khill\Lavacharts\Support\Contracts\Wrappable;
+use Khill\Lavacharts\Support\Contracts\Jsonable;
+use Khill\Lavacharts\Support\Contracts\JsClass;
 
 /**
  * Class Wrapper
@@ -29,7 +29,7 @@ class Wrapper implements \JsonSerializable, Jsonable, JsClass
     /**
      * The contents of the wrap, either Chart or Filter.
      *
-     * @var \Khill\Lavacharts\Support\Contracts\WrappableInterface
+     * @var \Khill\Lavacharts\Support\Contracts\Wrappable
      */
     protected $contents;
 
@@ -43,7 +43,7 @@ class Wrapper implements \JsonSerializable, Jsonable, JsClass
     /**
      * Builds a new Wrapper object.
      *
-     * @param \Khill\Lavacharts\Support\Contracts\WrappableInterface $itemToWrap
+     * @param \Khill\Lavacharts\Support\Contracts\Wrappable $itemToWrap
      * @param \Khill\Lavacharts\Values\ElementId                     $elementId
      */
     public function __construct(Wrappable $itemToWrap, ElementId $elementId)
@@ -55,7 +55,7 @@ class Wrapper implements \JsonSerializable, Jsonable, JsClass
     /**
      * Unwraps and returns the wrapped object.
      *
-     * @return \Khill\Lavacharts\Support\Contracts\WrappableInterface
+     * @return \Khill\Lavacharts\Support\Contracts\Wrappable
      */
     public function unwrap()
     {

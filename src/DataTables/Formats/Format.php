@@ -2,9 +2,9 @@
 
 namespace Khill\Lavacharts\DataTables\Formats;
 
-use Khill\Lavacharts\Support\Contracts\VisualizationInterface;
 use Khill\Lavacharts\Support\Customizable;
-use Khill\Lavacharts\Support\Contracts\JsonableInterface;
+use Khill\Lavacharts\Support\Contracts\JsClass;
+use Khill\Lavacharts\Support\Contracts\Jsonable;
 
 /**
  * Class Format
@@ -21,7 +21,7 @@ use Khill\Lavacharts\Support\Contracts\JsonableInterface;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT      MIT
  */
-class Format extends Customizable implements JsonableInterface
+class Format extends Customizable implements Jsonable, JsClass
 {
     /**
      * Static method for creating new format objects.

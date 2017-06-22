@@ -16,13 +16,14 @@ use Khill\Lavacharts\Exceptions\InvalidLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Javascript\ScriptManager;
 use Khill\Lavacharts\Support\Buffer;
+use Khill\Lavacharts\Support\Contracts\Jsonable;
+use Khill\Lavacharts\Support\Contracts\Renderable;
 use Khill\Lavacharts\Support\Customizable;
 use Khill\Lavacharts\Support\Html\HtmlFactory;
 use Khill\Lavacharts\Support\Psr4Autoloader;
 use Khill\Lavacharts\Values\ElementId;
 use Khill\Lavacharts\Values\Label;
 use Khill\Lavacharts\Values\StringValue;
-use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
 
 /**
  * Lavacharts - A PHP wrapper library for the Google Chart API
@@ -36,7 +37,7 @@ use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Lavacharts extends Customizable
+class Lavacharts extends Customizable implements \JsonSerializable, Jsonable
 {
     /**
      * Lavacharts version
@@ -107,45 +108,6 @@ class Lavacharts extends Customizable
     }
 
     /**
-     * Get the value of an option.
-     *
-     * @since 3.2.0
-     * @param string $key Option to get
-     * @return mixed|null
-     */
-    public function getOption($key)
-    {
-        if (array_key_exists($key, $this->options)) {
-            return $this->options[$key];
-        }
-
-        return null;
-    }
-
-    /**
-     * Get the array of set options.
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
-     * Set the value of an option.
-     *
-     * @since 3.2.0
-     * @param string $key Option to set
-     * @param mixed $value Value of the option
-     * @return mixed
-     */
-    public function setOption($key, $value)
-    {
-        $this->options[$key] = $value;
-    }
-
-    /**
      * Magic function to reduce repetitive coding and create aliases.
      *
      * @since  1.0.0
@@ -167,11 +129,11 @@ class Lavacharts extends Customizable
             if ($this->exists($method, $args[0])) {
                 $label = new Label($args[0]);
 
-                $lavaClass = $this->volcano->get($method, $label);
+                return $this->volcano->get($method, $label);
             } else {
                 $chart = $this->chartFactory->create($method, $args);
 
-                $lavaClass = $this->volcano->store($chart);
+                return $this->volcano->store($chart);
             }
         }
 
@@ -179,21 +141,19 @@ class Lavacharts extends Customizable
         if ((bool) preg_match('/Filter$/', $method)) {
             $options = isset($args[1]) ? $args[1] : [];
 
-            $lavaClass = FilterFactory::create($method, $args[0], $options);
+            return FilterFactory::create($method, $args[0], $options);
         }
 
         //Formats
         if ((bool) preg_match('/Format$/', $method)) {
             $options = isset($args[0]) ? $args[0] : [];
 
-            $lavaClass = Format::create($method, $options);
+            return Format::create($method, $options);
         }
 
-        if (isset($lavaClass) == false) {
-            throw new InvalidLavaObject($method);
-        }
-
-        return $lavaClass;
+        throw new \BadMethodCallException(
+            sprintf('Unknown method "%s" in "%s".', $method, get_class())
+        );
     }
 
     /**
@@ -224,6 +184,8 @@ class Lavacharts extends Customizable
      */
     public function Dashboard($label, DataTable $dataTable)
     {
+        $label = new Label($label);
+
         if ($this->exists('Dashboard', $label)) {
             $dashboard = $this->volcano->get('Dashboard', $label);
         } else {
@@ -322,9 +284,9 @@ class Lavacharts extends Customizable
      * @deprecated 3.0.3
      * @return string Google Chart API and lava.js script blocks
      */
-    public function jsapi()
+    public function jsapi(array $options = [])
     {
-        return $this->lavajs();
+        return $this->lavajs($options);
     }
 
     /**
@@ -354,7 +316,7 @@ class Lavacharts extends Customizable
      * @uses   \Khill\Lavacharts\Values\Label
      * @param  string $type  Type of Chart or Dashboard.
      * @param  string $label Label of the Chart or Dashboard.
-     * @return \Khill\Lavacharts\Support\Contracts\RenderableInterface
+     * @return \Khill\Lavacharts\Support\Contracts\Renderable
      * @throws \Khill\Lavacharts\Exceptions\InvalidLavaObject
      */
     public function fetch($type, $label)
@@ -372,8 +334,8 @@ class Lavacharts extends Customizable
      * Stores a existing Chart or Dashboard into the volcano storage.
      *
      * @since  3.0.0
-     * @param  \Khill\Lavacharts\Support\Contracts\RenderableInterface $renderable A Chart or Dashboard.
-     * @return \Khill\Lavacharts\Support\Contracts\RenderableInterface
+     * @param  \Khill\Lavacharts\Support\Contracts\Renderable $renderable A Chart or Dashboard.
+     * @return \Khill\Lavacharts\Support\Contracts\Renderable
      */
     public function store(Renderable $renderable)
     {
@@ -448,6 +410,24 @@ class Lavacharts extends Customizable
         }
 
         return $output->getContents();
+    }
+
+    /**
+     * Convert the Lavacharts object to JSON
+     *
+     * @return array
+     */
+    public function toJson()
+    {
+        return [
+            'version' => self::VERSION,
+
+        ];
+    }
+
+    private function jsonSerialize()
+    {
+
     }
 
     /**

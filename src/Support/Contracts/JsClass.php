@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Support\Contracts;
 
 /**
- * Interface VisualizationInterface
+ * JsClass Interface
  *
  * Classes that implement this provide a method for custom JSON output.
  *
@@ -15,7 +15,7 @@ namespace Khill\Lavacharts\Support\Contracts;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-interface JsClassInterface
+interface JsClass
 {
     /**
      * Returns the name of the Javascript object of a Google chart component.

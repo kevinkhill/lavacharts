@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Support;
 
-use Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
+use Khill\Lavacharts\Support\Contracts\Jsonable as Jsonable;
 
 /**
  * Class Buffer

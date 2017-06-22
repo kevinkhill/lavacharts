@@ -1,12 +1,11 @@
-# Lavacharts 3.1.6
-
+# Lavacharts 3.2.0
 [![Total Downloads](https://img.shields.io/packagist/dt/khill/lavacharts.svg?style=plastic)](https://packagist.org/packages/khill/lavacharts)
 [![License](https://img.shields.io/packagist/l/khill/lavacharts.svg?style=plastic)](http://opensource.org/licenses/MIT)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg?style=plastic)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.5-8892BF.svg?style=plastic)](https://php.net/)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/kevinkhill/lavacharts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![PayPayl](https://img.shields.io/badge/paypal-donate-yellow.svg?style=plastic)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ)
+[![PayPal](https://img.shields.io/badge/paypal-donate-yellow.svg?style=plastic)](https://paypal.me/kevinkhill)
 
-Lavacharts is a graphing / chart library for PHP5.4+ that wraps the Google Chart API.
+Lavacharts is a graphing / chart library for PHP5.5+ that wraps the Google Chart API.
 
 Stable:
 [![Current Release](https://img.shields.io/github/release/kevinkhill/lavacharts.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/releases)
@@ -20,16 +19,23 @@ Dev:
 
 
 ## Package Features
-- **Updated!** Any option for customizing charts that Google supports, Lavacharts should as well. Just use the chart constructor to assign any customization options you wish!
- - Visit [Google's Chart Gallery](https://developers.google.com/chart/interactive/docs/gallery) for details on available options
+- **Updated!** Global package configuration
+  - Options include: `auto_run`, `locale`
+
+- Any option for customizing charts that Google supports, Lavacharts should as well.
+ - Visit [Google's Chart Gallery](https://developers.google.com/chart/interactive/docs/gallery) for details on available option
+ 
 - Custom JavaScript module for interacting with charts client-side
-  - AJAX data reloading
+  - AJAX data + option reloading
   - Fetching charts
   - Events integration
-- Column Formatters & Roles
-- Blade template extensions for Laravel
-- Twig template extensions for Symfony
+- Column Formatters and Roles
+
+- Framework Integrations for [Laravel](https://github.com/kevinkhill/lavacharts/blob/3.2/src/Laravel/LavachartsServiceProvider.php), [Symfony](https://github.com/kevinkhill/lavacharts/tree/3.2/src/Symfony/Bundle/Resources), [Angular](https://github.com/kevinkhill/lavacharts/blob/3.2/javascript/src/angular/LavaJsService.ts)
+- Template Extensions for [Blade](https://github.com/kevinkhill/lavacharts/blob/3.2/src/Laravel/BladeTemplateExtensions.php), [Twig](https://github.com/kevinkhill/lavacharts/blob/3.2/src/Symfony/Bundle/Twig/LavachartsExtension.php)
+  
 - [Carbon](https://github.com/briannesbitt/Carbon) support for date/datetime/timeofday columns
+
 - Now supporting **22** Charts!
   - Annotation, Area, Bar, Bubble, Calendar, Candlestick, Column, Combo, Gantt, Gauge, Geo, Histogram, Line, Org, Pie, Sankey, Scatter, SteppedArea, Table, Timeline, TreeMap, and WordTree!
 
@@ -43,7 +49,7 @@ Dev:
 ## Installing
 In your project's main `composer.json` file, add this line to the requirements:
 ```json
-"khill/lavacharts": "~3.1"
+"khill/lavacharts": "~3.2"
 ```
 
 Run Composer to install Lavacharts:

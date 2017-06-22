@@ -6,7 +6,7 @@ use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 
 /**
- * Interface RenderableInterface
+ * Renderable Interface
  *
  * Defining the methods a class must have to be Renderable.
  *
@@ -18,15 +18,22 @@ use \Khill\Lavacharts\Values\ElementId;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-interface RenderableInterface
+interface Renderable
 {
     /**
-     * Creates and/or sets the Label.
+     * Check to see if the class has it's elementId set.
      *
-     * @param  string|\Khill\Lavacharts\Values\Label $label
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
+     * @since  3.1.0
+     * @return bool
      */
-    public function setLabel($label);
+    public function hasElementId();
+
+    /**
+     * Returns the ElementId.
+     *
+     * @return \Khill\Lavacharts\Values\ElementId
+     */
+    public function getElementId();
 
     /**
      * Returns the label.
@@ -36,9 +43,16 @@ interface RenderableInterface
     public function getLabel();
 
     /**
-     * Returns the label.
+     * Returns the type of renderable.
      *
-     * @return \Khill\Lavacharts\Values\Label
+     * @return string
      */
-    public function getLabelStr();
+    public function getRenderableType();
+
+    /**
+     * Returns if the Renderable object is able to be rendered.
+     *
+     * @return bool
+     */
+    public function isRenderable();
 }

@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Javascript;
 
+use Khill\Lavacharts\Support\Contracts\Renderable;
 use Khill\Lavacharts\Support\Buffer;
 
 /**
@@ -47,7 +48,7 @@ class JavascriptFactory
      *
      * @param string $outputTemplate
      */
-     public function __construct($outputTemplate)
+    public function __construct($outputTemplate)
     {
         $this->template = file_get_contents(
             realpath(__DIR__ . '/../../javascript/templates/' . $outputTemplate)
@@ -56,7 +57,7 @@ class JavascriptFactory
         $this->buffer = new Buffer($this->template);
 
         /** Replacing the template variables with values */
-        foreach ($this->getTemplateVars() as $var => $value) {
+        foreach ($this->templateVars as $var => $value) {
             $this->buffer->replace('<'.$var.'>', $value);
         }
 
@@ -65,6 +66,19 @@ class JavascriptFactory
 
         /** Converting string nulls to actual nulls */
         $this->buffer->pregReplace('/"null"/', 'null');
+    }
+
+    /**
+     * Get a new instance of the specific renderable factory.
+     *
+     * @param \Khill\Lavacharts\Support\Contracts\Renderable $renderable
+     * @return \Khill\Lavacharts\Javascript\ChartJsFactory|\Khill\Lavacharts\Javascript\DashboardJsFactory
+     */
+    public static function create(Renderable $renderable)
+    {
+        $factory = $renderable->getRenderableType() . 'JsFactory';
+
+        return new $factory($renderable);
     }
 
     /**

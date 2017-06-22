@@ -13,7 +13,7 @@ use Khill\Lavacharts\Exceptions\InvalidColumnRole;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use Khill\Lavacharts\Exceptions\InvalidTimeZone;
-use Khill\Lavacharts\Support\Contracts\JsonableInterface as Jsonable;
+use Khill\Lavacharts\Support\Contracts\Jsonable as Jsonable;
 use Khill\Lavacharts\Values\Role;
 use Khill\Lavacharts\Values\StringValue;
 

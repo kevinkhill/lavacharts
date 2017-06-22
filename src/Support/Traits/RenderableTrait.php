@@ -22,8 +22,6 @@ use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
  */
 trait RenderableTrait
 {
-    use HasElementId;
-
     /**
      * The renderable's unique label.
      *
@@ -39,11 +37,77 @@ trait RenderableTrait
     protected $elementId;
 
     /**
-     * Status for if a chart is directly renderable or if it is part of a dashboard.
+     * Defaulting to true so than all new Renderables can be rendered.
      *
      * @var bool
      */
-    protected $renderableStatus = true;
+    protected $renderable = true;
+
+    /**
+     * Returns the ElementId.
+     *
+     * @return \Khill\Lavacharts\Values\ElementId
+     */
+    public function getElementId()
+    {
+        return $this->elementId;
+    }
+
+    /**
+     * Returns the ElementId as a string.
+     *
+     * @return string
+     */
+    public function getElementIdStr()
+    {
+        return (string) $this->elementId;
+    }
+
+    /**
+     * Creates and/or sets the ElementId.
+     *
+     * @param  string|\Khill\Lavacharts\Values\ElementId $elementId
+     * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
+     */
+    public function setElementId($elementId)
+    {
+        if ($elementId instanceof ElementId) {
+            $this->elementId = $elementId;
+        } else {
+            $this->elementId = new ElementId($elementId);
+        }
+    }
+
+    /**
+     * Check to see if the renderable has it's elementId set.
+     *
+     * @since  3.1.0
+     * @return bool
+     */
+    public function hasElementId()
+    {
+        return isset($this->elementId);
+    }
+
+    /**
+     * Returns the label.
+     *
+     * @return \Khill\Lavacharts\Values\Label
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    /**
+     * Returns the label as a string.
+     *
+     * @return string
+     */
+    public function getLabelStr()
+    {
+        return (string) $this->label;
+    }
 
     /**
      * Creates and/or sets the Label.
@@ -61,23 +125,25 @@ trait RenderableTrait
     }
 
     /**
-     * Returns the label.
+     * Check to see if the renderable has it's label set.
      *
-     * @return \Khill\Lavacharts\Values\Label
+     * @since  3.2.0
+     * @return bool
      */
-    public function getLabel()
+    public function hasLabel()
     {
-        return $this->label;
+        return isset($this->label);
     }
 
     /**
-     * Returns the label.
+     * Get the type of renderable class
      *
-     * @return \Khill\Lavacharts\Values\Label
+     * @since 3.2.0
+     * @return string
      */
-    public function getLabelStr()
+    public function getRenderableType()
     {
-        return (string) $this->label;
+        static::class;
     }
 
     /**
@@ -88,7 +154,7 @@ trait RenderableTrait
      */
     public function setRenderable($renderable)
     {
-        $this->renderableStatus = (bool) $renderable;
+        $this->isRenderable = (bool) $renderable;
     }
 
     /**
@@ -99,6 +165,6 @@ trait RenderableTrait
      */
     public function isRenderable()
     {
-        return $this->renderableStatus;
+        return $this->renderable && $this->hasLabel() && $this->hasElementId();
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
+use Khill\Lavacharts\Support\Contracts\Renderable as Renderable;
 
 class ElementIdException extends RenderingException
 {

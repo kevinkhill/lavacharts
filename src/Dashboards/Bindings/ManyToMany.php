@@ -2,6 +2,9 @@
 
 namespace Khill\Lavacharts\Dashboards\Bindings;
 
+use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
+use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
+
 /**
  * ManyToMany Binding Class
  *
@@ -27,8 +30,8 @@ class ManyToMany extends Binding
     /**
      * Creates the new Binding.
      *
-     * @param  array $chartWrappers
-     * @param  array $controlWrappers
+     * @param  ControlWrapper[] $controlWrappers
+     * @param  ChartWrapper[]   $chartWrappers
      */
     public function __construct(array $controlWrappers, array $chartWrappers)
     {

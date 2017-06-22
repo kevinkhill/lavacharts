@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Support\Contracts;
 
 /**
- * Interface JsonableInterface
+ * JsPackage Interface
  *
  * Classes that implement this provide a method for custom JSON output.
  *
@@ -15,12 +15,12 @@ namespace Khill\Lavacharts\Support\Contracts;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-interface JsonableInterface
+interface JsPackage extends JsClass
 {
     /**
-     * Returns a customize JSON representation of an object.
+     * Returns the name of the Javascript object of a Google chart component.
      *
      * @return string
      */
-    public function toJson();
+    public function getJsPackage();
 }

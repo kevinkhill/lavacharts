@@ -6,7 +6,8 @@
         "graphs",
         "google",
         "laravel",
-        "symfony"
+        "symfony",
+        "angular"
     ],
     "homepage": "http://lavacharts.com",
     "license": "MIT",
@@ -69,7 +70,7 @@
         "khill/datatableplus": "Adds extra features to DataTables such as csv and laravel collection parsing."
     },
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.5.0",
         "nesbot/carbon": "~1.14"
     },
     "autoload": {

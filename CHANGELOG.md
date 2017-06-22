@@ -1,3 +1,11 @@
+- 3.2.0
+  - Dropping support for PHP5.4
+  - Adding the ability to customize the package globally with options:
+    - `auto_run => true`
+      - If set to false, then the javascript method `lava.run()` is not ran on page load. (Useful for Angular devs that want to render on demand.)
+    - `locale => 'en'`
+      - The language to use with generated labels on the chart / dashboard.
+
 - 3.1.3 
   - Adding JavascriptDate class that mimics the way the Javascript Date object is created. (I wanted to be able to copy and paste google's examples into addRows)
   

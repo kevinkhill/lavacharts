@@ -2,15 +2,15 @@
 
 namespace Khill\Lavacharts\Dashboards;
 
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Values\ElementId;
-use \Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
-use \Khill\Lavacharts\Support\Traits\DataTableTrait as HasDataTable;
-use \Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
-use \Khill\Lavacharts\Support\Contracts\DataTableInterface as DataTables;
-use \Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
-use \Khill\Lavacharts\Support\Contracts\VisualizationInterface as Visualization;
+use Khill\Lavacharts\Values\Label;
+use Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Dashboards\Bindings\Binding;
+use Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
+use Khill\Lavacharts\Support\Contracts\DataTable;
+use Khill\Lavacharts\Support\Contracts\Renderable;
+use Khill\Lavacharts\Support\Contracts\JsPackage;
+use Khill\Lavacharts\Support\Traits\DataTableTrait as HasDataTable;
+use Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
 
 /**
  * Class Dashboard
@@ -28,7 +28,7 @@ use \Khill\Lavacharts\Support\Contracts\VisualizationInterface as Visualization;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Dashboard implements DataTables, Renderable, Visualization
+class Dashboard implements DataTable, Renderable, JsPackage
 {
     use HasDataTable, IsRenderable;
 
@@ -56,14 +56,14 @@ class Dashboard implements DataTables, Renderable, Visualization
     /**
      * Binding Factory for creating new bindings
      *
-     * @var \Khill\Lavacharts\Dashboards\Bindings\BindingFactory
+     * @var BindingFactory
      */
     private $bindingFactory;
 
     /**
      * Array of Binding objects, mapping controls to charts.
      *
-     * @var array
+     * @var Binding[]
      */
     private $bindings = [];
 
@@ -72,9 +72,9 @@ class Dashboard implements DataTables, Renderable, Visualization
      *
      * If passed an array of bindings, they will be applied upon creation.
      *
-     * @param \Khill\Lavacharts\Values\Label         $label Label for the Dashboard
-     * @param \Khill\Lavacharts\DataTables\DataTable $datatable
-     * @param \Khill\Lavacharts\Values\ElementId     $elementId Element Id for the Dashboard
+     * @param \Khill\Lavacharts\Values\Label                $label Label for the Dashboard
+     * @param \Khill\Lavacharts\Support\Contracts\DataTable $datatable
+     * @param \Khill\Lavacharts\Values\ElementId            $elementId Element Id for the Dashboard
      */
     public function __construct(
         Label $label,
@@ -184,7 +184,7 @@ class Dashboard implements DataTables, Renderable, Visualization
     /**
      * Fetch the dashboard's bindings.
      *
-     * @return array
+     * @return Binding[]
      */
     public function getBindings()
     {

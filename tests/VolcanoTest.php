@@ -186,7 +186,7 @@ class VolcanoTest extends ProvidersTestCase
         $this->volcano->store($this->mockDashboard);
 
         foreach ($this->volcano->getAll() as $renderable) {
-            $this->assertInstanceOf('\Khill\Lavacharts\Support\Contracts\RenderableInterface', $renderable);
+            $this->assertInstanceOf('\Khill\Lavacharts\Support\Contracts\Renderable', $renderable);
         }
     }
 }

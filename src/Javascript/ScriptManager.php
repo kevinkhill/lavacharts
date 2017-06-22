@@ -7,7 +7,7 @@ use Khill\Lavacharts\Dashboards\Dashboard;
 use Khill\Lavacharts\Exceptions\ElementIdException;
 use Khill\Lavacharts\Values\ElementId;
 use Khill\Lavacharts\Support\Buffer;
-use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
+use Khill\Lavacharts\Support\Contracts\Renderable as Renderable;
 
 /**
  * ScriptManager Class
@@ -88,7 +88,7 @@ class ScriptManager
      * Returns a buffer with the javascript of a renderable resource.
      *
      *
-     * @param  \Khill\Lavacharts\Support\Contracts\RenderableInterface $renderable
+     * @param  \Khill\Lavacharts\Support\Contracts\Renderable $renderable
      * @return \Khill\Lavacharts\Support\Buffer
      * @throws \Khill\Lavacharts\Exceptions\ElementIdException
      */
@@ -98,13 +98,7 @@ class ScriptManager
             throw new ElementIdException($renderable);
         }
 
-        if ($renderable instanceof Dashboard) {
-            $jsFactory = new DashboardJsFactory($renderable);
-        }
-
-        if ($renderable instanceof Chart) {
-            $jsFactory = new ChartJsFactory($renderable);
-        }
+        $jsFactory = JavascriptFactory::create($renderable);
 
         $buffer = $jsFactory->getOutputBuffer();
 
