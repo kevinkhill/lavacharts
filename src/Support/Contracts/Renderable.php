@@ -21,14 +21,6 @@ use \Khill\Lavacharts\Values\ElementId;
 interface Renderable
 {
     /**
-     * Check to see if the class has it's elementId set.
-     *
-     * @since  3.1.0
-     * @return bool
-     */
-    public function hasElementId();
-
-    /**
      * Returns the ElementId.
      *
      * @return \Khill\Lavacharts\Values\ElementId

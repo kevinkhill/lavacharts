@@ -23,7 +23,7 @@ use Khill\Lavacharts\Support\Contracts\Renderable as Renderable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Volcano
+final class Volcano
 {
     /**
      * Holds all of the defined Charts.

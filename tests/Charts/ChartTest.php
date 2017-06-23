@@ -171,8 +171,8 @@ class ChartTest extends ProvidersTestCase
         $chart->width(1024);
         $chart->height(768);
 
-        $expected = '{"title":"My Cool Chart","width":1024,"height":768}';
+        $expected = '{"type":"LineChart","label":"TestChart","options":{"title":"My Cool Chart","width":1024,"height":768},"datatable":{"cols":[],"rows":[]},"element_id":""}';
 
-        $this->assertEquals($expected, json_encode($chart));
+        $this->assertEquals($expected, $chart->getOptions()->toJson());
     }
 }

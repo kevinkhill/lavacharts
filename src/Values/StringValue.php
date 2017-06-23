@@ -70,6 +70,6 @@ class StringValue implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return $this->value;
+        return $this->__toString();
     }
 }

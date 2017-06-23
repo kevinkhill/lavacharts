@@ -2,16 +2,20 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\Values\ElementId;
+use JsonSerializable;
+use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Values\Label;
-use Khill\Lavacharts\Support\Customizable;
+use Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Support\Contracts\Arrayable;
+use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\DataTable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Contracts\JsPackage;
 use Khill\Lavacharts\Support\Contracts\Renderable;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
-use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
+use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
+use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
 
 /**
  * Class Chart
@@ -20,16 +24,16 @@ use Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
  * used between all the different charts.
  *
  *
- * @package   Khill\Lavacharts\Charts
- * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @package       Khill\Lavacharts\Charts
+ * @author        Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
- * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link      http://lavacharts.com                   Official Docs Site
- * @license   http://opensource.org/licenses/MIT      MIT
+ * @link          http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link          http://lavacharts.com                   Official Docs Site
+ * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Chart extends Customizable implements DataTable, Renderable, Wrappable, Jsonable, JsPackage
+class Chart implements DataTable, Customizable, Renderable, Wrappable, Jsonable, Arrayable, JsPackage, JsonSerializable
 {
-    use HasDataTable, IsRenderable;
+    use HasDataTable, HasOptions, IsRenderable;
 
     /**
      * Type of wrappable class
@@ -40,18 +44,17 @@ class Chart extends Customizable implements DataTable, Renderable, Wrappable, Js
      * Builds a new chart with the given label.
      *
      * @param \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
-     * @param \Khill\Lavacharts\DataTables\DataTable $datatable DataTable used for the chart.
-     * @param array                                  $options Options fot the chart.
+     * @param \Khill\Lavacharts\DataTables\DataTable $datatable  DataTable used for the chart.
+     * @param array                                  $options    Options fot the chart.
      */
     public function __construct(Label $chartLabel, DataTable $datatable = null, array $options = [])
     {
-        parent::__construct($options);
-
         $this->label = $chartLabel;
         $this->datatable = $datatable->getDataTable();
+        $this->options = new Options($options);
 
-        if (array_key_exists('elementId', $options)) {
-            $this->elementId = new ElementId($options['elementId']);
+        if ($this->options->has('elementId')) {
+            $this->elementId = new ElementId($options->elementId);
         }
     }
 
@@ -111,13 +114,39 @@ class Chart extends Customizable implements DataTable, Renderable, Wrappable, Js
     }
 
     /**
-     * Return a JSON representation of the chart, which would be the customizations.
+     * Array representation of the Chart.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'type'       => $this->getType(),
+            'label'      => $this->getLabel(),
+            'options'    => $this->getOptions(),
+            'datatable'  => $this->getDataTable(),
+            'element_id' => $this->getElementId(),
+        ];
+    }
+
+    /**
+     * Return a JSON representation of the chart.
      *
      * @return string
      */
     public function toJson()
     {
         return json_encode($this);
+    }
+
+    /**
+     * Custom serialization of the chart.
+     *
+     * @return array
+     */
+    function jsonSerialize()
+    {
+        return $this->toArray();
     }
 
     /**
