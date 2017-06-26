@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\DataTables\Columns;
 
 use Khill\Lavacharts\DataTables\Formats\Format;
+use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Customizable;
 use Khill\Lavacharts\Values\Role;
 
@@ -20,7 +21,7 @@ use Khill\Lavacharts\Values\Role;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Column extends Customizable
+class Column extends Customizable implements Jsonable
 {
     /**
      * Column type.
@@ -34,21 +35,21 @@ class Column extends Customizable
      *
      * @var string
      */
-    protected $label = '';
+    protected $label;
 
     /**
      * Column formatter.
      *
      * @var \Khill\Lavacharts\DataTables\Formats\Format
      */
-    protected $format = null;
+    protected $format;
 
     /**
      * Column role.
      *
      * @var string
      */
-    protected $role = null;
+    protected $role;
 
     /**
      * Creates a new Column with the defined label.
@@ -117,6 +118,16 @@ class Column extends Customizable
     public function getRole()
     {
         return $this->role;
+    }
+
+    /**
+     * Returns a customize JSON representation of an object.
+     *
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this);
     }
 
     /**

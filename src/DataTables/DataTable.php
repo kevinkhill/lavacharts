@@ -96,6 +96,16 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
     }
 
     /**
+     * Cast the DataTable to JSON when accessed as a string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode($this);
+    }
+
+    /**
      * Since a DataTable is a DataTable, return it!
      *
      * @since  3.1.6

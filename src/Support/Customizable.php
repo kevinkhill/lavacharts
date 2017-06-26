@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Support;
 
+use ArrayAccess;
+
 /**
  * Class Customizable
  *
@@ -17,7 +19,7 @@ namespace Khill\Lavacharts\Support;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT      MIT
  */
-class Customizable implements \ArrayAccess/*, \JsonSerializable*/
+class Customizable implements ArrayAccess/*, \JsonSerializable*/
 {
     /**
      * Customization options.

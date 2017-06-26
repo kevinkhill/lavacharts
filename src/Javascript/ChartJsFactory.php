@@ -90,9 +90,10 @@ class ChartJsFactory extends JavascriptFactory
             'chartVer'     => $this->chart->getVersion(),
             'chartClass'   => $this->chart->getJsClass(),
             'chartPackage' => $this->chart->getJsPackage(),
-            'chartData'    => $this->chart->getDataTableJson(),
+            'chartData'    => $this->chart->getDataTable()->toJson(),
             'elemId'       => $this->chart->getElementIdStr(),
-            //'chartOptions' => $this->chart->toJson(),
+//            'option'       => $this->chart->getOptions(),
+            'chartOptions' => '',
             'pngOutput'    => false,
             'formats'      => '',
             'events'       => ''
@@ -108,7 +109,7 @@ class ChartJsFactory extends JavascriptFactory
                 $this->chart->toJson()
             );
         } else {
-            $vars['chartOptions'] = $this->chart->toJson();
+            $vars['chartOptions'] = $this->chart->getOptions()->toJson();
         }
 
         if ($this->chart->getDataTable()->hasFormattedColumns()) {

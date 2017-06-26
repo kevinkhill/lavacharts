@@ -2,8 +2,10 @@
 
 namespace Khill\Lavacharts\DataTables\Rows;
 
+use ArrayAccess;
 use Carbon\Carbon;
 use Khill\Lavacharts\DataTables\Cells\NullCell;
+use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Values\StringValue;
 use Khill\Lavacharts\DataTables\Cells\Cell;
 use Khill\Lavacharts\DataTables\Cells\DateCell;
@@ -27,7 +29,7 @@ use Khill\Lavacharts\Exceptions\InvalidRowDefinition;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Row implements \ArrayAccess, \JsonSerializable
+class Row implements Jsonable, ArrayAccess
 {
     /**
      * Row values
@@ -151,13 +153,25 @@ class Row implements \ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Convert the row to json.
+     *
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this);
+    }
+
+    /**
      * Custom json serialization of the row.
      *
      * @return array
      */
     public function jsonSerialize()
     {
-        return ['c' => $this->values];
+        return [
+            'c' => $this->values
+        ];
     }
 
     /**

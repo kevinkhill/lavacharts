@@ -82,6 +82,8 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      */
     public function __construct(array $options = [])
     {
+        $this->initializeOptions($options);
+
         if ( ! $this->usingComposer()) {
             require_once(__DIR__.'/Support/Psr4Autoloader.php');
 
@@ -90,14 +92,9 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
             $loader->addNamespace('Khill\Lavacharts', __DIR__);
         }
 
-        $this->setOptions($this->getDefaultConfig());
-
-        $this->options->merge($options);
-
         $this->volcano       = new Volcano;
         $this->chartFactory  = new ChartFactory;
         $this->dashFactory   = new DashboardFactory;
-
         $this->scriptManager = new ScriptManager($this->options);
 
     }
@@ -543,6 +540,20 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
         } else {
             return false;
         }
+    }
+
+    /**
+     * Initialize the default options from file while overriding with user
+     * passed values.
+     *
+     * @param array $options
+     * @return void
+     */
+    private function initializeOptions(array $options)
+    {
+        $this->setOptions($this->getDefaultConfig());
+
+        $this->options->merge($options);
     }
 
     /**

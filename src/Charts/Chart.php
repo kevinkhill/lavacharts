@@ -16,7 +16,7 @@ use Khill\Lavacharts\Support\Contracts\JsPackage;
 //use Khill\Lavacharts\Support\Contracts\Renderable;
 use Khill\Lavacharts\Support\Contracts\JsFactory;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
-use Khill\Lavacharts\Support\Contracts\DataTable as Data;
+use Khill\Lavacharts\Support\Contracts\DataTable as DataInterface;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
 
@@ -34,7 +34,7 @@ use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Chart extends Renderable implements Data, JsFactory, Customizable, Wrappable, JsPackage
+class Chart extends Renderable implements DataInterface, JsFactory, Customizable, Wrappable, JsPackage
 {
     use HasDataTable, HasOptions;
 
@@ -60,19 +60,16 @@ class Chart extends Renderable implements Data, JsFactory, Customizable, Wrappab
     /**
      * Builds a new chart with the given label.
      *
-     * @param \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
-     * @param \Khill\Lavacharts\Support\Contracts\DataTable $datatable  DataTable used for the chart.
-     * @param array                                  $options    Options fot the chart.
+     * @param Label         $label    Identifying label for the chart.
+     * @param DataInterface $data     DataTable used for the chart.
+     * @param array         $options  Options fot the chart.
      */
-    public function __construct(Label $chartLabel, Data $data = null, array $options = [])
+    public function __construct(Label $label, DataInterface $data = null, array $options = [])
     {
         $this->setOptions($options);
 
-        $this->label = $chartLabel;
-
-        if ($data instanceof DataTable) {
-            $this->datatable = $data->getDataTable();
-        }
+        $this->label = $label;
+        $this->datatable = $data->getDataTable();
 
         if ($this->options->has('elementId')) {
             $this->elementId = new ElementId($options->elementId);

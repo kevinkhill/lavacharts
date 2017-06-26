@@ -21,7 +21,6 @@ interface DataTable
     /**
      * Returns the DataTable
      *
-     * @since  3.0.0
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
     public function getDataTable();

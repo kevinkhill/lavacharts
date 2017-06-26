@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\DataTables\Cells;
 
 use Khill\Lavacharts\Exceptions\InvalidParamType;
+use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Customizable;
 
 /**
@@ -18,7 +19,7 @@ use Khill\Lavacharts\Support\Customizable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Cell extends Customizable
+class Cell extends Customizable implements Jsonable
 {
     /**
      * The cell value.
@@ -127,6 +128,16 @@ class Cell extends Customizable
     public function getCustomValues()
     {
         return $this->f;
+    }
+
+    /**
+     * Convert the Cell to JSON.
+     *
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this);
     }
 
     /**
