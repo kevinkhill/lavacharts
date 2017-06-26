@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboards\Wrappers;
 
+use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Values\ElementId;
 use Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
@@ -22,7 +23,7 @@ use Khill\Lavacharts\Support\Contracts\JsClass;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Wrapper implements \JsonSerializable, Jsonable, JsClass
+class Wrapper implements Arrayable, Jsonable, JsClass
 {
     use HasElementId;
 
@@ -63,11 +64,11 @@ class Wrapper implements \JsonSerializable, Jsonable, JsClass
     }
 
     /**
-     * Custom serialization of the Wrapper.
+     * Array representation of the Wrapper
      *
      * @return array
      */
-    public function jsonSerialize()
+    public function toArray()
     {
         return [
             'options'     => $this->contents,
@@ -84,6 +85,16 @@ class Wrapper implements \JsonSerializable, Jsonable, JsClass
     public function toJson()
     {
         return json_encode($this);
+    }
+
+    /**
+     * Custom serialization of the Wrapper.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->toArray();
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\Charts;
 
 use JsonSerializable;
 use Khill\Lavacharts\Javascript\ChartJsFactory;
+use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Values\Label;
 use Khill\Lavacharts\Values\ElementId;
@@ -49,13 +50,6 @@ class Chart extends Renderable implements DataInterface, JsFactory, Customizable
      * Type of wrappable class
      */
     const WRAP_TYPE = 'chartType';
-
-    /**
-     * Defined events for the chart.
-     *
-     * @var array
-     */
-    private $events = [];
 
     /**
      * Builds a new chart with the given label.
@@ -149,11 +143,17 @@ class Chart extends Renderable implements DataInterface, JsFactory, Customizable
     public function toArray()
     {
         return [
-            'type'       => $this->getType(),
-            'label'      => $this->getLabel(),
-            'options'    => $this->getOptions(),
-            'datatable'  => $this->getDataTable(),
-            'element_id' => $this->getElementId(),
+            'events'       => '',
+            'formats'      => '',
+            'pngOutput'    => false,
+            'chartType'    => $this->getType(),
+            'chartVer'     => $this->getVersion(),
+            'chartClass'   => $this->getJsClass(),
+            'chartLabel'   => $this->getLabelStr(),
+            'chartPackage' => $this->getJsPackage(),
+            'elemId'       => $this->getElementIdStr(),
+            'chartData'    => $this->getDataTable()->toJson(),
+            'chartOptions' => $this->getOptions()->toJson(),
         ];
     }
 
@@ -165,7 +165,7 @@ class Chart extends Renderable implements DataInterface, JsFactory, Customizable
      */
     public function getEvents()
     {
-        return $this->events;
+        return $this->options->events;
     }
 
     /**
@@ -175,7 +175,24 @@ class Chart extends Renderable implements DataInterface, JsFactory, Customizable
      */
     public function hasEvents()
     {
-        return count($this->events) > 0;
+        return count($this->options->events) > 0;
+    }
+
+    /**
+     * Builds the javascript object of event callbacks.
+     *
+     * @access protected
+     * @return string Javascript code block.
+     */
+    protected function getEventCallbacks()
+    {
+        $buffer = new Buffer();
+
+        foreach ($this->events as $event => $callback) {
+            $buffer->append(Event::create($event, $callback).PHP_EOL.PHP_EOL);
+        }
+
+        return $buffer;
     }
 
     /**

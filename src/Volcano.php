@@ -133,6 +133,23 @@ class Volcano implements Arrayable, Jsonable
     }
 
     /**
+     * Retrieves all the charts from the volcano.
+     *
+     * @access private
+     * @return Chart[]
+     */
+    public function getCharts()
+    {
+        $charts = [];
+
+        array_walk_recursive($this->charts, function (Chart $chart) use (&$charts) {
+            $charts[] = $chart;
+        });
+
+        return $charts;
+    }
+
+    /**
      * Retrieves a chart from the volcano.
      *
      * @access private
@@ -151,22 +168,13 @@ class Volcano implements Arrayable, Jsonable
     }
 
     /**
-     * Retrieves all the charts from the volcano.
+     * Retrieves all the dashboards from the volcano.
      *
-     * @access private
-     * @return Chart[]
+     * @return Dashboard[]
      */
-    private function getCharts()
+    public function getDashboards()
     {
-        $charts = [];
-
-        foreach ($this->charts as $chartType) {
-            foreach ($chartType as $chart) {
-                $charts[] = $chart;
-            }
-        }
-
-        return $charts;
+        return $this->dashboards;
     }
 
     /**

@@ -150,10 +150,20 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
 
     /**
      * Run the library and get the resulting scripts.
+     *
+     *
+     * This method will create a <script> for the lava.js module along with
+     * one additional <script> per chart & dashboard being rendered.
+     *
+     * @since 3.2.0
+     * @return string HTML script elements
      */
     public function flow()
     {
-        echo $this->renderAll();
+        return $this->renderAll();
+
+        //@TODO This is the goal :)
+//        return new ScriptManager($this->options, json_encode($this));
     }
 
     /**
@@ -166,7 +176,8 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     {
         return [
             'version' => self::VERSION,
-            'renderables' => $this->volcano,
+            'charts' => $this->volcano->getCharts(),
+            'dashboards' => $this->volcano->getDashboards(),
         ];
     }
 

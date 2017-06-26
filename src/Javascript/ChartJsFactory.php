@@ -84,32 +84,20 @@ class ChartJsFactory extends JavascriptFactory
      */
     protected function getTemplateVars()
     {
-        $vars = [
-            'chartLabel'   => $this->chart->getLabelStr(),
-            'chartType'    => $this->chart->getType(),
-            'chartVer'     => $this->chart->getVersion(),
-            'chartClass'   => $this->chart->getJsClass(),
-            'chartPackage' => $this->chart->getJsPackage(),
-            'chartData'    => $this->chart->getDataTable()->toJson(),
-            'elemId'       => $this->chart->getElementIdStr(),
-//            'option'       => $this->chart->getOptions(),
-            'chartOptions' => '',
-            'pngOutput'    => false,
-            'formats'      => '',
-            'events'       => ''
-        ];
+        $vars = $this->chart->toArray();
 
         if (method_exists($this->chart, 'getPngOutput')) {
             $vars['pngOutput'] = $this->chart->getPngOutput();
         }
 
-        if (method_exists($this->chart, 'getMaterialOutput') && $this->chart->getMaterialOutput() === true) {
+        if (
+            method_exists($this->chart, 'getMaterialOutput') &&
+            $this->chart->getMaterialOutput()
+        ) {
             $vars['chartOptions'] = sprintf(
                 $this->chart->getJsClass() . '.convertOptions(%s)',
-                $this->chart->toJson()
+                $this->chart->getOptions()->toJson()
             );
-        } else {
-            $vars['chartOptions'] = $this->chart->getOptions()->toJson();
         }
 
         if ($this->chart->getDataTable()->hasFormattedColumns()) {
