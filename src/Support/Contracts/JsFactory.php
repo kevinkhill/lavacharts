@@ -2,34 +2,30 @@
 
 namespace Khill\Lavacharts\Support\Contracts;
 
-use JsonSerializable;
+use Khill\Lavacharts\Javascript\ChartJsFactory;
+use Khill\Lavacharts\Javascript\DashboardJsFactory;
 
 /**
- * Jsonable Interface
+ * JsFactory Interface
  *
- * Classes that implement this provide a method for custom JSON output.
+ * Defines what type of JsFactory will be returned.
+ *
  *
  * @package   Khill\Lavacharts\Support\Contracts
- * @since     3.1.0
+ * @since     3.2.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-interface Jsonable extends JsonSerializable
+interface JsFactory
 {
     /**
-     * Returns a customize JSON representation of an object.
+     * Returns the DataTable
      *
-     * @return string
+     * @since  3.0.0
+     * @return ChartJsFactory|DashboardJsFactory
      */
-    public function toJson();
-
-    /**
-     * Custom serialization of the chart.
-     *
-     * @return array
-     */
-    public function jsonSerialize();
+    public function getJsFactory();
 }

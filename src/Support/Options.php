@@ -15,14 +15,21 @@ use Khill\Lavacharts\Support\Contracts\Jsonable;
  *
  *
  * @package       Khill\Lavacharts\Support
- * @since         3.2
+ * @since         3.2.0
  * @author        Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
  * @link          http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Options implements Arrayable, Jsonable, JsonSerializable
+
+/**
+ * Class Options
+ *
+ * @package Khill\Lavacharts\Support
+ * @property string elementId
+ */
+class Options implements Arrayable, Jsonable
 {
     /**
      * Customization options.
@@ -97,12 +104,10 @@ class Options implements Arrayable, Jsonable, JsonSerializable
     public function merge($options)
     {
         if ($options instanceof Options) {
-            $this->options = array_merge($this->options, $options->toArray());
+            $options = $options->toArray();
         }
 
-        if (is_array($options)) {
-            $this->options = array_merge($this->options, $options);
-        }
+        $this->options = array_merge($this->options, $options);
     }
 
     /**

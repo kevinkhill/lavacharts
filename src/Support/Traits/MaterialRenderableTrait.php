@@ -25,16 +25,6 @@ trait MaterialRenderableTrait
     private $material = false;
 
     /**
-     * Sets the chart to be rendered as material design or classic.
-     *
-     * @param bool $png Sets the material render status.
-     */
-    public function setMaterialOutput($png)
-    {
-        $this->material = $png;
-    }
-
-    /**
      * Gets the chart render method.
      *
      * @return bool Returns the material render status.
@@ -42,5 +32,15 @@ trait MaterialRenderableTrait
     public function getMaterialOutput()
     {
         return $this->material;
+    }
+
+    /**
+     * Sets the chart to be rendered as material design or classic.
+     *
+     * @param bool $png Sets the material render status.
+     */
+    public function setMaterialOutput($png)
+    {
+        $this->material = (bool) $png;
     }
 }

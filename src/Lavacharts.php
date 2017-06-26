@@ -4,7 +4,6 @@ namespace Khill\Lavacharts;
 
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Charts\ChartFactory;
-use Khill\Lavacharts\Dashboards\Dashboard;
 use Khill\Lavacharts\Dashboards\DashboardFactory;
 use Khill\Lavacharts\Dashboards\Filters\Filter;
 use Khill\Lavacharts\Dashboards\Filters\FilterFactory;
@@ -16,11 +15,13 @@ use Khill\Lavacharts\Exceptions\InvalidLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Javascript\ScriptManager;
 use Khill\Lavacharts\Support\Buffer;
+use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
-use Khill\Lavacharts\Support\Contracts\Renderable;
-use Khill\Lavacharts\Support\Customizable;
+use Khill\Lavacharts\Support\Renderable;
+use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Html\HtmlFactory;
 use Khill\Lavacharts\Support\Psr4Autoloader;
+use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Values\ElementId;
 use Khill\Lavacharts\Values\Label;
 use Khill\Lavacharts\Values\StringValue;
@@ -37,40 +38,42 @@ use Khill\Lavacharts\Values\StringValue;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-final class Lavacharts extends Customizable implements \JsonSerializable, Jsonable
+class Lavacharts implements Customizable, Jsonable, Arrayable
 {
+    use HasOptions;
+
     /**
      * Lavacharts version
      */
     const VERSION = '3.2.0';
 
     /**
-     * Holds all of the defined Charts and DataTables.
+     * Storage for all of the defined Renderables.
      *
      * @var \Khill\Lavacharts\Volcano
      */
     private $volcano;
 
     /**
-     * ScriptManager for outputting lava.js and chart/dashboard javascript
-     *
-     * @var \Khill\Lavacharts\Javascript\ScriptManager
-     */
-    private $scriptManager;
-
-    /**
-     * The chart factory for creating new charts.
+     * Chart factory for creating new charts.
      *
      * @var \Khill\Lavacharts\Charts\ChartFactory
      */
     private $chartFactory;
 
     /**
-     * the dashboard factory for creating dashboards.
+     * Dashboard factory for creating dashboards.
      *
      * @var \Khill\Lavacharts\Dashboards\DashboardFactory
      */
     private $dashFactory;
+
+    /**
+     * Instance of the ScriptManager.
+     *
+     * @var ScriptManager
+     */
+    private $scriptManager;
 
     /**
      * Lavacharts constructor.
@@ -79,10 +82,6 @@ final class Lavacharts extends Customizable implements \JsonSerializable, Jsonab
      */
     public function __construct(array $options = [])
     {
-        parent::__construct($this->getDefaultConfig());
-
-        $this->mergeOptions($options);
-
         if ( ! $this->usingComposer()) {
             require_once(__DIR__.'/Support/Psr4Autoloader.php');
 
@@ -91,10 +90,16 @@ final class Lavacharts extends Customizable implements \JsonSerializable, Jsonab
             $loader->addNamespace('Khill\Lavacharts', __DIR__);
         }
 
+        $this->setOptions($this->getDefaultConfig());
+
+        $this->options->merge($options);
+
         $this->volcano       = new Volcano;
         $this->chartFactory  = new ChartFactory;
         $this->dashFactory   = new DashboardFactory;
-        $this->scriptManager = new ScriptManager;
+
+        $this->scriptManager = new ScriptManager($this->options);
+
     }
 
     /**
@@ -147,6 +152,50 @@ final class Lavacharts extends Customizable implements \JsonSerializable, Jsonab
     }
 
     /**
+     * Run the library and get the resulting scripts.
+     */
+    public function flow()
+    {
+        echo $this->renderAll();
+    }
+
+    /**
+     * Convert the Lavacharts object to an array
+     *
+     * @since 3.2.0
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'version' => self::VERSION,
+            'renderables' => $this->volcano,
+        ];
+    }
+
+    /**
+     * Convert the Lavacharts object to JSON
+     *
+     * @since 3.2.0
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this);
+    }
+
+    /**
+     * Custom serialization of the library
+     *
+     * @since 3.2.0
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->toArray();
+    }
+
+    /**
      * Create a new DataTable using the DataFactory
      *
      * If the additional DataTablePlus package is available, then one will
@@ -169,7 +218,7 @@ final class Lavacharts extends Customizable implements \JsonSerializable, Jsonab
      *
      * @since  3.0.0
      * @param  string                                 $label
-     * @param  \Khill\Lavacharts\DataTables\DataTable $dataTable
+     * @param  DataTable $dataTable
      * @return \Khill\Lavacharts\Dashboards\Dashboard
      */
     public function Dashboard($label, DataTable $dataTable)
@@ -177,14 +226,12 @@ final class Lavacharts extends Customizable implements \JsonSerializable, Jsonab
         $label = new Label($label);
 
         if ($this->exists('Dashboard', $label)) {
-            $dashboard = $this->volcano->get('Dashboard', $label);
-        } else {
-            $dashboard = $this->volcano->store(
-                $this->dashFactory->create(func_get_args())
-            );
+            return $this->volcano->get('Dashboard', $label);
         }
 
-        return $dashboard;
+        return $this->volcano->store(
+            $this->dashFactory->create(func_get_args())
+        );
     }
 
     /**
@@ -220,6 +267,28 @@ final class Lavacharts extends Customizable implements \JsonSerializable, Jsonab
     }
 
     /**
+     * Returns the Volcano instance.
+     *
+     * @return Volcano
+     */
+    public function getVolcano()
+    {
+        return $this->volcano;
+    }
+
+    /**
+     * Returns the current locale used in the DataTable
+     *
+     * @deprecated 3.2.0
+     * @since  3.1.0
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->options['locale'];
+    }
+
+    /**
      * Locales are used to customize text for a country or language.
      *
      * This will affect the formatting of values such as currencies, dates, and numbers.
@@ -239,17 +308,6 @@ final class Lavacharts extends Customizable implements \JsonSerializable, Jsonab
 
         return $this;
     }
-    /**
-     * Returns the current locale used in the DataTable
-     *
-     * @deprecated 3.2.0
-     * @since  3.1.0
-     * @return string
-     */
-    public function getLocale()
-    {
-        return $this->options['locale'];
-    }
 
     /**
      * Outputs the lava.js module for manual placement.
@@ -262,16 +320,17 @@ final class Lavacharts extends Customizable implements \JsonSerializable, Jsonab
      */
     public function lavajs(array $options = [])
     {
-        $this->options = array_merge($options, $this->options);
+        $this->options->merge($options);
 
-        return (string) $this->scriptManager->getLavaJsModule($this->options);
+        return (string) $this->scriptManager->getLavaJs($this->options);
     }
 
     /**
      * Outputs the link to the Google JSAPI
      *
-     * @since      2.3.0
      * @deprecated 3.0.3
+     * @since      2.3.0
+     * @param array $options
      * @return string Google Chart API and lava.js script blocks
      */
     public function jsapi(array $options = [])
@@ -306,7 +365,7 @@ final class Lavacharts extends Customizable implements \JsonSerializable, Jsonab
      * @uses   \Khill\Lavacharts\Values\Label
      * @param  string $type  Type of Chart or Dashboard.
      * @param  string $label Label of the Chart or Dashboard.
-     * @return \Khill\Lavacharts\Support\Contracts\Renderable
+     * @return Renderable
      * @throws \Khill\Lavacharts\Exceptions\InvalidLavaObject
      */
     public function fetch($type, $label)
@@ -324,8 +383,8 @@ final class Lavacharts extends Customizable implements \JsonSerializable, Jsonab
      * Stores a existing Chart or Dashboard into the volcano storage.
      *
      * @since  3.0.0
-     * @param  \Khill\Lavacharts\Support\Contracts\Renderable $renderable A Chart or Dashboard.
-     * @return \Khill\Lavacharts\Support\Contracts\Renderable
+     * @param  Renderable $renderable A Chart or Dashboard.
+     * @return Renderable
      */
     public function store(Renderable $renderable)
     {
@@ -373,11 +432,11 @@ final class Lavacharts extends Customizable implements \JsonSerializable, Jsonab
     }
 
     /**
-     * Renders all charts and dashboards that have been defined
+     * Renders all charts and dashboards that have been defined.
      *
-     * Available options are:
-     * - lavaJs => bool Toggle the output of the lava.js module.
      *
+     * Options can be passed in to override the default config.
+     * Available options are defined in src/Laravel/config/lavacharts.php
      *
      * @since  3.1.0
      * @param array $options Options for rendering
@@ -385,11 +444,9 @@ final class Lavacharts extends Customizable implements \JsonSerializable, Jsonab
      */
     public function renderAll(array $options = [])
     {
-        $this->options = array_merge($this->options, $options);
+        $this->scriptManager->getOptions()->merge($options);
 
-        $output = new Buffer(
-            $this->scriptManager->getLavaJsModule($this->options)
-        );
+        $output = $this->scriptManager->getLavaJs($this->options);
 
         $renderables = $this->volcano->getAll();
 
@@ -400,24 +457,6 @@ final class Lavacharts extends Customizable implements \JsonSerializable, Jsonab
         }
 
         return $output->getContents();
-    }
-
-    /**
-     * Convert the Lavacharts object to JSON
-     *
-     * @return array
-     */
-    public function toJson()
-    {
-        return [
-            'version' => self::VERSION,
-
-        ];
-    }
-
-    private function jsonSerialize()
-    {
-
     }
 
     /**

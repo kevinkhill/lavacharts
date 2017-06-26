@@ -52,7 +52,19 @@ class Buffer implements Jsonable
      */
     public function toJson()
     {
-        return (string) $this->contents;
+        return $this->__toString();
+    }
+
+    /**
+     * Custom serialization of the chart.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'contents' => $this->contents
+        ];
     }
 
     /**

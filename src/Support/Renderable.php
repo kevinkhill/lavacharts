@@ -1,39 +1,45 @@
 <?php
 
-namespace Khill\Lavacharts\Support\Traits;
+namespace Khill\Lavacharts\Support;
 
+use JsonSerializable;
+use Khill\Lavacharts\Exceptions\InvalidElementId;
+use Khill\Lavacharts\Exceptions\InvalidLabel;
 use Khill\Lavacharts\Javascript\ChartJsFactory;
+use Khill\Lavacharts\Javascript\DashboardJsFactory;
+use Khill\Lavacharts\Support\Contracts\Arrayable;
+use Khill\Lavacharts\Support\Contracts\Jsonable;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
 
 /**
- * Trait RenderableTrait
+ * Abstract Renderable Class
  *
  * This class is the parent to charts, dashboards, and controls since they
  * will need to be rendered onto the page.
  *
  * @package    Khill\Lavacharts\Support
- * @since      3.1.0
+ * @since      3.2.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2017, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-trait RenderableTrait
+abstract class Renderable implements Arrayable, Jsonable
 {
     /**
      * The renderable's unique label.
      *
-     * @var \Khill\Lavacharts\Values\Label
+     * @var Label
      */
     protected $label;
 
     /**
      * The renderable's unique elementId.
      *
-     * @var \Khill\Lavacharts\Values\ElementId
+     * @var ElementId
      */
     protected $elementId;
 
@@ -45,9 +51,43 @@ trait RenderableTrait
     protected $renderable = true;
 
     /**
+     * Array representation of the Chart.
+     *
+     * @return array
+     */
+    public abstract function toArray();
+
+    /**
+     * Get an instance of the specific JsFactory
+     *
+     * @return ChartJsFactory|DashboardJsFactory
+     */
+    public abstract function getJsFactory();
+
+    /**
+     * Return a JSON representation of the chart.
+     *
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this);
+    }
+
+    /**
+     * Custom serialization of the chart.
+     *
+     * @return array
+     */
+    function jsonSerialize()
+    {
+        return $this->toArray();
+    }
+
+    /**
      * Returns the ElementId.
      *
-     * @return \Khill\Lavacharts\Values\ElementId
+     * @return ElementId
      */
     public function getElementId()
     {
@@ -67,8 +107,8 @@ trait RenderableTrait
     /**
      * Creates and/or sets the ElementId.
      *
-     * @param  string|\Khill\Lavacharts\Values\ElementId $elementId
-     * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
+     * @param  string|ElementId $elementId
+     * @throws InvalidElementId
      */
     public function setElementId($elementId)
     {
@@ -93,7 +133,7 @@ trait RenderableTrait
     /**
      * Returns the label.
      *
-     * @return \Khill\Lavacharts\Values\Label
+     * @return Label
      */
     public function getLabel()
     {
@@ -113,8 +153,8 @@ trait RenderableTrait
     /**
      * Creates and/or sets the Label.
      *
-     * @param  string|\Khill\Lavacharts\Values\Label $label
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
+     * @param  string|Label $label
+     * @throws InvalidLabel
      */
     public function setLabel($label)
     {
@@ -134,17 +174,6 @@ trait RenderableTrait
     public function hasLabel()
     {
         return isset($this->label);
-    }
-
-    /**
-     * Get the type of renderable class
-     *
-     * @since 3.2.0
-     * @return string
-     */
-    public function getJsFactory()
-    {
-        return new ChartJsFactory($this);
     }
 
     /**

@@ -25,7 +25,7 @@ class JavascriptFactory
     /**
      * Javascript output buffer.
      *
-     * @var \Khill\Lavacharts\Support\Buffer
+     * @var Buffer
      */
     protected $buffer;
 
@@ -69,22 +69,9 @@ class JavascriptFactory
     }
 
     /**
-     * Get a new instance of the specific renderable factory.
-     *
-     * @param \Khill\Lavacharts\Support\Contracts\Renderable $renderable
-     * @return \Khill\Lavacharts\Javascript\ChartJsFactory|\Khill\Lavacharts\Javascript\DashboardJsFactory
-     */
-    public static function create(Renderable $renderable)
-    {
-        $factory = $renderable->getRenderableType() . 'JsFactory';
-
-        return new $factory($renderable);
-    }
-
-    /**
      * Returns the output buffer for the javascript.
      *
-     * @return \Khill\Lavacharts\Support\Buffer
+     * @return Buffer
      */
     public function getOutputBuffer()
     {

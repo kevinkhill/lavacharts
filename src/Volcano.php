@@ -8,7 +8,9 @@ use Khill\Lavacharts\Charts\ChartFactory;
 use Khill\Lavacharts\Dashboards\Dashboard;
 use Khill\Lavacharts\Exceptions\ChartNotFound;
 use Khill\Lavacharts\Exceptions\DashboardNotFound;
-use Khill\Lavacharts\Support\Contracts\Renderable as Renderable;
+use Khill\Lavacharts\Support\Renderable;
+use Khill\Lavacharts\Support\Contracts\Arrayable;
+use Khill\Lavacharts\Support\Contracts\Jsonable;
 
 /**
  * Class Volcano
@@ -23,19 +25,19 @@ use Khill\Lavacharts\Support\Contracts\Renderable as Renderable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-final class Volcano
+class Volcano implements Arrayable, Jsonable
 {
     /**
      * Holds all of the defined Charts.
      *
-     * @var \Khill\Lavacharts\Charts\Chart[]
+     * @var Chart[][]
      */
     private $charts = [];
 
     /**
      * Holds all of the defined Dashboards.
      *
-     * @var \Khill\Lavacharts\Dashboards\Dashboard[]
+     * @var Dashboard[]
      */
     private $dashboards = [];
 
@@ -53,8 +55,8 @@ final class Volcano
      * Stores a Chart or Dashboard in the Volcano.
      *
      * @since  3.0.3
-     * @param  \Khill\Lavacharts\Support\Contracts\Renderable $renderable
-     * @return \Khill\Lavacharts\Charts\Chart|\Khill\Lavacharts\Dashboards\Dashboard
+     * @param  Renderable $renderable
+     * @return Chart|Dashboard
      */
     public function store(Renderable $renderable)
     {
@@ -73,11 +75,11 @@ final class Volcano
      * Fetches an existing Chart or Dashboard from the volcano storage.
      *
      * @since  3.0.3
-     * @param  string                         $type  Type of Chart or Dashboard.
-     * @param  \Khill\Lavacharts\Values\Label $label Label of the Chart or Dashboard.
-     * @return \Khill\Lavacharts\Charts\Chart|\Khill\Lavacharts\Dashboards\Dashboard
-     * @throws \Khill\Lavacharts\Exceptions\ChartNotFound
-     * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
+     * @param  string $type  Type of Chart or Dashboard.
+     * @param  Label  $label Label of the Chart or Dashboard.
+     * @return Chart|Dashboard
+     * @throws ChartNotFound
+     * @throws DashboardNotFound
      */
     public function get($type, Label $label)
     {
@@ -92,19 +94,11 @@ final class Volcano
      * Returns all stored charts and dashboards
      *
      * @since  3.0.3
-     * @return array Renderable[]
+     * @return Renderable[]
      */
     public function getAll()
     {
-        $charts = [];
-
-        foreach ($this->charts as $chartType) {
-            foreach ($chartType as $chart) {
-                $charts[] = $chart;
-            }
-        }
-
-        return array_merge($charts, $this->dashboards);
+        return array_merge($this->getCharts(), $this->dashboards);
     }
 
     /**
@@ -139,11 +133,65 @@ final class Volcano
     }
 
     /**
+     * Retrieves a chart from the volcano.
+     *
+     * @access private
+     * @param  string $type  Type of chart to store.
+     * @param  Label  $label Identifying label for the chart.
+     * @throws ChartNotFound
+     * @return Chart
+     */
+    private function getChart($type, Label $label)
+    {
+        if ($this->checkChart($type, $label) === false) {
+            throw new ChartNotFound($type, $label);
+        }
+
+        return $this->charts[$type][(string) $label];
+    }
+
+    /**
+     * Retrieves all the charts from the volcano.
+     *
+     * @access private
+     * @return Chart[]
+     */
+    private function getCharts()
+    {
+        $charts = [];
+
+        foreach ($this->charts as $chartType) {
+            foreach ($chartType as $chart) {
+                $charts[] = $chart;
+            }
+        }
+
+        return $charts;
+    }
+
+    /**
+     * Retrieves a dashboard from the volcano.
+     *
+     * @access private
+     * @param  Label $label Identifying label for the dashboard.
+     * @throws DashboardNotFound
+     * @return Dashboard
+     */
+    private function getDashboard(Label $label)
+    {
+        if ($this->checkDashboard($label) === false) {
+            throw new DashboardNotFound($label);
+        }
+
+        return $this->dashboards[(string) $label];
+    }
+
+    /**
      * Stores a chart in the volcano and gives it back.
      *
      * @access private
-     * @param  \Khill\Lavacharts\Charts\Chart $chart
-     * @return \Khill\Lavacharts\Charts\Chart
+     * @param  Chart $chart
+     * @return Chart
      */
     private function storeChart(Chart $chart)
     {
@@ -156,8 +204,8 @@ final class Volcano
      * Stores a dashboard in the volcano and gives it back.
      *
      * @access private
-     * @param  \Khill\Lavacharts\Dashboards\Dashboard $dashboard Dashboard to store in the volcano.
-     * @return \Khill\Lavacharts\Dashboards\Dashboard
+     * @param  Dashboard $dashboard Dashboard to store in the volcano.
+     * @return Dashboard
      */
     private function storeDashboard(Dashboard $dashboard)
     {
@@ -167,37 +215,30 @@ final class Volcano
     }
 
     /**
-     * Retrieves a chart from the volcano.
+     * Get the instance as an array.
      *
-     * @access private
-     * @param  string $type  Type of chart to store.
-     * @param  Label  $label Identifying label for the chart.
-     * @throws \Khill\Lavacharts\Exceptions\ChartNotFound
-     * @return \Khill\Lavacharts\Charts\Chart
+     * @return array
      */
-    private function getChart($type, Label $label)
+    public function toArray()
     {
-        if ($this->checkChart($type, $label) === false) {
-            throw new ChartNotFound($type, $label);
-        }
-
-        return $this->charts[$type][(string) $label];
+        return $this->getAll();
     }
 
     /**
-     * Retrieves a dashboard from the volcano.
+     * Returns a customize JSON representation of an object.
      *
-     * @access private
-     * @param  Label $label Identifying label for the dashboard.
-     * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
-     * @return \Khill\Lavacharts\Dashboards\Dashboard
+     * @return string
      */
-    private function getDashboard(Label $label)
+    public function toJson()
     {
-        if ($this->checkDashboard($label) === false) {
-            throw new DashboardNotFound($label);
-        }
+        return json_encode($this);
+    }
 
-        return $this->dashboards[(string) $label];
+    /**
+     * Custom serialization of the object.
+     */
+    function jsonSerialize()
+    {
+        return $this->toArray();
     }
 }

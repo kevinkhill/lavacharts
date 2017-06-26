@@ -3,18 +3,21 @@
 namespace Khill\Lavacharts\Charts;
 
 use JsonSerializable;
+use Khill\Lavacharts\Javascript\ChartJsFactory;
 use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Values\Label;
 use Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
-use Khill\Lavacharts\Support\Contracts\DataTable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Contracts\JsPackage;
-use Khill\Lavacharts\Support\Contracts\Renderable;
+//use Khill\Lavacharts\Support\Contracts\Renderable;
+use Khill\Lavacharts\Support\Contracts\JsFactory;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
+use Khill\Lavacharts\Support\Contracts\DataTable as Data;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
-use Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
 use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
 
 /**
@@ -31,9 +34,16 @@ use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Chart implements DataTable, Customizable, Renderable, Wrappable, Jsonable, Arrayable, JsPackage, JsonSerializable
+class Chart extends Renderable implements Data, JsFactory, Customizable, Wrappable, JsPackage
 {
-    use HasDataTable, HasOptions, IsRenderable;
+    use HasDataTable, HasOptions;
+
+    /**
+     * Javascript type.
+     *
+     * @var string
+     */
+    const TYPE = 'Chart';
 
     /**
      * Type of wrappable class
@@ -41,17 +51,28 @@ class Chart implements DataTable, Customizable, Renderable, Wrappable, Jsonable,
     const WRAP_TYPE = 'chartType';
 
     /**
+     * Defined events for the chart.
+     *
+     * @var array
+     */
+    private $events = [];
+
+    /**
      * Builds a new chart with the given label.
      *
      * @param \Khill\Lavacharts\Values\Label         $chartLabel Identifying label for the chart.
-     * @param \Khill\Lavacharts\DataTables\DataTable $datatable  DataTable used for the chart.
+     * @param \Khill\Lavacharts\Support\Contracts\DataTable $datatable  DataTable used for the chart.
      * @param array                                  $options    Options fot the chart.
      */
-    public function __construct(Label $chartLabel, DataTable $datatable = null, array $options = [])
+    public function __construct(Label $chartLabel, Data $data = null, array $options = [])
     {
+        $this->setOptions($options);
+
         $this->label = $chartLabel;
-        $this->datatable = $datatable->getDataTable();
-        $this->options = new Options($options);
+
+        if ($data instanceof DataTable) {
+            $this->datatable = $data->getDataTable();
+        }
 
         if ($this->options->has('elementId')) {
             $this->elementId = new ElementId($options->elementId);
@@ -114,6 +135,16 @@ class Chart implements DataTable, Customizable, Renderable, Wrappable, Jsonable,
     }
 
     /**
+     * Get the JsFactory for the chart.
+     *
+     * @return ChartJsFactory
+     */
+    public function getJsFactory()
+    {
+        return new ChartJsFactory($this);
+    }
+
+    /**
      * Array representation of the Chart.
      *
      * @return array
@@ -130,26 +161,6 @@ class Chart implements DataTable, Customizable, Renderable, Wrappable, Jsonable,
     }
 
     /**
-     * Return a JSON representation of the chart.
-     *
-     * @return string
-     */
-    public function toJson()
-    {
-        return json_encode($this);
-    }
-
-    /**
-     * Custom serialization of the chart.
-     *
-     * @return array
-     */
-    function jsonSerialize()
-    {
-        return $this->toArray();
-    }
-
-    /**
      * Retrieves the events if any have been assigned to the chart.
      *
      * @since  3.0.5
@@ -157,7 +168,7 @@ class Chart implements DataTable, Customizable, Renderable, Wrappable, Jsonable,
      */
     public function getEvents()
     {
-        return $this['events'];
+        return $this->events;
     }
 
     /**
@@ -167,7 +178,7 @@ class Chart implements DataTable, Customizable, Renderable, Wrappable, Jsonable,
      */
     public function hasEvents()
     {
-        return isset($this['events']);
+        return count($this->events) > 0;
     }
 
     /**
@@ -183,6 +194,7 @@ class Chart implements DataTable, Customizable, Renderable, Wrappable, Jsonable,
      * If the setting is an object, per the google docs, then use multi-dimensional
      * arrays and they will be converted upon rendering.
      *
+     * @deprecated 3.2.0
      * @since  3.0.0
      * @param  array $options Array of customization options for the chart
      * @return \Khill\Lavacharts\Charts\Chart

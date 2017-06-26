@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-use Khill\Lavacharts\Support\Contracts\Renderable as Renderable;
+use Khill\Lavacharts\Support\Renderable;
 
 class RenderingException extends LavaException
 {

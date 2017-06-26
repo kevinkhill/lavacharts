@@ -14,6 +14,7 @@ use Khill\Lavacharts\Exceptions\InvalidColumnRole;
 use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use Khill\Lavacharts\Exceptions\InvalidTimeZone;
+use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Jsonable as Jsonable;
 use Khill\Lavacharts\Support\Contracts\DataTable as DataTableInterface;
 use Khill\Lavacharts\Values\Role;
@@ -41,7 +42,7 @@ use Khill\Lavacharts\Values\StringValue;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class DataTable implements DataTableInterface, Jsonable, JsonSerializable
+class DataTable implements DataTableInterface, Arrayable, Jsonable
 {
     /**
      * Timezone for dealing with datetime and Carbon objects.
@@ -633,11 +634,9 @@ class DataTable implements DataTableInterface, Jsonable, JsonSerializable
      */
     public function getColumnTypes()
     {
-        foreach ($this->cols as $column) {
-            $colTypes[] = $column->getType();
-        }
-
-        return $colTypes;
+        return array_map(function (Column $column) {
+            return $column->getType();
+        }, $this->cols);
     }
 
     /**
@@ -648,11 +647,9 @@ class DataTable implements DataTableInterface, Jsonable, JsonSerializable
      */
     public function getColumnLabels()
     {
-        foreach ($this->cols as $column) {
+        return array_map(function (Column $column) {
             $colTypes[] = $column->getLabel();
-        }
-
-        return $colTypes;
+        }, $this->cols);
     }
 
     /**
@@ -682,6 +679,19 @@ class DataTable implements DataTableInterface, Jsonable, JsonSerializable
     public function hasFormattedColumns()
     {
         return count($this->getFormattedColumns()) > 0;
+    }
+
+    /**
+     * Get the DataTable as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'cols' => $this->cols,
+            'rows' => $this->rows,
+        ];
     }
 
     /**
@@ -722,10 +732,7 @@ class DataTable implements DataTableInterface, Jsonable, JsonSerializable
      */
     public function jsonSerialize()
     {
-        return [
-            'cols' => $this->cols,
-            'rows' => $this->rows,
-        ];
+        return $this->toArray();
     }
 
     /**
@@ -778,5 +785,12 @@ class DataTable implements DataTableInterface, Jsonable, JsonSerializable
         $timezones = array_unique($timezones);
 
         return in_array(strtolower($tz), $timezones, true);
+    }
+
+    private function columns(callable $function)
+    {
+        foreach ($this->cols as $column) {
+            yield $column;
+        }
     }
 }

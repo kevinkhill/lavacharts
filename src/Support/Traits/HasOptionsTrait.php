@@ -37,4 +37,18 @@ trait HasOptionsTrait
     {
         return $this->options;
     }
+
+    /**
+     * Sets the Options object for the class.
+     *
+     * @param array|Options $options
+     */
+    public function setOptions($options)
+    {
+        if ($options instanceof Options) {
+            $this->options = $options;
+        } else {
+            $this->options = new Options($options);
+        }
+    }
 }
