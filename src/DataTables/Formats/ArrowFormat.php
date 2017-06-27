@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\DataTables\Formats;
 
+use Khill\Lavacharts\Support\Contracts\JsClass;
+
 /**
  * Class ArrowFormat
  *
@@ -9,21 +11,16 @@ namespace Khill\Lavacharts\DataTables\Formats;
  * is above or below a specified base value. If equal to the base value, no arrow is shown.
  *
  *
- * @package    Khill\Lavacharts\DataTables\Formats
- * @since      3.0.0
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2017, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT      MIT
- * @see        https://developers.google.com/chart/interactive/docs/reference#arrowformatter
+ * @inheritDoc
+ * @see https://developers.google.com/chart/interactive/docs/reference#arrowformatter
  */
-class ArrowFormat extends Format
+class ArrowFormat extends Format implements JsClass
 {
     /**
-     * Type of format object
-     *
-     * @var string
+     * @inheritdoc
      */
-    const TYPE = 'ArrowFormat';
+    public function getJsClass()
+    {
+        return self::GOOGLE_VIZ . 'ArrowFormat';
+    }
 }

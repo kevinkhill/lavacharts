@@ -16,18 +16,8 @@ namespace Khill\Lavacharts\Support\Traits;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-trait CastsToJavascriptTrait
+trait CastToJavascriptStringTrait
 {
-    /**
-     * When serializing an event, it will be converted to a string of javascript.
-     *
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        return $this->toJavascript();
-    }
-
     /**
      * When accessing an event as a string, it will be converted to javascript.
      *

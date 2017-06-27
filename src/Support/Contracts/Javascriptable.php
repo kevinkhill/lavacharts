@@ -17,7 +17,7 @@ use JsonSerializable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-interface Javascriptable extends JsonSerializable
+interface Javascriptable
 {
     /**
      * Returns customized Javascript output.
@@ -25,11 +25,4 @@ interface Javascriptable extends JsonSerializable
      * @return string
      */
     public function toJavascript();
-
-    /**
-     * Returns the instance as Javascript.
-     *
-     * @return string
-     */
-    public function jsonSerialize();
 }

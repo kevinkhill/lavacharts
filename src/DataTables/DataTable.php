@@ -704,7 +704,7 @@ class DataTable implements DataTableInterface, Customizable, Arrayable, Jsonable
      */
     public function toJson()
     {
-        if (!$this->hasFormattedColumns()) {
+        if ( ! $this->hasFormattedColumns()) {
             return json_encode($this);
         }
 

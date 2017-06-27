@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Javascript;
 
 use \Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Support\Buffer;
 
 /**
  * ChartFactory Class
@@ -95,39 +96,6 @@ class ChartJsFactory extends JavascriptFactory
             );
         }
 
-        if ($this->chart->getDataTable()->hasFormattedColumns()) {
-            $vars['formats'] = $this->buildFormatters();
-        }
-
         return $vars;
-    }
-
-    /**
-     * Builds the javascript for the datatable column formatters.
-     *
-     * @access protected
-     * @return string Javascript code block.
-     */
-    protected function buildFormatters()
-    {
-        $buffer  = '';
-        $columns = $this->chart->getDataTable()->getFormattedColumns();
-
-        /**
-         * @var int|string $index
-         * @var \Khill\Lavacharts\DataTables\Columns\Column $column
-         */
-        foreach ($columns as $index => $column) {
-            $format = $column->getFormat();
-
-            $buffer .= sprintf(
-                $this->formatTemplate,
-                $index,
-                $format->getJsClass(),
-                $format->toJson()
-            ).PHP_EOL;
-        }
-
-        return $buffer;
     }
 }

@@ -143,17 +143,17 @@ class Chart extends Renderable implements DataInterface, JsFactory, Customizable
     public function toArray()
     {
         return [
-            'formats'      => '',
             'pngOutput'    => false,
             'chartType'    => $this->getType(),
             'events'       => $this->getEvents(),
+            'formats'      => $this->getFormats(),
             'chartVer'     => $this->getVersion(),
             'chartClass'   => $this->getJsClass(),
+            'chartOptions' => $this->getOptions(),
             'chartLabel'   => $this->getLabelStr(),
             'chartPackage' => $this->getJsPackage(),
             'elemId'       => $this->getElementId(),
             'chartData'    => $this->getDataTable(),
-            'chartOptions' => $this->getOptions(),
         ];
     }
 
@@ -165,7 +165,7 @@ class Chart extends Renderable implements DataInterface, JsFactory, Customizable
      * Valid events will be converted to Javascriptable Event objects.
      *
      * @since  3.2.0
-     * @return Buffer The contents will be javascript
+     * @return Buffer The contents will be javascript source
      */
     private function getEvents()
     {
@@ -178,6 +178,38 @@ class Chart extends Renderable implements DataInterface, JsFactory, Customizable
         foreach ($this->options->events as $event => $callback) {
             $buffer->append(
                 new Event($event, $callback)
+            );
+        }
+
+        return $buffer;
+    }
+
+    /**
+     * Retrieves the formats from the datatable that is defined on the chart.
+     *
+     *
+     * The formats will be serialized down to javascript source and added
+     * to a string buffer.
+     *
+     * If no formats are defined, then an empty buffer will be returned.
+     *
+     * @since  3.2.0
+     * @return Buffer The contents will be javascript source
+     */
+    private function getFormats()
+    {
+        $buffer = new Buffer();
+
+        if ( ! $this->datatable->hasFormattedColumns()) {
+            return $buffer;
+        }
+
+        /**
+         * @var \Khill\Lavacharts\DataTables\Columns\Column $column
+         */
+        foreach ($this->datatable->getFormattedColumns() as $column) {
+            $buffer->append(
+                $column->getFormat()->toJavascript()
             );
         }
 

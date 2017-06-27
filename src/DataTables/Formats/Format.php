@@ -6,9 +6,7 @@ use Khill\Lavacharts\DataTables\Columns\Column;
 use Khill\Lavacharts\Exceptions\InvalidFormatType;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\JsClass;
-use Khill\Lavacharts\Support\Contracts\Jsonable;
-use Khill\Lavacharts\Support\Contracts\Javascriptable;
-use Khill\Lavacharts\Support\Traits\CastsToJavascriptTrait as CastsToJavascript;
+use Khill\Lavacharts\Support\JavascriptSource;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 
 /**
@@ -25,18 +23,28 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT      MIT
+ *
+ * @method getJsClass()
  */
-class Format implements Customizable, Javascriptable, Jsonable, JsClass
+class Format extends JavascriptSource implements Customizable
 {
-    use CastsToJavascript, HasOptions;
+    use HasOptions;
 
     /**
-     * Format string for creating the events javascript
+     * Type of formatter
+     *
+     * @var string
      */
-    const FORMAT = <<<'FORMAT'
-        this.formats['col-%1$s'] = new %2$s(%3$s);
-        this.formats['col-%1$s'].format(this.data, %1$s);
-FORMAT;
+//    private $type; @TODO maybe do this instead of classes?
+
+    /**
+     * This is where the format classes are located in google's
+     * javascript module, so this will be prefixed in the child
+     * Format classes' getJsClass method
+     *
+     * @var string
+     */
+    const GOOGLE_VIZ = 'google.visualization.';
 
     /**
      * Index of the Column that is formatted
@@ -86,27 +94,6 @@ FORMAT;
     }
 
     /**
-     * Returns the format type.
-     *
-     * @since 3.0.0
-     * @return string
-     */
-    public function getType()
-    {
-        return static::TYPE;
-    }
-
-    /**
-     * Javascript representation of the Format.
-     *
-     * @return string
-     */
-    public function getJsClass()
-    {
-        return 'google.visualization.' . static::TYPE;
-    }
-
-    /**
      * Sets the index of the formatted Column
      *
      * @param  int $index
@@ -119,32 +106,27 @@ FORMAT;
         return $this;
     }
 
-
     /**
-     * Creates valid javascript from the instance.
+     * @inheritdoc
      */
     public function toJavascript()
     {
-        return sprintf(self::FORMAT, $this->type, $this->callback);
+        return sprintf($this->getSourceFormat(),
+            $this->index,
+            $this->getJsClass(),
+            $this->options
+        );
     }
 
     /**
-     * JSON representation of the Format.
-     *
-     * @return string
+     * @inheritdoc
      */
-    public function toJson()
+    public function getSourceFormat()
     {
-        return json_encode($this);
+        return  <<<'FORMAT'
+            this.formats['col-%1$s'] = new %2$s(%3$s);
+            this.formats['col-%1$s'].format(this.data, %1$s);
+FORMAT;
     }
 
-    /**
-     * Return the options as the serialized Format.
-     *
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        return $this->options->toArray();
-    }
 }

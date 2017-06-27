@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\DataTables\Formats;
 
+use Khill\Lavacharts\Support\Contracts\JsClass;
+
 /**
  * Class BarFormat
  *
@@ -9,21 +11,16 @@ namespace Khill\Lavacharts\DataTables\Formats;
  * is above or below a specified base value.
  *
  *
- * @package    Khill\Lavacharts\DataTables\Formats
- * @since      3.0.0
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2017, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT      MIT
- * @see        https://developers.google.com/chart/interactive/docs/reference#barformatter
+ * @inheritDoc
+ * @see https://developers.google.com/chart/interactive/docs/reference#barformatter
  */
-class BarFormat extends Format
+class BarFormat extends Format implements JsClass
 {
     /**
-     * Type of format object
-     *
-     * @var string
+     * @inheritdoc
      */
-    const TYPE = 'BarFormat';
+    public function getJsClass()
+    {
+        return self::GOOGLE_VIZ . 'BarFormat';
+    }
 }

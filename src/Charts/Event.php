@@ -2,8 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\Support\Contracts\Javascriptable;
-use Khill\Lavacharts\Support\Traits\CastsToJavascriptTrait as CastsToJavascript;
+use Khill\Lavacharts\Support\JavascriptSource;
 
 /**
  * Class Event
@@ -16,19 +15,8 @@ use Khill\Lavacharts\Support\Traits\CastsToJavascriptTrait as CastsToJavascript;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Event implements Javascriptable
+class Event extends JavascriptSource
 {
-    use CastsToJavascript;
-
-    /**
-     * Format string for creating the events javascript
-     */
-    const FORMAT = <<<'EVENT'
-        google.visualization.events.addListener(this.chart, "%s", function (event) {
-            return lava.event(event, this, %s);
-        }.bind(this));
-EVENT;
-
     /**
      * Event type
      *
@@ -56,12 +44,22 @@ EVENT;
     }
 
     /**
-     * Returns the object as a string of valid javascript.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function toJavascript()
     {
-        return sprintf(self::FORMAT, $this->type, $this->callback);
+        return sprintf($this->getSourceFormat(), $this->type, $this->callback);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSourceFormat()
+    {
+        return <<<'EVENT'
+            google.visualization.events.addListener(this.chart, "%s", function (event) {
+                return lava.event(event, this, %s);
+            }.bind(this));
+EVENT;
     }
 }
