@@ -33,7 +33,7 @@ class Format implements Customizable, Javascriptable, Jsonable, JsClass
     /**
      * Format string for creating the events javascript
      */
-    CONST FORMAT = <<<'FORMAT'
+    const FORMAT = <<<'FORMAT'
         this.formats['col-%1$s'] = new %2$s(%3$s);
         this.formats['col-%1$s'].format(this.data, %1$s);
 FORMAT;

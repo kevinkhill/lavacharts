@@ -5,132 +5,63 @@ namespace Khill\Lavacharts\DataTables\Columns;
 use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\Exceptions\InvalidColumnRole;
 use Khill\Lavacharts\Exceptions\InvalidColumnType;
+use Khill\Lavacharts\Support\AbstractBuilder;
 use Khill\Lavacharts\Support\Customizable;
 use Khill\Lavacharts\Values\Role;
 use Khill\Lavacharts\Values\StringValue;
 
 /**
- * Column Object
+ * ColumnBuilder Class
  *
- * The Column object is used to define the different columns for a DataTable.
+ * The ColumnBuilder is used to create new columns.
  *
  *
- * @package   Khill\Lavacharts\DataTables\Columns
- * @since     3.1.0
- * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @package       Khill\Lavacharts\DataTables\Columns
+ * @since         3.2.0
+ * @author        Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
- * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link      http://lavacharts.com                   Official Docs Site
- * @license   http://opensource.org/licenses/MIT      MIT
+ * @link          http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link          http://lavacharts.com                   Official Docs Site
+ * @license       http://opensource.org/licenses/MIT      MIT
+ *
+ * @method setType($id)
+ * @method setLabel($label)
+ * @method setFormat($format)
+ * @method setRole($role)
+ * @method setOptions($options)
  */
-class ColumnBuilder
+class ColumnBuilder extends AbstractBuilder
 {
     /**
-     * Column type.
+     * Get built Column.
      *
-     * @var string
+     * @return Column
      */
-    private $type;
-
-    /**
-     * Column label.
-     *
-     * @var string
-     */
-    private $label = '';
-
-    /**
-     * Column formatter.
-     *
-     * @var \Khill\Lavacharts\DataTables\Formats\Format
-     */
-    private $format = null;
-
-    /**
-     * Column role.
-     *
-     * @var \Khill\Lavacharts\Values\Role
-     */
-    private $role = null;
-
-    /**
-     * Column options
-     *
-     * @var array
-     */
-    private $options = [];
-
-    /**
-     * Sets the type of column.
-     *
-     * @param  string $type
-     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
-     */
-    public function setType($type)
+    public function getColumn()
     {
-        if (StringValue::isNonEmpty($type) === false) {
-            throw new InvalidColumnType($type);
-        }
-
-        $this->type = $type;
+        return $this->build();
     }
 
     /**
-     * Sets the column label.
-     *
-     * @param  string $label
+     * {@inheritdoc}
      */
-    public function setLabel($label)
+    protected function configureParameters()
     {
-        $this->label = $label;
+        // Order matters since these correspond to the order of construction parameters
+        return [
+            'type'    => '',
+            'label'   => '',
+            'format'  => null,
+            'role'    => null,
+            'options' => [],
+        ];
     }
 
     /**
-     * Sets the column formatter.
-     *
-     * @param \Khill\Lavacharts\DataTables\Formats\Format $format
+     * {@inheritdoc}
      */
-    public function setFormat(Format $format = null)
+    protected function getObjectFqcn()
     {
-        $this->format = $format;
-    }
-
-    /**
-     * Sets the column role.
-     *
-     * @param  string $role
-     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnRole
-     */
-    public function setRole($role)
-    {
-        if (StringValue::isNonEmpty($role)) {
-            $this->role = new Role($role);
-        }
-    }
-
-    /**
-     * Sets the column options.
-     *
-     * @param array $options
-     */
-    public function setOptions(array $options)
-    {
-        $this->options = $options;
-    }
-
-    /**
-     * Creates a new column instance with the set values.
-     *
-     * @return \Khill\Lavacharts\DataTables\Columns\Column
-     */
-    public function getResult()
-    {
-        return new Column(
-            $this->type,
-            $this->label,
-            $this->format,
-            $this->role,
-            $this->options
-        );
+        return Column::class;
     }
 }

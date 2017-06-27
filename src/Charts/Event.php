@@ -23,7 +23,7 @@ class Event implements Javascriptable
     /**
      * Format string for creating the events javascript
      */
-    CONST FORMAT = <<<'EVENT'
+    const FORMAT = <<<'EVENT'
         google.visualization.events.addListener(this.chart, "%s", function (event) {
             return lava.event(event, this, %s);
         }.bind(this));

@@ -3,20 +3,22 @@
 namespace Khill\Lavacharts\DataTables;
 
 use DateTimeZone;
+use InvalidArgumentException;
 use JsonSerializable;
 use Khill\Lavacharts\DataTables\Columns\Column;
+use Khill\Lavacharts\DataTables\Columns\ColumnBuilder;
 use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\DataTables\Rows\Row;
 use Khill\Lavacharts\DataTables\Columns\ColumnFactory;
 use Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
 use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
-use Khill\Lavacharts\Exceptions\InvalidColumnRole;
-use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use Khill\Lavacharts\Exceptions\InvalidTimeZone;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
+use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\Jsonable as Jsonable;
 use Khill\Lavacharts\Support\Contracts\DataTable as DataTableInterface;
+use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Values\Role;
 use Khill\Lavacharts\Values\StringValue;
 
@@ -34,22 +36,17 @@ use Khill\Lavacharts\Values\StringValue;
  * arbitrary class names or styles to individual cells.
  *
  *
- * @package   Khill\Lavacharts\DataTables
- * @since     1.0.0
- * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @package       Khill\Lavacharts\DataTables
+ * @since         1.0.0
+ * @author        Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
- * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link      http://lavacharts.com                   Official Docs Site
- * @license   http://opensource.org/licenses/MIT      MIT
+ * @link          http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link          http://lavacharts.com                   Official Docs Site
+ * @license       http://opensource.org/licenses/MIT      MIT
  */
-class DataTable implements DataTableInterface, Arrayable, Jsonable
+class DataTable implements DataTableInterface, Customizable, Arrayable, Jsonable
 {
-    /**
-     * Timezone for dealing with datetime and Carbon objects.
-     *
-     * @var \Khill\Lavacharts\DataTables\Columns\ColumnFactory
-     */
-    protected $columnFactory;
+    use HasOptions;
 
     /**
      * RowFactory for the DataTable
@@ -86,8 +83,6 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
      */
     public function __construct($timezone = null)
     {
-        $this->columnFactory = new ColumnFactory;
-
         if ($timezone === null) {
             $timezone = date_default_timezone_get();
         }
@@ -117,27 +112,10 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
     }
 
     /**
-     * Create a new DataCell for a value in a Row
-     *
-     * @see \Khill\Lavacharts\DataTables\DataFactory::cell
-     * @deprecated 3.0.5
-     *
-     * @since  3.0.0
-     * @param  mixed  $v Value of the Cell
-     * @param  string $f Formatted version of the cell, as a string
-     * @param  array  $p Cell specific customization options
-     * @return \Khill\Lavacharts\DataTables\Cells\Cell
-     */
-    public static function cell($v, $f = '', $p = [])
-    {
-        return DataFactory::cell($v, $f, $p);
-    }
-
-    /**
      * Parses a string of JSON data into a DataTable.
      *
      * @deprecated 3.1.0 Use the DataFactory instead
-     * @see \Khill\Lavacharts\DataTables\DataFactory::createFromJson
+     * @see        \Khill\Lavacharts\DataTables\DataFactory::createFromJson
      *
      * @since  3.0.0
      * @param  string $jsonString JSON string to decode
@@ -158,7 +136,7 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
      */
     public function setTimezone($timezone)
     {
-        if ($this->isValidTimezone($timezone) === false) {
+        if ( ! $this->isValidTimezone($timezone)) {
             throw new InvalidTimeZone($timezone);
         }
 
@@ -242,34 +220,36 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
      * not value is specified, an empty string is assigned.
      *
      *
-     * @param  mixed $typeOrColDescArr Column type or an array describing the column.
-     * @param  string $label A label for the column. (Optional)
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object. (Optional)
-     * @param  string $role A role for the column. (Optional)
+     * @param  mixed  $typeOrColDescArr Column type or an array describing the column.
+     * @param  string $label            A label for the column. (Optional)
+     * @param  Format $format           A column format object. (Optional)
+     * @param  string $role             A role for the column. (Optional)
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
-    public function addColumn($typeOrColDescArr, $label = '', Format $format = null, $role = '')
+    public function addColumn(
+        $typeOrColDescArr, $label = '', Format $format = null, $role = null, array $options = []
+    )
     {
         if (is_array($typeOrColDescArr)) {
             return call_user_func_array([$this, 'createColumnWithParams'], $typeOrColDescArr);
         }
 
         if (is_string($typeOrColDescArr)) {
-            return $this->createColumnWithParams($typeOrColDescArr, $label, $format, $role);
+            return $this->createColumnWithParams($typeOrColDescArr, $label, $format, $role, $options);
         }
 
-        throw new InvalidConfigValue(
-            __FUNCTION__,
-            'string|array'
-        );
+        throw new InvalidArgumentException(sprintf(
+            '"%s" is not a valid argument for addColumn(), must be a string or array.',
+            gettype($typeOrColDescArr)
+        ));
     }
 
     /**
      * Adds multiple columns to the DataTable
      *
-     * @param  array $arrayOfColumns Array of columns to batch add to the DataTable.
+     * @param  array[] $arrayOfColumns Array of columns to batch add to the DataTable.
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnDefinition
      */
@@ -290,14 +270,14 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
      * Supplemental function to add a boolean column with less params.
      *
      * @since  3.0.0.
-     * @param  string $label A label for the column.
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object. (Optional)
-     * @param  string $role A role for the column. (Optional)
+     * @param  string $label  A label for the column.
+     * @param  Format $format A column format object. (Optional)
+     * @param  string $role   A role for the column. (Optional)
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
-    public function addBooleanColumn($label = '', Format $format = null, $role = '')
+    public function addBooleanColumn($label = '', Format $format = null, $role = null)
     {
         return $this->createColumnWithParams('boolean', $label, $format, $role);
     }
@@ -305,14 +285,14 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
     /**
      * Supplemental function to add a string column with less params.
      *
-     * @param  string $label A label for the column.
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object. (Optional)
-     * @param  string $role A role for the column. (Optional)
+     * @param  string $label  A label for the column.
+     * @param  Format $format A column format object. (Optional)
+     * @param  string $role   A role for the column. (Optional)
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
-    public function addStringColumn($label = '', Format $format = null, $role = '')
+    public function addStringColumn($label = '', Format $format = null, $role = null)
     {
         return $this->createColumnWithParams('string', $label, $format, $role);
     }
@@ -320,14 +300,14 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
     /**
      * Supplemental function to add a date column with less params.
      *
-     * @param  string $label A label for the column.
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object. (Optional)
-     * @param  string $role A role for the column. (Optional)
+     * @param  string $label  A label for the column.
+     * @param  Format $format A column format object. (Optional)
+     * @param  string $role   A role for the column. (Optional)
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
-    public function addDateColumn($label = '', Format $format = null, $role = '')
+    public function addDateColumn($label = '', Format $format = null, $role = null)
     {
         return $this->createColumnWithParams('date', $label, $format, $role);
     }
@@ -336,14 +316,14 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
      * Supplemental function to add a datetime column with less params.
      *
      * @since  3.0.0
-     * @param  string $label A label for the column.
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object. (Optional)
-     * @param  string $role A role for the column. (Optional)
+     * @param  string $label  A label for the column.
+     * @param  Format $format A column format object. (Optional)
+     * @param  string $role   A role for the column. (Optional)
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
-    public function addDateTimeColumn($label = '', Format $format = null, $role = '')
+    public function addDateTimeColumn($label = '', Format $format = null, $role = null)
     {
         return $this->createColumnWithParams('datetime', $label, $format, $role);
     }
@@ -352,14 +332,14 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
      * Supplemental function to add a timeofday column with less params.
      *
      * @since  3.0.0
-     * @param  string $label A label for the column.
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object. (Optional)
-     * @param  string $role A role for the column. (Optional)
+     * @param  string $label  A label for the column.
+     * @param  Format $format A column format object. (Optional)
+     * @param  string $role   A role for the column. (Optional)
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
-    public function addTimeOfDayColumn($label = '', Format $format = null, $role = '')
+    public function addTimeOfDayColumn($label = '', Format $format = null, $role = null)
     {
         return $this->createColumnWithParams('timeofday', $label, $format, $role);
     }
@@ -367,14 +347,14 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
     /**
      * Supplemental function to add a number column with less params.
      *
-     * @param  string $label A label for the column.
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object. (Optional)
-     * @param  string $role A role for the column. (Optional)
+     * @param  string $label  A label for the column.
+     * @param  Format $format A column format object. (Optional)
+     * @param  string $role   A role for the column. (Optional)
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
-    public function addNumberColumn($label = '', Format $format = null, $role = '')
+    public function addNumberColumn($label = '', Format $format = null, $role = null)
     {
         return $this->createColumnWithParams('number', $label, $format, $role);
     }
@@ -391,9 +371,7 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
      */
     public function addRoleColumn($type, $role, array $options = [])
     {
-        if (Role::isValid($role) === false) {
-            throw new InvalidColumnRole($role);
-        }
+        $role = new Role($role);
 
         return $this->createColumnWithParams($type, '', null, $role, $options);
     }
@@ -402,16 +380,26 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
      * Supplemental function to create columns from strings.
      *
      * @access protected
-     * @param  string                                      $type   Type of column to create
-     * @param  string                                      $label  Label for the column.
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object.
-     * @param  string                                      $role   A role for the column.
-     * @param  array                                       $options Extra, column specific options
+     * @param  string $type    Type of column to create
+     * @param  string $label   Label for the column.
+     * @param  Format $format  A column format object.
+     * @param  string $role    A role for the column.
+     * @param  array  $options Extra, column specific options
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
-    protected function createColumnWithParams($type, $label = '', Format $format = null, $role = '', array $options = [])
+    protected function createColumnWithParams(
+        $type, $label = '', Format $format = null, $role = null, array $options = []
+    )
     {
-        $this->cols[] = $this->columnFactory->create($type, $label, $format, $role, $options);
+        $builder = ColumnBuilder::createBuilder();
+
+        $builder->setType($type);
+        $builder->setLabel($label);
+        $builder->setFormat($format);
+        $builder->setRole($role);
+        $builder->setOptions($options);
+
+        $this->cols[] = $builder->getColumn();
 
         return $this;
     }
@@ -420,17 +408,15 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
      * Drops a column and its data from the DataTable
      *
      * @since  3.0.0
-     * @param  int $colIndex
+     * @param  int $index
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
-    public function dropColumn($colIndex)
+    public function dropColumn($index)
     {
-        if (is_int($colIndex) === false || array_key_exists($colIndex, $this->cols) === false) {
-            throw new InvalidColumnIndex($colIndex, count($this->cols));
-        }
+        $this->indexCheck($index);
 
-        unset($this->cols[$colIndex]);
+        unset($this->cols[$index]);
 
         $this->cols = array_values($this->cols);
 
@@ -440,17 +426,13 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
     /**
      * Sets the format of the column.
      *
-     * @param  integer $index
+     * @param  integer                                     $index
      * @param  \Khill\Lavacharts\DataTables\Formats\Format $format
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
     public function formatColumn($index, Format $format)
     {
-//        $this->indexCheck($index);
-//
-//        $this->cols[$index] = $this->columnFactory->applyFormat($this->cols[$index], $format);
-
         $this->getColumn($index)->setFormat($format);
 
         return $this;
@@ -606,9 +588,9 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
      */
     public function getColumnsByType($type)
     {
-        ColumnFactory::isValidType($type);
+        Column::isValidType($type);
 
-        return array_filter($this->cols, 'getType',ARRAY_FILTER_USE_BOTH);
+        return array_filter($this->cols, 'getType', ARRAY_FILTER_USE_BOTH);
     }
 
     /**
@@ -669,7 +651,7 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
     public function getColumnLabels()
     {
         return array_map(function (Column $column) {
-            $colTypes[] = $column->getLabel();
+            return $column->getLabel();
         }, $this->cols);
     }
 
@@ -722,7 +704,7 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
      */
     public function toJson()
     {
-        if ( ! $this->hasFormattedColumns()) {
+        if (!$this->hasFormattedColumns()) {
             return json_encode($this);
         }
 
@@ -734,13 +716,13 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
             $formats[] = [
                 'index'  => $index,
                 'type'   => $format->getType(),
-                'config' => $format
+                'config' => $format,
             ];
         }
 
         return json_encode([
-            'data' => $this,
-            'formats' => $formats
+            'data'    => $this,
+            'formats' => $formats,
         ]);
     }
 
@@ -791,7 +773,8 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
      * @param string $tz
      * @return bool
      */
-    protected function isValidTimezone($tz) {
+    protected function isValidTimezone($tz)
+    {
         $timezoneList = call_user_func_array('array_merge', timezone_abbreviations_list());
 
         $timezones = array_map(function ($timezone) {
