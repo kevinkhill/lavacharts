@@ -4,10 +4,15 @@ namespace Khill\Lavacharts\Exceptions;
 
 class InvalidRowDefinition extends LavaException
 {
-    public function __construct($invalidRow, $code = 0)
+    /**
+     * InvalidRowDefinition constructor.
+     *
+     * @param mixed $invalidRow
+     */
+    public function __construct($invalidRow)
     {
         $message = gettype($invalidRow) . " is an invalid row definition, must be of type (null|array).";
 
-        parent::__construct($message, $code);
+        parent::__construct($message);
     }
 }

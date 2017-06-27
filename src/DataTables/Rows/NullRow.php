@@ -23,15 +23,15 @@ class NullRow extends Row
     /**
      * Creates a new NullRow object
      *
-     * @param  int $numOfCols Number of null columns to create.
+     * @param  int $columnCount Number of null columns to create.
      * @throws \Khill\Lavacharts\Exceptions\InvalidParamType
      */
-    public function __construct($numOfCols)
+    public function __construct($columnCount)
     {
-        if (is_int($numOfCols) === false) {
-            throw new InvalidParamType($numOfCols, 'integer');
+        if (is_int($columnCount) === false) {
+            throw new InvalidParamType($columnCount, 'integer');
         }
 
-        parent::__construct(array_fill(0, $numOfCols, null));
+        parent::__construct(array_fill(0, $columnCount, null));
     }
 }

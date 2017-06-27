@@ -68,6 +68,12 @@ abstract class AbstractBuilder
         return $this->data[$name];
     }
 
+    /**
+     * Check if a property is set.
+     *
+     * @param string $name
+     * @return bool
+     */
     public function __isset($name)
     {
         return array_key_exists($name, $this->data);

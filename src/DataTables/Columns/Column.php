@@ -95,6 +95,16 @@ class Column implements Customizable, Arrayable, Jsonable
     }
 
     /**
+     * Get a new instance of the ColumnBuilder
+     *
+     * @return ColumnBuilder
+     */
+    public static function createBuilder()
+    {
+        return new ColumnBuilder;
+    }
+
+    /**
      * Checks if a given type is a valid column type
      *
      * @param  string $type

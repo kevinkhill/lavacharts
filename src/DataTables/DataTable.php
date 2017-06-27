@@ -391,7 +391,7 @@ class DataTable implements DataTableInterface, Customizable, Arrayable, Jsonable
         $type, $label = '', Format $format = null, $role = null, array $options = []
     )
     {
-        $builder = ColumnBuilder::createBuilder();
+        $builder = Column::createBuilder();
 
         $builder->setType($type);
         $builder->setLabel($label);

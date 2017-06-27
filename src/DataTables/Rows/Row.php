@@ -41,22 +41,22 @@ class Row implements Arrayable, Jsonable, ArrayAccess
      *
      * @var Cell[]
      */
-    protected $values;
+    protected $cells;
 
     /**
      * Creates a new Row object with the given values from an array.
      *
      * While iterating through the array, if the value is a...
+     *  - Cell, pass it through
+     *  - Scalar value, create a Cell
      *  - Carbon instance, create a DateCell
      *  - null value, create a NullCell
-     *  - primitive value, create a Cell
-     *  - Cell, pass it through
      *
-     * @param array $valueArray Array of row values.
+     * @param array $values Array of row values.
      */
-    public function __construct($valueArray)
+    public function __construct($values)
     {
-        $this->values = array_map(function ($cellValue) {
+        $this->cells = array_map(function ($cellValue) {
             if ($cellValue instanceof Carbon) {
                 return new DateCell($cellValue);
             }
@@ -70,31 +70,32 @@ class Row implements Arrayable, Jsonable, ArrayAccess
             }
 
             return new Cell($cellValue);
-        }, $valueArray);
+        }, $values);
     }
 
     /**
      * Creates a new Row object from an array of values.
      *
      * @param \Khill\Lavacharts\DataTables\DataTable $datatable
-     * @param  array                                 $valueArray Array of values to assign to the row.
+     * @param  array                                 $values Array of values to assign to the row.
      * @return \Khill\Lavacharts\DataTables\Rows\Row
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      * @throws \Khill\Lavacharts\Exceptions\InvalidDate
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
      */
-    public static function create(DataTable $datatable, $valueArray)
+    public static function create(DataTable $datatable, $values)
     {
-        if ($valueArray !== null && is_array($valueArray) === false) {
-            throw new InvalidRowDefinition($valueArray);
-        }
-
-        if ($valueArray === null || is_array($valueArray) && empty($valueArray)) {
-            return new NullRow($datatable->getColumnCount());
-        }
-
-        $cellCount   = count($valueArray);
         $columnCount = $datatable->getColumnCount();
+
+        if ($values !== null && is_array($values) === false) {
+            throw new InvalidRowDefinition($values);
+        }
+
+        if ($values === null || is_array($values) && empty($values)) {
+            return new NullRow($columnCount);
+        }
+
+        $cellCount = count($values);
 
         if ($cellCount > $columnCount) {
             throw new InvalidCellCount($cellCount, $columnCount);
@@ -105,7 +106,7 @@ class Row implements Arrayable, Jsonable, ArrayAccess
 
         $rowData = [];
 
-        foreach ($valueArray as $index => $cellValue) {
+        foreach ($values as $index => $cellValue) {
             if ((bool) preg_match('/date|datetime|timeofday/', $columnTypes[$index]) === true) {
                 if (StringValue::isNonEmpty($cellValue) === false &&
                     $cellValue instanceof Carbon === false &&
@@ -127,7 +128,7 @@ class Row implements Arrayable, Jsonable, ArrayAccess
                 }
             } else {
                 if (is_array($cellValue) === true) {
-                    // @TODO Convert this to not use reflection
+                    // @TODO Convert this to not use reflection?
                     $cell = new ReflectionClass(Cell::class);
 
                     $rowData[] = $cell->newInstanceArgs($cellValue);
@@ -143,17 +144,17 @@ class Row implements Arrayable, Jsonable, ArrayAccess
     /**
      * Returns a column value from the Row.
      *
-     * @param  int $columnIndex Column value to fetch from the row.
+     * @param  int $index Column value to fetch from the row.
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      * @return \Khill\Lavacharts\DataTables\Cells\Cell
      */
-    public function getCell($columnIndex)
+    public function getCell($index)
     {
-        if (is_int($columnIndex) === false || isset($this->values[$columnIndex]) === false) {
-            throw new InvalidColumnIndex($columnIndex, count($this->values));
+        if (is_int($index) === false || isset($this->cells[$index]) === false) {
+            throw new InvalidColumnIndex($index, count($this->cells));
         }
 
-        return $this->values[$columnIndex];
+        return $this->cells[$index];
     }
 
     /**
@@ -163,7 +164,7 @@ class Row implements Arrayable, Jsonable, ArrayAccess
      */
     public function toArray()
     {
-        return ['c' => $this->values];
+        return ['c' => $this->cells];
     }
 
     /**
@@ -173,9 +174,9 @@ class Row implements Arrayable, Jsonable, ArrayAccess
     public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
-            $this->values[] = $value;
+            $this->cells[] = $value;
         } else {
-            $this->values[$offset] = $value;
+            $this->cells[$offset] = $value;
         }
     }
 
@@ -185,7 +186,7 @@ class Row implements Arrayable, Jsonable, ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->values[$offset]);
+        return isset($this->cells[$offset]);
     }
 
     /**
@@ -193,7 +194,7 @@ class Row implements Arrayable, Jsonable, ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->values[$offset]);
+        unset($this->cells[$offset]);
     }
 
     /**
@@ -202,6 +203,6 @@ class Row implements Arrayable, Jsonable, ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return isset($this->values[$offset]) ? $this->values[$offset] : null;
+        return isset($this->cells[$offset]) ? $this->cells[$offset] : null;
     }
 }
