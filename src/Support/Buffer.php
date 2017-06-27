@@ -11,6 +11,7 @@ use Khill\Lavacharts\Support\Contracts\Jsonable as Jsonable;
  * Uses for building string outputs to send to the browser
  *
  * @package   Khill\Lavacharts\Support
+ * @since     3.1.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2015, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
@@ -59,13 +60,11 @@ class Buffer implements Jsonable
     /**
      * Custom serialization of the chart.
      *
-     * @return array
+     * @return string
      */
     public function jsonSerialize()
     {
-        return [
-            'contents' => $this->contents
-        ];
+        return $this->__toString();
     }
 
     /**
