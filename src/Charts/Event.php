@@ -2,8 +2,19 @@
 
 namespace Khill\Lavacharts\Charts;
 
+/**
+ * Class Event
+ *
+ * @package Khill\Lavacharts\Charts
+ */
 class Event
 {
+    CONST FORMAT = <<<'EVENT'
+        google.visualization.events.addListener(this.chart, "%s", function (event) {
+            return lava.event(event, this, %s);
+        }.bind(this));
+EVENT;
+
     /**
      * Create a string of javascript wrapping a given event with a lava.js event.
      *
@@ -13,11 +24,7 @@ class Event
      */
     public static function create($event, $callback)
     {
-        return <<<EVENT
-google.visualization.events.addListener(this.chart, "{$event}", function (event) {
-    return lava.event(event, this, {$callback});'.PHP_EOL.
-}.bind(this));
-EVENT;
+        return sprintf(self::FORMAT, $event, $callback);
     }
 
 }
