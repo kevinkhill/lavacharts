@@ -9,6 +9,7 @@ use Khill\Lavacharts\Dashboards\Filters\Filter;
 use Khill\Lavacharts\Dashboards\Filters\FilterFactory;
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
+use Khill\Lavacharts\DataTables\DataFactory;
 use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\Exceptions\InvalidLabel;
@@ -216,16 +217,16 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      */
     public function DataTable($args = null)
     {
-        $dataFactory = __NAMESPACE__.'\\DataTables\\DataFactory::DataTable';
-
-        return call_user_func_array($dataFactory, func_get_args());
+        return call_user_func_array(
+            DataFactory::class.'::DataTable', func_get_args()
+        );
     }
 
     /**
      * Create a new Dashboard
      *
      * @since  3.0.0
-     * @param  string                                 $label
+     * @param  string    $label
      * @param  DataTable $dataTable
      * @return \Khill\Lavacharts\Dashboards\Dashboard
      */
@@ -304,7 +305,9 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * By default, Lavacharts is loaded with the "en" locale. You can override this default
      * by explicitly specifying a locale when creating the DataTable.
      *
-     * @deprecated 3.2.0
+     * @deprecated 3.2.0 Set this option with the constructor, or with
+     *                   $lava->options->set('locale', 'en');
+     *
      * @since  3.1.0
      * @param  string $locale
      * @return $this
@@ -488,9 +491,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
         /** @var \Khill\Lavacharts\Charts\Chart $chart */
         $chart = $this->volcano->get($type, $label);
 
-        if ($elementId instanceof ElementId) {
-            $chart->setElementId($elementId);
-        }
+        $chart->setElementId($elementId);
 
         $buffer = $this->scriptManager->getOutputBuffer($chart);
 
@@ -562,19 +563,8 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      */
     private function initializeOptions(array $options)
     {
-        $this->setOptions($this->getDefaultConfig());
+        $this->setOptions(Config::getDefault());
 
         $this->options->merge($options);
-    }
-
-    /**
-     * Loads the default configuration options from the defaults file.
-     *
-     * @since  3.1.6
-     * @return array
-     */
-    private function getDefaultConfig()
-    {
-        return require(__DIR__.'/Laravel/config/lavacharts.php');
     }
 }

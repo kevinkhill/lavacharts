@@ -3,10 +3,8 @@
 namespace Khill\Lavacharts\DataTables\Cells;
 
 use Carbon\Carbon;
-use Khill\Lavacharts\Exceptions\CarbonParseError;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeString;
-use Khill\Lavacharts\Exceptions\InvalidStringValue;
 use Khill\Lavacharts\Values\StringValue;
 
 /**
@@ -21,6 +19,7 @@ use Khill\Lavacharts\Values\StringValue;
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
+ * @property  Carbon $v
  */
 class DateCell extends Cell
 {
@@ -59,11 +58,7 @@ class DateCell extends Cell
         }
 
         if (StringValue::isNonEmpty($dateTimeFormat)) {
-            try {
-                return self::createFromFormat($dateTimeFormat, $dateTimeString);
-            } catch (\Exception $e) {
-                throw new InvalidDateTimeFormat($dateTimeFormat);
-            }
+            return self::createFromFormat($dateTimeFormat, $dateTimeString);
         } else {
             try {
                 $carbon = Carbon::parse($dateTimeString);
@@ -119,12 +114,12 @@ class DateCell extends Cell
     }
 
     /**
-     * Custom serialization of the Carbon date.
+     * Return the DateCell as an array.
      *
-     * @return string
+     * @return array
      */
-    public function jsonSerialize()
+    public function toArray()
     {
-        return ['v' => (string) $this];
+        return ['v' => $this->__toString()];
     }
 }

@@ -4,16 +4,19 @@ namespace Khill\Lavacharts\DataTables\Rows;
 
 use ArrayAccess;
 use Carbon\Carbon;
-use Khill\Lavacharts\DataTables\Cells\NullCell;
-use Khill\Lavacharts\Support\Contracts\Jsonable;
-use Khill\Lavacharts\Values\StringValue;
 use Khill\Lavacharts\DataTables\Cells\Cell;
+use Khill\Lavacharts\DataTables\Cells\NullCell;
 use Khill\Lavacharts\DataTables\Cells\DateCell;
 use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Exceptions\InvalidCellCount;
 use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use Khill\Lavacharts\Exceptions\InvalidDate;
 use Khill\Lavacharts\Exceptions\InvalidRowDefinition;
+use Khill\Lavacharts\Support\Contracts\Arrayable;
+use Khill\Lavacharts\Support\Contracts\Jsonable;
+use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
+use Khill\Lavacharts\Values\StringValue;
+use ReflectionClass;
 
 /**
  * Row Object
@@ -29,12 +32,14 @@ use Khill\Lavacharts\Exceptions\InvalidRowDefinition;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Row implements Jsonable, ArrayAccess
+class Row implements Arrayable, Jsonable, ArrayAccess
 {
+    use ArrayToJson;
+
     /**
      * Row values
      *
-     * @var \Khill\Lavacharts\DataTables\Cells\Cell[]
+     * @var Cell[]
      */
     protected $values;
 
@@ -122,9 +127,8 @@ class Row implements Jsonable, ArrayAccess
                 }
             } else {
                 if (is_array($cellValue) === true) {
-                    $cell = new \ReflectionClass(
-                        'Khill\\Lavacharts\\DataTables\\Cells\\Cell'
-                    );
+                    // @TODO Convert this to not use reflection
+                    $cell = new ReflectionClass(Cell::class);
 
                     $rowData[] = $cell->newInstanceArgs($cellValue);
                 } else {
@@ -153,25 +157,13 @@ class Row implements Jsonable, ArrayAccess
     }
 
     /**
-     * Convert the row to json.
-     *
-     * @return string
-     */
-    public function toJson()
-    {
-        return json_encode($this);
-    }
-
-    /**
-     * Custom json serialization of the row.
+     * Returns the Row as an array.
      *
      * @return array
      */
-    public function jsonSerialize()
+    public function toArray()
     {
-        return [
-            'c' => $this->values
-        ];
+        return ['c' => $this->values];
     }
 
     /**

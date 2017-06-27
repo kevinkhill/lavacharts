@@ -49,6 +49,16 @@ class Format extends Customizable implements Jsonable, JsClass
     }
 
     /**
+     * Javascript representation of the Format.
+     *
+     * @return string
+     */
+    public function getJsClass()
+    {
+        return 'google.visualization.' . static::TYPE;
+    }
+
+    /**
      * JSON representation of the Format.
      *
      * @return string
@@ -58,13 +68,8 @@ class Format extends Customizable implements Jsonable, JsClass
         return json_encode($this);
     }
 
-    /**
-     * Javascript representation of the Format.
-     *
-     * @return string
-     */
-    public function getJsClass()
+    public function jsonSerialize()
     {
-        return 'google.visualization.' . static::TYPE;
+//        return
     }
 }

@@ -2,9 +2,6 @@
 
 namespace Khill\Lavacharts\DataTables\Cells;
 
-use Khill\Lavacharts\Exceptions\InvalidParamType;
-use Khill\Lavacharts\Support\Customizable;
-
 /**
  * DataCell Object
  *

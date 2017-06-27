@@ -45,12 +45,17 @@ class Wrapper implements Arrayable, Jsonable, JsClass
      * Builds a new Wrapper object.
      *
      * @param \Khill\Lavacharts\Support\Contracts\Wrappable $itemToWrap
-     * @param \Khill\Lavacharts\Values\ElementId                     $elementId
+     * @param \Khill\Lavacharts\Values\ElementId            $elementId
      */
     public function __construct(Wrappable $itemToWrap, ElementId $elementId)
     {
         $this->contents  = $itemToWrap;
         $this->elementId = $elementId;
+    }
+
+    public static function create($type)
+    {
+
     }
 
     /**
@@ -71,7 +76,7 @@ class Wrapper implements Arrayable, Jsonable, JsClass
     public function toArray()
     {
         return [
-            'options'     => $this->contents,
+            'options'     => $this->contents->getOptions(),
             'containerId' => (string) $this->elementId,
             $this->contents->getWrapType() => $this->contents->getType()
         ];

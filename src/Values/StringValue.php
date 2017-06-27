@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Values;
 
 use Khill\Lavacharts\Exceptions\InvalidStringValue;
+use Khill\Lavacharts\Support\Contracts\Jsonable;
 
 /**
  * Class StringValue
@@ -17,7 +18,7 @@ use Khill\Lavacharts\Exceptions\InvalidStringValue;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class StringValue implements \JsonSerializable
+class StringValue implements Jsonable
 {
     /**
      * @var string
@@ -40,6 +41,14 @@ class StringValue implements \JsonSerializable
     }
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->value;
+    }
+
+    /**
      * Check a value if is string and not empty without creating
      * an instance.
      *
@@ -58,11 +67,13 @@ class StringValue implements \JsonSerializable
     }
 
     /**
+     * Returns a customize JSON representation of an object.
+     *
      * @return string
      */
-    public function __toString()
+    public function toJson()
     {
-        return $this->value;
+        return json_encode($this);
     }
 
     /**

@@ -59,10 +59,6 @@ class Role extends StringValue
      */
     public static function isValid($role)
     {
-        if (is_string($role) && in_array($role, static::$roles)) {
-            return true;
-        } else {
-            return false;
-        }
+        return in_array($role, static::$roles, true);
     }
 }

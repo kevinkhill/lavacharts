@@ -3,9 +3,12 @@
 namespace Khill\Lavacharts\DataTables\Columns;
 
 use Khill\Lavacharts\DataTables\Formats\Format;
+use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Customizable;
+use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Values\Role;
+use Khill\Lavacharts\Values\StringValue;
 
 /**
  * Column Object
@@ -21,8 +24,10 @@ use Khill\Lavacharts\Values\Role;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Column extends Customizable implements Jsonable
+class Column extends Customizable implements Arrayable, Jsonable
 {
+    use ArrayToJson;
+
     /**
      * Column type.
      *
@@ -121,38 +126,28 @@ class Column extends Customizable implements Jsonable
     }
 
     /**
-     * Returns a customize JSON representation of an object.
-     *
-     * @return string
-     */
-    public function toJson()
-    {
-        return json_encode($this);
-    }
-
-    /**
-     * Custom json serialization of the column.
+     * Return the Column as an array.
      *
      * @return array
      */
-    public function jsonSerialize()
+    public function toArray()
     {
-        $values = [
+        $column = [
             'type' => $this->type
         ];
 
-        if (is_string($this->label) && !empty($this->label)) {
-            $values['label'] = $this->label;
+        if (StringValue::isNonEmpty($this->label)) {
+            $column['label'] = $this->label;
         }
 
         if ($this->role instanceof Role) {
-            $values['p'] = ['role' => (string) $this->role];
+            $column['p'] = ['role' => (string) $this->role];
 
             if ($this->hasOptions()) {
-                $values['p'] = array_merge($values['p'], $this->getOptions());
+                $column['p'] = array_merge($column['p'], $this->options);
             }
         }
 
-        return $values;
+        return $column;
     }
 }

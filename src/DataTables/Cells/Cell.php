@@ -3,8 +3,10 @@
 namespace Khill\Lavacharts\DataTables\Cells;
 
 use Khill\Lavacharts\Exceptions\InvalidParamType;
+use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Customizable;
+use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 
 /**
  * DataCell Object
@@ -19,8 +21,10 @@ use Khill\Lavacharts\Support\Customizable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Cell extends Customizable implements Jsonable
+class Cell extends Customizable implements Arrayable, Jsonable
 {
+    use ArrayToJson;
+
     /**
      * The cell value.
      *
@@ -82,7 +86,7 @@ class Cell extends Customizable implements Jsonable
     public function __get($attr)
     {
         if ($attr == 'p') {
-            return $this->getOptions();
+            return $this->options;
         }
     }
 
@@ -99,6 +103,14 @@ class Cell extends Customizable implements Jsonable
             return $this->hasOptions();
         }
     }
+
+    /**
+     * @TODO try to convert the reflection call in Row::create()
+     */
+//    public static function create()
+//    {
+//        return new self(args)
+//    }
 
     /**
      * Returns the value.
@@ -131,32 +143,22 @@ class Cell extends Customizable implements Jsonable
     }
 
     /**
-     * Convert the Cell to JSON.
-     *
-     * @return string
-     */
-    public function toJson()
-    {
-        return json_encode($this);
-    }
-
-    /**
-     * Custom serialization of the Cell
+     * Return the Cell as an array.
      *
      * @return array
      */
-    public function jsonSerialize()
+    public function toArray()
     {
-        $json = ['v' => $this->v];
+        $cell = ['v' => $this->v];
 
         if ( ! empty($this->f)) {
-            $json['f'] = $this->f;
+            $cell['f'] = $this->f;
         }
 
-        if ( ! empty($this->options)) {
-            $json['p'] = $this->getOptions();
+        if ($this->hasOptions()) {
+            $cell['p'] = $this->options;
         }
 
-        return $json;
+        return $cell;
     }
 }
