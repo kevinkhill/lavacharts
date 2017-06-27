@@ -43,6 +43,7 @@ class ComboChart extends Chart
     /**
      * Javascript chart package.
      *
+     * @TODO Add corechart to Chart class to be more DRY
      * @var string
      */
     const VISUALIZATION_PACKAGE = 'corechart';

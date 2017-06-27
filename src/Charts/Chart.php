@@ -66,7 +66,7 @@ class Chart extends Renderable implements DataInterface, JsFactory, Customizable
         $this->datatable = $data->getDataTable();
 
         if ($this->options->has('elementId')) {
-            $this->elementId = new ElementId($options->elementId);
+            $this->elementId = new ElementId($this->options->elementId);
         }
     }
 
@@ -143,53 +143,42 @@ class Chart extends Renderable implements DataInterface, JsFactory, Customizable
     public function toArray()
     {
         return [
-            'events'       => '',
             'formats'      => '',
             'pngOutput'    => false,
             'chartType'    => $this->getType(),
+            'events'       => $this->getEvents(),
             'chartVer'     => $this->getVersion(),
             'chartClass'   => $this->getJsClass(),
             'chartLabel'   => $this->getLabelStr(),
             'chartPackage' => $this->getJsPackage(),
-            'elemId'       => $this->getElementIdStr(),
-            'chartData'    => $this->getDataTable()->toJson(),
-            'chartOptions' => $this->getOptions()->toJson(),
+            'elemId'       => $this->getElementId(),
+            'chartData'    => $this->getDataTable(),
+            'chartOptions' => $this->getOptions(),
         ];
     }
 
     /**
      * Retrieves the events if any have been assigned to the chart.
      *
-     * @since  3.0.5
-     * @return array
-     */
-    public function getEvents()
-    {
-        return $this->options->events;
-    }
-
-    /**
-     * Checks if any events have been assigned to the chart.
      *
-     * @return bool
-     */
-    public function hasEvents()
-    {
-        return count($this->options->events) > 0;
-    }
-
-    /**
-     * Builds the javascript object of event callbacks.
+     * If no events are defined, then an empty buffer will be returned.
+     * Valid events will be converted to Javascriptable Event objects.
      *
-     * @access protected
-     * @return string Javascript code block.
+     * @since  3.2.0
+     * @return Buffer The contents will be javascript
      */
-    protected function getEventCallbacks()
+    private function getEvents()
     {
         $buffer = new Buffer();
 
-        foreach ($this->events as $event => $callback) {
-            $buffer->append(Event::create($event, $callback).PHP_EOL.PHP_EOL);
+        if ( ! $this->options->has('events')) {
+            return $buffer;
+        }
+
+        foreach ($this->options->events as $event => $callback) {
+            $buffer->append(
+                new Event($event, $callback)
+            );
         }
 
         return $buffer;

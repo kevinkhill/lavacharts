@@ -21,13 +21,9 @@ use Khill\Lavacharts\Support\Contracts\Jsonable;
  * @link          http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
- */
-
-/**
- * Class Options
  *
- * @package Khill\Lavacharts\Support
  * @property string elementId
+ * @property string pngOutput
  */
 class Options implements Arrayable, Jsonable
 {
@@ -57,6 +53,16 @@ class Options implements Arrayable, Jsonable
     function __get($option)
     {
         return $this->has($option) ? $this->options[$option] : null;
+    }
+
+    /**
+     * When treating options as a string, assume they are getting serialized.
+     *
+     * @return string
+     */
+    function __toString()
+    {
+        return $this->toJson();
     }
 
     /**

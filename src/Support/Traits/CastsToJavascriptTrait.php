@@ -16,7 +16,7 @@ namespace Khill\Lavacharts\Support\Traits;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-trait SerializeToJavascriptTrait
+trait CastsToJavascriptTrait
 {
     /**
      * When serializing an event, it will be converted to a string of javascript.

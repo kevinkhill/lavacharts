@@ -98,11 +98,21 @@ class Column extends Customizable implements Arrayable, Jsonable
     /**
      * Returns the column formatter.
      *
-     * @return \Khill\Lavacharts\DataTables\Formats\Format
+     * @return Format
      */
     public function getFormat()
     {
         return $this->format;
+    }
+
+    /**
+     * Sets the formatter for the column.
+     *
+     * @param Format $format
+     */
+    public function setFormat(Format $format)
+    {
+        $this->format = $format;
     }
 
     /**

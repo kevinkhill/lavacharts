@@ -61,11 +61,6 @@ class ChartJsFactory extends JavascriptFactory
         /**
          * In the scope of the events and formats, "this" is a reference to the lavachart class in question.
          */
-        $this->eventTemplate =
-            'google.visualization.events.addListener(this.chart, "%s", function (event) {'.PHP_EOL.
-                'return lava.event(event, this, %s);'.PHP_EOL.
-            '}.bind(this));'.PHP_EOL;
-
         $this->formatTemplate =
             'this.formats["col%1$s"] = new %2$s(%3$s);'.PHP_EOL.
             'this.formats["col%1$s"].format(this.data, %1$s);'.PHP_EOL;
@@ -104,33 +99,7 @@ class ChartJsFactory extends JavascriptFactory
             $vars['formats'] = $this->buildFormatters();
         }
 
-        if ($this->chart->hasEvents()) {
-            $vars['events'] = $this->buildEventCallbacks();
-        }
-
         return $vars;
-    }
-
-    /**
-     * Builds the javascript object of event callbacks.
-     *
-     * @access protected
-     * @return string Javascript code block.
-     */
-    protected function buildEventCallbacks()
-    {
-        $buffer = '';
-        $events = $this->chart->getEvents();
-
-        foreach ($events as $event => $callback) {
-            $buffer .= sprintf(
-                $this->eventTemplate,
-                $event,
-                $callback
-            ).PHP_EOL.PHP_EOL;
-        }
-
-        return $buffer;
     }
 
     /**

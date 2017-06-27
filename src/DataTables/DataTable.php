@@ -445,11 +445,13 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
-    public function formatColumn($index, Format $format = null)
+    public function formatColumn($index, Format $format)
     {
-        $this->indexCheck($index);
+//        $this->indexCheck($index);
+//
+//        $this->cols[$index] = $this->columnFactory->applyFormat($this->cols[$index], $format);
 
-        $this->cols[$index] = $this->columnFactory->applyFormat($this->cols[$index], $format);
+        $this->getColumn($index)->setFormat($format);
 
         return $this;
     }
@@ -568,9 +570,26 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
     }
 
     /**
+     * Sets a Column at a specified index.
+     *
+     * @since  3.2.0
+     * @param  int    $index
+     * @param  Column $column
+     * @return self
+     */
+    public function setColumn($index, Column $column)
+    {
+        $this->indexCheck($index);
+
+        $this->cols[$index] = $column;
+
+        return $this;
+    }
+
+    /**
      * Returns the column array from the DataTable
      *
-     * @return \Khill\Lavacharts\DataTables\Columns\Column[]
+     * @return Column[]
      */
     public function getColumns()
     {
@@ -578,7 +597,7 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
     }
 
     /**
-     * Returns the columns whos type match the given value.
+     * Returns the columns who's type matches the given value.
      *
      * @since  3.0.0
      * @param  string $type
@@ -589,15 +608,7 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
     {
         ColumnFactory::isValidType($type);
 
-        $indices = [];
-
-        foreach ($this->cols as $index => $column) {
-            if ($type === $column->getType()) {
-                $indices[$index] = $column;
-            }
-        }
-
-        return $indices;
+        return array_filter($this->cols, 'getType',ARRAY_FILTER_USE_BOTH);
     }
 
     /**
@@ -666,19 +677,17 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
      * Returns the formatted columns in an array from the DataTable
      *
      * @since  3.0.0
-     * @return \Khill\Lavacharts\DataTables\Columns\Column[]
+     * @return Column[]
      */
     public function getFormattedColumns()
     {
-        $columns = [];
-
-        foreach ($this->cols as $index => $column) {
+        return array_filter(array_map(function ($index, Column $column) {
             if ($column->isFormatted()) {
-                $columns[$index] = $column;
-            }
-        }
+                $column->getFormat()->setIndex($index);
 
-        return $columns;
+                return $column;
+            }
+        }, array_keys($this->cols), $this->cols));
     }
 
     /**
@@ -713,26 +722,26 @@ class DataTable implements DataTableInterface, Arrayable, Jsonable
      */
     public function toJson()
     {
-        if ($this->hasFormattedColumns()) {
-            $formats = [];
-
-            foreach ($this->getFormattedColumns() as $index => $column) {
-                $format = $column->getFormat();
-
-                $formats[] = [
-                    'index'  => $index,
-                    'type'   => $format->getType(),
-                    'config' => $format
-                ];
-            }
-
-            return json_encode([
-                'data' => $this,
-                'formats' => $formats
-            ]);
-        } else {
+        if ( ! $this->hasFormattedColumns()) {
             return json_encode($this);
         }
+
+        $formats = [];
+
+        foreach ($this->getFormattedColumns() as $index => $column) {
+            $format = $column->getFormat();
+
+            $formats[] = [
+                'index'  => $index,
+                'type'   => $format->getType(),
+                'config' => $format
+            ];
+        }
+
+        return json_encode([
+            'data' => $this,
+            'formats' => $formats
+        ]);
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Charts;
 
 use Khill\Lavacharts\Support\Contracts\Javascriptable;
-use Khill\Lavacharts\Support\Traits\SerializeToJavascriptTrait as ToJavascript;
+use Khill\Lavacharts\Support\Traits\CastsToJavascriptTrait as CastsToJavascript;
 
 /**
  * Class Event
@@ -18,7 +18,7 @@ use Khill\Lavacharts\Support\Traits\SerializeToJavascriptTrait as ToJavascript;
  */
 class Event implements Javascriptable
 {
-    use ToJavascript;
+    use CastsToJavascript;
 
     /**
      * Format string for creating the events javascript
@@ -56,7 +56,7 @@ EVENT;
     }
 
     /**
-     * Returns a customized javascript output.
+     * Returns the object as a string of valid javascript.
      *
      * @return string
      */
