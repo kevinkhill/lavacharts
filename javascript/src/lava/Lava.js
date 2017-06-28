@@ -103,27 +103,27 @@ export class LavaJs extends EventEmitter {
         let readyCount = 0;
 
         this.on('ready', function (renderable) {
-            console.log(renderable.uuid() + ' ready');
+            console.log('[lava.js] ' + renderable.uuid() + ' -> ready');
 
             readyCount++;
 
             if (readyCount === $lava._getRenderables().length) {
-                console.log('loading google');
+                console.log('[lava.js] Loading Google');
 
                 $lava._loadGoogle().then(function() {
                     return $lava._mapRenderables(function (renderable) {
-                        console.log('configuring ' + renderable.uuid());
+                        console.log('[lava.js] ' + renderable.uuid() + ' -> configuring');
 
                         return renderable.configure();
                     });
                 }).then(function() {
                     return $lava._mapRenderables(function (renderable) {
-                        console.log('rendering ' + renderable.uuid());
+                        console.log('[lava.js] ' + renderable.uuid() + ' -> rendering');
 
                         return renderable.render();
                     });
                 }).then(function() {
-                    console.log('lava.js ready, firing callback');
+                    console.log('[lava.js] Ready, firing ready callback');
 
                     $lava._readyCallback();
                 });
@@ -142,7 +142,7 @@ export class LavaJs extends EventEmitter {
         this._init();
 
         this._forEachRenderable(function (renderable) {
-            console.log('init ' + renderable.uuid());
+            console.log('[lava.js] ' + renderable.uuid() + ' -> initializing');
 
             renderable.init();
         });
@@ -276,7 +276,7 @@ export class LavaJs extends EventEmitter {
      */
     redrawCharts() {
         this._forEachRenderable(function (renderable) {
-            console.log('redrawing '+renderable.uuid());
+            console.log('[lava.js] ' + renderable.uuid() + ' -> redrawing');
 
             const redraw = _.bind(renderable.redraw, renderable);
 
@@ -480,11 +480,11 @@ export class LavaJs extends EventEmitter {
         const script = this._createScriptTag(deferred);
 
         if (this._googleIsLoaded()) {
-            console.log('static loader found, running callback');
+            console.log('[lava.js] Static loader found, initializing window.google');
 
             $lava._googleChartLoader(deferred);
         } else {
-            console.log('static loader not found, appending');
+            console.log('[lava.js] Static loader not found, appending to head');
 
             document.head.appendChild(script);
         }
@@ -509,7 +509,7 @@ export class LavaJs extends EventEmitter {
         script.onload = script.onreadystatechange = function (event) {
             event = event || window.event;
 
-            if (event.type === "load" || (/loaded|complete/.test(this.readyState))) {
+            if (event.type === 'load' || (/loaded|complete/.test(this.readyState))) {
                 this.onload = this.onreadystatechange = null;
 
                 $lava._googleChartLoader(deferred);
@@ -528,10 +528,14 @@ export class LavaJs extends EventEmitter {
     _googleChartLoader(deferred) {
         const config = {
             packages: this._getPackages(),
-            language: this._getLocale()
+            language: this.options.locale
         };
 
-        console.log('google loaded with configuration ', config);
+        if (this.options.mapsApiKey !== '') {
+            config.mapsApiKey = this.options.maps_api_key;
+        }
+
+        console.log('[lava.js] Google loaded with options:', config);
 
         google.charts.load('current', config);
 
