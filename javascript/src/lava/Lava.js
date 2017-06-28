@@ -47,12 +47,12 @@ module.exports = (function() {
          * @type {Object}
          * @private
          */
-        this._config = (function () {
-            if (typeof CONFIG_JSON == 'undefined') {
+        this.config = (function () {
+            if (typeof CONFIG_JSON !== 'object') {
                 return {};
-            } else {
-                return CONFIG_JSON;
             }
+
+            return CONFIG_JSON;
         }());
 
         /**
@@ -151,6 +151,15 @@ module.exports = (function() {
 
             renderable.init();
         });
+    };
+
+    /**
+     * Stores a renderable lava object within the module.
+     *
+     * @param {Object} config
+     */
+    Lava.prototype.setConfig = function (config) {
+        this.config = config;
     };
 
     /**
@@ -431,16 +440,6 @@ module.exports = (function() {
     };
 
     /**
-     * Returns the defined locale of the charts.
-     *
-     * @private
-     * @return {string}
-     */
-    Lava.prototype._getLocale = function () {
-        return this._config.locale;
-    };
-
-    /**
      * Returns an array of the google packages to load.
      *
      * @private
@@ -532,7 +531,7 @@ module.exports = (function() {
     Lava.prototype._googleChartLoader = function (deferred) {
         var config = {
             packages: this._getPackages(),
-            language: this._getLocale()
+            language: this.config.locale
         };
 
         console.log('google loaded with configuration ', config);

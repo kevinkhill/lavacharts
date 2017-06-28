@@ -84,7 +84,7 @@ class Lavacharts
         $this->volcano       = new Volcano;
         $this->chartFactory  = new ChartFactory;
         $this->dashFactory   = new DashboardFactory;
-        $this->scriptManager = new ScriptManager;
+        $this->scriptManager = new ScriptManager($this->options);
     }
 
     /**

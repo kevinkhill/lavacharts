@@ -5,8 +5,9 @@ namespace Khill\Lavacharts\Javascript;
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Dashboards\Dashboard;
 use Khill\Lavacharts\Exceptions\ElementIdException;
-use Khill\Lavacharts\Values\ElementId;
 use Khill\Lavacharts\Support\Buffer;
+use Khill\Lavacharts\Support\Options;
+use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
 
 /**
@@ -27,6 +28,8 @@ use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
  */
 class ScriptManager
 {
+    use HasOptions;
+
     /**
      * Lava.js module location.
      *
@@ -56,6 +59,16 @@ class ScriptManager
     private $lavaJsRendered = false;
 
     /**
+     * ScriptManager constructor.
+     *
+     * @param Options $options
+     */
+    function __construct(Options $options)
+    {
+        $this->options = $options;
+    }
+
+    /**
      * Returns true|false depending on if the lava.js module
      * has be output to the page
      *
@@ -77,7 +90,9 @@ class ScriptManager
         $lavaJs = realpath(__DIR__ . self::LAVA_JS);
         $buffer = new Buffer(file_get_contents($lavaJs));
 
-        $buffer->pregReplace('/CONFIG_JSON/', json_encode($config));
+        $this->options->merge($config);
+
+        $buffer->pregReplace('/CONFIG_JSON/', $this->options->toJson());
 
         $this->lavaJsRendered = true;
 
