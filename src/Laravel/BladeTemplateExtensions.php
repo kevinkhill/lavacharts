@@ -14,8 +14,8 @@ use Khill\Lavacharts\Charts\ChartFactory;
  * The above example would turn into @linechart('MyChart', 'div-id')
  *
  *
- * @package    Khill\Lavacharts
- * @subpackage Laravel
+ * @package    Khill\Lavacharts\Laravel
+ * @since      2.5.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
