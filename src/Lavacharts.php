@@ -13,11 +13,12 @@ use Khill\Lavacharts\DataTables\DataFactory;
 use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\Exceptions\InvalidLabel;
-use Khill\Lavacharts\Exceptions\InvalidLavaObject;
+use Khill\Lavacharts\Exceptions\InvalidRenderable;
 use Khill\Lavacharts\Javascript\ScriptManager;
 use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
+use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Html\HtmlFactory;
@@ -83,7 +84,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      */
     public function __construct(array $options = [])
     {
-        $this->initializeOptions($options);
+        $this->initOptions($options);
 
         if ( ! $this->usingComposer()) {
             require_once(__DIR__.'/Support/Psr4Autoloader.php');
@@ -107,7 +108,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @param  string $method Name of method
      * @param  array  $args   Passed arguments
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLavaObject
+     * @throws \Khill\Lavacharts\Exceptions\InvalidRenderable
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
      * @return mixed Returns Charts, Formats and Filters
      */
@@ -377,14 +378,14 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @param  string $type  Type of Chart or Dashboard.
      * @param  string $label Label of the Chart or Dashboard.
      * @return Renderable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLavaObject
+     * @throws \Khill\Lavacharts\Exceptions\InvalidRenderable
      */
     public function fetch($type, $label)
     {
         $label = new Label($label);
 
         if (strpos($type, 'Chart') === false && $type != 'Dashboard') {
-            throw new InvalidLavaObject($type);
+            throw new InvalidRenderable($type);
         }
 
         return $this->volcano->get($type, $label);
@@ -552,19 +553,5 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
         } else {
             return false;
         }
-    }
-
-    /**
-     * Initialize the default options from file while overriding with user
-     * passed values.
-     *
-     * @param array $options
-     * @return void
-     */
-    private function initializeOptions(array $options)
-    {
-        $this->setOptions(Config::getDefault());
-
-        $this->options->merge($options);
     }
 }

@@ -2,10 +2,10 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
-use Khill\Lavacharts\Exceptions\InvalidFilterType;
 use Khill\Lavacharts\Exceptions\InvalidParamType;
-use Khill\Lavacharts\Support\Customizable;
+use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
+use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 
 /**
  * Filter Parent Class
@@ -22,8 +22,10 @@ use Khill\Lavacharts\Support\Contracts\Wrappable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Filter extends Customizable implements Wrappable
+class Filter implements Customizable, Wrappable
 {
+    use HasOptions;
+
     /**
      * Type of wrapped class
      */
@@ -40,6 +42,8 @@ class Filter extends Customizable implements Wrappable
      */
     public function __construct($cLabelOrIndex, array $options = [])
     {
+        $this->setOptions($options);
+
         switch (gettype($cLabelOrIndex)) {
             case 'string':
                 $options = array_merge($options, ['filterColumnLabel' => $cLabelOrIndex]);
@@ -52,7 +56,7 @@ class Filter extends Customizable implements Wrappable
                 break;
         }
 
-        parent::__construct($options);
+
     }
 
     /**

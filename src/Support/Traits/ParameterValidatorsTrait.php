@@ -26,7 +26,7 @@ trait ParameterValidatorsTrait
      *
      * Returns true if the variable is an array or can behave as an array. If not, returns false.
      *
-     * @param  @param array|ArrayAccess $var
+     * @param  array|ArrayAccess $var
      * @return bool
      */
     protected function behavesAsArray($var)
@@ -94,6 +94,5 @@ trait ParameterValidatorsTrait
         }
 
         return false;
-
     }
 }

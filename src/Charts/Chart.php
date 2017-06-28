@@ -35,7 +35,7 @@ use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Chart extends Renderable implements DataInterface, JsFactory, Customizable, Wrappable, JsPackage
+class Chart extends Renderable implements DataInterface, Customizable, JsFactory, Wrappable, JsPackage
 {
     use HasDataTable, HasOptions;
 

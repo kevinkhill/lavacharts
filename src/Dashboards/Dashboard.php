@@ -3,16 +3,17 @@
 namespace Khill\Lavacharts\Dashboards;
 
 use Khill\Lavacharts\Javascript\DashboardJsFactory;
-use Khill\Lavacharts\Support\Contracts\JsFactory;
 use Khill\Lavacharts\Values\Label;
 use Khill\Lavacharts\Values\ElementId;
 use Khill\Lavacharts\Dashboards\Bindings\Binding;
 use Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
 use Khill\Lavacharts\Support\Renderable;
+use Khill\Lavacharts\Support\Contracts\Customizable;
+use Khill\Lavacharts\Support\Contracts\DataTable as DataInterface;
+use Khill\Lavacharts\Support\Contracts\JsFactory;
 use Khill\Lavacharts\Support\Contracts\JsPackage;
-use Khill\Lavacharts\Support\Contracts\DataTable as Data;
+use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
-use Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
 
 /**
  * Class Dashboard
@@ -30,9 +31,9 @@ use Khill\Lavacharts\Support\Traits\RenderableTrait as IsRenderable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Dashboard extends Renderable implements Data, JsFactory, JsPackage
+class Dashboard extends Renderable implements DataInterface, Customizable, JsFactory, JsPackage
 {
-    use HasDataTable, IsRenderable;
+    use HasDataTable, HasOptions;
 
     /**
      * Javascript type.
@@ -78,7 +79,7 @@ class Dashboard extends Renderable implements Data, JsFactory, JsPackage
      * @param \Khill\Lavacharts\Support\Contracts\DataTable $datatable
      * @param \Khill\Lavacharts\Values\ElementId            $elementId Element Id for the Dashboard
      */
-    public function __construct(Label $label, Data $data, ElementId $elementId = null)
+    public function __construct(Label $label, DataInterface $data, ElementId $elementId = null)
     {
         $this->bindingFactory = new BindingFactory;
 

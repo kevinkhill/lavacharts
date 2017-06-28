@@ -51,4 +51,18 @@ trait HasOptionsTrait
             $this->options = new Options($options);
         }
     }
+
+    /**
+     * Initialize the default options from file while overriding with user
+     * passed values.
+     *
+     * @param array $options
+     * @return void
+     */
+    public function initOptions(array $options)
+    {
+        $this->setOptions(Options::getDefault());
+
+        $this->options->merge($options);
+    }
 }

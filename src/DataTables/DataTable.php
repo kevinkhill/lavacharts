@@ -4,12 +4,9 @@ namespace Khill\Lavacharts\DataTables;
 
 use DateTimeZone;
 use InvalidArgumentException;
-use JsonSerializable;
 use Khill\Lavacharts\DataTables\Columns\Column;
-use Khill\Lavacharts\DataTables\Columns\ColumnBuilder;
 use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\DataTables\Rows\Row;
-use Khill\Lavacharts\DataTables\Columns\ColumnFactory;
 use Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
 use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
@@ -17,7 +14,8 @@ use Khill\Lavacharts\Exceptions\InvalidTimeZone;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\Jsonable as Jsonable;
-use Khill\Lavacharts\Support\Contracts\DataTable as DataTableInterface;
+use Khill\Lavacharts\Support\Contracts\DataTable as DataInterface;
+use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Values\Role;
 use Khill\Lavacharts\Values\StringValue;
@@ -44,16 +42,9 @@ use Khill\Lavacharts\Values\StringValue;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class DataTable implements DataTableInterface, Customizable, Arrayable, Jsonable
+class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
 {
     use HasOptions;
-
-    /**
-     * RowFactory for the DataTable
-     *
-     * @var \Khill\Lavacharts\DataTables\Rows\RowFactory
-     */
-    protected $rowFactory;
 
     /**
      * Array of the DataTable's column objects.
@@ -70,24 +61,29 @@ class DataTable implements DataTableInterface, Customizable, Arrayable, Jsonable
     protected $rows = [];
 
     /**
-     * Format for Carbon to parse datetime strings.
+     * DataTable constructor
      *
-     * @var string
-     */
-    protected $dateTimeFormat;
-
-    /**
-     * Creates a new DataTable
+     * Default options will be set if none are passed.
      *
-     * @param string $timezone Timezone to use when dealing with dates & times
+     * @param array $options
+     * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
+     * @throws \Khill\Lavacharts\Exceptions\InvalidTimeZone
      */
-    public function __construct($timezone = null)
+    public function __construct(array $options = [])
     {
-        if ($timezone === null) {
-            $timezone = date_default_timezone_get();
+        $this->initOptions($options);
+
+        if ( ! $this->isValidTimeZone($this->options->timezone)) {
+            throw new InvalidTimeZone($this->options->timezone);
         }
 
-        $this->setTimezone($timezone);
+        if ( ! is_string($this->options->datetime_format)) {
+            throw new InvalidDateTimeFormat($this->options->datetime_format);
+        }
+
+        $this->options->set('timezone', new DateTimeZone($this->options->timezone));
+
+        $this->options->set('datetime_format', $this->options->datetime_format);
     }
 
     /**
@@ -130,17 +126,18 @@ class DataTable implements DataTableInterface, Customizable, Arrayable, Jsonable
     /**
      * Sets the Timezone that Carbon will use when parsing dates
      *
+     * @deprecated 3.2.0
      * @param  string $timezone
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidTimeZone
      */
-    public function setTimezone($timezone)
+    public function setTimeZone($timezone)
     {
-        if ( ! $this->isValidTimezone($timezone)) {
+        if ( ! $this->isValidTimeZone($timezone)) {
             throw new InvalidTimeZone($timezone);
         }
 
-        $this->timezone = new DateTimeZone($timezone);
+        $this->options->set('timezone', new DateTimeZone($timezone));
 
         return $this;
     }
@@ -148,12 +145,13 @@ class DataTable implements DataTableInterface, Customizable, Arrayable, Jsonable
     /**
      * Returns the current timezone used in the DataTable
      *
+     * @deprecated 3.2.0
      * @since  3.0.0
      * @return \DateTimeZone
      */
     public function getTimeZone()
     {
-        return $this->timezone;
+        return $this->options->timezone;
     }
 
     /**
@@ -161,6 +159,7 @@ class DataTable implements DataTableInterface, Customizable, Arrayable, Jsonable
      * This method is used to set the format to be used to parse a string
      * passed to a cell in a date column, that was parsed incorrectly by Carbon::parse()
      *
+     * @deprecated 3.2.0
      * @param  string $dateTimeFormat
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
@@ -171,7 +170,7 @@ class DataTable implements DataTableInterface, Customizable, Arrayable, Jsonable
             throw new InvalidDateTimeFormat($dateTimeFormat);
         }
 
-        $this->dateTimeFormat = $dateTimeFormat;
+        $this->options->set('datetime_format', $dateTimeFormat);
 
         return $this;
     }
@@ -179,12 +178,13 @@ class DataTable implements DataTableInterface, Customizable, Arrayable, Jsonable
     /**
      * Returns the set DateTime format.
      *
+     * @deprecated 3.2.0
      * @since  3.0.0
      * @return string DateTime format
      */
     public function getDateTimeFormat()
     {
-        return (string) $this->dateTimeFormat;
+        return (string) $this->options->datetime_format;
     }
 
     /**
@@ -773,7 +773,7 @@ class DataTable implements DataTableInterface, Customizable, Arrayable, Jsonable
      * @param string $tz
      * @return bool
      */
-    protected function isValidTimezone($tz)
+    protected function isValidTimeZone($tz)
     {
         $timezoneList = call_user_func_array('array_merge', timezone_abbreviations_list());
 

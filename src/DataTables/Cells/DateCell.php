@@ -40,7 +40,7 @@ class DateCell extends Cell
      *
      * Uses Carbon to create the values for the DateCell.
      *
-     *
+     * @TODO: update this for getting datTimeFormat from options
      * @param  string $dateTimeString
      * @param  string $dateTimeFormat
      * @return \Khill\Lavacharts\DataTables\Cells\Cell

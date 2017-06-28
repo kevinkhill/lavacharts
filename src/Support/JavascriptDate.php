@@ -19,14 +19,14 @@ class JavascriptDate extends Carbon
             $tz = $args[6];
         }
 
-        $defaults = array_combine(array(
+        $defaults = array_combine([
             'year',
             'month',
             'day',
             'hour',
             'minute',
             'second',
-        ), explode('-', date('Y-n-j-G-i-s', time())));
+        ], explode('-', date('Y-n-j-G-i-s', time())));
 
         $year  = isset($args[0]) ? $args[0]    : $defaults['year'];
         $month = isset($args[1]) ? $args[1] +1 : $defaults['month'];

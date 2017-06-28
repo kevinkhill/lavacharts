@@ -6,8 +6,9 @@ class InvalidOptions extends LavaException
 {
     public function __construct($invalidOptions)
     {
-        $type = gettype($invalidOptions);
-
-        parent::__construct("Cannot create options with ($type), must be an array");
+        parent::__construct(sprintf(
+            'Cannot create options with "%s", must be an array',
+            gettype($invalidOptions)
+        ));
     }
 }

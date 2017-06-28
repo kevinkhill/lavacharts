@@ -208,7 +208,7 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidLavaObject
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidRenderable
      */
     public function testRenderAliasWithInvalidLavaObject()
     {

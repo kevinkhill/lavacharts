@@ -102,7 +102,7 @@ class Row implements Arrayable, Jsonable, ArrayAccess
         }
 
         $columnTypes    = $datatable->getColumnTypes();
-        $dateTimeFormat = $datatable->getDateTimeFormat();
+        $dateTimeFormat = $datatable->getOptions()->get('datetime_format');
 
         $rowData = [];
 
@@ -121,6 +121,7 @@ class Row implements Arrayable, Jsonable, ArrayAccess
                     $rowData[] = new DateCell($cellValue);
                 } else {
                     if (isset($dateTimeFormat)) {
+                        //@TODO: update this for getting datTimeFormat from options
                         $rowData[] = DateCell::parseString($cellValue, $dateTimeFormat);
                     } else {
                         $rowData[] = DateCell::parseString($cellValue);
