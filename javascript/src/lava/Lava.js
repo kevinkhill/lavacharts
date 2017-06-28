@@ -47,12 +47,12 @@ module.exports = (function() {
          * @type {Object}
          * @private
          */
-        this.config = (function () {
-            if (typeof CONFIG_JSON !== 'object') {
+        this.options = (function () {
+            if (typeof OPTIONS_JSON !== 'object') {
                 return {};
             }
 
-            return CONFIG_JSON;
+            return OPTIONS_JSON;
         }());
 
         /**
@@ -104,33 +104,33 @@ module.exports = (function() {
      * @public
      */
     Lava.prototype.init = function () {
-        console.log('lava.js init');
+        console.log('[lava.js] Initializing');
 
         var $lava = this;
         var readyCount = 0;
 
         this.on('ready', function (renderable) {
-            console.log(renderable.uuid() + ' ready');
+            console.log('[lava.js] ' + renderable.uuid() + ' -> ready');
 
             readyCount++;
 
             if (readyCount === $lava._getRenderables().length) {
-                console.log('loading google');
+                console.log('[lava.js] Loading Google');
 
                 $lava._loadGoogle().then(function() {
                     return $lava._mapRenderables(function (renderable) {
-                        console.log('configuring ' + renderable.uuid());
+                        console.log('[lava.js] ' + renderable.uuid() + ' -> configuring');
 
                         return renderable.configure();
                     });
                 }).then(function() {
                     return $lava._mapRenderables(function (renderable) {
-                        console.log('rendering ' + renderable.uuid());
+                        console.log('[lava.js] ' + renderable.uuid() + ' -> rendering');
 
                         return renderable.render();
                     });
                 }).then(function() {
-                    console.log('lava.js ready, firing callback');
+                    console.log('[lava.js] Ready, firing ready callback');
 
                     $lava._readyCallback();
                 });
@@ -144,22 +144,13 @@ module.exports = (function() {
      * @public
      */
     Lava.prototype.run = function () {
-        console.log('lava.js running');
+        this.init();
 
         this._forEachRenderable(function (renderable) {
-            console.log('init ' + renderable.uuid());
+            console.log('[lava.js] ' + renderable.uuid() + ' -> initializing');
 
             renderable.init();
         });
-    };
-
-    /**
-     * Stores a renderable lava object within the module.
-     *
-     * @param {Object} config
-     */
-    Lava.prototype.setConfig = function (config) {
-        this.config = config;
     };
 
     /**
@@ -266,7 +257,7 @@ module.exports = (function() {
      */
     Lava.prototype.loadOptions = function (label, json, callback) {
         if (typeof callback === 'undefined') {
-            var callback = callback || _.noop;
+            callback = callback || _.noop;
         }
 
         if (typeof callback !== 'function') {
@@ -290,7 +281,7 @@ module.exports = (function() {
      */
     Lava.prototype.redrawCharts = function() {
         this._forEachRenderable(function (renderable) {
-            console.log('redrawing '+renderable.uuid());
+            console.log('[lava.js] ' + renderable.uuid() + ' -> redrawing');
 
             var redraw = _.bind(renderable.redraw, renderable);
 
@@ -390,7 +381,7 @@ module.exports = (function() {
      * @throws DashboardNotFound
      */
     Lava.prototype.getDashboard = function (label, callback) {
-        if (typeof label != 'string') {
+        if (typeof label !== 'string') {
             throw new this._errors.InvalidLabel(label);
         }
 
@@ -483,11 +474,11 @@ module.exports = (function() {
         var script = this._createScriptTag(deferred);
 
         if (this._googleIsLoaded()) {
-            console.log('static loader found, running callback');
+            console.log('[lava.js] Static loader found, initializing window.google');
 
             $lava._googleChartLoader(deferred);
         } else {
-            console.log('static loader not found, appending');
+            console.log('[lava.js] Static loader not found, appending to head');
 
             document.head.appendChild(script);
         }
@@ -512,7 +503,7 @@ module.exports = (function() {
         script.onload = script.onreadystatechange = function (event) {
             event = event || window.event;
 
-            if (event.type === "load" || (/loaded|complete/.test(this.readyState))) {
+            if (event.type === 'load' || (/loaded|complete/.test(this.readyState))) {
                 this.onload = this.onreadystatechange = null;
 
                 $lava._googleChartLoader(deferred);
@@ -531,10 +522,14 @@ module.exports = (function() {
     Lava.prototype._googleChartLoader = function (deferred) {
         var config = {
             packages: this._getPackages(),
-            language: this.config.locale
+            language: this.options.locale
         };
 
-        console.log('google loaded with configuration ', config);
+        if (this.options.mapsApiKey !== '') {
+            config.mapsApiKey = this.options.maps_api_key;
+        }
+
+        console.log('[lava.js] Google loaded with options:', config);
 
         google.charts.load('current', config);
 

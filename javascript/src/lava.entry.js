@@ -36,7 +36,9 @@
         /**
          * Let's go!
          */
-        window.lava.init();
-        window.lava.run();
+
+        if (window.lava.options.auto_run === true) {
+            window.lava.run();
+        }
     });
 }.apply(window));

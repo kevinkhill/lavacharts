@@ -92,7 +92,7 @@ class ScriptManager
 
         $this->options->merge($config);
 
-        $buffer->pregReplace('/CONFIG_JSON/', $this->options->toJson());
+        $buffer->pregReplace('/OPTIONS_JSON/', $this->options->toJson());
 
         $this->lavaJsRendered = true;
 
