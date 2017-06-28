@@ -24,7 +24,7 @@ class Config
      */
     public static function getDefault()
     {
-        return require(__DIR__.'/Laravel/config/lavacharts.php');
+        return require(__DIR__.'/../Laravel/config/lavacharts.php');
     }
 
     /**

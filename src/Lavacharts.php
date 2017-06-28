@@ -15,11 +15,13 @@ use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\Exceptions\InvalidLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Javascript\ScriptManager;
+use Khill\Lavacharts\Support\Config;
 use Khill\Lavacharts\Support\Html\HtmlFactory;
 use Khill\Lavacharts\Support\Psr4Autoloader;
 use Khill\Lavacharts\Values\ElementId;
 use Khill\Lavacharts\Values\Label;
 use Khill\Lavacharts\Values\StringValue;
+use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
 
 /**
@@ -36,10 +38,12 @@ use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
  */
 class Lavacharts
 {
+    use HasOptions;
+
     /**
      * Lavacharts version
      */
-    const VERSION = '3.1.5';
+    const VERSION = '3.1.7';
 
     /**
      * Locale for the Charts and Dashboards.
@@ -65,9 +69,11 @@ class Lavacharts
     /**
      * Lavacharts constructor.
      */
-    public function __construct()
+    public function __construct(array $options = [])
     {
-        if (!$this->usingComposer()) {
+        $this->initializeOptions($options);
+
+        if ( ! $this->usingComposer()) {
             require_once(__DIR__.'/Support/Psr4Autoloader.php');
 
             $loader = new Psr4Autoloader;
@@ -462,5 +468,19 @@ class Lavacharts
         } else {
             return false;
         }
+    }
+
+    /**
+     * Initialize the default options from file while overriding with user
+     * passed values.
+     *
+     * @param array $options
+     * @return void
+     */
+    private function initializeOptions(array $options)
+    {
+        $this->setOptions(Config::getDefault());
+
+        $this->options->merge($options);
     }
 }
