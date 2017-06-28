@@ -93,7 +93,7 @@ class ScriptManager implements Customizable
 
         $buffer = $this->getLavaJsSource();
 
-        $buffer->pregReplace('/CONFIG_JSON/', $options->toJson());
+        $buffer->pregReplace('/OPTIONS_JSON/', $options->toJson());
 
         return $this->scriptTagWrap($buffer);
     }

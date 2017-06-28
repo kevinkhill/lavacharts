@@ -15,7 +15,7 @@
 browserify = require('browserify'),
   babelify = require('babelify'),
   stripify = require('stripify'),
-     bSync = require('browser-sync').create()
+     bSync = require('browser-sync').create(),
       exec = require('child_process').exec,
      spawn = require('child_process').spawn,
   execSync = require('child_process').execSync,

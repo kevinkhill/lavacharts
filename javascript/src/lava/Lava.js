@@ -55,7 +55,7 @@ export class LavaJs extends EventEmitter {
          * @type {Object}
          * @private
          */
-        this.options = CONFIG_JSON;
+        this.options = OPTIONS_JSON;
 
         /**
          * Array of charts stored in the module.
@@ -90,14 +90,29 @@ export class LavaJs extends EventEmitter {
     }
 
     /**
+     * Runs the Lava.js module by calling all the renderables' init methods
+     *
+     * @public
+     */
+    run() {
+        console.log('[lava.js] Running...');
+
+        this._init();
+
+        this._forEachRenderable(function (renderable) {
+            console.log('[lava.js] ' + renderable.uuid() + ' -> initializing');
+
+            renderable.init();
+        });
+    };
+
+    /**
      * Initialize the Lava.js module by attaching the event listeners
      * and calling the charts' and dashboards' init methods
      *
      * @private
      */
     _init() {
-        console.log('lava.js initializing');
-
         const $lava = this;
 
         let readyCount = 0;
@@ -128,23 +143,6 @@ export class LavaJs extends EventEmitter {
                     $lava._readyCallback();
                 });
             }
-        });
-    };
-
-    /**
-     * Runs the Lava.js module by calling all the renderables' init methods
-     *
-     * @public
-     */
-    run() {
-        console.log('lava.js running');
-
-        this._init();
-
-        this._forEachRenderable(function (renderable) {
-            console.log('[lava.js] ' + renderable.uuid() + ' -> initializing');
-
-            renderable.init();
         });
     };
 
@@ -426,16 +424,6 @@ export class LavaJs extends EventEmitter {
     };
 
     /**
-     * Returns the defined locale of the charts.
-     *
-     * @private
-     * @return {string}
-     */
-    _getLocale() {
-        return this.options.locale;
-    };
-
-    /**
      * Returns an array of the google packages to load.
      *
      * @private
@@ -531,7 +519,7 @@ export class LavaJs extends EventEmitter {
             language: this.options.locale
         };
 
-        if (this.options.mapsApiKey !== '') {
+        if (this.options.maps_api_key !== '') {
             config.mapsApiKey = this.options.maps_api_key;
         }
 
