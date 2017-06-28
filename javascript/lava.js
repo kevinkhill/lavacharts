@@ -248,7 +248,8 @@ var lava = lava || {};
   this.run = function (window) {
     var s = document.createElement('script');
     s.type = 'text/javascript';
-    s.src = 'https://www.google.com/jsapi';
+    //s.src = 'https://www.google.com/jsapi';
+    s.src = 'https://www.gstatic.com/charts/loader.js';
     s.onload = s.onreadystatechange = function (event) {
       event = event || window.event;
 

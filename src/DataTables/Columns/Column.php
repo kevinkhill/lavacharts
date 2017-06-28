@@ -3,6 +3,8 @@
 namespace Khill\Lavacharts\DataTables\Columns;
 
 
+use \Khill\Lavacharts\JsonConfig;
+use Khill\Lavacharts\Options;
 use \Khill\Lavacharts\Utils;
 use \Khill\Lavacharts\DataTables\Formats\Format;
 
@@ -21,7 +23,7 @@ use \Khill\Lavacharts\DataTables\Formats\Format;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class Column implements \JsonSerializable
+class Column extends JsonConfig
 {
     /**
      * Column type.
@@ -52,20 +54,32 @@ class Column implements \JsonSerializable
     protected $role = '';
 
     /**
+     * Allowed options to set for the column.
+     *
+     * @var \Khill\Lavacharts\Options
+     */
+    protected $options = null;
+
+    /**
      * Creates a new Column with the defined label.
      *
      * @access public
-     * @param  string                                      $type Type of Column
+     * @param  string                                      $type  Type of Column
      * @param  string                                      $label Column label (optional).
      * @param  \Khill\Lavacharts\DataTables\Formats\Format $format
-     * @param  string                                      $role Column role (optional).
+     * @param  string                                      $role  Column role (optional).
+     * @param  array                                       $options
      */
-    public function __construct($type, $label = '', Format $format = null, $role = '')
+    public function __construct($type, $label = '', Format $format = null, $role = '', array $options = [])
     {
-        $this->type   = $type;
-        $this->label  = $label;
-        $this->format = $format;
-        $this->role   = $role;
+        $this->type    = $type;
+        $this->label   = $label;
+        $this->format  = $format;
+        $this->role    = $role;
+
+        if (count($options) > 0) {
+            $this->options = $options;
+        }
     }
 
     /**
@@ -141,6 +155,10 @@ class Column implements \JsonSerializable
 
         if (Utils::nonEmptyString($this->role) === true) {
             $values['p'] = ['role' => $this->role];
+
+            if (count($this->options) > 0) {
+                $values['p'] = array_merge($values['p'], $this->options);
+            }
         }
 
         return $values;

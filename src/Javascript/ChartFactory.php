@@ -191,7 +191,7 @@ class ChartFactory extends JavascriptFactory
 
             lava.registerChart("<chartType>", "<chartLabel>");
 
-            google.load('visualization', '<chartVer>', {
+            google.charts.load('current', {
                 packages: ['<chartPackage>'],
                 callback: function() {
                     lava.charts.<chartType>["<chartLabel>"].render();

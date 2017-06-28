@@ -433,30 +433,30 @@ class DataTable implements \JsonSerializable
      *
      * @access public
      * @since  3.0.0
-     * @param  string $type Type of data the column will define.
-     * @param  string $role Type of role that the data will represent.
+     * @param  string $type    Type of data the column will define.
+     * @param  string $role    Type of role that the data will represent.
+     * @param  array  $options Extra options for the column.
      * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
-     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnRole
      */
-    public function addRoleColumn($type, $role)
+    public function addRoleColumn($type, $role, array $options = [])
     {
-        return $this->createColumnWithParams($type, '', null, $role);
+        return $this->createColumnWithParams($type, '', null, $role, $options);
     }
 
     /**
      * Supplemental function to create columns from strings.
      *
      * @access protected
-     * @param  string $type Type of column to create
-     * @param  string $label Label for the column. (Optional)
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format A column format object. (Optional)
-     * @param  string $role A role for the column. (Optional)
+     * @param  string $type    Type of column to create
+     * @param  string $label   Label for the column. (Optional)
+     * @param  Format $format  A column format object. (Optional)
+     * @param  string $role    A role for the column. (Optional)
+     * @param  array  $options Extra options for the column. (Optional)
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
-    protected function createColumnWithParams($type, $label = '', $format = null, $role = '')
+    protected function createColumnWithParams($type, $label = '', $format = null, $role = '', array $options = [])
     {
-        $this->cols[] = ColumnFactory::create($type, $label, $format, $role);
+        $this->cols[] = ColumnFactory::create($type, $label, $format, $role, $options);
 
         return $this;
     }
@@ -625,7 +625,7 @@ class DataTable implements \JsonSerializable
     public function getRowCount()
     {
         return count($this->rows);
-    }    
+    }
 
     /**
      * Returns a column based on it's index.

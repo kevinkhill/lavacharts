@@ -212,7 +212,9 @@ class Chart extends JsonConfig
      */
     public function customize($optionArray)
     {
-        return $this->options->setOptions($optionArray, false);
+        $this->options->setOptions($optionArray, false);
+
+        return $this;
     }
 
     /**
