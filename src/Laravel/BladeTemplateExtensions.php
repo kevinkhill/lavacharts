@@ -40,6 +40,13 @@ foreach ($renderables as $chart) {
             return "<?php echo \Lava::render('$chart', $expression); ?>";
         });
 
+        $blade->directive('renderAll', function ($expression) {
+            $expression = ltrim($expression, '(');
+            $expression = rtrim($expression, ')');
+
+            return "<?php echo \Lava::renderAll($expression); ?>";
+        });
+
     } else {
 
 // Laravel 4
@@ -47,6 +54,15 @@ foreach ($renderables as $chart) {
             function ($view, $compiler) use ($chart) {
                 $pattern = $compiler->createMatcher(strtolower($chart));
                 $output = '$1<?php echo \Lava::render(' . $chart . ', $2); ?>';
+
+                return preg_replace($pattern, $output, $view);
+            }
+        );
+
+        $blade->extend(
+            function ($view, $compiler) {
+                $pattern = $compiler->createMatcher('renderAll');
+                $output = '$1<?php echo \Lava::renderAll($2); ?>';
 
                 return preg_replace($pattern, $output, $view);
             }
