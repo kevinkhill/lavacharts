@@ -107,7 +107,34 @@ class Row implements Arrayable, Jsonable, ArrayAccess
         $rowData = [];
 
         foreach ($values as $index => $cellValue) {
-            if ((bool) preg_match('/date|datetime|timeofday/', $columnTypes[$index]) === true) {
+            switch ($columnTypes[$index]) {
+                case 'role':
+                    break;
+// @TODO good idea?
+                case 'string':
+                    break;
+
+                case 'number':
+                    break;
+
+                case 'boolean':
+                    break;
+
+                case 'date':
+                    $this->parseDateTimeValue();
+                    break;
+
+                case 'datetime':
+                    $this->parseDateTimeValue();
+                    break;
+
+                case 'timeofday':
+                    $this->parseDateTimeValue();
+                    break;
+            }
+
+
+            if (preg_match('/date|datetime|timeofday/', $columnTypes[$index])) {
                 if (StringValue::isNonEmpty($cellValue) === false &&
                     $cellValue instanceof Carbon === false &&
                     $cellValue !== null
@@ -159,16 +186,6 @@ class Row implements Arrayable, Jsonable, ArrayAccess
     }
 
     /**
-     * Returns the Row as an array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return ['c' => $this->cells];
-    }
-
-    /**
      * @param mixed $offset
      * @param mixed $value
      */
@@ -179,6 +196,26 @@ class Row implements Arrayable, Jsonable, ArrayAccess
         } else {
             $this->cells[$offset] = $value;
         }
+    }
+
+    /**
+     * Parsing date, time, datetime, and timeofday column values.
+     *
+     * @param mixed $value
+     */
+    private function parseDateTimeValue($value)
+    {
+
+    }
+
+        /**
+         * Returns the Row as an array.
+         *
+         * @return array
+         */
+    public function toArray()
+    {
+        return ['c' => $this->cells];
     }
 
     /**

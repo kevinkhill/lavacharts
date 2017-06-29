@@ -15,7 +15,7 @@ use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\Jsonable as Jsonable;
 use Khill\Lavacharts\Support\Contracts\DataTable as DataInterface;
-use Khill\Lavacharts\Support\Options;
+use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Values\Role;
 use Khill\Lavacharts\Values\StringValue;
@@ -44,7 +44,7 @@ use Khill\Lavacharts\Values\StringValue;
  */
 class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
 {
-    use HasOptions;
+    use HasOptions, ArrayToJson;
 
     /**
      * Array of the DataTable's column objects.

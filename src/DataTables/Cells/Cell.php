@@ -2,11 +2,12 @@
 
 namespace Khill\Lavacharts\DataTables\Cells;
 
-use Khill\Lavacharts\Exceptions\InvalidParamType;
+use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
+use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
-use Khill\Lavacharts\Support\Customizable;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
+use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 
 /**
  * DataCell Object
@@ -21,9 +22,9 @@ use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Cell extends Customizable implements Arrayable, Jsonable
+class Cell implements Customizable, Arrayable, Jsonable
 {
-    use ArrayToJson;
+    use HasOptions, ArrayToJson;
 
     /**
      * The cell value.
@@ -67,13 +68,14 @@ class Cell extends Customizable implements Arrayable, Jsonable
     public function __construct($v, $f = '', array $p = [])
     {
         if (is_string($f) === false) {
-            throw new InvalidParamType($f, 'string');
+            throw new InvalidArgumentException($f, 'string');
         }
 
         $this->v = $v;
         $this->f = $f;
 
-        parent::__construct($p);
+        $this->setOptions($p);
+
     }
 
     /**
@@ -86,7 +88,7 @@ class Cell extends Customizable implements Arrayable, Jsonable
     public function __get($attr)
     {
         if ($attr == 'p') {
-            return $this->options;
+            return $this->options->toArray();
         }
     }
 
@@ -133,16 +135,6 @@ class Cell extends Customizable implements Arrayable, Jsonable
     }
 
     /**
-     * Returns the custom values of the cell.
-     *
-     * @return string
-     */
-    public function getCustomValues()
-    {
-        return $this->f;
-    }
-
-    /**
      * Return the Cell as an array.
      *
      * @return array
@@ -156,7 +148,7 @@ class Cell extends Customizable implements Arrayable, Jsonable
         }
 
         if ($this->hasOptions()) {
-            $cell['p'] = $this->options;
+            $cell['p'] = $this->options->toArray();
         }
 
         return $cell;

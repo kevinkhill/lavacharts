@@ -55,7 +55,7 @@ class Options implements Arrayable, Jsonable, Countable
      */
     public static function getDefault()
     {
-        return require(__DIR__.'/Laravel/config/lavacharts.php');
+        return require(__DIR__.'/../Laravel/config/lavacharts.php');
     }
 
     /**
@@ -84,6 +84,12 @@ class Options implements Arrayable, Jsonable, Countable
         return $this->options[$option];
     }
 
+    /**
+     * Setting an option by assigning to the class property.
+     *
+     * @param string $option
+     * @param mixed  $value
+     */
     public function __set($option, $value)
     {
         $this->options[$option] = $value;

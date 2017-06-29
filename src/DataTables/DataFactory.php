@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables;
 
+use Closure;
 use Khill\Lavacharts\DataTables\Cells\Cell;
 use Khill\Lavacharts\Exceptions\InvalidJson;
 
@@ -34,18 +35,14 @@ class DataFactory
      * If given an array for the second parameter, then it will be interpreted as
      * row definitions.
      *
-     * @param  mixed  $columns  Array of columns or timezone
-     * @param  array  $rows     Array of rows
-     * @param  string $timezone Timezone to use while using Carbon
+     * @param  mixed $columns Array of columns or timezone
+     * @param  array $rows    Array of rows
+     * @param  array $options
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
-    public static function DataTable($columns = null, array $rows = [], $timezone = null)
+    public static function DataTable(array $columns = [], array $rows = [], array $options = [])
     {
-        if ($columns === null || gettype($columns) === 'string') {
-            $timezone = $columns;
-        }
-
-        $datatable = self::emptyDataTable($timezone);
+        $datatable = self::emptyDataTable($options);
 
         if (is_array($columns)) {
             $datatable->addColumns($columns);
@@ -53,7 +50,7 @@ class DataFactory
 
         if (is_array($rows)) {
             $datatable->addRows($rows);
-        } else if ($rows instanceof \Closure) {
+        } else if ($rows instanceof Closure) {
             $datatable->addRows($rows());
         }
 
@@ -65,10 +62,10 @@ class DataFactory
      *
      * This method will create an empty DataTable, with or without a timezone.
      *
-     * @param  string $timezone Timezone to use while using Carbon
+     * @param array $options
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
-    private static function emptyDataTable($timezone)
+    private static function emptyDataTable(array $options = [])
     {
         $datatable = '\Khill\Lavacharts\DataTablePlus\DataTablePlus';
 
@@ -76,7 +73,7 @@ class DataFactory
             $datatable = '\Khill\Lavacharts\DataTables\DataTable';
         }
 
-        return new $datatable($timezone);
+        return new $datatable($options);
     }
 
     /**

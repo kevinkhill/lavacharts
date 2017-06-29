@@ -53,6 +53,16 @@ trait HasOptionsTrait
     }
 
     /**
+     * Return whether or not the instance has any options.
+     *
+     * @return bool
+     */
+    public function hasOptions()
+    {
+        return count($this->options) > 0;
+    }
+
+    /**
      * Initialize the default options from file while overriding with user
      * passed values.
      *

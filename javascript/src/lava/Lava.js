@@ -96,6 +96,7 @@ export class LavaJs extends EventEmitter {
      */
     run() {
         console.log('[lava.js] Running...');
+        console.log('[lava.js] Loading options:', this.options);
 
         this._init();
 
@@ -523,7 +524,7 @@ export class LavaJs extends EventEmitter {
             config.mapsApiKey = this.options.maps_api_key;
         }
 
-        console.log('[lava.js] Google loaded with options:', config);
+        console.log('[lava.js] Google loaded with config:', config);
 
         google.charts.load('current', config);
 
