@@ -484,13 +484,14 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
      * in cols. To indicate a null cell, you can specify null. To indicate a row
      * with null for the first two cells, you would specify [null, null, {cell_val}].
      *
+     *
      * @param  array|null $valueArray Array of values describing cells or null for a null row.
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowProperty
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      */
-    public function addRow(array $valueArray = null)
+    public function addRow(array $valueArray = [])
     {
         $this->rows[] = Row::create($this, $valueArray);
 

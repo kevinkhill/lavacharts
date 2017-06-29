@@ -6,6 +6,7 @@ use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
+use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 
@@ -31,21 +32,21 @@ class Cell implements Customizable, Arrayable, Jsonable
      *
      * @var string
      */
-    protected $v;
+    protected $value;
 
     /**
      * A string version of the v value. (Optional)
      *
      * @var string
      */
-    protected $f;
+    protected $format;
 
     /**
      * An array that is a map of custom values applied to the cell. (Optional)
      *
-     * @var array
+     * @var Options
      */
-    protected $p;
+    protected $options;
 
     /**
      * Defines a Cell for a DataTable
@@ -60,27 +61,39 @@ class Cell implements Customizable, Arrayable, Jsonable
      * numeric cell values of 1, 2, and 3.
      *
      *
-     * @param  string       $v The cell value
-     * @param  string       $f A string version of the v value
-     * @param  array|string $p A map of custom values applied to the cell
+     * @param  string      $value   The cell value
+     * @param  string|null $format  A string version of the v value
+     * @param  array       $options A map of custom values applied to the cell
      * @throws \Khill\Lavacharts\Exceptions\InvalidParamType
      */
-    public function __construct($v, $f = '', array $p = [])
+    public function __construct($value, $format = null, array $options = [])
     {
-        if (is_string($f) === false) {
-            throw new InvalidArgumentException($f, 'string');
+        if (is_string($format) === false) {
+            throw new InvalidArgumentException($format, 'string');
         }
 
-        $this->v = $v;
-        $this->f = $f;
+        $this->value = $value;
+        $this->format = $format;
 
-        $this->setOptions($p);
+        $this->setOptions($options);
 
+    }
+
+    /**
+     * Create a new Cell from an array of arguments for the constructor.
+     *
+     * @param array $cellDef
+     * @return Cell
+     */
+    public static function create($cellDef)
+    {
+        return call_user_func_array([Cell::class, '__construct'], $cellDef);
     }
 
     /**
      * Mapping the 'p' attribute of the cell to it's options.
      *
+     * @deprecated 3.2.0 Why did I add this?
      * @since  3.1.0
      * @param  string $attr
      * @return array
@@ -95,6 +108,7 @@ class Cell implements Customizable, Arrayable, Jsonable
     /**
      * Allowing the 'p' attribute to be checked for options by using the hasOptions method.
      *
+     * @deprecated 3.2.0 Why did I add this?
      * @since  3.1.0
      * @param  string $attr
      * @return bool
@@ -107,21 +121,13 @@ class Cell implements Customizable, Arrayable, Jsonable
     }
 
     /**
-     * @TODO try to convert the reflection call in Row::create()
-     */
-//    public static function create()
-//    {
-//        return new self(args)
-//    }
-
-    /**
      * Returns the value.
      *
      * @return mixed
      */
     public function getValue()
     {
-        return $this->v;
+        return $this->value;
     }
 
     /**
@@ -131,7 +137,7 @@ class Cell implements Customizable, Arrayable, Jsonable
      */
     public function getFormat()
     {
-        return $this->f;
+        return $this->format;
     }
 
     /**
@@ -141,10 +147,10 @@ class Cell implements Customizable, Arrayable, Jsonable
      */
     public function toArray()
     {
-        $cell = ['v' => $this->v];
+        $cell = ['v' => $this->value];
 
-        if ( ! empty($this->f)) {
-            $cell['f'] = $this->f;
+        if ($this->format !== null) {
+            $cell['f'] = $this->format;
         }
 
         if ($this->hasOptions()) {
