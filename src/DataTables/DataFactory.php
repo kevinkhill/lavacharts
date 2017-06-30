@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\DataTables;
 
 use Closure;
 use Khill\Lavacharts\DataTables\Cells\Cell;
+use Khill\Lavacharts\DataTablePlus\DataTablePlus;
 use Khill\Lavacharts\Exceptions\InvalidJson;
 
 /**
@@ -50,7 +51,7 @@ class DataFactory
 
         if (is_array($rows)) {
             $datatable->addRows($rows);
-        } else if ($rows instanceof Closure) {
+        } elseif ($rows instanceof Closure) {
             $datatable->addRows($rows());
         }
 
@@ -67,7 +68,7 @@ class DataFactory
      */
     private static function emptyDataTable(array $options = [])
     {
-        $datatable = '\Khill\Lavacharts\DataTablePlus\DataTablePlus';
+        $datatable = DataTablePlus::class;
 
         if (class_exists($datatable) === false) {
             $datatable = '\Khill\Lavacharts\DataTables\DataTable';

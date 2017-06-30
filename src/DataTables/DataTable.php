@@ -5,7 +5,6 @@ namespace Khill\Lavacharts\DataTables;
 use DateTimeZone;
 use Khill\Lavacharts\DataTables\Columns\Column;
 use Khill\Lavacharts\DataTables\Formats\Format;
-use Khill\Lavacharts\DataTables\Rows\NullRow;
 use Khill\Lavacharts\DataTables\Rows\Row;
 use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Exceptions\InvalidCellCount;
@@ -498,10 +497,10 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
         }
 
         if (is_null($valueArray)) {
-            return $this->pushRow(new NullRow($columnCount));
+            return $this->pushRow(Row::createNull($columnCount));
         }
 
-        if (!is_array($valueArray)) {
+        if ( ! is_array($valueArray)) {
             throw new InvalidArgumentException($valueArray, 'array or null');
         }
 
@@ -509,7 +508,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
             throw new InvalidCellCount($columnCount);
         }
 
-        return $this->pushRow(Row::createFor($this, $valueArray));
+        return $this->pushRow(Row::createWith($this, $valueArray));
     }
 
     /**

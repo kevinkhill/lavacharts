@@ -29,6 +29,7 @@ use Khill\Lavacharts\Values\StringValue;
  * @method setFormat($format)
  * @method setRole($role)
  * @method setOptions($options)
+ * @method Column build()
  */
 class ColumnBuilder extends AbstractBuilder
 {

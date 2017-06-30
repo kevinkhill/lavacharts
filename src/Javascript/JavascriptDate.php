@@ -1,11 +1,29 @@
 <?php
 
-namespace Khill\Lavacharts\Support;
+namespace Khill\Lavacharts\Javascript;
 
 use Carbon\Carbon;
 
+/**
+ * JavascriptDate Class
+ *
+ * This was made so that I could copy and paste Google's examples for my tests.
+ *
+ * @package    Khill\Lavacharts\Support
+ * @since      3.2.0
+ * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @copyright  (c) 2017, KHill Designs
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link       http://lavacharts.com                   Official Docs Site
+ * @license    http://opensource.org/licenses/MIT MIT
+ */
 class JavascriptDate extends Carbon
 {
+    /**
+     * Format string for sprintf output
+     */
+    const OUTPUT_FORMAT = '%s-%s-%s %s:%02s:%02s';
+
     /**
      * JavascriptDate constructor.
      */
@@ -41,7 +59,11 @@ class JavascriptDate extends Carbon
             $second = isset($args[5]) ? $args[5] : 0;
         }
 
-        return parent::__construct(sprintf('%s-%s-%s %s:%02s:%02s', $year, $month, $day, $hour, $minute, $second), $tz);
+        $format = '%s-%s-%s %s:%02s:%02s';
+
+        return parent::__construct(sprintf(
+            self::OUTPUT_FORMAT, $year, $month, $day, $hour, $minute, $second
+        ), $tz);
     }
 
 }

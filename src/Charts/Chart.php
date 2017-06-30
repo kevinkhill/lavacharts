@@ -4,11 +4,9 @@ namespace Khill\Lavacharts\Charts;
 
 use Khill\Lavacharts\Javascript\ChartJsFactory;
 use Khill\Lavacharts\Support\Buffer;
-use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
 use Khill\Lavacharts\Support\Contracts\JsFactory;
-use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Contracts\JsPackage;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
 use Khill\Lavacharts\Support\Renderable;
@@ -31,7 +29,7 @@ use Khill\Lavacharts\Values\Label;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Chart extends Renderable implements Arrayable, Customizable, DataInterface, JsFactory, Jsonable, Wrappable, JsPackage
+class Chart extends Renderable implements Customizable, DataInterface, JsFactory, Wrappable, JsPackage
 {
     use HasDataTable, HasOptions;
 

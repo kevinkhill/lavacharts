@@ -42,6 +42,17 @@ class Cell implements Customizable, Arrayable, Jsonable
     protected $format;
 
     /**
+     * Create a new Cell from an array of arguments for the constructor.
+     *
+     * @param array $cellDef
+     * @return Cell
+     */
+    public static function create($cellDef)
+    {
+        return call_user_func_array([Cell::class, '__construct'], $cellDef);
+    }
+
+    /**
      * Defines a Cell for a DataTable
      *
      * Each cell in the table holds a value. Cells optionally can take a
@@ -70,17 +81,6 @@ class Cell implements Customizable, Arrayable, Jsonable
         $this->value = $value;
 
         $this->setOptions($options);
-    }
-
-    /**
-     * Create a new Cell from an array of arguments for the constructor.
-     *
-     * @param array $cellDef
-     * @return Cell
-     */
-    public static function create($cellDef)
-    {
-        return call_user_func_array([Cell::class, '__construct'], $cellDef);
     }
 
     /**

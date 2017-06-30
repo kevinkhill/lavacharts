@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\Support\JavascriptSource;
+use Khill\Lavacharts\Javascript\JavascriptSource;
 
 /**
  * Class Event

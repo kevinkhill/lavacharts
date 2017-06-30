@@ -4,9 +4,8 @@ namespace Khill\Lavacharts\DataTables\Formats;
 
 use Khill\Lavacharts\DataTables\Columns\Column;
 use Khill\Lavacharts\Exceptions\InvalidFormatType;
+use Khill\Lavacharts\Javascript\JavascriptSource;
 use Khill\Lavacharts\Support\Contracts\Customizable;
-use Khill\Lavacharts\Support\Contracts\JsClass;
-use Khill\Lavacharts\Support\JavascriptSource;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 
 /**

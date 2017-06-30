@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Support;
+namespace Khill\Lavacharts\Javascript;
 
 use Khill\Lavacharts\Support\Contracts\Javascriptable;
 

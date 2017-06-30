@@ -23,18 +23,6 @@ use Khill\Lavacharts\Exceptions\UndefinedDateCellException;
 class DateCell extends Cell
 {
     /**
-     * Creates a new DateCell object from a Carbon object.
-     *
-     * @param  \Carbon\Carbon $carbon
-     * @param  string         $format
-     * @param  array          $options
-     */
-    public function __construct(Carbon $carbon = null, $format = '', array $options = [])
-    {
-        parent::__construct($carbon, $format, $options);
-    }
-
-    /**
      * Parses a datetime string with or without a datetime format.
      *
      * Uses Carbon to create the values for the DateCell.
@@ -52,6 +40,18 @@ class DateCell extends Cell
         } catch (Exception $e) {
             throw new UndefinedDateCellException($datetime);
         }
+    }
+
+    /**
+     * Creates a new DateCell object from a Carbon object.
+     *
+     * @param  \Carbon\Carbon $carbon
+     * @param  string         $format
+     * @param  array          $options
+     */
+    public function __construct(Carbon $carbon = null, $format = '', array $options = [])
+    {
+        parent::__construct($carbon, $format, $options);
     }
 
     /**

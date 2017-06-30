@@ -5,7 +5,6 @@ namespace Khill\Lavacharts\DataTables\Rows;
 use ArrayAccess;
 use Carbon\Carbon;
 use Countable;
-use IteratorAggregate;
 use Khill\Lavacharts\DataTables\Cells\Cell;
 use Khill\Lavacharts\DataTables\Cells\DateCell;
 use Khill\Lavacharts\Exceptions\InvalidArgumentException;
@@ -14,7 +13,6 @@ use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
-use Traversable;
 
 /**
  * Row Object
@@ -42,28 +40,19 @@ class Row implements Arrayable, ArrayAccess, Countable, Jsonable
     protected $cells = [];
 
     /**
-     * Creates a new Row object with the given values from an array.
+     * Create a new row filled with null values
      *
-     * While iterating through the array, if the value is a...
-     *  - Cell, pass it through
-     *  - Scalar value, create a Cell
-     *  - Carbon instance, create a DateCell
-     *
-     * @param array $values Array of row values.
+     * @since 3.2.0
+     * @param int $columnCount
+     * @return Row
      */
-    public function __construct(array $values = [])
+    public static function createNull($columnCount)
     {
-        foreach ($values as $cellValue) {
-            if ($cellValue instanceof Cell) {
-                $this->cells[] = $cellValue;
-            }
-
-            if ($cellValue instanceof Carbon) {
-                $this->cells[] = new DateCell($cellValue);
-            }
-
-            $this->cells[] = new Cell($cellValue);
+        if ( ! is_int($columnCount)) {
+            throw new InvalidArgumentException($columnCount, 'integer');
         }
+
+        return new self(array_fill(0, $columnCount, null));
     }
 
     /**
@@ -71,11 +60,11 @@ class Row implements Arrayable, ArrayAccess, Countable, Jsonable
      *
      * @param  DataInterface $data
      * @param  array         $values Array of values to assign to the row.
-     * @return \Khill\Lavacharts\DataTables\Rows\Row
+     * @return Row
      * @throws \Khill\Lavacharts\Exceptions\UndefinedDateCellException
      * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeString
      */
-    public static function createFor(DataInterface $data, $values)
+    public static function createWith(DataInterface $data, $values)
     {
         $datatable      = $data->getDataTable();
         $columnTypes    = $datatable->getColumnTypes();
@@ -121,6 +110,31 @@ class Row implements Arrayable, ArrayAccess, Countable, Jsonable
         }
 
         return new self($rowData);
+    }
+
+    /**
+     * Creates a new Row object with the given values from an array.
+     *
+     * While iterating through the array, if the value is a...
+     *  - Cell, pass it through
+     *  - Scalar value, create a Cell
+     *  - Carbon instance, create a DateCell
+     *
+     * @param array $values Array of row values.
+     */
+    public function __construct(array $values = [])
+    {
+        foreach ($values as $cellValue) {
+            if ($cellValue instanceof Cell) {
+                $this->cells[] = $cellValue;
+            }
+
+            if ($cellValue instanceof Carbon) {
+                $this->cells[] = new DateCell($cellValue);
+            }
+
+            $this->cells[] = new Cell($cellValue);
+        }
     }
 
     /**
