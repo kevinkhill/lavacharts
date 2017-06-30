@@ -525,7 +525,7 @@ module.exports = (function() {
             language: this.options.locale
         };
 
-        if (this.options.mapsApiKey !== '') {
+        if (this.options.maps_api_key !== '') {
             config.mapsApiKey = this.options.maps_api_key;
         }
 
