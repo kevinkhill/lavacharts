@@ -29,7 +29,7 @@
         addResizeEvent(function (event) {
             const redraw = bind(event.target.lava.redrawCharts, window.lava);
 
-            console.log('Window resized, redrawing charts');
+            console.log('[lava.js] Window resize detected.');
 
             clearTimeout(debounced);
 

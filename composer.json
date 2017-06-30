@@ -56,8 +56,8 @@
         "cs": "phpcs --standard=PSR2 src tests",
         "cbf" : "phpcbf --standard=PSR2 src tests",
         "version": "php -r \"require(__DIR__.\\\"/src/Lavacharts.php\\\");echo \\Khill\\Lavacharts\\Lavacharts::VERSION;\"",
-        "lavajs:release" : "gulp --cwd javascript release && git add javascript/dist/lava.js && git commit -m 'Releasing new build of the lava.js module' && git push",
-        "lavajs:gulp" : "gulp --cwd javascript",
+        "lavajs:release" : "./node_modules/.bin/gulp --cwd javascript release && git add javascript/dist/lava.js && git commit -m 'Releasing new build of the lava.js module' && git push",
+        "lavajs:gulp" : "./node_modules/.bin/gulp --cwd javascript",
         "lavajs:pull" : "git subtree --prefix=javascript pull lavajs master",
         "lavajs:push" : "git subtree --prefix=javascript push lavajs master"
     },
