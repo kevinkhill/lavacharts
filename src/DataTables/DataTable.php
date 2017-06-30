@@ -3,18 +3,21 @@
 namespace Khill\Lavacharts\DataTables;
 
 use DateTimeZone;
-use InvalidArgumentException;
 use Khill\Lavacharts\DataTables\Columns\Column;
 use Khill\Lavacharts\DataTables\Formats\Format;
+use Khill\Lavacharts\DataTables\Rows\NullRow;
 use Khill\Lavacharts\DataTables\Rows\Row;
+use Khill\Lavacharts\Exceptions\InvalidArgumentException;
+use Khill\Lavacharts\Exceptions\InvalidCellCount;
 use Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
 use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use Khill\Lavacharts\Exceptions\InvalidTimeZone;
+use Khill\Lavacharts\Exceptions\UndefinedColumnsException;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
-use Khill\Lavacharts\Support\Contracts\Jsonable as Jsonable;
-use Khill\Lavacharts\Support\Contracts\DataTable as DataInterface;
+use Khill\Lavacharts\Support\Contracts\DataInterface;
+use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Values\Role;
@@ -73,11 +76,11 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
     {
         $this->initOptions($options);
 
-        if ( ! $this->isValidTimeZone($this->options->timezone)) {
+        if (!$this->isValidTimeZone($this->options->timezone)) {
             throw new InvalidTimeZone($this->options->timezone);
         }
 
-        if ( ! is_string($this->options->datetime_format)) {
+        if (!is_string($this->options->datetime_format)) {
             throw new InvalidDateTimeFormat($this->options->datetime_format);
         }
 
@@ -113,7 +116,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
      * @deprecated 3.1.0 Use the DataFactory instead
      * @see        \Khill\Lavacharts\DataTables\DataFactory::createFromJson
      *
-     * @since  3.0.0
+     * @since      3.0.0
      * @param  string $jsonString JSON string to decode
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidJson
@@ -126,9 +129,8 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
     /**
      * Sets the Timezone that Carbon will use when parsing dates
      *
-     * @deprecated 3.2.0
      * @param  string $timezone
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return self
      * @throws \Khill\Lavacharts\Exceptions\InvalidTimeZone
      */
     public function setTimeZone($timezone)
@@ -145,7 +147,6 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
     /**
      * Returns the current timezone used in the DataTable
      *
-     * @deprecated 3.2.0
      * @since  3.0.0
      * @return \DateTimeZone
      */
@@ -159,7 +160,6 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
      * This method is used to set the format to be used to parse a string
      * passed to a cell in a date column, that was parsed incorrectly by Carbon::parse()
      *
-     * @deprecated 3.2.0
      * @param  string $dateTimeFormat
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
@@ -178,8 +178,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
     /**
      * Returns the set DateTime format.
      *
-     * @deprecated 3.2.0
-     * @since  3.0.0
+     * @since      3.0.0
      * @return string DateTime format
      */
     public function getDateTimeFormat()
@@ -486,16 +485,31 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
      *
      *
      * @param  array|null $valueArray Array of values describing cells or null for a null row.
-     * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
-     * @throws \Khill\Lavacharts\Exceptions\InvalidRowProperty
+     * @return self
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
+     * @throws \Khill\Lavacharts\Exceptions\UndefinedColumnsException
      */
-    public function addRow(array $valueArray = [])
+    public function addRow($valueArray)
     {
-        $this->rows[] = Row::create($this, $valueArray);
+        $columnCount = $this->getColumnCount();
 
-        return $this;
+        if ($columnCount == 0) {
+            throw new UndefinedColumnsException;
+        }
+
+        if (is_null($valueArray)) {
+            return $this->pushRow(new NullRow($columnCount));
+        }
+
+        if (!is_array($valueArray)) {
+            throw new InvalidArgumentException($valueArray, 'array or null');
+        }
+
+        if (count($valueArray) > $columnCount) {
+            throw new InvalidCellCount($columnCount);
+        }
+
+        return $this->pushRow(Row::createFor($this, $valueArray));
     }
 
     /**
@@ -503,7 +517,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
      *
      * @see    addRow()
      * @param  \Khill\Lavacharts\DataTables\Rows\Row[] $arrayOfRows
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return self
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
      */
@@ -520,7 +534,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
     /**
      * Returns the rows array from the DataTable
      *
-     * @return \Khill\Lavacharts\DataTables\Rows\Row[]
+     * @return Row[]
      */
     public function getRows()
     {
@@ -542,7 +556,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
      *
      * @since  3.0.0
      * @param  int $index
-     * @return \Khill\Lavacharts\DataTables\Columns\Column
+     * @return Column
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
     public function getColumn($index)
@@ -591,7 +605,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
     {
         Column::isValidType($type);
 
-        return array_filter($this->cols, 'getType', ARRAY_FILTER_USE_BOTH);
+        return array_filter($this->cols, [Column::class, 'getType'], ARRAY_FILTER_USE_BOTH);
     }
 
     /**
@@ -674,7 +688,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
     }
 
     /**
-     * Boolean value if there are any formatted columns
+     * Check if any of the defined Columns are formatted.
      *
      * @return bool
      */
@@ -705,25 +719,13 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
      */
     public function toJson()
     {
-        if ( ! $this->hasFormattedColumns()) {
+        if (!$this->hasFormattedColumns()) {
             return json_encode($this);
-        }
-
-        $formats = [];
-
-        foreach ($this->getFormattedColumns() as $index => $column) {
-            $format = $column->getFormat();
-
-            $formats[] = [
-                'index'  => $index,
-                'type'   => $format->getType(),
-                'config' => $format,
-            ];
         }
 
         return json_encode([
             'data'    => $this,
-            'formats' => $formats,
+            'formats' => $this->getFormattedColumns(),
         ]);
     }
 
@@ -753,6 +755,21 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
     }
 
     /**
+     * Push a row onto the DataTable
+     *
+     * @access private
+     * @since  3.2.0
+     * @param  Row $row
+     * @return self
+     */
+    protected function pushRow(Row $row)
+    {
+        $this->rows[] = $row;
+
+        return $this;
+    }
+
+    /**
      * Strips all the data (rows) from the DataTable
      *
      * @access protected
@@ -771,6 +788,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
      *
      * Returns true if in the list, otherwise false.
      *
+     * @access protected
      * @param string $tz
      * @return bool
      */
@@ -788,12 +806,5 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
         $timezones = array_unique($timezones);
 
         return in_array(strtolower($tz), $timezones, true);
-    }
-
-    private function columns(callable $function)
-    {
-        foreach ($this->cols as $column) {
-            yield $column;
-        }
     }
 }

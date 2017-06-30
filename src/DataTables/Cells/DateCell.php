@@ -3,8 +3,10 @@
 namespace Khill\Lavacharts\DataTables\Cells;
 
 use Carbon\Carbon;
+use Exception;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeString;
+use Khill\Lavacharts\Exceptions\UndefinedDateCellException;
 use Khill\Lavacharts\Values\StringValue;
 
 /**
@@ -40,33 +42,18 @@ class DateCell extends Cell
      *
      * Uses Carbon to create the values for the DateCell.
      *
-     * @TODO: update this for getting datTimeFormat from options
-     * @param  string $dateTimeString
-     * @param  string $dateTimeFormat
-     * @return \Khill\Lavacharts\DataTables\Cells\Cell
-     * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
+     * @param  string $datetime
+     * @return Cell
      * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeString
      */
-    public static function parseString($dateTimeString, $dateTimeFormat = '')
+    public static function create($datetime)
     {
-        if ($dateTimeString === null) {
-            return new DateCell();
-        }
+        try {
+            $carbon = new Carbon($datetime);
 
-        if (StringValue::isNonEmpty($dateTimeString) === false) {
-            throw new InvalidDateTimeString($dateTimeString);
-        }
-
-        if (StringValue::isNonEmpty($dateTimeFormat)) {
-            return self::createFromFormat($dateTimeFormat, $dateTimeString);
-        } else {
-            try {
-                $carbon = Carbon::parse($dateTimeString);
-
-                return new DateCell($carbon);
-            } catch (\Exception $e) {
-                throw new InvalidDateTimeString($dateTimeString);
-            }
+            return new self($carbon);
+        } catch (Exception $e) {
+            throw new UndefinedDateCellException($datetime);
         }
     }
 
@@ -86,8 +73,8 @@ class DateCell extends Cell
             $carbon = Carbon::createFromFormat($format, $datetime);
 
             return new self($carbon);
-        } catch (\InvalidArgumentException $e) {
-            throw new InvalidDateTimeFormat($format);
+        } catch (Exception $e) {
+            throw new UndefinedDateCellException($datetime, $format);
         }
     }
 

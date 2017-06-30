@@ -61,7 +61,7 @@ return [
     | This is the format string that Carbon will use to try and parse datetime
     | strings. Only applies to date, time, datetime, and timeofday columns.
     |
-    | When set to "false" then dates will be parsed with Carbon::parse()
+    | When left blank, then dates & times will be parsed with Carbon::parse()
     |
     | When a format is given, such as the MySQL datetime format 'Y-m-d H:i:s',
     | then Carbon::createFromFormat() will be used to parse the value.
@@ -70,7 +70,7 @@ return [
     |  https://secure.php.net/manual/en/function.date.php
     |
     */
-    'datetime_format' => false,
+    'datetime_format' => '',
 
     /*
     |--------------------------------------------------------------------------

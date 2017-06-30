@@ -9,12 +9,15 @@ use Khill\Lavacharts\DataTables\Cells\Cell;
 use Khill\Lavacharts\DataTables\Cells\NullCell;
 use Khill\Lavacharts\DataTables\Cells\DateCell;
 use Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Exceptions\InvalidCellCount;
 use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
-use Khill\Lavacharts\Exceptions\InvalidDate;
+use Khill\Lavacharts\Exceptions\UndefinedDateCellException;
+use Khill\Lavacharts\Exceptions\InvalidDateTimeString;
 use Khill\Lavacharts\Exceptions\InvalidRowDefinition;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
+use Khill\Lavacharts\Support\Contracts\DataInterface;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Values\StringValue;
 use Traversable;
@@ -42,7 +45,7 @@ class Row implements ArrayAccess, Arrayable, Jsonable, IteratorAggregate
      *
      * @var Cell[]
      */
-    protected $cells;
+    protected $cells = [];
 
     /**
      * Creates a new Row object with the given values from an array.
@@ -55,109 +58,98 @@ class Row implements ArrayAccess, Arrayable, Jsonable, IteratorAggregate
      *
      * @param array $values Array of row values.
      */
-    public function __construct($values)
+    public function __construct(array $values = [])
     {
-        $this->cells = array_map(function ($cellValue) {
+        foreach ($values as $cellValue) {
             if ($cellValue instanceof Carbon) {
-                return new DateCell($cellValue);
+                $this->cells[] = new DateCell($cellValue);
             }
 
             if ($cellValue instanceof Cell) {
-                return $cellValue;
+                $this->cells[] = $cellValue;
             }
 
             if (is_null($cellValue)) {
-                return new NullCell();
+                $this->cells[] = new NullCell();
             }
 
-            return new Cell($cellValue);
-        }, $values);
+            $this->cells[] = new Cell($cellValue);
+        }
     }
 
     /**
      * Creates a new Row object from an array of values.
      *
-     * @param \Khill\Lavacharts\DataTables\DataTable $datatable
-     * @param  array                                 $values Array of values to assign to the row.
+     * @param  DataInterface $data
+     * @param  array         $values Array of values to assign to the row.
      * @return \Khill\Lavacharts\DataTables\Rows\Row
-     * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
-     * @throws \Khill\Lavacharts\Exceptions\InvalidDate
-     * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
+     * @throws \Khill\Lavacharts\Exceptions\UndefinedDateCellException
+     * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeString
      */
-    public static function create(DataTable $datatable, $values)
+    public static function createFor(DataInterface $data, $values)
     {
-        $columnCount = $datatable->getColumnCount();
-
-        if ($values !== null && is_array($values) === false) {
-            throw new InvalidRowDefinition($values);
-        }
-
-        if ($values === null || is_array($values) && empty($values)) {
-            return new NullRow($columnCount);
-        }
-
-        $cellCount = count($values);
-
-        if ($cellCount > $columnCount) {
-            throw new InvalidCellCount($cellCount, $columnCount);
-        }
-
+        $datatable      = $data->getDataTable();
         $columnTypes    = $datatable->getColumnTypes();
         $dateTimeFormat = $datatable->getOptions()->get('datetime_format');
 
         $rowData = [];
 
         foreach ($values as $index => $cellValue) {
-            // Regardless of column type, a null creates a NullRow
-            if ($cellValue === null) {
-                $rowData[] = new NullCell;
-            }
-
-            // Also regardless of column type, if a Cell is explicitly defined by
+            // Regardless of column type, if a Cell is explicitly defined by
             // an array, then create a new Cell with the values.
-            if (is_array($cellValue) === true) {
+            if (is_array($cellValue)) {
                 $rowData[] = Cell::create($cellValue);
             }
 
-            if (preg_match('/date|datetime|timeofday/', $columnTypes[$index])) {
+            // Logic for handling datetime related cells
+            if (preg_match('/date|time/', $columnTypes[$index])) {
 
-
-
-                if (StringValue::isNonEmpty($cellValue) === false &&
-                    $cellValue instanceof Carbon === false &&
-                    $cellValue !== null
-                ) {
-                    throw new InvalidDate($cellValue);
+                // DateCells can only be created by Carbon instances or
+                // strings consumable by Carbon so....
+                if ($cellValue instanceof Carbon === false && is_string($cellValue) === false) {
+                    throw new InvalidArgumentException($cellValue, 'string or Carbon object');
                 }
 
-                 else if ($cellValue instanceof Carbon) {
+                // If the cellValue is already a Carbon instance,
+                // create a new DateCell from it.
+                if ($cellValue instanceof Carbon) {
                     $rowData[] = new DateCell($cellValue);
-                } else {
-                    if (isset($dateTimeFormat)) {
-                        //@TODO: update this for getting datTimeFormat from options
-                        $rowData[] = DateCell::parseString($cellValue, $dateTimeFormat);
-                    } else {
-                        $rowData[] = DateCell::parseString($cellValue);
-                    }
                 }
-            } else {
-                if (is_array($cellValue) === true) {
 
+                // If no format string was defined in the options, then
+                // attempt to implicitly parse the string. If the format
+                // string is not empty, then attempt to use it to explicitly
+                // create a Carbon instance from the format.
+                if (empty($dateTimeFormat)) {
+                    $rowData[] = DateCell::create($cellValue);
                 } else {
-                    $rowData[] = $cellValue;
+                    $rowData[] = DateCell::createFromFormat($cellValue, $dateTimeFormat);
                 }
             }
+
+            // Pass through any non-explicit & non-datetime values
+            $rowData[] = $cellValue;
         }
 
         return new self($rowData);
     }
 
     /**
-     * Returns a column value from the Row.
+     * Returns the cells from the Row.
      *
-     * @param  int $index Column value to fetch from the row.
+     * @return Cell[]
+     */
+    public function getCells()
+    {
+        return $this->cells;
+    }
+
+    /**
+     * Returns the Cell at the given index from the Row.
+     *
+     * @param  int $index Column index to fetch from the row.
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
-     * @return \Khill\Lavacharts\DataTables\Cells\Cell
+     * @return Cell
      */
     public function getCell($index)
     {

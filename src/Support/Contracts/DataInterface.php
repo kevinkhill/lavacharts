@@ -16,7 +16,7 @@ namespace Khill\Lavacharts\Support\Contracts;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-interface DataTable
+interface DataInterface
 {
     /**
      * Returns the DataTable

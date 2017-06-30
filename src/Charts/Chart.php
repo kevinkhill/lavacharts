@@ -2,24 +2,20 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use JsonSerializable;
 use Khill\Lavacharts\Javascript\ChartJsFactory;
 use Khill\Lavacharts\Support\Buffer;
-use Khill\Lavacharts\Support\Options;
-use Khill\Lavacharts\Values\Label;
-use Khill\Lavacharts\Values\ElementId;
-use Khill\Lavacharts\DataTables\DataTable;
-use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
+use Khill\Lavacharts\Support\Contracts\DataInterface;
+use Khill\Lavacharts\Support\Contracts\JsFactory;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Contracts\JsPackage;
-//use Khill\Lavacharts\Support\Contracts\Renderable;
-use Khill\Lavacharts\Support\Contracts\JsFactory;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
-use Khill\Lavacharts\Support\Contracts\DataTable as DataInterface;
-use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
+use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
+use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
+use Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Values\Label;
 
 /**
  * Class Chart
@@ -35,7 +31,7 @@ use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Chart extends Renderable implements DataInterface, Customizable, JsFactory, Wrappable, JsPackage
+class Chart extends Renderable implements Arrayable, Customizable, DataInterface, JsFactory, Jsonable, Wrappable, JsPackage
 {
     use HasDataTable, HasOptions;
 
@@ -54,9 +50,9 @@ class Chart extends Renderable implements DataInterface, Customizable, JsFactory
     /**
      * Builds a new chart with the given label.
      *
-     * @param Label         $label    Identifying label for the chart.
-     * @param DataInterface $data     DataTable used for the chart.
-     * @param array         $options  Options fot the chart.
+     * @param Label         $label   Identifying label for the chart.
+     * @param DataInterface $data    DataTable used for the chart.
+     * @param array         $options Options fot the chart.
      */
     public function __construct(Label $label, DataInterface $data = null, array $options = [])
     {
@@ -171,7 +167,7 @@ class Chart extends Renderable implements DataInterface, Customizable, JsFactory
     {
         $buffer = new Buffer();
 
-        if ( ! $this->options->has('events')) {
+        if (!$this->options->has('events')) {
             return $buffer;
         }
 
@@ -200,7 +196,7 @@ class Chart extends Renderable implements DataInterface, Customizable, JsFactory
     {
         $buffer = new Buffer();
 
-        if ( ! $this->datatable->hasFormattedColumns()) {
+        if (!$this->datatable->hasFormattedColumns()) {
             return $buffer;
         }
 
@@ -230,7 +226,7 @@ class Chart extends Renderable implements DataInterface, Customizable, JsFactory
      * arrays and they will be converted upon rendering.
      *
      * @deprecated 3.2.0
-     * @since  3.0.0
+     * @since      3.0.0
      * @param  array $options Array of customization options for the chart
      * @return \Khill\Lavacharts\Charts\Chart
      */

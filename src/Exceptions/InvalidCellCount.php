@@ -4,11 +4,10 @@ namespace Khill\Lavacharts\Exceptions;
 
 class InvalidCellCount extends LavaException
 {
-    public function __construct($cellCount, $columnCount, $code = 0)
+    public function __construct($columnCount)
     {
-        $message  = 'Invalid number of cells, must be less than or equal to the number of columns. ';
-        $message .= "(cells: $cellCount > columns: $columnCount)";
+        $message = 'The number of cells per row cannot exceed the number of Columns [%s].';
 
-        parent::__construct($message, $code);
+        parent::__construct(sprintf($message, $columnCount));
     }
 }

@@ -6,9 +6,9 @@ use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
-use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
+use Khill\Lavacharts\Values\StringValue;
 
 /**
  * DataCell Object
@@ -35,18 +35,11 @@ class Cell implements Customizable, Arrayable, Jsonable
     protected $value;
 
     /**
-     * A string version of the v value. (Optional)
+     * A string version of the value. (Optional)
      *
      * @var string
      */
     protected $format;
-
-    /**
-     * An array that is a map of custom values applied to the cell. (Optional)
-     *
-     * @var Options
-     */
-    protected $options;
 
     /**
      * Defines a Cell for a DataTable
@@ -61,22 +54,22 @@ class Cell implements Customizable, Arrayable, Jsonable
      * numeric cell values of 1, 2, and 3.
      *
      *
-     * @param  string      $value   The cell value
-     * @param  string|null $format  A string version of the v value
-     * @param  array       $options A map of custom values applied to the cell
+     * @param  string $value   The cell value
+     * @param  string $format  A string version of the v value
+     * @param  array  $options A map of custom values applied to the cell
      * @throws \Khill\Lavacharts\Exceptions\InvalidParamType
      */
     public function __construct($value, $format = null, array $options = [])
     {
-        if (is_string($format) === false) {
+        if (StringValue::isNonEmpty($format) || $format === null) {
+            $this->format = $format;
+        } else {
             throw new InvalidArgumentException($format, 'string');
         }
 
         $this->value = $value;
-        $this->format = $format;
 
         $this->setOptions($options);
-
     }
 
     /**
