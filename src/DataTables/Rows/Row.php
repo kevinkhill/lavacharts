@@ -137,6 +137,7 @@ class Row implements ArrayAccess, Arrayable, Jsonable, IteratorAggregate
     /**
      * Returns the cells from the Row.
      *
+     * @since 3.2.0
      * @return Cell[]
      */
     public function getCells()

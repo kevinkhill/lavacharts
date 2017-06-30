@@ -4,10 +4,7 @@ namespace Khill\Lavacharts\DataTables\Cells;
 
 use Carbon\Carbon;
 use Exception;
-use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
-use Khill\Lavacharts\Exceptions\InvalidDateTimeString;
 use Khill\Lavacharts\Exceptions\UndefinedDateCellException;
-use Khill\Lavacharts\Values\StringValue;
 
 /**
  * DateCell Class
@@ -44,7 +41,7 @@ class DateCell extends Cell
      *
      * @param  string $datetime
      * @return Cell
-     * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeString
+     * @throws \Khill\Lavacharts\Exceptions\UndefinedDateCellException
      */
     public static function create($datetime)
     {
@@ -64,8 +61,8 @@ class DateCell extends Cell
      *
      * @param  string $format
      * @param  string $datetime
-     * @return \Khill\Lavacharts\DataTables\Cells\DateCell
-     * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
+     * @return DateCell
+     * @throws \Khill\Lavacharts\Exceptions\UndefinedDateCellException
      */
     public static function createFromFormat($format, $datetime)
     {
