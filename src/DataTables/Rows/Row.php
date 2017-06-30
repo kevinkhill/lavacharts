@@ -4,22 +4,16 @@ namespace Khill\Lavacharts\DataTables\Rows;
 
 use ArrayAccess;
 use Carbon\Carbon;
+use Countable;
 use IteratorAggregate;
 use Khill\Lavacharts\DataTables\Cells\Cell;
-use Khill\Lavacharts\DataTables\Cells\NullCell;
 use Khill\Lavacharts\DataTables\Cells\DateCell;
-use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Exceptions\InvalidArgumentException;
-use Khill\Lavacharts\Exceptions\InvalidCellCount;
 use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
-use Khill\Lavacharts\Exceptions\UndefinedDateCellException;
-use Khill\Lavacharts\Exceptions\InvalidDateTimeString;
-use Khill\Lavacharts\Exceptions\InvalidRowDefinition;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
-use Khill\Lavacharts\Values\StringValue;
 use Traversable;
 
 /**
@@ -36,7 +30,7 @@ use Traversable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Row implements ArrayAccess, Arrayable, Jsonable, IteratorAggregate
+class Row implements Arrayable, ArrayAccess, Countable, Jsonable
 {
     use ArrayToJson;
 
@@ -54,23 +48,18 @@ class Row implements ArrayAccess, Arrayable, Jsonable, IteratorAggregate
      *  - Cell, pass it through
      *  - Scalar value, create a Cell
      *  - Carbon instance, create a DateCell
-     *  - null value, create a NullCell
      *
      * @param array $values Array of row values.
      */
     public function __construct(array $values = [])
     {
         foreach ($values as $cellValue) {
-            if ($cellValue instanceof Carbon) {
-                $this->cells[] = new DateCell($cellValue);
-            }
-
             if ($cellValue instanceof Cell) {
                 $this->cells[] = $cellValue;
             }
 
-            if (is_null($cellValue)) {
-                $this->cells[] = new NullCell();
+            if ($cellValue instanceof Carbon) {
+                $this->cells[] = new DateCell($cellValue);
             }
 
             $this->cells[] = new Cell($cellValue);
@@ -172,6 +161,16 @@ class Row implements ArrayAccess, Arrayable, Jsonable, IteratorAggregate
     }
 
     /**
+     * Returns the number of cells
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->cells);
+    }
+
+    /**
      * @param mixed $offset
      * @param mixed $value
      */
@@ -208,18 +207,5 @@ class Row implements ArrayAccess, Arrayable, Jsonable, IteratorAggregate
     public function offsetGet($offset)
     {
         return isset($this->cells[$offset]) ? $this->cells[$offset] : null;
-    }
-
-    /**
-     * Retrieve an external iterator
-     *
-     * @link  http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return Traversable An instance of an object implementing <b>Iterator</b> or
-     * <b>Traversable</b>
-     * @since 5.0.0
-     */
-    public function getIterator()
-    {
-
     }
 }
