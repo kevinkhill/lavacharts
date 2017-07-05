@@ -5,7 +5,6 @@ namespace Khill\Lavacharts\DataTables;
 use DateTimeZone;
 use Khill\Lavacharts\DataTables\Columns\Column;
 use Khill\Lavacharts\DataTables\Formats\Format;
-use Khill\Lavacharts\DataTables\Row;
 use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Exceptions\InvalidCellCount;
 use Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
@@ -93,11 +92,11 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
 
         $this->initOptions($options);
 
-        if ( ! $this->isValidTimeZone($this->options->timezone)) {
+        if (!$this->isValidTimeZone($this->options->timezone)) {
             throw new InvalidTimeZone($this->options->timezone);
         }
 
-        if ( ! is_string($this->options->datetime_format)) {
+        if (!is_string($this->options->datetime_format)) {
             throw new InvalidDateTimeFormat($this->options->datetime_format);
         }
 
@@ -107,13 +106,13 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
     }
 
     /**
-     * Cast the DataTable to JSON when accessed as a string
+     * Cast the DataTable to it's javascript constructor when accessed as a string
      *
      * @return string
      */
     public function __toString()
     {
-        return json_encode($this);
+        return $this->toJavascript();
     }
 
     /**
@@ -125,6 +124,28 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
     public function getDataTable()
     {
         return $this;
+    }
+
+    /**
+     * Define how the class will be cast to javascript source when
+     * the extending class is treated like a string.
+     *
+     * @return string
+     */
+    public function toJavascript()
+    {
+        return sprintf($this->getSourceFormat(), $this->toJson(false));
+    }
+
+    /**
+     * Return a format string that will be used by sprintf to convert the
+     * extending class to javascript.
+     *
+     * @return string
+     */
+    public function getSourceFormat()
+    {
+        return 'new google.visualization.DataTable(%s)';
     }
 
     /**
@@ -228,9 +249,12 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
     public function addColumn(
-        $typeOrColDescArr, $label = '', Format $format = null, $role = null, array $options = []
-    )
-    {
+        $typeOrColDescArr,
+        $label = '',
+        Format $format = null,
+        $role = null,
+        array $options = []
+    ) {
         if (is_array($typeOrColDescArr)) {
             return call_user_func_array([$this, 'createColumnWithParams'], $typeOrColDescArr);
         }
@@ -384,9 +408,12 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
     protected function createColumnWithParams(
-        $type, $label = '', Format $format = null, $role = null, array $options = []
-    )
-    {
+        $type,
+        $label = '',
+        Format $format = null,
+        $role = null,
+        array $options = []
+    ) {
         $builder = Column::createBuilder();
 
         $builder->setType($type);
@@ -498,7 +525,7 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
             return $this->pushRow(Row::createNull($columnCount));
         }
 
-        if ( ! is_array($valueArray)) {
+        if (!is_array($valueArray)) {
             throw new InvalidArgumentException($valueArray, 'array or null');
         }
 
@@ -714,18 +741,19 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
      *
      * Will include formats if defined
      *
+     * @since  3.2.0 A boolean can be passed to disable the output of formatters.
      * @return string JSON representation of the DataTable.
      */
-    public function toJson()
+    public function toJson($withFormats = true)
     {
-        if (!$this->hasFormattedColumns()) {
-            return json_encode($this);
+        if ($this->hasFormattedColumns() && $withFormats === true) {
+            return json_encode([
+                'data'    => $this,
+                'formats' => $this->getFormattedColumns(),
+            ]);
         }
 
-        return json_encode([
-            'data'    => $this,
-            'formats' => $this->getFormattedColumns(),
-        ]);
+        return json_encode($this);
     }
 
     /**
@@ -795,7 +823,8 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
     {
         $timezoneList = call_user_func_array('array_merge', timezone_abbreviations_list());
 
-        $timezones = array_map(function ($timezone) {
+        $timezones = array_map(/** @noinspection PhpInconsistentReturnPointsInspection */
+        function ($timezone) {
             if ($timezone['timezone_id'] != null) {
                 return strtolower($timezone['timezone_id']);
             }
@@ -805,27 +834,5 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
         $timezones = array_unique($timezones);
 
         return in_array(strtolower($tz), $timezones, true);
-    }
-
-    /**
-     * Define how the class will be cast to javascript source when
-     * the extending class is treated like a string.
-     *
-     * @return string
-     */
-    public function toJavascript()
-    {
-        return sprintf($this->getSourceFormat(), json_encode($this));
-    }
-
-    /**
-     * Return a format string that will be used by sprintf to convert the
-     * extending class to javascript.
-     *
-     * @return string
-     */
-    public function getSourceFormat()
-    {
-        return 'new google.visualization.DataTable(%s)';
     }
 }
