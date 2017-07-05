@@ -5,7 +5,7 @@
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/kevinkhill/lavacharts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![PayPal](https://img.shields.io/badge/paypal-donate-yellow.svg?style=plastic)](https://paypal.me/kevinkhill)
 
-Lavacharts is a graphing / chart library for PHP5.5+ that wraps the Google Chart API.
+Lavacharts is a graphing / chart library for PHP5.6+ that wraps the Google Chart API.
 
 Stable:
 [![Current Release](https://img.shields.io/github/release/kevinkhill/lavacharts.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/releases)
@@ -20,7 +20,12 @@ Dev:
 
 ## Package Features
 - **Updated!** Global package configuration
-  - Options include: `auto_run`, `locale`
+  - Options include: `auto_run`, `locale`, `datetime_format`, `timezone`, `maps_api_key`
+
+- **Updated!** New DataInterface for creating custom DataProviders.
+  - [JoinedDataTable] () Is an example of one of the usages for DataInterface. 
+  
+- **Updated!** 
 
 - Any option for customizing charts that Google supports, Lavacharts should as well.
  - Visit [Google's Chart Gallery](https://developers.google.com/chart/interactive/docs/gallery) for details on available option

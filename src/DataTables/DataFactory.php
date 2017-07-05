@@ -41,18 +41,32 @@ class DataFactory
      * @param  array $options
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
-    public static function DataTable(array $columns = [], array $rows = [], array $options = [])
+    public static function DataTable()
     {
-        $datatable = self::emptyDataTable($options);
+        $args      = func_get_args();
+        $datatable = self::emptyDataTable();
 
-        if (is_array($columns)) {
-            $datatable->addColumns($columns);
-        }
+        switch (count($args)) {
+            case 1:
+                $datatable->setOptions($args[0]);
+                break;
 
-        if (is_array($rows)) {
-            $datatable->addRows($rows);
-        } elseif ($rows instanceof Closure) {
-            $datatable->addRows($rows());
+            case 2:
+                if (is_array($args[1])) {
+                    $datatable->addColumns($args[1]);
+                }
+                break;
+
+            case 3:
+                if (is_array($args[2])) {
+                    $datatable->addRows($args[2]);
+                } elseif ($args[2] instanceof Closure) {
+                    $datatable->addRows($args[2]());
+                }
+                break;
+
+            default:
+                break;
         }
 
         return $datatable;

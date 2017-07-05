@@ -157,7 +157,7 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
      */
     public function setTimeZone($timezone)
     {
-        if ( ! $this->isValidTimeZone($timezone)) {
+        if (!$this->isValidTimeZone($timezone)) {
             throw new InvalidTimeZone($timezone);
         }
 
