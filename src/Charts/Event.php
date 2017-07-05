@@ -48,14 +48,17 @@ class Event extends JavascriptSource
      */
     public function toJavascript()
     {
-        return sprintf($this->getSourceFormat(), $this->type, $this->callback);
+        return sprintf($this->getFormatString(), $this->type, $this->callback);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getSourceFormat()
+    public function getFormatString()
     {
+        /**
+         * In the scope of the events, "this" is a reference to the lavachart class.
+         */
         return <<<'EVENT'
             google.visualization.events.addListener(this.chart, "%s", function (event) {
                 return lava.event(event, this, %s);

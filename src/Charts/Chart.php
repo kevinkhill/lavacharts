@@ -56,7 +56,7 @@ class Chart extends Renderable implements Customizable, DataInterface, JsFactory
     {
         $this->setOptions($options);
 
-        $this->label = $label;
+        $this->label     = $label;
         $this->datatable = $data->getDataTable();
 
         if ($this->options->has('elementId')) {
@@ -147,7 +147,7 @@ class Chart extends Renderable implements Customizable, DataInterface, JsFactory
             'chartLabel'   => $this->getLabelStr(),
             'chartPackage' => $this->getJsPackage(),
             'elemId'       => $this->getElementId(),
-            'chartData'    => $this->getDataTable(),
+            'chartData'    => $this->datatable->toJsDataTable(),
         ];
     }
 

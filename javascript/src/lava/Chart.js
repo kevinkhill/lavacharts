@@ -80,6 +80,10 @@ module.exports = (function() {
      * @param {Array.<Array>} data.rows Array of row definitions
      */
     Chart.prototype.setData = function (data) {
+        if (data instanceof google.visualization.DataTable) {
+            this.data = data;
+        }
+
         this.data = new google.visualization.DataTable(data);
     };
 
@@ -100,7 +104,7 @@ module.exports = (function() {
      * @param {string|int} png
      */
     Chart.prototype.setPngOutput = function (png) {
-        this.pngOutput = Boolean(typeof png == 'undefined' ? false : png);
+        this.pngOutput = Boolean(typeof png === 'undefined' ? false : png);
     };
 
     /**

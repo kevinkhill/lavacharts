@@ -23,7 +23,7 @@ Dev:
   - Options include: `auto_run`, `locale`, `datetime_format`, `timezone`, `maps_api_key`
 
 - **Updated!** New DataInterface for creating custom DataProviders.
-  - [JoinedDataTable] () Is an example of one of the usages for DataInterface. 
+  - [JoinedDataTable] (https://github.com/kevinkhill/lavacharts/blob/3.2/src/DataTables/JoinedDataTable.php) Is an example of one of the usages for DataInterface. 
   
 - **Updated!** 
 

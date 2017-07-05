@@ -110,7 +110,8 @@ class Format extends JavascriptSource implements Customizable
      */
     public function toJavascript()
     {
-        return sprintf($this->getSourceFormat(),
+        return sprintf(
+            $this->getFormatString(),
             $this->index,
             $this->getJsClass(),
             $this->options
@@ -120,8 +121,11 @@ class Format extends JavascriptSource implements Customizable
     /**
      * @inheritdoc
      */
-    public function getSourceFormat()
+    public function getFormatString()
     {
+        /**
+         * In the scope of the formats, "this" is a reference to the lavachart class.
+         */
         return  <<<'FORMAT'
             this.formats['col-%1$s'] = new %2$s(%3$s);
             this.formats['col-%1$s'].format(this.data, %1$s);

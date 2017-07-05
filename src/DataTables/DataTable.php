@@ -12,7 +12,6 @@ use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use Khill\Lavacharts\Exceptions\InvalidTimeZone;
 use Khill\Lavacharts\Exceptions\UndefinedColumnsException;
-use Khill\Lavacharts\Javascript\JavascriptSource;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
@@ -44,9 +43,15 @@ use Khill\Lavacharts\Values\StringValue;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class DataTable extends JavascriptSource implements DataInterface, Customizable, Arrayable, Jsonable
+class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
 {
     use HasOptions, ArrayToJson;
+
+    /**
+     * Format string for sprintf to use with toJson and satisfy the
+     * implementation of DataInterface
+     */
+    const JS_OUTPUT_FORMAT = 'new google.visualization.DataTable(%s)';
 
     /**
      * Array of the DataTable's column objects.
@@ -61,22 +66,6 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
      * @var Row[]
      */
     protected $rows = [];
-
-    /**
-     * Parses a string of JSON data into a DataTable.
-     *
-     * @deprecated 3.1.0 Use the DataFactory instead
-     * @see        \Khill\Lavacharts\DataTables\DataFactory::createFromJson
-     *
-     * @since      3.0.0
-     * @param  string $jsonString JSON string to decode
-     * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidJson
-     */
-    public static function createFromJson($jsonString)
-    {
-        return DataFactory::createFromJson($jsonString);
-    }
 
     /**
      * DataTable constructor
@@ -106,46 +95,55 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
     }
 
     /**
-     * Cast the DataTable to it's javascript constructor when accessed as a string
+     * Get the DataTable as an array.
      *
-     * @return string
+     * @since  3.2.0
+     * @return array
      */
-    public function __toString()
+    public function toArray()
     {
-        return $this->toJavascript();
+        return [
+            'cols' => $this->cols,
+            'rows' => $this->rows,
+        ];
     }
 
     /**
-     * Since a DataTable is a DataTable, return it!
+     * Convert the DataTable to JSON
      *
-     * @since  3.1.6
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * Will include formats if defined
+     *
+     * @since  3.2.0 A boolean can be passed to disable the output of formatters.
+     * @return string JSON representation of the DataTable.
      */
-    public function getDataTable()
+    public function toJson($withFormats = true)
     {
-        return $this;
+        if ($this->hasFormattedColumns() && $withFormats === true) {
+            return json_encode([
+                'data'    => $this,
+                'formats' => $this->getFormattedColumns(),
+            ]);
+        }
+
+        return json_encode($this);
     }
 
     /**
-     * Define how the class will be cast to javascript source when
-     * the extending class is treated like a string.
-     *
-     * @return string
+     * @inheritdoc
      */
-    public function toJavascript()
+    public function toJsDataTable()
     {
-        return sprintf($this->getSourceFormat(), $this->toJson(false));
+        return sprintf(self::JS_OUTPUT_FORMAT, $this->toJson(false));
     }
 
     /**
-     * Return a format string that will be used by sprintf to convert the
-     * extending class to javascript.
+     * Custom serialization of the DataTable.
      *
-     * @return string
+     * @return array
      */
-    public function getSourceFormat()
+    public function jsonSerialize()
     {
-        return 'new google.visualization.DataTable(%s)';
+        return $this->toArray();
     }
 
     /**
@@ -721,49 +719,6 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
     public function hasFormattedColumns()
     {
         return count($this->getFormattedColumns()) > 0;
-    }
-
-    /**
-     * Get the DataTable as an array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return [
-            'cols' => $this->cols,
-            'rows' => $this->rows,
-        ];
-    }
-
-    /**
-     * Convert the DataTable to JSON
-     *
-     * Will include formats if defined
-     *
-     * @since  3.2.0 A boolean can be passed to disable the output of formatters.
-     * @return string JSON representation of the DataTable.
-     */
-    public function toJson($withFormats = true)
-    {
-        if ($this->hasFormattedColumns() && $withFormats === true) {
-            return json_encode([
-                'data'    => $this,
-                'formats' => $this->getFormattedColumns(),
-            ]);
-        }
-
-        return json_encode($this);
-    }
-
-    /**
-     * Custom serialization of the DataTable.
-     *
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        return $this->toArray();
     }
 
     /**

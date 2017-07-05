@@ -46,12 +46,15 @@ class JavascriptFactory
     /**
      * JavascriptFactory constructor.
      *
-     * @param string $outputTemplate
+     * @param string $jsTemplate
+     * @param array  $templateVars
      */
-    public function __construct($outputTemplate)
+    public function __construct($jsTemplate, array $templateVars)
     {
+        $this->templateVars = $templateVars;
+
         $this->template = file_get_contents(
-            realpath(__DIR__ . '/../../javascript/templates/' . $outputTemplate)
+            realpath(__DIR__ . '/../../javascript/templates/' . $jsTemplate)
         );
 
         $this->buffer = new Buffer($this->template);
@@ -65,7 +68,7 @@ class JavascriptFactory
         $this->buffer->pregReplace('/"Date\(((:?[0-9]+,?)+)\)"/', 'new Date(\1)');
 
         /** Converting string nulls to actual nulls */
-        $this->buffer->pregReplace('/"null"/', 'null');
+        $this->buffer->pregReplace('/"null"/', 'NULL');
     }
 
     /**
@@ -73,7 +76,7 @@ class JavascriptFactory
      *
      * @return Buffer
      */
-    public function getOutputBuffer()
+    public function getBuffer()
     {
         return $this->buffer;
     }

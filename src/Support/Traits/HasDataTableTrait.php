@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Support\Traits;
 
 use Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Support\Contracts\DataTable as DataInterface;
+use Khill\Lavacharts\Support\Contracts\DataInterface;
 
 /**
  * Trait DataTableTrait
@@ -37,7 +37,7 @@ trait HasDataTableTrait
      */
     public function setDataTable(DataInterface $data)
     {
-        $this->datatable = $data->getDataTable();
+        $this->datatable = $data;
 
         return $this;
     }

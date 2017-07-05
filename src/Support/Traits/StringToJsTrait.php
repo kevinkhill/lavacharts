@@ -16,7 +16,7 @@ namespace Khill\Lavacharts\Support\Traits;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-trait CastToJavascriptStringTrait
+trait StringToJsTrait
 {
     /**
      * When accessing an event as a string, it will be converted to javascript.

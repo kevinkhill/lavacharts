@@ -27,23 +27,24 @@ class DataFactory
     /**
      * Creates a new DataTable
      *
-     * This method will create an empty DataTable, with a timezone if
-     * passed a string as the first parameter or with no timezone if passed nothing.
+     * There are four signatures to this method:
      *
-     * If the first parameter is an array, then the array will be attempted to be
-     * used as columns for a new DataTable.
+     * - 0 parameters: An empty DataTable is created with the default options.
      *
-     * If given an array for the second parameter, then it will be interpreted as
-     * row definitions.
+     * - 1 parameter: The argument must be an array, overriding the default options.
      *
-     * @param  mixed $columns Array of columns or timezone
-     * @param  array $rows    Array of rows
-     * @param  array $options
+     * - 2 parameters: The first arg is now considered to be Column definitions that
+     *   will be passed into DataTable#addColumns() and the second arg is options.
+     *
+     * - 3 parameters: The first arg is now considered to be Row definitions that
+     *   will be passed into DataTable#addRows(), the second arg now Column definitions
+     *   and the last arg is options.
+     *
+     * @since  3.2.0 Variable arguments
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
-    public static function DataTable()
+    public static function DataTable(...$args)
     {
-        $args      = func_get_args();
         $datatable = self::emptyDataTable();
 
         switch (count($args)) {
@@ -211,7 +212,7 @@ class DataFactory
      * @param  array  $p Cell specific customization options
      * @return \Khill\Lavacharts\DataTables\Cells\Cell
      */
-    public static function cell($v, $f = '', $p = [])
+    public static function Cell($v, $f = '', $p = [])
     {
         return new Cell($v, $f, $p);
     }

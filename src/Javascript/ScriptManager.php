@@ -112,7 +112,7 @@ class ScriptManager implements Customizable
             throw new ElementIdException($renderable);
         }
 
-        $buffer = $renderable->getJsFactory()->getOutputBuffer();
+        $buffer = $renderable->getJsFactory()->getBuffer();
 
         return $this->scriptTagWrap($buffer);
     }

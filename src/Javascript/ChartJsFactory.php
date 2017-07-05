@@ -27,48 +27,27 @@ class ChartJsFactory extends JavascriptFactory
      *
      * @var string
      */
-    const OUTPUT_TEMPLATE = 'chart.tmpl.js';
+    const JS_TEMPLATE = 'chart.tmpl.js';
 
     /**
      * Chart to create javascript from.
      *
-     * @var \Khill\Lavacharts\Charts\Chart
+     * @var Chart
      */
     protected $chart;
 
     /**
-     * Event format template
-     *
-     * @var string
-     */
-    protected $eventTemplate;
-
-    /**
-     * Format format template
-     *
-     * @var string
-     */
-    protected $formatTemplate;
-
-    /**
      * Creates a new ChartJsFactory with the javascript template.
      *
-     * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to process
+     * @param Chart $chart Chart to process
      */
     public function __construct(Chart $chart)
     {
         $this->chart = $chart;
 
-        /**
-         * In the scope of the events and formats, "this" is a reference to the lavachart class in question.
-         */
-        $this->formatTemplate =
-            'this.formats["col%1$s"] = new %2$s(%3$s);'.PHP_EOL.
-            'this.formats["col%1$s"].format(this.data, %1$s);'.PHP_EOL;
-
         $this->templateVars = $this->getTemplateVars();
 
-        parent::__construct(self::OUTPUT_TEMPLATE);
+        parent::__construct(self::JS_TEMPLATE, $this->getTemplateVars());
     }
 
     /**

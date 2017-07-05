@@ -5,7 +5,7 @@ namespace Khill\Lavacharts\DataTables;
 use Khill\Lavacharts\Javascript\JavascriptSource;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
 
-class JoinedDataTable extends JavascriptSource
+class JoinedDataTable extends JavascriptSource implements DataInterface
 {
     /**
      * Array of joined tables
@@ -34,7 +34,7 @@ class JoinedDataTable extends JavascriptSource
      */
     public function toJavascript()
     {
-        return sprintf($this->getSourceFormat(), $this->tables[0], $this->tables[1]);
+        return sprintf($this->getFormatString(), $this->tables[0], $this->tables[1]);
     }
 
     /**
@@ -43,7 +43,7 @@ class JoinedDataTable extends JavascriptSource
      *
      * @return string
      */
-    public function getSourceFormat()
+    public function getFormatString()
     {
         return 'google.visualization.data.join(%s, %s, "full", [[0, 0]], [1], [1])';
     }

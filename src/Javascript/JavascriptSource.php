@@ -31,7 +31,7 @@ abstract class JavascriptSource implements Javascriptable
      *
      * @return string
      */
-    public abstract function getSourceFormat();
+    public abstract function getFormatString();
 
     /**
      * When accessing as a string, the instance will converted to
