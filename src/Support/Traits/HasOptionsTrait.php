@@ -71,7 +71,9 @@ trait HasOptionsTrait
      */
     public function initOptions(array $options)
     {
-        $this->setOptions(Options::getDefault());
+        $defaults = Options::getDefault();
+
+        $this->setOptions($defaults);
 
         $this->options->merge($options);
     }

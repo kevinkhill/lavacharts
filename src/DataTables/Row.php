@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\DataTables\Rows;
+namespace Khill\Lavacharts\DataTables;
 
 use ArrayAccess;
 use Carbon\Carbon;
@@ -80,7 +80,7 @@ class Row implements Arrayable, ArrayAccess, Countable, Jsonable
             }
 
             // Logic for handling datetime related cells
-            if (preg_match('/date|time/', $columnTypes[$index])) {
+            if (preg_match('/date|time|datetime|timeofday/', $columnTypes[$index])) {
 
                 // DateCells can only be created by Carbon instances or
                 // strings consumable by Carbon so....
@@ -101,7 +101,7 @@ class Row implements Arrayable, ArrayAccess, Countable, Jsonable
                 if (empty($dateTimeFormat)) {
                     $rowData[] = DateCell::create($cellValue);
                 } else {
-                    $rowData[] = DateCell::createFromFormat($cellValue, $dateTimeFormat);
+                    $rowData[] = DateCell::createFromFormat($dateTimeFormat, $cellValue);
                 }
             }
 

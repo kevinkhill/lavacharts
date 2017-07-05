@@ -5,7 +5,7 @@ namespace Khill\Lavacharts\DataTables;
 use DateTimeZone;
 use Khill\Lavacharts\DataTables\Columns\Column;
 use Khill\Lavacharts\DataTables\Formats\Format;
-use Khill\Lavacharts\DataTables\Rows\Row;
+use Khill\Lavacharts\DataTables\Row;
 use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Exceptions\InvalidCellCount;
 use Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
@@ -13,6 +13,7 @@ use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use Khill\Lavacharts\Exceptions\InvalidTimeZone;
 use Khill\Lavacharts\Exceptions\UndefinedColumnsException;
+use Khill\Lavacharts\Javascript\JavascriptSource;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
@@ -44,7 +45,7 @@ use Khill\Lavacharts\Values\StringValue;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
+class DataTable extends JavascriptSource implements DataInterface, Customizable, Arrayable, Jsonable
 {
     use HasOptions, ArrayToJson;
 
@@ -63,6 +64,22 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
     protected $rows = [];
 
     /**
+     * Parses a string of JSON data into a DataTable.
+     *
+     * @deprecated 3.1.0 Use the DataFactory instead
+     * @see        \Khill\Lavacharts\DataTables\DataFactory::createFromJson
+     *
+     * @since      3.0.0
+     * @param  string $jsonString JSON string to decode
+     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @throws \Khill\Lavacharts\Exceptions\InvalidJson
+     */
+    public static function createFromJson($jsonString)
+    {
+        return DataFactory::createFromJson($jsonString);
+    }
+
+    /**
      * DataTable constructor
      *
      * Default options will be set if none are passed.
@@ -73,13 +90,14 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
      */
     public function __construct(array $options = [])
     {
+
         $this->initOptions($options);
 
-        if (!$this->isValidTimeZone($this->options->timezone)) {
+        if ( ! $this->isValidTimeZone($this->options->timezone)) {
             throw new InvalidTimeZone($this->options->timezone);
         }
 
-        if (!is_string($this->options->datetime_format)) {
+        if ( ! is_string($this->options->datetime_format)) {
             throw new InvalidDateTimeFormat($this->options->datetime_format);
         }
 
@@ -107,22 +125,6 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
     public function getDataTable()
     {
         return $this;
-    }
-
-    /**
-     * Parses a string of JSON data into a DataTable.
-     *
-     * @deprecated 3.1.0 Use the DataFactory instead
-     * @see        \Khill\Lavacharts\DataTables\DataFactory::createFromJson
-     *
-     * @since      3.0.0
-     * @param  string $jsonString JSON string to decode
-     * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidJson
-     */
-    public static function createFromJson($jsonString)
-    {
-        return DataFactory::createFromJson($jsonString);
     }
 
     /**
@@ -218,13 +220,12 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
      * not value is specified, an empty string is assigned.
      *
      *
-     * @param  mixed  $typeOrColDescArr Column type or an array describing the column.
-     * @param  string $label            A label for the column. (Optional)
-     * @param  Format $format           A column format object. (Optional)
-     * @param  string $role             A role for the column. (Optional)
+     * @param mixed   $typeOrColDescArr Column type or an array describing the column.
+     * @param string  $label            A label for the column. (Optional)
+     * @param Format  $format           A column format object. (Optional)
+     * @param string  $role             A role for the column. (Optional)
+     * @param array   $options
      * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigProperty
      */
     public function addColumn(
         $typeOrColDescArr, $label = '', Format $format = null, $role = null, array $options = []
@@ -238,10 +239,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
             return $this->createColumnWithParams($typeOrColDescArr, $label, $format, $role, $options);
         }
 
-        throw new InvalidArgumentException(sprintf(
-            '"%s" is not a valid argument for addColumn(), must be a string or array.',
-            gettype($typeOrColDescArr)
-        ));
+        throw new InvalidArgumentException($typeOrColDescArr, 'string or array.');
     }
 
     /**
@@ -508,14 +506,16 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
             throw new InvalidCellCount($columnCount);
         }
 
-        return $this->pushRow(Row::createWith($this, $valueArray));
+        $row = Row::createWith($this, $valueArray);
+
+        return $this->pushRow($row);
     }
 
     /**
      * Adds multiple rows to the DataTable.
      *
      * @see    addRow()
-     * @param  \Khill\Lavacharts\DataTables\Rows\Row[] $arrayOfRows
+     * @param  \Khill\Lavacharts\DataTables\Row[] $arrayOfRows
      * @return self
      * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
@@ -805,5 +805,27 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
         $timezones = array_unique($timezones);
 
         return in_array(strtolower($tz), $timezones, true);
+    }
+
+    /**
+     * Define how the class will be cast to javascript source when
+     * the extending class is treated like a string.
+     *
+     * @return string
+     */
+    public function toJavascript()
+    {
+        return sprintf($this->getSourceFormat(), json_encode($this));
+    }
+
+    /**
+     * Return a format string that will be used by sprintf to convert the
+     * extending class to javascript.
+     *
+     * @return string
+     */
+    public function getSourceFormat()
+    {
+        return 'new google.visualization.DataTable(%s)';
     }
 }

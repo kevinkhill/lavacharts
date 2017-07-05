@@ -25,6 +25,7 @@ use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
  * @license       http://opensource.org/licenses/MIT      MIT
  *
  * @property string elementId
+ * @property string datetime_format
  * @property string pngOutput
  */
 class Options implements Arrayable, Jsonable, Countable

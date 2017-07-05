@@ -213,13 +213,12 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      *
      * @since  3.0.3
      * @uses   \Khill\Lavacharts\DataTables\DataFactory
-     * @param  mixed $args
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
-    public function DataTable($args = null)
+    public function DataTable()
     {
         return call_user_func_array(
-            DataFactory::class.'::DataTable', func_get_args()
+            [DataFactory::class, 'DataTable'], func_get_args()
         );
     }
 

@@ -67,6 +67,7 @@ class DateCell extends Cell
     public static function createFromFormat($format, $datetime)
     {
         try {
+            var_dump($format);
             $carbon = Carbon::createFromFormat($format, $datetime);
 
             return new self($carbon);

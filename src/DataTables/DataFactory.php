@@ -71,7 +71,7 @@ class DataFactory
         $datatable = DataTablePlus::class;
 
         if (class_exists($datatable) === false) {
-            $datatable = '\Khill\Lavacharts\DataTables\DataTable';
+            $datatable = DataTable::class;
         }
 
         return new $datatable($options);
