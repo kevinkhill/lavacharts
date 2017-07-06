@@ -111,7 +111,7 @@ class Format extends JavascriptSource implements Customizable
     public function toJavascript()
     {
         return sprintf(
-            $this->getFormatString(),
+            $this->getJsFormatString(),
             $this->index,
             $this->getJsClass(),
             $this->options
@@ -121,7 +121,7 @@ class Format extends JavascriptSource implements Customizable
     /**
      * @inheritdoc
      */
-    public function getFormatString()
+    public function getJsFormatString()
     {
         /**
          * In the scope of the formats, "this" is a reference to the lavachart class.

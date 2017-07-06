@@ -10,7 +10,7 @@ namespace Khill\Lavacharts\Support\Contracts;
  * Example:
  *   The standard DataTable class which will use this method to convert
  *   the DataTable into JSON and then simply create a new DataTable in javascript
- *   with "new google.visualization.DataTable(JSON_HERE)"
+ *   with "new google.visualization.DataTable(%s)"
  *
  * Another Example:
  *   This was pulled straight from Google's SteppedAreaChart) would be to

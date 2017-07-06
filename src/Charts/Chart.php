@@ -2,16 +2,19 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use Khill\Lavacharts\Exceptions\BadMethodCallException;
 use Khill\Lavacharts\Javascript\ChartJsFactory;
 use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
+use Khill\Lavacharts\Support\Contracts\JavascriptSource;
 use Khill\Lavacharts\Support\Contracts\JsFactory;
 use Khill\Lavacharts\Support\Contracts\JsPackage;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
 use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
+use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 use Khill\Lavacharts\Values\ElementId;
 use Khill\Lavacharts\Values\Label;
 
@@ -29,9 +32,11 @@ use Khill\Lavacharts\Values\Label;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Chart extends Renderable implements Customizable, DataInterface, JsFactory, Wrappable, JsPackage
+class Chart
+    extends Renderable
+    implements Customizable, /*JavascriptSource,*/ JsFactory, JsPackage, Wrappable
 {
-    use HasDataTable, HasOptions;
+    use HasDataTable, HasOptions/*, ToJavascript*/;
 
     /**
      * Javascript type.
@@ -57,7 +62,7 @@ class Chart extends Renderable implements Customizable, DataInterface, JsFactory
         $this->setOptions($options);
 
         $this->label     = $label;
-        $this->datatable = $data->getDataTable();
+        $this->datatable = $data;
 
         if ($this->options->has('elementId')) {
             $this->elementId = new ElementId($this->options->elementId);
@@ -136,6 +141,12 @@ class Chart extends Renderable implements Customizable, DataInterface, JsFactory
      */
     public function toArray()
     {
+        if ( ! method_exists($this->datatable, 'getOptions')) {
+            throw new BadMethodCallException($this->datatable, 'getOptions');
+        }
+
+        $this->mergeOptions($this->datatable->getOptions());
+
         return [
             'pngOutput'    => false,
             'chartType'    => $this->getType(),
@@ -194,7 +205,11 @@ class Chart extends Renderable implements Customizable, DataInterface, JsFactory
     {
         $buffer = new Buffer();
 
-        if (!$this->datatable->hasFormattedColumns()) {
+        if (!method_exists([$this->datatable], 'hasFormattedColumns')) {
+//            throw new BadMethodCallException($this->datatable, 'hasFormattedColumns');
+//        }
+
+//        if (!$this->datatable->hasFormattedColumns()) {
             return $buffer;
         }
 
@@ -214,7 +229,7 @@ class Chart extends Renderable implements Customizable, DataInterface, JsFactory
      * Sets any configuration option, with no checks for type / validity
      *
      *
-     * This is method was added in 2.5 as a bandaid to remove the handcuffs from
+     * This is method was added in 2.5 as a band-aid to remove the handcuffs from
      * users who want to add options that Google has added, that I have not.
      * I didn't intend to restrict the user to only select options, as the
      * goal was to type isNonEmpty and validate. This method can be used to set

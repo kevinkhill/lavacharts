@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Builders;
 
+//@TODO refactor this class
+
 use Khill\Lavacharts\Charts\ChartFactory;
 use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Exceptions\InvalidChartType;
@@ -81,7 +83,7 @@ class ChartBuilder extends GenericBuilder
      * @param  \Khill\Lavacharts\DataTables\DataTable $datatable
      * @return self
      */
-    public function setDatatable(DataTable $datatable = null)
+    public function setDatatable(/*DataTable */$datatable = null)
     {
         $this->datatable = $datatable;
 

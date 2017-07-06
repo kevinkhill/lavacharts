@@ -26,7 +26,7 @@ trait HasDataTableTrait
      *
      * @var DataTable
      */
-    private $datatable;
+    protected $datatable;
 
     /**
      * Sets the DataTable
@@ -46,7 +46,7 @@ trait HasDataTableTrait
      * Returns the DataTable
      *
      * @since  3.0.0
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public function getDataTable()
     {

@@ -45,16 +45,11 @@ class JavascriptFactory
 
     /**
      * JavascriptFactory constructor.
-     *
-     * @param string $jsTemplate
-     * @param array  $templateVars
      */
-    public function __construct($jsTemplate, array $templateVars)
+    public function __construct()
     {
-        $this->templateVars = $templateVars;
-
         $this->template = file_get_contents(
-            realpath(__DIR__ . '/../../javascript/templates/' . $jsTemplate)
+            realpath(__DIR__ . '/../../javascript/templates/' . $this->template)
         );
 
         $this->buffer = new Buffer($this->template);

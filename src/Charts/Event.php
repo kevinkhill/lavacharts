@@ -48,13 +48,13 @@ class Event extends JavascriptSource
      */
     public function toJavascript()
     {
-        return sprintf($this->getFormatString(), $this->type, $this->callback);
+        return sprintf($this->getJsFormatString(), $this->type, $this->callback);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getFormatString()
+    public function getJsFormatString()
     {
         /**
          * In the scope of the events, "this" is a reference to the lavachart class.

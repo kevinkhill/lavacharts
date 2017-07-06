@@ -43,11 +43,11 @@ class ChartJsFactory extends JavascriptFactory
      */
     public function __construct(Chart $chart)
     {
-        $this->chart = $chart;
-
+        $this->chart        = $chart;
+        $this->template     = self::JS_TEMPLATE;
         $this->templateVars = $this->getTemplateVars();
 
-        parent::__construct(self::JS_TEMPLATE, $this->getTemplateVars());
+        parent::__construct();
     }
 
     /**

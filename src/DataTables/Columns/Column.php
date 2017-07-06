@@ -88,10 +88,10 @@ class Column implements Customizable, Arrayable, Jsonable
     {
         $this->setOptions($options);
 
-        $this->type = $type;
-        $this->label = $label;
+        $this->type   = $type;
+        $this->label  = $label;
         $this->format = $format;
-        $this->role = $role;
+        $this->role   = $role;
     }
 
     /**

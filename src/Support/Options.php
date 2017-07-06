@@ -40,16 +40,6 @@ class Options implements Arrayable, Jsonable, Countable
     protected $options;
 
     /**
-     * Customizable constructor.
-     *
-     * @param array $options
-     */
-    public function __construct(array $options = [])
-    {
-        $this->options = $options;
-    }
-
-    /**
      * Returns the default configuration options for Lavacharts
      *
      * @return array
@@ -70,6 +60,16 @@ class Options implements Arrayable, Jsonable, Countable
     }
 
     /**
+     * Customizable constructor.
+     *
+     * @param array $options
+     */
+    public function __construct(array $options = [])
+    {
+        $this->options = $options;
+    }
+
+    /**
      * Retrieve options as member properties
      *
      * @param  string $option
@@ -83,6 +83,16 @@ class Options implements Arrayable, Jsonable, Countable
         }
 
         return $this->options[$option];
+    }
+
+    /**
+     * When treating options as a string, assume they are getting serialized.
+     *
+     * @return string
+     */
+    function __toString()
+    {
+        return $this->toJson();
     }
 
     /**
@@ -108,16 +118,6 @@ class Options implements Arrayable, Jsonable, Countable
     }
 
     /**
-     * When treating options as a string, assume they are getting serialized.
-     *
-     * @return string
-     */
-    function __toString()
-    {
-        return $this->toJson();
-    }
-
-    /**
      * Get the value of an option.
      *
      * @param string $key Option to get
@@ -133,7 +133,7 @@ class Options implements Arrayable, Jsonable, Countable
     }
 
     /**
-     * Sets the values of the customized class with an array of key value pairs.
+     * Sets the value of the given option.
      *
      * @param string $option
      * @param mixed  $value
@@ -141,6 +141,26 @@ class Options implements Arrayable, Jsonable, Countable
     public function set($option, $value)
     {
         $this->options[$option] = $value;
+    }
+
+    /**
+     * Sets the value of the given option if it does not exist.
+     *
+     * Value is left unchanged if it is already set.
+     *
+     * @param  string $option
+     * @param  mixed  $value
+     * @return bool True if the value was set, otherwise false.
+     */
+    public function setIfNot($option, $value)
+    {
+        if (!$this->has($option)) {
+            $this->options[$option] = $value;
+
+            return true;
+        }
+
+        return false;
     }
 
     /**

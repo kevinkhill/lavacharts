@@ -2,7 +2,10 @@
 
 namespace Khill\Lavacharts\DataTables;
 
+use Carbon\Carbon;
 use DateTimeZone;
+use Khill\Lavacharts\DataTables\Cells\Cell;
+use Khill\Lavacharts\DataTables\Cells\DateCell;
 use Khill\Lavacharts\DataTables\Columns\Column;
 use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\Exceptions\InvalidArgumentException;
@@ -12,11 +15,11 @@ use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use Khill\Lavacharts\Exceptions\InvalidTimeZone;
 use Khill\Lavacharts\Exceptions\UndefinedColumnsException;
+use Khill\Lavacharts\Javascript\JavascriptSource;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
-use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Values\Role;
 use Khill\Lavacharts\Values\StringValue;
@@ -43,15 +46,14 @@ use Khill\Lavacharts\Values\StringValue;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
+class DataTable extends JavascriptSource implements DataInterface, Customizable, Arrayable, Jsonable
 {
-    use HasOptions, ArrayToJson;
+    use HasOptions;
 
     /**
-     * Format string for sprintf to use with toJson and satisfy the
-     * implementation of DataInterface
+     * Format string for the default DataTable creation format.
      */
-    const JS_OUTPUT_FORMAT = 'new google.visualization.DataTable(%s)';
+    const DEFAULT_DATATABLE_FORMAT = 'new google.visualization.DataTable(%s)';
 
     /**
      * Array of the DataTable's column objects.
@@ -113,7 +115,8 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
      *
      * Will include formats if defined
      *
-     * @since  3.2.0 A boolean can be passed to disable the output of formatters.
+     * @since 3.2.0 A boolean can be passed to disable the output of formatters.
+     * @param bool $withFormats
      * @return string JSON representation of the DataTable.
      */
     public function toJson($withFormats = true)
@@ -133,7 +136,34 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
      */
     public function toJsDataTable()
     {
-        return sprintf(self::JS_OUTPUT_FORMAT, $this->toJson(false));
+        return $this->toJavascript();
+    }
+
+    /**
+     * Return a format string that will be used by vsprintf to convert the
+     * extending class to javascript.
+     *
+     * @return string
+     */
+    public function getJavascriptFormat()
+    {
+        return self::DEFAULT_DATATABLE_FORMAT;
+    }
+
+    /**
+     * Return an array of arguments to pass to the format string provided
+     * by getJavascriptFormat().
+     *
+     * These variables will be used with vsprintf, and the format string
+     * to convert the extending class to javascript.
+     *
+     * @return array
+     */
+    public function getJavascriptSource()
+    {
+        return [
+            $this->toJson(false)
+        ];
     }
 
     /**
@@ -506,34 +536,52 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
      * with null for the first two cells, you would specify [null, null, {cell_val}].
      *
      *
-     * @param  array|null $valueArray Array of values describing cells or null for a null row.
+     * @param  array|null $values Array of values describing cells or null for a null row.
      * @return self
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      * @throws \Khill\Lavacharts\Exceptions\UndefinedColumnsException
      */
-    public function addRow($valueArray)
+    public function addRow($values)
     {
-        $columnCount = $this->getColumnCount();
+        $columnCount    = $this->getColumnCount();
+        $columnTypes    = $this->getColumnTypes();
 
         if ($columnCount == 0) {
             throw new UndefinedColumnsException;
         }
 
-        if (is_null($valueArray)) {
+        if (is_null($values)) {
             return $this->pushRow(Row::createNull($columnCount));
         }
 
-        if (!is_array($valueArray)) {
-            throw new InvalidArgumentException($valueArray, 'array or null');
+        if (!is_array($values)) {
+            throw new InvalidArgumentException($values, 'array or null');
         }
 
-        if (count($valueArray) > $columnCount) {
+        if (count($values) > $columnCount) {
             throw new InvalidCellCount($columnCount);
         }
 
-        $row = Row::createWith($this, $valueArray);
 
-        return $this->pushRow($row);
+        $rowData = [];
+
+        foreach ($values as $index => $cellValue) {
+            // Regardless of column type, if a Cell is explicitly defined by
+            // an array, then create a new Cell with the values.
+            if (is_array($cellValue)) {
+                $rowData[] = Cell::create($cellValue);
+            }
+
+            // Logic for handling datetime related cells
+            if (preg_match('/date|time|datetime|timeofday/', $columnTypes[$index])) {
+                $this->createDateCell($cellValue);
+            }
+
+            // Pass through any non-explicit & non-datetime values
+            $rowData[] = $cellValue;
+        }
+
+        return $this->pushRow(new Row($rowData));
     }
 
     /**
@@ -702,13 +750,19 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
      */
     public function getFormattedColumns()
     {
-        return array_filter(array_map(function ($index, Column $column) {
-            if ($column->isFormatted()) {
-                $column->getFormat()->setIndex($index);
+        return array_filter(
+            array_map(
+                function ($index, Column $column) {
+                    if ($column->isFormatted()) {
+                        $column->getFormat()->setIndex($index);
 
-                return $column;
-            }
-        }, array_keys($this->cols), $this->cols));
+                        return $column;
+                    }
+                },
+                array_keys($this->cols),
+                $this->cols
+            )
+        );
     }
 
     /**
@@ -778,16 +832,52 @@ class DataTable implements DataInterface, Customizable, Arrayable, Jsonable
     {
         $timezoneList = call_user_func_array('array_merge', timezone_abbreviations_list());
 
-        $timezones = array_map(/** @noinspection PhpInconsistentReturnPointsInspection */
-        function ($timezone) {
-            if ($timezone['timezone_id'] != null) {
-                return strtolower($timezone['timezone_id']);
-            }
-        }, $timezoneList);
+        $timezones = array_map(
+            function ($timezone) {
+                if ($timezone['timezone_id'] != null) {
+                    return strtolower($timezone['timezone_id']);
+                }
+            },
+            $timezoneList
+        );
 
         $timezones = array_filter($timezones, 'is_string');
         $timezones = array_unique($timezones);
 
         return in_array(strtolower($tz), $timezones, true);
+    }
+
+    /**
+     * Create a new DateCell from the given value.
+     *
+     * @param $cellValue
+     * @return Cell
+     * @throws InvalidArgumentException
+     */
+    private function createDateCell($cellValue)
+    {
+        $dateTimeFormat = $this->getOptions()->get('datetime_format');
+
+        // DateCells can only be created by Carbon instances or
+        // strings consumable by Carbon so....
+        if ($cellValue instanceof Carbon === false && is_string($cellValue) === false) {
+            throw new InvalidArgumentException($cellValue, 'string or Carbon object');
+        }
+
+        // If the cellValue is already a Carbon instance,
+        // create a new DateCell from it.
+        if ($cellValue instanceof Carbon) {
+            $rowData[] = new DateCell($cellValue);
+        }
+
+        // If no format string was defined in the options, then
+        // attempt to implicitly parse the string. If the format
+        // string is not empty, then attempt to use it to explicitly
+        // create a Carbon instance from the format.
+        if (!empty($dateTimeFormat)) {
+            $rowData[] = DateCell::createFromFormat($dateTimeFormat, $cellValue);
+        }
+
+        return DateCell::create($cellValue);
     }
 }

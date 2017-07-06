@@ -1,44 +1,25 @@
 <?php
 
-namespace Khill\Lavacharts\Javascript;
-
-use Khill\Lavacharts\Support\Contracts\Javascriptable;
+namespace Khill\Lavacharts\Support\Traits;
 
 /**
- * JavascriptSource Class
+ * ToJavascript Trait
  *
  * Define how an instance of an object will be converted to javascript source.
  *
- * @package       Khill\Lavacharts\Support
+ * @package       Khill\Lavacharts\Support\Traits
  * @since         3.2.0
  * @author        Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
  * @link          http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
+ *
+ * @method getJavascriptFormat
+ * @method getJavascriptSource
  */
-abstract class JavascriptSource
+trait ToJavascriptTrait
 {
-
-    /**
-     * Return a format string that will be used by vsprintf to convert the
-     * extending class to javascript.
-     *
-     * @return string
-     */
-    abstract public function getJavascriptFormat();
-
-    /**
-     * Return an array of arguments to pass to the format string provided
-     * by getJavascriptFormat().
-     *
-     * These variables will be used with vsprintf, and the format string
-     * to convert the extending class to javascript.
-     *
-     * @return array
-     */
-    abstract public function getJavascriptSource();
-
     /**
      * Using the format provided and the source variables, transform the instance
      * to javascript source.

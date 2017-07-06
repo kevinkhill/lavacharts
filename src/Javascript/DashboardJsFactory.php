@@ -28,7 +28,7 @@ class DashboardJsFactory extends JavascriptFactory
      *
      * @var string
      */
-    const OUTPUT_TEMPLATE = 'dashboard.tmpl.js';
+    const JS_TEMPLATE = 'dashboard.tmpl.js';
 
     /**
      * Dashboard to generate javascript from.
@@ -45,8 +45,9 @@ class DashboardJsFactory extends JavascriptFactory
     public function __construct(Dashboard $dashboard)
     {
         $this->dashboard = $dashboard;
+        $this->template  = self::JS_TEMPLATE;
 
-        parent::__construct(self::OUTPUT_TEMPLATE);
+        parent::__construct();
     }
 
     /**

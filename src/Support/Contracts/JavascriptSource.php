@@ -1,15 +1,13 @@
 <?php
 
-namespace Khill\Lavacharts\Javascript;
-
-use Khill\Lavacharts\Support\Contracts\Javascriptable;
+namespace Khill\Lavacharts\Support\Contracts;
 
 /**
- * JavascriptSource Class
+ * JavascriptSource Interface
  *
  * Define how an instance of an object will be converted to javascript source.
  *
- * @package       Khill\Lavacharts\Support
+ * @package       Khill\Lavacharts\Support\Contracts
  * @since         3.2.0
  * @author        Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
@@ -17,16 +15,15 @@ use Khill\Lavacharts\Support\Contracts\Javascriptable;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-abstract class JavascriptSource
+interface JavascriptSource
 {
-
     /**
      * Return a format string that will be used by vsprintf to convert the
      * extending class to javascript.
      *
      * @return string
      */
-    abstract public function getJavascriptFormat();
+    public function getJavascriptFormat();
 
     /**
      * Return an array of arguments to pass to the format string provided
@@ -37,26 +34,5 @@ abstract class JavascriptSource
      *
      * @return array
      */
-    abstract public function getJavascriptSource();
-
-    /**
-     * Using the format provided and the source variables, transform the instance
-     * to javascript source.
-     *
-     * @return string
-     */
-    public function toJavascript()
-    {
-        return vsprintf($this->getJavascriptFormat(), $this->getJavascriptSource());
-    }
-
-    /**
-     * When accessing as a string, the instance will converted to javascript source.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->toJavascript();
-    }
+    public function getJavascriptSource();
 }

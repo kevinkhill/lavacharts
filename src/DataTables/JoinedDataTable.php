@@ -2,13 +2,17 @@
 
 namespace Khill\Lavacharts\DataTables;
 
-use Khill\Lavacharts\Javascript\JavascriptSource;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
+use Khill\Lavacharts\Support\Contracts\JavascriptSource;
+use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
+use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 
-class JoinedDataTable extends JavascriptSource implements DataInterface
+class JoinedDataTable implements DataInterface, JavascriptSource
 {
+    use HasOptions, ToJavascript;
+
     /**
-     * Array of joined tables
+     * Array of DataTables to join.
      *
      * @var DataTable[]
      */
@@ -17,13 +21,18 @@ class JoinedDataTable extends JavascriptSource implements DataInterface
     /**
      * JoinedDataTable constructor.
      *
-     * @param \Khill\Lavacharts\Support\Contracts\DataInterface $data1
-     * @param \Khill\Lavacharts\Support\Contracts\DataInterface $data2
+     * @param DataTable $data1
+     * @param DataTable $data2
      */
-    public function __construct(DataInterface $data1, DataInterface $data2)
+    public function __construct(DataTable $data1, DataTable $data2, array $options = [])
     {
-        $this->tables[] = $data1->getDataTable();
-        $this->tables[] = $data2->getDataTable();
+        $this->initOptions($options);
+
+        $this->options->set('interpolateNulls', true);
+
+        $this->options->setIfNot('joinMethod', 'full');
+
+        $this->tables = [$data1, $data2];
     }
 
     /**
@@ -32,19 +41,37 @@ class JoinedDataTable extends JavascriptSource implements DataInterface
      *
      * @return string
      */
-    public function toJavascript()
+    public function toJsDataTable()
     {
-        return sprintf($this->getFormatString(), $this->tables[0], $this->tables[1]);
+        return $this->toJavascript();
     }
 
     /**
-     * Return a format string that will be used by sprintf to convert the
-     * extending class to javascript.
+     * Get the format string that will be used by sprintf and toJson()
+     * to convert the extending class to javascript.
      *
      * @return string
      */
-    public function getFormatString()
+    public function getJavascriptFormat()
     {
-        return 'google.visualization.data.join(%s, %s, "full", [[0, 0]], [1], [1])';
+        return 'google.visualization.data.join(%s, %s, "%s", [[0, 0]], [1], [1])';
+    }
+
+    /**
+     * Return an array of arguments to pass to the format string provided
+     * by getJavascriptFormat().
+     *
+     * These variables will be used with vsprintf, and the format string
+     * to convert the extending class to javascript.
+     *
+     * @return array
+     */
+    public function getJavascriptSource()
+    {
+        $sourceVars = $this->tables;
+
+        array_push($sourceVars, $this->options->joinMethod);
+
+        return $sourceVars;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidArgumentException extends \InvalidArgumentException
+class InvalidArgumentException extends LavaException
 {
     public function __construct($actual, $expected)
     {

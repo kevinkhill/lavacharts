@@ -5,6 +5,7 @@ namespace Khill\Lavacharts\Charts;
 use \Khill\Lavacharts\Builders\ChartBuilder;
 use Khill\Lavacharts\DataTables\DataTable;
 use \Khill\Lavacharts\Exceptions\InvalidDataTable;
+use Khill\Lavacharts\Support\Contracts\DataInterface;
 
 /**
  * ChartFactory Class
@@ -89,7 +90,7 @@ class ChartFactory
      */
     public function create($type, $args)
     {
-        if ($args[1] !== null && $args[1] instanceof DataTable === false) {
+        if ($args[1] !== null && $args[1] instanceof DataInterface === false) {
             throw new InvalidDataTable;
         }
 

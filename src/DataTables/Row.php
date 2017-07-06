@@ -48,68 +48,11 @@ class Row implements Arrayable, ArrayAccess, Countable, Jsonable
      */
     public static function createNull($columnCount)
     {
-        if ( ! is_int($columnCount)) {
+        if (!is_int($columnCount)) {
             throw new InvalidArgumentException($columnCount, 'integer');
         }
 
         return new self(array_fill(0, $columnCount, null));
-    }
-
-    /**
-     * Creates a new Row object from an array of values.
-     *
-     * @param  DataInterface $data
-     * @param  array         $values Array of values to assign to the row.
-     * @return Row
-     * @throws \Khill\Lavacharts\Exceptions\UndefinedDateCellException
-     * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeString
-     */
-    public static function createWith(DataInterface $data, $values)
-    {
-        $datatable      = $data->getDataTable();
-        $columnTypes    = $datatable->getColumnTypes();
-        $dateTimeFormat = $datatable->getOptions()->get('datetime_format');
-
-        $rowData = [];
-
-        foreach ($values as $index => $cellValue) {
-            // Regardless of column type, if a Cell is explicitly defined by
-            // an array, then create a new Cell with the values.
-            if (is_array($cellValue)) {
-                $rowData[] = Cell::create($cellValue);
-            }
-
-            // Logic for handling datetime related cells
-            if (preg_match('/date|time|datetime|timeofday/', $columnTypes[$index])) {
-
-                // DateCells can only be created by Carbon instances or
-                // strings consumable by Carbon so....
-                if ($cellValue instanceof Carbon === false && is_string($cellValue) === false) {
-                    throw new InvalidArgumentException($cellValue, 'string or Carbon object');
-                }
-
-                // If the cellValue is already a Carbon instance,
-                // create a new DateCell from it.
-                if ($cellValue instanceof Carbon) {
-                    $rowData[] = new DateCell($cellValue);
-                }
-
-                // If no format string was defined in the options, then
-                // attempt to implicitly parse the string. If the format
-                // string is not empty, then attempt to use it to explicitly
-                // create a Carbon instance from the format.
-                if (empty($dateTimeFormat)) {
-                    $rowData[] = DateCell::create($cellValue);
-                } else {
-                    $rowData[] = DateCell::createFromFormat($dateTimeFormat, $cellValue);
-                }
-            }
-
-            // Pass through any non-explicit & non-datetime values
-            $rowData[] = $cellValue;
-        }
-
-        return new self($rowData);
     }
 
     /**

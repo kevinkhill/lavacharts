@@ -26,7 +26,7 @@ trait HasOptionsTrait
      *
      * @var Options
      */
-    private $options;
+    protected $options;
 
     /**
      * Retrieves the Options object from the class.
@@ -50,6 +50,16 @@ trait HasOptionsTrait
         } else {
             $this->options = new Options($options);
         }
+    }
+
+    /**
+     * Merges two sets of options.
+     *
+     * @param array|Options $options
+     */
+    public function mergeOptions($options)
+    {
+        $this->options->merge($options);
     }
 
     /**
