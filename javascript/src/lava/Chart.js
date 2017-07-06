@@ -79,7 +79,7 @@ module.exports = (function() {
      */
     Chart.prototype.setData = function (payload) {
          // If a DataTable#toJson() payload is received, with formatted columns,
-         // then data.data will be defined, and used as the DataTable
+         // then payload.data will be defined, and used as the DataTable
         if (typeof payload.data === 'object') {
             payload = payload.data;
         }

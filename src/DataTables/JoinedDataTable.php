@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables;
 
+use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
 use Khill\Lavacharts\Support\Contracts\JavascriptSource;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
@@ -10,6 +11,16 @@ use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 class JoinedDataTable implements DataInterface, JavascriptSource
 {
     use HasOptions, ToJavascript;
+
+    /**
+     * Default options for joining two DataTables
+     */
+    const DEFAULT_JOIN_OPTIONS = [
+        'joinMethod' => 'full',
+        'keys'       => [[0,0]],
+        'dt1Columns' => [1],
+        'dt2Columns' => [1],
+    ];
 
     /**
      * Array of DataTables to join.
@@ -28,9 +39,9 @@ class JoinedDataTable implements DataInterface, JavascriptSource
     {
         $this->initOptions($options);
 
-        $this->options->set('interpolateNulls', true);
+        $this->options->merge(self::DEFAULT_JOIN_OPTIONS);
 
-        $this->options->setIfNot('joinMethod', 'full');
+        $this->options->set('interpolateNulls', true);
 
         $this->tables = [$data1, $data2];
     }
@@ -54,7 +65,7 @@ class JoinedDataTable implements DataInterface, JavascriptSource
      */
     public function getJavascriptFormat()
     {
-        return 'google.visualization.data.join(%s, %s, "%s", [[0, 0]], [1], [1])';
+        return 'google.visualization.data.join(%s, %s, "%s", %s, %s, %s)';
     }
 
     /**
@@ -68,10 +79,14 @@ class JoinedDataTable implements DataInterface, JavascriptSource
      */
     public function getJavascriptSource()
     {
-        $sourceVars = $this->tables;
-
-        array_push($sourceVars, $this->options->joinMethod);
-
-        return $sourceVars;
+        return array_merge(
+            $this->tables,
+            [
+                $this->options->joinMethod,
+                json_encode($this->options->keys),
+                json_encode($this->options->dt1Columns),
+                json_encode($this->options->dt2Columns),
+            ]
+        );
     }
 }
