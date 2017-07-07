@@ -3,11 +3,14 @@
 namespace Khill\Lavacharts\Dashboards\Wrappers;
 
 use Khill\Lavacharts\Support\Contracts\Arrayable;
-use Khill\Lavacharts\Values\ElementId;
-use Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
-use Khill\Lavacharts\Support\Contracts\Wrappable;
-use Khill\Lavacharts\Support\Contracts\Jsonable;
+use Khill\Lavacharts\Support\Contracts\JavascriptSource;
 use Khill\Lavacharts\Support\Contracts\JsClass;
+use Khill\Lavacharts\Support\Contracts\Jsonable;
+use Khill\Lavacharts\Support\Contracts\Wrappable;
+use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
+use Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
+use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
+use Khill\Lavacharts\Values\StringValue as Str;
 
 /**
  * Class Wrapper
@@ -23,45 +26,47 @@ use Khill\Lavacharts\Support\Contracts\JsClass;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Wrapper implements Arrayable, Jsonable, JsClass
+abstract class Wrapper implements Arrayable, JavascriptSource, Jsonable, JsClass
 {
-    use HasElementId;
+    use HasElementId, ArrayToJson, ToJavascript;
 
     /**
      * The contents of the wrap, either Chart or Filter.
      *
-     * @var \Khill\Lavacharts\Support\Contracts\Wrappable
+     * @var Wrappable
      */
     protected $contents;
 
     /**
      * The renderable's unique elementId.
      *
-     * @var \Khill\Lavacharts\Values\ElementId
+     * @var string
      */
     protected $elementId;
 
     /**
+     * Returns a string of the javascript visualization class for the Wrapper.
+     *
+     * @return string
+     */
+    abstract public function getJsClass();
+
+    /**
      * Builds a new Wrapper object.
      *
-     * @param \Khill\Lavacharts\Support\Contracts\Wrappable $itemToWrap
-     * @param \Khill\Lavacharts\Values\ElementId            $elementId
+     * @param Wrappable $itemToWrap
+     * @param string    $elementId
      */
-    public function __construct(Wrappable $itemToWrap, ElementId $elementId)
+    public function __construct(Wrappable $wrappable, $elementId)
     {
-        $this->contents  = $itemToWrap;
-        $this->elementId = $elementId;
-    }
-
-    public static function create($type)
-    {
-
+        $this->contents  = $wrappable;
+        $this->elementId = Str::verify($elementId);
     }
 
     /**
      * Unwraps and returns the wrapped object.
      *
-     * @return \Khill\Lavacharts\Support\Contracts\Wrappable
+     * @return Wrappable
      */
     public function unwrap()
     {
@@ -77,48 +82,33 @@ class Wrapper implements Arrayable, Jsonable, JsClass
     {
         return [
             'options'     => $this->contents->getOptions(),
-            'containerId' => (string) $this->elementId,
+            'containerId' => $this->elementId,
             $this->contents->getWrapType() => $this->contents->getType()
         ];
     }
 
     /**
-     * Returns the JSON serialized version of the Wrapper.
+     * Return a format string that will be used by vsprintf to convert the
+     * extending class to javascript.
      *
      * @return string
      */
-    public function toJson()
+    public function getJavascriptFormat()
     {
-        return json_encode($this);
+        return 'new %s(%s)';
     }
 
     /**
-     * Custom serialization of the Wrapper.
+     * Return an array of arguments to pass to the format string provided
+     * by getJavascriptFormat().
+     *
+     * These variables will be used with vsprintf, and the format string
+     * to convert the extending class to javascript.
      *
      * @return array
      */
-    public function jsonSerialize()
+    public function getJavascriptSource()
     {
-        return $this->toArray();
-    }
-
-    /**
-     * Returns a javascript string of the visualization class for the Wrapper.
-     *
-     * @return string
-     */
-    public function getJsClass()
-    {
-        return 'google.visualization.' . static::TYPE;
-    }
-
-    /**
-     * Returns a javascript string with the constructor for the Wrapper.
-     *
-     * @return string
-     */
-    public function getJsConstructor()
-    {
-        return sprintf('new %s(%s)', $this->getJsClass(), $this->toJson());
+        return [$this->getJsClass(), $this->toJson()];
     }
 }

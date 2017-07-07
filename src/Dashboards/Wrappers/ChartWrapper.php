@@ -3,10 +3,10 @@
 namespace Khill\Lavacharts\Dashboards\Wrappers;
 
 use Khill\Lavacharts\Charts\Chart;
-use Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Support\Google;
 
 /**
- * Class ChartWrapper
+ * ChartWrapper Class
  *
  * Used for wrapping charts to use in dashboards.
  *
@@ -21,22 +21,23 @@ use Khill\Lavacharts\Values\ElementId;
 class ChartWrapper extends Wrapper
 {
     /**
-     * Type of wrapper.
-     *
-     * @var string
-     */
-    const TYPE = 'ChartWrapper';
-
-    /**
      * Builds a ChartWrapper object.
      *
-     * @param Chart     $chart
-     * @param ElementId $containerId
+     * @param Chart  $chart
+     * @param string $containerId
      */
-    public function __construct(Chart $chart, ElementId $containerId)
+    public function __construct(Chart $chart, $containerId)
     {
         $chart->setRenderable(false);
 
         parent::__construct($chart, $containerId);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getJsClass()
+    {
+        return Google::VIZ_NAMESPACE . 'ChartWrapper';
     }
 }

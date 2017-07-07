@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboards\Wrappers;
 
-use Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Support\Google;
 use Khill\Lavacharts\Dashboards\Filters\Filter;
 
 /**
@@ -21,20 +21,21 @@ use Khill\Lavacharts\Dashboards\Filters\Filter;
 class ControlWrapper extends Wrapper
 {
     /**
-     * Type of wrapper.
-     *
-     * @var string
-     */
-    const TYPE = 'ControlWrapper';
-
-    /**
      * Builds a ControlWrapper object.
      *
-     * @param  \Khill\Lavacharts\Dashboards\Filters\Filter $filter
-     * @param  \Khill\Lavacharts\Values\ElementId          $containerId
+     * @param Filter $filter
+     * @param string $containerId
      */
-    public function __construct(Filter $filter, ElementId $containerId)
+    public function __construct(Filter $filter, $containerId)
     {
         parent::__construct($filter, $containerId);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getJsClass()
+    {
+        return Google::VIZ_NAMESPACE . 'ControlWrapper';
     }
 }
