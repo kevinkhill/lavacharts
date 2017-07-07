@@ -17,9 +17,10 @@ namespace Khill\Lavacharts\Dashboards\Filters;
 class StringFilter extends Filter
 {
     /**
-     * Type of Filter.
-     *
-     * @var string
+     * @inheritdoc
      */
-    const TYPE = 'StringFilter';
+    public function getType()
+    {
+        return 'StringFilter';
+    }
 }

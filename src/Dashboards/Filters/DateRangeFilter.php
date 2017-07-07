@@ -20,9 +20,10 @@ namespace Khill\Lavacharts\Dashboards\Filters;
 class DateRangeFilter extends Filter
 {
     /**
-     * Type of Filter.
-     *
-     * @var string
+     * @inheritdoc
      */
-    const TYPE = 'DateRangeFilter';
+    public function getType()
+    {
+        return 'DateRangeFilter';
+    }
 }

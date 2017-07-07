@@ -22,7 +22,7 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Filter implements Customizable, Wrappable
+abstract class Filter implements Customizable, Wrappable
 {
     use HasOptions;
 
@@ -32,41 +32,36 @@ class Filter implements Customizable, Wrappable
     const WRAP_TYPE = 'controlType';
 
     /**
+     * Returns the type of filter
+     *
+     * @return string
+     */
+    abstract public function getType();
+
+    /**
      * Builds a new Filter Object.
      * Takes either a column label or a column index to filter. The options object will be
      * created internally, so no need to set defaults. The child filter objects will set them.
      *
-     * @param  string|int $cLabelOrIndex
+     * @param  string|int $labelOrIndex
      * @param  array      $options Array of options to set.
      * @throws \Khill\Lavacharts\Exceptions\InvalidParamType
      */
-    public function __construct($cLabelOrIndex, array $options = [])
+    public function __construct($labelOrIndex, array $options = [])
     {
-        $this->setOptions($options);
-
-        switch (gettype($cLabelOrIndex)) {
-            case 'string':
-                $options = array_merge($options, ['filterColumnLabel' => $cLabelOrIndex]);
-                break;
-            case 'integer':
-                $options = array_merge($options, ['filterColumnIndex' => $cLabelOrIndex]);
-                break;
-            default:
-                throw new InvalidParamType($cLabelOrIndex, 'string | int');
-                break;
+        if (!is_int($labelOrIndex) && !is_string($labelOrIndex)) {
+            throw new InvalidParamType($labelOrIndex, 'string | int');
         }
 
+        if (is_int($labelOrIndex)) {
+            $options = array_merge($options, ['filterColumnIndex' => $labelOrIndex]);
+        }
 
-    }
+        if (is_string($labelOrIndex)) {
+            $options = array_merge($options, ['filterColumnLabel' => $labelOrIndex]);
+        }
 
-    /**
-     * Returns the Filter type.
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return static::TYPE;
+        $this->setOptions($options);
     }
 
     /**

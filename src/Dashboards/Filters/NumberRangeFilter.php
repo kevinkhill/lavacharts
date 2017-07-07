@@ -17,9 +17,10 @@ namespace Khill\Lavacharts\Dashboards\Filters;
 class NumberRangeFilter extends Filter
 {
     /**
-     * Type of Filter.
-     *
-     * @var string
+     * @inheritdoc
      */
-    const TYPE = 'NumberRangeFilter';
+    public function getType()
+    {
+        return 'NumberRangeFilter';
+    }
 }

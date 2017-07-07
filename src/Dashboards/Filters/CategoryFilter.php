@@ -19,9 +19,10 @@ namespace Khill\Lavacharts\Dashboards\Filters;
 class CategoryFilter extends Filter
 {
     /**
-     * Type of Filter.
-     *
-     * @var string
+     * @inheritdoc
      */
-    const TYPE = 'CategoryFilter';
+    public function getType()
+    {
+        return 'CategoryFilter';
+    }
 }

@@ -20,9 +20,10 @@ namespace Khill\Lavacharts\Dashboards\Filters;
 class ChartRangeFilter extends Filter
 {
     /**
-     * Type of Filter.
-     *
-     * @var string
+     * @inheritdoc
      */
-    const TYPE = 'ChartRangeFilter';
+    public function getType()
+    {
+        return 'ChartRangeFilter';
+    }
 }

@@ -26,7 +26,7 @@ class FilterFactory
      *
      * @var array
      */
-    public static $FILTER_TYPES = [
+    const TYPES = [
         'Category',
         'ChartRange',
         'DateRange',
@@ -38,29 +38,28 @@ class FilterFactory
      * Create a new Filter.
      *
      * @param  string     $type
-     * @param  string|int $columnLabelOrIndex
-     * @param  array      $config
-     * @return \Khill\Lavacharts\Dashboards\Filters\Filter
+     * @param  string|int $labelOrIndex
+     * @param  array      $options
+     * @return Filter
      * @throws \Khill\Lavacharts\Exceptions\InvalidFilterType
      * @throws \Khill\Lavacharts\Exceptions\InvalidParamType
      */
-    public static function create($type, $columnLabelOrIndex, array $config = [])
+    public static function create($type, $labelOrIndex, array $options = [])
     {
+        // Strip 'Filter' if given
         if (is_string($type)) {
             $type = str_replace('Filter', '', $type);
         }
 
-        if (in_array($type, self::$FILTER_TYPES, true) === false) {
+        // Check if valid filter type
+        if (in_array($type, self::TYPES, true) === false) {
             throw new InvalidFilterType($type);
         }
 
-        if (is_string($columnLabelOrIndex) === false && is_int($columnLabelOrIndex) === false) {
-            throw new InvalidParamType($columnLabelOrIndex, 'string | int');
-        }
-
+        // Build the namespace
         $filter = self::makeNamespace($type);
 
-        return new $filter($columnLabelOrIndex, $config);
+        return new $filter($labelOrIndex, $options);
     }
 
     /**
