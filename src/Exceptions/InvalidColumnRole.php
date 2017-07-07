@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-use Khill\Lavacharts\Values\Role;
+use Khill\Lavacharts\DataTables\Columns\Role;
 
 class InvalidColumnRole extends LavaException
 {
@@ -14,7 +14,7 @@ class InvalidColumnRole extends LavaException
             $message = gettype($invalidRole) . ' is not a valid column role, must one of ';
         }
 
-        $message .= '[ ' . implode(' | ', Role::$roles) . ' ]';
+        $message .= '[ ' . implode(' | ', Role::TYPES) . ' ]';
 
         parent::__construct($message);
     }

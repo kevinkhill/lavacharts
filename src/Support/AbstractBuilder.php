@@ -8,15 +8,14 @@ use InvalidArgumentException;
 
 
 /**
- * ColumnBuilder Class
+ * AbstractBuilder Class
  *
- * The ColumnBuilder is used to create new columns.
+ * The AbstractBuilder is used as a base for other builders.
  *
  *
  * @package       Khill\Lavacharts\Support
  * @since         3.2.0
- * @author        Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2017, KHill Designs
+ * @author        TheCelavi <https://pastebin.com/u/TheCelavi>
  * @link          http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT

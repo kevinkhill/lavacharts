@@ -26,7 +26,7 @@ use Khill\Lavacharts\Charts\ChartFactory;
 $app   = App::getFacadeApplication();
 $blade = $app['view']->getEngineResolver()->resolve('blade')->getCompiler();
 
-$renderables = array_merge(['Dashboard'], ChartFactory::$CHART_TYPES);
+$renderables = array_merge(['Dashboard'], ChartFactory::TYPES);
 
 
 foreach ($renderables as $chart) {

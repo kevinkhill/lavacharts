@@ -19,7 +19,7 @@ use \Khill\Lavacharts\DataTables\DataTable;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class DashboardBuilder extends GenericBuilder
+class DashboardBuilder extends RenderableBuilder
 {
     /**
      * Datatable for the chart.

@@ -8,7 +8,7 @@ use Khill\Lavacharts\Exceptions\InvalidColumnType;
 use Khill\Lavacharts\Support\AbstractBuilder;
 use Khill\Lavacharts\Support\Customizable;
 use Khill\Lavacharts\Values\Role;
-use Khill\Lavacharts\Values\StringValue;
+use Khill\Lavacharts\Support\StringValue;
 
 /**
  * ColumnBuilder Class

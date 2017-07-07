@@ -8,7 +8,7 @@ use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
-use Khill\Lavacharts\Values\StringValue;
+use Khill\Lavacharts\Support\StringValue as Str;
 
 /**
  * DataCell Object
@@ -70,15 +70,10 @@ class Cell implements Customizable, Arrayable, Jsonable
      * @param  array  $options A map of custom values applied to the cell
      * @throws \Khill\Lavacharts\Exceptions\InvalidParamType
      */
-    public function __construct($value, $format = null, array $options = [])
+    public function __construct($value, $format = '', array $options = [])
     {
-        if (StringValue::isNonEmpty($format) || $format === null) {
-            $this->format = $format;
-        } else {
-            throw new InvalidArgumentException($format, 'string');
-        }
-
-        $this->value = $value;
+        $this->format = Str::verify($format);
+        $this->value  = $value;
 
         $this->setOptions($options);
     }
@@ -142,7 +137,7 @@ class Cell implements Customizable, Arrayable, Jsonable
     {
         $cell = ['v' => $this->value];
 
-        if ($this->format !== null) {
+        if (!empty($this->format)) {
             $cell['f'] = $this->format;
         }
 

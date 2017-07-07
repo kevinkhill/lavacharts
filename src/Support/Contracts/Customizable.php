@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Support\Contracts;
 
+use Khill\Lavacharts\Support\Options;
+
 /**
  * Arrayable Interface
  *
@@ -21,7 +23,7 @@ interface Customizable
     /**
      * Retrieve the instance Options.
      *
-     * @return \Khill\Lavacharts\Support\Options
+     * @return Options
      */
     public function getOptions();
 }

@@ -9,9 +9,11 @@ use Khill\Lavacharts\Javascript\ChartJsFactory;
 use Khill\Lavacharts\Javascript\DashboardJsFactory;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
+use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use \Khill\Lavacharts\Values\Label;
 use \Khill\Lavacharts\Values\ElementId;
 use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
+use Khill\Lavacharts\Support\StringValue as Str;
 
 /**
  * Abstract Renderable Class
@@ -29,6 +31,8 @@ use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
  */
 abstract class Renderable implements Arrayable, Jsonable
 {
+    use ArrayToJson;
+
     /**
      * The renderable's unique label.
      *
@@ -51,40 +55,6 @@ abstract class Renderable implements Arrayable, Jsonable
     protected $renderable = true;
 
     /**
-     * Array representation of the Chart.
-     *
-     * @return array
-     */
-    public abstract function toArray();
-
-    /**
-     * Get an instance of the specific JsFactory
-     *
-     * @return ChartJsFactory|DashboardJsFactory
-     */
-    public abstract function getJsFactory();
-
-    /**
-     * Return a JSON representation of the chart.
-     *
-     * @return string
-     */
-    public function toJson()
-    {
-        return json_encode($this);
-    }
-
-    /**
-     * Custom serialization of the chart.
-     *
-     * @return array
-     */
-    function jsonSerialize()
-    {
-        return $this->toArray();
-    }
-
-    /**
      * Returns the ElementId.
      *
      * @return ElementId
@@ -95,16 +65,6 @@ abstract class Renderable implements Arrayable, Jsonable
     }
 
     /**
-     * Returns the ElementId as a string.
-     *
-     * @return string
-     */
-    public function getElementIdStr()
-    {
-        return (string) $this->elementId;
-    }
-
-    /**
      * Creates and/or sets the ElementId.
      *
      * @param  string|ElementId $elementId
@@ -112,11 +72,7 @@ abstract class Renderable implements Arrayable, Jsonable
      */
     public function setElementId($elementId)
     {
-        if ($elementId instanceof ElementId) {
-            $this->elementId = $elementId;
-        } else {
-            $this->elementId = new ElementId($elementId);
-        }
+        $this->elementId = Str::verify($elementId);
     }
 
     /**
@@ -141,28 +97,14 @@ abstract class Renderable implements Arrayable, Jsonable
     }
 
     /**
-     * Returns the label as a string.
-     *
-     * @return string
-     */
-    public function getLabelStr()
-    {
-        return (string) $this->label;
-    }
-
-    /**
      * Creates and/or sets the Label.
      *
-     * @param  string|Label $label
+     * @param  string $label
      * @throws InvalidLabel
      */
     public function setLabel($label)
     {
-        if ($label instanceof Label) {
-            $this->label = $label;
-        } else {
-            $this->label = new Label($label);
-        }
+        $this->label = Str::verify($label);
     }
 
     /**

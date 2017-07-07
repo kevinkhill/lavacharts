@@ -118,6 +118,17 @@ class Options implements Arrayable, Jsonable, Countable
     }
 
     /**
+     * Check if an option has been set.
+     *
+     * @param string $option
+     * @return bool
+     */
+    public function hasAndIs($option, $type)
+    {
+        return $this->has($option) && call_user_func("is_$type", $option);
+    }
+
+    /**
      * Get the value of an option.
      *
      * @param string $key Option to get

@@ -2,18 +2,19 @@
 
 namespace Khill\Lavacharts\Dashboards;
 
-use Khill\Lavacharts\Javascript\DashboardJsFactory;
-use Khill\Lavacharts\Values\Label;
-use Khill\Lavacharts\Values\ElementId;
 use Khill\Lavacharts\Dashboards\Bindings\Binding;
 use Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
+use Khill\Lavacharts\Dashboards\Wrappers\Wrapper;
+use Khill\Lavacharts\Javascript\DashboardJsFactory;
+use Khill\Lavacharts\Support\Google;
 use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
-use Khill\Lavacharts\Support\Contracts\DataTable as DataInterface;
+use Khill\Lavacharts\Support\Contracts\DataInterface;
 use Khill\Lavacharts\Support\Contracts\JsFactory;
 use Khill\Lavacharts\Support\Contracts\JsPackage;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
+use Khill\Lavacharts\Support\StringValue as Str;
 
 /**
  * Class Dashboard
@@ -31,7 +32,7 @@ use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Dashboard extends Renderable implements DataInterface, Customizable, JsFactory, JsPackage
+class Dashboard extends Renderable implements Customizable, JsFactory, JsPackage
 {
     use HasDataTable, HasOptions;
 
@@ -75,28 +76,34 @@ class Dashboard extends Renderable implements DataInterface, Customizable, JsFac
      *
      * If passed an array of bindings, they will be applied upon creation.
      *
-     * @param \Khill\Lavacharts\Values\Label                $label Label for the Dashboard
-     * @param \Khill\Lavacharts\Support\Contracts\DataTable $datatable
-     * @param \Khill\Lavacharts\Values\ElementId            $elementId Element Id for the Dashboard
+     * @param string        $label     Label for the Dashboard
+     * @param DataInterface $datatable DataInterface for the dashboard
+     * @param array         $options   Element Id for the Dashboard
      */
-    public function __construct(Label $label, DataInterface $data, ElementId $elementId = null)
+    public function __construct($label, DataInterface $data, array $options = [])
     {
         $this->bindingFactory = new BindingFactory;
 
-        $this->label     = $label;
+        $this->label     = Str::verify($label);
         $this->datatable = $data;
-        $this->elementId = $elementId;
+
+        $this->setOptions($options);
+
+        if ($this->options->hasAndIs('elementId', 'string')) {
+            $this->elementId = $this->options->elementId;
+        }
     }
 
     /**
      * Returns the chart type.
      *
+     * TODO: remove?
      * @since 3.1.0
      * @return string
      */
     public function getType()
     {
-        return static::TYPE;
+        return self::TYPE;
     }
 
     /**
@@ -106,7 +113,7 @@ class Dashboard extends Renderable implements DataInterface, Customizable, JsFac
      */
     public function getJsPackage()
     {
-        return static::VISUALIZATION_PACKAGE;
+        return self::VISUALIZATION_PACKAGE;
     }
 
     /**
@@ -116,7 +123,7 @@ class Dashboard extends Renderable implements DataInterface, Customizable, JsFac
      */
     public function getJsClass()
     {
-        return 'google.visualization.Dashboard';
+        return Google::VIZ_NAMESPACE . self::TYPE;
     }
 
     /**
@@ -136,17 +143,24 @@ class Dashboard extends Renderable implements DataInterface, Customizable, JsFac
      */
     public function getBoundCharts()
     {
-        $charts = [];
+        // TODO: test this
+        return array_map(function (Binding $binding) {
+            return array_map(function (Wrapper $chartWrapper) {
+                return $chartWrapper->unwrap();
+            }, $binding->getChartWrappers());
+        }, $this->bindings);
 
-        foreach ($this->bindings as $binding) {
-            foreach ($binding->getChartWrappers() as $chartWrapper) {
-                $chart = $chartWrapper->unwrap();
-
-                $charts[] = $chart;
-            }
-        }
-
-        return $charts;
+//        $charts = [];
+//
+//        foreach ($this->bindings as $binding) {
+//            foreach ($binding->getChartWrappers() as $chartWrapper) {
+//                $chart = $chartWrapper->unwrap();
+//
+//                $charts[] = $chart;
+//            }
+//        }
+//
+//        return $charts;
     }
 
     /**
@@ -173,6 +187,16 @@ class Dashboard extends Renderable implements DataInterface, Customizable, JsFac
     }
 
     /**
+     * Fetch the dashboard's bindings.
+     *
+     * @return Binding[]
+     */
+    public function getBindings()
+    {
+        return $this->bindings;
+    }
+
+    /**
      * Batch add an array of bindings.
      *
      * This method can set all bindings at once instead of chaining multiple bind methods.
@@ -183,21 +207,11 @@ class Dashboard extends Renderable implements DataInterface, Customizable, JsFac
      */
     public function setBindings(array $bindings)
     {
-        $this->bindings = array_map(function ($bindingPair) {
+        $this->bindings = array_map(function (array $bindingPair) {
             return $this->bindingFactory->create($bindingPair[0], $bindingPair[1]);
         }, $bindings);
 
         return $this;
-    }
-
-    /**
-     * Fetch the dashboard's bindings.
-     *
-     * @return Binding[]
-     */
-    public function getBindings()
-    {
-        return $this->bindings;
     }
 
     /**

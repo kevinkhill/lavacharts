@@ -38,7 +38,7 @@ class LavachartsExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        $renderableTypes = array_merge(['dashboard'], ChartFactory::$CHART_TYPES);
+        $renderableTypes = array_merge(['dashboard'], ChartFactory::TYPES);
 
         $renderFunctions = [];
 

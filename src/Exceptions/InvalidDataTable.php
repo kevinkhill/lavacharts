@@ -4,9 +4,9 @@ namespace Khill\Lavacharts\Exceptions;
 
 class InvalidDataTable extends LavaException
 {
-    public function __construct($InvalidDataTable = null)
+    public function __construct($badData)
     {
-        $message = gettype($InvalidDataTable) . ' is not a valid DataTable.';
+        $message = gettype($badData) . ' is not a valid Table.';
 
         parent::__construct($message);
     }

@@ -37,7 +37,7 @@ class ChartFactory
      *
      * @var array
      */
-    public static $CHART_TYPES = [
+    const TYPES = [
         'AreaChart',
         'AnnotationChart',
         'BarChart',
@@ -138,7 +138,7 @@ class ChartFactory
      */
     public static function getChartTypes()
     {
-        return static::$CHART_TYPES;
+        return static::TYPES;
     }
 
     /**
@@ -150,6 +150,6 @@ class ChartFactory
      */
     public static function isValidChart($type)
     {
-        return in_array($type, self::$CHART_TYPES, true);
+        return in_array($type, static::TYPES, true);
     }
 }

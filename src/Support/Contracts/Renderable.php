@@ -23,14 +23,14 @@ interface Renderable
     /**
      * Returns the ElementId.
      *
-     * @return \Khill\Lavacharts\Values\ElementId
+     * @return string
      */
     public function getElementId();
 
     /**
      * Returns the label.
      *
-     * @return \Khill\Lavacharts\Values\Label
+     * @return string
      */
     public function getLabel();
 

@@ -4,11 +4,11 @@ namespace Khill\Lavacharts\DataTables;
 
 use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
-use Khill\Lavacharts\Support\Contracts\JavascriptSource;
+use Khill\Lavacharts\Support\Contracts\Javascriptable;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 
-class JoinedDataTable implements DataInterface, JavascriptSource
+class JoinedDataTable implements DataInterface, Javascriptable
 {
     use HasOptions, ToJavascript;
 

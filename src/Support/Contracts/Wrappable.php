@@ -15,7 +15,7 @@ namespace Khill\Lavacharts\Support\Contracts;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-interface Wrappable
+interface Wrappable extends Customizable
 {
     /**
      * Returns the wrap type, either Control or Chart.

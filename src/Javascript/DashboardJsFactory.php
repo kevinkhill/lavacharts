@@ -2,8 +2,10 @@
 
 namespace Khill\Lavacharts\Javascript;
 
+use Khill\Lavacharts\Dashboards\Wrappers\Wrapper;
 use Khill\Lavacharts\Lavacharts;
 use Khill\Lavacharts\Dashboards\Dashboard;
+use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Values\ElementId;
 
 /**
@@ -90,27 +92,27 @@ class DashboardJsFactory extends JavascriptFactory
      * @access private
      * @return string
      */
-    private function processBindings()
+    private function processBindings() //@TODO this could use some refactoring
     {
-        $buffer = '';
+        $buffer = new Buffer();
         $bindings = $this->dashboard->getBindings();
 
         /** @var \Khill\Lavacharts\Dashboards\Bindings\Binding $binding */
         foreach ($bindings as $binding) {
-            switch ($binding::TYPE) {
+            switch ($binding->getType()) {
                 case 'OneToOne':
-                    $controls = $binding->getControlWrappers()[0]->getJsConstructor();
-                    $charts   = $binding->getChartWrappers()[0]->getJsConstructor();
+                    $controls = $binding->getControlWrappers()[0]->toJavascript();
+                    $charts   = $binding->getChartWrappers()[0]->toJavascript();
                     break;
 
                 case 'OneToMany':
-                    $controls = $binding->getControlWrappers()[0]->getJsConstructor();
+                    $controls = $binding->getControlWrappers()[0]->toJavascript();
                     $charts   = $this->mapWrapperArray($binding->getChartWrappers());
                     break;
 
                 case 'ManyToOne':
                     $controls = $this->mapWrapperArray($binding->getControlWrappers());
-                    $charts   = $binding->getChartWrappers()[0]->getJsConstructor();
+                    $charts   = $binding->getChartWrappers()[0]->toJavascript();
                     break;
 
                 case 'ManyToMany':
@@ -119,7 +121,13 @@ class DashboardJsFactory extends JavascriptFactory
                     break;
             }
 
-            $buffer .= sprintf('this.dashboard.bind(%s, %s);', $controls, $charts);
+            $buffer->append(
+                sprintf(
+                    'this.dashboard.bind(%s, %s);',
+                    $controls,
+                    $charts
+                )
+            );
         }
 
         return $buffer;
@@ -134,8 +142,8 @@ class DashboardJsFactory extends JavascriptFactory
      */
     private function mapWrapperArray($wrapperArray)
     {
-        $wrappers = array_map(function ($wrapperArray) {
-            return $wrapperArray->getJsConstructor();
+        $wrappers = array_map(function (Wrapper $wrapper) {
+            return $wrapper->toJavascript();
         }, $wrapperArray);
 
         return '[' . implode(', ', $wrappers) . ']';

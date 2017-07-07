@@ -15,18 +15,14 @@ use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\Exceptions\InvalidLabel;
 use Khill\Lavacharts\Exceptions\InvalidRenderable;
 use Khill\Lavacharts\Javascript\ScriptManager;
-use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
-use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Html\HtmlFactory;
 use Khill\Lavacharts\Support\Psr4Autoloader;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
-use Khill\Lavacharts\Values\ElementId;
-use Khill\Lavacharts\Values\Label;
-use Khill\Lavacharts\Values\StringValue;
+use Khill\Lavacharts\Support\StringValue as Str;
 
 /**
  * Lavacharts - A PHP wrapper library for the Google Chart API
@@ -121,7 +117,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
             }
 
             if ($this->exists($method, $args[0])) {
-                $label = new Label($args[0]);
+                $label = Str::verify($args[0]);
 
                 return $this->volcano->get($method, $label);
             } else {
@@ -132,14 +128,14 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
         }
 
         //Filters
-        if ((bool) preg_match('/Filter$/', $method)) {
+        if (Str::endsWith($method, 'Filter')) {
             $options = isset($args[1]) ? $args[1] : [];
 
             return FilterFactory::create($method, $args[0], $options);
         }
 
         //Formats
-        if ((bool) preg_match('/Format$/', $method)) {
+        if (Str::endsWith($method, 'Format')) {
             $options = isset($args[0]) ? $args[0] : [];
 
             return Format::create($method, $options);
@@ -178,6 +174,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     {
         return [
             'version' => self::VERSION,
+            'options' => $this->options,
             'charts' => $this->volcano->getCharts(),
             'dashboards' => $this->volcano->getDashboards(),
         ];
@@ -218,7 +215,8 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     public function DataTable()
     {
         return call_user_func_array(
-            [DataFactory::class, 'DataTable'], func_get_args()
+            [DataFactory::class, 'DataTable'],
+            func_get_args()
         );
     }
 
@@ -232,7 +230,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      */
     public function Dashboard($label, DataTable $dataTable)
     {
-        $label = new Label($label);
+        $label = Str::verify($label);
 
         if ($this->exists('Dashboard', $label)) {
             return $this->volcano->get('Dashboard', $label);
@@ -247,14 +245,13 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Create a new ControlWrapper from a Filter
      *
      * @since  3.0.0
-     * @uses   \Khill\Lavacharts\Values\ElementId
-     * @param  \Khill\Lavacharts\Dashboards\Filters\Filter $filter Filter to wrap
+     * @param  Filter $filter    Filter to wrap
      * @param  string $elementId HTML element ID to output the control.
-     * @return \Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper
+     * @return ControlWrapper
      */
     public function ControlWrapper(Filter $filter, $elementId)
     {
-        $elementId = new ElementId($elementId);
+        $elementId = Str::verify($elementId);
 
         return new ControlWrapper($filter, $elementId);
     }
@@ -263,14 +260,13 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Create a new ChartWrapper from a Chart
      *
      * @since  3.0.0
-     * @uses   \Khill\Lavacharts\Values\ElementId
-     * @param  \Khill\Lavacharts\Charts\Chart $chart Chart to wrap
+     * @param  Chart  $chart     Chart to wrap
      * @param  string $elementId HTML element ID to output the control.
-     * @return \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper
+     * @return ChartWrapper
      */
     public function ChartWrapper(Chart $chart, $elementId)
     {
-        $elementId = new ElementId($elementId);
+        $elementId = Str::verify($elementId);
 
         return new ChartWrapper($chart, $elementId);
     }
@@ -288,7 +284,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Returns the current locale used in the DataTable
      *
-     * @deprecated 3.2.0
+     * @deprecated 3.2.0 use $lava->getOption('locale')
      * @since  3.1.0
      * @return string
      */
@@ -315,7 +311,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      */
     public function setLocale($locale = 'en')
     {
-        $this->options['locale'] = new StringValue($locale);
+        $this->options['locale'] = Str::verify($locale);
 
         return $this;
     }
@@ -353,14 +349,13 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Checks to see if the given chart or dashboard exists in the volcano storage.
      *
      * @since  2.4.2
-     * @uses   \Khill\Lavacharts\Values\Label
      * @param  string $type Type of object to isNonEmpty.
      * @param  string $label Label of the object to isNonEmpty.
      * @return boolean
      */
     public function exists($type, $label)
     {
-        $label = new Label($label);
+        $label = Str::verify($label);
 
         if ($type == 'Dashboard') {
             return $this->volcano->checkDashboard($label);
@@ -373,7 +368,6 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Fetches an existing Chart or Dashboard from the volcano storage.
      *
      * @since  3.0.0
-     * @uses   \Khill\Lavacharts\Values\Label
      * @param  string $type  Type of Chart or Dashboard.
      * @param  string $label Label of the Chart or Dashboard.
      * @return Renderable
@@ -381,7 +375,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      */
     public function fetch($type, $label)
     {
-        $label = new Label($label);
+        $label = Str::verify($label);
 
         if (strpos($type, 'Chart') === false && $type != 'Dashboard') {
             throw new InvalidRenderable($type);
@@ -423,7 +417,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      */
     public function render($type, $label, $elementId = null, $div = false)
     {
-        $label = new Label($label);
+        $label = Str::verify($label);
 
         if (is_string($elementId)) {
             $elementId = new ElementId($elementId);

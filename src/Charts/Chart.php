@@ -2,12 +2,15 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use Khill\Lavacharts\Exceptions\InvalidArgumentException;
+use Khill\Lavacharts\Support\Google;
+use Khill\Lavacharts\Support\StringValue as Str;
 use Khill\Lavacharts\Exceptions\BadMethodCallException;
 use Khill\Lavacharts\Javascript\ChartJsFactory;
 use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
-use Khill\Lavacharts\Support\Contracts\JavascriptSource;
+use Khill\Lavacharts\Support\Contracts\Javascriptable;
 use Khill\Lavacharts\Support\Contracts\JsFactory;
 use Khill\Lavacharts\Support\Contracts\JsPackage;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
@@ -15,9 +18,8 @@ use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
-use Khill\Lavacharts\Values\ElementId;
-use Khill\Lavacharts\Values\Label;
 
+//@TODO convert all the charts' static accessors to methods
 /**
  * Class Chart
  *
@@ -32,9 +34,7 @@ use Khill\Lavacharts\Values\Label;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Chart
-    extends Renderable
-    implements Customizable, /*JavascriptSource,*/ JsFactory, JsPackage, Wrappable
+class Chart extends Renderable implements Customizable, /*Javascriptable,*/ JsFactory, JsPackage, Wrappable
 {
     use HasDataTable, HasOptions/*, ToJavascript*/;
 
@@ -53,19 +53,19 @@ class Chart
     /**
      * Builds a new chart with the given label.
      *
-     * @param Label         $label   Identifying label for the chart.
+     * @param string        $label   Identifying label for the chart.
      * @param DataInterface $data    DataTable used for the chart.
-     * @param array         $options Options fot the chart.
+     * @param array         $options Options for the chart.
      */
-    public function __construct(Label $label, DataInterface $data = null, array $options = [])
+    public function __construct($label, DataInterface $data = null, array $options = [])
     {
-        $this->setOptions($options);
-
-        $this->label     = $label;
+        $this->label     = Str::verify($label);
         $this->datatable = $data;
 
-        if ($this->options->has('elementId')) {
-            $this->elementId = new ElementId($this->options->elementId);
+        $this->setOptions($options);
+
+        if ($this->options->hasAndIs('elementId', 'string')) {
+            $this->elementId = $this->options->elementId;
         }
     }
 
@@ -121,7 +121,7 @@ class Chart
      */
     public function getJsClass()
     {
-        return 'google.visualization.' . static::TYPE;
+        return Google::VIZ_NAMESPACE . static::TYPE;
     }
 
     /**
@@ -141,24 +141,24 @@ class Chart
      */
     public function toArray()
     {
-        if ( ! method_exists($this->datatable, 'getOptions')) {
-            throw new BadMethodCallException($this->datatable, 'getOptions');
+        // If the DataTable has any set options, they will be merged
+        // with the chart options.
+        if (method_exists($this->datatable, 'getOptions')) {
+            $this->mergeOptions($this->datatable->getOptions());
         }
 
-        $this->mergeOptions($this->datatable->getOptions());
-
         return [
-            'pngOutput'    => false,
-            'chartType'    => $this->getType(),
-            'events'       => $this->getEvents(),
-            'formats'      => $this->getFormats(),
-            'chartVer'     => $this->getVersion(),
-            'chartClass'   => $this->getJsClass(),
-            'chartOptions' => $this->getOptions(),
-            'chartLabel'   => $this->getLabelStr(),
-            'chartPackage' => $this->getJsPackage(),
-            'elemId'       => $this->getElementId(),
-            'chartData'    => $this->datatable->toJsDataTable(),
+            'pngOutput' => false,
+            'type'      => $this->getType(),
+            'events'    => $this->getEvents(),
+            'formats'   => $this->getFormats(),
+//            'chartVer'     => $this->getVersion(), TODO: check if needed
+            'class'     => $this->getJsClass(),
+            'options'   => $this->getOptions(),
+            'label'     => $this->getLabel(),
+            'package'   => $this->getJsPackage(),
+            'elemId'    => $this->getElementId(),
+            'datatable' => $this->datatable->toJsDataTable(),
         ];
     }
 
@@ -205,11 +205,12 @@ class Chart
     {
         $buffer = new Buffer();
 
-        if (!method_exists([$this->datatable], 'hasFormattedColumns')) {
-//            throw new BadMethodCallException($this->datatable, 'hasFormattedColumns');
-//        }
+        if (!method_exists($this->datatable, 'getFormattedColumns')) {
+            $buffer->append('console.log("');
+            $buffer->append('[lavacharts] The implementation of DataInterface did not have ');
+            $buffer->append('getFormattedColumns() defined, so the data was not formatted.');
+            $buffer->append('");');
 
-//        if (!$this->datatable->hasFormattedColumns()) {
             return $buffer;
         }
 

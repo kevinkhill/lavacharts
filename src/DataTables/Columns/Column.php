@@ -9,8 +9,7 @@ use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
-use Khill\Lavacharts\Values\Role;
-use Khill\Lavacharts\Values\StringValue;
+use Khill\Lavacharts\Support\StringValue;
 
 /**
  * Column Object
@@ -35,7 +34,7 @@ class Column implements Customizable, Arrayable, Jsonable
      *
      * @var array
      */
-    public static $TYPES = [
+    const TYPES = [
         'role',
         'string',
         'number',
@@ -83,7 +82,11 @@ class Column implements Customizable, Arrayable, Jsonable
      * @param  array  $options Column options (optional)
      */
     public function __construct(
-        $type, $label = '', Format $format = null, Role $role = null, array $options = []
+        $type,
+        $label = '',
+        Format $format = null,
+        Role $role = null,
+        array $options = []
     )
     {
         $this->setOptions($options);
@@ -112,8 +115,8 @@ class Column implements Customizable, Arrayable, Jsonable
      */
     public static function isValidType($type)
     {
-        if (in_array($type, self::$types, true) === false) {
-            throw new InvalidColumnType($type, self::$TYPES);
+        if (!in_array($type, self::TYPES, true)) {
+            throw new InvalidColumnType($type, self::TYPES);
         }
     }
 

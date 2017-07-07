@@ -3,14 +3,14 @@
 namespace Khill\Lavacharts\Dashboards\Wrappers;
 
 use Khill\Lavacharts\Support\Contracts\Arrayable;
-use Khill\Lavacharts\Support\Contracts\JavascriptSource;
+use Khill\Lavacharts\Support\Contracts\Javascriptable;
 use Khill\Lavacharts\Support\Contracts\JsClass;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
 use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
-use Khill\Lavacharts\Values\StringValue as Str;
+use Khill\Lavacharts\Support\StringValue as Str;
 
 /**
  * Class Wrapper
@@ -26,7 +26,7 @@ use Khill\Lavacharts\Values\StringValue as Str;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-abstract class Wrapper implements Arrayable, JavascriptSource, Jsonable, JsClass
+abstract class Wrapper implements Arrayable, Javascriptable, Jsonable, JsClass
 {
     use HasElementId, ArrayToJson, ToJavascript;
 

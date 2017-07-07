@@ -6,20 +6,20 @@
 
     var $lava = this.lava;
 
-    var $chart = $lava.createChart('<chartType>', '<chartLabel>');
+    var $chart = $lava.createChart('<type>', '<label>');
 
     $chart.init = function() {
-        $chart.package = '<chartPackage>';
+        $chart.package = '<package>';
         $chart.setElement('<elemId>');
         $chart.setPngOutput(<pngOutput>);
 
         $chart.configure = function () {
             $chart.render = function (data) {
-                $chart.setData(<chartData>);
+                $chart.setData(<datatable>);
 
-                $chart.options = <chartOptions>;
+                $chart.options = <options>;
 
-                $chart.chart = new <chartClass>($chart.element);
+                $chart.chart = new <class>($chart.element);
 
                 <formats>
                 <events>

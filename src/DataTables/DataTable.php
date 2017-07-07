@@ -7,6 +7,7 @@ use DateTimeZone;
 use Khill\Lavacharts\DataTables\Cells\Cell;
 use Khill\Lavacharts\DataTables\Cells\DateCell;
 use Khill\Lavacharts\DataTables\Columns\Column;
+use Khill\Lavacharts\DataTables\Columns\Role;
 use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Exceptions\InvalidCellCount;
@@ -19,10 +20,12 @@ use Khill\Lavacharts\Javascript\JavascriptSource;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
+use Khill\Lavacharts\Support\Contracts\Javascriptable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
+use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
-use Khill\Lavacharts\Values\Role;
-use Khill\Lavacharts\Values\StringValue;
+use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
+use Khill\Lavacharts\Support\StringValue;
 
 /**
  * The DataTable object is used to hold the data passed into a visualization.
@@ -46,14 +49,9 @@ use Khill\Lavacharts\Values\StringValue;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class DataTable extends JavascriptSource implements DataInterface, Customizable, Arrayable, Jsonable
+class DataTable implements DataInterface, Customizable, Arrayable, Javascriptable, Jsonable
 {
-    use HasOptions;
-
-    /**
-     * Format string for the default DataTable creation format.
-     */
-    const DEFAULT_DATATABLE_FORMAT = 'new google.visualization.DataTable(%s)';
+    use HasOptions, ArrayToJson, ToJavascript;
 
     /**
      * Array of the DataTable's column objects.
@@ -80,7 +78,6 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
      */
     public function __construct(array $options = [])
     {
-
         $this->initOptions($options);
 
         if (!$this->isValidTimeZone($this->options->timezone)) {
@@ -91,9 +88,9 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
             throw new InvalidDateTimeFormat($this->options->datetime_format);
         }
 
-        $this->options->set('timezone', new DateTimeZone($this->options->timezone));
+        $this->options->setIfNot('timezone', new DateTimeZone($this->options->timezone));
 
-        $this->options->set('datetime_format', $this->options->datetime_format);
+        $this->options->setIfNot('datetime_format', $this->options->datetime_format);
     }
 
     /**
@@ -108,6 +105,14 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
             'cols' => $this->cols,
             'rows' => $this->rows,
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function toJsDataTable()
+    {
+        return $this->toJavascript();
     }
 
     /**
@@ -132,14 +137,6 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
     }
 
     /**
-     * @inheritdoc
-     */
-    public function toJsDataTable()
-    {
-        return $this->toJavascript();
-    }
-
-    /**
      * Return a format string that will be used by vsprintf to convert the
      * extending class to javascript.
      *
@@ -147,7 +144,7 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
      */
     public function getJavascriptFormat()
     {
-        return self::DEFAULT_DATATABLE_FORMAT;
+        return 'new google.visualization.DataTable(%s)';
     }
 
     /**
@@ -164,16 +161,6 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
         return [
             $this->toJson(false)
         ];
-    }
-
-    /**
-     * Custom serialization of the DataTable.
-     *
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        return $this->toArray();
     }
 
     /**
@@ -419,7 +406,7 @@ class DataTable extends JavascriptSource implements DataInterface, Customizable,
      */
     public function addRoleColumn($type, $role, array $options = [])
     {
-        $role = new Role($role);
+        $role = Role::create($role);
 
         return $this->createColumnWithParams($type, '', null, $role, $options);
     }

@@ -15,7 +15,7 @@ namespace Khill\Lavacharts\Support\Contracts;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-interface ToJavascript
+interface Javascriptable
 {
     /**
      * Using the format provided and the source variables, transform the instance

@@ -22,7 +22,7 @@ use Khill\Lavacharts\Exceptions\InvalidChartType;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT      MIT
  */
-class ChartBuilder extends GenericBuilder
+class ChartBuilder extends RenderableBuilder
 {
     /**
      * Type of chart to create.

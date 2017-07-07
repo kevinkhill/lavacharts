@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\DataTables\Columns;
 
 use Khill\Lavacharts\Exceptions\InvalidColumnRole;
-use Khill\Lavacharts\Values\StringValue;
+use Khill\Lavacharts\Support\StringValue;
 
 /**
  * Role Value Object
@@ -25,7 +25,7 @@ class Role extends StringValue
      *
      * @var array
      */
-    const ROLES = [
+    const TYPES = [
         'annotation',
         'annotationText',
         'certainty',
@@ -38,17 +38,17 @@ class Role extends StringValue
         'domain',
     ];
 
+    /**
+     * Role constructor.
+     *
+     * @param string $role
+     * @throws InvalidColumnRole
+     */
     public function __construct($role)
     {
-        try {
-            parent::__construct($role);
+        static::check($role);
 
-            if (static::isValid($role) === false) {
-                throw new InvalidColumnRole($this->value, self::ROLES);
-            }
-        } catch (\Exception $e) {
-            throw new InvalidColumnRole($role, self::ROLES);
-        }
+        parent::__construct($role);
     }
 
     /**
@@ -59,7 +59,7 @@ class Role extends StringValue
      */
     public static function check($role)
     {
-        if ( ! self::isValid($role)) {
+        if (!self::isValid($role)) {
             throw new InvalidColumnRole($role);
         }
     }

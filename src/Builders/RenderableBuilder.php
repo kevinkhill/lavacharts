@@ -2,8 +2,7 @@
 
 namespace Khill\Lavacharts\Builders;
 
-use Khill\Lavacharts\Values\Label;
-use Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Support\StringValue as Str;
 
 /**
  * Class GenericBuilder
@@ -18,32 +17,31 @@ use Khill\Lavacharts\Values\ElementId;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT      MIT
  */
-class GenericBuilder
+class RenderableBuilder
 {
     /**
      * The chart's unique label.
      *
-     * @var \Khill\Lavacharts\Values\Label
+     * @var string
      */
     protected $label = null;
 
     /**
      * The chart's unique elementId.
      *
-     * @var \Khill\Lavacharts\Values\ElementId
+     * @var string
      */
     protected $elementId = null;
 
     /**
      * Creates and sets the label for the chart.
      *
-     * @param  string|\Khill\Lavacharts\Values\Label $label
+     * @param  string $label
      * @return self
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      */
     public function setLabel($label)
     {
-        $this->label = new Label($label);
+        $this->label = Str::verify($label);
 
         return $this;
     }
@@ -51,13 +49,12 @@ class GenericBuilder
     /**
      * Creates and sets the elementId for the chart.
      *
-     * @param  string|\Khill\Lavacharts\Values\ElementId $elementId
+     * @param  string $elementId
      * @return self
-     * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
      */
     public function setElementId($elementId)
     {
-        $this->elementId = new ElementId($elementId);
+        $this->elementId = Str::verify($elementId);
 
         return $this;
     }

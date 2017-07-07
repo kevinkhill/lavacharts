@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts;
 
-use Khill\Lavacharts\Values\Label;
+
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Charts\ChartFactory;
 use Khill\Lavacharts\Dashboards\Dashboard;
@@ -76,12 +76,12 @@ class Volcano implements Arrayable, Jsonable
      *
      * @since  3.0.3
      * @param  string $type  Type of Chart or Dashboard.
-     * @param  Label  $label Label of the Chart or Dashboard.
+     * @param  string $label Label of the Chart or Dashboard.
      * @return Chart|Dashboard
      * @throws ChartNotFound
      * @throws DashboardNotFound
      */
-    public function get($type, Label $label)
+    public function get($type, $label)
     {
         if ($type == 'Dashboard') {
             return $this->getDashboard($label);
@@ -105,10 +105,10 @@ class Volcano implements Arrayable, Jsonable
      * Simple true/false test if a chart exists.
      *
      * @param  string $type  Type of chart to check.
-     * @param  Label  $label Identifying label of a chart to check.
+     * @param  string $label Identifying label of a chart to check.
      * @return bool
      */
-    public function checkChart($type, Label $label)
+    public function checkChart($type, $label)
     {
         if (ChartFactory::isValidChart($type) === false) {
             return false;
@@ -124,10 +124,10 @@ class Volcano implements Arrayable, Jsonable
     /**
      * Simple true/false test if a dashboard exists.
      *
-     * @param  Label $label Identifying label of a dashboard to isNonEmpty.
+     * @param  string $label Identifying label of a dashboard to isNonEmpty.
      * @return bool
      */
-    public function checkDashboard(Label $label)
+    public function checkDashboard($label)
     {
         return array_key_exists((string) $label, $this->dashboards);
     }
@@ -154,11 +154,11 @@ class Volcano implements Arrayable, Jsonable
      *
      * @access private
      * @param  string $type  Type of chart to store.
-     * @param  Label  $label Identifying label for the chart.
+     * @param  string $label Identifying label for the chart.
      * @throws ChartNotFound
      * @return Chart
      */
-    private function getChart($type, Label $label)
+    private function getChart($type, $label)
     {
         if ($this->checkChart($type, $label) === false) {
             throw new ChartNotFound($type, $label);
@@ -181,11 +181,11 @@ class Volcano implements Arrayable, Jsonable
      * Retrieves a dashboard from the volcano.
      *
      * @access private
-     * @param  Label $label Identifying label for the dashboard.
+     * @param  string $label Identifying label for the dashboard.
      * @throws DashboardNotFound
      * @return Dashboard
      */
-    private function getDashboard(Label $label)
+    private function getDashboard($label)
     {
         if ($this->checkDashboard($label) === false) {
             throw new DashboardNotFound($label);
