@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables\Formats;
 
-use Khill\Lavacharts\Support\Contracts\JsClass;
+use Khill\Lavacharts\Support\Google;
 
 /**
  * NumberFormat Class
@@ -14,13 +14,13 @@ use Khill\Lavacharts\Support\Contracts\JsClass;
  * @inheritDoc
  * @see https://developers.google.com/chart/interactive/docs/reference#numberformatter
  */
-class NumberFormat extends Format implements JsClass
+class NumberFormat extends Format
 {
     /**
      * @inheritdoc
      */
     public function getJsClass()
     {
-        return self::GOOGLE_VIZ . 'NumberFormat';
+        return Google::VIZ_NAMESPACE . 'NumberFormat';
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables\Formats;
 
-use Khill\Lavacharts\Support\Contracts\JsClass;
+use Khill\Lavacharts\Support\Google;
 
 /**
  * Class ArrowFormat
@@ -14,13 +14,13 @@ use Khill\Lavacharts\Support\Contracts\JsClass;
  * @inheritDoc
  * @see https://developers.google.com/chart/interactive/docs/reference#arrowformatter
  */
-class ArrowFormat extends Format implements JsClass
+class ArrowFormat extends Format
 {
     /**
      * @inheritdoc
      */
     public function getJsClass()
     {
-        return self::GOOGLE_VIZ . 'ArrowFormat';
+        return Google::VIZ_NAMESPACE . 'ArrowFormat';
     }
 }

@@ -4,9 +4,11 @@ namespace Khill\Lavacharts\DataTables\Formats;
 
 use Khill\Lavacharts\DataTables\Columns\Column;
 use Khill\Lavacharts\Exceptions\InvalidFormatType;
-use Khill\Lavacharts\Javascript\JavascriptSource;
 use Khill\Lavacharts\Support\Contracts\Customizable;
+use Khill\Lavacharts\Support\Contracts\Javascriptable;
+use Khill\Lavacharts\Support\Contracts\JsClass;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
+use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 
 /**
  * Class Format
@@ -22,28 +24,10 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
  * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT      MIT
- *
- * @method getJsClass()
  */
-class Format extends JavascriptSource implements Customizable
+abstract class Format implements Customizable, Javascriptable, JsClass
 {
-    use HasOptions;
-
-    /**
-     * Type of formatter
-     *
-     * @var string
-     */
-//    private $type; @TODO maybe do this instead of classes?
-
-    /**
-     * This is where the format classes are located in google's
-     * javascript module, so this will be prefixed in the child
-     * Format classes' getJsClass method
-     *
-     * @var string
-     */
-    const GOOGLE_VIZ = 'google.visualization.';
+    use HasOptions, ToJavascript;
 
     /**
      * Index of the Column that is formatted
@@ -51,6 +35,13 @@ class Format extends JavascriptSource implements Customizable
      * @var int
      */
     private $index;
+
+    /**
+     * Returns the javascript namespaced format class
+     *
+     * @return string
+     */
+    abstract public function getJsClass();
 
     /**
      * Format constructor.
@@ -106,22 +97,12 @@ class Format extends JavascriptSource implements Customizable
     }
 
     /**
-     * @inheritdoc
+     * Return a format string that will be used by vsprintf to convert the
+     * extending class to javascript.
+     *
+     * @return string
      */
-    public function toJavascript()
-    {
-        return sprintf(
-            $this->getJsFormatString(),
-            $this->index,
-            $this->getJsClass(),
-            $this->options
-        );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getJsFormatString()
+    public function getJavascriptFormat()
     {
         /**
          * In the scope of the formats, "this" is a reference to the lavachart class.
@@ -132,4 +113,21 @@ class Format extends JavascriptSource implements Customizable
 FORMAT;
     }
 
+    /**
+     * Return an array of arguments to pass to the format string provided
+     * by getJavascriptFormat().
+     *
+     * These variables will be used with vsprintf, and the format string
+     * to convert the extending class to javascript.
+     *
+     * @return array
+     */
+    public function getJavascriptSource()
+    {
+        return [
+            $this->index,
+            $this->getJsClass(),
+            $this->options
+        ];
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables\Formats;
 
-use Khill\Lavacharts\Support\Contracts\JsClass;
+use Khill\Lavacharts\Support\Google;
 
 /**
  * Class BarFormat
@@ -14,13 +14,13 @@ use Khill\Lavacharts\Support\Contracts\JsClass;
  * @inheritDoc
  * @see https://developers.google.com/chart/interactive/docs/reference#barformatter
  */
-class BarFormat extends Format implements JsClass
+class BarFormat extends Format
 {
     /**
      * @inheritdoc
      */
     public function getJsClass()
     {
-        return self::GOOGLE_VIZ . 'BarFormat';
+        return Google::VIZ_NAMESPACE . 'BarFormat';
     }
 }
