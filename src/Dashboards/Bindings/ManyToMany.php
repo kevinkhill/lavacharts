@@ -21,13 +21,6 @@ use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 class ManyToMany extends Binding
 {
     /**
-     * Type of binding.
-     *
-     * @var string
-     */
-    const TYPE = 'ManyToMany';
-
-    /**
      * Creates the new Binding.
      *
      * @param  ControlWrapper[] $controlWrappers
@@ -36,5 +29,13 @@ class ManyToMany extends Binding
     public function __construct(array $controlWrappers, array $chartWrappers)
     {
         parent::__construct($controlWrappers, $chartWrappers);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getType()
+    {
+        return 'ManyToMany';
     }
 }

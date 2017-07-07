@@ -18,7 +18,7 @@ use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Binding
+abstract class Binding
 {
     /**
      * Array of ControlWrappers.
@@ -35,9 +35,16 @@ class Binding
     protected $chartWrappers;
 
     /**
+     * Returns the type of binding.
+     *
+     * @return string
+     */
+    abstract public function getType();
+
+    /**
      * Assigns the wrappers and creates the new Binding.
      *
-     * @param ChartWrapper[] $chartWrappers
+     * @param ChartWrapper[]   $chartWrappers
      * @param ControlWrapper[] $controlWrappers
      */
     public function __construct(array $controlWrappers, array $chartWrappers)

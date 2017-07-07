@@ -21,13 +21,6 @@ use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 class OneToOne extends Binding
 {
     /**
-     * Type of binding.
-     *
-     * @var string
-     */
-    const TYPE = 'OneToOne';
-
-    /**
      * Creates the new Binding.
      *
      * @param ControlWrapper $controlWrapper
@@ -36,5 +29,13 @@ class OneToOne extends Binding
     public function __construct(ControlWrapper $controlWrapper, ChartWrapper $chartWrapper)
     {
         parent::__construct([$controlWrapper], [$chartWrapper]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getType()
+    {
+        return 'OneToOne';
     }
 }
