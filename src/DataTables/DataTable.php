@@ -528,17 +528,20 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      * @throws \Khill\Lavacharts\Exceptions\UndefinedColumnsException
      */
-    public function addRow($values)
+    public function addRow($values = null)
     {
-        $columnCount    = $this->getColumnCount();
-        $columnTypes    = $this->getColumnTypes();
+        $rowData     = [];
+        $columnCount = $this->getColumnCount();
+        $columnTypes = $this->getColumnTypes();
 
         if ($columnCount == 0) {
             throw new UndefinedColumnsException;
         }
 
         if (is_null($values)) {
-            return $this->pushRow(Row::createNull($columnCount));
+            return $this->pushRow(
+                Row::createNull($columnCount)
+            );
         }
 
         if (!is_array($values)) {
@@ -548,9 +551,6 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
         if (count($values) > $columnCount) {
             throw new InvalidCellCount($columnCount);
         }
-
-
-        $rowData = [];
 
         foreach ($values as $index => $cellValue) {
             // Regardless of column type, if a Cell is explicitly defined by
@@ -568,7 +568,9 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
             $rowData[] = $cellValue;
         }
 
-        return $this->pushRow(new Row($rowData));
+        return $this->pushRow(
+            new Row($rowData)
+        );
     }
 
     /**

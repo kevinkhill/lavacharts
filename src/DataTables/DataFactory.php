@@ -41,33 +41,47 @@ class DataFactory
      *   and the last arg is options.
      *
      * @since  3.2.0 Variable arguments
+     * @param  array $args
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
     public static function DataTable(...$args)
     {
         $datatable = self::emptyDataTable();
 
-        switch (count($args)) {
-            case 1:
+        if (count($args) == 1) {
+            if (is_array($args[0])) {
                 $datatable->setOptions($args[0]);
-                break;
+            }
+        }
 
-            case 2:
-                if (is_array($args[1])) {
-                    $datatable->addColumns($args[1]);
-                }
-                break;
+        if (count($args) == 2) {
+            if (is_array($args[1])) {
+                $datatable->setOptions($args[1]);
+            }
 
-            case 3:
-                if (is_array($args[2])) {
-                    $datatable->addRows($args[2]);
-                } elseif ($args[2] instanceof Closure) {
-                    $datatable->addRows($args[2]());
-                }
-                break;
+            if (is_array($args[0])) {
+                $datatable->addColumns($args[0]);
+            }
 
-            default:
-                break;
+        }
+
+        if (count($args) == 3) {
+            if (is_array($args[2])) {
+                $datatable->setOptions($args[2]);
+            }
+
+            if (is_array($args[0])) {
+                $datatable->addColumns($args[0]);
+            }
+
+            if (is_array($args[1])) {
+                $datatable->addRows($args[1]);
+            }
+
+            if ($args[1] instanceof Closure) {
+                $datatable->addRows( $args[1]() );
+            }
+
         }
 
         return $datatable;
