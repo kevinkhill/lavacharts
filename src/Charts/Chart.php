@@ -13,7 +13,6 @@ use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\StringValue as Str;
 use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
-use const Khill\Lavacharts\Support\GOOGLE_VISUALIZATION;
 
 /**
  * Class Chart
@@ -69,21 +68,6 @@ class Chart extends Renderable implements Customizable, JsFactory, Visualization
     }
 
     /**
-     * Returns the chart type.
-     *
-     * This will be used to create the javascript class name.
-     *
-     * @since  3.2.0
-     * @return string
-     */
-    public function getType()
-    {
-        $parts = explode('\\', static::class);
-
-        return array_pop($parts);
-    }
-
-    /**
      * Returns the chart version.
      *
      * So far, all the charts but Calendar are version 1
@@ -120,7 +104,7 @@ class Chart extends Renderable implements Customizable, JsFactory, Visualization
      */
     public function getJsClass()
     {
-        return GOOGLE_VISUALIZATION . $this->getType();
+        return self::GOOGLE_VISUALIZATION . $this->getType();
     }
 
     /**

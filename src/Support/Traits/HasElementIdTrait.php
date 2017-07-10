@@ -18,8 +18,16 @@ use Khill\Lavacharts\Support\StringValue as Str;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-trait ElementIdTrait
+trait HasElementIdTrait
 {
+    /**
+     * The renderable's unique elementId.
+     *
+     * @var string
+     *
+     */
+    protected $elementId;
+
     /**
      * Returns the ElementId.
      *

@@ -22,7 +22,7 @@ trait PngRenderableTrait
      *
      * @var bool
      */
-    private $png = false;
+    protected $png = false;
 
     /**
      * Sets the chart to be output as a PNG instead of SVG.

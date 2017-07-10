@@ -2,8 +2,6 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\Support\Google;
-use const Khill\Lavacharts\Support\GOOGLE_CHARTS;
 use Khill\Lavacharts\Support\Traits\PngRenderableTrait as PngRenderable;
 use Khill\Lavacharts\Support\Traits\MaterialRenderableTrait as MaterialRenderable;
 
@@ -46,6 +44,8 @@ class BarChart extends Chart
      */
     public function getJsClass()
     {
-        return $this->material ? GOOGLE_CHARTS . 'Bar' : parent::getJsClass();
+        return $this->material ?
+            self::GOOGLE_CHARTS . ucfirst($this->getJsPackage()) :
+            parent::getJsClass();
     }
 }

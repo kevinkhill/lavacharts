@@ -2,21 +2,15 @@
 
 namespace Khill\Lavacharts\Support;
 
-use JsonSerializable;
-use Khill\Lavacharts\Exceptions\InvalidElementId;
 use Khill\Lavacharts\Exceptions\InvalidLabel;
-use Khill\Lavacharts\Javascript\ChartJsFactory;
-use Khill\Lavacharts\Javascript\DashboardJsFactory;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
-use Khill\Lavacharts\Values\Label;
-use Khill\Lavacharts\Values\ElementId;
-use Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
+use Khill\Lavacharts\Support\Traits\HasElementIdTrait as HasElementId;
 use Khill\Lavacharts\Support\StringValue as Str;
 
 /**
- * Abstract Renderable Class
+ * Renderable Class
  *
  * This class is the parent to charts, dashboards, and controls since they
  * will need to be rendered onto the page.
@@ -31,7 +25,7 @@ use Khill\Lavacharts\Support\StringValue as Str;
  */
 abstract class Renderable implements Arrayable, Jsonable
 {
-    use ArrayToJson;
+    use ArrayToJson, HasElementId;
 
     /**
      * The renderable's unique label.
@@ -41,14 +35,6 @@ abstract class Renderable implements Arrayable, Jsonable
     protected $label;
 
     /**
-     * The renderable's unique elementId.
-     *
-     * @var string
-     *
-     */
-    protected $elementId;
-
-    /**
      * Defaulting to true so than all new Renderables can be rendered.
      *
      * @var bool
@@ -56,35 +42,18 @@ abstract class Renderable implements Arrayable, Jsonable
     protected $renderable = true;
 
     /**
-     * Returns the ElementId.
+     * Returns the class type.
      *
+     * This will be used to create the javascript class name.
+     *
+     * @since  3.2.0
      * @return string
      */
-    public function getElementId()
+    public function getType()
     {
-        return $this->elementId;
-    }
+        $parts = explode('\\', static::class);
 
-    /**
-     * Creates and/or sets the ElementId.
-     *
-     * @param  string $elementId
-     * @throws InvalidElementId
-     */
-    public function setElementId($elementId)
-    {
-        $this->elementId = Str::verify($elementId);
-    }
-
-    /**
-     * Check to see if the renderable has it's elementId set.
-     *
-     * @since  3.1.0
-     * @return bool
-     */
-    public function hasElementId()
-    {
-        return isset($this->elementId);
+        return array_pop($parts);
     }
 
     /**

@@ -22,7 +22,7 @@ trait MaterialRenderableTrait
      *
      * @var bool
      */
-    private $material = false;
+    protected $material = false;
 
     /**
      * Gets the chart render method.

@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use const Khill\Lavacharts\Support\GOOGLE_VISUALIZATION;
 use Khill\Lavacharts\Support\Traits\PngRenderableTrait as PngRenderable;
 
 /**
@@ -36,6 +35,6 @@ class HistogramChart extends Chart
      */
     public function getJsClass()
     {
-        return GOOGLE_VISUALIZATION . 'Histogram';
+        return self::GOOGLE_VISUALIZATION . 'Histogram';
     }
 }

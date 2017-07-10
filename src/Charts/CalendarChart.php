@@ -2,8 +2,6 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use const Khill\Lavacharts\Support\GOOGLE_VISUALIZATION;
-
 /**
  * CalendarChart Class
  *
@@ -43,6 +41,6 @@ class CalendarChart extends Chart
      */
     public function getJsClass()
     {
-        return GOOGLE_VISUALIZATION . 'Calendar';
+        return self::GOOGLE_VISUALIZATION . ucfirst($this->getJsPackage());
     }
 }

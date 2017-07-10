@@ -29,7 +29,7 @@ use Khill\Lavacharts\Support\Traits\ArrayAccessTrait as CountableArrayAccess;
  * @property string datetime_format
  * @property string pngOutput
  */
-class Options implements ArrayAccess, Arrayable, Jsonable, Countable
+class Options implements ArrayAccess, Arrayable, Jsonable
 {
     use CountableArrayAccess, ArrayToJson;
 
