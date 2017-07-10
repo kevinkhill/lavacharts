@@ -8,7 +8,7 @@ use Khill\Lavacharts\Support\Contracts\JsClass;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
-use Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
+use Khill\Lavacharts\Support\Traits\HasElementIdTrait as HasElementId;
 use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 use Khill\Lavacharts\Support\StringValue as Str;
 
