@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\Support\Google;
+use const Khill\Lavacharts\Support\GOOGLE_VISUALIZATION;
 
 /**
  * TimelineChart Class
@@ -37,6 +37,6 @@ class TimelineChart extends Chart
      */
     public function getJsClass()
     {
-        return Google::visualization('Timeline');
+        return GOOGLE_VISUALIZATION . 'Timeline';
     }
 }

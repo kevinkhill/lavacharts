@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\Support\Google;
+use const Khill\Lavacharts\Support\GOOGLE_VISUALIZATION;
 
 /**
  * GanttChart Class
@@ -38,6 +38,6 @@ class GanttChart extends Chart
      */
     public function getJsClass()
     {
-        return Google::visualization('Gantt');
+        return GOOGLE_VISUALIZATION . 'Gantt';
     }
 }

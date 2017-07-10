@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\Support\Google;
+use const Khill\Lavacharts\Support\GOOGLE_VISUALIZATION;
 
 /**
  * TreeMap Chart Class
@@ -46,6 +46,6 @@ class TreeMapChart extends Chart
      */
     public function getJsClass()
     {
-        return Google::visualization('TreeMap');
+        return GOOGLE_VISUALIZATION . 'TreeMap';
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Support\Traits\PngRenderableTrait as PngRenderable;
+use Khill\Lavacharts\Support\Traits\PngRenderableTrait as PngRenderable;
 
 /**
  * GeoChart Class
@@ -33,5 +33,4 @@ class GeoChart extends Chart
     {
         return 'geochart';
     }
-
 }

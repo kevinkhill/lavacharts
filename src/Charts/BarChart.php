@@ -3,8 +3,9 @@
 namespace Khill\Lavacharts\Charts;
 
 use Khill\Lavacharts\Support\Google;
-use \Khill\Lavacharts\Support\Traits\PngRenderableTrait as PngRenderable;
-use \Khill\Lavacharts\Support\Traits\MaterialRenderableTrait as MaterialRenderable;
+use const Khill\Lavacharts\Support\GOOGLE_CHARTS;
+use Khill\Lavacharts\Support\Traits\PngRenderableTrait as PngRenderable;
+use Khill\Lavacharts\Support\Traits\MaterialRenderableTrait as MaterialRenderable;
 
 /**
  * BarChart Class
@@ -27,27 +28,6 @@ class BarChart extends Chart
     use PngRenderable, MaterialRenderable;
 
     /**
-     * Javascript chart type.
-     *
-     * @var string
-     */
-    const TYPE = 'BarChart';
-
-    /**
-     * Javascript chart version.
-     *
-     * @var string
-     */
-    const VERSION = '1';
-
-    /**
-     * Javascript chart package.
-     *
-     * @var string
-     */
-    const VISUALIZATION_PACKAGE = 'corechart';
-
-    /**
      * Returns the chart visualization class.
      *
      * @since  3.1.0
@@ -66,6 +46,6 @@ class BarChart extends Chart
      */
     public function getJsClass()
     {
-        return $this->material ? Google::charts('Bar') : parent::getJsClass();
+        return $this->material ? GOOGLE_CHARTS . 'Bar' : parent::getJsClass();
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use \Khill\Lavacharts\Builders\ChartBuilder;
+use Khill\Lavacharts\Builders\ChartBuilder;
 use Khill\Lavacharts\DataTables\DataTable;
-use \Khill\Lavacharts\Exceptions\InvalidDataTable;
+use Khill\Lavacharts\Exceptions\InvalidDataTable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
 
 /**

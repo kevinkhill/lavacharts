@@ -52,7 +52,6 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
         'ControlWrapper',
         'DataTable',
         'DataFactory',
-
     ];
 
     /**

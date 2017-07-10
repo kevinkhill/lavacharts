@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboards;
 
-use \Khill\Lavacharts\Builders\DashboardBuilder;
+use Khill\Lavacharts\Builders\DashboardBuilder;
 
 /**
  * DashboardFactory Class

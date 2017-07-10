@@ -2,7 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\Javascript\JavascriptSource;
+use Khill\Lavacharts\Support\Contracts\Javascriptable;
+use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 
 /**
  * Class Event
@@ -15,8 +16,10 @@ use Khill\Lavacharts\Javascript\JavascriptSource;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Event extends JavascriptSource
+class Event implements Javascriptable
 {
+    use ToJavascript;
+
     /**
      * Event type
      *

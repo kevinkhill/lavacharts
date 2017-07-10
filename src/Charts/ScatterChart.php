@@ -2,9 +2,9 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\Support\Google;
-use \Khill\Lavacharts\Support\Traits\PngRenderableTrait as PngRenderable;
-use \Khill\Lavacharts\Support\Traits\MaterialRenderableTrait as MaterialRenderable;
+use const Khill\Lavacharts\Support\GOOGLE_CHARTS;
+use Khill\Lavacharts\Support\Traits\PngRenderableTrait as PngRenderable;
+use Khill\Lavacharts\Support\Traits\MaterialRenderableTrait as MaterialRenderable;
 
 /**
  * ScatterChart Class
@@ -41,6 +41,6 @@ class ScatterChart extends Chart
      */
     public function getJsClass()
     {
-        return $this->material ? Google::charts('Scatter') : parent::getJsClass();
+        return $this->material ? GOOGLE_CHARTS . 'Scatter' : parent::getJsClass();
     }
 }

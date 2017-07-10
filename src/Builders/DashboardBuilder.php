@@ -2,8 +2,8 @@
 
 namespace Khill\Lavacharts\Builders;
 
-use \Khill\Lavacharts\Dashboards\Dashboard;
-use \Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Dashboards\Dashboard;
+use Khill\Lavacharts\DataTables\DataTable;
 
 /**
  * Class DashboardBuilder

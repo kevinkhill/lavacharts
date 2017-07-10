@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Javascript;
 
-use \Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Support\Buffer;
 
 /**

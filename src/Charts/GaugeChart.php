@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\Support\Google;
+use const Khill\Lavacharts\Support\GOOGLE_VISUALIZATION;
 
 /**
  * GaugeChart Class
@@ -33,6 +33,6 @@ class GaugeChart extends Chart
      */
     public function getJsClass()
     {
-        return Google::visualization('Gauge');
+        return GOOGLE_VISUALIZATION . 'Gauge';
     }
 }

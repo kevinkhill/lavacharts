@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\Support\Google;
+use const Khill\Lavacharts\Support\GOOGLE_VISUALIZATION;
 
 /**
  * DonutChart Class
@@ -26,6 +26,6 @@ class DonutChart extends PieChart
      */
     public function getJsClass()
     {
-        return Google::visualization('PieChart');
+        return GOOGLE_VISUALIZATION . 'PieChart';
     }
 }

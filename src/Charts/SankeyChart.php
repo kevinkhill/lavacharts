@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\Support\Google;
+use const Khill\Lavacharts\Support\GOOGLE_VISUALIZATION;
 
 /**
  * SankeyChart Class
@@ -40,6 +40,6 @@ class SankeyChart extends Chart
      */
     public function getJsClass()
     {
-        return Google::visualization('Sankey');
+        return GOOGLE_VISUALIZATION . 'Sankey';
     }
 }

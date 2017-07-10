@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\Support\Google;
+use const Khill\Lavacharts\Support\GOOGLE_VISUALIZATION;
 
 /**
  * WordTreeChart Class
@@ -46,6 +46,6 @@ class WordTreeChart extends Chart
      */
     public function getJsClass()
     {
-        return Google::visualization('WordTree');
+        return GOOGLE_VISUALIZATION . 'WordTree';
     }
 }

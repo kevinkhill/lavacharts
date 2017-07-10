@@ -25,6 +25,6 @@ class AnnotationChart extends Chart
      */
     public function getJsPackage()
     {
-        return strtolower($this->getType());
+        return 'annotationchart';
     }
 }
