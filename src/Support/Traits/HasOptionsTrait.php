@@ -26,7 +26,7 @@ trait HasOptionsTrait
      *
      * @var Options
      */
-    protected $options;
+    private $options;
 
     /**
      * Retrieves the Options object from the class.

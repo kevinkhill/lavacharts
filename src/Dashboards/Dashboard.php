@@ -11,7 +11,7 @@ use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
 use Khill\Lavacharts\Support\Contracts\JsFactory;
-use Khill\Lavacharts\Support\Contracts\JsPackage;
+use Khill\Lavacharts\Support\Contracts\Visualization;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
 use Khill\Lavacharts\Support\StringValue as Str;
@@ -32,7 +32,7 @@ use Khill\Lavacharts\Support\StringValue as Str;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Dashboard extends Renderable implements Customizable, JsFactory, JsPackage
+class Dashboard extends Renderable implements Customizable, JsFactory, Visualization
 {
     use HasDataTable, HasOptions;
 

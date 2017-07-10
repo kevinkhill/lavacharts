@@ -72,8 +72,8 @@ class Cell implements Customizable, Arrayable, Jsonable
      */
     public function __construct($value, $format = '', array $options = [])
     {
-        $this->format = Str::verify($format);
         $this->value  = $value;
+        $this->format = Str::verify($format);
 
         $this->setOptions($options);
     }

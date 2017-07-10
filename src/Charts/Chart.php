@@ -2,24 +2,19 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\Exceptions\InvalidArgumentException;
-use Khill\Lavacharts\Support\Google;
-use Khill\Lavacharts\Support\StringValue as Str;
-use Khill\Lavacharts\Exceptions\BadMethodCallException;
 use Khill\Lavacharts\Javascript\ChartJsFactory;
 use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
-use Khill\Lavacharts\Support\Contracts\Javascriptable;
 use Khill\Lavacharts\Support\Contracts\JsFactory;
-use Khill\Lavacharts\Support\Contracts\JsPackage;
+use Khill\Lavacharts\Support\Contracts\Visualization;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
+use Khill\Lavacharts\Support\Google;
 use Khill\Lavacharts\Support\Renderable;
+use Khill\Lavacharts\Support\StringValue as Str;
 use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
-use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 
-//@TODO convert all the charts' static accessors to methods
 /**
  * Class Chart
  *
@@ -34,9 +29,9 @@ use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Chart extends Renderable implements Customizable, /*Javascriptable,*/ JsFactory, JsPackage, Wrappable
+class Chart extends Renderable implements Customizable, JsFactory, Visualization, Wrappable
 {
-    use HasDataTable, HasOptions/*, ToJavascript*/;
+    use HasDataTable, HasOptions;
 
     /**
      * Type of wrappable class
