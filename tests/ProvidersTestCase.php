@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Tests;
 
 use Khill\Lavacharts\Charts\ChartFactory;
+use Khill\Lavacharts\DataTables\Columns\Column;
 use Khill\Lavacharts\DataTables\Columns\ColumnFactory;
 
 define('DATATABLE_NS', "\\Khill\\Lavacharts\\DataTables\\");
@@ -68,7 +69,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
     {
         return array_map(function ($columnType) {
             return [$columnType];
-        }, ColumnFactory::$types);
+        }, Column::TYPES);
     }
 
     /**
@@ -80,7 +81,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
     {
         return array_map(function ($chartType) {
             return [$chartType];
-        }, ChartFactory::getChartTypes());
+        }, ChartFactory::TYPES);
     }
 
     /**

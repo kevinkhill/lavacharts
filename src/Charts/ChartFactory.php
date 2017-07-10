@@ -73,9 +73,9 @@ class ChartFactory
     /**
      * ChartFactory constructor.
      */
-    public static function build($type, $args)
+    public static function create($type, $args)
     {
-        return (new self)->create($type, $args);
+        return (new self)->make($type, $args);
     }
 
     /**
@@ -88,7 +88,7 @@ class ChartFactory
      * @throws \Khill\Lavacharts\Exceptions\InvalidChartType
      * @throws \Khill\Lavacharts\Exceptions\InvalidDataTable
      */
-    public function create($type, $args)
+    public function make($type, $args)
     {
         if ($args[1] !== null && $args[1] instanceof DataInterface === false) {
             throw new InvalidDataTable;

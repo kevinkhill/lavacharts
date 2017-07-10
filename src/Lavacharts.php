@@ -131,7 +131,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
 
                 return $this->volcano->get($method, $label);
             } else {
-                $chart = $this->chartFactory->create($method, $args);
+                $chart = $this->chartFactory->make($method, $args);
 
                 return $this->volcano->store($chart);
             }
@@ -394,8 +394,6 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * if the elementId was set explicitly to the Renderable.
      *
      * @since  2.0.0
-     * @uses   \Khill\Lavacharts\Values\Label
-     * @uses   \Khill\Lavacharts\Values\ElementId
      * @uses   \Khill\Lavacharts\Support\Buffer
      * @param  string $type       Type of object to render.
      * @param  string $label      Label of the object to render.
