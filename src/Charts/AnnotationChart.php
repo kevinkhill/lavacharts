@@ -21,23 +21,10 @@ namespace Khill\Lavacharts\Charts;
 class AnnotationChart extends Chart
 {
     /**
-     * Javascript chart type.
-     *
-     * @var string
+     * @inheritdoc
      */
-    const TYPE = 'AnnotationChart';
-
-    /**
-     * Javascript chart version.
-     *
-     * @var string
-     */
-    const VERSION = '1';
-
-    /**
-     * Javascript chart package.
-     *
-     * @var string
-     */
-    const VISUALIZATION_PACKAGE = 'annotationchart';
+    public function getJsPackage()
+    {
+        return strtolower($this->getType());
+    }
 }

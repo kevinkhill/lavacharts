@@ -27,23 +27,11 @@ class GeoChart extends Chart
     use PngRenderable;
 
     /**
-     * Javascript chart type.
-     *
-     * @var string
+     * @inheritdoc
      */
-    const TYPE = 'GeoChart';
+    public function getJsPackage()
+    {
+        return 'geochart';
+    }
 
-    /**
-     * Javascript chart version.
-     *
-     * @var string
-     */
-    const VERSION = '1';
-
-    /**
-     * Javascript chart package.
-     *
-     * @var string
-     */
-    const VISUALIZATION_PACKAGE = 'geochart';
 }

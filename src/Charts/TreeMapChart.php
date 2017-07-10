@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use Khill\Lavacharts\Support\Google;
+
 /**
  * TreeMap Chart Class
  *
@@ -32,34 +34,18 @@ namespace Khill\Lavacharts\Charts;
 class TreeMapChart extends Chart
 {
     /**
-     * Javascript chart type.
-     *
-     * @var string
+     * @inheritdoc
      */
-    const TYPE = 'TreeMapChart';
+    public function getJsPackage()
+    {
+        return 'treemap';
+    }
 
     /**
-     * Javascript chart version.
-     *
-     * @var string
-     */
-    const VERSION = '1';
-
-    /**
-     * Javascript chart package.
-     *
-     * @var string
-     */
-    const VISUALIZATION_PACKAGE = 'treemap';
-
-    /**
-     * Returns the google javascript package name.
-     *
-     * @since  3.1.0
-     * @return string
+     * @inheritdoc
      */
     public function getJsClass()
     {
-        return 'google.visualization.TreeMap';
+        return Google::visualization('TreeMap');
     }
 }

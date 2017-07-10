@@ -25,26 +25,4 @@ use \Khill\Lavacharts\Support\Traits\PngRenderableTrait as PngRenderable;
 class ComboChart extends Chart
 {
     use PngRenderable;
-
-    /**
-     * Javascript chart type.
-     *
-     * @var string
-     */
-    const TYPE = 'ComboChart';
-
-    /**
-     * Javascript chart version.
-     *
-     * @var string
-     */
-    const VERSION = '1';
-
-    /**
-     * Javascript chart package.
-     *
-     * @TODO Add corechart to Chart class to be more DRY
-     * @var string
-     */
-    const VISUALIZATION_PACKAGE = 'corechart';
 }

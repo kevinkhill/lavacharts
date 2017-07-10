@@ -38,6 +38,6 @@ class ChartWrapper extends Wrapper
      */
     public function getJsClass()
     {
-        return Google::VIZ_NAMESPACE . 'ChartWrapper';
+        return Google::STANDARD_NAMESPACE . 'ChartWrapper';
     }
 }

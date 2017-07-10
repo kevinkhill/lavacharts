@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use Khill\Lavacharts\Support\Google;
+
 /**
  * Table Chart Class
  *
@@ -21,34 +23,18 @@ namespace Khill\Lavacharts\Charts;
 class TableChart extends Chart
 {
     /**
-     * Javascript chart type.
-     *
-     * @var string
+     * @inheritdoc
      */
-    const TYPE = 'TableChart';
+    public function getJsPackage()
+    {
+        return 'table';
+    }
 
     /**
-     * Javascript chart version.
-     *
-     * @var string
-     */
-    const VERSION = '1';
-
-    /**
-     * Javascript chart package.
-     *
-     * @var string
-     */
-    const VISUALIZATION_PACKAGE = 'table';
-
-    /**
-     * Returns the google javascript package name.
-     *
-     * @since  3.0.5
-     * @return string
+     * @inheritdoc
      */
     public function getJsClass()
     {
-        return 'google.visualization.Table';
+        return Google::visualization('Table');
     }
 }

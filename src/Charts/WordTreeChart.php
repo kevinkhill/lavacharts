@@ -2,6 +2,9 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use Khill\Lavacharts\Support\Google;
+use function Khill\Lavacharts\Support\google_visualization;
+
 /**
  * WordTreeChart Class
  *
@@ -32,34 +35,18 @@ namespace Khill\Lavacharts\Charts;
 class WordTreeChart extends Chart
 {
     /**
-     * Javascript chart type.
-     *
-     * @var string
+     * @inheritdoc
      */
-    const TYPE = 'WordTreeChart';
+    public function getJsPackage()
+    {
+        return 'wordtree';
+    }
 
     /**
-     * Javascript chart version.
-     *
-     * @var string
-     */
-    const VERSION = '1';
-
-    /**
-     * Javascript chart package.
-     *
-     * @var string
-     */
-    const VISUALIZATION_PACKAGE = 'wordtree';
-
-    /**
-     * Returns the google javascript package name.
-     *
-     * @since  3.0.5
-     * @return string
+     * @inheritdoc
      */
     public function getJsClass()
     {
-        return 'google.visualization.WordTree';
+        return google_visualization('WordTree');
     }
 }

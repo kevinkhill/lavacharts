@@ -25,23 +25,10 @@ class OrgChart extends Chart
     use PngRenderable;
 
     /**
-     * Javascript chart type.
-     *
-     * @var string
+     * @inheritdoc
      */
-    const TYPE = 'OrgChart';
-
-    /**
-     * Javascript chart version.
-     *
-     * @var string
-     */
-    const VERSION = '1';
-
-    /**
-     * Javascript chart package.
-     *
-     * @var string
-     */
-    const VISUALIZATION_PACKAGE = 'orgchart';
+    public function getJsPackage()
+    {
+        return 'orgchart';
+    }
 }

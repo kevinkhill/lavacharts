@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use Khill\Lavacharts\Support\Google;
+
 /**
  * GanttChart Class
  *
@@ -24,34 +26,18 @@ namespace Khill\Lavacharts\Charts;
 class GanttChart extends Chart
 {
     /**
-     * Javascript chart type.
-     *
-     * @var string
+     * @inheritdoc
      */
-    const TYPE = 'GanttChart';
+    public function getJsPackage()
+    {
+        return 'gantt';
+    }
 
     /**
-     * Javascript chart version.
-     *
-     * @var string
-     */
-    const VERSION = '1';
-
-    /**
-     * Javascript chart package.
-     *
-     * @var string
-     */
-    const VISUALIZATION_PACKAGE = 'gantt';
-
-    /**
-     * Returns the google javascript package name.
-     *
-     * @since  3.0.5
-     * @return string
+     * @inheritdoc
      */
     public function getJsClass()
     {
-        return 'google.visualization.Gantt';
+        return Google::visualization('Gantt');
     }
 }

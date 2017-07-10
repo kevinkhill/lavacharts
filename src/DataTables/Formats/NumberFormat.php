@@ -21,6 +21,6 @@ class NumberFormat extends Format
      */
     public function getJsClass()
     {
-        return Google::VIZ_NAMESPACE . 'NumberFormat';
+        return Google::STANDARD_NAMESPACE . 'NumberFormat';
     }
 }

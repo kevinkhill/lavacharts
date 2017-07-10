@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use Khill\Lavacharts\Support\Google;
 use \Khill\Lavacharts\Support\Traits\PngRenderableTrait as PngRenderable;
 use \Khill\Lavacharts\Support\Traits\MaterialRenderableTrait as MaterialRenderable;
 
@@ -54,11 +55,7 @@ class BarChart extends Chart
      */
     public function getJsPackage()
     {
-        if ($this->material) {
-            return 'bar';
-        } else {
-            return static::VISUALIZATION_PACKAGE;
-        }
+        return $this->material ? 'bar' : parent::getJsPackage();
     }
 
     /**
@@ -69,10 +66,6 @@ class BarChart extends Chart
      */
     public function getJsClass()
     {
-        if ($this->material) {
-            return 'google.charts.Bar';
-        } else {
-            return 'google.visualization.' . static::TYPE;
-        }
+        return $this->material ? Google::charts('Bar') : parent::getJsClass();
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use Khill\Lavacharts\Support\Google;
+
 /**
  * DonutChart Class
  *
@@ -20,19 +22,10 @@ namespace Khill\Lavacharts\Charts;
 class DonutChart extends PieChart
 {
     /**
-     * Javascript chart type.
-     *
-     * @var string
-     */
-    const TYPE = 'DonutChart';
-
-    /**
-     * Returns the chart visualization package.
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getJsClass()
     {
-        return 'google.visualization.PieChart';
+        return Google::visualization('PieChart');
     }
 }

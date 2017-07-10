@@ -21,6 +21,6 @@ class BarFormat extends Format
      */
     public function getJsClass()
     {
-        return Google::VIZ_NAMESPACE . 'BarFormat';
+        return Google::STANDARD_NAMESPACE . 'BarFormat';
     }
 }

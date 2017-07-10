@@ -36,14 +36,15 @@ abstract class Renderable implements Arrayable, Jsonable
     /**
      * The renderable's unique label.
      *
-     * @var Label
+     * @var string
      */
     protected $label;
 
     /**
      * The renderable's unique elementId.
      *
-     * @var ElementId
+     * @var string
+     *
      */
     protected $elementId;
 
@@ -57,7 +58,7 @@ abstract class Renderable implements Arrayable, Jsonable
     /**
      * Returns the ElementId.
      *
-     * @return ElementId
+     * @return string
      */
     public function getElementId()
     {
@@ -67,7 +68,7 @@ abstract class Renderable implements Arrayable, Jsonable
     /**
      * Creates and/or sets the ElementId.
      *
-     * @param  string|ElementId $elementId
+     * @param  string $elementId
      * @throws InvalidElementId
      */
     public function setElementId($elementId)
@@ -89,7 +90,7 @@ abstract class Renderable implements Arrayable, Jsonable
     /**
      * Returns the label.
      *
-     * @return Label
+     * @return string
      */
     public function getLabel()
     {
@@ -97,7 +98,7 @@ abstract class Renderable implements Arrayable, Jsonable
     }
 
     /**
-     * Creates and/or sets the Label.
+     * Sets the Label.
      *
      * @param  string $label
      * @throws InvalidLabel
@@ -119,7 +120,7 @@ abstract class Renderable implements Arrayable, Jsonable
     }
 
     /**
-     * Sets the renderable status of the Chart
+     * Sets the renderable status
      *
      * @since  3.1.0
      * @param bool $renderable

@@ -21,25 +21,4 @@ use \Khill\Lavacharts\Support\Traits\PngRenderableTrait as PngRenderable;
 class SteppedAreaChart extends Chart
 {
     use PngRenderable;
-
-    /**
-     * Javascript chart type.
-     *
-     * @var string
-     */
-    const TYPE = 'SteppedAreaChart';
-
-    /**
-     * Javascript chart version.
-     *
-     * @var string
-     */
-    const VERSION = '1';
-
-    /**
-     * Javascript chart package.
-     *
-     * @var string
-     */
-    const VISUALIZATION_PACKAGE = 'corechart';
 }

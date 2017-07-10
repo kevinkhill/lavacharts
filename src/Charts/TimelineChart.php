@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use Khill\Lavacharts\Support\Google;
+
 /**
  * TimelineChart Class
  *
@@ -23,34 +25,18 @@ namespace Khill\Lavacharts\Charts;
 class TimelineChart extends Chart
 {
     /**
-     * Javascript chart type.
-     *
-     * @var string
+     * @inheritdoc
      */
-    const TYPE = 'TimelineChart';
+    public function getJsPackage()
+    {
+        return 'timeline';
+    }
 
     /**
-     * Javascript chart version.
-     *
-     * @var string
-     */
-    const VERSION = '1';
-
-    /**
-     * Javascript chart package.
-     *
-     * @var string
-     */
-    const VISUALIZATION_PACKAGE = 'timeline';
-
-    /**
-     * Returns the google javascript package name.
-     *
-     * @since  3.0.5
-     * @return string
+     * @inheritdoc
      */
     public function getJsClass()
     {
-        return 'google.visualization.Timeline';
+        return Google::visualization('Timeline');
     }
 }

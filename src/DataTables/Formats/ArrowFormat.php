@@ -21,6 +21,6 @@ class ArrowFormat extends Format
      */
     public function getJsClass()
     {
-        return Google::VIZ_NAMESPACE . 'ArrowFormat';
+        return Google::STANDARD_NAMESPACE . 'ArrowFormat';
     }
 }

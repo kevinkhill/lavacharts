@@ -2,6 +2,12 @@
 
 namespace Khill\Lavacharts\Support;
 
+if (!function_exists('google_visualization')) {
+    function google_visualization($class) {
+        return Google::STANDARD_NAMESPACE . $class;
+    }
+}
+
 /**
  * Google Class
  *
@@ -17,5 +23,35 @@ namespace Khill\Lavacharts\Support;
  */
 class Google
 {
-    const VIZ_NAMESPACE = 'google.visualization.';
+    const MATERIAL_NAMESPACE = 'google.charts.';
+
+    const STANDARD_NAMESPACE = 'google.visualization.';
+
+    /**
+     * Build the material namespace string from a class.
+     *
+     * @param string $class
+     * @return string
+     */
+    public static function charts($class)
+    {
+        return static::MATERIAL_NAMESPACE . $class;
+    }
+
+    /**
+     * Build the standard namespace string from a class.
+     *
+     * @param string $class
+     * @return string
+     */
+    public static function visualization($class)
+    {
+        return static::STANDARD_NAMESPACE . $class;
+    }
+}
+
+if (!function_exists('google_visualization')) {
+    function google_visualization($class) {
+        return Google::STANDARD_NAMESPACE . $class;
+    }
 }

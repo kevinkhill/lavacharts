@@ -39,13 +39,6 @@ class Chart extends Renderable implements Customizable, /*Javascriptable,*/ JsFa
     use HasDataTable, HasOptions/*, ToJavascript*/;
 
     /**
-     * Javascript type.
-     *
-     * @var string
-     */
-    const TYPE = 'Chart';
-
-    /**
      * Type of wrappable class
      */
     const WRAP_TYPE = 'chartType';
@@ -70,17 +63,6 @@ class Chart extends Renderable implements Customizable, /*Javascriptable,*/ JsFa
     }
 
     /**
-     * Returns the chart type.
-     *
-     * @since  3.0.0
-     * @return string
-     */
-    public function getType()
-    {
-        return static::TYPE;
-    }
-
-    /**
      * Returns the Filter wrap type.
      *
      * @since  3.0.5
@@ -92,36 +74,58 @@ class Chart extends Renderable implements Customizable, /*Javascriptable,*/ JsFa
     }
 
     /**
+     * Returns the chart type.
+     *
+     * This will be used to create the javascript class name.
+     *
+     * @since  3.2.0
+     * @return string
+     */
+    public function getType()
+    {
+        $parts = explode('\\', static::class);
+
+        return array_pop($parts);
+    }
+
+    /**
      * Returns the chart version.
+     *
+     * So far, all the charts but Calendar are version 1
      *
      * @since  3.0.5
      * @return string
      */
     public function getVersion()
     {
-        return static::VERSION;
+        return '1';
     }
 
     /**
      * Returns the chart visualization class.
+     *
+     * Most charts are part of the "corechart" package.
      *
      * @since  3.0.5
      * @return string
      */
     public function getJsPackage()
     {
-        return static::VISUALIZATION_PACKAGE;
+        return 'corechart';
     }
 
     /**
-     * Returns the chart visualization package.
+     * Returns the javascript visualization package for instantiation.
+     *
+     * The chart type it is automatically prepended with "google.visualization." which
+     * is the default for most charts.
      *
      * @since  3.0.5
      * @return string
      */
     public function getJsClass()
     {
-        return Google::VIZ_NAMESPACE . static::TYPE;
+        return Google::STANDARD_NAMESPACE . $this->getType();
     }
 
     /**
@@ -147,7 +151,7 @@ class Chart extends Renderable implements Customizable, /*Javascriptable,*/ JsFa
             $this->mergeOptions($this->datatable->getOptions());
         }
 
-        return [
+        $chartAsArray = [
             'pngOutput' => false,
             'type'      => $this->getType(),
             'events'    => $this->getEvents(),
@@ -158,8 +162,14 @@ class Chart extends Renderable implements Customizable, /*Javascriptable,*/ JsFa
             'label'     => $this->getLabel(),
             'package'   => $this->getJsPackage(),
             'elemId'    => $this->getElementId(),
-            'datatable' => $this->datatable->toJsDataTable(),
+            'datatable' => '',
         ];
+
+        if (method_exists($this->datatable, 'toJsDataTable')) {
+            $chartAsArray['datatable'] = $this->datatable->toJsDataTable();
+        }
+
+        return $chartAsArray;
     }
 
     /**

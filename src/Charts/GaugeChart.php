@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use Khill\Lavacharts\Support\Google;
+
 /**
  * GaugeChart Class
  *
@@ -19,34 +21,18 @@ namespace Khill\Lavacharts\Charts;
 class GaugeChart extends Chart
 {
     /**
-     * Javascript chart type.
-     *
-     * @var string
+     * @inheritdoc
      */
-    const TYPE = 'GaugeChart';
+    public function getJsPackage()
+    {
+        return 'gauge';
+    }
 
     /**
-     * Javascript chart version.
-     *
-     * @var string
-     */
-    const VERSION = '1';
-
-    /**
-     * Javascript chart package.
-     *
-     * @var string
-     */
-    const VISUALIZATION_PACKAGE = 'gauge';
-
-    /**
-     * Returns the google javascript package name.
-     *
-     * @since  3.0.5
-     * @return string
+     * @inheritdoc
      */
     public function getJsClass()
     {
-        return 'google.visualization.Gauge';
+        return Google::visualization('Gauge');
     }
 }

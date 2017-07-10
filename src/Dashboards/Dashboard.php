@@ -123,7 +123,7 @@ class Dashboard extends Renderable implements Customizable, JsFactory, JsPackage
      */
     public function getJsClass()
     {
-        return Google::VIZ_NAMESPACE . self::TYPE;
+        return Google::STANDARD_NAMESPACE . self::TYPE;
     }
 
     /**

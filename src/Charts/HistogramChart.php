@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use Khill\Lavacharts\Support\Google;
 use \Khill\Lavacharts\Support\Traits\PngRenderableTrait as PngRenderable;
 
 /**
@@ -31,34 +32,10 @@ class HistogramChart extends Chart
     use PngRenderable;
 
     /**
-     * Javascript chart type.
-     *
-     * @var string
-     */
-    const TYPE = 'HistogramChart';
-
-    /**
-     * Javascript chart version.
-     *
-     * @var string
-     */
-    const VERSION = '1';
-
-    /**
-     * Javascript chart package.
-     *
-     * @var string
-     */
-    const VISUALIZATION_PACKAGE = 'corechart';
-
-    /**
-     * Returns the google javascript package name.
-     *
-     * @since  3.1.0
-     * @return string
+     * @inheritdoc
      */
     public function getJsClass()
     {
-        return 'google.visualization.Histogram';
+        return Google::visualization('Histogram');
     }
 }
