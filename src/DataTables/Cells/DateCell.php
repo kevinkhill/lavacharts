@@ -49,7 +49,7 @@ class DateCell extends Cell
      * @param  string         $format
      * @param  array          $options
      */
-    public function __construct(Carbon $carbon = null, $format = null, array $options = [])
+    public function __construct(Carbon $carbon, $format = '', array $options = [])
     {
         parent::__construct($carbon, $format, $options);
     }
@@ -66,13 +66,13 @@ class DateCell extends Cell
      */
     public static function createFromFormat($format, $datetime)
     {
-        try {
+//        try { TODO: why?
             $carbon = Carbon::createFromFormat($format, $datetime);
 
-            return new self($carbon);
-        } catch (Exception $e) {
-            throw new UndefinedDateCellException($datetime, $format);
-        }
+            return new static($carbon);
+//        } catch (Exception $e) {
+//            throw new UndefinedDateCellException($datetime, $format);
+//        }
     }
 
     /**
