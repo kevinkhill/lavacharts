@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\Tests\Builders;
 
 use Khill\Lavacharts\Builders\ChartBuilder;
 use Khill\Lavacharts\Charts\LineChart;
+use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 
 /**
@@ -26,9 +27,9 @@ class ChartBuilderTest extends ProvidersTestCase
 
         $chart = $this->builder->getChart();
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\LineChart', $chart);
-        $this->assertEquals('taco', $chart->getLabelStr());
-        $this->assertInstanceOf('\Khill\Lavacharts\Datatables\Datatable', $chart->getDataTable());
+        $this->assertInstanceOf(LineChart::class, $chart);
+        $this->assertEquals('taco', $chart->getLabel());
+        $this->assertInstanceOf(DataTable::class, $chart->getDataTable());
     }
 
     /**

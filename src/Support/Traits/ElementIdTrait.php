@@ -23,16 +23,12 @@ trait ElementIdTrait
     /**
      * Creates and/or sets the ElementId.
      *
-     * @param  string|\Khill\Lavacharts\Values\ElementId $elementId
+     * @param  string $elementId
      * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
      */
     public function setElementId($elementId)
     {
-        if ($elementId instanceof ElementId) {
-            $this->elementId = $elementId;
-        } else {
-            $this->elementId = new ElementId($elementId);
-        }
+        $this->elementId = $elementId;
     }
 
     /**

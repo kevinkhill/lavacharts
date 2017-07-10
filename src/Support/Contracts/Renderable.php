@@ -2,9 +2,6 @@
 
 namespace Khill\Lavacharts\Support\Contracts;
 
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Values\ElementId;
-
 /**
  * Renderable Interface
  *

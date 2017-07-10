@@ -3,11 +3,12 @@
 namespace Khill\Lavacharts\Support;
 
 use Countable;
-use Khill\Lavacharts\Exceptions\InvalidOptions;
 use Khill\Lavacharts\Exceptions\UndefinedOptionException;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
+use Khill\Lavacharts\Support\Contracts\ArrayAccess;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
+use Khill\Lavacharts\Support\Traits\ArrayAccessTrait as CountableArrayAccess;
 
 /**
  * Options Class
@@ -28,9 +29,9 @@ use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
  * @property string datetime_format
  * @property string pngOutput
  */
-class Options implements Arrayable, Jsonable, Countable
+class Options implements ArrayAccess, Arrayable, Jsonable, Countable
 {
-    use ArrayToJson;
+    use CountableArrayAccess, ArrayToJson;
 
     /**
      * Customization options.
@@ -62,6 +63,7 @@ class Options implements Arrayable, Jsonable, Countable
     /**
      * Customizable constructor.
      *
+     * @public
      * @param array $options
      */
     public function __construct(array $options = [])
@@ -70,13 +72,25 @@ class Options implements Arrayable, Jsonable, Countable
     }
 
     /**
+     * When treating options as a string, assume they are getting serialized.
+     *
+     * @public
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toJson();
+    }
+
+    /**
      * Retrieve options as member properties
      *
+     * @public
      * @param  string $option
      * @return mixed
      * @throws \Khill\Lavacharts\Exceptions\UndefinedOptionException
      */
-    function __get($option)
+    public function __get($option)
     {
         if ( ! $this->has($option)) {
             throw new UndefinedOptionException($option);
@@ -86,24 +100,26 @@ class Options implements Arrayable, Jsonable, Countable
     }
 
     /**
-     * When treating options as a string, assume they are getting serialized.
-     *
-     * @return string
-     */
-    function __toString()
-    {
-        return $this->toJson();
-    }
-
-    /**
      * Setting an option by assigning to the class property.
      *
+     * @public
      * @param string $option
      * @param mixed  $value
      */
     public function __set($option, $value)
     {
         $this->options[$option] = $value;
+    }
+
+    /**
+     * Return the string name of the property that will be used for ArrayAccess
+     *
+     * @public
+     * @return string
+     */
+    public function getArrayAccessProperty()
+    {
+        return 'options';
     }
 
     /**
@@ -131,16 +147,16 @@ class Options implements Arrayable, Jsonable, Countable
     /**
      * Get the value of an option.
      *
-     * @param string $key Option to get
+     * @param string $option Option to get
      * @return mixed|null
      */
-    public function get($key)
+    public function get($option)
     {
-        if ($this->has($key)) {
-            return $this->options[$key];
+        if ($this->has($option)) {
+            throw new UndefinedOptionException($option);
         }
 
-        return null;
+        return $this->options[$option];
     }
 
     /**
@@ -186,16 +202,6 @@ class Options implements Arrayable, Jsonable, Countable
         }
 
         $this->options = array_merge($this->options, $options);
-    }
-
-    /**
-     * Count the number of options
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return count($this->options);
     }
 
     /**

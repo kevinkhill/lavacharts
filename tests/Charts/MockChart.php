@@ -3,19 +3,31 @@
 namespace Khill\Lavacharts\Tests\Charts;
 
 use \Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Support\Traits\MaterialRenderableTrait;
+use Khill\Lavacharts\Support\Traits\PngRenderableTrait;
+use const Khill\Lavacharts\Support\GOOGLE_VISUALIZATION;
 
 /**
  * MockChart Class
  *
- * This is used to apply all the traits for testing, as well as testing the parent methods for all the charts.
+ * This is used for testing traits, as well as testing the parent methods for the charts.
  */
 class MockChart extends Chart
 {
-    const TYPE = 'MockChart';
+    use PngRenderableTrait, MaterialRenderableTrait;
 
-    const VERSION = '1';
+    public function getJsPackage()
+    {
+        return 'mockchart';
+    }
 
-    const VIZ_PACKAGE = 'mockchart';
+    public function getVersion()
+    {
+        return '3.2';
+    }
 
-    const VIZ_CLASS = 'google.visualization.MockChart';
+    public function getJsClass()
+    {
+        return GOOGLE_VISUALIZATION . 'MockChart';
+    }
 }

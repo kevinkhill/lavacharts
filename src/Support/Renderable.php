@@ -10,9 +10,9 @@ use Khill\Lavacharts\Javascript\DashboardJsFactory;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
-use \Khill\Lavacharts\Values\Label;
-use \Khill\Lavacharts\Values\ElementId;
-use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
+use Khill\Lavacharts\Values\Label;
+use Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
 use Khill\Lavacharts\Support\StringValue as Str;
 
 /**
