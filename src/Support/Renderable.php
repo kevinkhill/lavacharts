@@ -3,11 +3,14 @@
 namespace Khill\Lavacharts\Support;
 
 use Khill\Lavacharts\Exceptions\InvalidLabel;
+use Khill\Lavacharts\Javascript\JavascriptFactory;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
+use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
+use Khill\Lavacharts\Support\StringValue as Str;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasElementIdTrait as HasElementId;
-use Khill\Lavacharts\Support\StringValue as Str;
+use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 
 /**
  * Renderable Class
@@ -23,9 +26,9 @@ use Khill\Lavacharts\Support\StringValue as Str;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-abstract class Renderable implements Arrayable, Jsonable
+abstract class Renderable implements Arrayable, Customizable, Jsonable
 {
-    use ArrayToJson, HasElementId;
+    use ArrayToJson, HasElementId, HasOptions;
 
     /**
      * The renderable's unique label.
@@ -40,6 +43,13 @@ abstract class Renderable implements Arrayable, Jsonable
      * @var bool
      */
     protected $renderable = true;
+
+    /**
+     * The child chart will define how it is converted to javascript.
+     *
+     * @return JavascriptFactory
+     */
+    abstract public function getJsFactory();
 
     /**
      * Returns the class type.

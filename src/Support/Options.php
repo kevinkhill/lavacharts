@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Support;
 
-use Countable;
 use Khill\Lavacharts\Exceptions\UndefinedOptionException;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\ArrayAccess;
@@ -58,6 +57,17 @@ class Options implements ArrayAccess, Arrayable, Jsonable
     public static function getAvailable()
     {
         return array_keys(self::getDefault());
+    }
+
+    /**
+     * Returns a list of the options that can be set.
+     *
+     * @param array $options
+     * @return Options
+     */
+    public static function create(array $options = [])
+    {
+        return new static($options);
     }
 
     /**

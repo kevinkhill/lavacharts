@@ -13,15 +13,11 @@ use Khill\Lavacharts\DataTables\DataFactory;
 use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\Exceptions\InvalidLabel;
-use Khill\Lavacharts\Exceptions\InvalidRenderable;
 use Khill\Lavacharts\Javascript\ScriptManager;
-use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
-use Khill\Lavacharts\Support\Html\HtmlFactory;
 use Khill\Lavacharts\Support\Psr4Autoloader;
-use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\StringValue as Str;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
@@ -37,6 +33,10 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
+ *
+ * @method exists
+ * @method store
+ * @method get
  */
 class Lavacharts implements Customizable, Jsonable, Arrayable
 {
@@ -119,6 +119,12 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      */
     public function __call($method, $args)
     {
+        // Check if the called method exists on the Volcano
+        // and forward the call to eliminate redundant methods.
+        if (method_exists($this->volcano, $method)) {
+            return call_user_func_array([$this->volcano, $method], $args);
+        }
+
         //Charts
         if (ChartFactory::isValidChart($method)) {
             if (isset($args[0]) === false) {
@@ -182,10 +188,8 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     public function toArray()
     {
         return [
-            'version'    => self::VERSION,
-            'options'    => $this->options,
-            'charts'     => $this->volcano->getCharts(),
-            'dashboards' => $this->volcano->getDashboards(),
+            'options'     => $this->options,
+            'renderables' => $this->volcano,
         ];
     }
 
@@ -320,70 +324,6 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     }
 
     /**
-     * Outputs the link to the Google JSAPI
-     *
-     * @deprecated 3.0.3
-     * @since      2.3.0
-     * @param array $options
-     * @return string Google Chart API and lava.js script blocks
-     */
-    public function jsapi(array $options = [])
-    {
-        return $this->lavajs($options);
-    }
-
-    /**
-     * Checks to see if the given chart or dashboard exists in the volcano storage.
-     *
-     * @since  2.4.2
-     * @param  string $type Type of object to isNonEmpty.
-     * @param  string $label Label of the object to isNonEmpty.
-     * @return boolean
-     */
-    public function exists($type, $label)
-    {
-        $label = Str::verify($label);
-
-        if ($type == 'Dashboard') {
-            return $this->volcano->checkDashboard($label);
-        } else {
-            return $this->volcano->checkChart($type, $label);
-        }
-    }
-
-    /**
-     * Fetches an existing Chart or Dashboard from the volcano storage.
-     *
-     * @since  3.0.0
-     * @param  string $type  Type of Chart or Dashboard.
-     * @param  string $label Label of the Chart or Dashboard.
-     * @return Renderable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidRenderable
-     */
-    public function fetch($type, $label)
-    {
-        $label = Str::verify($label);
-
-        if (strpos($type, 'Chart') === false && $type != 'Dashboard') {
-            throw new InvalidRenderable($type);
-        }
-
-        return $this->volcano->get($type, $label);
-    }
-
-    /**
-     * Stores a existing Chart or Dashboard into the volcano storage.
-     *
-     * @since  3.0.0
-     * @param  Renderable $renderable A Chart or Dashboard.
-     * @return Renderable
-     */
-    public function store(Renderable $renderable)
-    {
-        return $this->volcano->store($renderable);
-    }
-
-    /**
      * Renders Charts or Dashboards into the page
      *
      * Given a type, label, and HTML element id, this will output
@@ -393,32 +333,29 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * if the elementId was set explicitly to the Renderable.
      *
      * @since  2.0.0
-     * @uses   \Khill\Lavacharts\Support\Buffer
-     * @param  string $type       Type of object to render.
+     * @since  3.2.0  Type and div creation were removed.
      * @param  string $label      Label of the object to render.
-     * @param  mixed  $elementId  HTML element id to render into.
-     * @param  mixed  $div        Set true for div creation, or pass an array with height & width
+     * @param  string $elementId  HTML element id to render into.
      * @return string
      */
-    public function render($type, $label, $elementId = null, $div = false)
+    public function render($label, $elementId = '')
     {
-        $label = Str::verify($label);
+        $label     = Str::verify($label);
+        $elementId = Str::verify($elementId);
 
-        if (is_string($elementId)) {
-            $elementId = new ElementId($elementId);
+        $renderable = $this->volcano->get($label);
+
+        if (! $renderable->hasOption('elementId')) {
+            $renderable->setElementId($elementId);
         }
 
-        if (is_array($elementId)) {
-            $div = $elementId; // @TODO allow missing element ids to use renderable instance's id
+        $buffer = $this->scriptManager->getOutputBuffer($renderable);
+
+        if ($this->scriptManager->lavaJsLoaded() === false) {
+            $buffer->prepend($this->lavajs());
         }
 
-        if ($type == 'Dashboard') {
-            $buffer = $this->renderDashboard($label, $elementId);
-        } else {
-            $buffer = $this->renderChart($type, $label, $elementId, $div);
-        }
-
-        return $buffer->getContents();
+        return $buffer;
     }
 
     /**
@@ -428,96 +365,24 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Options can be passed in to override the default config.
      * Available options are defined in src/Laravel/config/lavacharts.php
      *
-     * @since  3.1.0
+     * @since 3.1.0
+     * @since 3.2.0 Takes options and merges them with existing options.
      * @param array $options Options for rendering
      * @return string
      */
     public function renderAll(array $options = [])
     {
-        $this->scriptManager->getOptions()->merge($options);
+        $this->scriptManager->mergeOptions($options);
 
         $output = $this->scriptManager->getLavaJs($this->options);
 
-        $renderables = $this->volcano->getAll();
-
-        foreach ($renderables as $renderable) {
+        foreach ($this->volcano as $renderable) {
             $output->append(
                 $this->scriptManager->getOutputBuffer($renderable)
             );
         }
 
         return $output->getContents();
-    }
-
-    /**
-     * Renders the chart into the page
-     *
-     * Given a chart label and an HTML element id, this will output
-     * all of the necessary javascript to generate the chart.
-     *
-     * @depreciated 3.2.0 It is tedious to make multiple render calls, favor renderAll()
-     * @since  3.0.0
-     * @param  string     $type
-     * @param  string     $label
-     * @param  string     $elementId HTML element id to render the chart into.
-     * @param  bool|array $div       Set true for div creation, or pass an array with height & width
-     * @return \Khill\Lavacharts\Support\Buffer
-     * @throws \Khill\Lavacharts\Exceptions\ChartNotFound
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     * @throws \Khill\Lavacharts\Exceptions\InvalidDivDimensions
-     */
-    private function renderChart($type, $label, $elementId = '', $div = false)
-    {
-        /** @var \Khill\Lavacharts\Charts\Chart $chart */
-        $chart = $this->volcano->get($type, $label);
-
-        if (!$chart->getOptions()->has('elementId')) {
-            $chart->setElementId(Str::verify($elementId));
-        }
-
-        $buffer = $this->scriptManager->getOutputBuffer($chart);
-
-        if ($this->scriptManager->lavaJsRendered() === false) {
-            $buffer->prepend($this->lavajs());
-        }
-
-        if ($div !== false) {
-            $buffer->prepend(HtmlFactory::createDiv($chart->getElementId(), $div));
-        }
-
-        return $buffer;
-    }
-
-    /**
-     * Renders the dashboard into the page.
-     *
-     * Given a chart label and an HTML element id, this will output
-     * all of the necessary javascript to generate the chart.
-     *
-     * @depreciated 3.2.0 It is tedious to make multiple render calls, favor renderAll()
-     * @since  3.0.0
-     * @uses   Buffer $buffer
-     * @param  string $label
-     * @param  string $elementId HTML element id to render the chart into.
-     * @return Buffer
-     * @throws \Khill\Lavacharts\Exceptions\DashboardNotFound
-     */
-    private function renderDashboard($label, $elementId = '')
-    {
-        /** @var \Khill\Lavacharts\Dashboards\Dashboard $dashboard */
-        $dashboard = $this->volcano->get('Dashboard', $label);
-
-        if (!$dashboard->getOptions()->has('elementId')) {
-            $dashboard->setElementId(Str::verify($elementId));
-        }
-
-        $buffer = $this->scriptManager->getOutputBuffer($dashboard);
-
-        if ($this->scriptManager->lavaJsRendered() === false) {
-            $buffer->prepend($this->lavajs());
-        }
-
-        return $buffer;
     }
 
     /**

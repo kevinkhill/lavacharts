@@ -29,6 +29,13 @@ abstract class Format implements Customizable, Javascriptable, JsClass
 {
     use HasOptions, ToJavascript;
 
+    const TYPES = [
+        'Arrow',
+        'Bar',
+        'Date',
+        'Number'
+    ];
+
     /**
      * Index of the Column that is formatted
      *

@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Support;
 
-use InvalidArgumentException;
+use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Support\Contracts\Jsonable as Jsonable;
 
 /**
@@ -70,13 +70,15 @@ class Buffer implements Jsonable
     /**
      * Sets the contents of the buffer
      *
-     * @param string $str
+     * @param  string|mixed $object
+     * @throws InvalidArgumentException
      */
     public function setContents($object)
     {
-        if ( ! is_string($object) && ! method_exists($object, '__toString')) {
+        if (! is_string($object) && ! method_exists($object, '__toString')) {
             throw new InvalidArgumentException(
-                'Buffers can only accept strings and objects implementing "__toString"'
+                $object,
+                'string or objects implementing __toString'
             );
         }
 

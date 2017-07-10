@@ -1,7 +1,7 @@
 <?php
 
 namespace Khill\Lavacharts\Support\Contracts;
-
+//TODO: redundant??
 /**
  * Renderable Interface
  *

@@ -39,6 +39,17 @@ trait HasOptionsTrait
     }
 
     /**
+     * Check if the instance has an option set.
+     *
+     * @param string $option
+     * @return bool
+     */
+    public function hasOption($option)
+    {
+        return $this->options->has($option);
+    }
+
+    /**
      * Sets the Options object for the class.
      *
      * @param array|Options $options

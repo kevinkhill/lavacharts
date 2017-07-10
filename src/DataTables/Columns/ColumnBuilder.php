@@ -2,13 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables\Columns;
 
-use Khill\Lavacharts\DataTables\Formats\Format;
-use Khill\Lavacharts\Exceptions\InvalidColumnRole;
-use Khill\Lavacharts\Exceptions\InvalidColumnType;
-use Khill\Lavacharts\Support\AbstractBuilder;
-use Khill\Lavacharts\Support\Customizable;
-use Khill\Lavacharts\Values\Role;
-use Khill\Lavacharts\Support\StringValue;
+use Khill\Lavacharts\Builders\AbstractBuilder;
 
 /**
  * ColumnBuilder Class

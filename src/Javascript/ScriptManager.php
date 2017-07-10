@@ -4,7 +4,7 @@ namespace Khill\Lavacharts\Javascript;
 
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Dashboards\Dashboard;
-use Khill\Lavacharts\Exceptions\ElementIdException;
+use Khill\Lavacharts\Exceptions\InvalidElementIdException;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
@@ -58,7 +58,7 @@ class ScriptManager implements Customizable
      *
      * @var bool
      */
-    private $lavaJsRendered = false;
+    private $lavaJsLoaded = false;
 
     /**
      * ScriptManager constructor.
@@ -76,9 +76,9 @@ class ScriptManager implements Customizable
      *
      * @return boolean
      */
-    public function lavaJsRendered()
+    public function lavaJsLoaded()
     {
-        return $this->lavaJsRendered;
+        return $this->lavaJsLoaded;
     }
 
     /**
@@ -87,13 +87,13 @@ class ScriptManager implements Customizable
      * @param  array $config
      * @return Buffer
      */
-    public function getLavaJs(Options $options)
+    public function getLavaJs(array $options = [])
     {
-        $this->lavaJsRendered = true;
+        $this->lavaJsLoaded = true;
 
         $buffer = $this->getLavaJsSource();
 
-        $buffer->pregReplace('/OPTIONS_JSON/', $options->toJson());
+        $buffer->pregReplace('/OPTIONS_JSON/', Options::create($options)->toJson());
 
         return $this->scriptTagWrap($buffer);
     }
@@ -104,12 +104,12 @@ class ScriptManager implements Customizable
      *
      * @param  Renderable $renderable
      * @return Buffer
-     * @throws \Khill\Lavacharts\Exceptions\ElementIdException
+     * @throws \Khill\Lavacharts\Exceptions\InvalidElementIdException
      */
     public function getOutputBuffer(Renderable $renderable)
     {
-        if ($renderable->hasElementId() === false) {
-            throw new ElementIdException($renderable);
+        if (! $renderable->hasElementId()) {
+            throw new InvalidElementIdException($renderable);
         }
 
         $buffer = $renderable->getJsFactory()->getBuffer();
