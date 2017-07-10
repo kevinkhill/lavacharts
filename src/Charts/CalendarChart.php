@@ -25,9 +25,17 @@ class CalendarChart extends Chart
     /**
      * @inheritdoc
      */
-    public function getJsVersion()
+    public function getVersion()
     {
         return '1.1';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getJsPackage()
+    {
+        return 'calendar';
     }
 
     /**

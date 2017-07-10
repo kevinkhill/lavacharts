@@ -2,12 +2,6 @@
 
 namespace Khill\Lavacharts\Support;
 
-if (!function_exists('google_visualization')) {
-    function google_visualization($class) {
-        return Google::STANDARD_NAMESPACE . $class;
-    }
-}
-
 /**
  * Google Class
  *
@@ -50,8 +44,8 @@ class Google
     }
 }
 
-if (!function_exists('google_visualization')) {
-    function google_visualization($class) {
-        return Google::STANDARD_NAMESPACE . $class;
-    }
-}
+//if (!function_exists('google_visualization')) {
+//    function google_visualization($class) {
+//        return Google::STANDARD_NAMESPACE . $class;
+//    }
+//}
