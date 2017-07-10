@@ -9,11 +9,11 @@ use Khill\Lavacharts\Support\Contracts\DataInterface;
 use Khill\Lavacharts\Support\Contracts\JsFactory;
 use Khill\Lavacharts\Support\Contracts\Visualization;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
-use Khill\Lavacharts\Support\Google;
 use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\StringValue as Str;
 use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
+use const Khill\Lavacharts\Support\GOOGLE_VISUALIZATION;
 
 /**
  * Class Chart
@@ -120,7 +120,7 @@ class Chart extends Renderable implements Customizable, JsFactory, Visualization
      */
     public function getJsClass()
     {
-        return Google::STANDARD_NAMESPACE . $this->getType();
+        return GOOGLE_VISUALIZATION . $this->getType();
     }
 
     /**

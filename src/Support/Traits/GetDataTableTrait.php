@@ -2,6 +2,8 @@
 
 namespace Khill\Lavacharts\Support\Traits;
 
+use Khill\Lavacharts\DataTables\DataTable;
+
 /**
  * Trait ToDataTableTrait
  *
@@ -26,12 +28,12 @@ trait GetDataTableTrait
     /**
      * Create a new DataTable from column and row definitions.
      *
-     * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\DataTableCastingException
+     * @param array $options
+     * @return DataTable
      */
-    public function getDataTable()
+    public function getDataTable(array $options = [])
     {
-        $data = new \Khill\Lavacharts\DataTables\DataTable;
+        $data = new DataTable($options);
 
         if (method_exists($this, 'getColumns')) {
             $data->addColumns($this->getColumns());

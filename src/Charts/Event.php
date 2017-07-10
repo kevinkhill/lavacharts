@@ -42,22 +42,22 @@ class Event implements Javascriptable
      */
     function __construct($type, $callback)
     {
-        $this->type = $type;
+        $this->type     = $type;
         $this->callback = $callback;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function toJavascript()
+    public function getJavascriptSource()
     {
-        return sprintf($this->getJsFormatString(), $this->type, $this->callback);
+        return [$this->type, $this->callback];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getJsFormatString()
+    public function getJavascriptFormat()
     {
         /**
          * In the scope of the events, "this" is a reference to the lavachart class.

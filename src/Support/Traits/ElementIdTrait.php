@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Support\Traits;
 
-use Khill\Lavacharts\Values\ElementId;
+use Khill\Lavacharts\Support\StringValue as Str;
 
 /**
  * Trait ElementIdTrait
@@ -21,14 +21,13 @@ use Khill\Lavacharts\Values\ElementId;
 trait ElementIdTrait
 {
     /**
-     * Creates and/or sets the ElementId.
+     * Returns the ElementId.
      *
-     * @param  string $elementId
-     * @throws \Khill\Lavacharts\Exceptions\InvalidElementId
+     * @return string
      */
-    public function setElementId($elementId)
+    public function getElementId()
     {
-        $this->elementId = $elementId;
+        return $this->elementId;
     }
 
     /**
@@ -43,22 +42,15 @@ trait ElementIdTrait
     }
 
     /**
-     * Returns the ElementId.
+     * Creates and/or sets the e lementId.
      *
-     * @return \Khill\Lavacharts\Values\ElementId
+     * @param string $elementId
+     * @return self
      */
-    public function getElementId()
+    public function setElementId($elementId)
     {
-        return $this->elementId;
-    }
+        $this->elementId = Str::verify($elementId);
 
-    /**
-     * Returns the ElementId as a string.
-     *
-     * @return string
-     */
-    public function getElementIdStr()
-    {
-        return (string) $this->elementId;
+        return $this;
     }
 }
