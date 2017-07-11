@@ -3,29 +3,25 @@
 namespace Khill\Lavacharts\Support\Contracts;
 
 /**
- * JsClass Interface
+ * ArrayAccess Interface
  *
- * Classes that implement this provide a method for custom JSON output.
+ * Provides common methods for working with DataTables.
+ *
  *
  * @package   Khill\Lavacharts\Support\Contracts
- * @since     3.1.0
- * @since     3.2.0 Added constants
+ * @since     3.2.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-interface JsClass
+interface IterableArray extends ArrayAccess
 {
-    const GOOGLE_CHARTS = 'google.charts.';
-
-    const GOOGLE_VISUALIZATION = 'google.visualization.';
-
     /**
-     * Returns the name of the Javascript object of a Google chart component.
+     * Create an The name of the class property that will be used for ArrayAccess
      *
-     * @return string
+     * @return \ArrayIterator
      */
-    public function getJsClass();
+    public function getIterator();
 }

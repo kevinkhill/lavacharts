@@ -6,6 +6,8 @@ use Khill\Lavacharts\Exceptions\InvalidConfigValue;
 use Khill\Lavacharts\Exceptions\InvalidFilter;
 use Khill\Lavacharts\Exceptions\InvalidFilterType;
 use Khill\Lavacharts\Exceptions\InvalidParamType;
+use Khill\Lavacharts\Support\Args;
+use Khill\Lavacharts\Support\Arr;
 
 /**
  * FilterFactory creates new filters for use in a dashboard.
@@ -23,8 +25,6 @@ class FilterFactory
 {
     /**
      * Valid filter types
-     *
-     * @var array
      */
     const TYPES = [
         'Category',
@@ -37,15 +37,19 @@ class FilterFactory
     /**
      * Create a new Filter.
      *
-     * @param  string     $type
-     * @param  string|int $labelOrIndex
-     * @param  array      $options
+     * @param  string $type
+     * @param  array  $args
      * @return Filter
      * @throws \Khill\Lavacharts\Exceptions\InvalidFilterType
      * @throws \Khill\Lavacharts\Exceptions\InvalidParamType
      */
-    public static function create($type, $labelOrIndex, array $options = [])
+    public static function create($type, $args)
     {
+        $args = new Args($args);
+
+        $labelOrIndex = $args->verify(0, ['string', 'int']);
+        $options = $args->verify(1, 'array', []);
+
         // Strip 'Filter' if given
         if (is_string($type)) {
             $type = str_replace('Filter', '', $type);

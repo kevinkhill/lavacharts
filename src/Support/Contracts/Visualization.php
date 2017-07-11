@@ -17,10 +17,6 @@ namespace Khill\Lavacharts\Support\Contracts;
  */
 interface Visualization extends JsClass
 {
-    const GOOGLE_CHARTS = 'google.charts.';
-
-    const GOOGLE_VISUALIZATION = 'google.visualization.';
-
     /**
      * Returns the name of the Javascript object of a Google chart component.
      *

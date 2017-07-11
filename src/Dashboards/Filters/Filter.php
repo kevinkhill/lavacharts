@@ -49,7 +49,7 @@ abstract class Filter implements Customizable, Wrappable
      */
     public function __construct($labelOrIndex, array $options = [])
     {
-        if (!is_int($labelOrIndex) && !is_string($labelOrIndex)) {
+        if (! is_int($labelOrIndex) && ! is_string($labelOrIndex)) {
             throw new InvalidParamType($labelOrIndex, 'string | int');
         }
 

@@ -36,6 +36,6 @@ class ControlWrapper extends Wrapper
      */
     public function getJsClass()
     {
-        return Google::STANDARD_NAMESPACE . 'ControlWrapper';
+        return self::GOOGLE_VISUALIZATION . 'ControlWrapper';
     }
 }

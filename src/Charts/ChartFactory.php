@@ -5,6 +5,7 @@ namespace Khill\Lavacharts\Charts;
 use Khill\Lavacharts\Builders\ChartBuilder;
 use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Exceptions\InvalidDataTable;
+use Khill\Lavacharts\Support\Args;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
 
 /**
@@ -28,7 +29,7 @@ class ChartFactory
     /**
      * Instance of the ChartBuilder for, well, building charts.
      *
-     * @var \Khill\Lavacharts\Builders\ChartBuilder
+     * @var ChartBuilder
      */
     private $chartBuilder;
 
@@ -90,41 +91,42 @@ class ChartFactory
      */
     public function make($type, $args)
     {
-        if ($args[1] !== null && $args[1] instanceof DataInterface === false) {
-            throw new InvalidDataTable;
+        $args = new Args($args);
+
+        list($label, $data, $options) = $args;
+
+        $this->chartBuilder->setType($type);
+
+        if ($data !== null && $data instanceof DataInterface === false) {
+            throw new InvalidDataTable($data);
         }
 
-        $this->chartBuilder->setType($type)
-                           ->setLabel($args[0])
-                           ->setDatatable($args[1]);
+        $this->chartBuilder->setLabel($label);
+        $this->chartBuilder->setDatatable($data);
 
-        if (isset($args[2])) {
-            if (is_string($args[2])) {
-                $this->chartBuilder->setElementId($args[2]);
+        if (isset($options)) {
+            if (is_string($options)) {
+                $this->chartBuilder->setElementId($options);
             }
 
-            if (is_array($args[2])) {
-                if (array_key_exists('elementId', $args[2])) {
-                    $this->chartBuilder->setElementId($args[2]['elementId']);
-                    unset($args[2]['elementId']);
+            if (is_array($options)) {
+                if (array_key_exists('elementId', $options)) {
+                    $this->chartBuilder->setElementId($options['elementId']);
+                    unset($options['elementId']);
                 }
 
-                if (array_key_exists('png', $args[2])) {
-                    $this->chartBuilder->setPngOutput($args[2]['png']);
-                    unset($args[2]['png']);
+                if (array_key_exists('png', $options)) {
+                    $this->chartBuilder->setPngOutput($options['png']);
+                    unset($options['png']);
                 }
 
-                if (array_key_exists('material', $args[2])) {
-                    $this->chartBuilder->setMaterialOutput($args[2]['material']);
-                    unset($args[2]['material']);
+                if (array_key_exists('material', $options)) {
+                    $this->chartBuilder->setMaterialOutput($options['material']);
+                    unset($options['material']);
                 }
 
-                $this->chartBuilder->setOptions($args[2]);
+                $this->chartBuilder->setOptions($options);
             }
-        }
-
-        if (isset($args[3])) {
-            $this->chartBuilder->setElementId($args[3]);
         }
 
         return $this->chartBuilder->getChart();

@@ -62,9 +62,9 @@ class DashboardJsFactory extends JavascriptFactory
     protected function getTemplateVars()
     {
         $vars = [
-            'elemId'    => $this->dashboard->getElementIdStr(),
-            'label'     => $this->dashboard->getLabelStr(),
-            'version'   => Dashboard::VERSION,
+            'version'   => $this->dashboard->getVersion(),
+            'label'     => $this->dashboard->getLabel(),
+            'elemId'    => $this->dashboard->getElementId(),
             'class'     => $this->dashboard->getJsClass(),
             'packages'  => [
                 $this->dashboard->getJsPackage()
@@ -73,9 +73,7 @@ class DashboardJsFactory extends JavascriptFactory
             'chartData' =>$this->dashboard->getDataTableJson()
         ];
 
-        /** @var \Khill\Lavacharts\Charts\Chart $chart */
         foreach ($this->dashboard->getBoundCharts() as $chart) {
-
             array_push($vars['packages'], $chart->getJsPackage());
         }
 

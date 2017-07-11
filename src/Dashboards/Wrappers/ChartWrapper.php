@@ -3,7 +3,7 @@
 namespace Khill\Lavacharts\Dashboards\Wrappers;
 
 use Khill\Lavacharts\Charts\Chart;
-use Khill\Lavacharts\Support\Google;
+use Khill\Lavacharts\Support\Contracts\JsClass;
 
 /**
  * ChartWrapper Class
@@ -18,7 +18,7 @@ use Khill\Lavacharts\Support\Google;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class ChartWrapper extends Wrapper
+class ChartWrapper extends Wrapper implements JsClass
 {
     /**
      * Builds a ChartWrapper object.
@@ -38,6 +38,6 @@ class ChartWrapper extends Wrapper
      */
     public function getJsClass()
     {
-        return Google::STANDARD_NAMESPACE . 'ChartWrapper';
+        return self::GOOGLE_VISUALIZATION . 'ChartWrapper';
     }
 }

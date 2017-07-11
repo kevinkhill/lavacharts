@@ -4,6 +4,7 @@ namespace Khill\Lavacharts;
 
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Charts\ChartFactory;
+use Khill\Lavacharts\Dashboards\Dashboard;
 use Khill\Lavacharts\Dashboards\DashboardFactory;
 use Khill\Lavacharts\Dashboards\Filters\Filter;
 use Khill\Lavacharts\Dashboards\Filters\FilterFactory;
@@ -12,11 +13,15 @@ use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use Khill\Lavacharts\DataTables\DataFactory;
 use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\DataTables\Formats\Format;
+use Khill\Lavacharts\DataTables\Formats\FormatFactory;
 use Khill\Lavacharts\Exceptions\InvalidLabel;
+use Khill\Lavacharts\Exceptions\InvalidLabelException;
+use Khill\Lavacharts\Exceptions\RenderableNotFound;
 use Khill\Lavacharts\Javascript\ScriptManager;
+use Khill\Lavacharts\Support\Args;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
-use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
+use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Psr4Autoloader;
 use Khill\Lavacharts\Support\StringValue as Str;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
@@ -26,13 +31,13 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
  * Lavacharts - A PHP wrapper library for the Google Chart API
  *
  *
- * @package   Khill\Lavacharts
- * @since     1.0.0
- * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @package       Khill\Lavacharts
+ * @since         1.0.0
+ * @author        Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
- * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link      http://lavacharts.com                   Official Docs Site
- * @license   http://opensource.org/licenses/MIT      MIT
+ * @link          http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link          http://lavacharts.com                   Official Docs Site
+ * @license       http://opensource.org/licenses/MIT      MIT
  *
  * @method exists
  * @method store
@@ -47,6 +52,14 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      */
     const VERSION = '3.2.0';
 
+    const VOLCANO_METHODS = [
+        'store',
+        'exists',
+        'get',
+        'getCharts',
+        'getDashboards',
+    ];
+
     const BASE_LAVA_CLASSES = [
         'ChartWrapper',
         'ControlWrapper',
@@ -57,21 +70,21 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Storage for all of the defined Renderables.
      *
-     * @var \Khill\Lavacharts\Volcano
+     * @var Volcano
      */
     private $volcano;
 
     /**
      * Chart factory for creating new charts.
      *
-     * @var \Khill\Lavacharts\Charts\ChartFactory
+     * @var ChartFactory
      */
     private $chartFactory;
 
     /**
      * Dashboard factory for creating dashboards.
      *
-     * @var \Khill\Lavacharts\Dashboards\DashboardFactory
+     * @var DashboardFactory
      */
     private $dashFactory;
 
@@ -91,8 +104,8 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     {
         $this->initOptions($options);
 
-        if ( ! $this->usingComposer()) {
-            require_once(__DIR__.'/Support/Psr4Autoloader.php');
+        if (! $this->usingComposer()) {
+            require_once(__DIR__ . '/Support/Psr4Autoloader.php');
 
             $loader = new Psr4Autoloader;
             $loader->register();
@@ -103,40 +116,42 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
         $this->chartFactory  = new ChartFactory;
         $this->dashFactory   = new DashboardFactory;
         $this->scriptManager = new ScriptManager($this->options);
-
     }
 
     /**
      * Magic function to reduce repetitive coding and create aliases.
      *
      * @since  1.0.0
+     *
      * @param  string $method Name of method
      * @param  array  $args   Passed arguments
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
+     *
+     * @throws \Khill\Lavacharts\Exceptions\InvalidLabelException
      * @throws \Khill\Lavacharts\Exceptions\InvalidRenderable
      * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
      * @return mixed Returns Charts, Formats and Filters
      */
     public function __call($method, $args)
     {
-        // Check if the called method exists on the Volcano
-        // and forward the call to eliminate redundant methods.
-        if (method_exists($this->volcano, $method)) {
-            return call_user_func_array([$this->volcano, $method], $args);
+        $args = new Args($args);
+
+        // Check if the called method can be forwarded to the Volcano.
+        if (in_array($method, self::VOLCANO_METHODS)) {
+            return call_user_func_array([$this->volcano, $method], $args->toArray());
         }
 
         //Charts
         if (ChartFactory::isValidChart($method)) {
-            if (isset($args[0]) === false) {
-                throw new InvalidLabel;
+            if ($args->notExists(0)) {
+                throw new InvalidLabelException;
             }
 
-            if ($this->exists($method, $args[0])) {
-                $label = Str::verify($args[0]);
+            $label = $args->verify(0, 'string');
 
-                return $this->volcano->get($method, $label);
-            } else {
-                $chart = $this->chartFactory->make($method, $args);
+            try {
+                return $this->volcano->get($label);
+            } catch (RenderableNotFound $e) {
+                $chart = $this->chartFactory->make($method, $args->toArray());
 
                 return $this->volcano->store($chart);
             }
@@ -144,16 +159,12 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
 
         //Filters
         if (Str::endsWith($method, 'Filter')) {
-            $options = isset($args[1]) ? $args[1] : [];
-
-            return FilterFactory::create($method, $args[0], $options);
+            return FilterFactory::create($method, $args->toArray());
         }
 
         //Formats
         if (Str::endsWith($method, 'Format')) {
-            $options = isset($args[0]) ? $args[0] : [];
-
-            return Format::create($method, $options);
+            return FormatFactory::create($method, $args->toArray());
         }
 
         throw new \BadMethodCallException(
@@ -175,7 +186,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     {
         return $this->renderAll();
 
-        //@TODO This is the goal :)
+//        @TODO This is the goal :)
 //        return new ScriptManager($this->options, json_encode($this));
     }
 
@@ -215,29 +226,35 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Create a new Dashboard
      *
      * @since  3.0.0
+     *
      * @param  string    $label
      * @param  DataTable $dataTable
-     * @return \Khill\Lavacharts\Dashboards\Dashboard
+     *
+     * @return Dashboard
      */
-    public function Dashboard($label, DataTable $dataTable)
+    public function Dashboard($label)
     {
         $label = Str::verify($label);
 
-        if ($this->exists('Dashboard', $label)) {
-            return $this->volcano->get('Dashboard', $label);
+        if ($this->volcano->exists($label)) {
+            return $this->volcano->get($label);
         }
 
-        return $this->volcano->store(
-            $this->dashFactory->create(func_get_args())
-        );
+        $dashboard = $this->dashFactory->create(func_get_args());
+
+        $this->volcano->store($dashboard);
+
+        return $dashboard;
     }
 
     /**
      * Create a new ControlWrapper from a Filter
      *
      * @since  3.0.0
+     *
      * @param  Filter $filter    Filter to wrap
      * @param  string $elementId HTML element ID to output the control.
+     *
      * @return ControlWrapper
      */
     public function ControlWrapper(Filter $filter, $elementId)
@@ -251,8 +268,10 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Create a new ChartWrapper from a Chart
      *
      * @since  3.0.0
+     *
      * @param  Chart  $chart     Chart to wrap
      * @param  string $elementId HTML element ID to output the control.
+     *
      * @return ChartWrapper
      */
     public function ChartWrapper(Chart $chart, $elementId)
@@ -276,7 +295,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Returns the current locale used in the DataTable
      *
      * @deprecated 3.2.0 use $lava->getOption('locale')
-     * @since  3.1.0
+     * @since      3.1.0
      * @return string
      */
     public function getLocale()
@@ -295,8 +314,10 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @deprecated 3.2.0 Set this option with the constructor, or with
      *                   $lava->options->set('locale', 'en');
      *
-     * @since  3.1.0
+     * @since      3.1.0
+     *
      * @param  string $locale
+     *
      * @return $this
      * @throws \Khill\Lavacharts\Exceptions\InvalidStringValue
      */
@@ -313,7 +334,9 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Will be depreciating jsapi in the future
      *
      * @since  3.0.3
+     *
      * @param array $options
+     *
      * @return string Google Chart API and lava.js script blocks
      */
     public function lavajs(array $options = [])
@@ -334,8 +357,10 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      *
      * @since  2.0.0
      * @since  3.2.0  Type and div creation were removed.
-     * @param  string $label      Label of the object to render.
-     * @param  string $elementId  HTML element id to render into.
+     *
+     * @param  string $label     Label of the object to render.
+     * @param  string $elementId HTML element id to render into.
+     *
      * @return string
      */
     public function render($label, $elementId = '')
@@ -367,7 +392,9 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      *
      * @since 3.1.0
      * @since 3.2.0 Takes options and merges them with existing options.
+     *
      * @param array $options Options for rendering
+     *
      * @return string
      */
     public function renderAll(array $options = [])

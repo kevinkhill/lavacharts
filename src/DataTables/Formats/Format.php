@@ -33,7 +33,7 @@ abstract class Format implements Customizable, Javascriptable, JsClass
         'Arrow',
         'Bar',
         'Date',
-        'Number'
+        'Number',
     ];
 
     /**
@@ -61,25 +61,6 @@ abstract class Format implements Customizable, Javascriptable, JsClass
     }
 
     /**
-     * Static method for creating new format objects.
-     *
-     * @param  string $type
-     * @param  array  $options
-     * @return Format
-     * @throws \Khill\Lavacharts\Exceptions\InvalidFormatType
-     */
-    public static function create($type, array $options = [])
-    {
-        $format = __NAMESPACE__ . '\\' . $type;
-
-        if ( ! class_exists($format)) {
-            throw new InvalidFormatType($type);
-        }
-
-        return new $format($options);
-    }
-
-    /**
      * Apply the  a new Column with the same values, while applying the Format.
      *
      * @param  Column $column
@@ -104,23 +85,6 @@ abstract class Format implements Customizable, Javascriptable, JsClass
     }
 
     /**
-     * Return a format string that will be used by vsprintf to convert the
-     * extending class to javascript.
-     *
-     * @return string
-     */
-    public function getJavascriptFormat()
-    {
-        /**
-         * In the scope of the formats, "this" is a reference to the lavachart class.
-         */
-        return  <<<'FORMAT'
-            this.formats['col-%1$s'] = new %2$s(%3$s);
-            this.formats['col-%1$s'].format(this.data, %1$s);
-FORMAT;
-    }
-
-    /**
      * Return an array of arguments to pass to the format string provided
      * by getJavascriptFormat().
      *
@@ -136,5 +100,22 @@ FORMAT;
             $this->getJsClass(),
             $this->options
         ];
+    }
+
+    /**
+     * Return a format string that will be used by vsprintf to convert the
+     * extending class to javascript.
+     *
+     * @return string
+     */
+    public function getJavascriptFormat()
+    {
+        /**
+         * In the scope of the formats, "this" is a reference to the lavachart class.
+         */
+        return  <<<'FORMAT'
+            this.formats['col-%1$s'] = new %2$s(%3$s);
+            this.formats['col-%1$s'].format(this.data, %1$s);
+FORMAT;
     }
 }

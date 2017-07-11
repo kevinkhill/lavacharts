@@ -21,6 +21,6 @@ class DateFormat extends Format
      */
     public function getJsClass()
     {
-        return Google::STANDARD_NAMESPACE . 'DateFormat';
+        return self::GOOGLE_VISUALIZATION . 'DateFormat';
     }
 }

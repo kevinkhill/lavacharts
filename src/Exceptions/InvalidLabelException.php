@@ -2,13 +2,13 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-class InvalidLabel extends LavaException
+class InvalidLabelException extends LavaException
 {
     public function __construct($invalidLabel = '')
     {
-        if (is_string($invalidLabel)) {
-            $message = 'Labels cannot be blank, must be a non-empty string.';
-        } else {
+        $message = 'Labels cannot be blank, must be a non-empty string.';
+
+        if (! is_string($invalidLabel)) {
             $message = gettype($invalidLabel) . ' is not a valid label, must be a non-empty string.';
         }
 

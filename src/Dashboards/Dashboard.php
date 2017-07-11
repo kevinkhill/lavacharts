@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboards;
 
+use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Dashboards\Bindings\Binding;
 use Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
 use Khill\Lavacharts\Dashboards\Wrappers\Wrapper;
@@ -37,25 +38,19 @@ class Dashboard extends Renderable implements Customizable, JsFactory, Visualiza
     use HasDataTable, HasOptions;
 
     /**
-     * Javascript type.
-     *
-     * @var string
-     */
-    const TYPE = 'Dashboard';
-
-    /**
      * Google's dashboard version
-     *
-     * @var string
      */
     const VERSION = '1';
 
     /**
      * Javascript package.
-     *
-     * @var string
      */
     const VISUALIZATION_PACKAGE = 'controls';
+
+    /**
+     * Namespaced javascript class
+     */
+    const JAVASCRIPT_CLASS = self::GOOGLE_VISUALIZATION . 'Dashboard';
 
     /**
      * Binding Factory for creating new bindings
@@ -95,15 +90,14 @@ class Dashboard extends Renderable implements Customizable, JsFactory, Visualiza
     }
 
     /**
-     * Returns the chart type.
+     * Returns the Dashboard version
      *
-     * TODO: remove?
-     * @since 3.1.0
+     * @since 3.2.0
      * @return string
      */
-    public function getType()
+    public function getVersion()
     {
-        return self::TYPE;
+        return self::VERSION;
     }
 
     /**
@@ -123,7 +117,7 @@ class Dashboard extends Renderable implements Customizable, JsFactory, Visualiza
      */
     public function getJsClass()
     {
-        return Google::STANDARD_NAMESPACE . self::TYPE;
+        return self::JAVASCRIPT_CLASS;
     }
 
     /**
@@ -139,7 +133,7 @@ class Dashboard extends Renderable implements Customizable, JsFactory, Visualiza
     /**
      * Fetch the dashboard's bound charts from the wrappers.
      *
-     * @return array
+     * @return Chart[]
      */
     public function getBoundCharts()
     {

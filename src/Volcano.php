@@ -37,7 +37,7 @@ class Volcano implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable
     /**
      * @var Renderable[]
      */
-    public $renderables;
+    public $renderables = [];
 
     /**
      * @inheritdoc
@@ -99,7 +99,7 @@ class Volcano implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable
      * Fetches an existing Renderable from the Volcano.
      *
      * @param  string $label Label of the Renderable.
-     * @return Renderable
+     * @return Chart|Dashboard|Renderable
      * @throws RenderableNotFound
      */
     public function get($label)

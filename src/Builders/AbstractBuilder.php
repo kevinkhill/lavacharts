@@ -6,7 +6,6 @@ use ReflectionClass;
 use BadMethodCallException;
 use InvalidArgumentException;
 
-
 /**
  * AbstractBuilder Class
  *

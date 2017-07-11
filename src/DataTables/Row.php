@@ -2,16 +2,18 @@
 
 namespace Khill\Lavacharts\DataTables;
 
-use ArrayAccess;
+use ArrayIterator;
 use Carbon\Carbon;
 use Countable;
+use IteratorAggregate;
 use Khill\Lavacharts\DataTables\Cells\Cell;
 use Khill\Lavacharts\DataTables\Cells\DateCell;
 use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
+use Khill\Lavacharts\Support\Contracts\ArrayAccess;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
-use Khill\Lavacharts\Support\Contracts\DataInterface;
+use Khill\Lavacharts\Support\Traits\ArrayAccessTrait as DynamicArrayAccess;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 
 /**
@@ -20,17 +22,17 @@ use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
  * The row object contains all the data for a row, stored in an array, indexed by columns.
  *
  *
- * @package   Khill\Lavacharts\DataTables\Rows
- * @since     3.0.0
- * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @package       Khill\Lavacharts\DataTables\Rows
+ * @since         3.0.0
+ * @author        Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
- * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link      http://lavacharts.com                   Official Docs Site
- * @license   http://opensource.org/licenses/MIT      MIT
+ * @link          http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link          http://lavacharts.com                   Official Docs Site
+ * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Row implements Arrayable, ArrayAccess, Countable, Jsonable
+class Row implements Arrayable, ArrayAccess, Countable, IteratorAggregate, Jsonable
 {
-    use ArrayToJson;
+    use DynamicArrayAccess, ArrayToJson;
 
     /**
      * Row values
@@ -43,12 +45,15 @@ class Row implements Arrayable, ArrayAccess, Countable, Jsonable
      * Create a new row filled with null values
      *
      * @since 3.2.0
+     *
      * @param int $columnCount
+     *
      * @return Row
+     * @throws InvalidArgumentException
      */
     public static function createNull($columnCount)
     {
-        if (!is_int($columnCount)) {
+        if (! is_int($columnCount)) {
             throw new InvalidArgumentException($columnCount, 'integer');
         }
 
@@ -80,6 +85,22 @@ class Row implements Arrayable, ArrayAccess, Countable, Jsonable
         }
     }
 
+    public function getArrayAccessProperty()
+    {
+        return 'cells';
+    }
+
+    /**
+     * Get an iterator for the renderables.
+     *
+     * @since 3.2.0 Enable the use of foreach on the Row to access the cells
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->cells);
+    }
+
     /**
      * Returns the cells from the Row.
      *
@@ -95,6 +116,7 @@ class Row implements Arrayable, ArrayAccess, Countable, Jsonable
      * Returns the Cell at the given index from the Row.
      *
      * @param  int $index Column index to fetch from the row.
+     *
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      * @return Cell
      */
@@ -125,44 +147,5 @@ class Row implements Arrayable, ArrayAccess, Countable, Jsonable
     public function count()
     {
         return count($this->cells);
-    }
-
-    /**
-     * @param mixed $offset
-     * @param mixed $value
-     */
-    public function offsetSet($offset, $value)
-    {
-        if (is_null($offset)) {
-            $this->cells[] = $value;
-        } else {
-            $this->cells[$offset] = $value;
-        }
-    }
-
-    /**
-     * @param mixed $offset
-     * @return bool
-     */
-    public function offsetExists($offset)
-    {
-        return isset($this->cells[$offset]);
-    }
-
-    /**
-     * @param mixed $offset
-     */
-    public function offsetUnset($offset)
-    {
-        unset($this->cells[$offset]);
-    }
-
-    /**
-     * @param mixed $offset
-     * @return mixed|null
-     */
-    public function offsetGet($offset)
-    {
-        return isset($this->cells[$offset]) ? $this->cells[$offset] : null;
     }
 }
