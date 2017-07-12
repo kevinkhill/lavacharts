@@ -40,6 +40,17 @@ class Options implements ArrayAccess, Arrayable, Jsonable
     protected $options;
 
     /**
+     * Returns a list of the options that can be set.
+     *
+     * @param array $options
+     * @return Options
+     */
+    public static function create(array $options = [])
+    {
+        return new static($options);
+    }
+
+    /**
      * Returns the default configuration options for Lavacharts
      *
      * @return array
@@ -57,17 +68,6 @@ class Options implements ArrayAccess, Arrayable, Jsonable
     public static function getAvailable()
     {
         return array_keys(self::getDefault());
-    }
-
-    /**
-     * Returns a list of the options that can be set.
-     *
-     * @param array $options
-     * @return Options
-     */
-    public static function create(array $options = [])
-    {
-        return new static($options);
     }
 
     /**
@@ -102,7 +102,7 @@ class Options implements ArrayAccess, Arrayable, Jsonable
      */
     public function __get($option)
     {
-        if ( ! $this->has($option)) {
+        if (! $this->has($option)) {
             throw new UndefinedOptionException($option);
         }
 
@@ -151,7 +151,7 @@ class Options implements ArrayAccess, Arrayable, Jsonable
      */
     public function hasAndIs($option, $type)
     {
-        return $this->has($option) && call_user_func("is_$type", $option);
+        return $this->has($option) && call_user_func("is_$type", $this->get($option));
     }
 
     /**
@@ -159,10 +159,11 @@ class Options implements ArrayAccess, Arrayable, Jsonable
      *
      * @param string $option Option to get
      * @return mixed|null
+     * @throws UndefinedOptionException
      */
     public function get($option)
     {
-        if ($this->has($option)) {
+        if (! $this->has($option)) {
             throw new UndefinedOptionException($option);
         }
 
@@ -191,13 +192,31 @@ class Options implements ArrayAccess, Arrayable, Jsonable
      */
     public function setIfNot($option, $value)
     {
-        if (!$this->has($option)) {
+        if (! $this->has($option)) {
             $this->options[$option] = $value;
 
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Remove an option for the set.
+     *
+     * @param  string $option
+     * @return self
+     * @throws UndefinedOptionException If th
+     */
+    public function forget($option)
+    {
+        if ($this->has($option)) {
+            throw new UndefinedOptionException($option);
+        }
+
+        unset($this->options[$option]);
+
+        return $this;
     }
 
     /**

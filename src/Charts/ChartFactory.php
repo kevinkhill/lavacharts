@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\Charts;
 
 use Khill\Lavacharts\Builders\ChartBuilder;
 use Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Exceptions\InvalidChartType;
 use Khill\Lavacharts\Exceptions\InvalidDataTable;
 use Khill\Lavacharts\Support\Args;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
@@ -26,13 +27,6 @@ use Khill\Lavacharts\Support\Contracts\DataInterface;
  */
 class ChartFactory
 {
-    /**
-     * Instance of the ChartBuilder for, well, building charts.
-     *
-     * @var ChartBuilder
-     */
-    private $chartBuilder;
-
     /**
      * Types of charts that can be created.
      *
@@ -64,22 +58,6 @@ class ChartFactory
     ];
 
     /**
-     * ChartFactory constructor.
-     */
-    public function __construct()
-    {
-        $this->chartBuilder = new ChartBuilder;
-    }
-
-    /**
-     * ChartFactory constructor.
-     */
-    public static function create($type, $args)
-    {
-        return (new self)->make($type, $args);
-    }
-
-    /**
      * Create new chart from type with DataTable and config passed
      * from the main Lavacharts class.
      *
@@ -89,47 +67,53 @@ class ChartFactory
      * @throws \Khill\Lavacharts\Exceptions\InvalidChartType
      * @throws \Khill\Lavacharts\Exceptions\InvalidDataTable
      */
-    public function make($type, $args)
+    public static function create($type, $args)
     {
+        if (! self::isValidChart($type)) {
+            throw new InvalidChartType($type);
+        }
+
+        $chartBuilder = new ChartBuilder;
+
         $args = new Args($args);
 
         list($label, $data, $options) = $args;
 
-        $this->chartBuilder->setType($type);
+        $chartBuilder->setType($type);
 
         if ($data !== null && $data instanceof DataInterface === false) {
             throw new InvalidDataTable($data);
         }
 
-        $this->chartBuilder->setLabel($label);
-        $this->chartBuilder->setDatatable($data);
+        $chartBuilder->setLabel($label);
+        $chartBuilder->setDatatable($data);
 
         if (isset($options)) {
             if (is_string($options)) {
-                $this->chartBuilder->setElementId($options);
+                $chartBuilder->setElementId($options);
             }
 
             if (is_array($options)) {
                 if (array_key_exists('elementId', $options)) {
-                    $this->chartBuilder->setElementId($options['elementId']);
+                    $chartBuilder->setElementId($options['elementId']);
                     unset($options['elementId']);
                 }
 
                 if (array_key_exists('png', $options)) {
-                    $this->chartBuilder->setPngOutput($options['png']);
+                    $chartBuilder->setPngOutput($options['png']);
                     unset($options['png']);
                 }
 
                 if (array_key_exists('material', $options)) {
-                    $this->chartBuilder->setMaterialOutput($options['material']);
+                    $chartBuilder->setMaterialOutput($options['material']);
                     unset($options['material']);
                 }
 
-                $this->chartBuilder->setOptions($options);
+                $chartBuilder->setOptions($options);
             }
         }
 
-        return $this->chartBuilder->getChart();
+        return $chartBuilder->getChart();
     }
 
     /**

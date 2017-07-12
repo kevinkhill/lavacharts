@@ -30,12 +30,4 @@ class ManyToOne extends Binding
     {
         parent::__construct($controlWrappers, [$chartWrapper]);
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function getType()
-    {
-        return 'ManyToOne';
-    }
 }

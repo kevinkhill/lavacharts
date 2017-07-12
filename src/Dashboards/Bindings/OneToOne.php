@@ -30,12 +30,4 @@ class OneToOne extends Binding
     {
         parent::__construct([$controlWrapper], [$chartWrapper]);
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function getType()
-    {
-        return 'OneToOne';
-    }
 }

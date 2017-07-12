@@ -83,6 +83,8 @@ class Args extends ArrayObject
      */
     public function verify($index, $types, $default = null)
     {
+        $tests = [];
+
         if (! isset($this->arr[$index])) {
             return $default;
         }
@@ -91,13 +93,23 @@ class Args extends ArrayObject
 
         if (is_array($types)) {
             foreach ($types as $type) {
-                if (! $this->is($index, $type)) {
-                    if (! isset($default)) {
-                        throw new InvalidArgumentException($this->arr[$index], join('|', $types));
-                    }
-
-                    return $default;
+                if ($this->is($index, $type)) {
+                    $tests[] = true;
+                } else {
+                    $tests[] = false;
                 }
+            }
+
+            $verified = array_reduce($tests, function ($prev, $curr) {
+                return $prev || $curr;
+            }, false);
+
+            if (! $verified && ! isset($default)) {
+                throw new InvalidArgumentException($this->arr[$index], join('|', $types));
+            }
+
+            if (isset($default)) {
+                return $default;
             }
         }
 
@@ -107,7 +119,7 @@ class Args extends ArrayObject
     /**
      * Test a value with an "is_xxxxx" function.
      *
-     * @param mixed $value
+     * @param int    $index
      * @param string $type
      * @return bool
      */

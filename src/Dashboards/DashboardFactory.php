@@ -3,6 +3,9 @@
 namespace Khill\Lavacharts\Dashboards;
 
 use Khill\Lavacharts\Builders\DashboardBuilder;
+use Khill\Lavacharts\Support\Args;
+use Khill\Lavacharts\Support\Options;
+use Khill\Lavacharts\Support\StringValue as Str;
 
 /**
  * DashboardFactory Class
@@ -23,21 +26,6 @@ use Khill\Lavacharts\Builders\DashboardBuilder;
 class DashboardFactory
 {
     /**
-     * Instance of the DashboardBuilder
-     *
-     * @var DashboardBuilder
-     */
-    private $dashBuilder;
-
-    /**
-     * DashboardFactory constructor.
-     */
-    public function __construct()
-    {
-        $this->dashBuilder = new DashboardBuilder;
-    }
-
-    /**
      * Creates and stores Dashboards
      *
      * If the Dashboard is found in the Volcano, then it is returned.
@@ -45,33 +33,39 @@ class DashboardFactory
      *
      * @since  3.1.0
      * @param  array $args Array of arguments from Lavacharts
-     * @return \Khill\Lavacharts\Dashboards\Dashboard
+     * @return Dashboard
      */
-    public function create($args)
+    public static function create($label, $args)
     {
-        $this->dashBuilder->setLabel($args[0]);
-        $this->dashBuilder->setDataTable($args[1]);
+        $dashBuilder = new DashboardBuilder;
 
-        if (isset($args[2])) {
-            if (is_string($args[2])) {
-                $this->dashBuilder->setElementId($args[2]);
+        list($data, $options) = $args;
+
+        $label = Str::verify($label);
+
+        $dashBuilder->setLabel($label);
+        $dashBuilder->setDataTable($data);
+
+        if (isset($options)) {
+            // If the 3rd constructor param is a string, assume elementId
+            if (is_string($options)) {
+                $dashBuilder->setElementId($options);
             }
 
-            if (is_array($args[2])) {
-                $this->dashBuilder->setBindings($args[2]);
+            // Process options if the 3rd parameter is an array
+            if (is_array($options)) {
+                $options = new Options($options);
+
+                if ($options->hasAndIs('elementId', 'string')) {
+                    $dashBuilder->setElementId($options->elementId);
+                }
+
+                if ($options->hasAndIs('bindings', 'array')) {
+                    $dashBuilder->setBindings($options->bindings);
+                }
             }
         }
 
-        if (isset($args[3])) {
-            if (is_string($args[3])) {
-                $this->dashBuilder->setElementId($args[3]);
-            }
-
-            if (is_array($args[3])) {
-                $this->dashBuilder->setBindings($args[3]);
-            }
-        }
-
-        return $this->dashBuilder->getDashboard();
+        return $dashBuilder->getDashboard();
     }
 }

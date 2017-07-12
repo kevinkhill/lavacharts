@@ -6,6 +6,8 @@ use Closure;
 use Khill\Lavacharts\DataTables\Cells\Cell;
 use Khill\Lavacharts\DataTablePlus\DataTablePlus;
 use Khill\Lavacharts\Exceptions\InvalidJson;
+use Khill\Lavacharts\Support\Contracts\DataInterface;
+use ReflectionClass;
 
 /**
  * Class DataFactory
@@ -79,12 +81,25 @@ class DataFactory
             }
 
             if ($args[1] instanceof Closure) {
-                $datatable->addRows( $args[1]() );
+                $datatable->addRows($args[1]());
             }
 
         }
 
         return $datatable;
+    }
+
+    /**
+     * Create a new instance of a JoinedDataTable.
+     *
+     * @param DataTable $data1
+     * @param DataTable $data2
+     * @param array     $options
+     * @return JoinedDataTable
+     */
+    public static function JoinedDataTable(DataTable $data1, DataTable $data2, array $options = [])
+    {
+        return new JoinedDataTable($data1, $data2, $options);
     }
 
     /**
@@ -95,11 +110,11 @@ class DataFactory
      * @param array $options
      * @return \Khill\Lavacharts\DataTables\DataTable
      */
-    private static function emptyDataTable(array $options = [])
+    public static function emptyDataTable(array $options = [])
     {
         $datatable = DataTablePlus::class;
 
-        if (class_exists($datatable) === false) {
+        if (! class_exists($datatable)) {
             $datatable = DataTable::class;
         }
 

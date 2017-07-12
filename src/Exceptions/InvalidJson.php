@@ -6,6 +6,6 @@ class InvalidJson extends LavaException
 {
     public function __construct()
     {
-        parent::__construct("There was an error decoding the JSON.");
+        parent::__construct(json_last_error_msg());
     }
 }

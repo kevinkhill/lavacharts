@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Support\Traits;
 
+use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Support\Options;
 
 /**
@@ -56,6 +57,10 @@ trait HasOptionsTrait
      */
     public function setOptions($options)
     {
+        if (! is_array($options) && $options instanceof Options === false) {
+            throw new InvalidArgumentException($options, 'array or Options object');
+        }
+
         if ($options instanceof Options) {
             $this->options = $options;
         } else {

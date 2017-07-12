@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Javascript;
 
 use Khill\Lavacharts\Dashboards\Wrappers\Wrapper;
+use Khill\Lavacharts\Exceptions\RenderingException;
 use Khill\Lavacharts\Lavacharts;
 use Khill\Lavacharts\Dashboards\Dashboard;
 use Khill\Lavacharts\Support\Buffer;
@@ -48,6 +49,7 @@ class DashboardJsFactory extends JavascriptFactory
     {
         $this->dashboard = $dashboard;
         $this->template  = self::JS_TEMPLATE;
+        $this->templateVars = $this->getTemplateVars();
 
         parent::__construct();
     }
@@ -70,7 +72,7 @@ class DashboardJsFactory extends JavascriptFactory
                 $this->dashboard->getJsPackage()
             ],
             'bindings' => $this->processBindings(),
-            'chartData' =>$this->dashboard->getDataTableJson()
+            'chartData' =>$this->dashboard->getDataTable()->toJson()
         ];
 
         foreach ($this->dashboard->getBoundCharts() as $chart) {
@@ -89,10 +91,15 @@ class DashboardJsFactory extends JavascriptFactory
      *
      * @access private
      * @return string
+     * @throws RenderingException
      */
     private function processBindings() //@TODO this could use some refactoring
     {
-        $buffer = new Buffer();
+        if (! $this->dashboard->hasBindings()) {
+            throw new RenderingException('Dashboards without bindings cannot be rendered.');
+        }
+
+        $buffer   = new Buffer();
         $bindings = $this->dashboard->getBindings();
 
         /** @var \Khill\Lavacharts\Dashboards\Bindings\Binding $binding */
@@ -144,6 +151,6 @@ class DashboardJsFactory extends JavascriptFactory
             return $wrapper->toJavascript();
         }, $wrapperArray);
 
-        return '[' . implode(', ', $wrappers) . ']';
+        return '[' . implode(',', $wrappers) . ']';
     }
 }

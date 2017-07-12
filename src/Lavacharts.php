@@ -12,8 +12,8 @@ use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use Khill\Lavacharts\DataTables\DataFactory;
 use Khill\Lavacharts\DataTables\DataTable;
-use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\DataTables\Formats\FormatFactory;
+use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Exceptions\InvalidLabel;
 use Khill\Lavacharts\Exceptions\InvalidLabelException;
 use Khill\Lavacharts\Exceptions\RenderableNotFound;
@@ -23,6 +23,7 @@ use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Psr4Autoloader;
+use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\StringValue as Str;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
@@ -60,6 +61,11 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
         'getDashboards',
     ];
 
+    const DATATABLE_TYPES = [
+        'DataTable',
+        'JoinedDataTable',
+    ];
+
     const BASE_LAVA_CLASSES = [
         'ChartWrapper',
         'ControlWrapper',
@@ -73,20 +79,6 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @var Volcano
      */
     private $volcano;
-
-    /**
-     * Chart factory for creating new charts.
-     *
-     * @var ChartFactory
-     */
-    private $chartFactory;
-
-    /**
-     * Dashboard factory for creating dashboards.
-     *
-     * @var DashboardFactory
-     */
-    private $dashFactory;
 
     /**
      * Instance of the ScriptManager.
@@ -113,8 +105,6 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
         }
 
         $this->volcano       = new Volcano;
-        $this->chartFactory  = new ChartFactory;
-        $this->dashFactory   = new DashboardFactory;
         $this->scriptManager = new ScriptManager($this->options);
     }
 
@@ -128,43 +118,28 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      *
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabelException
      * @throws \Khill\Lavacharts\Exceptions\InvalidRenderable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidFunctionParam
-     * @return mixed Returns Charts, Formats and Filters
+     * @return mixed Returns Charts, Dashboards, DataTables, Formats and Filters
      */
     public function __call($method, $args)
     {
-        $args = new Args($args);
+        if (in_array($method, self::DATATABLE_TYPES)) {
+            return call_user_func_array([DataFactory::class, $method], $args);
+        }
 
-        // Check if the called method can be forwarded to the Volcano.
         if (in_array($method, self::VOLCANO_METHODS)) {
-            return call_user_func_array([$this->volcano, $method], $args->toArray());
+            return call_user_func_array([$this->volcano, $method], $args);
         }
 
-        //Charts
-        if (ChartFactory::isValidChart($method)) {
-            if ($args->notExists(0)) {
-                throw new InvalidLabelException;
-            }
-
-            $label = $args->verify(0, 'string');
-
-            try {
-                return $this->volcano->get($label);
-            } catch (RenderableNotFound $e) {
-                $chart = $this->chartFactory->make($method, $args->toArray());
-
-                return $this->volcano->store($chart);
-            }
+        if (Str::endsWith($method, 'Chart')) {
+            return self::Chart($method, $args);
         }
 
-        //Filters
         if (Str::endsWith($method, 'Filter')) {
-            return FilterFactory::create($method, $args->toArray());
+            return FilterFactory::create($method, $args);
         }
 
-        //Formats
         if (Str::endsWith($method, 'Format')) {
-            return FormatFactory::create($method, $args->toArray());
+            return FormatFactory::create($method, $args);
         }
 
         throw new \BadMethodCallException(
@@ -205,42 +180,55 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     }
 
     /**
-     * Create a new DataTable using the DataFactory
+     * Create a new Chart of the given type.
      *
-     * If the additional DataTablePlus package is available, then one will
-     * be created, otherwise a standard DataTable is returned.
-     *
-     * @since  3.0.3
-     * @uses   \Khill\Lavacharts\DataTables\DataFactory
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @since 3.2.0
+     * @param string $type
+     * @param array  $args
+     * @return Chart
+     * @throws InvalidLabelException
      */
-    public function DataTable()
+    public function Chart($type, $args)
     {
-        return call_user_func_array(
-            [DataFactory::class, 'DataTable'],
-            func_get_args()
-        );
-    }
+        if (! isset($args[0])) {
+            throw new InvalidLabelException;
+        }
 
-    /**
-     * Create a new Dashboard
-     *
-     * @since  3.0.0
-     *
-     * @param  string    $label
-     * @param  DataTable $dataTable
-     *
-     * @return Dashboard
-     */
-    public function Dashboard($label)
-    {
-        $label = Str::verify($label);
+        $label = Str::verify($args[0]);
 
         if ($this->volcano->exists($label)) {
             return $this->volcano->get($label);
         }
 
-        $dashboard = $this->dashFactory->create(func_get_args());
+        $chart = ChartFactory::create($type, $args);
+
+        $this->volcano->store($chart);
+
+        return $chart;
+    }
+
+    /**
+     * Create a new Dashboard
+     *
+     * @since 3.0.0
+     * @param string $label
+     * @param array  $args
+     * @return Dashboard
+     * @throws InvalidLabelException
+     */
+    public function Dashboard($label, ...$args)
+    {
+        try {
+            $label = Str::verify($label);
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidLabelException;
+        }
+
+        if ($this->volcano->exists($label)) {
+            return $this->volcano->get($label);
+        }
+
+        $dashboard = DashboardFactory::create($label, $args);
 
         $this->volcano->store($dashboard);
 
@@ -251,10 +239,8 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Create a new ControlWrapper from a Filter
      *
      * @since  3.0.0
-     *
      * @param  Filter $filter    Filter to wrap
      * @param  string $elementId HTML element ID to output the control.
-     *
      * @return ControlWrapper
      */
     public function ControlWrapper(Filter $filter, $elementId)
@@ -268,10 +254,8 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Create a new ChartWrapper from a Chart
      *
      * @since  3.0.0
-     *
      * @param  Chart  $chart     Chart to wrap
      * @param  string $elementId HTML element ID to output the control.
-     *
      * @return ChartWrapper
      */
     public function ChartWrapper(Chart $chart, $elementId)
@@ -403,10 +387,13 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
 
         $output = $this->scriptManager->getLavaJs($this->options);
 
+        /** @var Renderable $renderable */
         foreach ($this->volcano as $renderable) {
-            $output->append(
-                $this->scriptManager->getOutputBuffer($renderable)
-            );
+            if ($renderable->isRenderable()) {
+                $output->append(
+                    $this->scriptManager->getOutputBuffer($renderable)
+                );
+            }
         }
 
         return $output->getContents();

@@ -73,13 +73,13 @@ class Volcano implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable
      * Stores a Renderable in the Volcano.
      *
      * @param  Renderable $renderable
-     * @return self
+     * @return Renderable
      */
     public function store(Renderable $renderable)
     {
         $this->renderables[$renderable->getLabel()] = $renderable;
 
-        return $this;
+        return $renderable;
     }
 
     /**
@@ -96,7 +96,23 @@ class Volcano implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable
     }
 
     /**
-     * Fetches an existing Renderable from the Volcano.
+     * Try to fetch a Renderable from the Volcano and throw an exception if not found.
+     *
+     * @param  string $label Label of the Renderable.
+     * @return Chart|Dashboard|Renderable
+     * @throws RenderableNotFound
+     */
+    public function find($label)
+    {
+        if (! $this->exists($label)) {
+            throw new RenderableNotFound($label);
+        }
+
+        return $this->get($label);
+    }
+
+    /**
+     * Fetches an existing Renderable from the Volcano with no checks.
      *
      * @param  string $label Label of the Renderable.
      * @return Chart|Dashboard|Renderable
@@ -104,10 +120,6 @@ class Volcano implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable
      */
     public function get($label)
     {
-        if (! $this->exists($label)) {
-            throw new RenderableNotFound($label);
-        }
-
         return $this->renderables[$label];
     }
 

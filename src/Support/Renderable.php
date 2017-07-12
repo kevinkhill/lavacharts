@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Support;
 
 use Khill\Lavacharts\Exceptions\InvalidLabel;
+use Khill\Lavacharts\Exceptions\InvalidLabelException;
 use Khill\Lavacharts\Javascript\JavascriptFactory;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
@@ -18,13 +19,13 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
  * This class is the parent to charts, dashboards, and controls since they
  * will need to be rendered onto the page.
  *
- * @package    Khill\Lavacharts\Support
- * @since      3.2.0
- * @author     Kevin Hill <kevinkhill@gmail.com>
+ * @package        Khill\Lavacharts\Support
+ * @since          3.2.0
+ * @author         Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2017, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @link           http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link           http://lavacharts.com                   Official Docs Site
+ * @license        http://opensource.org/licenses/MIT MIT
  */
 abstract class Renderable implements Arrayable, Customizable, Jsonable
 {
@@ -80,7 +81,7 @@ abstract class Renderable implements Arrayable, Customizable, Jsonable
      * Sets the Label.
      *
      * @param  string $label
-     * @throws InvalidLabel
+     * @throws InvalidLabelException
      */
     public function setLabel($label)
     {

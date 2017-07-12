@@ -53,13 +53,6 @@ class Dashboard extends Renderable implements Customizable, JsFactory, Visualiza
     const JAVASCRIPT_CLASS = self::GOOGLE_VISUALIZATION . 'Dashboard';
 
     /**
-     * Binding Factory for creating new bindings
-     *
-     * @var BindingFactory
-     */
-    private $bindingFactory;
-
-    /**
      * Array of Binding objects, mapping controls to charts.
      *
      * @var Binding[]
@@ -75,10 +68,8 @@ class Dashboard extends Renderable implements Customizable, JsFactory, Visualiza
      * @param DataInterface $datatable DataInterface for the dashboard
      * @param array         $options   Element Id for the Dashboard
      */
-    public function __construct($label, DataInterface $data, array $options = [])
+    public function __construct($label, DataInterface $data, $options = [])
     {
-        $this->bindingFactory = new BindingFactory;
-
         $this->label     = Str::verify($label);
         $this->datatable = $data;
 
@@ -86,6 +77,12 @@ class Dashboard extends Renderable implements Customizable, JsFactory, Visualiza
 
         if ($this->options->hasAndIs('elementId', 'string')) {
             $this->elementId = $this->options->elementId;
+
+            $this->options->forget('elementId');
+        }
+
+        if ($this->options->hasAndIs('bindings', 'array')) {
+            $this->setBindings($this->options->bindings);
         }
     }
 
@@ -137,24 +134,38 @@ class Dashboard extends Renderable implements Customizable, JsFactory, Visualiza
      */
     public function getBoundCharts()
     {
-        // TODO: test this
-        return array_map(function (Binding $binding) {
-            return array_map(function (Wrapper $chartWrapper) {
-                return $chartWrapper->unwrap();
-            }, $binding->getChartWrappers());
-        }, $this->bindings);
+        $charts = [];
 
-//        $charts = [];
-//
-//        foreach ($this->bindings as $binding) {
-//            foreach ($binding->getChartWrappers() as $chartWrapper) {
-//                $chart = $chartWrapper->unwrap();
-//
-//                $charts[] = $chart;
-//            }
-//        }
-//
-//        return $charts;
+        foreach ($this->bindings as $binding) {
+            foreach ($binding->getChartWrappers() as $chartWrapper) {
+                $chart = $chartWrapper->unwrap();
+
+                $charts[] = $chart;
+            }
+        }
+
+        return $charts;
+    }
+
+    /**
+     * Check if the Dashboard has any bindings.
+     *
+     * @since 3.2.0
+     * @return bool
+     */
+    public function hasBindings()
+    {
+        return count($this->bindings) > 0;
+    }
+
+    /**
+     * Fetch the dashboard's bindings.
+     *
+     * @return Binding[]
+     */
+    public function getBindings()
+    {
+        return $this->bindings;
     }
 
     /**
@@ -175,19 +186,9 @@ class Dashboard extends Renderable implements Customizable, JsFactory, Visualiza
      */
     public function bind($controlWraps, $chartWraps)
     {
-        $this->bindings[] = $this->bindingFactory->create($controlWraps, $chartWraps);
+        $this->bindings[] = BindingFactory::create($controlWraps, $chartWraps);
 
         return $this;
-    }
-
-    /**
-     * Fetch the dashboard's bindings.
-     *
-     * @return Binding[]
-     */
-    public function getBindings()
-    {
-        return $this->bindings;
     }
 
     /**
@@ -201,9 +202,9 @@ class Dashboard extends Renderable implements Customizable, JsFactory, Visualiza
      */
     public function setBindings(array $bindings)
     {
-        $this->bindings = array_map(function (array $bindingPair) {
-            return $this->bindingFactory->create($bindingPair[0], $bindingPair[1]);
-        }, $bindings);
+        foreach ($bindings as $binding) {
+            return $this->bind($binding[0], $binding[1]);
+        }
 
         return $this;
     }

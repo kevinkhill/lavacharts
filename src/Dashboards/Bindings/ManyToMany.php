@@ -30,12 +30,4 @@ class ManyToMany extends Binding
     {
         parent::__construct($controlWrappers, $chartWrappers);
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function getType()
-    {
-        return 'ManyToMany';
-    }
 }

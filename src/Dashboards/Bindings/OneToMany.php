@@ -30,12 +30,4 @@ class OneToMany extends Binding
     {
         parent::__construct([$controlWrapper], $chartWrappers);
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function getType()
-    {
-        return 'OneToMany';
-    }
 }

@@ -2,15 +2,18 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
+use Khill\Lavacharts\Charts\ChartFactory;
+
 class InvalidChartType extends LavaException
 {
-    public function __construct($invalidChart, array $validCharts)
+    public function __construct($type)
     {
-        $badChart = (string) $invalidChart;
+        $message = '"%s" is not a valid chart type, must be one of %s';
 
-        $message  = "'$badChart' is not a valid chart type, must be one of ";
-        $message .= '[ ' . implode(' | ', $validCharts) . ']';
-
-        parent::__construct($message);
+        parent::__construct(sprintf(
+            $message,
+            $type,
+            implode(' | ', ChartFactory::TYPES)
+        ));
     }
 }

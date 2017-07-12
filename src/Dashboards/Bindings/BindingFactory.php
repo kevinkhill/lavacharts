@@ -29,7 +29,7 @@ class BindingFactory
      * @throws \Khill\Lavacharts\Exceptions\InvalidBindings
      * @return \Khill\Lavacharts\Dashboards\Bindings\Binding
      */
-    public function create($controlWraps, $chartWraps)
+    public static function create($controlWraps, $chartWraps)
     {
         if ($controlWraps instanceof ControlWrapper && $chartWraps instanceof ChartWrapper) {
             return new OneToOne($controlWraps, $chartWraps);

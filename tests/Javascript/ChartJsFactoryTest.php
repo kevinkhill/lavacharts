@@ -44,7 +44,7 @@ class ChartJsFactoryTest extends ProvidersTestCase
 
         $templateVars = $getTemplateVars->invoke($this->factory);
 
-//        var_dump($templateVars);die;
+
 
         $this->assertEquals($templateVars['chartLabel'], 'TestChart');
         $this->assertEquals($templateVars['chartType'], 'LineChart');

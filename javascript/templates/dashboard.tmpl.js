@@ -4,7 +4,9 @@
 (function(){
     "use strict";
 
-    var $dash = lava.createDashboard('<label>');
+    var $lava = this;
+
+    var $dash = $lava.createDashboard('<label>');
 
     $dash.init = function () {
         $dash.setElement('<elemId>');
@@ -20,15 +22,15 @@
 
                 $dash.dashboard.draw($dash.data);
 
-                lava.emit('rendered', $dash);
+                $lava.emit('rendered', $dash);
             };
 
             $dash.deferred.resolve();
             return $dash.deferred.promise;
         };
 
-        lava.emit('ready', $dash);
+        $lava.emit('ready', $dash);
     };
 
-    lava.store($dash);
-})();
+    $lava.store($dash);
+}.apply(window.lava));

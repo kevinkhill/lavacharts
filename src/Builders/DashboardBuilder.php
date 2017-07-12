@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Builders;
 
+use Khill\Lavacharts\Dashboards\Bindings\Binding;
 use Khill\Lavacharts\Dashboards\Dashboard;
 use Khill\Lavacharts\DataTables\DataTable;
 
@@ -31,19 +32,39 @@ class DashboardBuilder extends RenderableBuilder
     /**
      * Bindings to use for the dashboard.
      *
-     * @var \Khill\Lavacharts\Dashboards\Bindings\Binding[]
+     * @var Binding[]
      */
     protected $bindings = [];
 
     /**
+     * Options for the chart.
+     *
+     * @var array
+     */
+    protected $options = [];
+
+    /**
      * Set the bindings for the Dashboard.
      *
-     * @param  \Khill\Lavacharts\Dashboards\Bindings\Binding[] $bindings Array of bindings
-     * @return $this
+     * @param  Binding[] $bindings Array of bindings
+     * @return self
      */
     public function setBindings(array $bindings)
     {
         $this->bindings = $bindings;
+
+        return $this;
+    }
+
+    /**
+     * Sets the options for the chart.
+     *
+     * @param  array $options
+     * @return self
+     */
+    public function setOptions($options)
+    {
+        $this->options = $options;
 
         return $this;
     }
@@ -71,9 +92,17 @@ class DashboardBuilder extends RenderableBuilder
         $dash = new Dashboard(
             $this->label,
             $this->datatable,
-            $this->elementId
+            $this->options
         );
 
-        return $dash->setBindings($this->bindings);
+        if (! empty($this->elementId)) {
+            $dash->setElementId($this->elementId);
+        }
+
+        if (count($this->bindings) > 0) {
+            $dash->setBindings($this->bindings);
+        }
+
+        return $dash;
     }
 }

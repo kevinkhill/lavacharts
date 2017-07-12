@@ -68,6 +68,28 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     protected $rows = [];
 
     /**
+     * Create a new DataTable using the DataFactory
+     *
+     * @param array $options
+     * @return DataTable
+     */
+    public static function create(...$args)
+    {
+        return DataFactory::DataTable($args);
+    }
+
+    /**
+     * Create a new JoinedDataTable using the DataFactory
+     *
+     * @param array $options
+     * @return DataTable
+     */
+    public static function joined(...$args)
+    {
+        return DataFactory::JoinedDataTable($args);
+    }
+
+    /**
      * DataTable constructor
      *
      * Default options will be set if none are passed.
@@ -80,11 +102,11 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     {
         $this->initOptions($options);
 
-        if (!$this->isValidTimeZone($this->options->timezone)) {
+        if (! $this->isValidTimeZone($this->options->timezone)) {
             throw new InvalidTimeZone($this->options->timezone);
         }
 
-        if (!is_string($this->options->datetime_format)) {
+        if (! is_string($this->options->datetime_format)) {
             throw new InvalidDateTimeFormat($this->options->datetime_format);
         }
 
@@ -577,9 +599,8 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * Adds multiple rows to the DataTable.
      *
      * @see    addRow()
-     * @param  \Khill\Lavacharts\DataTables\Row[] $arrayOfRows
+     * @param  Row[] $arrayOfRows
      * @return self
-     * @throws \Khill\Lavacharts\Exceptions\InvalidConfigValue
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
      */
     public function addRows(array $arrayOfRows)
