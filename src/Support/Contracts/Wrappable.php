@@ -18,6 +18,13 @@ namespace Khill\Lavacharts\Support\Contracts;
 interface Wrappable extends Customizable
 {
     /**
+     * Returns the type of the wrapped object.
+     *
+     * @return string
+     */
+    public function getType();
+
+    /**
      * Returns the wrap type, either Control or Chart.
      *
      * @return string

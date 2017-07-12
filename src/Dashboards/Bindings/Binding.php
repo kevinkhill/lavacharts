@@ -4,6 +4,9 @@ namespace Khill\Lavacharts\Dashboards\Bindings;
 
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
+use Khill\Lavacharts\Dashboards\Wrappers\Wrapper;
+use Khill\Lavacharts\Javascript\JavascriptSource;
+use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 
 /**
  * Parent Binding Class
@@ -18,8 +21,10 @@ use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Binding
+class Binding extends JavascriptSource
 {
+    use ToJavascript;
+
     /**
      * Array of ControlWrappers.
      *
@@ -100,5 +105,54 @@ class Binding
     public function getControlWrap($index)
     {
         return $this->controlWrappers[$index];
+    }
+
+    /**
+     * Return a format string that will be used by vsprintf to convert the
+     * extending class to javascript.
+     *
+     * @return string
+     */
+    public function getJavascriptFormat()
+    {
+        // "this" refers to the lava.Dashboard object
+        return 'this.dashboard.bind(%s, %s);';
+    }
+
+    /**
+     * Return an array of arguments to pass to the format string provided
+     * by getJavascriptFormat().
+     *
+     * These variables will be used with vsprintf, and the format string
+     * to convert the extending class to javascript.
+     *
+     * @return array
+     */
+    public function getJavascriptSource()
+    {
+        return [
+            $this->wrappersToJavascript($this->controlWrappers),
+            $this->wrappersToJavascript($this->chartWrappers)
+        ];
+    }
+
+    /**
+     * Map the wrapper values from the array to javascript notation.
+     *
+     * @access private
+     * @param  array $wrapperArray Array of control or chart wrappers
+     * @return string Json notation for the wrappers
+     */
+    private function wrappersToJavascript($wrapperArray)
+    {
+        if (count($wrapperArray) == 1) {
+            return $wrapperArray[0]->toJavascript();
+        }
+
+        $wrappers = array_map(function (Wrapper $wrapper) {
+            return $wrapper->toJavascript();
+        }, $wrapperArray);
+
+        return '[' . implode(',', $wrappers) . ']';
     }
 }

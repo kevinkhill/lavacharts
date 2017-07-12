@@ -102,55 +102,12 @@ class DashboardJsFactory extends JavascriptFactory
         $buffer   = new Buffer();
         $bindings = $this->dashboard->getBindings();
 
-        /** @var \Khill\Lavacharts\Dashboards\Bindings\Binding $binding */
         foreach ($bindings as $binding) {
-            switch ($binding->getType()) {
-                case 'OneToOne':
-                    $controls = $binding->getControlWrappers()[0]->toJavascript();
-                    $charts   = $binding->getChartWrappers()[0]->toJavascript();
-                    break;
-
-                case 'OneToMany':
-                    $controls = $binding->getControlWrappers()[0]->toJavascript();
-                    $charts   = $this->mapWrapperArray($binding->getChartWrappers());
-                    break;
-
-                case 'ManyToOne':
-                    $controls = $this->mapWrapperArray($binding->getControlWrappers());
-                    $charts   = $binding->getChartWrappers()[0]->toJavascript();
-                    break;
-
-                case 'ManyToMany':
-                    $controls = $this->mapWrapperArray($binding->getControlWrappers());
-                    $charts   = $this->mapWrapperArray($binding->getChartWrappers());
-                    break;
-            }
-
             $buffer->append(
-                sprintf(
-                    'this.dashboard.bind(%s, %s);',
-                    $controls,
-                    $charts
-                )
+                $binding->toJavascript()
             );
         }
 
         return $buffer;
-    }
-
-    /**
-     * Map the wrapper values from the array to javascript notation.
-     *
-     * @access private
-     * @param  array $wrapperArray Array of control or chart wrappers
-     * @return string Json notation for the wrappers
-     */
-    private function mapWrapperArray($wrapperArray)
-    {
-        $wrappers = array_map(function (Wrapper $wrapper) {
-            return $wrapper->toJavascript();
-        }, $wrapperArray);
-
-        return '[' . implode(',', $wrappers) . ']';
     }
 }
