@@ -32,13 +32,6 @@ interface Renderable
     public function getLabel();
 
     /**
-     * Returns the type of renderable.
-     *
-     * @return string
-     */
-    public function getRenderableType();
-
-    /**
      * Returns if the Renderable object is able to be rendered.
      *
      * @return bool

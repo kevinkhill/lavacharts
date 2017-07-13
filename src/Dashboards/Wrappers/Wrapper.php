@@ -54,8 +54,9 @@ abstract class Wrapper implements Arrayable, Javascriptable, Jsonable, JsClass
     /**
      * Builds a new Wrapper object.
      *
-     * @param Wrappable $itemToWrap
+     * @param Wrappable $wrappable
      * @param string    $elementId
+     * @internal param Wrappable $itemToWrap
      */
     public function __construct(Wrappable $wrappable, $elementId)
     {

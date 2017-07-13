@@ -6,7 +6,9 @@ use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Dashboards\Bindings\Binding;
 use Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
 use Khill\Lavacharts\Dashboards\Wrappers\Wrapper;
+use Khill\Lavacharts\Exceptions\RenderingException;
 use Khill\Lavacharts\Javascript\DashboardJsFactory;
+use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Support\Google;
 use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
@@ -210,22 +212,66 @@ class Dashboard extends Renderable implements Customizable, JsFactory, Visualiza
     }
 
     /**
-     * Returns the type of renderable.
+     * Get all the packages need to render the Dashboard.
      *
-     * @return string
+     * @since 3.2.0
+     * @return array
      */
-    public function getRenderableType()
+    public function getPackages()
     {
-        // TODO: Implement getRenderableType() method.
+        $packages = [
+            $this->getJsPackage()
+        ];
+
+        foreach ($this->getBoundCharts() as $chart) {
+            array_push($packages, $chart->getJsPackage());
+        }
+
+        return array_unique($packages);
     }
 
     /**
-     * Array representation of the Chart.
+     * Array representation of the Dashboard.
      *
+     * @since 3.2.0
      * @return array
      */
     public function toArray()
     {
-        // TODO: Implement toArray() method.
+        $vars = [
+            'version'   => $this->getVersion(),
+            'label'     => $this->getLabel(),
+            'elemId'    => $this->getElementId(),
+            'class'     => $this->getJsClass(),
+            'bindings'  => $this->getBindingsBuffer(),
+            'chartData' => $this->getDataTable()->toJson(),
+            'packages'  => json_encode($this->getPackages()),
+        ];
+
+        return $vars;
+    }
+
+    /**
+     * Process all the bindings for a Dashboard.
+     *
+     * Turns the chart and control wrappers into new Google Visualization Objects.
+     *
+     * @access private
+     * @return Buffer
+     * @throws RenderingException
+     */
+    private function getBindingsBuffer()
+    {
+        if (! $this->hasBindings()) {
+            throw new RenderingException('Dashboards without bindings cannot be rendered.');
+        }
+
+        $buffer = new Buffer();
+
+        foreach ($this->bindings as $binding) {
+            $buffer->append($binding);
+        }
+
+        return $buffer;
     }
 }

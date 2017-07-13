@@ -34,80 +34,15 @@ class DashboardJsFactory extends JavascriptFactory
     const JS_TEMPLATE = 'dashboard.tmpl.js';
 
     /**
-     * Dashboard to generate javascript from.
-     *
-     * @var \Khill\Lavacharts\Dashboards\Dashboard
-     */
-    private $dashboard;
-
-    /**
      * Creates a new DashboardFactory with the javascript template.
      *
-     * @param \Khill\Lavacharts\Dashboards\Dashboard $dashboard
+     * @param Dashboard $dashboard
      */
     public function __construct(Dashboard $dashboard)
     {
-        $this->dashboard = $dashboard;
-        $this->template  = self::JS_TEMPLATE;
-        $this->templateVars = $this->getTemplateVars();
+        $this->template     = self::JS_TEMPLATE;
+        $this->templateVars = $dashboard->toArray();
 
         parent::__construct();
-    }
-
-    /**
-     * Builds the template variables from the chart.
-     *
-     * @since  3.1.0
-     * @access protected
-     * @return array
-     */
-    protected function getTemplateVars()
-    {
-        $vars = [
-            'version'   => $this->dashboard->getVersion(),
-            'label'     => $this->dashboard->getLabel(),
-            'elemId'    => $this->dashboard->getElementId(),
-            'class'     => $this->dashboard->getJsClass(),
-            'packages'  => [
-                $this->dashboard->getJsPackage()
-            ],
-            'bindings' => $this->processBindings(),
-            'chartData' =>$this->dashboard->getDataTable()->toJson()
-        ];
-
-        foreach ($this->dashboard->getBoundCharts() as $chart) {
-            array_push($vars['packages'], $chart->getJsPackage());
-        }
-
-        $vars['packages'] = json_encode(array_unique($vars['packages']));
-
-        return $vars;
-    }
-
-    /**
-     * Process all the bindings for a Dashboard.
-     *
-     * Turns the chart and control wrappers into new Google Visualization Objects.
-     *
-     * @access private
-     * @return string
-     * @throws RenderingException
-     */
-    private function processBindings() //@TODO this could use some refactoring
-    {
-        if (! $this->dashboard->hasBindings()) {
-            throw new RenderingException('Dashboards without bindings cannot be rendered.');
-        }
-
-        $buffer   = new Buffer();
-        $bindings = $this->dashboard->getBindings();
-
-        foreach ($bindings as $binding) {
-            $buffer->append(
-                $binding->toJavascript()
-            );
-        }
-
-        return $buffer;
     }
 }
