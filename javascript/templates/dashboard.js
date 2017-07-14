@@ -3,6 +3,7 @@
 
 (function(){
     "use strict";
+
     var $lava = this;
 
     var $dash = $lava.createDashboard('<label>');
@@ -11,24 +12,26 @@
         $dash.setElement('<elemId>');
         $dash.packages = <packages>;
 
-        $dash.configure = function () {
-            $dash.render = function (data) {
-                $dash.dashboard = new <class>($dash.element);
 
-                $dash.setData(<chartData>);
+        // $lava.emit('ready', $dash);
+    };
 
-                <bindings>
+    $dash.configure = function() {
+        $dash.render = function (data) {
+            $dash.dashboard = new <class>($dash.element);
 
-                $dash.dashboard.draw($dash.data);
+            $dash.setData(<chartData>);
 
-                $lava.emit('rendered', $dash);
-            };
+            <bindings>
 
-            $dash.deferred.resolve();
-            return $dash.deferred.promise;
+            $dash.dashboard.draw($dash.data);
+
+            $lava.emit('rendered', $dash);
         };
 
-        $lava.emit('ready', $dash);
+        $dash.deferred.resolve();
+
+        return $dash.deferred.promise;
     };
 
     $lava.store($dash);

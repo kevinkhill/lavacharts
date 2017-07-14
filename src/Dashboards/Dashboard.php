@@ -40,21 +40,6 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, JsFa
     use HasDataTable, HasOptions, ToJavascript;
 
     /**
-     * Google's dashboard version
-     */
-    const VERSION = '1';
-
-    /**
-     * Javascript package.
-     */
-    const VISUALIZATION_PACKAGE = 'controls';
-
-    /**
-     * Namespaced javascript class
-     */
-    const JAVASCRIPT_CLASS = self::GOOGLE_VISUALIZATION . 'Dashboard';
-
-    /**
      * Array of Binding objects, mapping controls to charts.
      *
      * @var Binding[]
@@ -96,7 +81,7 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, JsFa
      */
     public function getVersion()
     {
-        return self::VERSION;
+        return '1';
     }
 
     /**
@@ -106,7 +91,7 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, JsFa
      */
     public function getJsPackage()
     {
-        return self::VISUALIZATION_PACKAGE;
+        return 'controls';
     }
 
     /**
@@ -116,7 +101,7 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, JsFa
      */
     public function getJsClass()
     {
-        return self::JAVASCRIPT_CLASS;
+        return self::GOOGLE_VISUALIZATION . 'Dashboard';
     }
 
     /**
@@ -129,14 +114,23 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, JsFa
         return new DashboardJsFactory($this);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getJavascriptFormat()
     {
-        // TODO: Implement getJavascriptFormat() method.
+        return 'new %s(%s)';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getJavascriptSource()
     {
-        // TODO: Implement getJavascriptSource() method.
+        return [
+            $this->getJsClass(),
+            $this->getElementId()
+        ];
     }
 
     /**
@@ -158,26 +152,6 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, JsFa
         ];
 
         return $vars;
-    }
-
-    /**
-     * Fetch the dashboard's bound charts from the wrappers.
-     *
-     * @return Chart[]
-     */
-    public function getBoundCharts()
-    {
-        $charts = [];
-
-        foreach ($this->bindings as $binding) {
-            foreach ($binding->getChartWrappers() as $chartWrapper) {
-                $chart = $chartWrapper->unwrap();
-
-                $charts[] = $chart;
-            }
-        }
-
-        return $charts;
     }
 
     /**
@@ -262,6 +236,26 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, JsFa
     }
 
     /**
+     * Fetch the dashboard's bound charts from the wrappers.
+     *
+     * @return Chart[]
+     */
+    protected function getBoundCharts()
+    {
+        $charts = [];
+
+        foreach ($this->bindings as $binding) {
+            foreach ($binding->getChartWrappers() as $chartWrapper) {
+                $chart = $chartWrapper->unwrap();
+
+                $charts[] = $chart;
+            }
+        }
+
+        return $charts;
+    }
+
+    /**
      * Process all the bindings for a Dashboard.
      *
      * Turns the chart and control wrappers into new Google Visualization Objects.
@@ -270,7 +264,7 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, JsFa
      * @return Buffer
      * @throws RenderingException
      */
-    private function getBindingsBuffer()
+    protected function getBindingsBuffer()
     {
         if (! $this->hasBindings()) {
             throw new RenderingException('Dashboards without bindings cannot be rendered.');

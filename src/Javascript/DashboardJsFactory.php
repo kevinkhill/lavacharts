@@ -31,7 +31,7 @@ class DashboardJsFactory extends JavascriptFactory
      *
      * @var string
      */
-    const JS_TEMPLATE = 'dashboard.tmpl.js';
+    const JS_TEMPLATE = 'dashboard.js';
 
     /**
      * Creates a new DashboardFactory with the javascript template.

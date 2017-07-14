@@ -106,13 +106,15 @@ export class LavaJs extends EventEmitter {
         console.log('[lava.js] Running...');
         console.log('[lava.js] Loading options:', this.options);
 
-        this._init();
-
         this._forEachRenderable(function (renderable) {
             console.log('[lava.js] ' + renderable.uuid() + ' -> initializing');
 
             renderable.init();
+
+            console.log('[lava.js] ' + renderable.uuid() + ' -> ready');
         });
+
+        this._init();
     };
 
     /**
@@ -124,14 +126,14 @@ export class LavaJs extends EventEmitter {
     _init() {
         const $lava = this;
 
-        let readyCount = 0;
+        // let readyCount = 0;
 
-        this.on('ready', function (renderable) {
-            console.log('[lava.js] ' + renderable.uuid() + ' -> ready');
+        // this.on('ready', function (renderable) {
+            // console.log('[lava.js] ' + renderable.uuid() + ' -> ready');
 
-            readyCount++;
+            // readyCount++;
 
-            if (readyCount === $lava._getRenderables().length) {
+            // if (readyCount === $lava._getRenderables().length) {
                 console.log('[lava.js] Loading Google');
 
                 $lava._loadGoogle().then(function() {
@@ -151,8 +153,8 @@ export class LavaJs extends EventEmitter {
 
                     $lava._readyCallback();
                 });
-            }
-        });
+            // }
+        // });
     };
 
     /**
