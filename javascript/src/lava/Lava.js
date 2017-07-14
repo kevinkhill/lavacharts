@@ -58,6 +58,14 @@ export class LavaJs extends EventEmitter {
         this.options = OPTIONS_JSON;
 
         /**
+         * Array of visualization packages for charts and dashboards.
+         *
+         * @type {Array.<string>}
+         * @private
+         */
+        this._packages = [];
+
+        /**
          * Array of charts stored in the module.
          *
          * @type {Array.<Chart>}
@@ -270,7 +278,7 @@ export class LavaJs extends EventEmitter {
     /**
      * Redraws all of the registered charts on screen.
      *
-     * This method is attached to the window resize event with a 300ms debounce
+     * This method is attached to the window resize event with debouncing
      * to make the charts responsive to the browser resizing.
      */
     redrawCharts() {
@@ -423,6 +431,24 @@ export class LavaJs extends EventEmitter {
     _mapRenderables(callback) {
         return _.map(this._getRenderables(), callback);
     };
+
+    /**
+     * Applies the callback and builds an array of return values
+     * for each of the charts and dashboards.
+     *
+     * @public
+     * @param {object|string} packages
+     * @return {Array}
+     */
+    addPackages(packages) {
+        if (typeof packages === 'string') {
+            this._packages.push(packages);
+        }
+
+        if (typeof packages === 'object') {
+            this._packages = _.merge(this._packages, packages);
+        }
+    }
 
     /**
      * Returns an array of the google packages to load.

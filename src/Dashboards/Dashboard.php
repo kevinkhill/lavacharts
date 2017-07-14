@@ -5,19 +5,19 @@ namespace Khill\Lavacharts\Dashboards;
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Dashboards\Bindings\Binding;
 use Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
-use Khill\Lavacharts\Dashboards\Wrappers\Wrapper;
 use Khill\Lavacharts\Exceptions\RenderingException;
 use Khill\Lavacharts\Javascript\DashboardJsFactory;
 use Khill\Lavacharts\Support\Buffer;
-use Khill\Lavacharts\Support\Google;
-use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
+use Khill\Lavacharts\Support\Contracts\Javascriptable;
 use Khill\Lavacharts\Support\Contracts\JsFactory;
 use Khill\Lavacharts\Support\Contracts\Visualization;
-use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
-use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
+use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\StringValue as Str;
+use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
+use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
+use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 
 /**
  * Class Dashboard
@@ -27,17 +27,17 @@ use Khill\Lavacharts\Support\StringValue as Str;
  * The dashboard takes filters, wrapped as controls, and charts to create a dynamic
  * display of data.
  *
- * @package   Khill\Lavacharts\Dashboards
- * @since     3.0.0
- * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @package       Khill\Lavacharts\Dashboards
+ * @since         3.0.0
+ * @author        Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
- * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link      http://lavacharts.com                   Official Docs Site
- * @license   http://opensource.org/licenses/MIT      MIT
+ * @link          http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link          http://lavacharts.com                   Official Docs Site
+ * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Dashboard extends Renderable implements Customizable, JsFactory, Visualization
+class Dashboard extends Renderable implements Customizable, Javascriptable, JsFactory, Visualization
 {
-    use HasDataTable, HasOptions;
+    use HasDataTable, HasOptions, ToJavascript;
 
     /**
      * Google's dashboard version
@@ -127,6 +127,37 @@ class Dashboard extends Renderable implements Customizable, JsFactory, Visualiza
     public function getJsFactory()
     {
         return new DashboardJsFactory($this);
+    }
+
+    public function getJavascriptFormat()
+    {
+        // TODO: Implement getJavascriptFormat() method.
+    }
+
+    public function getJavascriptSource()
+    {
+        // TODO: Implement getJavascriptSource() method.
+    }
+
+    /**
+     * Array representation of the Dashboard.
+     *
+     * @since 3.2.0
+     * @return array
+     */
+    public function toArray()
+    {
+        $vars = [
+            'version'   => $this->getVersion(),
+            'label'     => $this->getLabel(),
+            'elemId'    => $this->getElementId(),
+            'class'     => $this->getJsClass(),
+            'bindings'  => $this->getBindingsBuffer(),
+            'chartData' => $this->getDataTable()->toJson(),
+            'packages'  => json_encode($this->getPackages()),
+        ];
+
+        return $vars;
     }
 
     /**
@@ -220,7 +251,7 @@ class Dashboard extends Renderable implements Customizable, JsFactory, Visualiza
     public function getPackages()
     {
         $packages = [
-            $this->getJsPackage()
+            $this->getJsPackage(),
         ];
 
         foreach ($this->getBoundCharts() as $chart) {
@@ -228,27 +259,6 @@ class Dashboard extends Renderable implements Customizable, JsFactory, Visualiza
         }
 
         return array_unique($packages);
-    }
-
-    /**
-     * Array representation of the Dashboard.
-     *
-     * @since 3.2.0
-     * @return array
-     */
-    public function toArray()
-    {
-        $vars = [
-            'version'   => $this->getVersion(),
-            'label'     => $this->getLabel(),
-            'elemId'    => $this->getElementId(),
-            'class'     => $this->getJsClass(),
-            'bindings'  => $this->getBindingsBuffer(),
-            'chartData' => $this->getDataTable()->toJson(),
-            'packages'  => json_encode($this->getPackages()),
-        ];
-
-        return $vars;
     }
 
     /**

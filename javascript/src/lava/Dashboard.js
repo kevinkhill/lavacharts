@@ -29,6 +29,7 @@ module.exports = (function() {
         this.type      = 'Dashboard';
         this.element   = null;
         this.data      = null;
+        this.options   = {};
         this.bindings  = [];
         this.dashboard = null;
         this.deferred  = Q.defer();
@@ -55,6 +56,16 @@ module.exports = (function() {
     };
 
     /**
+     * Sets the options for the Dashboard.
+     *
+     * @public
+     * @param {object} options
+     */
+    Dashboard.prototype.setOptions = function (options) {
+        this.options = options;
+    };
+
+    /**
      * Set the ID of the output element for the Dashboard.
      *
      * @public
@@ -67,6 +78,15 @@ module.exports = (function() {
         if (! this.element) {
             throw new this._errors.ElementIdNotFound(elemId);
         }
+    };
+
+    /**
+     * Redraws the Dashboard.
+     *
+     * @public
+     */
+    Dashboard.prototype.redraw = function() {
+        this.dashboard.draw(this.data, this.options);
     };
 
     return Dashboard;
