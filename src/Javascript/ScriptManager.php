@@ -84,8 +84,9 @@ class ScriptManager implements Customizable
     /**
      * Gets the lava.js module.
      *
-     * @param  array $config
-     * @return Buffer
+     * @param \Khill\Lavacharts\Support\Options $options
+     * @return \Khill\Lavacharts\Support\Buffer
+     * @internal param array $config
      */
     public function getLavaJs(Options $options)
     {

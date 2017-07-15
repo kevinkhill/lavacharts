@@ -9,6 +9,7 @@ use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Support\StringValue as Str;
+use ReflectionClass;
 
 /**
  * DataCell Object
@@ -49,7 +50,21 @@ class Cell implements Customizable, Arrayable, Jsonable
      */
     public static function create($cellDef)
     {
-        return call_user_func_array([Cell::class, '__construct'], $cellDef);
+        return new static($cellDef);
+    }
+
+
+    /**
+     * Create a new Cell from an array of arguments for the constructor.
+     *
+     * @param array $cellDef
+     * @return Cell
+     */
+    public static function createFromArray(array $cellDef)
+    {
+        $reflectionClass = new ReflectionClass(Cell::class);
+
+        return $reflectionClass->newInstanceArgs($cellDef);
     }
 
     /**

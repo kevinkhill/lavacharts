@@ -47,6 +47,14 @@ foreach ($renderables as $chart) {
             return "<?php echo \Lava::renderAll($expression); ?>";
         });
 
+
+        $blade->directive('lavacharts', function ($expression) {
+            $expression = ltrim($expression, '(');
+            $expression = rtrim($expression, ')');
+
+            return "<?php echo \Lava::flow($expression); ?>";
+        });
+
     } else {
 
 // Laravel 4

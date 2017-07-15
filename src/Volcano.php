@@ -7,6 +7,7 @@ use IteratorAggregate;
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Dashboards\Dashboard;
 use Khill\Lavacharts\Exceptions\RenderableNotFound;
+use Khill\Lavacharts\Support\ArrayObject;
 use Khill\Lavacharts\Support\Contracts\ArrayAccess;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
@@ -30,7 +31,7 @@ use Khill\Lavacharts\Support\StringValue as Str;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Volcano implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable
+class Volcano extends ArrayObject implements Arrayable, Jsonable
 {
     use DynamicArrayAccess, ArrayToJson;
 
@@ -46,17 +47,6 @@ class Volcano implements ArrayAccess, Arrayable, IteratorAggregate, Jsonable
     public function getArrayAccessProperty()
     {
         return 'renderables';
-    }
-
-    /**
-     * Get an iterator for the renderables.
-     *
-     * @since 3.2.0 Enable the use of foreach on the Volcano
-     * @return ArrayIterator
-     */
-    public function getIterator()
-    {
-        return new ArrayIterator($this->toArray());
     }
 
     /**

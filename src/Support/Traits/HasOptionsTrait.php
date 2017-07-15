@@ -51,9 +51,20 @@ trait HasOptionsTrait
     }
 
     /**
+     * Return whether or not the instance has any options.
+     *
+     * @return bool
+     */
+    public function hasOptions()
+    {
+        return count($this->options) > 0;
+    }
+
+    /**
      * Sets the Options object for the class.
      *
      * @param array|Options $options
+     * @throws \Khill\Lavacharts\Exceptions\InvalidArgumentException
      */
     public function setOptions($options)
     {
@@ -76,16 +87,6 @@ trait HasOptionsTrait
     public function mergeOptions($options)
     {
         $this->options->merge($options);
-    }
-
-    /**
-     * Return whether or not the instance has any options.
-     *
-     * @return bool
-     */
-    public function hasOptions()
-    {
-        return count($this->options) > 0;
     }
 
     /**

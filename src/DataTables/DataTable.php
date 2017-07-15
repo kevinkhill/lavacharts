@@ -16,7 +16,6 @@ use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use Khill\Lavacharts\Exceptions\InvalidTimeZone;
 use Khill\Lavacharts\Exceptions\UndefinedColumnsException;
-use Khill\Lavacharts\Javascript\JavascriptSource;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
@@ -54,11 +53,16 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     use HasOptions, ArrayToJson, ToJavascript;
 
     /**
+     * Column types that use dates and/or times
+     */
+    const DATE_TIME_COLUMNS = ['date', 'time', 'datetime', 'timeofday'];
+
+    /**
      * Array of the DataTable's column objects.
      *
      * @var Column[]
      */
-    protected $cols = [];
+    protected $columns = [];
 
     /**
      * Array of the DataTable's row objects.
@@ -70,8 +74,9 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     /**
      * Create a new DataTable using the DataFactory
      *
-     * @param array $options
-     * @return DataTable
+     * @param array $args
+     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @internal param array $options
      */
     public static function create(...$args)
     {
@@ -81,10 +86,10 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     /**
      * Create a new JoinedDataTable using the DataFactory
      *
-     * @param array $options
-     * @return DataTable
+     * @param array $args
+     * @return JoinedDataTable
      */
-    public static function joined(...$args)
+    public static function Joined(...$args)
     {
         return DataFactory::JoinedDataTable($args);
     }
@@ -124,7 +129,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     public function toArray()
     {
         return [
-            'cols' => $this->cols,
+            'cols' => $this->columns,
             'rows' => $this->rows,
         ];
     }
@@ -278,12 +283,13 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * not value is specified, an empty string is assigned.
      *
      *
-     * @param mixed   $typeOrColDescArr Column type or an array describing the column.
-     * @param string  $label            A label for the column. (Optional)
-     * @param Format  $format           A column format object. (Optional)
-     * @param string  $role             A role for the column. (Optional)
-     * @param array   $options
+     * @param mixed  $typeOrColDescArr Column type or an array describing the column.
+     * @param string $label            A label for the column. (Optional)
+     * @param Format $format           A column format object. (Optional)
+     * @param string $role             A role for the column. (Optional)
+     * @param array  $options
      * @return \Khill\Lavacharts\DataTables\DataTable
+     * @throws \Khill\Lavacharts\Exceptions\InvalidArgumentException
      */
     public function addColumn(
         $typeOrColDescArr,
@@ -459,7 +465,9 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
         $builder->setRole($role);
         $builder->setOptions($options);
 
-        $this->cols[] = $builder->getColumn();
+        $this->pushColumn(
+            $builder->getColumn()
+        );
 
         return $this;
     }
@@ -476,9 +484,9 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     {
         $this->indexCheck($index);
 
-        unset($this->cols[$index]);
+        unset($this->columns[$index]);
 
-        $this->cols = array_values($this->cols);
+        $this->columns = array_values($this->columns);
 
         return $this;
     }
@@ -546,13 +554,14 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      *
      *
      * @param  array|null $values Array of values describing cells or null for a null row.
-     * @return self
+     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @throws \Khill\Lavacharts\Exceptions\InvalidArgumentException
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      * @throws \Khill\Lavacharts\Exceptions\UndefinedColumnsException
      */
     public function addRow($values = null)
     {
-        $rowData     = [];
+        $newRow      = Row::createEmpty();
         $columnCount = $this->getColumnCount();
         $columnTypes = $this->getColumnTypes();
 
@@ -566,7 +575,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
             );
         }
 
-        if (!is_array($values)) {
+        if (! is_array($values)) {
             throw new InvalidArgumentException($values, 'array or null');
         }
 
@@ -575,24 +584,37 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
         }
 
         foreach ($values as $index => $cellValue) {
-            // Regardless of column type, if a Cell is explicitly defined by
-            // an array, then create a new Cell with the values.
-            if (is_array($cellValue)) {
-                $rowData[] = Cell::create($cellValue);
-            }
+            // If the cellValue is part of a date / time column, process accordingly
+            if (in_array($columnTypes[$index], self::DATE_TIME_COLUMNS)) {
+                $newRow->addCell(
+                    $this->createDateCell($cellValue)
+                );
+            } else {
+                // Null is null, don't do anything else.
+                if (is_null($cellValue)) {
+                    $newRow->addCell(
+                        Cell::create(null)
+                    );
+                }
 
-            // Logic for handling datetime related cells
-            if (preg_match('/date|time|datetime|timeofday/', $columnTypes[$index])) {
-                $this->createDateCell($cellValue);
-            }
+                // If the cellValue is an array explicitly defining a Cell,
+                // or a null, then create a new Cell with the values.
+                if (is_array($cellValue)) {
+                    $newRow->addCell(
+                        Cell::createFromArray($cellValue)
+                    );
+                }
 
-            // Pass through any non-explicit & non-datetime values
-            $rowData[] = $cellValue;
+                // If not caught by anything else, then just create a cell with the value
+                $newRow->addCell(
+                    Cell::create($cellValue)
+                );
+            }
         }
 
-        return $this->pushRow(
-            new Row($rowData)
-        );
+        $this->verifyRowCellCount($newRow);
+
+        return $this->pushRow($newRow);
     }
 
     /**
@@ -603,14 +625,27 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @return self
      * @throws \Khill\Lavacharts\Exceptions\InvalidRowDefinition
      */
-    public function addRows(array $arrayOfRows)
+    public function addRows($arrayOfRows)
     {
-        /** @var array $row */
-        foreach ($arrayOfRows as $row) {
-            $this->addRow($row);
+        if (method_exists($arrayOfRows, 'toArray')) {
+            $arrayOfRows = $arrayOfRows->toArray();
         }
 
+        array_walk($arrayOfRows, [$this, 'addRow']);
+
         return $this;
+    }
+
+    /**
+     * Returns the Row at the given index.
+     *
+     * @since 3.2.0
+     * @param int $index
+     * @return Row
+     */
+    public function getRow($index)
+    {
+        return $this->rows[$index];
     }
 
     /**
@@ -645,7 +680,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     {
         $this->indexCheck($index);
 
-        return $this->cols[$index];
+        return $this->columns[$index];
     }
 
     /**
@@ -660,7 +695,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     {
         $this->indexCheck($index);
 
-        $this->cols[$index] = $column;
+        $this->columns[$index] = $column;
 
         return $this;
     }
@@ -672,7 +707,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      */
     public function getColumns()
     {
-        return $this->cols;
+        return $this->columns;
     }
 
     /**
@@ -687,7 +722,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     {
         Column::isValidType($type);
 
-        return array_filter($this->cols, [Column::class, 'getType'], ARRAY_FILTER_USE_BOTH);
+        return array_filter($this->columns, [Column::class, 'getType'], ARRAY_FILTER_USE_BOTH);
     }
 
     /**
@@ -697,7 +732,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      */
     public function getColumnCount()
     {
-        return count($this->cols);
+        return count($this->columns);
     }
 
     /**
@@ -736,7 +771,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     {
         return array_map(function (Column $column) {
             return $column->getType();
-        }, $this->cols);
+        }, $this->columns);
     }
 
     /**
@@ -749,7 +784,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     {
         return array_map(function (Column $column) {
             return $column->getLabel();
-        }, $this->cols);
+        }, $this->columns);
     }
 
     /**
@@ -769,8 +804,8 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
                         return $column;
                     }
                 },
-                array_keys($this->cols),
-                $this->cols
+                array_keys($this->columns),
+                $this->columns
             )
         );
     }
@@ -795,13 +830,28 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      */
     protected function indexCheck($index)
     {
-        if (is_int($index) === false || isset($this->cols[$index]) === false) {
-            throw new InvalidColumnIndex($index, count($this->cols));
+        if (is_int($index) === false || isset($this->columns[$index]) === false) {
+            throw new InvalidColumnIndex($index, count($this->columns));
         }
     }
 
     /**
-     * Push a row onto the DataTable
+     * Push a Column onto the DataTable
+     *
+     * @access private
+     * @since  3.2.0
+     * @param  Column $column
+     * @return self
+     */
+    protected function pushColumn(Column $column)
+    {
+        $this->columns[] = $column;
+
+        return $this;
+    }
+
+    /**
+     * Push a Row onto the DataTable
      *
      * @access private
      * @since  3.2.0
@@ -858,6 +908,22 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     }
 
     /**
+     * Checks to see if a Row has the correct number of Cells for the DataTable
+     *
+     * @since 3.2.0
+     * @param \Khill\Lavacharts\DataTables\Row $row
+     * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
+     */
+    private function verifyRowCellCount(Row $row)
+    {
+        $cellCount = $row->getCellCount();
+
+        if ($cellCount > $this->getColumnCount()) {
+            throw new InvalidCellCount($cellCount);
+        }
+    }
+
+    /**
      * Create a new DateCell from the given value.
      *
      * @param $cellValue
@@ -876,18 +942,18 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
 
         // If the cellValue is already a Carbon instance,
         // create a new DateCell from it.
-        if ($cellValue instanceof Carbon) {
-            $rowData[] = new DateCell($cellValue);
-        }
+//        if ($cellValue instanceof Carbon) {
+//            return DateCell::create($cellValue);
+//        }
 
         // If no format string was defined in the options, then
         // attempt to implicitly parse the string. If the format
         // string is not empty, then attempt to use it to explicitly
         // create a Carbon instance from the format.
-        if (!empty($dateTimeFormat)) {
-            $rowData[] = DateCell::createFromFormat($dateTimeFormat, $cellValue);
+        if (! empty($dateTimeFormat)) {
+            return DateCell::createFromFormat($dateTimeFormat, $cellValue);
+        } else {
+            return DateCell::create($cellValue);
         }
-
-        return DateCell::create($cellValue);
     }
 }

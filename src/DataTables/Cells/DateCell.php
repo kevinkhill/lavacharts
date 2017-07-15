@@ -5,6 +5,8 @@ namespace Khill\Lavacharts\DataTables\Cells;
 use Carbon\Carbon;
 use Exception;
 use Khill\Lavacharts\Exceptions\UndefinedDateCellException;
+use Khill\Lavacharts\Support\Contracts\Javascriptable;
+use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 
 /**
  * DateCell Class
@@ -20,8 +22,10 @@ use Khill\Lavacharts\Exceptions\UndefinedDateCellException;
  * @license   http://opensource.org/licenses/MIT      MIT
  * @property  Carbon $v
  */
-class DateCell extends Cell
+class DateCell extends Cell implements Javascriptable
 {
+    use ToJavascript;
+
     /**
      * Parses a datetime string with or without a datetime format.
      *
@@ -36,9 +40,30 @@ class DateCell extends Cell
         try {
             $carbon = new Carbon($datetime);
 
-            return new self($carbon);
+            return new static($carbon);
         } catch (Exception $e) {
             throw new UndefinedDateCellException($datetime);
+        }
+    }
+
+    /**
+     * Create a new DateCell from a datetime string and a format.
+     *
+     * Carbon is used to validate the input.
+     *
+     * @param  string $format
+     * @param  string $datetime
+     * @return DateCell
+     * @throws \Khill\Lavacharts\Exceptions\UndefinedDateCellException
+     */
+    public static function createFromFormat($format, $datetime)
+    {
+        try {
+            $carbon = Carbon::createFromFormat($format, $datetime);
+
+            return new static($carbon);
+        } catch (Exception $e) {
+            throw new UndefinedDateCellException($datetime, $format);
         }
     }
 
@@ -55,55 +80,35 @@ class DateCell extends Cell
     }
 
     /**
-     * Create a new DateCell from a datetime string and a format.
-     *
-     * Carbon is used to validate the input.
-     *
-     * @param  string $format
-     * @param  string $datetime
-     * @return DateCell
-     * @throws \Khill\Lavacharts\Exceptions\UndefinedDateCellException
-     */
-    public static function createFromFormat($format, $datetime)
-    {
-//        try { TODO: why?
-            $carbon = Carbon::createFromFormat($format, $datetime);
-
-            return new static($carbon);
-//        } catch (Exception $e) {
-//            throw new UndefinedDateCellException($datetime, $format);
-//        }
-    }
-
-    /**
-     * Custom string output of the Carbon date.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        if ($this->v === null) {
-            return 'null';
-        }
-
-        return sprintf(
-            'Date(%d,%d,%d,%d,%d,%d)',
-            isset($this->v->year)   ? $this->v->year      : 'null',
-            isset($this->v->month)  ? $this->v->month - 1 : 'null', //silly javascript
-            isset($this->v->day)    ? $this->v->day       : 'null',
-            isset($this->v->hour)   ? $this->v->hour      : 'null',
-            isset($this->v->minute) ? $this->v->minute    : 'null',
-            isset($this->v->second) ? $this->v->second    : 'null'
-        );
-    }
-
-    /**
      * Return the DateCell as an array.
      *
      * @return array
      */
     public function toArray()
     {
-        return ['v' => $this->__toString()];
+        return ['v' => $this->toJavascript()];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getJavascriptFormat()
+    {
+        return 'Date(%d,%d,%d,%d,%d,%d)';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getJavascriptSource()
+    {
+        return [
+            isset($this->value->year)   ? $this->value->year      : 'null',
+            isset($this->value->month)  ? $this->value->month - 1 : 'null', //silly javascript
+            isset($this->value->day)    ? $this->value->day       : 'null',
+            isset($this->value->hour)   ? $this->value->hour      : 'null',
+            isset($this->value->minute) ? $this->value->minute    : 'null',
+            isset($this->value->second) ? $this->value->second    : 'null'
+        ];
     }
 }

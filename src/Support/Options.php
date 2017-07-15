@@ -4,10 +4,8 @@ namespace Khill\Lavacharts\Support;
 
 use Khill\Lavacharts\Exceptions\UndefinedOptionException;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
-use Khill\Lavacharts\Support\Contracts\ArrayAccess;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
-use Khill\Lavacharts\Support\Traits\ArrayAccessTrait as CountableArrayAccess;
 
 /**
  * Options Class
@@ -28,9 +26,9 @@ use Khill\Lavacharts\Support\Traits\ArrayAccessTrait as CountableArrayAccess;
  * @property string datetime_format
  * @property string pngOutput
  */
-class Options implements ArrayAccess, Arrayable, Jsonable
+class Options extends ArrayObject implements Arrayable, Jsonable
 {
-    use CountableArrayAccess, ArrayToJson;
+    use ArrayToJson;
 
     /**
      * Customization options.

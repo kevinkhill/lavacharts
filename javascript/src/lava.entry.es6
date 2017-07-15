@@ -4,7 +4,7 @@
 /**
  * Lava.js entry point for Browserify
  */
-(function(){
+;(function(){
     "use strict";
 
     const _ = require('lodash');
@@ -17,6 +17,7 @@
     let addResizeEvent = require('./lava/Utils').addResizeEvent;
 
     this.lava = new LavaJs;
+    this.lava.window = window;
 
     /**
      * Adding the resize event listener for redrawing charts.

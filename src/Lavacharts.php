@@ -297,11 +297,8 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      *
      * @deprecated 3.2.0 Set this option with the constructor, or with
      *                   $lava->options->set('locale', 'en');
-     *
      * @since      3.1.0
-     *
      * @param  string $locale
-     *
      * @return $this
      * @throws \Khill\Lavacharts\Exceptions\InvalidStringValue
      */
@@ -315,12 +312,8 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Outputs the lava.js module for manual placement.
      *
-     * Will be depreciating jsapi in the future
-     *
-     * @since  3.0.3
-     *
+     * @since 3.0.3
      * @param array $options
-     *
      * @return string Google Chart API and lava.js script blocks
      */
     public function lavajs(array $options = [])
@@ -333,18 +326,15 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Renders Charts or Dashboards into the page
      *
-     * Given a type, label, and HTML element id, this will output
-     * all of the necessary javascript to generate the chart or dashboard.
-     *
-     * As of version 3.1, the elementId parameter is optional, but only
-     * if the elementId was set explicitly to the Renderable.
+     * Given a Renderable label, this will output the necessary javascript
+     * to generate the chart or dashboard.
      *
      * @since  2.0.0
+     * @since  3.1.0  elementId parameter is optional, but only if
+     *                the elementId was set explicitly to the Renderable.
      * @since  3.2.0  Type and div creation were removed.
-     *
      * @param  string $label     Label of the object to render.
      * @param  string $elementId HTML element id to render into.
-     *
      * @return string
      */
     public function render($label, $elementId = '')
@@ -352,9 +342,9 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
         $label     = Str::verify($label);
         $elementId = Str::verify($elementId);
 
-        $renderable = $this->volcano->get($label);
+        $renderable = $this->volcano->find($label);
 
-        if (! $renderable->hasOption('elementId')) {
+        if (! $renderable->hasOption('elementId') && Str::isNonEmpty($elementId)) {
             $renderable->setElementId($elementId);
         }
 
@@ -376,14 +366,12 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      *
      * @since 3.1.0
      * @since 3.2.0 Takes options and merges them with existing options.
-     *
      * @param array $options Options for rendering
-     *
      * @return string
      */
     public function renderAll(array $options = [])
-    {
-        $this->scriptManager->mergeOptions($options);
+    { // TODO: this fails silently if the chart doesn't have an elementId
+        $this->options->merge($options);
 
         $output = $this->scriptManager->getLavaJs($this->options);
 

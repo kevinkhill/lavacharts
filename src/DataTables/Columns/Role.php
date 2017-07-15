@@ -73,6 +73,6 @@ class Role extends StringValue
      */
     public static function isValid($role)
     {
-        return in_array($role, self::ROLES, true);
+        return in_array($role, self::TYPES, true);
     }
 }

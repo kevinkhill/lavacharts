@@ -1,11 +1,13 @@
 /* jshint undef: true, unused: true */
 /* globals window, document, console, google, module, require */
 
+import EventEmitter from 'events' ;
+import Chart from './Chart'
+
 const Q = require('q');
 // const Promise = require('bluebird');
 const _ = require('lodash');
 const util = require('util');
-const EventEmitter = require('events');
 const VERSION = require('../../package.json').version;
 
 /**
@@ -16,7 +18,8 @@ const VERSION = require('../../package.json').version;
  * @copyright (c) 2017, KHill Designs
  * @license   http://opensource.org/licenses/MIT MIT
  */
-export class LavaJs extends EventEmitter {
+export class LavaJs extends EventEmitter
+{
     constructor() {
         super();
 
@@ -32,7 +35,7 @@ export class LavaJs extends EventEmitter {
          *
          * @type {Chart}
          */
-        this.Chart = require('./Chart.js');
+        this.Chart = Chart;//require('./Chart.js');
 
         /**
          * Defining the Dashboard class within the module.
@@ -106,7 +109,7 @@ export class LavaJs extends EventEmitter {
         console.log('[lava.js] Running...');
         console.log('[lava.js] Loading options:', this.options);
 
-        this._forEachRenderable(function (renderable) {
+        this.forEachRenderable(function (renderable) {
             console.log('[lava.js] ' + renderable.uuid() + ' -> initializing');
 
             renderable.init();
@@ -126,35 +129,31 @@ export class LavaJs extends EventEmitter {
     _init() {
         const $lava = this;
 
-        // let readyCount = 0;
+        this._loadGoogle().then(function() {
+            return $lava.mapRenderables(function (renderable) {
+                console.log('[lava.js] ' + renderable.uuid() + ' -> configuring');
 
-        // this.on('ready', function (renderable) {
-            // console.log('[lava.js] ' + renderable.uuid() + ' -> ready');
+                return renderable.configure();
+            });
+        }).fail(function (e) {
+            console.log('[lava.js] Configuring FAILED!');
+            console.log('[lava.js]', e.toString());
+            console.log('[lava.js]', e.stack);
+        }).then(function() {
+            return $lava.mapRenderables(function (renderable) {
+                console.log('[lava.js] ' + renderable.uuid() + ' -> rendering');
 
-            // readyCount++;
+                return renderable.render();
+            });
+        }).fail(function (e) {
+            console.log('[lava.js] Rendering FAILED!');
+            console.log('[lava.js]', e.toString());
+            console.log('[lava.js]', e.stack);
+        }).then(function() {
+            console.log('[lava.js] Ready, firing ready callback');
 
-            // if (readyCount === $lava._getRenderables().length) {
-                console.log('[lava.js] Loading Google');
-
-                $lava._loadGoogle().then(function() {
-                    return $lava._mapRenderables(function (renderable) {
-                        console.log('[lava.js] ' + renderable.uuid() + ' -> configuring');
-
-                        return renderable.configure();
-                    });
-                }).then(function() {
-                    return $lava._mapRenderables(function (renderable) {
-                        console.log('[lava.js] ' + renderable.uuid() + ' -> rendering');
-
-                        return renderable.render();
-                    });
-                }).then(function() {
-                    console.log('[lava.js] Ready, firing ready callback');
-
-                    $lava._readyCallback();
-                });
-            // }
-        // });
+            $lava._readyCallback();
+        });
     };
 
     /**
@@ -261,7 +260,7 @@ export class LavaJs extends EventEmitter {
      */
     loadOptions(label, json, callback) {
         if (typeof callback === 'undefined') {
-            const callback = callback || _.noop;
+            callback = callback || _.noop;
         }
 
         if (typeof callback !== 'function') {
@@ -284,7 +283,7 @@ export class LavaJs extends EventEmitter {
      * to make the charts responsive to the browser resizing.
      */
     redrawCharts() {
-        this._forEachRenderable(function (renderable) {
+        this.forEachRenderable(function (renderable) {
             console.log('[lava.js] ' + renderable.uuid() + ' -> redrawing');
 
             const redraw = _.bind(renderable.redraw, renderable);
@@ -405,33 +404,33 @@ export class LavaJs extends EventEmitter {
     /**
      * Returns an array with the charts and dashboards.
      *
-     * @private
+     * @public
      * @return {Array}
      */
-    _getRenderables() {
+    getRenderables() {
         return _.concat(this._charts, this._dashboards);
     };
 
     /**
      * Applies the callback to each of the charts and dashboards.
      *
-     * @private
+     * @public
      * @param {Function} callback
      */
-    _forEachRenderable(callback) {
-        _.forEach(this._getRenderables(), callback);
+    forEachRenderable(callback) {
+        _.forEach(this.getRenderables(), callback);
     };
 
     /**
      * Applies the callback and builds an array of return values
      * for each of the charts and dashboards.
      *
-     * @private
+     * @public
      * @param {Function} callback
      * @return {Array}
      */
-    _mapRenderables(callback) {
-        return _.map(this._getRenderables(), callback);
+    mapRenderables(callback) {
+        return _.map(this.getRenderables(), callback);
     };
 
     /**
@@ -496,6 +495,8 @@ export class LavaJs extends EventEmitter {
         const deferred = Q.defer();
         const script = this._createScriptTag(deferred);
 
+        console.log('[lava.js] Loading Google');
+
         if (this._googleIsLoaded()) {
             console.log('[lava.js] Static loader found, initializing window.google');
 
@@ -559,5 +560,3 @@ export class LavaJs extends EventEmitter {
         google.charts.setOnLoadCallback(deferred.resolve);
     };
 }
-
-// module.exports = LavaJs;

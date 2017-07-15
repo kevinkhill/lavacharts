@@ -10,6 +10,7 @@ use Khill\Lavacharts\DataTables\Cells\Cell;
 use Khill\Lavacharts\DataTables\Cells\DateCell;
 use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
+use Khill\Lavacharts\Support\ArrayObject;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\ArrayAccess;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
@@ -30,9 +31,9 @@ use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Row implements Arrayable, ArrayAccess, Countable, IteratorAggregate, Jsonable
+class Row extends ArrayObject implements Jsonable
 {
-    use DynamicArrayAccess, ArrayToJson;
+    use ArrayToJson;
 
     /**
      * Row values
@@ -42,12 +43,21 @@ class Row implements Arrayable, ArrayAccess, Countable, IteratorAggregate, Jsona
     protected $cells = [];
 
     /**
+     * Create a new, empty row
+     *
+     * @since 3.2.0
+     * @return Row
+     */
+    public static function createEmpty()
+    {
+        return new static;
+    }
+
+    /**
      * Create a new row filled with null values
      *
      * @since 3.2.0
-     *
      * @param int $columnCount
-     *
      * @return Row
      * @throws InvalidArgumentException
      */
@@ -57,7 +67,7 @@ class Row implements Arrayable, ArrayAccess, Countable, IteratorAggregate, Jsona
             throw new InvalidArgumentException($columnCount, 'integer');
         }
 
-        return new self(array_fill(0, $columnCount, null));
+        return new static(array_fill(0, $columnCount, null));
     }
 
     /**
@@ -85,20 +95,33 @@ class Row implements Arrayable, ArrayAccess, Countable, IteratorAggregate, Jsona
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getArrayAccessProperty()
     {
         return 'cells';
     }
 
     /**
-     * Get an iterator for the renderables.
+     * Returns the Row as an array.
      *
-     * @since 3.2.0 Enable the use of foreach on the Row to access the cells
-     * @return ArrayIterator
+     * @return array
      */
-    public function getIterator()
+    public function toArray()
     {
-        return new ArrayIterator($this->cells);
+        return ['c' => $this->cells];
+    }
+
+    /**
+     * Add a new Cell to the row.
+     *
+     * @since 3.2.0
+     * @param Cell $cell
+     */
+    public function addCell(Cell $cell)
+    {
+        $this->cells[] = $cell;
     }
 
     /**
@@ -111,6 +134,18 @@ class Row implements Arrayable, ArrayAccess, Countable, IteratorAggregate, Jsona
     {
         return $this->cells;
     }
+
+    /**
+     * Returns the cells from the Row.
+     *
+     * @since 3.2.0
+     * @return Cell[]
+     */
+    public function getCellCount()
+    {
+        return count($this->cells);
+    }
+
 
     /**
      * Returns the Cell at the given index from the Row.
@@ -127,25 +162,5 @@ class Row implements Arrayable, ArrayAccess, Countable, IteratorAggregate, Jsona
         }
 
         return $this->cells[$index];
-    }
-
-    /**
-     * Returns the Row as an array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return ['c' => $this->cells];
-    }
-
-    /**
-     * Returns the number of cells
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return count($this->cells);
     }
 }
