@@ -39,10 +39,8 @@ function compile(prod, watch) {
         bundler = watchify(bundler);
 
         bSync.init({
-            proxy: "angular.dev"
+            proxy: "localhost:8000"
         });
-
-        gulp.watch("src/**/*").on('change', bSync.reload);
     }
 
     if (prod) {
@@ -79,6 +77,12 @@ function compile(prod, watch) {
             });
 
             rebundle();
+        });
+
+        bundler.on('log', function (msg) {
+            gutil.log(gutil.colors.green(msg));
+
+            bSync.reload();
         });
     }
 

@@ -7,40 +7,50 @@
 ;(function(){
     "use strict";
 
-    const _ = require('lodash');
+    /**
+     * The Lava.js module for all the heavy lifting.
+     *
+     * @type {LavaJs}
+     */
     const LavaJs = require('./lava/Lava').LavaJs;
 
-    let window = this;
+    /**
+     * Assign needed variables for the browser.
+     */
     let debounced = null;
-    let debounceTimeout = 250;
-    let ready = require('document-ready');
-    let addResizeEvent = require('./lava/Utils').addResizeEvent;
 
-    this.lava = new LavaJs;
-    this.lava.window = window;
+    /**
+     * Get needed modules and methods.
+     */
+    const bind = require('lodash/fp/bind');
+    const ready = require('document-ready');
+    const addResizeEvent = require('./lava/Utils').addResizeEvent;
+
+    /**
+     * Assign the Lava.js module to the window and let $lava be an alias.
+     */
+    let $lava = this.lava = new LavaJs;
 
     /**
      * Adding the resize event listener for redrawing charts.
      */
-    addResizeEvent(function (event) {
-        const redraw = _.bind(event.target.lava.redrawCharts, window.lava);
+    addResizeEvent(function() {
+        const redraw = bind($lava.redrawCharts, $lava);
 
         console.log('[lava.js] Window resize detected.');
 
         clearTimeout(debounced);
 
-        debounced = setTimeout(redraw, debounceTimeout);
+        debounced = setTimeout(redraw, $lava.options.debounce_timeout);
     });
 
     /**
      * Once the window is ready...
      */
     ready(function() {
-        /**
-         * Let's go!
-         */
-        if (window.lava.options.auto_run === true) {
-            window.lava.run();
+        if ($lava.options.auto_run === true) {
+            $lava.run();
         }
     });
-}.apply(window));
+
+}.apply(window)); // Set the closure scope "this" to the window

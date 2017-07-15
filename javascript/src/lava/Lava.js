@@ -2,7 +2,8 @@
 /* globals window, document, console, google, module, require */
 
 import EventEmitter from 'events' ;
-import Chart from './Chart'
+import Chart from './Chart';
+import Dashboard from './Dashboard';
 
 const Q = require('q');
 // const Promise = require('bluebird');
@@ -35,14 +36,14 @@ export class LavaJs extends EventEmitter
          *
          * @type {Chart}
          */
-        this.Chart = Chart;//require('./Chart.js');
+        this.Chart = Chart;
 
         /**
          * Defining the Dashboard class within the module.
          *
          * @type {Dashboard}
          */
-        this.Dashboard = require('./Dashboard.js');
+        this.Dashboard = Dashboard;
 
         /**
          * Urls to Google's static loader

@@ -85,4 +85,15 @@ return [
     |
     */
     'maps_api_key' => '',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Debounce Delay
+    |--------------------------------------------------------------------------
+    |
+    | This is the amount of delay between detecting window resize events and
+    | redrawing charts.
+    |
+    */
+    'debounce_timeout' => 250,
 ];
