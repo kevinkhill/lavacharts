@@ -1,9 +1,8 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\DataTables;
+namespace Khill\Lavacharts\Tests\Providers;
 
 use BadMethodCallException;
-use Carbon\Carbon;
 use Khill\Lavacharts\Charts\AnnotationChart;
 use Khill\Lavacharts\Charts\AreaChart;
 use Khill\Lavacharts\Charts\BarChart;
@@ -12,6 +11,7 @@ use Khill\Lavacharts\Charts\CalendarChart;
 use Khill\Lavacharts\Charts\CandlestickChart;
 use Khill\Lavacharts\Charts\ColumnChart;
 use Khill\Lavacharts\Charts\ComboChart;
+use Khill\Lavacharts\Charts\DonutChart;
 use Khill\Lavacharts\Charts\GanttChart;
 use Khill\Lavacharts\Charts\GaugeChart;
 use Khill\Lavacharts\Charts\GeoChart;
@@ -26,7 +26,6 @@ use Khill\Lavacharts\Charts\TableChart;
 use Khill\Lavacharts\Charts\TimelineChart;
 use Khill\Lavacharts\Charts\TreeMapChart;
 use Khill\Lavacharts\Charts\WordTreeChart;
-use Khill\Lavacharts\DataTables\DataFactory;
 use Khill\Lavacharts\DataTables\DataTable;
 
 class ChartProvider
@@ -207,6 +206,17 @@ class ChartProvider
 
     /**
      * @param \Khill\Lavacharts\DataTables\DataTable $data
+     * @return \Khill\Lavacharts\Charts\DonutChart
+     */
+    public static function DonutChart(DataTable $data)
+    {
+        return new DonutChart('MyDonutChart', $data, [
+            'elementId' => 'MyDonutChart'
+        ]);
+    }
+
+    /**
+     * @param \Khill\Lavacharts\DataTables\DataTable $data
      * @return \Khill\Lavacharts\Charts\GanttChart
      */
     public static function GanttChart(DataTable $data)
@@ -258,6 +268,7 @@ class ChartProvider
     public static function HistogramChart(DataTable $data)
     {
         return new HistogramChart('MyHistogramChart', $data, [
+            'elementId' => 'MyHistogramChart',
             'title' => 'Lengths of dinosaurs, in meters',
             'legend' => 'none'
         ]);
@@ -270,7 +281,7 @@ class ChartProvider
     public static function LineChart(DataTable $data)
     {
         return new LineChart('MyLineChart', $data, [
-            'elementId' => 'my-chart',
+            'elementId' => 'MyLineChart',
             'title' => 'Weather in October',
             'width' => '100%',
             'chartArea'=> [
@@ -309,6 +320,7 @@ class ChartProvider
     public static function PieChart(DataTable $data)
     {
         return new PieChart('MyPieChart', $data, [
+            'elementId' => 'MyPieChart',
             'title' => 'Reasons I visit IMDB',
             'is3D' => true,
             'slices' => [
@@ -337,6 +349,7 @@ class ChartProvider
         ];
 
         return new SankeyChart('MySankeyChart', $data, [
+            'elementId' => 'MySankeyChart',
             'legend' => [
                 'position' => 'none'
             ],
@@ -359,6 +372,7 @@ class ChartProvider
     public static function ScatterChart(DataTable $data)
     {
         return new ScatterChart('MyScatterChart', $data, [
+            'elementId' => 'MyScatterChart',
             'title' => 'Age vs. Weight comparison',
             'hAxis' => [
                 'title' => 'Age',
@@ -408,6 +422,7 @@ class ChartProvider
     public static function TimelineChart(DataTable $data)
     {
         return new TimelineChart('MyTimelineChart', $data, [
+            'elementId' => 'MyTimelineChart',
             'title' => 'Classes',
             'timeline' => [
                 'colorByRowLabel' => true
@@ -422,7 +437,7 @@ class ChartProvider
     public static function TreeMapChart(DataTable $data)
     {
         return new TreeMapChart('MyTreeMapChart', $data, [
-            'elementId' => 'lavachart',
+            'elementId' => 'MyTreeMapChart',
             'width' => 400,
             'height' => 200
         ]);
@@ -435,6 +450,7 @@ class ChartProvider
     public static function WordTreeChart(DataTable $data)
     {
         return new WordTreeChart('MyWordTreeChart', $data, [
+            'elementId' => 'MyWordTreeChart',
             'wordtree' => [
                 'format' => 'implicit',
                 'word' => 'cats'

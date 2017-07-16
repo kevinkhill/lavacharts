@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\DataTables;
+namespace Khill\Lavacharts\Tests\Providers;
 
 use BadMethodCallException;
 use Carbon\Carbon;
@@ -186,6 +186,14 @@ class DataTableProvider
              ->addRow(['2013-1-1', 1100, 550, 1462]);
 
         return $data;
+    }
+
+    /**
+     * @return \Khill\Lavacharts\DataTables\DataTable
+     */
+    public static function DonutChart()
+    {
+        return static::PieChart();
     }
 
     /**

@@ -154,6 +154,10 @@ export class LavaJs extends EventEmitter
             console.log('[lava.js] Ready, firing ready callback');
 
             $lava._readyCallback();
+        }).fail(function (e) {
+            console.log('[lava.js] Something went wrong....');
+            console.log('[lava.js]', e.toString());
+            console.log('[lava.js]', e.stack);
         });
     };
 

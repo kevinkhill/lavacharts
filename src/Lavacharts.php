@@ -43,6 +43,8 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
  * @method exists
  * @method store
  * @method get
+ * @method getCharts
+ * @method getDashboards
  */
 class Lavacharts implements Customizable, Jsonable, Arrayable
 {
@@ -131,7 +133,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
         }
 
         if (Str::endsWith($method, 'Chart')) {
-            return self::Chart($method, $args);
+            return $this->makeChart($method, $args);
         }
 
         if (Str::endsWith($method, 'Filter')) {
@@ -188,7 +190,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @return Chart
      * @throws InvalidLabelException
      */
-    public function Chart($type, $args)
+    protected function makeChart($type, $args)
     {
         if (! isset($args[0])) {
             throw new InvalidLabelException;
