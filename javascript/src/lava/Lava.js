@@ -3,6 +3,7 @@
 
 import EventEmitter from 'events' ;
 import Chart from './Chart';
+import ChartV4 from './Chart.v4';
 import Dashboard from './Dashboard';
 
 const Q = require('q');
@@ -36,7 +37,7 @@ export class LavaJs extends EventEmitter
          *
          * @type {Chart}
          */
-        this.Chart = Chart;
+        this.Chart = ChartV4;
 
         /**
          * Defining the Dashboard class within the module.
@@ -307,6 +308,17 @@ export class LavaJs extends EventEmitter
      */
     createChart(type, label) {
         return new this.Chart(type, label);
+    };
+
+    /**
+     * Create a new Chart from the PHP Chart::toJson() method.
+     *
+     * @public
+     * @param  {object} json JSON data for creating a new chart.
+     * @return {Chart}
+     */
+    createChartFromJson(json) {
+        return new this.Chart(json);
     };
 
     /**

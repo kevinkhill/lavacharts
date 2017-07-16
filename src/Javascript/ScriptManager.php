@@ -102,7 +102,6 @@ class ScriptManager implements Customizable
     /**
      * Returns a buffer with the javascript of a renderable resource.
      *
-     *
      * @param  Renderable $renderable
      * @return Buffer
      * @throws \Khill\Lavacharts\Exceptions\InvalidElementIdException
@@ -113,7 +112,9 @@ class ScriptManager implements Customizable
             throw new InvalidElementIdException($renderable);
         }
 
-        $buffer = $renderable->getJsFactory()->getBuffer();
+//        $buffer = $renderable->getJsFactory()->getBuffer();
+
+        $buffer = new Buffer($renderable->toJson());
 
         return $this->scriptTagWrap($buffer);
     }
