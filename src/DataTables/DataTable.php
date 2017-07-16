@@ -283,30 +283,30 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * not value is specified, an empty string is assigned.
      *
      *
-     * @param mixed  $typeOrColDescArr Column type or an array describing the column.
-     * @param string $label            A label for the column. (Optional)
-     * @param Format $format           A column format object. (Optional)
-     * @param string $role             A role for the column. (Optional)
-     * @param array  $options
+     * @param string|array $type    Column type or an array describing the column.
+     * @param string       $label   A label for the column. (Optional)
+     * @param Format       $format  A column format object. (Optional)
+     * @param string       $role    A role for the column. (Optional)
+     * @param array        $options
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidArgumentException
      */
     public function addColumn(
-        $typeOrColDescArr,
+        $type,
         $label = '',
         Format $format = null,
         $role = null,
         array $options = []
     ) {
-        if (is_array($typeOrColDescArr)) {
-            return call_user_func_array([$this, 'createColumnWithParams'], $typeOrColDescArr);
+        if (is_array($type)) {
+            return call_user_func_array([$this, 'createColumnWithParams'], $type);
         }
 
-        if (is_string($typeOrColDescArr)) {
-            return $this->createColumnWithParams($typeOrColDescArr, $label, $format, $role, $options);
+        if (is_string($type)) {
+            return $this->createColumnWithParams($type, $label, $format, $role, $options);
         }
 
-        throw new InvalidArgumentException($typeOrColDescArr, 'string or array.');
+        throw new InvalidArgumentException($type, 'string or array.');
     }
 
     /**
