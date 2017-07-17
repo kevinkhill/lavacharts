@@ -10,7 +10,7 @@
 
 import { Renderable } from './Renderable';
 import { stringToFunction } from './Utils';
-import { forEach } from 'lodash/fp/forEach';
+import _ from 'lodash';
 
 /**
  * Chart class used for storing all the needed configuration for rendering.
@@ -46,22 +46,24 @@ export class Chart extends Renderable
     constructor (json) {
         super(json);
 
+        console.log('[DEBUG] JSON payload received', json);
+
         this.element   = null;
         this.elementId = null;
         this.chart     = null;
-        this.data      = null;
-        this.class     = json.class;
-        this.package   = json.package;
-        this.options   = json.options;
-        this.formats   = json.formats;
-        this.pngOutput = json.pngOutput;
+        this.class     = json.class     || '';
+        this.options   = json.options   || [];
+        this.events    = json.events    || null;
+        this.formats   = json.formats   || null;
+        this.pngOutput = json.pngOutput || false;
 
         this.setElement(json.elementId);
 
-        this.render = function(data) {
-            if (typeof data !== 'undefined') {
-                this.setData(data);
-            }
+        /**
+         * Any dependency on window.google must be in the render scope.
+         */
+        this.render = function() {
+            this.setData(json.datatable);
 
             let chartClass = stringToFunction(this.class, window);
 
@@ -69,62 +71,17 @@ export class Chart extends Renderable
 
             // <formats>
 
-            if (this.options.events.length > 0) {
+            if (this.events) {
                 this._attachEvents();
             }
 
             this.draw();
 
-            if (this.pngOutput === true) {
+            if (this.pngOutput) {
                 this.drawPng();
             }
         };
     }
-
-    /**
-     * Unique identifier for the Chart.
-     *
-     * @return {string}
-     */
-    uuid() {
-        return this.type+'::'+this.label;
-    };
-
-    /**
-     * Sets the data for the chart by creating a new DataTable
-     *
-     * @public
-     * @external "google.visualization.DataTable"
-     * @see   {@link https://developers.google.com/chart/interactive/docs/reference#DataTable|DataTable Class}
-     * @param {object} payload Json representation of a DataTable
-     */
-    setData(payload) {
-         // If a DataTable#toJson() payload is received, with formatted columns,
-         // then payload.data will be defined, and used as the DataTable
-        if (typeof payload.data === 'object') {
-            payload = payload.data;
-        }
-
-        // Since Google compiles their classes, we can't use instanceof to check since
-        // it is no longer called a "DataTable" (it's "gvjs_P" but that could change...)
-        if (typeof payload.getTableProperties === 'function') {
-            this.data = payload;
-
-        // Otherwise assume it is a JSON representation of a DataTable and create one.
-        } else {
-            this.data = new google.visualization.DataTable(payload);
-        }
-    };
-
-    /**
-     * Sets the options for the chart.
-     *
-     * @public
-     * @param {object} options
-     */
-    setOptions(options) {
-        this.options = options;
-    };
 
     /**
      * Sets whether the chart is to be rendered as PNG or SVG
@@ -198,8 +155,20 @@ export class Chart extends Renderable
     _attachEvents() {
         let $chart = this;
 
-        forEach(this.events, function (event, callback) {
-            google.visualization.events.addListener($chart.chart, event, callback.bind($chart));
+        _.forIn(this.events, function (callback, event) {
+            let context = window;
+            let func = callback;
+
+            if (typeof callback === 'object') {
+                context = context[callback[0]];
+                func = callback[1];
+            }
+
+            console.log(`[lava.js] The "${$chart.uuid()}::${event}" event will be handled by "${func}" in the context of "${context}"`);
+
+            google.visualization.events.addListener($chart.chart, event, function () {
+                _.bind(context[func]($chart.chart, $chart.data), $chart.chart);
+            });
         });
     }
 }

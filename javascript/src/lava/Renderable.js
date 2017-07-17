@@ -55,7 +55,7 @@ export class Renderable extends EventEmitter
      *
      * @return {string}
      */
-    get uuid() {
+    uuid() {
         return this.type+'::'+this.label;
     };
 

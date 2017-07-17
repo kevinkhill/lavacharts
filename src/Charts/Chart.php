@@ -125,24 +125,20 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
      */
     public function toArray()
     {
-        // If the DataTable has any set options, they will be merged
-        // with the chart options.
-        if (method_exists($this->datatable, 'getOptions')) {
-            $this->mergeOptions($this->datatable->getOptions());
-        }
+//        $events = $this->options->get('events');
+
+//        $this->options->forget('events');
 
         $chartArray = [
+            'pngOutput' => false,
             'label'     => $this->getLabel(),
             'type'      => $this->getType(),
             'class'     => $this->getJsClass(),
-//            'package'   => $this->getJsPackage(),
             'elementId' => $this->getElementId(),
-            'options'   => $this->options,
-//            'chartVer'     => $this->getVersion(), TODO: check if needed
-//            'events'    => $this->getEvents(),
             'formats'   => $this->getFormats(),
-//            'datatable' => '',
-            'pngOutput' => false,
+            'datatable' => $this->datatable->toJson(),
+            'options'   => $this->options->without(['events']),
+            'events'    => $this->hasOption('events') ? $this->options->events : [],
         ];
 
         if (method_exists($this->datatable, 'toJsDataTable')) {
@@ -164,19 +160,26 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
      */
     private function getEvents()
     {
-        $buffer = new Buffer();
-
-        if (! $this->options->has('events')) {
-            return $buffer;
-        }
+        $events = [];
 
         foreach ($this->options->events as $event => $callback) {
-            $buffer->append(
-                new Event($event, $callback)
-            );
+            $events[] = [$event, $callback];
         }
 
-        return $buffer;
+        return $events;
+//        $buffer = new Buffer();
+//
+//        if (! $this->options->has('events')) {
+//            return $buffer;
+//        }
+//
+//        foreach ($this->options->events as $event => $callback) {
+//            $buffer->append(
+//                new Event($event, $callback)
+//            );
+//        }
+//
+//        return $buffer;
     }
 
     /**
@@ -227,7 +230,7 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
         return [
             $this->getJsPackage(),
             $this->toJson(),
-            $this->datatable->toJsDataTable(),
+            //$this->datatable->toJson(),
         ];
 //        return $this->toArray();
     }
@@ -243,15 +246,15 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
         return '
             window.lava.addPackages("%s");
             
-            window.lava.on("google:loaded", function (google) {
-                var chart = window.lava.createChartFromJson(%s);
+            //window.lava.on("google:loaded", function (google) {
+                var chart = window.lava.createChart(%s);
                     
-                chart.setData(%s);
+                //chart.setData();
                                 
                 window.lava.store(chart);
                 
-                chart.render();
-            });
+                //chart.render();
+            //});
         ';
     }
 }

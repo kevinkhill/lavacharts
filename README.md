@@ -25,7 +25,11 @@ Dev:
 - **Updated!** New DataInterface for creating custom DataProviders.
   - [JoinedDataTable] (https://github.com/kevinkhill/lavacharts/blob/3.2/src/DataTables/JoinedDataTable.php) Is an example of one of the usages for DataInterface. 
   
-- **Updated!** 
+- **Updated!**
+  - Lava.js Event handling now can be given context if the default of "window" doesn't work for you.
+
+- **Updated!**
+  - Lava.js has been refactored to reduced the amount of promise chaining and event handling to increase speed and for simplicity.
 
 - Any option for customizing charts that Google supports, Lavacharts should as well.
  - Visit [Google's Chart Gallery](https://developers.google.com/chart/interactive/docs/gallery) for details on available option

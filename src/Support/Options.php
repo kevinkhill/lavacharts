@@ -200,7 +200,7 @@ class Options extends ArrayObject implements Arrayable, Jsonable
     }
 
     /**
-     * Remove an option for the set.
+     * Remove an option from the set.
      *
      * @param  string $option
      * @return self
@@ -208,7 +208,7 @@ class Options extends ArrayObject implements Arrayable, Jsonable
      */
     public function forget($option)
     {
-        if ($this->has($option)) {
+        if (! $this->has($option)) {
             throw new UndefinedOptionException($option);
         }
 
@@ -229,6 +229,17 @@ class Options extends ArrayObject implements Arrayable, Jsonable
         }
 
         $this->options = array_merge($this->options, $options);
+    }
+
+    /**
+     * Returns the options without the options specified.
+     *
+     * @param array $options
+     * @return array
+     */
+    public function without(array $options)
+    {
+        return array_diff_key($this->options, $options);
     }
 
     /**
