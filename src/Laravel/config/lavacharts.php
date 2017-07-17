@@ -10,7 +10,6 @@
 |
 */
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Auto Run
@@ -72,6 +71,7 @@ return [
     */
     'datetime_format' => '',
 
+
     /*
     |--------------------------------------------------------------------------
     | Google Maps API Key
@@ -86,14 +86,18 @@ return [
     */
     'maps_api_key' => '',
 
+
     /*
     |--------------------------------------------------------------------------
-    | Debounce Delay
+    | Responsive
     |--------------------------------------------------------------------------
     |
-    | This is the amount of delay between detecting window resize events and
-    | redrawing charts.
+    | Toggle for whether or not the lava.js module will attach a handler to the
+    | resizing event of the window. If true, then debounce_timeout will be used
+    | to prevent firing of too many events.
     |
     */
+    'responsive' => true,
     'debounce_timeout' => 250,
+
 ];

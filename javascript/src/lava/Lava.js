@@ -2,7 +2,7 @@
 /* globals window, document, console, google, module, require */
 
 import EventEmitter from 'events';
-import { Chart } from './Chart.v4';
+import { Chart } from './Chart';
 import { Dashboard } from './Dashboard';
 import _ from 'lodash';
 
