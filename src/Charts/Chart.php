@@ -135,11 +135,11 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
             'label'     => $this->getLabel(),
             'type'      => $this->getType(),
             'class'     => $this->getJsClass(),
-            'package'   => $this->getJsPackage(),
+//            'package'   => $this->getJsPackage(),
             'elementId' => $this->getElementId(),
-            'options'   => $this->getOptions(),
+            'options'   => $this->options,
 //            'chartVer'     => $this->getVersion(), TODO: check if needed
-            'events'    => $this->getEvents(),
+//            'events'    => $this->getEvents(),
             'formats'   => $this->getFormats(),
 //            'datatable' => '',
             'pngOutput' => false,
@@ -166,7 +166,7 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
     {
         $buffer = new Buffer();
 
-        if (!$this->options->has('events')) {
+        if (! $this->options->has('events')) {
             return $buffer;
         }
 
@@ -217,66 +217,6 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
     }
 
     /**
-     * Sets any configuration option, with no checks for type / validity
-     *
-     *
-     * This is method was added in 2.5 as a band-aid to remove the handcuffs from
-     * users who want to add options that Google has added, that I have not.
-     * I didn't intend to restrict the user to only select options, as the
-     * goal was to type isNonEmpty and validate. This method can be used to set
-     * any option, just pass in arrays with key value pairs for any setting.
-     *
-     * If the setting is an object, per the google docs, then use multi-dimensional
-     * arrays and they will be converted upon rendering.
-     *
-     * @deprecated 3.2.0
-     * @since      3.0.0
-     * @param  array $options Array of customization options for the chart
-     * @return \Khill\Lavacharts\Charts\Chart
-     */
-    public function customize(array $options)
-    {
-        $this->setOptions($options);
-
-        return $this;
-    }
-
-    /**
-     * Defines how fields in the template will be replaced
-     *
-     * @param $key
-     * @return string
-     */
-    public function makeTemplateTag($key)
-    {
-        return '/{' . $key . '}/';
-    }
-
-//    public function toJson()
-//    {
-//        return json_encode($this->toArray());
-//    }
-
-    /**
-     * Maps the values from getJavascriptSource to the template
-     * provided by toJavascriptFormat
-     *
-     * @return string
-     */
-    public function toJavascript()
-    {
-        return vsprintf($this->getJavascriptFormat(), $this->getJavascriptSource());
-//        return preg_replace(
-//            array_map(
-//                [self::class, 'makeTemplateTag'],
-//                array_keys($this->getJavascriptSource())
-//            ),
-//            array_values($this->getJavascriptSource()),
-//            $this->getJavascriptFormat()
-//        );
-    }
-
-    /**
      * Return an array of arguments to pass to the format string provided
      * by getJavascriptFormat().
      *
@@ -285,6 +225,7 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
     public function getJavascriptSource()
     {
         return [
+            $this->getJsPackage(),
             $this->toJson(),
             $this->datatable->toJsDataTable(),
         ];
@@ -300,56 +241,17 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
     public function getJavascriptFormat()
     {
         return '
+            window.lava.addPackages("%s");
+            
             window.lava.on("google:loaded", function (google) {
-                window.lava.store(function() {
-                    var chart = window.lava.createChartFromJson(%s);
+                var chart = window.lava.createChartFromJson(%s);
                     
-                    chart.setData(%s);
-                    
-                    return chart;
-                });
+                chart.setData(%s);
+                                
+                window.lava.store(chart);
+                
+                chart.render();
             });
         ';
-
-        return <<<'JS'
-(function(){
-    "use strict";
-    
-    var _chart = this.createChart('{type}', '{label}');
-
-    _chart.init = function() {
-        _chart.package = '{package}';
-        _chart.options = {options};
-        _chart.setElement('{elemId}');
-        _chart.setPngOutput({pngOutput});
-    };
-
-    _chart.configure = function () {
-        _chart.render = function (data) {
-            _chart.setData({datatable});
-
-            _chart.chart = new {class}(_chart.element);
-
-            {formats}
-            {events}
-
-            _chart.chart.draw(_chart.data, _chart.options);
-
-            if (_chart.pngOutput === true) {
-                _chart.drawPng();
-            }
-
-            _chart.promises.rendered.resolve();
-            return _chart.promises.rendered.promise;
-        };
-
-        _chart.promises.configure.resolve();
-        return _chart.promises.configure.promise;
-    };
-
-    this.store(_chart);
-
-}.apply(window.lava));
-JS;
     }
 }

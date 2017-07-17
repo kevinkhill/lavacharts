@@ -1,56 +1,33 @@
-/* jshint undef: true, unused: true */
-/* globals window, require */
+import bind from 'lodash/fp/bind';
+import ready from 'document-ready';
+import { LavaJs } from './lava/Lava';
+import { addResizeEvent } from './lava/Utils';
+
+let debounced = null;
 
 /**
- * Lava.js entry point for Browserify
+ * Assign the Lava.js module to the window and let $lava be an alias.
  */
-;(function(){
-    "use strict";
+let $lava = window.lava = new LavaJs;
 
-    /**
-     * The Lava.js module for all the heavy lifting.
-     *
-     * @type {LavaJs}
-     */
-    const LavaJs = require('./lava/Lava').LavaJs;
+/**
+ * Adding the resize event listener for redrawing charts.
+ */
+addResizeEvent(function() {
+    const redraw = bind($lava.redrawAll, $lava);
 
-    /**
-     * Assign needed variables for the browser.
-     */
-    let debounced = null;
+    console.log('[lava.js] Window resize detected.');
 
-    /**
-     * Get needed modules and methods.
-     */
-    const bind = require('lodash/fp/bind');
-    const ready = require('document-ready');
-    const addResizeEvent = require('./lava/Utils').addResizeEvent;
+    clearTimeout(debounced);
 
-    /**
-     * Assign the Lava.js module to the window and let $lava be an alias.
-     */
-    let $lava = this.lava = new LavaJs;
+    debounced = setTimeout(redraw, $lava.options.debounce_timeout);
+});
 
-    /**
-     * Adding the resize event listener for redrawing charts.
-     */
-    addResizeEvent(function() {
-        const redraw = bind($lava.redrawAll, $lava);
-
-        console.log('[lava.js] Window resize detected.');
-
-        clearTimeout(debounced);
-
-        debounced = setTimeout(redraw, $lava.options.debounce_timeout);
-    });
-
-    /**
-     * Once the window is ready...
-     */
-    ready(function() {
-        if ($lava.options.auto_run === true) {
-            $lava.run();
-        }
-    });
-
-}.apply(window)); // Set the closure scope "this" to the window
+/**
+ * Once the window is ready...
+ */
+ready(function() {
+    if ($lava.options.auto_run === true) {
+        $lava.run();
+    }
+});

@@ -5,7 +5,7 @@ import EventEmitter from 'events';
 // import Chart from './Chart';
 import { Chart } from './Chart.v4';
 import { Dashboard } from './Dashboard';
-import Promise from 'bluebird';
+// import Promise from 'bluebird';
 import _ from 'lodash';
 
 const Q = require('q');
@@ -24,7 +24,7 @@ const VERSION = require('../../package.json').version;
  * @property {Chart}              Chart          Chart class.
  * @property {Dashboard}          Dashboard      Dashboard class.
  * @property {object}             _errors
- * @property {string}             gstaticUrl     Url to Google's static loader
+ * @property {string}             GSTATIC_URL     Url to Google's static loader
  * @property {object}             options        Options for the module
  * @property {function}           _readyCallback
  * @property {Array.<string>}     _packages
@@ -36,11 +36,36 @@ export class LavaJs extends EventEmitter
         super();
 
         /**
-         * Version of the module.
+         * Version of the Lava.js module.
          *
+         * @public
          * @type {string}
          */
         this.VERSION = VERSION;
+
+        /**
+         * Version of the Google charts API to load.
+         *
+         * @public
+         * @type {string}
+         */
+        this.API_VERSION = 'current';
+
+        /**
+         * Urls to Google's static loader
+         *
+         * @public
+         * @type {string}
+         */
+        this.GSTATIC_URL = 'https://www.gstatic.com/charts/loader.js';
+
+        /**
+         * The event that is fired after the google object is loaded.
+         *
+         * @public
+         * @type {string}
+         */
+        this.GOOGLE_LOADED_EVENT = 'google:loaded';
 
         /**
          * Defining the Chart class within the module.
@@ -48,21 +73,13 @@ export class LavaJs extends EventEmitter
          * @type {Chart}
          */
         this.Chart = Chart;
-
         /**
          * Defining the Dashboard class within the module.
          *
          * @type {Dashboard}
          */
-        // this.Dashboard = Dashboard;
 
-        /**
-         * Urls to Google's static loader
-         *
-         * @type {string}
-         * @public
-         */
-        this.gstaticUrl = 'https://www.gstatic.com/charts/loader.js';
+        // this.Dashboard = Dashboard;
 
         /**
          * JSON object of config items.
@@ -125,30 +142,34 @@ export class LavaJs extends EventEmitter
     _init() {
         const $lava = this;
 
-        this._loadGoogle()
+        this
+            ._loadGoogle()
             .then(function(google) {
-                console.log('got google', google);
-                $lava.emit('google:loaded', google);
-            })
-        //    .then(function() {
-        //     $lava.forEachRenderable(function (renderable) {
-        //         console.log('[lava.js] ' + renderable.uuid() + ' -> rendering');
-        //
-        //         renderable.render();
-        //     });
-        // }).fail(function (e) {
-        //     console.log('[lava.js] Rendering FAILED!');
-        //     console.log('[lava.js]', e.toString());
-        //     console.log('[lava.js]', e.stack);
-        // }).then(function() {
-        //     console.log('[lava.js] Ready, firing ready callback');
-        //
-        //     $lava._readyCallback();
-        // }).fail(function (e) {
-        //     console.log('[lava.js] Something went wrong....');
-        //     console.log('[lava.js]', e.toString());
-        //     console.log('[lava.js]', e.stack);
-        // });
+                let count = $lava.listenerCount($lava.GOOGLE_LOADED_EVENT);
+
+                console.log('[lava.js] '+count+' renderables listening for "'+$lava.GOOGLE_LOADED_EVENT+'"');
+
+                $lava.emit($lava.GOOGLE_LOADED_EVENT, google);
+            })/*
+           .then(function() {
+                $lava.forEachRenderable(function (renderable) {
+                    console.log('[lava.js] ' + renderable.uuid() + ' -> rendering');
+
+                    renderable.render();
+                });
+            }).fail(function (e) {
+                console.log('[lava.js] Rendering FAILED!');
+                console.log('[lava.js]', e.toString());
+                console.log('[lava.js]', e.stack);
+            }).then(function() {
+                console.log('[lava.js] Ready, firing ready callback');
+
+                $lava._readyCallback();
+            }).fail(function (e) {
+                console.log('[lava.js] Something went wrong....');
+                console.log('[lava.js]', e.toString());
+                console.log('[lava.js]', e.stack);
+            });*/
     };
 
     /**
@@ -157,9 +178,9 @@ export class LavaJs extends EventEmitter
      * @param {Renderable} renderable
      */
     store(renderable) {
-        console.log('[lava.js] Storing', renderable);
+        console.log('[lava.js] Storing', renderable.uuid());
 
-        this._renderables.push(renderable);
+        this._renderables[renderable.label] = renderable;
     };
 
     /**
@@ -334,7 +355,7 @@ export class LavaJs extends EventEmitter
             throw new this._errors.InvalidCallback(callback);
         }
 
-        const renderable = _.find(this._renderables, {label: label});
+        let renderable = this._renderables[label];
 
         if (! renderable) {
             throw new this._errors.ChartNotFound(label);
@@ -387,8 +408,10 @@ export class LavaJs extends EventEmitter
     };
 
     /**
-     * Applies the callback and builds an array of return values
-     * for each of the charts and dashboards.
+     * Adds to the list of packages that Google needs to load.
+     *
+     * Can accept a string name for one package or an array of
+     * names.
      *
      * @public
      * @param {object|string} packages
@@ -411,7 +434,8 @@ export class LavaJs extends EventEmitter
      * @return {Array}
      */
     _getPackages() {
-        return _.map(this._renderables, 'package');
+        return this.this._packages
+        // return _.map(this._renderables, 'package');
     };
 
     /**
@@ -426,7 +450,7 @@ export class LavaJs extends EventEmitter
         let loaded = false;
 
         for (let i = scripts.length; i--;) {
-            if (scripts[i].src === this.gstaticUrl) {
+            if (scripts[i].src === this.GSTATIC_URL) {
                 loaded = true;
             }
         }
@@ -471,7 +495,7 @@ export class LavaJs extends EventEmitter
 
         script.type = 'text/javascript';
         script.async = true;
-        script.src = this.gstaticUrl;
+        script.src = this.GSTATIC_URL;
         script.onload = script.onreadystatechange = function (event) {
             event = event || window.event;
 
@@ -493,7 +517,8 @@ export class LavaJs extends EventEmitter
      */
     _googleChartLoader(resolve) {
         let config = {
-            packages: this._getPackages(),
+            // packages: this._getPackages(),
+            packages: this._packages,
             language: this.options.locale
         };
 
@@ -501,15 +526,14 @@ export class LavaJs extends EventEmitter
             config.mapsApiKey = this.options.maps_api_key;
         }
 
-        console.log('[lava.js] Google loaded with config:', config);
+        console.log('[lava.js] Loading Google with config:', config);
 
-        google.charts.load('current', config);
+        google.charts.load(this.API_VERSION, config);
 
-        google.charts.setOnLoadCallback(
-            () => {
-                console.log('resolving from setOnLoadCallback');
-                resolve(google);
-            }
-        );
+        google.charts.setOnLoadCallback(() => {
+            console.log('[lava.js] Google loaded; Firing setOnLoadCallback');
+
+            resolve(google);
+        });
     };
 }

@@ -26,7 +26,7 @@ browserify = require('browserify'),
 
 var renderOutputDir = './phantomjs/renders';
 
-function compile(prod, watch) {
+function compile(prod, watch, sync) {
     var bundler = browserify({
         debug: true,
         entries: ['./src/lava.entry.es6'],
@@ -38,9 +38,11 @@ function compile(prod, watch) {
     if (watch) {
         bundler = watchify(bundler);
 
-        bSync.init({
-            proxy: "localhost:8000"
-        });
+        if (sync) {
+            bSync.init({
+                proxy: "localhost:8000"
+            });
+        }
     }
 
     if (prod) {
@@ -82,7 +84,9 @@ function compile(prod, watch) {
         bundler.on('log', function (msg) {
             gutil.log(gutil.colors.green(msg));
 
-            bSync.reload();
+            if (sync) {
+                bSync.reload();
+            }
         });
     }
 
@@ -128,9 +132,12 @@ function phpServerEnd(done) {
 
 gulp.task('default', ['build']);
 
-gulp.task('watch',   function() { return compile(false, true)  });
-gulp.task('build',   function() { return compile(false, false) });
-gulp.task('release', function() { return compile(true,  false) });
+// compile(prod, watch, sync)
+gulp.task('build',   function() { return compile(false, false, false) });
+gulp.task('watch',   function() { return compile(false, true, false)  });
+gulp.task('sync',    function() { return compile(false, true, true)   });
+gulp.task('release', function() { return compile(true,  false, false) });
+
 
 gulp.task('charts', function() {
     getChartTypes(function (charts) {

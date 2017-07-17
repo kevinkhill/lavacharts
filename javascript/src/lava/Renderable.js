@@ -1,18 +1,4 @@
 /**
- * Chart module
- *
- * @class     Chart
- * @module    lava/Chart
- * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2017, KHill Designs
- * @license   MIT
- */
-
-import { Renderable } from './Renderable';
-import { stringToFunction } from './Utils';
-import { forEach } from 'lodash/fp/forEach';
-
-/**
  * Chart class used for storing all the needed configuration for rendering.
  *
  * @typedef {Function}  Chart
@@ -32,7 +18,19 @@ import { forEach } from 'lodash/fp/forEach';
  * @property {Function} uuid      - Creates identification string for the chart.
  * @property {Object}   _errors   - Collection of errors to be thrown.
  */
-export class Chart extends Renderable
+
+import EventEmitter from 'events';
+
+/**
+ * Chart module
+ *
+ * @class     Chart
+ * @module    lava/Chart
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright (c) 2017, KHill Designs
+ * @license   MIT
+ */
+export class Renderable extends EventEmitter
 {
     /**
      * Chart Class
@@ -43,42 +41,13 @@ export class Chart extends Renderable
      * @param {object} json
      * @constructor
      */
-    constructor (json) {
+    constructor(json) {
         super(json);
 
-        this.element   = null;
-        this.elementId = null;
-        this.chart     = null;
-        this.data      = null;
-        this.class     = json.class;
-        this.package   = json.package;
-        this.options   = json.options;
-        this.formats   = json.formats;
-        this.pngOutput = json.pngOutput;
+        this.label = json.label;
+        this.type  = json.type;
 
-        this.setElement(json.elementId);
-
-        this.render = function(data) {
-            if (typeof data !== 'undefined') {
-                this.setData(data);
-            }
-
-            let chartClass = stringToFunction(this.class, window);
-
-            this.chart = new chartClass(this.element);
-
-            // <formats>
-
-            if (this.options.events.length > 0) {
-                this._attachEvents();
-            }
-
-            this.draw();
-
-            if (this.pngOutput === true) {
-                this.drawPng();
-            }
-        };
+        this._errors = require('./Errors.js');
     }
 
     /**
@@ -86,7 +55,7 @@ export class Chart extends Renderable
      *
      * @return {string}
      */
-    uuid() {
+    get uuid() {
         return this.type+'::'+this.label;
     };
 
@@ -127,16 +96,6 @@ export class Chart extends Renderable
     };
 
     /**
-     * Sets whether the chart is to be rendered as PNG or SVG
-     *
-     * @public
-     * @param {string|int} png
-     */
-    setPngOutput(png) {
-        this.pngOutput = Boolean(typeof png === 'undefined' ? false : png);
-    };
-
-    /**
      * Set the ID of the output element for the Dashboard.
      *
      * @public
@@ -144,62 +103,11 @@ export class Chart extends Renderable
      * @throws ElementIdNotFound
      */
     setElement(elemId) {
+        this.elementId = elemId;
         this.element = document.getElementById(elemId);
 
         if (! this.element) {
             throw new this._errors.ElementIdNotFound(elemId);
         }
     };
-
-    /**
-     * Redraws the chart.
-     *
-     * @public
-     */
-    draw() {
-        this.chart.draw(this.data, this.options);
-    };
-
-    /**
-     * Draws the chart as a PNG instead of the standard SVG
-     *
-     * @public
-     * @external "chart.getImageURI"
-     * @see {@link https://developers.google.com/chart/interactive/docs/printing|Printing PNG Charts}
-     */
-    drawPng() {
-        let img = document.createElement('img');
-            img.src = this.chart.getImageURI();
-
-        this.element.innerHTML = '';
-        this.element.appendChild(img);
-    };
-
-    /**
-     * Formats columns of the DataTable.
-     *
-     * @public
-     * @param {Array.<Object>} formatArr Array of format definitions
-     */
-    applyFormats(formatArr) {
-        for(let a=0; a < formatArr.length; a++) {
-            let formatJson = formatArr[a];
-            let formatter = new google.visualization[formatJson.type](formatJson.config);
-
-            formatter.format(this.data, formatJson.index);
-        }
-    };
-
-    /**
-     * Attach the defined chart event handlers.
-     *
-     * @private
-     */
-    _attachEvents() {
-        let $chart = this;
-
-        forEach(this.events, function (event, callback) {
-            google.visualization.events.addListener($chart.chart, event, callback.bind($chart));
-        });
-    }
 }
