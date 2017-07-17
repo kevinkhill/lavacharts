@@ -13,7 +13,6 @@ use Khill\Lavacharts\Support\Contracts\Wrappable;
 use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\StringValue as Str;
 use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
-use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 
 /**
@@ -32,7 +31,7 @@ use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
  */
 class Chart extends Renderable implements Customizable, Javascriptable, JsFactory, Visualization, Wrappable
 {
-    use HasDataTable, HasOptions, ToJavascript;
+    use HasDataTable, ToJavascript;
 
     /**
      * Type of wrappable class
@@ -132,25 +131,25 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
             $this->mergeOptions($this->datatable->getOptions());
         }
 
-        $chartAsArray = [
-            'pngOutput' => false,
+        $chartArray = [
+            'label'     => $this->getLabel(),
             'type'      => $this->getType(),
+            'class'     => $this->getJsClass(),
+            'package'   => $this->getJsPackage(),
+            'elementId' => $this->getElementId(),
+            'options'   => $this->getOptions(),
+//            'chartVer'     => $this->getVersion(), TODO: check if needed
             'events'    => $this->getEvents(),
             'formats'   => $this->getFormats(),
-//            'chartVer'     => $this->getVersion(), TODO: check if needed
-            'class'     => $this->getJsClass(),
-            'options'   => $this->getOptions(),
-            'label'     => $this->getLabel(),
-            'package'   => $this->getJsPackage(),
-            'elemId'    => $this->getElementId(),
-            'datatable' => '',
+//            'datatable' => '',
+            'pngOutput' => false,
         ];
 
         if (method_exists($this->datatable, 'toJsDataTable')) {
-            $chartAsArray['datatable'] = $this->datatable->toJsDataTable();
+            $chartArray['datatable'] = $this->datatable;//toJsDataTable();
         }
 
-        return $chartAsArray;
+        return $chartArray;
     }
 
     /**
@@ -253,6 +252,11 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
         return '/{' . $key . '}/';
     }
 
+//    public function toJson()
+//    {
+//        return json_encode($this->toArray());
+//    }
+
     /**
      * Maps the values from getJavascriptSource to the template
      * provided by toJavascriptFormat
@@ -261,7 +265,7 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
      */
     public function toJavascript()
     {
-        return "window.lava.createChartFromJson({$this->toJson()});";
+        return vsprintf($this->getJavascriptFormat(), $this->getJavascriptSource());
 //        return preg_replace(
 //            array_map(
 //                [self::class, 'makeTemplateTag'],
@@ -276,11 +280,14 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
      * Return an array of arguments to pass to the format string provided
      * by getJavascriptFormat().
      *
-     * @return string
+     * @return array
      */
     public function getJavascriptSource()
     {
-        return $this->toJson();
+        return [
+            $this->toJson(),
+            $this->datatable->toJsDataTable(),
+        ];
 //        return $this->toArray();
     }
 
@@ -292,7 +299,17 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
      */
     public function getJavascriptFormat()
     {
-        return 'window.lava.createChartFromJson(%s);';
+        return '
+            window.lava.on("google:loaded", function (google) {
+                window.lava.store(function() {
+                    var chart = window.lava.createChartFromJson(%s);
+                    
+                    chart.setData(%s);
+                    
+                    return chart;
+                });
+            });
+        ';
 
         return <<<'JS'
 (function(){

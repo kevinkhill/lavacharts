@@ -1,26 +1,25 @@
-/* jshint undef: true */
-/* globals document, google, require, module */
-
 /**
  * Chart class used for storing all the needed configuration for rendering.
  *
- * @typedef {Function} Chart
- * @property {string} label - Label for the chart.
- * @property {string} type - Type of chart.
- * @property {Object} element - Html element in which to render the chart.
- * @property {Object} chart - Google chart object.
- * @property {string} package - Type of Google chart package to load.
- * @property {boolean} pngOutput - Should the chart be displayed as a PNG.
- * @property {Object} data - Datatable for the chart.
- * @property {Object} options - Configuration options for the chart.
- * @property {Array} formats - Formatters to apply to the chart data.
- * @property {Object} promises - Promises used in the rendering chain.
- * @property {Function} init - Initializes the chart.
+ * @typedef {Function}  Chart
+ * @property {string}   label     - Label for the chart.
+ * @property {string}   type      - Type of chart.
+ * @property {Object}   element   - Html element in which to render the chart.
+ * @property {Object}   chart     - Google chart object.
+ * @property {string}   package   - Type of Google chart package to load.
+ * @property {boolean}  pngOutput - Should the chart be displayed as a PNG.
+ * @property {Object}   data      - Datatable for the chart.
+ * @property {Object}   options   - Configuration options for the chart.
+ * @property {Array}    formats   - Formatters to apply to the chart data.
+ * @property {Object}   promises  - Promises used in the rendering chain.
+ * @property {Function} init      - Initializes the chart.
  * @property {Function} configure - Configures the chart.
- * @property {Function} render - Renders the chart.
- * @property {Function} uuid - Creates identification string for the chart.
- * @property {Object} _errors - Collection of errors to be thrown.
+ * @property {Function} render    - Renders the chart.
+ * @property {Function} uuid      - Creates identification string for the chart.
+ * @property {Object}   _errors   - Collection of errors to be thrown.
  */
+
+import EventEmitter from 'events';
 
 /**
  * Chart module
@@ -31,7 +30,8 @@
  * @copyright (c) 2017, KHill Designs
  * @license   MIT
  */
-export class Chart {
+export class Chart extends EventEmitter
+{
     /**
      * Chart Class
      *
@@ -42,33 +42,62 @@ export class Chart {
      * @constructor
      */
     constructor (json) {
+        super();
+
         this.element   = null;
         this.chart     = null;
         this.data      = null;
         this.label     = json.label;
         this.type      = json.type;
-        this.elementId = json.elemId;
+        // this.elementId = json.elementId;
         this.package   = json.package;
-        this.pngOutput = json.pngOutput;
         this.options   = json.options;
         this.formats   = json.formats;
+        this.events    = json.events;
+        this.pngOutput = json.pngOutput;
 
-        this.setData(json.data);
+        // this.setData(json.datatable);
+        this.setElement(json.elementId);
 
+        // this.promises = {
+        //     configure: Q.defer(),
+        //     rendered: Q.defer()
+        // };
 
-        this.promises = {
-            configure: Q.defer(),
-            rendered: Q.defer()
-        };
+        // this.init      = function(){};
+        // this.configure = function(){};
 
-        this.init      = function(){};
-        this.configure = function(){};
-        this.render    = function(){};
-        this.uuid      = function() {
-            return this.type+'::'+this.label;
-        };
         this._errors = require('./Errors.js');
+
+        this.render = function(data) {
+            if (typeof data !== 'undefined') {
+                this.setData(data);
+            }
+
+            this.chart = new this.class(this.element);
+
+            // <formats>
+            // <events>
+
+            this.draw();
+
+            if (this.pngOutput === true) {
+                this.drawPng();
+            }
+
+            // this.promises.rendered.resolve();
+            // return this.promises.rendered.promise;
+        };
     }
+
+    /**
+     * Unique identifier for the Chart.
+     *
+     * @return {string}
+     */
+    uuid() {
+        return this.type+'::'+this.label;
+    };
 
     /**
      * Sets the data for the chart by creating a new DataTable
@@ -136,7 +165,7 @@ export class Chart {
      *
      * @public
      */
-    redraw() {
+    draw() {
         this.chart.draw(this.data, this.options);
     };
 

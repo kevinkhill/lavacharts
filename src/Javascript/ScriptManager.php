@@ -2,13 +2,10 @@
 
 namespace Khill\Lavacharts\Javascript;
 
-use Khill\Lavacharts\Charts\Chart;
-use Khill\Lavacharts\Dashboards\Dashboard;
 use Khill\Lavacharts\Exceptions\InvalidElementIdException;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
-use Khill\Lavacharts\Values\ElementId;
 use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Support\Renderable;
 
@@ -114,7 +111,7 @@ class ScriptManager implements Customizable
 
 //        $buffer = $renderable->getJsFactory()->getBuffer();
 
-        $buffer = new Buffer($renderable->toJson());
+        $buffer = new Buffer($renderable);
 
         return $this->scriptTagWrap($buffer);
     }
