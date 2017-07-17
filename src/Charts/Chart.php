@@ -125,10 +125,6 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
      */
     public function toArray()
     {
-//        $events = $this->options->get('events');
-
-//        $this->options->forget('events');
-
         $chartArray = [
             'pngOutput' => false,
             'label'     => $this->getLabel(),
@@ -146,40 +142,6 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
         }
 
         return $chartArray;
-    }
-
-    /**
-     * Retrieves the events if any have been assigned to the chart.
-     *
-     *
-     * If no events are defined, then an empty buffer will be returned.
-     * Valid events will be converted to Javascriptable Event objects.
-     *
-     * @since  3.2.0
-     * @return Buffer The contents will be javascript source
-     */
-    private function getEvents()
-    {
-        $events = [];
-
-        foreach ($this->options->events as $event => $callback) {
-            $events[] = [$event, $callback];
-        }
-
-        return $events;
-//        $buffer = new Buffer();
-//
-//        if (! $this->options->has('events')) {
-//            return $buffer;
-//        }
-//
-//        foreach ($this->options->events as $event => $callback) {
-//            $buffer->append(
-//                new Event($event, $callback)
-//            );
-//        }
-//
-//        return $buffer;
     }
 
     /**
@@ -230,9 +192,7 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
         return [
             $this->getJsPackage(),
             $this->toJson(),
-            //$this->datatable->toJson(),
         ];
-//        return $this->toArray();
     }
 
     /**
@@ -246,15 +206,9 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
         return '
             window.lava.addPackages("%s");
             
-            //window.lava.on("google:loaded", function (google) {
-                var chart = window.lava.createChart(%s);
+            var chart = window.lava.createChart(%s);
                     
-                //chart.setData();
-                                
-                window.lava.store(chart);
-                
-                //chart.render();
-            //});
+            window.lava.store(chart);
         ';
     }
 }

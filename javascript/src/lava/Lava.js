@@ -129,12 +129,8 @@ export class LavaJs extends EventEmitter
 
         const $lava = this;
 
-        $lava._loadGoogle().then(function() {
+        $lava.loadGoogle().then(function() {
             console.log('[lava.js] Google is ready.');
-            // let count = $lava.listenerCount($lava.GOOGLE_LOADED_EVENT);
-            //
-            // console.log(`[lava.js] Registered renderable listener count: [${count}]`);
-            // console.log(`[lava.js] Firing event: ${$lava.GOOGLE_LOADED_EVENT}`);
 
             _.forIn($lava._renderables, function (renderable) {
                 console.log(`[lava.js] Rendering ${renderable.uuid()}`);
@@ -391,7 +387,7 @@ export class LavaJs extends EventEmitter
      * @private
      * @returns
      */
-    _loadGoogle() {
+    loadGoogle() {
         const $lava = this;
 
         return new Promise((resolve, reject) => {
@@ -444,7 +440,6 @@ export class LavaJs extends EventEmitter
      */
     _googleChartLoader(resolve) {
         let config = {
-            // packages: this._getPackages(),
             packages: this._packages,
             language: this.options.locale
         };
