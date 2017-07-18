@@ -60,7 +60,16 @@ export class Renderable
      */
     uuid() {
         return this.type+'::'+this.label;
-    };
+    }
+
+    /**
+     * Draws the chart with the preset data and options.
+     *
+     * @public
+     */
+    draw() {
+        this.gchart.draw(this.data, this.options);
+    }
 
     /**
      * Sets the data for the chart by creating a new DataTable
@@ -86,7 +95,7 @@ export class Renderable
         } else {
             this.data = new google.visualization.DataTable(payload);
         }
-    };
+    }
 
     /**
      * Sets the options for the chart.
@@ -96,5 +105,5 @@ export class Renderable
      */
     setOptions(options) {
         this.options = options;
-    };
+    }
 }

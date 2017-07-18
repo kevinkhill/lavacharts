@@ -61,6 +61,9 @@ export class Chart extends Renderable
 
             // <formats>
 
+
+
+
             if (this.events) {
                 this._attachEvents();
             }
@@ -72,15 +75,6 @@ export class Chart extends Renderable
             }
         };
     }
-
-    /**
-     * Redraws the chart.
-     *
-     * @public
-     */
-    draw() {
-        this.gchart.draw(this.data, this.options);
-    };
 
     /**
      * Draws the chart as a PNG instead of the standard SVG
@@ -95,7 +89,7 @@ export class Chart extends Renderable
 
         this.element.innerHTML = '';
         this.element.appendChild(img);
-    };
+    }
 
     /**
      * Formats columns of the DataTable.
@@ -110,7 +104,7 @@ export class Chart extends Renderable
 
             formatter.format(this.data, formatJson.index);
         }
-    };
+    }
 
     /**
      * Attach the defined chart event handlers.
