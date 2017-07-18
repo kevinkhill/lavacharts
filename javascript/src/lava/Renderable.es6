@@ -20,6 +20,7 @@
  */
 
 import EventEmitter from 'events';
+import { ElementIdNotFound } from "./Errors.es6";
 
 /**
  * Chart module
@@ -44,10 +45,16 @@ export class Renderable extends EventEmitter
     constructor(json) {
         super(json);
 
-        this.label = json.label;
-        this.type  = json.type;
+        this.label     = json.label;
+        this.type      = json.type;
+        this.options   = json.options;
+        this.elementId = json.elementId;
 
-        this._errors = require('./Errors.js');
+        this.element = document.getElementById(this.elementId);
+
+        if (! this.element) {
+            throw new ElementIdNotFound(this.elementId);
+        }
     }
 
     /**
@@ -93,21 +100,5 @@ export class Renderable extends EventEmitter
      */
     setOptions(options) {
         this.options = options;
-    };
-
-    /**
-     * Set the ID of the output element for the Dashboard.
-     *
-     * @public
-     * @param  {string} elemId
-     * @throws ElementIdNotFound
-     */
-    setElement(elemId) {
-        this.elementId = elemId;
-        this.element = document.getElementById(elemId);
-
-        if (! this.element) {
-            throw new this._errors.ElementIdNotFound(elemId);
-        }
     };
 }

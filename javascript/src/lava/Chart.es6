@@ -1,3 +1,4 @@
+
 /**
  * Chart module
  *
@@ -7,10 +8,10 @@
  * @copyright (c) 2017, KHill Designs
  * @license   MIT
  */
-
-import { Renderable } from './Renderable';
-import { stringToFunction } from './Utils';
 import _ from 'lodash';
+import { Renderable } from './Renderable.es6';
+import { stringToFunction } from './Utils.es6';
+
 
 /**
  * Chart class used for storing all the needed configuration for rendering.
@@ -46,18 +47,12 @@ export class Chart extends Renderable
     constructor (json) {
         super(json);
 
-        console.log('[DEBUG] JSON payload received', json);
-
-        this.element   = null;
-        this.elementId = null;
-        this.chart     = null;
-        this.class     = json.class     || '';
-        this.options   = json.options   || [];
-        this.events    = json.events    || null;
+        this.gchart    = null;
+        this.class     = json.class     || null;
         this.formats   = json.formats   || null;
-        this.pngOutput = json.pngOutput || false;
 
-        this.setElement(json.elementId);
+        this.events    = typeof json.events === 'object' ? new Map(json.events) : null;
+        this.pngOutput = typeof json.pngOutput === 'undefined' ? false : Boolean(json.pngOutput);
 
         /**
          * Any dependency on window.google must be in the render scope.
@@ -67,7 +62,7 @@ export class Chart extends Renderable
 
             let chartClass = stringToFunction(this.class, window);
 
-            this.chart = new chartClass(this.element);
+            this.gchart = new chartClass(this.element);
 
             // <formats>
 
@@ -89,7 +84,7 @@ export class Chart extends Renderable
      * @public
      */
     draw() {
-        this.chart.draw(this.data, this.options);
+        this.gchart.draw(this.data, this.options);
     };
 
     /**
@@ -101,20 +96,10 @@ export class Chart extends Renderable
      */
     drawPng() {
         let img = document.createElement('img');
-            img.src = this.chart.getImageURI();
+            img.src = this.gchart.getImageURI();
 
         this.element.innerHTML = '';
         this.element.appendChild(img);
-    };
-
-    /**
-     * Sets whether the chart is to be rendered as PNG or SVG
-     *
-     * @public
-     * @param {string|int} png
-     */
-    setPngOutput(png) {
-        this.pngOutput = Boolean(typeof png === 'undefined' ? false : png);
     };
 
     /**
@@ -154,10 +139,10 @@ export class Chart extends Renderable
             /**
              * Set the context of "this" within the user provided callback to the
              * chart that fired the event while providing the datatable of the chart
-             * to the callback.
+             * to the callback as an argument.
              */
-            google.visualization.events.addListener($chart.chart, event, function() {
-                let callback = _.bind(context[func], $chart.chart);
+            google.visualization.events.addListener($chart.gchart, event, function() {
+                let callback = _.bind(context[func], $chart.gchart);
 
                 callback($chart.data);
             });

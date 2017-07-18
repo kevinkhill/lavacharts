@@ -1,7 +1,7 @@
 import bind from 'lodash/fp/bind';
 import ready from 'document-ready';
-import { LavaJs } from './lava/Lava';
-import { addResizeEvent } from './lava/Utils';
+import { LavaJs } from './lava/Lava.es6';
+import { addResizeEvent } from './lava/Utils.es6';
 
 /**
  * Assign the Lava.js module to the window and

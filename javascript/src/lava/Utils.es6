@@ -2,6 +2,15 @@
 /* globals exports, window */
 
 /**
+ * Function that does nothing.
+ *
+ * @return {undefined}
+ */
+export function noop() {
+    return undefined;
+}
+
+/**
  * Slightly modified event attachment handler.
  *
  * Credit to Alex V.

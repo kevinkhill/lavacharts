@@ -6,7 +6,7 @@ function nope () {
 }
 
 function getTestChart () {
-    return lava.createChart('LineChart', 'TestChart');
+    return LavaJs.createChart('LineChart', 'TestChart');
 }
 
 function getData () {

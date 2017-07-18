@@ -9,12 +9,16 @@
   "engines": {
     "node": "0.12.*"
   },
+  "jshintConfig": {
+    "undef": true,
+    "unused": true,
+    "globals": {
+      "google": true
+    }
+  },
   "dependencies": {
-    "bluebird": "^3.5.0",
-    "custom-error-generator": "^7.0.0",
-    "document-ready": "^1.0.3",
     "lodash": "^4.17.4",
-    "q": "^1.5.0"
+    "document-ready": "^1.0.3"
   },
   "devDependencies": {
     "@angular/core": "^4.2.4",
