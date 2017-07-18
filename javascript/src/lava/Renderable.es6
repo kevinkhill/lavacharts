@@ -18,8 +18,6 @@
  * @property {Function} uuid      - Creates identification string for the chart.
  * @property {Object}   _errors   - Collection of errors to be thrown.
  */
-
-import EventEmitter from 'events';
 import { ElementIdNotFound } from "./Errors.es6";
 
 /**
@@ -31,7 +29,7 @@ import { ElementIdNotFound } from "./Errors.es6";
  * @copyright (c) 2017, KHill Designs
  * @license   MIT
  */
-export class Renderable extends EventEmitter
+export class Renderable
 {
     /**
      * Chart Class
@@ -43,8 +41,6 @@ export class Renderable extends EventEmitter
      * @constructor
      */
     constructor(json) {
-        super(json);
-
         this.label     = json.label;
         this.type      = json.type;
         this.options   = json.options;

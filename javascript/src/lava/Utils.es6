@@ -1,5 +1,5 @@
 /* jshint undef: true, unused: true */
-/* globals exports, window */
+/* globals document */
 
 /**
  * Function that does nothing.
@@ -11,22 +11,46 @@ export function noop() {
 }
 
 /**
- * Slightly modified event attachment handler.
+ * Simple Promise for the DOM to be ready.
+ *
+ * @return {Promise}
+ */
+export function domLoaded() {
+    return new Promise(resolve => {
+        if (document.readyState === 'interactive' || document.readyState === 'complete') {
+            resolve();
+        } else {
+            document.addEventListener('DOMContentLoaded', resolve);
+        }
+    });
+}
+
+/**
+ * Method for attaching events to objects.
  *
  * Credit to Alex V.
  *
  * @link https://stackoverflow.com/users/327934/alex-v
  * @link http://stackoverflow.com/a/3150139
+ * @param {object} target
+ * @param {string} type
  * @param {Function} callback
+ * @param {bool} eventReturn
  */
-export function addResizeEvent(callback) {
-    if (window === null || typeof(window) === 'undefined') return;
-    if (window.addEventListener) {
-        window.addEventListener('resize', callback, false);
-    } else if (window.attachEvent) {
-        window.attachEvent('onresize', callback);
-    } else {
-        window['onresize'] = callback;
+export function addEvent(target, type, callback, eventReturn)
+{
+    if (target === null || typeof target === 'undefined') {
+        return;
+    }
+
+    if (target.addEventListener) {
+        target.addEventListener(type, callback, !!eventReturn);
+    }
+    else if(target.attachEvent) {
+        target.attachEvent("on" + type, callback);
+    }
+    else {
+        target["on" + type] = callback;
     }
 }
 

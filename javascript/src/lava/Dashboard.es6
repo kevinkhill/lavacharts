@@ -10,7 +10,6 @@
 import { Renderable } from './Renderable.es6';
 import { stringToFunction } from './Utils.es6';
 
-
 /**
  * Dashboard class
  *

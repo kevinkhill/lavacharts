@@ -6,7 +6,7 @@
  * @copyright (c) 2017, KHill Designs
  * @license   http://opensource.org/licenses/MIT MIT
  */
-import _ from 'lodash';
+import _forIn from 'lodash/forIn';
 import EventEmitter from 'events';
 import { Chart } from './Chart.es6';
 import { Dashboard } from './Dashboard.es6';
@@ -114,7 +114,7 @@ export class LavaJs extends EventEmitter
      */
     createChart(json) {
         return new this.Chart(json);
-    };
+    }
 
     /**
      * Create a new Dashboard with a given label.
@@ -127,7 +127,7 @@ export class LavaJs extends EventEmitter
      */
     createDashboard(json) {
         return new this.Dashboard(json);
-    };
+    }
 
     /**
      * Runs the Lava.js module
@@ -135,27 +135,27 @@ export class LavaJs extends EventEmitter
      * @public
      */
     run() {
+        const $lava = this;
+
         console.log('[lava.js] Running...');
         console.log('[lava.js] Loading options:', this.options);
 
-        const $lava = this;
-
-        $lava._loadGoogle().then(function() {
+        $lava._loadGoogle().then(() => {
             console.log('[lava.js] Google is ready.');
 
-            _.forIn($lava._renderables, function (renderable) {
+            _forIn($lava._renderables, renderable => {
                 console.log(`[lava.js] Rendering ${renderable.uuid()}`);
 
                 renderable.render();
             });
 
-            console.log('[lava.js] Rendering complete.');
-            console.log('[lava.js] Executing lava.ready() & firing event "ready"');
+            console.log('[lava.js] Executing lava.ready(callback)');
+            $lava._readyCallback();
 
-            this.emit('ready');
-            this._readyCallback();
+            console.log('[lava.js] Firing "ready" event.');
+            $lava.emit('ready');
         });
-    };
+    }
 
     /**
      * Stores a renderable lava object within the module.
@@ -166,7 +166,7 @@ export class LavaJs extends EventEmitter
         console.log(`[lava.js] Storing ${renderable.uuid()}`);
 
         this._renderables[renderable.label] = renderable;
-    };
+    }
 
     /**
      * Assigns a callback for when the charts are ready to be interacted with.
@@ -183,7 +183,27 @@ export class LavaJs extends EventEmitter
         }
 
         this._readyCallback = callback;
-    };
+    }
+
+    /**
+     * Adds to the list of packages that Google needs to load.
+     *
+     * Can accept a string name for one package or an array of
+     * names.
+     *
+     * @public
+     * @param {object|string} packages
+     * @return {Array}
+     */
+    addPackages(packages) {
+        if (typeof packages === 'string') {
+            this._packages.push(packages);
+        }
+
+        if (typeof packages === 'object') {
+            this._packages = this._packages.merge(packages);
+        }
+    }
 
     /**
      * Loads new data into the chart and redraws.
@@ -199,7 +219,7 @@ export class LavaJs extends EventEmitter
      */
     loadData(label, json, callback) {
         if (typeof callback === 'undefined') {
-            callback = _.noop;
+            callback = noop;
         }
 
         if (typeof callback !== 'function') {
@@ -207,11 +227,7 @@ export class LavaJs extends EventEmitter
         }
 
         this.get(label, function (chart) {
-            if (typeof json.data !== 'undefined') {
-                chart.setData(json.data);
-            } else {
-                chart.setData(json);
-            }
+            chart.setData(json);
 
             if (typeof json.formats !== 'undefined') {
                 chart.applyFormats(json.formats);
@@ -221,7 +237,7 @@ export class LavaJs extends EventEmitter
 
             callback(chart);
         });
-    };
+    }
 
     /**
      * Loads new options into a chart and redraws.
@@ -250,7 +266,7 @@ export class LavaJs extends EventEmitter
 
             callback(chart);
         });
-    };
+    }
 
     /**
      * Redraws all of the registered charts on screen.
@@ -259,14 +275,14 @@ export class LavaJs extends EventEmitter
      * to make the charts responsive to the browser resizing.
      */
     redrawAll() {
-        _.forEach(this._renderables, function (renderable) {
+        for (let renderable of this._renderables) {
             console.log(`[lava.js] Redrawing ${renderable.uuid()}`);
 
-            const redraw = _.bind(renderable.draw, renderable);
+            const redraw = renderable.draw.bind(renderable);
 
             redraw();
-        });
-    };
+        }
+    }
 
     /**
      * Returns the LavaChart javascript objects
@@ -300,26 +316,6 @@ export class LavaJs extends EventEmitter
         }
 
         callback(renderable);
-    };
-
-    /**
-     * Adds to the list of packages that Google needs to load.
-     *
-     * Can accept a string name for one package or an array of
-     * names.
-     *
-     * @public
-     * @param {object|string} packages
-     * @return {Array}
-     */
-    addPackages(packages) {
-        if (typeof packages === 'string') {
-            this._packages.push(packages);
-        }
-
-        if (typeof packages === 'object') {
-            this._packages = _.merge(this._packages, packages);
-        }
     }
 
     /**
@@ -331,16 +327,12 @@ export class LavaJs extends EventEmitter
     _googleIsLoaded() {
         const scripts = document.getElementsByTagName('script');
 
-        let loaded = false;
-
-        for (let i = scripts.length; i--;) {
-            if (scripts[i].src === this.GOOGLE_LOADER_URL) {
-                loaded = true;
+        for (let script of scripts) {
+            if (script.src === this.GOOGLE_LOADER_URL) {
+                return true;
             }
         }
-
-        return loaded;
-    };
+    }
 
     /**
      * Load the Google Static Loader and resolve the promise when ready.
@@ -350,7 +342,7 @@ export class LavaJs extends EventEmitter
     _loadGoogle() {
         const $lava = this;
 
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
             console.log('[lava.js] Resolving Google...');
 
             if (this._googleIsLoaded()) {
@@ -363,7 +355,7 @@ export class LavaJs extends EventEmitter
                 $lava._addGoogleScriptToHead(resolve);
             }
         });
-    };
+    }
 
     /**
      * Create a new script tag for the Google Static Loader.
@@ -390,7 +382,7 @@ export class LavaJs extends EventEmitter
         };
 
         document.head.appendChild(script);
-    };
+    }
 
     /**
      * Runs the Google chart loader and resolves the promise.
@@ -413,5 +405,5 @@ export class LavaJs extends EventEmitter
         google.charts.load(this.GOOGLE_API_VERSION, config);
 
         google.charts.setOnLoadCallback(resolve);
-    };
+    }
 }

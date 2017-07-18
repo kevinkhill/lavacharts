@@ -1,6 +1,6 @@
 {
   "name": "@lavacharts/lava.js",
-  "version": "3.2.0b1",
+  "version": "4.0.0",
   "description": "Wrapper library for the Google Chart API",
   "homepage": "http://lavacharts.com",
   "author": "Kevin Hill",
@@ -9,16 +9,8 @@
   "engines": {
     "node": "0.12.*"
   },
-  "jshintConfig": {
-    "undef": true,
-    "unused": true,
-    "globals": {
-      "google": true
-    }
-  },
   "dependencies": {
-    "lodash": "^4.17.4",
-    "document-ready": "^1.0.3"
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
     "@angular/core": "^4.2.4",

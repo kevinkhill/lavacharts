@@ -1,18 +1,16 @@
-import bind from 'lodash/fp/bind';
-import ready from 'document-ready';
 import { LavaJs } from './lava/Lava.es6';
-import { addResizeEvent } from './lava/Utils.es6';
+import { addEvent, domLoaded } from './lava/Utils.es6';
 
 /**
  * Assign the Lava.js module to the window and
  * let $lava be an alias to the module.
  */
-let $lava = window.lava = new LavaJs;
+let $lava = window.lava = new LavaJs();
 
 /**
- * Once the window is ready...
+ * Once the DOM has loaded...
  */
-ready(function() {
+domLoaded().then(() => {
     /**
      * Adding the resize event listener for redrawing charts if
      * the option responsive is set to true.
@@ -20,14 +18,16 @@ ready(function() {
     if ($lava.options.responsive === true) {
         let debounced = null;
 
-        addResizeEvent(function () {
-            const redraw = bind($lava.redrawAll, $lava);
-
-            console.log('[lava.js] Window resize detected.');
+        addEvent(window, 'resize', () => {
+            let redraw = $lava.redrawAll.bind($lava);
 
             clearTimeout(debounced);
 
-            debounced = setTimeout(redraw, $lava.options.debounce_timeout);
+            debounced = setTimeout(() => {
+                console.log('[lava.js] Window re-sized, redrawing...');
+
+                redraw();
+            }, $lava.options.debounce_timeout);
         });
     }
 

@@ -1,4 +1,3 @@
-
 /**
  * Chart module
  *
@@ -8,10 +7,9 @@
  * @copyright (c) 2017, KHill Designs
  * @license   MIT
  */
-import _ from 'lodash';
+import _forIn from 'lodash/forIn';
 import { Renderable } from './Renderable.es6';
 import { stringToFunction } from './Utils.es6';
-
 
 /**
  * Chart class used for storing all the needed configuration for rendering.
@@ -25,13 +23,10 @@ import { stringToFunction } from './Utils.es6';
  * @property {boolean}  pngOutput - Should the chart be displayed as a PNG.
  * @property {Object}   data      - Datatable for the chart.
  * @property {Object}   options   - Configuration options for the chart.
+ * @property {Object}   events    - Events and callbacks to apply to the chart.
  * @property {Array}    formats   - Formatters to apply to the chart data.
- * @property {Object}   promises  - Promises used in the rendering chain.
- * @property {Function} init      - Initializes the chart.
- * @property {Function} configure - Configures the chart.
  * @property {Function} render    - Renders the chart.
  * @property {Function} uuid      - Creates identification string for the chart.
- * @property {Object}   _errors   - Collection of errors to be thrown.
  */
 export class Chart extends Renderable
 {
@@ -47,22 +42,22 @@ export class Chart extends Renderable
     constructor (json) {
         super(json);
 
-        this.gchart    = null;
-        this.class     = json.class     || null;
-        this.formats   = json.formats   || null;
+        this.gchart  = null;
+        this.class   = json.class   || null;
+        this.formats = json.formats || null;
 
-        this.events    = typeof json.events === 'object' ? new Map(json.events) : null;
+        this.events    = typeof json.events === 'object' ? json.events : null;
         this.pngOutput = typeof json.pngOutput === 'undefined' ? false : Boolean(json.pngOutput);
 
         /**
          * Any dependency on window.google must be in the render scope.
          */
-        this.render = function() {
+        this.render = () => {
             this.setData(json.datatable);
 
-            let chartClass = stringToFunction(this.class, window);
+            let ChartClass = stringToFunction(this.class, window);
 
-            this.gchart = new chartClass(this.element);
+            this.gchart = new ChartClass(this.element);
 
             // <formats>
 
@@ -125,7 +120,7 @@ export class Chart extends Renderable
     _attachEvents() {
         let $chart = this;
 
-        _.forIn(this.events, function (callback, event) {
+        _forIn(this.events, function (callback, event) {
             let context = window;
             let func = callback;
 
@@ -134,7 +129,7 @@ export class Chart extends Renderable
                 func = callback[1];
             }
 
-            console.log(`[lava.js] The "${$chart.uuid()}::${event}" event will be handled by "${func}" in the context of "${context}"`);
+            console.log(`[lava.js] The "${$chart.uuid()}::${event}" event will be handled by "${func}" in the context`, context);
 
             /**
              * Set the context of "this" within the user provided callback to the
@@ -142,7 +137,7 @@ export class Chart extends Renderable
              * to the callback as an argument.
              */
             google.visualization.events.addListener($chart.gchart, event, function() {
-                let callback = _.bind(context[func], $chart.gchart);
+                const callback = context[func].bind($chart.gchart);
 
                 callback($chart.data);
             });
