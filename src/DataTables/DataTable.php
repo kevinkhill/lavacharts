@@ -160,7 +160,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
             ]);
         }
 
-        return json_encode($this);
+        return json_encode($this, JSON_PRETTY_PRINT);
     }
 
     /**
@@ -584,31 +584,31 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
         }
 
         foreach ($values as $index => $cellValue) {
-            // If the cellValue is part of a date / time column, process accordingly
-            if (in_array($columnTypes[$index], self::DATE_TIME_COLUMNS)) {
+            // Null is null, don't do anything else.
+            if (is_null($cellValue)) {
                 $newRow->addCell(
-                    $this->createDateCell($cellValue)
+                    Cell::create(null)
                 );
             } else {
-                // Null is null, don't do anything else.
-                if (is_null($cellValue)) {
+                // If the cellValue is part of a date / time column, process accordingly
+                if (in_array($columnTypes[$index], self::DATE_TIME_COLUMNS)) {
                     $newRow->addCell(
-                        Cell::create(null)
+                        $this->createDateCell($cellValue)
+                    );
+                } else {
+                    // If the cellValue is an array explicitly defining a Cell,
+                    // or a null, then create a new Cell with the values.
+                    if (is_array($cellValue)) {
+                        $newRow->addCell(
+                            Cell::createFromArray($cellValue)
+                        );
+                    }
+
+                    // If not caught by anything else, then just create a cell with the value
+                    $newRow->addCell(
+                        Cell::create($cellValue)
                     );
                 }
-
-                // If the cellValue is an array explicitly defining a Cell,
-                // or a null, then create a new Cell with the values.
-                if (is_array($cellValue)) {
-                    $newRow->addCell(
-                        Cell::createFromArray($cellValue)
-                    );
-                }
-
-                // If not caught by anything else, then just create a cell with the value
-                $newRow->addCell(
-                    Cell::create($cellValue)
-                );
             }
         }
 
