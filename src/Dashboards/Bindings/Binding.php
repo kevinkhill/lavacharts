@@ -6,6 +6,7 @@ use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\Wrapper;
 use Khill\Lavacharts\Javascript\JavascriptSource;
+use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 
 /**
@@ -21,7 +22,7 @@ use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Binding extends JavascriptSource
+class Binding extends JavascriptSource implements Jsonable
 {
     use ToJavascript;
 
@@ -154,5 +155,28 @@ class Binding extends JavascriptSource
         }, $wrapperArray);
 
         return '[' . implode(',', $wrappers) . ']';
+    }
+
+    /**
+     * Returns a customize JSON representation of an object.
+     *
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this);
+    }
+
+    /**
+     * Custom serialization of the chart.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            $this->controlWrappers,
+            $this->chartWrappers
+        ];
     }
 }

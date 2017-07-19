@@ -42,8 +42,7 @@ export class Chart extends Renderable
     constructor (json) {
         super(json);
 
-        this.gchart  = null;
-        this.class   = json.class   || null;
+        this.type    = json.type;
         this.formats = json.formats || null;
 
         this.events    = typeof json.events === 'object' ? json.events : null;

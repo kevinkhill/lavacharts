@@ -6,12 +6,10 @@ use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Dashboards\Bindings\Binding;
 use Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
 use Khill\Lavacharts\Exceptions\RenderingException;
-use Khill\Lavacharts\Javascript\DashboardJsFactory;
 use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
 use Khill\Lavacharts\Support\Contracts\Javascriptable;
-use Khill\Lavacharts\Support\Contracts\JsFactory;
 use Khill\Lavacharts\Support\Contracts\Visualization;
 use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\StringValue as Str;
@@ -35,7 +33,7 @@ use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Dashboard extends Renderable implements Customizable, Javascriptable, JsFactory, Visualization
+class Dashboard extends Renderable implements Customizable, Javascriptable, Visualization
 {
     use HasDataTable, HasOptions, ToJavascript;
 
@@ -102,56 +100,6 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, JsFa
     public function getJsClass()
     {
         return self::GOOGLE_VISUALIZATION . 'Dashboard';
-    }
-
-    /**
-     * Get the JsFactory for the chart.
-     *
-     * @return DashboardJsFactory
-     */
-    public function getJsFactory()
-    {
-        return new DashboardJsFactory($this);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getJavascriptFormat()
-    {
-        return 'new %s(%s)';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getJavascriptSource()
-    {
-        return [
-            $this->getJsClass(),
-            $this->getElementId()
-        ];
-    }
-
-    /**
-     * Array representation of the Dashboard.
-     *
-     * @since 3.2.0
-     * @return array
-     */
-    public function toArray()
-    {
-        $vars = [
-            'version'   => $this->getVersion(),
-            'label'     => $this->getLabel(),
-            'elemId'    => $this->getElementId(),
-            'class'     => $this->getJsClass(),
-            'bindings'  => $this->getBindingsBuffer(),
-            'chartData' => $this->getDataTable()->toJson(),
-            'packages'  => json_encode($this->getPackages()),
-        ];
-
-        return $vars;
     }
 
     /**
@@ -277,5 +225,50 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, JsFa
         }
 
         return $buffer;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getJavascriptSource()
+    {
+        return [
+            json_encode($this->getPackages()),
+            $this->toJson()
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getJavascriptFormat()
+    {
+        return '
+            window.lava.addPackages(%s);
+            
+            var dashboard = window.lava.createDashboard(%s);
+                    
+            window.lava.store(dashboard);
+        ';
+    }
+
+    /**
+     * Array representation of the Dashboard.
+     *
+     * @since 4.0.0 Removed unnecessary info from array.
+     * @since 3.2.0
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+//            'version'   => $this->getVersion(),
+            'label'     => $this->label,
+            'elementId' => $this->elementId,
+            'bindings'  => $this->bindings,
+//            'class'     => $this->getJsClass(),
+//            'bindings'  => $this->getBindingsBuffer(),
+            'datatable' => $this->datatable,
+        ];
     }
 }

@@ -160,7 +160,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
             ]);
         }
 
-        return json_encode($this, JSON_PRETTY_PRINT);
+        return json_encode($this);
     }
 
     /**

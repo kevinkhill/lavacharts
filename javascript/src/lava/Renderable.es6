@@ -41,8 +41,8 @@ export class Renderable
      * @constructor
      */
     constructor(json) {
+        this.gchart    = null;
         this.label     = json.label;
-        this.type      = json.type;
         this.options   = json.options;
         this.elementId = json.elementId;
 

@@ -44,7 +44,7 @@ class LavachartsExtension extends \Twig_Extension
 
         foreach ($renderableTypes as $type) {
             $renderFunctions[] = new \Twig_SimpleFunction(strtolower($type),
-                function($label) use ($type) {
+                function ($label) use ($type) {
                     try {
                         $elementId = func_get_arg(1);
 

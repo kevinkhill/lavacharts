@@ -26,11 +26,8 @@
         "source": "https://github.com/kevinkhill/lavacharts",
         "issues": "https://github.com/kevinkhill/lavacharts/issues"
     },
-    "suggest": {
-        "khill/datatableplus": "Adds extra features to DataTables such as csv and laravel collection parsing."
-    },
     "require": {
-        "php": ">=5.5.0",
+        "php": ">=5.6.0",
         "nesbot/carbon": "~1.14"
     },
     "autoload": {

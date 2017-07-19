@@ -126,6 +126,7 @@ export class LavaJs extends EventEmitter
      * @return {Dashboard}
      */
     createDashboard(json) {
+        console.log('JSON_PAYLOAD', json);
         return new this.Dashboard(json);
     }
 
@@ -188,21 +189,13 @@ export class LavaJs extends EventEmitter
     /**
      * Adds to the list of packages that Google needs to load.
      *
-     * Can accept a string name for one package or an array of
-     * names.
      *
      * @public
-     * @param {object|string} packages
+     * @param {Array} packages
      * @return {Array}
      */
     addPackages(packages) {
-        if (typeof packages === 'string') {
-            this._packages.push(packages);
-        }
-
-        if (typeof packages === 'object') {
-            this._packages = this._packages.merge(packages);
-        }
+        this._packages = this._packages.concat(packages);
     }
 
     /**
@@ -319,22 +312,6 @@ export class LavaJs extends EventEmitter
     }
 
     /**
-     * Check if Google's Static Loader is in page.
-     *
-     * @private
-     * @returns {boolean}
-     */
-    _googleIsLoaded() {
-        const scripts = document.getElementsByTagName('script');
-
-        for (let script of scripts) {
-            if (script.src === this.GOOGLE_LOADER_URL) {
-                return true;
-            }
-        }
-    }
-
-    /**
      * Load the Google Static Loader and resolve the promise when ready.
      *
      * @private
@@ -353,8 +330,48 @@ export class LavaJs extends EventEmitter
                 console.log('[lava.js] Static loader not found, appending to head');
 
                 $lava._addGoogleScriptToHead(resolve);
+                // This will call $lava._googleChartLoader(resolve);
             }
         });
+    }
+
+    /**
+     * Check if Google's Static Loader is in page.
+     *
+     * @private
+     * @returns {boolean}
+     */
+    _googleIsLoaded() {
+        const scripts = document.getElementsByTagName('script');
+
+        for (let script of scripts) {
+            if (script.src === this.GOOGLE_LOADER_URL) {
+                return true;
+            }
+        }
+    }
+
+    /**
+     * Runs the Google chart loader and resolves the promise.
+     *
+     * @private
+     * @param {Promise.resolve} resolve
+     */
+    _googleChartLoader(resolve) {
+        let config = {
+            packages: this._packages,
+            language: this.options.locale
+        };
+
+        if (this.options.maps_api_key !== '') {
+            config.mapsApiKey = this.options.maps_api_key;
+        }
+
+        console.log('[lava.js] Loading Google with config:', config);
+
+        google.charts.load(this.GOOGLE_API_VERSION, config);
+
+        google.charts.setOnLoadCallback(resolve);
     }
 
     /**
@@ -382,28 +399,5 @@ export class LavaJs extends EventEmitter
         };
 
         document.head.appendChild(script);
-    }
-
-    /**
-     * Runs the Google chart loader and resolves the promise.
-     *
-     * @private
-     * @param {Promise.resolve} resolve
-     */
-    _googleChartLoader(resolve) {
-        let config = {
-            packages: this._packages,
-            language: this.options.locale
-        };
-
-        if (this.options.maps_api_key !== '') {
-            config.mapsApiKey = this.options.maps_api_key;
-        }
-
-        console.log('[lava.js] Loading Google with config:', config);
-
-        google.charts.load(this.GOOGLE_API_VERSION, config);
-
-        google.charts.setOnLoadCallback(resolve);
     }
 }

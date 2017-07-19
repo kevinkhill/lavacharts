@@ -35,30 +35,44 @@ export class Dashboard extends Renderable
     constructor(json) {
         super(json);
 
-        this.bindings  = [];
-        this.gchart    = null;
+        this.type     = 'Dashboard';
+        this.bindings = json.bindings;
 
         /**
          * Any dependency on window.google must be in the render scope.
          */
-        this.render = function() {
+        this.render = () => {
             this.setData(json.datatable);
 
-            let chartClass = stringToFunction(this.class, window);
+            this.gchart = new google.visualization.Dashboard(this.element);
 
-            this.gchart = new chartClass(this.element);
-
-            // <formats>
+            this._attachBindings();
 
             if (this.events) {
                 this._attachEvents();
             }
 
             this.draw();
-
-            if (this.pngOutput) {
-                this.drawPng();
-            }
         };
+    }
+
+    /**
+     * Process and attach the bindings to the dashboard.
+     *
+     * @private
+     */
+    _attachBindings() {
+        for (let binding of this.bindings) {
+            let [controlWrapper, chartWrapper] = binding;
+
+            this.gchart.bind(
+                new google.visualization.ControlWrapper(
+                    controlWrapper[0]
+                ),
+                new google.visualization.ChartWrapper(
+                    chartWrapper[0]
+                )
+            );
+        }
     }
 }

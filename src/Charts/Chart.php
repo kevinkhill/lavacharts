@@ -103,47 +103,7 @@ class Chart extends Renderable implements Customizable, Javascriptable, Visualiz
      */
     public function getJsClass()
     {
-        return self::GOOGLE_VISUALIZATION . $this->getType();
-    }
-
-    /**
-     * Array representation of the Chart.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        $chartArray = [
-            'pngOutput' => false,
-            'label'     => $this->getLabel(),
-            'type'      => $this->getType(),
-            'class'     => $this->getJsClass(),
-            'elementId' => $this->getElementId(),
-            'formats'   => $this->getFormats(),
-            'datatable' => $this->datatable->toJson(),
-            'options'   => $this->options->without(['events']),
-            'events'    => $this->hasOption('events') ? $this->options->events : [],
-        ];
-
-        if (method_exists($this->datatable, 'toJsDataTable')) {
-            $chartArray['datatable'] = $this->datatable;//toJsDataTable();
-        }
-
-        if (method_exists($this, 'getPngOutput')) {
-            $chartArray['pngOutput'] = $this->getPngOutput();
-        }
-
-        if (
-            method_exists($this, 'getMaterialOutput') &&
-            $this->getMaterialOutput()
-        ) {
-            $chartArray['options'] = sprintf(
-                $this->getJsClass() . '.convertOptions(%s)',
-                $this->getOptions()->toJson()
-            );
-        }
-
-        return $chartArray;
+        return static::GOOGLE_VISUALIZATION . $this->getType();
     }
 
     /**
@@ -192,7 +152,7 @@ class Chart extends Renderable implements Customizable, Javascriptable, Visualiz
     public function getJavascriptSource()
     {
         return [
-            $this->getJsPackage(),
+            json_encode([$this->getJsPackage()]),
             $this->toJson(),
         ];
     }
@@ -206,11 +166,50 @@ class Chart extends Renderable implements Customizable, Javascriptable, Visualiz
     public function getJavascriptFormat()
     {
         return '
-            window.lava.addPackages("%s");
+            window.lava.addPackages(%s);
             
             var chart = window.lava.createChart(%s);
                     
             window.lava.store(chart);
         ';
+    }
+
+    /**
+     * Array representation of the Chart.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $chartArray = [
+            'pngOutput' => false,
+            'label'     => $this->getLabel(),
+            'type'      => $this->getType(), // TODO: unused in js side?
+            'class'     => $this->getJsClass(),
+            'elementId' => $this->getElementId(),
+            'formats'   => $this->getFormats(),
+            'datatable' => $this->datatable->toJson(),
+            'options'   => $this->options->without(['events']),
+            'events'    => $this->hasOption('events') ? $this->options->events : [],
+        ];
+
+        if (method_exists($this->datatable, 'toJsDataTable')) {
+            $chartArray['datatable'] = $this->datatable;//toJsDataTable();
+        }
+
+        if (method_exists($this, 'getPngOutput')) {
+            $chartArray['pngOutput'] = $this->getPngOutput();
+        }
+
+        if (method_exists($this, 'getMaterialOutput') &&
+            $this->getMaterialOutput()
+        ) {
+            $chartArray['options'] = sprintf(
+                $this->getJsClass() . '.convertOptions(%s)',
+                $this->getOptions()->toJson()
+            );
+        }
+
+        return $chartArray;
     }
 }
