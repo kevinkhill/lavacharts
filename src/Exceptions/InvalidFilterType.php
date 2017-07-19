@@ -14,7 +14,7 @@ class InvalidFilterType extends LavaException
             $message = gettype($invalidFilter);
         }
 
-        $message .= ' is not a valid filter, must be one of [ ' . implode(' | ', FilterFactory::$FILTER_TYPES) . ']';
+        $message .= ' is not a valid filter, must be one of [ ' . implode(' | ', FilterFactory::FILTER_TYPES) . ']';
 
         parent::__construct($message);
     }
