@@ -2,12 +2,10 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\Javascript\ChartJsFactory;
 use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
 use Khill\Lavacharts\Support\Contracts\Javascriptable;
-use Khill\Lavacharts\Support\Contracts\JsFactory;
 use Khill\Lavacharts\Support\Contracts\Visualization;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
 use Khill\Lavacharts\Support\Renderable;
@@ -29,7 +27,7 @@ use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Chart extends Renderable implements Customizable, Javascriptable, JsFactory, Visualization, Wrappable
+class Chart extends Renderable implements Customizable, Javascriptable, Visualization, Wrappable
 {
     use HasDataTable, ToJavascript;
 
@@ -109,16 +107,6 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
     }
 
     /**
-     * Get the JsFactory for the chart.
-     *
-     * @return ChartJsFactory
-     */
-    public function getJsFactory()
-    {
-        return new ChartJsFactory($this);
-    }
-
-    /**
      * Array representation of the Chart.
      *
      * @return array
@@ -139,6 +127,20 @@ class Chart extends Renderable implements Customizable, Javascriptable, JsFactor
 
         if (method_exists($this->datatable, 'toJsDataTable')) {
             $chartArray['datatable'] = $this->datatable;//toJsDataTable();
+        }
+
+        if (method_exists($this, 'getPngOutput')) {
+            $chartArray['pngOutput'] = $this->getPngOutput();
+        }
+
+        if (
+            method_exists($this, 'getMaterialOutput') &&
+            $this->getMaterialOutput()
+        ) {
+            $chartArray['options'] = sprintf(
+                $this->getJsClass() . '.convertOptions(%s)',
+                $this->getOptions()->toJson()
+            );
         }
 
         return $chartArray;

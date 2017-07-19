@@ -83,7 +83,6 @@ class Cell implements Customizable, Arrayable, Jsonable
      * @param  string $value   The cell value
      * @param  string $format  A string version of the v value
      * @param  array  $options A map of custom values applied to the cell
-     * @throws \Khill\Lavacharts\Exceptions\InvalidParamType
      */
     public function __construct($value, $format = '', array $options = [])
     {

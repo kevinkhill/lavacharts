@@ -43,14 +43,7 @@ abstract class Renderable implements Arrayable, Customizable, Jsonable
      *
      * @var bool
      */
-    protected $renderable = true;
-
-    /**
-     * The child chart will define how it is converted to javascript.
-     *
-     * @return JavascriptFactory
-     */
-    abstract public function getJsFactory();
+    protected $isRenderable = true;
 
     /**
      * Returns the class type.
@@ -118,6 +111,6 @@ abstract class Renderable implements Arrayable, Customizable, Jsonable
      */
     public function isRenderable()
     {
-        return $this->renderable && $this->hasLabel() && $this->hasElementId();
+        return $this->isRenderable && $this->hasLabel() && $this->hasElementId();
     }
 }

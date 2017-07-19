@@ -61,11 +61,12 @@ export class Chart extends Renderable
 
             // <formats>
 
-
-
-
             if (this.events) {
                 this._attachEvents();
+                // TODO: Idea... forward events to be listenable by the user, instead of having the user define them as a string callback.
+                // lava.get('MyCoolChart').on('ready', function(data) {
+                //     console.log(this);  // gChart
+                // });
             }
 
             this.draw();

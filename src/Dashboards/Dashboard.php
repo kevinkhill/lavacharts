@@ -189,7 +189,7 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, JsFa
      * @param  \Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper|array $controlWraps
      * @param  \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper|array   $chartWraps
      * @return \Khill\Lavacharts\Dashboards\Dashboard
-     * @throws \Khill\Lavacharts\Exceptions\InvalidBindings
+     * @throws \Khill\Lavacharts\Exceptions\BindingException
      */
     public function bind($controlWraps, $chartWraps)
     {
@@ -205,7 +205,7 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, JsFa
      *
      * @param  array $bindings
      * @return \Khill\Lavacharts\Dashboards\Dashboard
-     * @throws \Khill\Lavacharts\Exceptions\InvalidBindings
+     * @throws \Khill\Lavacharts\Exceptions\BindingException
      */
     public function setBindings(array $bindings)
     {

@@ -4,7 +4,7 @@ namespace Khill\Lavacharts\Dashboards\Bindings;
 
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
-use Khill\Lavacharts\Exceptions\InvalidBindings;
+use Khill\Lavacharts\Exceptions\BindingException;
 
 /**
  * BindingFactory Class
@@ -26,7 +26,7 @@ class BindingFactory
      *
      * @param  mixed $controlWraps One or array of many ControlWrappers
      * @param  mixed $chartWraps   One or array of many ChartWrappers
-     * @throws \Khill\Lavacharts\Exceptions\InvalidBindings
+     * @throws \Khill\Lavacharts\Exceptions\BindingException
      * @return \Khill\Lavacharts\Dashboards\Bindings\Binding
      */
     public static function create($controlWraps, $chartWraps)
@@ -47,6 +47,6 @@ class BindingFactory
             return new ManyToMany($controlWraps, $chartWraps);
         }
 
-        throw new InvalidBindings;
+        throw new BindingException;
     }
 }

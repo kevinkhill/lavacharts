@@ -58,6 +58,22 @@ class ScriptManager implements Customizable
     private $lavaJsLoaded = false;
 
     /**
+     * Wraps a buffer with an html script tag
+     *
+     * @param Buffer $buffer
+     * @return Buffer
+     */
+    public static function scriptTagWrap(Buffer $buffer)
+    {
+        return $buffer
+//            ->prepend(PHP_EOL)
+            ->prepend(static::JS_OPEN)
+//            ->prepend(PHP_EOL)
+//            ->append(PHP_EOL)
+            ->append(static::JS_CLOSE);
+    }
+
+    /**
      * ScriptManager constructor.
      *
      * @param array $options
@@ -93,7 +109,7 @@ class ScriptManager implements Customizable
 
         $buffer->pregReplace('/OPTIONS_JSON/', $options->toJson());
 
-        return $this->scriptTagWrap($buffer);
+        return static::scriptTagWrap($buffer);
     }
 
     /**
@@ -103,32 +119,22 @@ class ScriptManager implements Customizable
      * @return Buffer
      * @throws \Khill\Lavacharts\Exceptions\InvalidElementIdException
      */
-    public function getOutputBuffer(Renderable $renderable)
+    public function getJavascriptBuffer(Renderable $renderable)
     {
         if (! $renderable->hasElementId()) {
             throw new InvalidElementIdException($renderable);
         }
 
-//        $buffer = $renderable->getJsFactory()->getBuffer();
-
         $buffer = new Buffer($renderable);
 
-        return $this->scriptTagWrap($buffer);
-    }
+        /** Converting string dates to date constructors */
+        $buffer->pregReplace('/"Date\(((:?[0-9]+,?)+)\)"/', 'new Date(\1)');
 
-    /**
-     * Wraps a buffer with an html script tag
-     *
-     * @param Buffer $buffer
-     * @return Buffer
-     */
-    private function scriptTagWrap(Buffer $buffer)
-    {
-        return $buffer->prepend(PHP_EOL)
-                      ->prepend(self::JS_OPEN)
-                      ->prepend(PHP_EOL)
-                      ->append(PHP_EOL)
-                      ->append(self::JS_CLOSE);
+        /** Converting string nulls to actual nulls */
+        $buffer->pregReplace('/"null"/', 'NULL');
+
+//        return $this->scriptTagWrap($buffer);
+        return $buffer;
     }
 
     /**

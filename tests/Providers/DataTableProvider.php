@@ -224,6 +224,9 @@ class DataTableProvider
                 null, '2015-1-10', $daysToMilliseconds(1), 0, 'Cite,Write'],
             ['Outline', 'Outline paper',
                 null, '2015-1-6', $daysToMilliseconds(1), 100, 'Research']
+        ], [
+            'datetime_format' => 'Y-m-d'
+            // TODO: this chart fails to render without the datetime_format. Exception should be thrown
         ]);
 
         return $data;

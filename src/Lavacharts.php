@@ -19,6 +19,7 @@ use Khill\Lavacharts\Exceptions\InvalidLabelException;
 use Khill\Lavacharts\Exceptions\RenderableNotFound;
 use Khill\Lavacharts\Javascript\ScriptManager;
 use Khill\Lavacharts\Support\Args;
+use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
@@ -55,6 +56,9 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      */
     const VERSION = '3.2.0';
 
+    /**
+     * Volcano methods to map with __call()
+     */
     const VOLCANO_METHODS = [
         'store',
         'exists',
@@ -63,11 +67,17 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
         'getDashboards',
     ];
 
+    /**
+     * DataTable types to map with __call()
+     */
     const DATATABLE_TYPES = [
         'DataTable',
         'JoinedDataTable',
     ];
 
+    /**
+     * Base classes to map with __call()
+     */
     const BASE_LAVA_CLASSES = [
         'ChartWrapper',
         'ControlWrapper',
@@ -119,7 +129,6 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @param  array  $args   Passed arguments
      *
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabelException
-     * @throws \Khill\Lavacharts\Exceptions\InvalidRenderable
      * @return mixed Returns Charts, Dashboards, DataTables, Formats and Filters
      */
     public function __call($method, $args)
@@ -302,7 +311,6 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @since      3.1.0
      * @param  string $locale
      * @return $this
-     * @throws \Khill\Lavacharts\Exceptions\InvalidStringValue
      */
     public function setLocale($locale = 'en')
     {
@@ -326,42 +334,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     }
 
     /**
-     * Renders Charts or Dashboards into the page
-     *
-     * Given a Renderable label, this will output the necessary javascript
-     * to generate the chart or dashboard.
-     *
-     * @since  2.0.0
-     * @since  3.1.0  elementId parameter is optional, but only if
-     *                the elementId was set explicitly to the Renderable.
-     * @since  3.2.0  Type and div creation were removed.
-     * @param  string $label     Label of the object to render.
-     * @param  string $elementId HTML element id to render into.
-     * @return string
-     */
-    public function render($label, $elementId = '')
-    {
-        $label     = Str::verify($label);
-        $elementId = Str::verify($elementId);
-
-        $renderable = $this->volcano->find($label);
-
-        if (! $renderable->hasOption('elementId') && Str::isNonEmpty($elementId)) {
-            $renderable->setElementId($elementId);
-        }
-
-        $buffer = $this->scriptManager->getOutputBuffer($renderable);
-
-        if ($this->scriptManager->lavaJsLoaded() === false) {
-            $buffer->prepend($this->lavajs());
-        }
-
-        return $buffer;
-    }
-
-    /**
      * Renders all charts and dashboards that have been defined.
-     *
      *
      * Options can be passed in to override the default config.
      * Available options are defined in src/Laravel/config/lavacharts.php
@@ -375,18 +348,24 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     { // TODO: this fails silently if the chart doesn't have an elementId
         $this->options->merge($options);
 
-        $output = $this->scriptManager->getLavaJs($this->options);
+        if (! $this->scriptManager->lavaJsLoaded()) {
+            $outputBuffer = $this->scriptManager->getLavaJs($this->options);
+
+            $outputBuffer->append(ScriptManager::JS_OPEN);
+        } else {
+            $outputBuffer = new Buffer(ScriptManager::JS_OPEN);
+        }
 
         /** @var Renderable $renderable */
         foreach ($this->volcano as $renderable) {
             if ($renderable->isRenderable()) {
-                $output->append(
-                    $this->scriptManager->getOutputBuffer($renderable)
+                $outputBuffer->append(
+                    $this->scriptManager->getJavascriptBuffer($renderable)
                 );
             }
         }
 
-        return $output->getContents();
+        return $outputBuffer->append(ScriptManager::JS_CLOSE)->getContents();
     }
 
     /**

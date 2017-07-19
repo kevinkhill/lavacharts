@@ -22,7 +22,7 @@ class DashboardTest extends DashboardsTestCase
 
     /**
      * @covers \Khill\Lavacharts\Dashboards\Bindings\BindingFactory::create
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidBindings
+     * @expectedException \Khill\Lavacharts\Exceptions\BindingException
      */
     public function testBindingFactoryWithBadTypes()
     {

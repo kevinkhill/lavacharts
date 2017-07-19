@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboards\Filters;
 
+use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Exceptions\InvalidParamType;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
@@ -45,12 +46,12 @@ abstract class Filter implements Customizable, Wrappable
      *
      * @param  string|int $labelOrIndex
      * @param  array      $options Array of options to set.
-     * @throws \Khill\Lavacharts\Exceptions\InvalidParamType
+     * @throws \Khill\Lavacharts\Exceptions\InvalidArgumentException
      */
     public function __construct($labelOrIndex, array $options = [])
     {
         if (! is_int($labelOrIndex) && ! is_string($labelOrIndex)) {
-            throw new InvalidParamType($labelOrIndex, 'string | int');
+            throw new InvalidArgumentException($labelOrIndex, 'string | int');
         }
 
         if (is_int($labelOrIndex)) {

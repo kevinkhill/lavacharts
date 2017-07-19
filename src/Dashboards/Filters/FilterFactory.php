@@ -41,7 +41,6 @@ class FilterFactory
      * @param  array  $args
      * @return Filter
      * @throws \Khill\Lavacharts\Exceptions\InvalidFilterType
-     * @throws \Khill\Lavacharts\Exceptions\InvalidParamType
      */
     public static function create($type, $args)
     {
