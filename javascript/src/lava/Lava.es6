@@ -104,7 +104,7 @@ export class LavaJs extends EventEmitter
     }
 
     /**
-     * Create a new Chart from a JSON definition.
+     * Create a new Chart from a JSON payload.
      *
      * The JSON payload comes from the PHP Chart class.
      *
@@ -113,7 +113,23 @@ export class LavaJs extends EventEmitter
      * @return {Chart}
      */
     createChart(json) {
-        return new this.Chart(json);
+        console.log('JSON_PAYLOAD', json);
+
+        this._addPackages(json.packages);
+
+        this.store(new this.Chart(json));
+    }
+
+    /**
+     * Create and store a new Chart from a JSON payload.
+     *
+     * @public
+     * @see createChart
+     * @param  {object} json
+     * @return {Chart}
+     */
+    addNewChart(json) {
+        this.store(this.createChart(json));
     }
 
     /**
@@ -127,7 +143,24 @@ export class LavaJs extends EventEmitter
      */
     createDashboard(json) {
         console.log('JSON_PAYLOAD', json);
+
+        this._addPackages(json.packages);
+
         return new this.Dashboard(json);
+    }
+
+    /**
+     * Create and store a new Dashboard from a JSON payload.
+     *
+     * The JSON payload comes from the PHP Dashboard class.
+     *
+     * @public
+     * @see createDashboard
+     * @param  {object} json
+     * @return {Dashboard}
+     */
+    addNewDashboard(json) {
+        this.store(this.createDashboard(json));
     }
 
     /**
@@ -184,18 +217,6 @@ export class LavaJs extends EventEmitter
         }
 
         this._readyCallback = callback;
-    }
-
-    /**
-     * Adds to the list of packages that Google needs to load.
-     *
-     *
-     * @public
-     * @param {Array} packages
-     * @return {Array}
-     */
-    addPackages(packages) {
-        this._packages = this._packages.concat(packages);
     }
 
     /**
@@ -309,6 +330,17 @@ export class LavaJs extends EventEmitter
         }
 
         callback(renderable);
+    }
+
+    /**
+     * Adds to the list of packages that Google needs to load.
+     *
+     * @private
+     * @param {Array} packages
+     * @return {Array}
+     */
+    _addPackages(packages) {
+        this._packages = this._packages.concat(packages);
     }
 
     /**

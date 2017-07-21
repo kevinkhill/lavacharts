@@ -144,17 +144,23 @@ class Chart extends Renderable implements Customizable, Javascriptable, Visualiz
     }
 
     /**
-     * Return an array of arguments to pass to the format string provided
-     * by getJavascriptFormat().
+     * Convert the Chart to Javascript.
      *
-     * @return array
+     * @return string
+     */
+    public function toJavascript()
+    {
+        return sprintf($this->getJavascriptFormat(), $this->getJavascriptSource());
+    }
+
+    /**
+     * Return the JSON payload that will be passed to lava.createChart.
+     *
+     * @return string
      */
     public function getJavascriptSource()
     {
-        return [
-            json_encode([$this->getJsPackage()]),
-            $this->toJson(),
-        ];
+        return $this->toJson();
     }
 
     /**
@@ -165,14 +171,7 @@ class Chart extends Renderable implements Customizable, Javascriptable, Visualiz
      */
     public function getJavascriptFormat()
     {
-        // TODO: wrap the packages collecting into the store method?
-        return '
-            window.lava.addPackages(%s);
-            
-            var chart = window.lava.createChart(%s);
-                    
-            window.lava.store(chart);
-        ';
+        return 'window.lava.addNewChart(%s);';
     }
 
     /**
@@ -189,14 +188,15 @@ class Chart extends Renderable implements Customizable, Javascriptable, Visualiz
             'class'     => $this->getJsClass(),
             'elementId' => $this->getElementId(),
             'formats'   => $this->getFormats(),
-            'datatable' => $this->datatable->toJson(),
+            'datatable' => $this->getDataTable(),
+            'packages'  => [$this->getJsPackage()],
             'options'   => $this->options->without(['events']),
             'events'    => $this->hasOption('events') ? $this->options->events : [],
         ];
 
-        if (method_exists($this->datatable, 'toJsDataTable')) {
-            $chartArray['datatable'] = $this->datatable;//toJsDataTable();
-        }
+//        if (method_exists($this->datatable, 'toJsDataTable')) {
+//            $chartArray['datatable'] = $this->datatable;//toJsDataTable();
+//        }
 
         if (method_exists($this, 'getPngOutput')) {
             $chartArray['pngOutput'] = $this->getPngOutput();

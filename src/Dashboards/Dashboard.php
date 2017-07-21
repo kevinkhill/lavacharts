@@ -228,14 +228,21 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, Visu
     }
 
     /**
+     * Convert the Chart to Javascript.
+     *
+     * @return string
+     */
+    public function toJavascript()
+    {
+        return sprintf($this->getJavascriptFormat(), $this->getJavascriptSource());
+    }
+
+    /**
      * @inheritdoc
      */
     public function getJavascriptSource()
     {
-        return [
-            json_encode($this->getPackages()),
-            $this->toJson()
-        ];
+        return $this->toJson();
     }
 
     /**
@@ -243,13 +250,7 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, Visu
      */
     public function getJavascriptFormat()
     {
-        return '
-            window.lava.addPackages(%s);
-            
-            var dashboard = window.lava.createDashboard(%s);
-                    
-            window.lava.store(dashboard);
-        ';
+        return 'window.lava.addNewDashboard(%s);';
     }
 
     /**
@@ -262,13 +263,14 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, Visu
     public function toArray()
     {
         return [
-//            'version'   => $this->getVersion(),
             'label'     => $this->label,
             'elementId' => $this->elementId,
             'bindings'  => $this->bindings,
+            'datatable' => $this->datatable,
+            'packages'  => $this->getPackages()
+//            'version'   => $this->getVersion(),
 //            'class'     => $this->getJsClass(),
 //            'bindings'  => $this->getBindingsBuffer(),
-            'datatable' => $this->datatable,
         ];
     }
 }
