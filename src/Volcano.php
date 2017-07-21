@@ -18,7 +18,7 @@ use Khill\Lavacharts\Support\StringValue as Str;
  *
  * @package   Khill\Lavacharts
  * @since     2.0.0
- * @since     3.2.0 Complete refactoring to handle Renderables directly.
+ * @since     4.0.0 Complete refactoring to handle Renderables directly.
  *                  Added DynamicArrayAccess and IteratorAggregate.
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
@@ -37,7 +37,7 @@ class Volcano extends ArrayObject implements Jsonable
 
     /**
      * @inheritdoc
-     * @since 3.2.0 Adding dynamic ArrayAccess
+     * @since 4.0.0 Adding dynamic ArrayAccess
      */
     public function getArrayAccessProperty()
     {

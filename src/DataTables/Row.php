@@ -45,7 +45,7 @@ class Row extends ArrayObject implements Jsonable
     /**
      * Create a new, empty row
      *
-     * @since 3.2.0
+     * @since 4.0.0
      * @return Row
      */
     public static function createEmpty()
@@ -56,7 +56,7 @@ class Row extends ArrayObject implements Jsonable
     /**
      * Create a new row filled with null values
      *
-     * @since 3.2.0
+     * @since 4.0.0
      * @param int $columnCount
      * @return Row
      * @throws InvalidArgumentException
@@ -116,7 +116,7 @@ class Row extends ArrayObject implements Jsonable
     /**
      * Add a new Cell to the row.
      *
-     * @since 3.2.0
+     * @since 4.0.0
      * @param Cell $cell
      */
     public function addCell(Cell $cell)
@@ -127,7 +127,7 @@ class Row extends ArrayObject implements Jsonable
     /**
      * Returns the cells from the Row.
      *
-     * @since 3.2.0
+     * @since 4.0.0
      * @return Cell[]
      */
     public function getCells()
@@ -138,7 +138,7 @@ class Row extends ArrayObject implements Jsonable
     /**
      * Returns the cells from the Row.
      *
-     * @since 3.2.0
+     * @since 4.0.0
      * @return Cell[]
      */
     public function getCellCount()

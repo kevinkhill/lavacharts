@@ -13,7 +13,7 @@ use InvalidArgumentException;
  *
  *
  * @package       Khill\Lavacharts\Support
- * @since         3.2.0
+ * @since         4.0.0
  * @author        TheCelavi <https://pastebin.com/u/TheCelavi>
  * @link          http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link          http://lavacharts.com                   Official Docs Site

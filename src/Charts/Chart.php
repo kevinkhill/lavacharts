@@ -115,7 +115,7 @@ class Chart extends Renderable implements Customizable, Javascriptable, Visualiz
      *
      * If no formats are defined, then an empty buffer will be returned.
      *
-     * @since  3.2.0
+     * @since  4.0.0
      * @return Buffer The contents will be javascript source
      */
     private function getFormats()

@@ -9,7 +9,7 @@ namespace Khill\Lavacharts\Support\Contracts;
  *
  * @package   Khill\Lavacharts\Support\Contracts
  * @since     3.1.0
- * @since     3.2.0 Added constants
+ * @since     4.0.0 Added constants
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page

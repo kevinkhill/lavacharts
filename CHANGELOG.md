@@ -1,4 +1,4 @@
-- 3.2.0
+- 4.0.0
   - Dropping support for PHP5.4
   - Adding support for Angular
 

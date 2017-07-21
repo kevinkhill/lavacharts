@@ -123,7 +123,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     /**
      * Get the DataTable as an array.
      *
-     * @since  3.2.0
+     * @since  4.0.0
      * @return array
      */
     public function toArray()
@@ -147,7 +147,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      *
      * Will include formats if defined
      *
-     * @since 3.2.0 A boolean can be passed to disable the output of formatters.
+     * @since 4.0.0 A boolean can be passed to disable the output of formatters.
      * @param bool $withFormats
      * @return string JSON representation of the DataTable.
      */
@@ -639,7 +639,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     /**
      * Returns the Row at the given index.
      *
-     * @since 3.2.0
+     * @since 4.0.0
      * @param int $index
      * @return Row
      */
@@ -686,7 +686,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     /**
      * Sets a Column at a specified index.
      *
-     * @since  3.2.0
+     * @since  4.0.0
      * @param  int    $index
      * @param  Column $column
      * @return self
@@ -839,7 +839,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * Push a Column onto the DataTable
      *
      * @access private
-     * @since  3.2.0
+     * @since  4.0.0
      * @param  Column $column
      * @return self
      */
@@ -854,7 +854,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * Push a Row onto the DataTable
      *
      * @access private
-     * @since  3.2.0
+     * @since  4.0.0
      * @param  Row $row
      * @return self
      */
@@ -910,7 +910,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     /**
      * Checks to see if a Row has the correct number of Cells for the DataTable
      *
-     * @since 3.2.0
+     * @since 4.0.0
      * @param \Khill\Lavacharts\DataTables\Row $row
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      */

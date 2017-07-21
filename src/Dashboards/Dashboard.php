@@ -74,7 +74,7 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, Visu
     /**
      * Returns the Dashboard version
      *
-     * @since 3.2.0
+     * @since 4.0.0
      * @return string
      */
     public function getVersion()
@@ -105,7 +105,7 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, Visu
     /**
      * Check if the Dashboard has any bindings.
      *
-     * @since 3.2.0
+     * @since 4.0.0
      * @return bool
      */
     public function hasBindings()
@@ -167,7 +167,7 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, Visu
     /**
      * Get all the packages need to render the Dashboard.
      *
-     * @since 3.2.0
+     * @since 4.0.0
      * @return array
      */
     public function getPackages()
@@ -256,7 +256,7 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, Visu
      * Array representation of the Dashboard.
      *
      * @since 4.0.0 Removed unnecessary info from array.
-     * @since 3.2.0
+     * @since 4.0.0
      * @return array
      */
     public function toArray()

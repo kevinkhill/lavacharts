@@ -20,7 +20,7 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
  * will need to be rendered onto the page.
  *
  * @package        Khill\Lavacharts\Support
- * @since          3.2.0
+ * @since          4.0.0
  * @author         Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2017, KHill Designs
  * @link           http://github.com/kevinkhill/lavacharts GitHub Repository Page
@@ -50,7 +50,7 @@ abstract class Renderable implements Arrayable, Customizable, Jsonable
      *
      * This will be used to create the javascript class name.
      *
-     * @since  3.2.0
+     * @since  4.0.0
      * @return string
      */
     public function getType()
@@ -84,7 +84,7 @@ abstract class Renderable implements Arrayable, Customizable, Jsonable
     /**
      * Check to see if the renderable has it's label set.
      *
-     * @since  3.2.0
+     * @since  4.0.0
      * @return bool
      */
     public function hasLabel()

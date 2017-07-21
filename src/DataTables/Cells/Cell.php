@@ -95,7 +95,7 @@ class Cell implements Customizable, Arrayable, Jsonable
     /**
      * Mapping the 'p' attribute of the cell to it's options.
      *
-     * @deprecated 3.2.0 Why did I add this?
+     * @deprecated 4.0.0 Why did I add this?
      * @since  3.1.0
      * @param  string $attr
      * @return array
@@ -110,7 +110,7 @@ class Cell implements Customizable, Arrayable, Jsonable
     /**
      * Allowing the 'p' attribute to be checked for options by using the hasOptions method.
      *
-     * @deprecated 3.2.0 Why did I add this?
+     * @deprecated 4.0.0 Why did I add this?
      * @since  3.1.0
      * @param  string $attr
      * @return bool

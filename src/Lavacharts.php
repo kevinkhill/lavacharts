@@ -55,7 +55,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Lavacharts version
      */
-    const VERSION = '3.2.0';
+    const VERSION = '4.0.0';
 
     /**
      * Volcano methods to map with __call()
@@ -166,7 +166,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * This method will create a <script> for the lava.js module along with
      * one additional <script> per chart & dashboard being rendered.
      *
-     * @since 3.2.0
+     * @since 4.0.0
      * @return string HTML script elements
      */
     public function flow()
@@ -180,7 +180,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Convert the Lavacharts object to an array
      *
-     * @since 3.2.0
+     * @since 4.0.0
      * @return array
      */
     public function toArray()
@@ -194,7 +194,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Create a new Chart of the given type.
      *
-     * @since 3.2.0
+     * @since 4.0.0
      * @param string $type
      * @param array  $args
      * @return Chart
@@ -290,7 +290,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Returns the current locale used in the DataTable
      *
-     * @deprecated 3.2.0 use $lava->getOption('locale')
+     * @deprecated 4.0.0 use $lava->getOption('locale')
      * @since      3.1.0
      * @return string
      */
@@ -307,7 +307,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * By default, Lavacharts is loaded with the "en" locale. You can override this default
      * by explicitly specifying a locale when creating the DataTable.
      *
-     * @deprecated 3.2.0 Set this option with the constructor, or with
+     * @deprecated 4.0.0 Set this option with the constructor, or with
      *                   $lava->options->set('locale', 'en');
      * @since      3.1.0
      * @param  string $locale
@@ -355,7 +355,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Available options are defined in src/Laravel/config/lavacharts.php
      *
      * @since 3.1.0
-     * @since 3.2.0 Takes options and merges them with existing options.
+     * @since 4.0.0 Takes options and merges them with existing options.
      * @param array $options Options for rendering
      * @return string
      */

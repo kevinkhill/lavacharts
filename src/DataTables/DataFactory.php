@@ -42,7 +42,7 @@ class DataFactory
      *   will be passed into DataTable#addRows(), the second arg now Column definitions
      *   and the last arg is options.
      *
-     * @since  3.2.0 Variable arguments
+     * @since  4.0.0 Variable arguments
      * @param  array $args
      * @return \Khill\Lavacharts\DataTables\DataTable
      */

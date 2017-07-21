@@ -11,7 +11,7 @@ use ArrayIterator;
  * Trait for adding the methods for ArrayAccess based on the DynamicArrayAccess interface.
  *
  * @package   Khill\Lavacharts\Support\Traits
- * @since     3.2.0
+ * @since     4.0.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
