@@ -38,13 +38,17 @@ class Options extends ArrayObject implements Arrayable, Jsonable
     protected $options;
 
     /**
-     * Returns a list of the options that can be set.
+     * Create a new Options object from an array or another Options object.
      *
-     * @param array $options
+     * @param array|Options $options
      * @return Options
      */
-    public static function create(array $options = [])
+    public static function create($options)
     {
+        if ($options instanceof Options) {
+            $options = $options->toArray();
+        }
+
         return new static($options);
     }
 

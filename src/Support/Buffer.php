@@ -98,7 +98,7 @@ class Buffer implements Jsonable
     /**
      * Append content to the end of the buffer
      *
-     * @param  string $str
+     * @param  string|Buffer $str
      * @return self
      */
     public function append($str)
@@ -111,7 +111,7 @@ class Buffer implements Jsonable
     /**
      * Prepend content to the beginning of the buffer
      *
-     * @param  string $str
+     * @param  string|Buffer $str
      * @return self
      */
     public function prepend($str)

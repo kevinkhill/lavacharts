@@ -13,6 +13,7 @@ use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use Khill\Lavacharts\DataTables\DataFactory;
 use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\DataTables\Formats\FormatFactory;
+use Khill\Lavacharts\Exceptions\DepreciatedMethodException;
 use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Exceptions\InvalidLabel;
 use Khill\Lavacharts\Exceptions\InvalidLabelException;
@@ -334,6 +335,20 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     }
 
     /**
+     * The render method is depreciated.
+     *
+     * @deprecated 4.0
+     * @throws \Khill\Lavacharts\Exceptions\DepreciatedMethodException
+     */
+    public function render()
+    {
+        throw new DepreciatedMethodException(
+            'As of Lavacharts 4.0, the render() method has been depreciated.'.
+            ' Please refer to the migration guide for instructions on upgrading to the new syntax.'
+        );
+    }
+
+    /**
      * Renders all charts and dashboards that have been defined.
      *
      * Options can be passed in to override the default config.
@@ -345,27 +360,27 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @return string
      */
     public function renderAll(array $options = [])
-    { // TODO: this fails silently if the chart doesn't have an elementId
+    {        // TODO: this fails silently if the chart doesn't have an elementId
         $this->options->merge($options);
 
         if (! $this->scriptManager->lavaJsLoaded()) {
-            $outputBuffer = $this->scriptManager->getLavaJs($this->options);
-
-            $outputBuffer->append(ScriptManager::JS_OPEN);
-        } else {
-            $outputBuffer = new Buffer(ScriptManager::JS_OPEN);
+            $this->scriptManager->loadLavaJs($this->options);
         }
 
-        /** @var Renderable $renderable */
-        foreach ($this->volcano as $renderable) {
-            if ($renderable->isRenderable()) {
-                $outputBuffer->append(
-                    $this->scriptManager->getJavascriptBuffer($renderable)
-                );
+        if (count($this->volcano) > 0) {
+            $this->scriptManager->openScriptTag();
+
+            /** @var Renderable $renderable */
+            foreach ($this->volcano as $renderable) {
+                if ($renderable->isRenderable()) {
+                    $this->scriptManager->addRenderableToOutput($renderable);
+                }
             }
+
+            $this->scriptManager->closeScriptTag();
         }
 
-        return $outputBuffer->append(ScriptManager::JS_CLOSE)->getContents();
+        return $this->scriptManager->getOutputBuffer();
     }
 
     /**

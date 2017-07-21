@@ -165,6 +165,7 @@ class Chart extends Renderable implements Customizable, Javascriptable, Visualiz
      */
     public function getJavascriptFormat()
     {
+        // TODO: wrap the packages collecting into the store method?
         return '
             window.lava.addPackages(%s);
             

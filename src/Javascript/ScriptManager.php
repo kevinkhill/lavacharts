@@ -3,11 +3,11 @@
 namespace Khill\Lavacharts\Javascript;
 
 use Khill\Lavacharts\Exceptions\InvalidElementIdException;
-use Khill\Lavacharts\Support\Contracts\Customizable;
-use Khill\Lavacharts\Support\Options;
-use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Support\Buffer;
+use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Support\Renderable;
+use Khill\Lavacharts\Support\Contracts\Customizable;
+use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 
 /**
  * ScriptManager Class
@@ -51,6 +51,13 @@ class ScriptManager implements Customizable
     const JS_CLOSE = '</script>';
 
     /**
+     * Script output buffer.
+     *
+     * @var Buffer
+     */
+    private $outputBuffer;
+
+    /**
      * Tracks if the lava.js module and jsapi have been rendered.
      *
      * @var bool
@@ -78,9 +85,11 @@ class ScriptManager implements Customizable
      *
      * @param array $options
      */
-    function __construct($options = [])
+    function __construct(/*$options = []*/)
     {
-        $this->setOptions($options);
+        $this->outputBuffer = new Buffer();
+
+//        $this->setOptions($options);
     }
 
     /**
@@ -95,31 +104,80 @@ class ScriptManager implements Customizable
     }
 
     /**
-     * Gets the lava.js module.
+     * Appends an opening script tag to the output buffer.
      *
-     * @param \Khill\Lavacharts\Support\Options $options
-     * @return \Khill\Lavacharts\Support\Buffer
-     * @internal param array $config
+     * @since 4.0.0
+     * @return self
      */
-    public function getLavaJs(Options $options)
+    public function openScriptTag()
     {
-        $this->lavaJsLoaded = true;
+        $this->outputBuffer->append(static::JS_OPEN);
 
-        $buffer = $this->getLavaJsSource();
-
-        $buffer->pregReplace('/OPTIONS_JSON/', $options->toJson());
-
-        return static::scriptTagWrap($buffer);
+        return $this;
     }
 
     /**
-     * Returns a buffer with the javascript of a renderable resource.
+     * Appends a closing script tag to the output buffer.
      *
-     * @param  Renderable $renderable
-     * @return Buffer
+     * @since 4.0.0
+     * @return self
+     */
+    public function closeScriptTag()
+    {
+        $this->outputBuffer->append(static::JS_CLOSE);
+
+        return $this;
+    }
+
+    /**
+     * Returns the output buffer of the ScriptManager.
+     *
+     * @since 4.0.0
+     * @return \Khill\Lavacharts\Support\Buffer
+     */
+    public function getOutputBuffer()
+    {
+        return $this->outputBuffer;
+    }
+
+    /**
+     * Initialize the output buffer with the Lava.js module.
+     *
+     * @since 4.0.0
+     * @param $options
+     */
+    public function loadLavaJs($options)
+    {
+        $this->outputBuffer = $this->getLavaJs($options);
+    }
+
+    /**
+     * Gets the lava.js module.
+     *
+     * @param array $options
+     * @return \Khill\Lavacharts\Support\Buffer
+     */
+    public function getLavaJs($options)
+    {
+        $this->lavaJsLoaded = true;
+
+        $buffer = new ScriptBuffer($this->getLavaJsSource());
+
+        $options = Options::create($options);
+
+        $buffer->pregReplace('/OPTIONS_JSON/', $options->toJson());
+
+        return $buffer;
+    }
+
+    /**
+     * Add a renderable to the output buffer.
+     *
+     * @since 4.0.0
+     * @param \Khill\Lavacharts\Support\Renderable $renderable
      * @throws \Khill\Lavacharts\Exceptions\InvalidElementIdException
      */
-    public function getJavascriptBuffer(Renderable $renderable)
+    public function addRenderableToOutput(Renderable $renderable)
     {
         if (! $renderable->hasElementId()) {
             throw new InvalidElementIdException($renderable);
@@ -133,19 +191,18 @@ class ScriptManager implements Customizable
         /** Converting string nulls to actual nulls */
         $buffer->pregReplace('/"null"/', 'NULL');
 
-//        return $this->scriptTagWrap($buffer);
-        return $buffer;
+        $this->outputBuffer->append($buffer);
     }
 
     /**
      * Get the source of the lava.js module as a Buffer
      *
-     * @return Buffer
+     * @return string
      */
     private function getLavaJsSource()
     {
         $lavaJs = realpath(__DIR__ . self::LAVA_JS);
 
-        return new Buffer(file_get_contents($lavaJs));
+        return file_get_contents($lavaJs);
     }
 }

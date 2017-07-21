@@ -43,6 +43,7 @@ export class Chart extends Renderable
         super(json);
 
         this.type    = json.type;
+        this.class   = json.class;
         this.formats = json.formats || null;
 
         this.events    = typeof json.events === 'object' ? json.events : null;
