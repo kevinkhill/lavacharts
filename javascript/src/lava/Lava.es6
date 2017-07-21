@@ -110,14 +110,14 @@ export class LavaJs extends EventEmitter
      *
      * @public
      * @param  {object} json
-     * @return {Chart}
+     * @return {Renderable}
      */
     createChart(json) {
         console.log('JSON_PAYLOAD', json);
 
         this._addPackages(json.packages);
 
-        this.store(new this.Chart(json));
+        return new this.Chart(json);
     }
 
     /**
@@ -125,8 +125,7 @@ export class LavaJs extends EventEmitter
      *
      * @public
      * @see createChart
-     * @param  {object} json
-     * @return {Chart}
+     * @param {object} json
      */
     addNewChart(json) {
         this.store(this.createChart(json));
