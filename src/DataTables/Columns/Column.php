@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\DataTables\Columns;
 
-use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\Exceptions\InvalidColumnType;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;

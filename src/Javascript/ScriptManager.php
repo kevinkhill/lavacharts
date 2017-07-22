@@ -58,11 +58,19 @@ class ScriptManager implements Customizable
     private $outputBuffer;
 
     /**
-     * Tracks if the lava.js module and jsapi have been rendered.
+     * Tracks if the lava.js module and google loader have been output.
      *
      * @var bool
      */
     private $lavaJsLoaded = false;
+
+    /**
+     * Status of whether the scripts have been output to the page.
+     *
+     * @var bool
+     */
+    private $scriptsOutput = false;
+
 
     /**
      * Wraps a buffer with an html script tag
@@ -94,9 +102,20 @@ class ScriptManager implements Customizable
 
     /**
      * Returns true|false depending on if the lava.js module
+     * and renderables have been output to the page.
+     *
+     * @return bool
+     */
+    public function scriptsOutput()
+    {
+        return $this->scriptsOutput;
+    }
+
+    /**
+     * Returns true|false depending on if the lava.js module
      * has be output to the page
      *
-     * @return boolean
+     * @return bool
      */
     public function lavaJsLoaded()
     {

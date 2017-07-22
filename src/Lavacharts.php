@@ -12,15 +12,11 @@ use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use Khill\Lavacharts\DataTables\DataFactory;
 use Khill\Lavacharts\DataTables\DataTable;
-use Khill\Lavacharts\DataTables\Formats\FormatFactory;
-use Khill\Lavacharts\Exceptions\DepreciatedMethodException;
+use Khill\Lavacharts\DataTables\Columns\Format;
 use Khill\Lavacharts\Exceptions\InvalidArgumentException;
-use Khill\Lavacharts\Exceptions\InvalidLabel;
+use Khill\Lavacharts\Exceptions\InvalidFormatType;
 use Khill\Lavacharts\Exceptions\InvalidLabelException;
-use Khill\Lavacharts\Exceptions\RenderableNotFound;
 use Khill\Lavacharts\Javascript\ScriptManager;
-use Khill\Lavacharts\Support\Args;
-use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
@@ -125,11 +121,10 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Magic function to reduce repetitive coding and create aliases.
      *
      * @since  1.0.0
-     *
      * @param  string $method Name of method
      * @param  array  $args   Passed arguments
-     *
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabelException
+     * @throws \Khill\Lavacharts\Exceptions\InvalidFormatType
      * @return mixed Returns Charts, Dashboards, DataTables, Formats and Filters
      */
     public function __call($method, $args)
@@ -151,7 +146,11 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
         }
 
         if (Str::endsWith($method, 'Format')) {
-            return FormatFactory::create($method, $args);
+            if (! in_array($method, Format::TYPES)) {
+                throw new InvalidFormatType($method);
+            }
+
+            return new Format($method, $args[0]);
         }
 
         throw new \BadMethodCallException(
@@ -342,10 +341,13 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      */
     public function render()
     {
-        throw new DepreciatedMethodException(
-            'As of Lavacharts 4.0, the render() method has been depreciated.'.
-            ' Please refer to the migration guide for instructions on upgrading to the new syntax.'
-        );
+        $msg  = 'As of Lavacharts 4.0, the render() method has been depreciated. ';
+        $msg .= 'Please refer to the migration guide for instructions on upgrading to the new syntax.';
+
+        trigger_error($msg, E_DEPRECATED);
+
+//        TODO: call renderAll() and bypass subsequent render() calls
+//        $this->renderAll();
     }
 
     /**

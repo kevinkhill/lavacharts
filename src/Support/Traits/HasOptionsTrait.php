@@ -72,11 +72,7 @@ trait HasOptionsTrait
             throw new InvalidArgumentException($options, 'array or Options object');
         }
 
-        if ($options instanceof Options) {
-            $this->options = $options;
-        } else {
-            $this->options = new Options($options);
-        }
+        $this->options = Options::create($options);
     }
 
     /**

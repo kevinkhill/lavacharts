@@ -4,10 +4,8 @@ namespace Khill\Lavacharts\Exceptions;
 
 class InvalidFormatType extends LavaException
 {
-    public function __construct($badType)
+    public function __construct($badFormat)
     {
-        $message = (string) $badType . ' is not a valid format';
-
-        parent::__construct($message);
+        parent::__construct($badFormat . ' is not a valid format');
     }
 }

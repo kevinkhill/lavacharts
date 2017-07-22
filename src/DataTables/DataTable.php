@@ -7,14 +7,13 @@ use DateTimeZone;
 use Khill\Lavacharts\DataTables\Cells\Cell;
 use Khill\Lavacharts\DataTables\Cells\DateCell;
 use Khill\Lavacharts\DataTables\Columns\Column;
+use Khill\Lavacharts\DataTables\Columns\Format;
 use Khill\Lavacharts\DataTables\Columns\Role;
-use Khill\Lavacharts\DataTables\Formats\Format;
 use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Exceptions\InvalidCellCount;
 use Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
 use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
-use Khill\Lavacharts\Exceptions\InvalidTimeZone;
 use Khill\Lavacharts\Exceptions\UndefinedColumnsException;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
@@ -154,6 +153,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     public function toJson($withFormats = true)
     {
         if ($this->hasFormattedColumns() && $withFormats === true) {
+            // TODO: remove this?
             return json_encode([
                 'data'    => $this,
                 'formats' => $this->getFormattedColumns(),
@@ -495,7 +495,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * Sets the format of the column.
      *
      * @param  integer                                     $index
-     * @param  \Khill\Lavacharts\DataTables\Formats\Format $format
+     * @param  \Khill\Lavacharts\DataTables\Columns\Format $format
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */

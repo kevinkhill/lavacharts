@@ -44,7 +44,7 @@ export class Chart extends Renderable
 
         this.type    = json.type;
         this.class   = json.class;
-        this.formats = json.formats || null;
+        this.formats = json.formats;
 
         this.events    = typeof json.events === 'object' ? json.events : null;
         this.pngOutput = typeof json.pngOutput === 'undefined' ? false : Boolean(json.pngOutput);
@@ -59,7 +59,9 @@ export class Chart extends Renderable
 
             this.gchart = new ChartClass(this.element);
 
-            // <formats>
+            if (this.formats) {
+                this._applyFormats();
+            }
 
             if (this.events) {
                 this._attachEvents();
@@ -92,20 +94,20 @@ export class Chart extends Renderable
         this.element.appendChild(img);
     }
 
-    /**
-     * Formats columns of the DataTable.
-     *
-     * @public
-     * @param {Array.<Object>} formatArr Array of format definitions
-     */
-    applyFormats(formatArr) {
-        for(let a=0; a < formatArr.length; a++) {
-            let formatJson = formatArr[a];
-            let formatter = new google.visualization[formatJson.type](formatJson.config);
-
-            formatter.format(this.data, formatJson.index);
-        }
-    }
+    // /**
+    //  * Formats columns of the DataTable.
+    //  *
+    //  * @public
+    //  * @param {Array.<Object>} formatArr Array of format definitions
+    //  */
+    // applyFormats(formatArr) {
+    //     for(let a=0; a < formatArr.length; a++) {
+    //         let formatJson = formatArr[a];
+    //         let formatter = new google.visualization[formatJson.type](formatJson.config);
+    //
+    //         formatter.format(this.data, formatJson.index);
+    //     }
+    // }
 
     /**
      * Attach the defined chart event handlers.
@@ -137,5 +139,21 @@ export class Chart extends Renderable
                 callback($chart.data);
             });
         });
+    }
+
+    /**
+     * Apply the formats to the DataTable
+     *
+     * @param {Array} formats
+     * @private
+     */
+    _applyFormats() {
+        for (let format of this.formats) {
+            let formatter = new google.visualization[format.type](format.options);
+
+            console.log(`[lava.js] Created new format for column index [${format.index}]`, formatter);
+
+            formatter.format(this.data, format.index);
+        }
     }
 }

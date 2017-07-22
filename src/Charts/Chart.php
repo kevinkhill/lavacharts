@@ -118,29 +118,32 @@ class Chart extends Renderable implements Customizable, Javascriptable, Visualiz
      * @since  4.0.0
      * @return Buffer The contents will be javascript source
      */
-    private function getFormats()
+    public function getFormats()
     {
-        $buffer = new Buffer();
+//        $buffer = new Buffer();
+//
+//        if (! method_exists($this->datatable, 'getFormattedColumns')) {
+//            $buffer->append('console.log("');
+//            $buffer->append('[lavacharts] The implementation of DataInterface did not have ');
+//            $buffer->append('getFormattedColumns() defined, so the data was not formatted.');
+//            $buffer->append('");');
+//
+//            return $buffer;
+//        }
 
-        if (! method_exists($this->datatable, 'getFormattedColumns')) {
-            $buffer->append('console.log("');
-            $buffer->append('[lavacharts] The implementation of DataInterface did not have ');
-            $buffer->append('getFormattedColumns() defined, so the data was not formatted.');
-            $buffer->append('");');
-
-            return $buffer;
-        }
+        $formats = [];
 
         /**
          * @var \Khill\Lavacharts\DataTables\Columns\Column $column
          */
         foreach ($this->datatable->getFormattedColumns() as $column) {
-            $buffer->append(
-                $column->getFormat()->toJavascript()
-            );
+//            $buffer->append(
+                $formats[] = $column->getFormat()->toArray();//->toJson()
+//            );
         }
 
-        return $buffer;
+        return $formats;
+//        return $buffer;
     }
 
     /**
