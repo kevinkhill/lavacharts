@@ -94,20 +94,25 @@ export class Chart extends Renderable
         this.element.appendChild(img);
     }
 
-    // /**
-    //  * Formats columns of the DataTable.
-    //  *
-    //  * @public
-    //  * @param {Array.<Object>} formatArr Array of format definitions
-    //  */
-    // applyFormats(formatArr) {
-    //     for(let a=0; a < formatArr.length; a++) {
-    //         let formatJson = formatArr[a];
-    //         let formatter = new google.visualization[formatJson.type](formatJson.config);
-    //
-    //         formatter.format(this.data, formatJson.index);
-    //     }
-    // }
+    /**
+     * Apply the formats to the DataTable
+     *
+     * @param {Array} formats
+     * @public
+     */
+    applyFormats(formats) {
+        if (! formats) {
+            formats = this.formats;
+        }
+
+        for (let format of formats) {
+            let formatter = new google.visualization[format.type](format.options);
+
+            console.log(`[lava.js] Column index [${format.index}] formatted with:`, formatter);
+
+            formatter.format(this.data, format.index);
+        }
+    }
 
     /**
      * Attach the defined chart event handlers.
@@ -139,21 +144,5 @@ export class Chart extends Renderable
                 callback($chart.data);
             });
         });
-    }
-
-    /**
-     * Apply the formats to the DataTable
-     *
-     * @param {Array} formats
-     * @private
-     */
-    _applyFormats() {
-        for (let format of this.formats) {
-            let formatter = new google.visualization[format.type](format.options);
-
-            console.log(`[lava.js] Created new format for column index [${format.index}]`, formatter);
-
-            formatter.format(this.data, format.index);
-        }
     }
 }

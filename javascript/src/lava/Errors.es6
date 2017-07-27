@@ -61,19 +61,3 @@ export class ElementIdNotFound extends LavaError
         this.name = 'ElementIdNotFound';
     }
 }
-
-/**
- * ChartNotFound Error
- *
- * Thrown when when the getChart() method cannot find a chart with the given label.
- *
- * @type {function}
- */
-export class RenderableNotFound extends LavaError
-{
-    constructor (label) {
-        super(`[lava.js] Chart with label "${label}" was not found.`);
-
-        this.name = 'ChartNotFound';
-    }
-}

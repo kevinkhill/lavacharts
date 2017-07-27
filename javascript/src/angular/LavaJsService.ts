@@ -1,4 +1,4 @@
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 function getWindow() {
     return window;
@@ -11,7 +11,7 @@ export class LavaJsService {
     constructor() {
         this._window = getWindow();
 
-        console.log('Lava.js service provider loaded.');
+        console.log('[lava.js] Angular service provider loaded.');
     }
 
     /**

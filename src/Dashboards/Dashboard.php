@@ -268,9 +268,6 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, Visu
             'bindings'  => $this->bindings,
             'datatable' => $this->datatable,
             'packages'  => $this->getPackages()
-//            'version'   => $this->getVersion(),
-//            'class'     => $this->getJsClass(),
-//            'bindings'  => $this->getBindingsBuffer(),
         ];
     }
 }
