@@ -1,0 +1,37 @@
+{
+    "title": "Chart",
+    "type": "object",
+    "properties": {
+        "class": {
+            "type": "string"
+        },
+        "datatable": {
+            "type": "object"
+        },
+        "elementId":  {
+            "type": "string"
+        },
+        "events": {
+            "type": "array"
+        },
+        "formats": {
+            "type": "array"
+        },
+        "label": {
+            "type": "string"
+        },
+        "options": {
+            "type": "object"
+        },
+        "packages": {
+            "type": "array"
+        },
+        "pngOutput": {
+            "type": "boolean"
+        },
+        "type": {
+            "type": "string"
+        }
+    },
+    "required": ["class", "datatable", "elementId", "label", "pngOutput", "type"]
+}
