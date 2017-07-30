@@ -2,26 +2,20 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
-use JsonSchema\Validator;
 use Khill\Lavacharts\Charts\LineChart;
 use Khill\Lavacharts\DataTables\DataTable;
-use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Khill\Lavacharts\Tests\JsonTestCase;
 
 /**
  * @property LineChart chart
- * @property \stdClass chartSchema
- * @property Validator validator
  */
-class ChartToJsonTest extends ProvidersTestCase
+class ChartToJsonTest extends JsonTestCase
 {
+    const CHART_SCHEMA = '../Schema/chart.json';
+
     public function setUp()
     {
         parent::setUp();
-
-        $this->validator = new Validator();
-        $this->chartSchema = (object) [
-            '$ref' => 'file://' . realpath('../Schema/chart.json')
-        ];
 
         $datatable = new DataTable();
         $datatable->addDateColumn('Date');
@@ -40,15 +34,42 @@ class ChartToJsonTest extends ProvidersTestCase
         ]);
     }
 
-    public function testValidateChartToJsonAgainstSchema()
+    public function getJson()
     {
-        $data = json_decode($this->chart->toJson());
-        $schema = $this->chartSchema;
-        // Validate
-
-        $this->validator->check($data, $schema);
-
-        $this->assertTrue($this->validator->isValid());
+        return $this->chart->toJson();
     }
 
+    /** @test */
+    public function validate_chart_json_against_schema()
+    {
+        $data = json_decode($this->getJson());
+
+        $this->assertValidJsonWithSchema($data, static::CHART_SCHEMA);
+    }
+
+    /** @test */
+    public function has_element_id()
+    {
+        $this->assertJsonFragment([
+            'elementId' => 'chart'
+        ]);
+    }
+
+    /** @test */
+    public function has_label()
+    {
+        $this->assertJsonFragment([
+            'label' => 'Sales'
+        ]);
+    }
+
+    /** @test */
+    public function has_options()
+    {
+        $this->assertJsonFragment([
+            'options' => [
+                'legend' => 'bottom'
+            ]
+        ]);
+    }
 }

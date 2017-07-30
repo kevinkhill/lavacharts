@@ -116,20 +116,10 @@ class Chart extends Renderable implements Customizable, Javascriptable, Visualiz
      * If no formats are defined, then an empty buffer will be returned.
      *
      * @since  4.0.0
-     * @return Buffer The contents will be javascript source
+     * @return array
      */
     public function getFormats()
     {
-//        $buffer = new Buffer();
-//
-//        if (! method_exists($this->datatable, 'getFormattedColumns')) {
-//            $buffer->append('console.log("');
-//            $buffer->append('[lavacharts] The implementation of DataInterface did not have ');
-//            $buffer->append('getFormattedColumns() defined, so the data was not formatted.');
-//            $buffer->append('");');
-//
-//            return $buffer;
-//        }
 
         $formats = [];
 
@@ -137,13 +127,10 @@ class Chart extends Renderable implements Customizable, Javascriptable, Visualiz
          * @var \Khill\Lavacharts\DataTables\Columns\Column $column
          */
         foreach ($this->datatable->getFormattedColumns() as $column) {
-//            $buffer->append(
-                $formats[] = $column->getFormat()->toArray();//->toJson()
-//            );
+            $formats[] = $column->getFormat()->toArray();
         }
 
         return $formats;
-//        return $buffer;
     }
 
     /**
@@ -193,7 +180,7 @@ class Chart extends Renderable implements Customizable, Javascriptable, Visualiz
             'formats'   => $this->getFormats(),
             'datatable' => $this->getDataTable(),
             'packages'  => [$this->getJsPackage()],
-            'options'   => $this->options->without(['events']),
+            'options'   => $this->options->without(['elementId', 'events']),
             'events'    => $this->hasOption('events') ? $this->options->events : [],
         ];
 

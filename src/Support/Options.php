@@ -243,7 +243,13 @@ class Options extends ArrayObject implements Arrayable, Jsonable
      */
     public function without(array $options)
     {
-        return array_diff_key($this->options, $options);
+        $without = [];
+
+        foreach ($options as $key) {
+            $without[$key] = null;
+        }
+
+        return array_diff_key($this->options, $without);
     }
 
     /**
