@@ -60,7 +60,7 @@ export class Chart extends Renderable
             this.gchart = new ChartClass(this.element);
 
             if (this.formats) {
-                this._applyFormats();
+                this.applyFormats();
             }
 
             if (this.events) {

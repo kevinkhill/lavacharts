@@ -36,7 +36,7 @@ class ChartToJsonTest extends ProvidersTestCase
 
         $this->chart = new LineChart('Sales', $datatable, [
             'elementId' => 'chart',
-            'legend'=>'bottom'
+            'legend' =>'bottom'
         ]);
     }
 
@@ -49,15 +49,6 @@ class ChartToJsonTest extends ProvidersTestCase
         $this->validator->check($data, $schema);
 
         $this->assertTrue($this->validator->isValid());
-
-//        if ($this->validator->isValid()) {
-//            echo "The supplied JSON validates against the schema.\n";
-//        } else {
-//            echo "JSON does not validate. Violations:\n";
-//            foreach ($this->validator->getErrors() as $error) {
-//                echo sprintf("[%s] %s\n", $error['property'], $error['message']);
-//            }
-//        }
     }
 
 }
