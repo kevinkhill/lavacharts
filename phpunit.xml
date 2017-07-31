@@ -25,12 +25,12 @@
     <testsuite name="javascript">
       <directory>tests/Javascript/</directory>
     </testsuite>
-    <testsuite name="values">
-      <directory>tests/Values/</directory>
-    </testsuite>
   </testsuites>
 
   <filter>
+    <whitelist>
+      <directory suffix=".php">./src/</directory>
+    </whitelist>
     <blacklist>
       <directory>vendor/</directory>
       <directory>tests/</directory>

@@ -49,16 +49,13 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, Visu
      *
      * If passed an array of bindings, they will be applied upon creation.
      *
-     * @param string        $label     Label for the Dashboard
-     * @param DataInterface $datatable DataInterface for the dashboard
-     * @param array         $options   Element Id for the Dashboard
+     * @param string        $label   Label for the Dashboard
+     * @param DataInterface $data    DataInterface for the dashboard
+     * @param array         $options Options for the Dashboard
      */
     public function __construct($label, DataInterface $data, $options = [])
     {
-        $this->label     = Str::verify($label);
-        $this->datatable = $data;
-
-        $this->setOptions($options);
+        parent::__construct($label, $data, $options);
 
         if ($this->options->hasAndIs('elementId', 'string')) {
             $this->elementId = $this->options->elementId;

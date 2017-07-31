@@ -8,6 +8,7 @@ use Khill\Lavacharts\Support\Contracts\DataInterface;
 use Khill\Lavacharts\Support\Contracts\Javascriptable;
 use Khill\Lavacharts\Support\Contracts\Visualization;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
+use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\StringValue as Str;
 use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
@@ -45,10 +46,7 @@ class Chart extends Renderable implements Customizable, Javascriptable, Visualiz
      */
     public function __construct($label, DataInterface $data = null, array $options = [])
     {
-        $this->label     = Str::verify($label);
-        $this->datatable = $data;
-
-        $this->setOptions($options);
+        parent::__construct($label, $data, $options);
 
         if ($this->options->hasAndIs('elementId', 'string')) {
             $this->elementId = $this->options->elementId;

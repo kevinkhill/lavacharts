@@ -143,6 +143,15 @@ class VolcanoTest extends ProvidersTestCase
         }
     }
 
+    public function testArrayAccess()
+    {
+        $this->volcano->store($this->createMockChart(md5(microtime())));
+        $this->volcano->store($this->createMockChart(md5(microtime())));
+        $this->volcano->store($this->createMockChart(md5(microtime())));
+
+
+    }
+
     private function createMockChart($label)
     {
         return Mockery::mock(LineChart::class, [

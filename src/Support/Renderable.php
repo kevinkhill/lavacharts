@@ -2,11 +2,10 @@
 
 namespace Khill\Lavacharts\Support;
 
-use Khill\Lavacharts\Exceptions\InvalidLabel;
 use Khill\Lavacharts\Exceptions\InvalidLabelException;
-use Khill\Lavacharts\Javascript\JavascriptFactory;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
+use Khill\Lavacharts\Support\Contracts\DataInterface;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\StringValue as Str;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
@@ -44,6 +43,27 @@ abstract class Renderable implements Arrayable, Customizable, Jsonable
      * @var bool
      */
     protected $isRenderable = true;
+
+    /**
+     * Date for the renderable.
+     *
+     * @var DataInterface
+     */
+    private $datatable;
+
+    /**
+     * Renderable constructor.
+     *
+     * @param string             $label
+     * @param DataInterface|null $data
+     * @param array              $options
+     */
+    function __construct($label, DataInterface $data = null, array $options = [])
+    {
+        $this->datatable = $data;
+        $this->label     = Str::verify($label);
+        $this->options   = Options::create($options);
+    }
 
     /**
      * Returns the class type.
