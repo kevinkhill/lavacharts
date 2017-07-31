@@ -68,6 +68,18 @@ class Volcano extends ArrayObject implements Jsonable
     }
 
     /**
+     * Fetches an existing Renderable from the Volcano with no checks.
+     *
+     * @param  string $label Label of the Renderable.
+     * @return Chart|Dashboard|Renderable
+     * @throws RenderableNotFound
+     */
+    public function get($label)
+    {
+        return $this->renderables[$label];
+    }
+
+    /**
      * Test if a Renderable exists in the Volcano.
      *
      * @param  string $label Unique identifying label of the Renderable to check.
@@ -94,18 +106,6 @@ class Volcano extends ArrayObject implements Jsonable
         }
 
         return $this->get($label);
-    }
-
-    /**
-     * Fetches an existing Renderable from the Volcano with no checks.
-     *
-     * @param  string $label Label of the Renderable.
-     * @return Chart|Dashboard|Renderable
-     * @throws RenderableNotFound
-     */
-    public function get($label)
-    {
-        return $this->renderables[$label];
     }
 
     /**

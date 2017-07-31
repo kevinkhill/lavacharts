@@ -9,7 +9,7 @@ use Khill\Lavacharts\Tests\JsonTestCase;
 /**
  * @property LineChart chart
  */
-class ChartToJsonTest extends JsonTestCase
+class ChartJsonTest extends JsonTestCase
 {
     const CHART_SCHEMA = '../Schema/chart.json';
 
@@ -30,7 +30,7 @@ class ChartToJsonTest extends JsonTestCase
 
         $this->chart = new LineChart('Sales', $datatable, [
             'elementId' => 'chart',
-            'legend' =>'bottom'
+            'legend' => 'bottom'
         ]);
     }
 

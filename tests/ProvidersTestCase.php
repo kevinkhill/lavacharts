@@ -5,6 +5,7 @@ namespace Khill\Lavacharts\Tests;
 use Khill\Lavacharts\Charts\ChartFactory;
 use Khill\Lavacharts\DataTables\Columns\Column;
 use Khill\Lavacharts\DataTables\Columns\ColumnFactory;
+use Khill\Lavacharts\DataTables\DataTable;
 
 define('DATATABLE_NS', "\\Khill\\Lavacharts\\DataTables\\");
 
@@ -85,35 +86,13 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Create a mock Label with the given string
-     *
-     * @param  string $label
-     * @return \Mockery\Mock
-     */
-    public function getMockLabel($label)
-    {
-        return \Mockery::mock('\Khill\Lavacharts\Values\Label', [$label])->makePartial();
-    }
-
-    /**
-     * Create a mock ElementId with the given string
-     *
-     * @param  string $label
-     * @return \Mockery\Mock
-     */
-    public function getMockElementId($label)
-    {
-        return \Mockery::mock('\Khill\Lavacharts\Values\ElementId', [$label])->makePartial();
-    }
-
-    /**
      * Create a mock DataTable
      *
      * @return \Mockery\Mock
      */
     public function getMockDataTable()
     {
-        return \Mockery::mock('Khill\Lavacharts\DataTables\DataTable')->makePartial();
+        return \Mockery::mock(DataTable::class)->makePartial();
     }
 
     public function nonStringOrIntProvider()
@@ -123,18 +102,6 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
             [true],
             [false],
             [[]],
-            [new \stdClass]
-        ];
-    }
-
-    public function nonIntOrPercentProvider()
-    {
-        return [
-            [3.2],
-            [true],
-            [false],
-            [[]],
-            ['notapercent'],
             [new \stdClass]
         ];
     }

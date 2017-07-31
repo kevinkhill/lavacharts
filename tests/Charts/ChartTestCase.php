@@ -3,9 +3,10 @@
 namespace Khill\Lavacharts\Tests\Charts;
 
 use Khill\Lavacharts\Charts\LineChart;
+use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 
-class ChartTest extends ProvidersTestCase
+class ChartPhpTest extends ProvidersTestCase
 {
     public function makeLineChart($options = [])
     {
@@ -18,6 +19,7 @@ class ChartTest extends ProvidersTestCase
 
     /**
      * @dataProvider chartTypeProvider
+     * @param string $chartType
      */
     public function testInstanceCreation($chartType)
     {
@@ -28,9 +30,9 @@ class ChartTest extends ProvidersTestCase
             $this->getMockDataTable()
         );
 
-        $this->assertEquals('TestChart', $chart->getLabelStr());
+        $this->assertEquals('TestChart', $chart->getLabel());
         $this->assertEquals($chartType, $chart->getType());
-        $this->assertInstanceOf(DATATABLE_NS.'DataTable', $chart->getDataTable());
+        $this->assertInstanceOf(DataTable::class, $chart->getDataTable());
     }
 
     /**
