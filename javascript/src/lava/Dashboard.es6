@@ -13,22 +13,16 @@ import { stringToFunction } from './Utils.es6';
 /**
  * Dashboard class
  *
- * @typedef {Function}  Chart
- * @property {string}   label     - Label for the chart.
- * @property {string}   type      - Type of chart.
+ * @typedef {Function}  Dashboard
+ * @property {string}   label     - Label for the Dashboard.
+ * @property {string}   type      - Type of visualization (Dashboard).
  * @property {Object}   element   - Html element in which to render the chart.
- * @property {Object}   chart     - Google chart object.
- * @property {string}   package   - Type of Google chart package to load.
- * @property {boolean}  pngOutput - Should the chart be displayed as a PNG.
- * @property {Object}   data      - Datatable for the chart.
- * @property {Object}   options   - Configuration options for the chart.
- * @property {Array}    formats   - Formatters to apply to the chart data.
- * @property {Object}   promises  - Promises used in the rendering chain.
- * @property {Function} init      - Initializes the chart.
- * @property {Function} configure - Configures the chart.
- * @property {Function} render    - Renders the chart.
- * @property {Function} uuid      - Creates identification string for the chart.
- * @property {Object}   _errors   - Collection of errors to be thrown.
+ * @property {string}   package   - Type of visualization package to load.
+ * @property {Object}   data      - Datatable for the Dashboard.
+ * @property {Object}   options   - Configuration options.
+ * @property {Array}    bindings  - Chart and Control bindings.
+ * @property {Function} render    - Renders the Dashboard.
+ * @property {Function} uuid      - Unique identifier for the Dashboard.
  */
 export class Dashboard extends Renderable
 {
@@ -55,6 +49,8 @@ export class Dashboard extends Renderable
             this.draw();
         };
     }
+
+    // @TODO: this needs to be modified for the other types of bindings.
 
     /**
      * Process and attach the bindings to the dashboard.

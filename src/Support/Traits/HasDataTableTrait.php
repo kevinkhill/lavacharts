@@ -33,13 +33,10 @@ trait HasDataTableTrait
      *
      * @since  3.1.0
      * @param  DataInterface $data
-     * @return self
      */
     public function setDataTable(DataInterface $data)
     {
         $this->datatable = $data;
-
-        return $this;
     }
 
     /**

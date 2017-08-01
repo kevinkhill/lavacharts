@@ -216,33 +216,4 @@ class DataFactory
 
         return $datatable;
     }
-
-    /**
-     * Create a new DataCell for a value in a Row
-     *
-     * v: The cell value. The data type should match the column data type.
-     * If null, the whole object should be empty and have neither v nor f properties.
-     *
-     * f: [Optional] A string version of the v value, formatted for display. The
-     * values should match, so if you specify Date(2008, 0, 1) for v, you should
-     * specify "January 1, 2008" or some such string for this property. This value
-     * is not checked against the v value. The visualization will not use this value
-     * for calculation, only as a label for display. If omitted, a string version
-     * of v will be used.
-     *
-     * p: [Optional] An object that is a map of custom values applied to the cell.
-     * These values can be of any JavaScript type. If your visualization supports
-     * any cell-level properties, it will describe them; otherwise, this property
-     * will be ignored. Example: p:{style: 'border: 1px solid green;'}.
-     *
-     *
-     * @param  mixed  $v Value of the Cell
-     * @param  string $f Formatted version of the cell, as a string
-     * @param  array  $p Cell specific customization options
-     * @return \Khill\Lavacharts\DataTables\Cells\Cell
-     */
-    public static function Cell($v, $f = '', $p = [])
-    {
-        return new Cell($v, $f, $p);
-    }
 }

@@ -2,10 +2,12 @@
 
 namespace Khill\Lavacharts;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Dashboards\Dashboard;
 use Khill\Lavacharts\Exceptions\RenderableNotFound;
-use Khill\Lavacharts\Support\ArrayObject;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Renderable;
@@ -26,7 +28,7 @@ use Khill\Lavacharts\Support\StringValue as Str;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Volcano extends ArrayObject implements Jsonable
+class Volcano implements Countable, IteratorAggregate, Jsonable
 {
     use ArrayToJson;
 
@@ -36,12 +38,19 @@ class Volcano extends ArrayObject implements Jsonable
     public $renderables = [];
 
     /**
-     * @inheritdoc
-     * @since 4.0.0 Adding dynamic ArrayAccess
+     * @return int
      */
-    public function getArrayAccessProperty()
+    public function count()
     {
-        return 'renderables';
+        return count($this->renderables);
+    }
+
+    /**
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->renderables);
     }
 
     /**

@@ -11,14 +11,13 @@ use Khill\Lavacharts\Dashboards\Filters\FilterFactory;
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use Khill\Lavacharts\DataTables\DataFactory;
-use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\DataTables\Columns\Format;
-use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Exceptions\InvalidFormatType;
 use Khill\Lavacharts\Exceptions\InvalidLabelException;
 use Khill\Lavacharts\Javascript\ScriptManager;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
+use Khill\Lavacharts\Support\Contracts\DataInterface;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Psr4Autoloader;
 use Khill\Lavacharts\Support\Renderable;
@@ -38,11 +37,18 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  *
- * @method exists
  * @method store
+ * @method exists
  * @method get
  * @method getCharts
  * @method getDashboards
+ * @method DataTable
+ * @method JoinedDataTable
+ * @method DataFactory
+ * @method ArrowFormat
+ * @method BarFormat
+ * @method DateFormat
+ * @method NumberFormat
  */
 class Lavacharts implements Customizable, Jsonable, Arrayable
 {
@@ -76,10 +82,10 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Base classes to map with __call()
      */
     const BASE_LAVA_CLASSES = [
-        'ChartWrapper',
-        'ControlWrapper',
-        'DataTable',
-        'DataFactory',
+//        'ChartWrapper',
+//        'ControlWrapper',
+//        'DataTable',
+        'DataFactory', //TODO: look into this again.
     ];
 
     /**
@@ -114,7 +120,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
         }
 
         $this->volcano       = new Volcano;
-        $this->scriptManager = new ScriptManager($this->options);
+        $this->scriptManager = new ScriptManager($this->options); //TODO: options?
     }
 
     /**
@@ -138,7 +144,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
         }
 
         if (Str::endsWith($method, 'Chart')) {
-            return $this->makeChart($method, $args);
+            return $this->createChart($method, $args);
         }
 
         if (Str::endsWith($method, 'Filter')) {
@@ -159,24 +165,6 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     }
 
     /**
-     * Run the library and get the resulting scripts.
-     *
-     *
-     * This method will create a <script> for the lava.js module along with
-     * one additional <script> per chart & dashboard being rendered.
-     *
-     * @since 4.0.0
-     * @return string HTML script elements
-     */
-    public function flow()
-    {
-        return $this->renderAll();
-
-//        @TODO This is the goal :)
-//        return new ScriptManager($this->options, json_encode($this));
-    }
-
-    /**
      * Convert the Lavacharts object to an array
      *
      * @since 4.0.0
@@ -191,55 +179,37 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     }
 
     /**
-     * Create a new Chart of the given type.
+     * Run the library and get the resulting scripts.
+     *
+     *
+     * This method will create a <script> for the lava.js module along with
+     * one additional <script> with all of the charts & dashboards.
      *
      * @since 4.0.0
-     * @param string $type
-     * @param array  $args
-     * @return Chart
-     * @throws InvalidLabelException
+     * @return string HTML script elements
      */
-    protected function makeChart($type, $args)
+    public function flow()
     {
-        if (! isset($args[0])) {
-            throw new InvalidLabelException;
-        }
+        return $this->renderAll();
 
-        $label = Str::verify($args[0]);
-
-        if ($this->volcano->exists($label)) {
-            return $this->volcano->get($label);
-        }
-
-        $chart = ChartFactory::create($type, $args);
-
-        $this->volcano->store($chart);
-
-        return $chart;
+//        @TODO This is the goal :)
+//        return new ScriptManager($this->options, json_encode($this));
     }
 
     /**
      * Create a new Dashboard
      *
+     * @since 4.0.0 Changing method signature
      * @since 3.0.0
-     * @param string $label
-     * @param array  $args
+     * @param string             $label
+     * @param DataInterface|null $datatable
+     * @param array              $options
      * @return Dashboard
      * @throws InvalidLabelException
      */
-    public function Dashboard($label, ...$args)
+    public function Dashboard($label, DataInterface $datatable = null, array $options = [])
     {
-        try {
-            $label = Str::verify($label);
-        } catch (InvalidArgumentException $e) {
-            throw new InvalidLabelException;
-        }
-
-        if ($this->volcano->exists($label)) {
-            return $this->volcano->get($label);
-        }
-
-        $dashboard = DashboardFactory::create($label, $args);
+        $dashboard = new Dashboard($label, $datatable, $options);
 
         $this->volcano->store($dashboard);
 
@@ -330,7 +300,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     {
         $this->options->merge($options);
 
-        return (string) $this->scriptManager->getLavaJs($this->options);
+        return (string) $this->scriptManager->getLavaJs($this->options->toArray());
     }
 
     /**
@@ -383,6 +353,24 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
         }
 
         return $this->scriptManager->getOutputBuffer();
+    }
+
+    /**
+     * Create a new Chart of the given type.
+     *
+     * @since 4.0.0
+     * @param string $type
+     * @param array  $args
+     * @return Chart
+     * @throws InvalidLabelException
+     */
+    protected function createChart($type, $args)
+    {
+        $chart = ChartFactory::create($type, $args);
+
+        $this->volcano->store($chart);
+
+        return $chart;
     }
 
     /**

@@ -50,15 +50,12 @@ trait HasElementIdTrait
     }
 
     /**
-     * Creates and/or sets the e lementId.
+     * Creates and/or sets the elementId.
      *
      * @param string $elementId
-     * @return self
      */
     public function setElementId($elementId)
     {
         $this->elementId = Str::verify($elementId);
-
-        return $this;
     }
 }

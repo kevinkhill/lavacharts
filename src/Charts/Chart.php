@@ -2,17 +2,10 @@
 
 namespace Khill\Lavacharts\Charts;
 
-use Khill\Lavacharts\Support\Buffer;
-use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
-use Khill\Lavacharts\Support\Contracts\Javascriptable;
 use Khill\Lavacharts\Support\Contracts\Visualization;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
-use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Support\Renderable;
-use Khill\Lavacharts\Support\StringValue as Str;
-use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
-use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 
 /**
  * Class Chart
@@ -28,10 +21,8 @@ use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Chart extends Renderable implements Customizable, Javascriptable, Visualization, Wrappable
+class Chart extends Renderable implements Visualization, Wrappable
 {
-    use HasDataTable, ToJavascript;
-
     /**
      * Type of wrappable class
      */
@@ -47,10 +38,6 @@ class Chart extends Renderable implements Customizable, Javascriptable, Visualiz
     public function __construct($label, DataInterface $data = null, array $options = [])
     {
         parent::__construct($label, $data, $options);
-
-        if ($this->options->hasAndIs('elementId', 'string')) {
-            $this->elementId = $this->options->elementId;
-        }
     }
 
     /**
@@ -118,12 +105,8 @@ class Chart extends Renderable implements Customizable, Javascriptable, Visualiz
      */
     public function getFormats()
     {
-
         $formats = [];
 
-        /**
-         * @var \Khill\Lavacharts\DataTables\Columns\Column $column
-         */
         foreach ($this->datatable->getFormattedColumns() as $column) {
             $formats[] = $column->getFormat()->toArray();
         }
@@ -138,7 +121,10 @@ class Chart extends Renderable implements Customizable, Javascriptable, Visualiz
      */
     public function toJavascript()
     {
-        return sprintf($this->getJavascriptFormat(), $this->getJavascriptSource());
+        return sprintf(
+            $this->getJavascriptFormat(),
+            $this->getJavascriptSource()
+        );
     }
 
     /**
@@ -182,14 +168,12 @@ class Chart extends Renderable implements Customizable, Javascriptable, Visualiz
             'events'    => $this->hasOption('events') ? $this->options->events : [],
         ];
 
-//        if (method_exists($this->datatable, 'toJsDataTable')) {
-//            $chartArray['datatable'] = $this->datatable;//toJsDataTable();
-//        }
-
+        // TODO: needs testing
         if (method_exists($this, 'getPngOutput')) {
             $chartArray['pngOutput'] = $this->getPngOutput();
         }
 
+        // TODO: needs testing
         if (method_exists($this, 'getMaterialOutput') &&
             $this->getMaterialOutput()
         ) {

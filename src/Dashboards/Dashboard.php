@@ -5,17 +5,11 @@ namespace Khill\Lavacharts\Dashboards;
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Dashboards\Bindings\Binding;
 use Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
-use Khill\Lavacharts\Exceptions\RenderingException;
-use Khill\Lavacharts\Support\Buffer;
-use Khill\Lavacharts\Support\Contracts\Customizable;
+use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
+use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
-use Khill\Lavacharts\Support\Contracts\Javascriptable;
 use Khill\Lavacharts\Support\Contracts\Visualization;
 use Khill\Lavacharts\Support\Renderable;
-use Khill\Lavacharts\Support\StringValue as Str;
-use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
-use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
-use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 
 /**
  * Class Dashboard
@@ -33,10 +27,8 @@ use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class Dashboard extends Renderable implements Customizable, Javascriptable, Visualization
+class Dashboard extends Renderable implements Visualization
 {
-    use HasDataTable, HasOptions, ToJavascript;
-
     /**
      * Array of Binding objects, mapping controls to charts.
      *
@@ -57,14 +49,10 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, Visu
     {
         parent::__construct($label, $data, $options);
 
-        if ($this->options->hasAndIs('elementId', 'string')) {
-            $this->elementId = $this->options->elementId;
-
-            $this->options->forget('elementId');
-        }
-
         if ($this->options->hasAndIs('bindings', 'array')) {
             $this->setBindings($this->options->bindings);
+
+            $this->options->forget('bindings');
         }
     }
 
@@ -131,9 +119,9 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, Visu
      * - If an array of ControlWrappers is passed with and array of ChartWrappers, then
      *   a ManyToMany binding is created.
      *
-     * @param  \Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper|array $controlWraps
-     * @param  \Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper|array   $chartWraps
-     * @return \Khill\Lavacharts\Dashboards\Dashboard
+     * @param  ControlWrapper|array $controlWraps
+     * @param  ChartWrapper|array   $chartWraps
+     * @return Dashboard
      * @throws \Khill\Lavacharts\Exceptions\BindingException
      */
     public function bind($controlWraps, $chartWraps)
@@ -201,37 +189,16 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, Visu
     }
 
     /**
-     * Process all the bindings for a Dashboard.
-     *
-     * Turns the chart and control wrappers into new Google Visualization Objects.
-     *
-     * @access private
-     * @return Buffer
-     * @throws RenderingException
-     */
-    protected function getBindingsBuffer()
-    {
-        if (! $this->hasBindings()) {
-            throw new RenderingException('Dashboards without bindings cannot be rendered.');
-        }
-
-        $buffer = new Buffer();
-
-        foreach ($this->bindings as $binding) {
-            $buffer->append($binding);
-        }
-
-        return $buffer;
-    }
-
-    /**
      * Convert the Chart to Javascript.
      *
      * @return string
      */
     public function toJavascript()
     {
-        return sprintf($this->getJavascriptFormat(), $this->getJavascriptSource());
+        return sprintf(
+            $this->getJavascriptFormat(),
+            $this->getJavascriptSource()
+        );
     }
 
     /**
@@ -253,7 +220,6 @@ class Dashboard extends Renderable implements Customizable, Javascriptable, Visu
     /**
      * Array representation of the Dashboard.
      *
-     * @since 4.0.0 Removed unnecessary info from array.
      * @since 4.0.0
      * @return array
      */

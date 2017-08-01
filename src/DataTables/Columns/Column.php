@@ -114,8 +114,8 @@ class Column implements Customizable, Arrayable, Jsonable
      */
     public static function isValidType($type)
     {
-        if (!in_array($type, self::TYPES, true)) {
-            throw new InvalidColumnType($type, self::TYPES);
+        if (! in_array($type, self::TYPES, true)) {
+            throw new InvalidColumnType($type);
         }
     }
 

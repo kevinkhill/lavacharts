@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Support;
 
+use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Exceptions\UndefinedOptionException;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
@@ -42,9 +43,14 @@ class Options extends ArrayObject implements Arrayable, Jsonable
      *
      * @param array|Options $options
      * @return Options
+     * @throws InvalidArgumentException
      */
     public static function create($options)
     {
+        if (! $options instanceof Options && ! is_array($options)) {
+            throw new InvalidArgumentException($options, 'array or Options object');
+        }
+
         if ($options instanceof Options) {
             $options = $options->toArray();
         }

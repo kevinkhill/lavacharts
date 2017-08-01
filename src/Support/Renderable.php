@@ -6,11 +6,14 @@ use Khill\Lavacharts\Exceptions\InvalidLabelException;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
+use Khill\Lavacharts\Support\Contracts\Javascriptable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\StringValue as Str;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasElementIdTrait as HasElementId;
+use Khill\Lavacharts\Support\Traits\HasDataTableTrait as HasDataTable;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
+use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 
 /**
  * Renderable Class
@@ -26,9 +29,9 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
  * @link           http://lavacharts.com                   Official Docs Site
  * @license        http://opensource.org/licenses/MIT MIT
  */
-abstract class Renderable implements Arrayable, Customizable, Jsonable
+abstract class Renderable implements Arrayable, Customizable, Javascriptable, Jsonable
 {
-    use ArrayToJson, HasElementId, HasOptions;
+    use ArrayToJson, HasDataTable, HasElementId, HasOptions, ToJavascript;
 
     /**
      * The renderable's unique label.
@@ -45,13 +48,6 @@ abstract class Renderable implements Arrayable, Customizable, Jsonable
     protected $isRenderable = true;
 
     /**
-     * Date for the renderable.
-     *
-     * @var DataInterface
-     */
-    private $datatable;
-
-    /**
      * Renderable constructor.
      *
      * @param string             $label
@@ -63,6 +59,12 @@ abstract class Renderable implements Arrayable, Customizable, Jsonable
         $this->datatable = $data;
         $this->label     = Str::verify($label);
         $this->options   = Options::create($options);
+
+        if ($this->options->hasAndIs('elementId', 'string')) {
+            $this->elementId = $this->options->elementId;
+
+            $this->options->forget('elementId');
+        }
     }
 
     /**

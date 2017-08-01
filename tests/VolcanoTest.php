@@ -10,33 +10,23 @@ use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Volcano;
 use Mockery;
 
-/**
- * @property \Mockery\MockInterface mockDashboard
- * @property \Mockery\MockInterface mockLineChart
- * @property \Mockery\Mock          mockBadLabel
- * @property \Mockery\Mock          mockGoodLabel
- * @property Volcano                volcano
- */
 class VolcanoTest extends ProvidersTestCase
 {
     /**
      * @var Volcano
      */
-    public $Volcano;
+    public $volcano;
 
     public function setUp()
     {
         parent::setUp();
 
         $this->volcano = new Volcano;
-
-        $this->mockLineChart = $this->createMockChart('TestChart');
-        $this->mockDashboard = $this->createMockDashboard('TestDash');
     }
 
     public function testStoringCharts()
     {
-        $chart = $this->volcano->store($this->mockLineChart);
+        $chart = $this->volcano->store($this->createMockChart('TestChart'));
 
         $renderables = $this->inspect($this->volcano, 'renderables');
 
@@ -46,7 +36,7 @@ class VolcanoTest extends ProvidersTestCase
 
     public function testStoringDashboards()
     {
-        $dash = $this->volcano->store($this->mockDashboard);
+        $dash = $this->volcano->store($this->createMockDashboard('TestDash'));
 
         $renderables = $this->inspect($this->volcano, 'renderables');
 
@@ -56,8 +46,8 @@ class VolcanoTest extends ProvidersTestCase
 
     public function testGetWithChartAndDashboard()
     {
-        $this->volcano->store($this->mockLineChart);
-        $this->volcano->store($this->mockDashboard);
+        $this->volcano->store($this->createMockChart('TestChart'));
+        $this->volcano->store($this->createMockDashboard('TestDash'));
 
         $this->assertInstanceOf(LineChart::class, $this->volcano->get('TestChart'));
         $this->assertInstanceOf(Dashboard::class, $this->volcano->get('TestDash'));
@@ -65,8 +55,8 @@ class VolcanoTest extends ProvidersTestCase
 
     public function testExistsWithChartAndDashboard()
     {
-        $this->volcano->store($this->mockLineChart);
-        $this->volcano->store($this->mockDashboard);
+        $this->volcano->store($this->createMockChart('TestChart'));
+        $this->volcano->store($this->createMockDashboard('TestDash'));
 
         $this->assertTrue($this->volcano->exists('TestChart'));
         $this->assertTrue($this->volcano->exists('TestDash'));
@@ -76,8 +66,8 @@ class VolcanoTest extends ProvidersTestCase
 
     public function testFindWithChartAndDashboard()
     {
-        $this->volcano->store($this->mockLineChart);
-        $this->volcano->store($this->mockDashboard);
+        $this->volcano->store($this->createMockChart('TestChart'));
+        $this->volcano->store($this->createMockDashboard('TestDash'));
 
         $this->assertInstanceOf(LineChart::class, $this->volcano->find('TestChart'));
         $this->assertInstanceOf(Dashboard::class, $this->volcano->find('TestDash'));
@@ -127,29 +117,40 @@ class VolcanoTest extends ProvidersTestCase
 
     public function testToArray()
     {
-        $this->volcano->store($this->createMockChart(md5(microtime())));
-        $this->volcano->store($this->createMockChart(md5(microtime())));
-        $this->volcano->store($this->createMockChart(md5(microtime())));
-        $this->volcano->store($this->createMockDashboard(md5(microtime())));
-        $this->volcano->store($this->createMockDashboard(md5(microtime())));
+        $this->volcano->store($this->createMockChart('chart1'));
+        $this->volcano->store($this->createMockChart('chart2'));
+        $this->volcano->store($this->createMockChart('chart3'));
+        $this->volcano->store($this->createMockDashboard('dash1'));
+        $this->volcano->store($this->createMockDashboard('dash2'));
 
         $renderables = $this->volcano->toArray();
 
         $this->assertTrue(is_array($renderables));
-        $this->assertEquals(5, count($this->volcano));
+        $this->assertEquals(5, count($renderables));
 
         foreach ($renderables as $renderable) {
             $this->assertInstanceOf(Renderable::class, $renderable);
         }
     }
 
-    public function testArrayAccess()
+    public function testCountableInterface()
     {
-        $this->volcano->store($this->createMockChart(md5(microtime())));
-        $this->volcano->store($this->createMockChart(md5(microtime())));
-        $this->volcano->store($this->createMockChart(md5(microtime())));
+        $this->volcano->store($this->createMockChart('chart1'));
+        $this->volcano->store($this->createMockChart('chart2'));
+        $this->volcano->store($this->createMockChart('chart3'));
 
+        $this->assertEquals(3, count($this->volcano));
+    }
 
+    public function testIteratorAggregateInterface()
+    {
+        $this->volcano->store($this->createMockChart('chart1'));
+        $this->volcano->store($this->createMockChart('chart2'));
+        $this->volcano->store($this->createMockChart('chart3'));
+
+        foreach ($this->volcano as $renderable) {
+            $this->assertInstanceOf(Renderable::class, $renderable);
+        }
     }
 
     private function createMockChart($label)

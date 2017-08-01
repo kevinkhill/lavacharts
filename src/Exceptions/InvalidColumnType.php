@@ -2,17 +2,19 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
+use Khill\Lavacharts\DataTables\Columns\Column;
+
 class InvalidColumnType extends LavaException
 {
-    public function __construct($invalidType, $acceptedTypes)
+    public function __construct($badColumn)
     {
-        if (is_string($invalidType)) {
-            $message = "$invalidType is not a valid column type.";
+        if (is_string($badColumn)) {
+            $message = "$badColumn is not a valid column type.";
         } else {
-            $message = gettype($invalidType) . ' is not a valid column type.';
+            $message = gettype($badColumn) . ' is not a valid column type.';
         }
 
-        $message .= ' Must one of [ ' . implode(' | ', $acceptedTypes) . ' ]';
+        $message .= ' Must one of [ ' . implode(' | ', Column::TYPES) . ' ]';
 
         parent::__construct($message);
     }

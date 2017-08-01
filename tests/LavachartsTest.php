@@ -3,7 +3,10 @@
 namespace Khill\Lavacharts\Tests;
 
 use Khill\Lavacharts\Charts\ChartFactory;
+use Khill\Lavacharts\Charts\PieChart;
+use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Lavacharts;
+use Mockery;
 
 /**
  * @property \Khill\Lavacharts\Lavacharts lava
@@ -16,16 +19,16 @@ class LavachartsTest extends ProvidersTestCase
 
         $this->lava = new Lavacharts;
 
-        $this->mockLabel = \Mockery::mock('\\Khill\\Lavacharts\\Values\\Label', ['MockLabel'])->makePartial();
+        $this->mockLabel = Mockery::mock('\\Khill\\Lavacharts\\Values\\Label', ['MockLabel'])->makePartial();
 
-        $this->partialDataTableWithReceives = \Mockery::mock('\\Khill\\Lavacharts\\DataTables\\DataTable')
+        $this->partialDataTableWithReceives = Mockery::mock('\\Khill\\Lavacharts\\DataTables\\DataTable')
                                           ->shouldReceive('toJson')
                                           ->atMost(1)
                                           ->shouldReceive('hasFormats')
                                           ->atLeast(1)
                                           ->getMock();
 
-        $this->mockLineChart = \Mockery::mock('\\Khill\\Lavacharts\\Charts\\LineChart');
+        $this->mockLineChart = Mockery::mock('\\Khill\\Lavacharts\\Charts\\LineChart');
     }
 
     public function testCreateDataTableViaAlias()
@@ -236,9 +239,9 @@ class LavachartsTest extends ProvidersTestCase
      */
     public function testStoreChartIntoVolcano()
     {
-        $mockPieChart = \Mockery::mock('\Khill\Lavacharts\Charts\PieChart', [
+        $mockPieChart = Mockery::mock(PieChart::class, [
             $this->mockLabel,
-            $this->getMockDataTable()
+            Mockery::mock(DataTable::class)
         ])->shouldReceive('getType')
           ->andReturn('PieChart')
           ->shouldReceive('getLabel')
