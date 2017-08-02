@@ -189,7 +189,7 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->datatable->addColumn($columnType);
 
-        $column = $this->getColumns(0);
+        $column = $this->datatable->getColumn(0);
 
         $this->assertEquals($columnType, $column->getType());
     }
@@ -201,7 +201,7 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->datatable->addColumn([$columnType]);
 
-        $column = $this->getColumns(0);
+        $column = $this->datatable->getColumn(0);
 
         $this->assertEquals($columnType, $column->getType());
     }
@@ -227,7 +227,7 @@ class DataTableTest extends ProvidersTestCase
     {
         call_user_func([$this->datatable, 'add' . $columnType]);
 
-        $column = $this->getColumns(0);
+        $column = $this->datatable->getColumn(0);
 
         $type = strtolower(str_replace('Column', '', $columnType));
 
@@ -266,7 +266,7 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->datatable->addRoleColumn('number', 'interval');
 
-        $column = $this->getColumns(0);
+        $column = $this->datatable->getColumn(0);
 
         $this->assertEquals('number', $column->getType());
         $this->assertEquals('interval', $column->getRole());
@@ -306,18 +306,18 @@ class DataTableTest extends ProvidersTestCase
         $this->datatable->addNumberColumn();
         $this->datatable->addStringColumn();
 
-        $columns = $this->getColumns();
+        $columns = $this->datatable->getColumns();
 
         $this->assertEquals(3, count($columns));
         $this->assertEquals('number', $columns[1]->getType());
 
         $this->datatable->dropColumn(1);
-        $columns = $this->getColumns();
+        $columns = $this->datatable->getColumns();
         $this->assertEquals(2, count($columns));
         $this->assertEquals('string', $columns[1]->getType());
 
         $this->datatable->dropColumn(1);
-        $columns = $this->getColumns();
+        $columns = $this->datatable->getColumns();
         $this->assertEquals(1, count($columns));
         $this->assertFalse(isset($columns[1]));
     }
@@ -357,7 +357,7 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->datatable->addColumn($columnType, $columnLabel);
 
-        $column = $this->getColumns(0);
+        $column = $this->datatable->getColumn(0);
 
         $this->assertEquals($columnType, $column->getType());
         $this->assertEquals($columnLabel, $column->getLabel());
@@ -370,7 +370,7 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->datatable->addColumn(['date', 'Days in March']);
 
-        $column = $this->getColumns(0);
+        $column = $this->datatable->getColumn(0);
 
         $this->assertEquals('date', $column->getType());
         $this->assertEquals('Days in March', $column->getLabel());
@@ -387,7 +387,7 @@ class DataTableTest extends ProvidersTestCase
             ['number', 'Temperature'],
         ]);
 
-        $columns = $this->getColumns();
+        $columns = $this->datatable->getColumns();
 
         $this->assertEquals('date', $columns[0]->getType());
         $this->assertEquals('Days in March', $columns[0]->getLabel());
@@ -408,7 +408,7 @@ class DataTableTest extends ProvidersTestCase
 //        $this->datatable->addDateColumn();
 //        $this->datatable->addRow([]);
 //
-//        $row = $this->getRow(0);
+//        $row = $this->datatable->getRow(0);
 //
 //        $this->assertNull($this->inspect($row, 'cells')[0]->getValue());
 //    }
@@ -422,7 +422,7 @@ class DataTableTest extends ProvidersTestCase
 //        $this->datatable->addDateColumn();
 //        $this->datatable->addRow(null);
 //
-//        $row = $this->getRow(0);
+//        $row = $this->datatable->getRow(0);
 //
 //        $this->assertNull($this->inspect($row, 'cells')[0]->getValue());
 //    }
@@ -452,8 +452,8 @@ class DataTableTest extends ProvidersTestCase
 
         $this->datatable->addRow([Carbon::parse('March 24th, 1988'), 12345, 67890]);
 
-        $columns = $this->getColumns();
-        $row     = $this->getRow(0);
+        $columns = $this->datatable->getColumns();
+        $row     = $this->datatable->getRow(0);
 
         $this->assertEquals('date', $columns[0]->getType());
         $this->assertEquals('number', $columns[1]->getType());
@@ -480,8 +480,8 @@ class DataTableTest extends ProvidersTestCase
 
         $this->datatable->addRows($rows);
 
-        $columns = $this->getColumns();
-        $rows    = $this->getRow();
+        $columns = $this->datatable->getColumns();
+        $rows    = $this->datatable->getRows();
 
         $this->assertEquals('date', $columns[0]->getType());
         $this->assertEquals('number', $columns[1]->getType());
@@ -580,7 +580,7 @@ class DataTableTest extends ProvidersTestCase
 
         $this->datatable->formatColumn(0, $this->mockDateFormat);
 
-        $column = $this->getColumns(0);
+        $column = $this->datatable->getColumn(0);
 
         $this->assertInstanceOf(
             Format::class,
@@ -613,7 +613,7 @@ class DataTableTest extends ProvidersTestCase
             2 => $this->mockNumberFormat
         ]);
 
-        $columns = $this->getColumns();
+        $columns = $this->datatable->getColumns();
 
         $this->assertInstanceOf(
             Format::class,
@@ -716,8 +716,8 @@ class DataTableTest extends ProvidersTestCase
             [Carbon::parse('March 25th, 1988 8:02:06'), 1122, 3344]
         ]);
 
-        $columns = $this->getColumns();
-        $rows    = $this->getRow();
+        $columns = $this->datatable->getColumns();
+        $rows    = $this->datatable->getRows();
 
         $this->assertEquals('datetime', $columns[0]->getType());
         $this->assertEquals('number', $columns[1]->getType());
