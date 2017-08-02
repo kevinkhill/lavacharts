@@ -1,14 +1,14 @@
 <?php
 
-namespace Khill\Lavacharts\Tests\DataTables\Rows;
+namespace Khill\Lavacharts\Tests\DataTables;
 
-use Khill\Lavacharts\DataTables\Rows\Row;
+use Khill\Lavacharts\DataTables\Row;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class RowTest extends ProvidersTestCase
 {
     /**
-     * @covers \Khill\Lavacharts\DataTables\Rows\Row::__construct
+     * @covers \Khill\Lavacharts\DataTables\Row::__construct
      */
     public function testConstructorWithNonCarbonValues()
     {
@@ -22,7 +22,7 @@ class RowTest extends ProvidersTestCase
     }
 
     /**
-     * @covers \Khill\Lavacharts\DataTables\Rows\Row::__construct
+     * @covers \Khill\Lavacharts\DataTables\Row::__construct
      */
     public function testConstructorWithCarbon()
     {
@@ -39,7 +39,7 @@ class RowTest extends ProvidersTestCase
 
     /**
      * @depends testConstructorWithCarbon
-     * @covers \Khill\Lavacharts\DataTables\Rows\Row::getCell
+     * @covers \Khill\Lavacharts\DataTables\Row::getCell
      */
     public function testGetColumnValue()
     {
@@ -55,7 +55,7 @@ class RowTest extends ProvidersTestCase
     /**
      * @depends testConstructorWithCarbon
      * @dataProvider nonIntProvider
-     * @covers \Khill\Lavacharts\DataTables\Rows\Row::getCell
+     * @covers \Khill\Lavacharts\DataTables\Row::getCell
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
     public function testGetColumnValueWithBadType($badTypes)
@@ -69,7 +69,7 @@ class RowTest extends ProvidersTestCase
 
     /**
      * @depends testConstructorWithCarbon
-     * @covers \Khill\Lavacharts\DataTables\Rows\Row::getCell
+     * @covers \Khill\Lavacharts\DataTables\Row::getCell
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
     public function testGetColumnValueWithInvalidColumnIndex()
@@ -81,7 +81,7 @@ class RowTest extends ProvidersTestCase
 
     /**
      * @depends testConstructorWithCarbon
-     * @covers \Khill\Lavacharts\DataTables\Rows\Row::jsonSerialize
+     * @covers \Khill\Lavacharts\DataTables\Row::jsonSerialize
      */
     public function testJsonSerialization()
     {

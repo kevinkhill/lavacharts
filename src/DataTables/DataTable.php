@@ -4,6 +4,7 @@ namespace Khill\Lavacharts\DataTables;
 
 use Carbon\Carbon;
 use DateTimeZone;
+use Exception;
 use Khill\Lavacharts\DataTables\Cells\Cell;
 use Khill\Lavacharts\DataTables\Cells\DateCell;
 use Khill\Lavacharts\DataTables\Columns\Column;
@@ -83,40 +84,42 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     }
 
     /**
-     * Create a new JoinedDataTable using the DataFactory
-     *
-     * @param array $args
-     * @return JoinedDataTable
-     */
-    public static function Joined(...$args)
-    {
-        return DataFactory::JoinedDataTable($args);
-    }
-
-    /**
      * DataTable constructor
      *
      * Default options will be set if none are passed.
      *
      * @param array $options
-     * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
-     * @throws \Khill\Lavacharts\Exceptions\InvalidTimeZone
      */
     public function __construct(array $options = [])
     {
         $this->initOptions($options);
 
-        if (! $this->isValidTimeZone($this->options->timezone)) {
-            throw new InvalidTimeZone($this->options->timezone);
+        if (isset($options['timezone'])) {
+            try {
+                $timezone = (new DateTimeZone($options['timezone']))->getName();
+            } catch(Exception $e) {
+                $timezone = date_default_timezone_get();
+
+                trigger_error(
+                    $e->getMessage().', using the default "'.$timezone.'"',
+                    E_USER_NOTICE
+                );
+            }
+
+            $this->options->set('timezone', $timezone);
         }
+    }
 
-        if (! is_string($this->options->datetime_format)) {
-            throw new InvalidDateTimeFormat($this->options->datetime_format);
-        }
-
-        $this->options->setIfNot('timezone', new DateTimeZone($this->options->timezone));
-
-        $this->options->setIfNot('datetime_format', $this->options->datetime_format);
+    /**
+     * Create a new JoinedDataTable by joining the current table to another with options.
+     *
+     * @param $datatable
+     * @param $options
+     * @return \Khill\Lavacharts\DataTables\JoinedDataTable
+     */
+    public function join($datatable, $options)
+    {
+        return new JoinedDataTable($this, $datatable, $options);
     }
 
     /**
@@ -191,24 +194,6 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     }
 
     /**
-     * Sets the Timezone that Carbon will use when parsing dates
-     *
-     * @param  string $timezone
-     * @return self
-     * @throws \Khill\Lavacharts\Exceptions\InvalidTimeZone
-     */
-    public function setTimeZone($timezone)
-    {
-        if (!$this->isValidTimeZone($timezone)) {
-            throw new InvalidTimeZone($timezone);
-        }
-
-        $this->options->set('timezone', new DateTimeZone($timezone));
-
-        return $this;
-    }
-
-    /**
      * Returns the current timezone used in the DataTable
      *
      * @since  3.0.0
@@ -217,6 +202,30 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     public function getTimeZone()
     {
         return $this->options->timezone;
+    }
+
+    /**
+     * Sets the Timezone that Carbon will use when parsing dates
+     *
+     * @param  string $timezone
+     * @return self
+     */
+    public function setTimezone($timezone)
+    {
+        $this->options->set('timezone', (new DateTimeZone($timezone))->getName());
+
+        return $this;
+    }
+
+    /**
+     * Returns the set DateTime format.
+     *
+     * @since  3.0.0
+     * @return string DateTime format
+     */
+    public function getDateTimeFormat()
+    {
+        return $this->options->datetime_format;
     }
 
     /**
@@ -240,17 +249,6 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     }
 
     /**
-     * Returns the set DateTime format.
-     *
-     * @since      3.0.0
-     * @return string DateTime format
-     */
-    public function getDateTimeFormat()
-    {
-        return (string) $this->options->datetime_format;
-    }
-
-    /**
      * Returns a bare clone of the DataTable.
      *
      * This method clone the DataTable and strip the rows off. Useful when loading
@@ -258,7 +256,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * the chart's format.
      *
      * @since  3.0.0
-     * @return \Khill\Lavacharts\DataTables\DataTable;
+     * @return \Khill\Lavacharts\DataTables\DataTable
      */
     public function bare()
     {
@@ -434,7 +432,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      */
     public function addRoleColumn($type, $role, array $options = [])
     {
-        $role = Role::create($role);
+        $role = Role::verify($role);
 
         return $this->createColumnWithParams($type, '', null, $role, $options);
     }
@@ -449,6 +447,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @param  string $role    A role for the column.
      * @param  array  $options Extra, column specific options
      * @return \Khill\Lavacharts\DataTables\DataTable
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnDefinition
      */
     protected function createColumnWithParams(
         $type,
@@ -458,6 +457,8 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
         array $options = []
     ) {
         $builder = Column::createBuilder();
+
+        Column::isValidType($type);
 
         $builder->setType($type);
         $builder->setLabel($label);
@@ -722,7 +723,9 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     {
         Column::isValidType($type);
 
-        return array_filter($this->columns, [Column::class, 'getType'], ARRAY_FILTER_USE_BOTH);
+        return array_filter($this->columns, function (Column $column, $key) use ($type) {
+            return $column->getType() == $type;
+        }, ARRAY_FILTER_USE_BOTH);
     }
 
     /**
@@ -795,19 +798,17 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      */
     public function getFormattedColumns()
     {
-        return array_filter(
-            array_map(
-                function ($index, Column $column) {
-                    if ($column->isFormatted()) {
-                        $column->getFormat()->setIndex($index);
+        $formattedColumns = [];
 
-                        return $column;
-                    }
-                },
-                array_keys($this->columns),
-                $this->columns
-            )
-        );
+        for ($index = 0; $index < count($this->columns); $index++) {
+            if ($this->columns[$index]->isFormatted()) {
+                $this->columns[$index]->getFormat()->setIndex($index);
+
+                $formattedColumns[$index] = $this->columns[$index];
+            }
+        }
+
+        return $formattedColumns;
     }
 
     /**

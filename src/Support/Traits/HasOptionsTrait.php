@@ -61,6 +61,28 @@ trait HasOptionsTrait
     }
 
     /**
+     * Gets the value of an option.
+     *
+     * @param string $option
+     * @return mixed|null
+     */
+    public function getOption($option)
+    {
+        return $this->options->get($option);
+    }
+
+    /**
+     * Sets the value of an option.
+     *
+     * @param string $option
+     * @param string $value
+     */
+    public function setOption($option, $value)
+    {
+        $this->options->set($option, $value);
+    }
+
+    /**
      * Sets the Options object for the class.
      *
      * @param array|Options $options
@@ -68,10 +90,6 @@ trait HasOptionsTrait
      */
     public function setOptions($options)
     {
-        if (! is_array($options) && $options instanceof Options === false) {
-            throw new InvalidArgumentException($options, 'array or Options object');
-        }
-
         $this->options = Options::create($options);
     }
 

@@ -79,7 +79,7 @@ class StringValue implements Jsonable
      */
     public function __construct($value)
     {
-        if (!is_string($value)) {
+        if (! is_string($value)) {
             throw new InvalidArgumentException($value, 'string');
         }
 

@@ -77,14 +77,14 @@ class Column implements Customizable, Arrayable, Jsonable
      * @param  string $type    Column type
      * @param  string $label   Column label (optional)
      * @param  Format $format  Column format(optional)
-     * @param  Role   $role    Column role (optional)
+     * @param  string $role    Column role (optional)
      * @param  array  $options Column options (optional)
      */
     public function __construct(
         $type,
         $label = '',
         Format $format = null,
-        Role $role = null,
+        $role = '',
         array $options = []
     )
     {

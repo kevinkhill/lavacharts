@@ -59,7 +59,7 @@ class Role extends StringValue
      */
     public static function check($role)
     {
-        if (!self::isValid($role)) {
+        if (! self::isValid($role)) {
             throw new InvalidColumnRole($role);
         }
     }
