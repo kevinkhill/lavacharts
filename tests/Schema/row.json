@@ -1,0 +1,10 @@
+{
+    "title": "Row",
+    "type": "object",
+    "properties": {
+        "c": {
+            "type": "array"
+        }
+    },
+    "required": ["c"]
+}

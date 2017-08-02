@@ -638,6 +638,19 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     }
 
     /**
+     * Return a Cell from the specified row and column index.
+     *
+     * @since 4.0.0
+     * @param int $rowIndex
+     * @param int $columnIndex
+     * @return Cell
+     */
+    public function getCell($rowIndex, $columnIndex)
+    {
+        return $this->getRow($rowIndex)->getCell($columnIndex);
+    }
+
+    /**
      * Returns the Row at the given index.
      *
      * @since 4.0.0
@@ -685,23 +698,6 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     }
 
     /**
-     * Sets a Column at a specified index.
-     *
-     * @since  4.0.0
-     * @param  int    $index
-     * @param  Column $column
-     * @return self
-     */
-    public function setColumn($index, Column $column)
-    {
-        $this->indexCheck($index);
-
-        $this->columns[$index] = $column;
-
-        return $this;
-    }
-
-    /**
      * Returns the column array from the DataTable
      *
      * @return Column[]
@@ -709,6 +705,16 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     public function getColumns()
     {
         return $this->columns;
+    }
+
+    /**
+     * Returns the number of columns in the DataTable
+     *
+     * @return int
+     */
+    public function getColumnCount()
+    {
+        return count($this->columns);
     }
 
     /**
@@ -726,16 +732,6 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
         return array_filter($this->columns, function (Column $column, $key) use ($type) {
             return $column->getType() == $type;
         }, ARRAY_FILTER_USE_BOTH);
-    }
-
-    /**
-     * Returns the number of columns in the DataTable
-     *
-     * @return int
-     */
-    public function getColumnCount()
-    {
-        return count($this->columns);
     }
 
     /**
@@ -819,6 +815,23 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     public function hasFormattedColumns()
     {
         return count($this->getFormattedColumns()) > 0;
+    }
+
+    /**
+     * Sets a Column at a specified index.
+     *
+     * @since  4.0.0
+     * @param  int    $index
+     * @param  Column $column
+     * @return self
+     */
+    public function setColumn($index, Column $column)
+    {
+        $this->indexCheck($index);
+
+        $this->columns[$index] = $column;
+
+        return $this;
     }
 
     /**

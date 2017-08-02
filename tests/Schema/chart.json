@@ -11,12 +11,6 @@
         "elementId":  {
             "type": "string"
         },
-        "events": {
-            "type": "array"
-        },
-        "formats": {
-            "type": "array"
-        },
         "label": {
             "type": "string"
         },
@@ -31,7 +25,13 @@
         },
         "type": {
             "type": "string"
-        }
+        },
+        "events": {
+            "type": "array"
+        },
+        "formats": {
+            "type": "array"
+        },
     },
     "required": ["class", "datatable", "elementId", "label", "pngOutput", "type"]
 }

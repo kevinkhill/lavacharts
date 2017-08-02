@@ -62,27 +62,6 @@ class DataTableTest extends ProvidersTestCase
             ->getMock();
     }
 
-    public function privateColumnAccess($index = null)
-    {
-        $cols = $this->inspect($this->datatable, 'columns');
-
-        return is_int($index) ? $cols[$index] : $cols;
-    }
-
-    public function privateRowAccess($index = null)
-    {
-        $rows = $this->inspect($this->datatable, 'rows');
-
-        return is_int($index) ? $rows[$index] : $rows;
-    }
-
-    public function privateCellAccess($rowIndex, $cellIndex)
-    {
-        $row = $this->privateRowAccess($rowIndex);
-
-        return $row[$cellIndex];
-    }
-
     public function columnCreationNameProvider()
     {
         return array_map(function ($columnName) {
@@ -196,9 +175,6 @@ class DataTableTest extends ProvidersTestCase
         $this->datatable->setDateTimeFormat(1);
     }
 
-    /**
-     * @depends testSetDateTimeFormatOption
-     */
     public function testGetDateTimeFormat()
     {
         $this->datatable->setDateTimeFormat('YYYY-mm-dd');
@@ -213,20 +189,19 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->datatable->addColumn($columnType);
 
-        $column = $this->privateColumnAccess(0);
+        $column = $this->getColumns(0);
 
         $this->assertEquals($columnType, $column->getType());
     }
 
     /**
-     * @depends testAddColumnByType
      * @dataProvider columnTypeProvider
      */
     public function testAddColumnByTypeInArray($columnType)
     {
         $this->datatable->addColumn([$columnType]);
 
-        $column = $this->privateColumnAccess(0);
+        $column = $this->getColumns(0);
 
         $this->assertEquals($columnType, $column->getType());
     }
@@ -252,7 +227,7 @@ class DataTableTest extends ProvidersTestCase
     {
         call_user_func([$this->datatable, 'add' . $columnType]);
 
-        $column = $this->privateColumnAccess(0);
+        $column = $this->getColumns(0);
 
         $type = strtolower(str_replace('Column', '', $columnType));
 
@@ -291,14 +266,13 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->datatable->addRoleColumn('number', 'interval');
 
-        $column = $this->privateColumnAccess(0);
+        $column = $this->getColumns(0);
 
         $this->assertEquals('number', $column->getType());
         $this->assertEquals('interval', $column->getRole());
     }
 
     /**
-     * @depends testAddRoleColumn
      * @covers \Khill\Lavacharts\DataTables\DataTable::addRoleColumn
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
@@ -309,7 +283,6 @@ class DataTableTest extends ProvidersTestCase
 
     /**
      * @dataProvider nonStringProvider
-     * depends testAddRoleColumn
      * @covers \Khill\Lavacharts\DataTables\DataTable::addRoleColumn
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnRole
      */
@@ -319,7 +292,6 @@ class DataTableTest extends ProvidersTestCase
     }
 
     /**
-     * @depends testAddRoleColumn
      * @covers \Khill\Lavacharts\DataTables\DataTable::addRoleColumn
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidColumnRole
      */
@@ -328,27 +300,24 @@ class DataTableTest extends ProvidersTestCase
         $this->datatable->addRoleColumn('number', 'stairs');
     }
 
-    /**
-     * @depends testAddColumnViaNamedAlias
-     */
     public function testDropColumnWithIndex()
     {
         $this->datatable->addDateColumn();
         $this->datatable->addNumberColumn();
         $this->datatable->addStringColumn();
 
-        $columns = $this->privateColumnAccess();
+        $columns = $this->getColumns();
 
         $this->assertEquals(3, count($columns));
         $this->assertEquals('number', $columns[1]->getType());
 
         $this->datatable->dropColumn(1);
-        $columns = $this->privateColumnAccess();
+        $columns = $this->getColumns();
         $this->assertEquals(2, count($columns));
         $this->assertEquals('string', $columns[1]->getType());
 
         $this->datatable->dropColumn(1);
-        $columns = $this->privateColumnAccess();
+        $columns = $this->getColumns();
         $this->assertEquals(1, count($columns));
         $this->assertFalse(isset($columns[1]));
     }
@@ -388,7 +357,7 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->datatable->addColumn($columnType, $columnLabel);
 
-        $column = $this->privateColumnAccess(0);
+        $column = $this->getColumns(0);
 
         $this->assertEquals($columnType, $column->getType());
         $this->assertEquals($columnLabel, $column->getLabel());
@@ -401,7 +370,7 @@ class DataTableTest extends ProvidersTestCase
     {
         $this->datatable->addColumn(['date', 'Days in March']);
 
-        $column = $this->privateColumnAccess(0);
+        $column = $this->getColumns(0);
 
         $this->assertEquals('date', $column->getType());
         $this->assertEquals('Days in March', $column->getLabel());
@@ -418,7 +387,7 @@ class DataTableTest extends ProvidersTestCase
             ['number', 'Temperature'],
         ]);
 
-        $columns = $this->privateColumnAccess();
+        $columns = $this->getColumns();
 
         $this->assertEquals('date', $columns[0]->getType());
         $this->assertEquals('Days in March', $columns[0]->getLabel());
@@ -439,7 +408,7 @@ class DataTableTest extends ProvidersTestCase
 //        $this->datatable->addDateColumn();
 //        $this->datatable->addRow([]);
 //
-//        $row = $this->privateRowAccess(0);
+//        $row = $this->getRow(0);
 //
 //        $this->assertNull($this->inspect($row, 'cells')[0]->getValue());
 //    }
@@ -453,7 +422,7 @@ class DataTableTest extends ProvidersTestCase
 //        $this->datatable->addDateColumn();
 //        $this->datatable->addRow(null);
 //
-//        $row = $this->privateRowAccess(0);
+//        $row = $this->getRow(0);
 //
 //        $this->assertNull($this->inspect($row, 'cells')[0]->getValue());
 //    }
@@ -466,13 +435,9 @@ class DataTableTest extends ProvidersTestCase
         $this->datatable->addDateColumn();
         $this->datatable->addRow([Carbon::parse('March 24th, 1988')]);
 
-        $column = $this->privateColumnAccess(0);
-        $cell   = $this->privateCellAccess(0, 0);
+        $cell = $this->datatable->getCell(0, 0);
 
-        //TODO: why is this failing...
-
-        $this->assertEquals('date', $column->getType());
-//        $this->assertInstanceOf(DateCell::class, $cell);
+        $this->assertInstanceOf(DateCell::class, $cell);
         $this->assertEquals('Date(1988,2,24,0,0,0)', (string) $cell);
     }
 
@@ -487,8 +452,8 @@ class DataTableTest extends ProvidersTestCase
 
         $this->datatable->addRow([Carbon::parse('March 24th, 1988'), 12345, 67890]);
 
-        $columns = $this->privateColumnAccess();
-        $row     = $this->privateRowAccess(0);
+        $columns = $this->getColumns();
+        $row     = $this->getRow(0);
 
         $this->assertEquals('date', $columns[0]->getType());
         $this->assertEquals('number', $columns[1]->getType());
@@ -515,8 +480,8 @@ class DataTableTest extends ProvidersTestCase
 
         $this->datatable->addRows($rows);
 
-        $columns = $this->privateColumnAccess();
-        $rows    = $this->privateRowAccess();
+        $columns = $this->getColumns();
+        $rows    = $this->getRow();
 
         $this->assertEquals('date', $columns[0]->getType());
         $this->assertEquals('number', $columns[1]->getType());
@@ -615,7 +580,7 @@ class DataTableTest extends ProvidersTestCase
 
         $this->datatable->formatColumn(0, $this->mockDateFormat);
 
-        $column = $this->privateColumnAccess(0);
+        $column = $this->getColumns(0);
 
         $this->assertInstanceOf(
             Format::class,
@@ -648,7 +613,7 @@ class DataTableTest extends ProvidersTestCase
             2 => $this->mockNumberFormat
         ]);
 
-        $columns = $this->privateColumnAccess();
+        $columns = $this->getColumns();
 
         $this->assertInstanceOf(
             Format::class,
@@ -751,8 +716,8 @@ class DataTableTest extends ProvidersTestCase
             [Carbon::parse('March 25th, 1988 8:02:06'), 1122, 3344]
         ]);
 
-        $columns = $this->privateColumnAccess();
-        $rows    = $this->privateRowAccess();
+        $columns = $this->getColumns();
+        $rows    = $this->getRow();
 
         $this->assertEquals('datetime', $columns[0]->getType());
         $this->assertEquals('number', $columns[1]->getType());
