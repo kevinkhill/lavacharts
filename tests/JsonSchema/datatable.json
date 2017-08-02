@@ -1,13 +1,77 @@
 {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "description": "Schema for a DataTable to be used with the Google Chart API",
     "title": "DataTable",
     "type": "object",
+    "required": ["rows", "cols"],
     "properties": {
         "cols": {
-            "type": "array"
+            "type": "array",
+            "items" : {
+                "$ref" : "#/definitions/Column"
+            }
         },
         "rows": {
-            "type": "array"
+            "type": "array",
+            "items": {
+                "$ref" : "#/definitions/Row"
+            }
         }
     },
-    "required": ["rows", "cols"]
+    "definitions": {
+        "Column": {
+            "title": "Column",
+            "type": "object",
+            "required": ["label", "type"],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        },
+        "Row": {
+            "title": "Row",
+            "type": "object",
+            "required": ["c"],
+            "properties": {
+                "c": {
+                    "type": "array",
+                    "items": {
+                        "$ref" : "#/definitions/Cell"
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "Cell": {
+            "title": "Cell",
+            "type": "object",
+            "required": ["v"],
+            "properties": {
+                "v": {
+                    "oneOf": [
+                        { "type": "integer" },
+                        { "type": "string" }
+                    ]
+                },
+                "f": {
+                    "type": "string"
+                },
+                "p": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                }
+            },
+            "additionalProperties": false
+        }
+    }
 }

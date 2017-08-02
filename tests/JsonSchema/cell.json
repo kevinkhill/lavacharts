@@ -3,7 +3,10 @@
     "type": "object",
     "properties": {
         "v": {
-            "type": "string"
+            "oneOf": [
+                { "type": "integer" },
+                { "type": "string" }
+            ]
         },
         "f": {
             "type": "string"
