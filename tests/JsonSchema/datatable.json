@@ -1,0 +1,13 @@
+{
+    "title": "DataTable",
+    "type": "object",
+    "properties": {
+        "cols": {
+            "type": "array"
+        },
+        "rows": {
+            "type": "array"
+        }
+    },
+    "required": ["rows", "cols"]
+}

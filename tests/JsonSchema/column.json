@@ -12,5 +12,5 @@
             "type": "string"
         }
     },
-    "required": ["id", "label", "type"]
+    "required": ["label", "type"]
 }

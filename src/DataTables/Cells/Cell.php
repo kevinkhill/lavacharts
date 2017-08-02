@@ -48,18 +48,6 @@ class Cell implements Customizable, Arrayable, Jsonable
      * @param array $cellDef
      * @return Cell
      */
-    public static function create($cellDef)
-    {
-        return new static($cellDef);
-    }
-
-
-    /**
-     * Create a new Cell from an array of arguments for the constructor.
-     *
-     * @param array $cellDef
-     * @return Cell
-     */
     public static function createFromArray(array $cellDef)
     {
         $reflectionClass = new ReflectionClass(Cell::class);

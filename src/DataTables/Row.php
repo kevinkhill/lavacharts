@@ -43,7 +43,18 @@ class Row extends ArrayObject implements Jsonable
     protected $cells = [];
 
     /**
-     * Create a new, empty row
+     * Create a new Row from an arbitrary number of cells.
+     *
+     * @since 4.0.0
+     * @return Row
+     */
+    public static function create(...$args)
+    {
+        return new static($args);
+    }
+
+    /**
+     * Create a new, empty Row
      *
      * @since 4.0.0
      * @return Row
@@ -54,7 +65,7 @@ class Row extends ArrayObject implements Jsonable
     }
 
     /**
-     * Create a new row filled with null values
+     * Create a new Row filled with null values
      *
      * @since 4.0.0
      * @param int $columnCount

@@ -11,7 +11,7 @@ use Khill\Lavacharts\Tests\JsonTestCase;
  */
 class ChartJsonTest extends JsonTestCase
 {
-    const CHART_SCHEMA = '../Schema/chart.json';
+    const CHART_SCHEMA = '../JsonSchema/chart.json';
 
     public function setUp()
     {

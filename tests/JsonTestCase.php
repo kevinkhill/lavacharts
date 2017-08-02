@@ -39,7 +39,15 @@ class JsonTestCase extends TestCase
 
         $this->validator->check($data, $schema);
 
-        $this->assertTrue($this->validator->isValid());
+        $errorMsg = '';
+
+        if (! $this->validator->isValid()) {
+            foreach ($this->validator->getErrors() as $error) {
+                $errorMsg .= sprintf("[%s] %s.\n", $error['property'], $error['message']);
+            }
+        }
+
+        $this->assertTrue($this->validator->isValid(),  $errorMsg);
     }
 
     /**

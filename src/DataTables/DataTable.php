@@ -316,6 +316,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      */
     public function addColumns(array $arrayOfColumns)
     {
+        //TODO: allow assoc array of type => label
         foreach ($arrayOfColumns as $columnArray) {
             if (is_array($columnArray) === false) {
                 throw new InvalidColumnDefinition($columnArray);
@@ -335,7 +336,6 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @param  Format $format A column format object. (Optional)
      * @param  string $role   A role for the column. (Optional)
      * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
     public function addBooleanColumn($label = '', Format $format = null, $role = null)
@@ -350,7 +350,6 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @param  Format $format A column format object. (Optional)
      * @param  string $role   A role for the column. (Optional)
      * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
     public function addStringColumn($label = '', Format $format = null, $role = null)
@@ -365,7 +364,6 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @param  Format $format A column format object. (Optional)
      * @param  string $role   A role for the column. (Optional)
      * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
     public function addDateColumn($label = '', Format $format = null, $role = null)
@@ -381,7 +379,6 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @param  Format $format A column format object. (Optional)
      * @param  string $role   A role for the column. (Optional)
      * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
     public function addDateTimeColumn($label = '', Format $format = null, $role = null)
@@ -397,7 +394,6 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @param  Format $format A column format object. (Optional)
      * @param  string $role   A role for the column. (Optional)
      * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
     public function addTimeOfDayColumn($label = '', Format $format = null, $role = null)
@@ -412,7 +408,6 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @param  Format $format A column format object. (Optional)
      * @param  string $role   A role for the column. (Optional)
      * @return \Khill\Lavacharts\DataTables\DataTable
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
     public function addNumberColumn($label = '', Format $format = null, $role = null)
@@ -554,7 +549,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * with null for the first two cells, you would specify [null, null, {cell_val}].
      *
      *
-     * @param  array|null $values Array of values describing cells or null for a null row.
+     * @param  array|Row|null $values Array of values describing cells or null for a null row.
      * @return \Khill\Lavacharts\DataTables\DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidArgumentException
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
@@ -566,29 +561,41 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
         $columnCount = $this->getColumnCount();
         $columnTypes = $this->getColumnTypes();
 
+        // We can't add rows if there are no columns
         if ($columnCount == 0) {
             throw new UndefinedColumnsException;
         }
 
+        // If the value is null, create a nulled Row
         if (is_null($values)) {
             return $this->pushRow(
                 Row::createNull($columnCount)
             );
         }
 
+        // If the value is already a Row object, add it.
+        if ($values instanceof Row) {
+            $this->verifyRowCellCount($values);
+
+            return $this->pushRow($values);
+        }
+
+        // If it is neither of the above, and not an array, fail.
         if (! is_array($values)) {
             throw new InvalidArgumentException($values, 'array or null');
         }
 
+        // If it is an array, but the cell to column count doesn't match, fail.
         if (count($values) > $columnCount) {
             throw new InvalidCellCount($columnCount);
         }
 
+        // Finally, parse the array of cells into a Row so it can be added.
         foreach ($values as $index => $cellValue) {
             // Null is null, don't do anything else.
             if (is_null($cellValue)) {
                 $newRow->addCell(
-                    Cell::create(null)
+                    new Cell(null)
                 );
             } else {
                 // If the cellValue is part of a date / time column, process accordingly
@@ -607,13 +614,13 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
 
                     // If not caught by anything else, then just create a cell with the value
                     $newRow->addCell(
-                        Cell::create($cellValue)
+                        new Cell($cellValue)
                     );
                 }
             }
         }
 
-//        $this->verifyRowCellCount($newRow); TODO: why is this failing....
+        $this->verifyRowCellCount($newRow);
 
         return $this->pushRow($newRow);
     }
@@ -729,9 +736,12 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     {
         Column::isValidType($type);
 
-        return array_filter($this->columns, function (Column $column, $key) use ($type) {
-            return $column->getType() == $type;
-        }, ARRAY_FILTER_USE_BOTH);
+        return array_filter(
+            $this->columns,
+            function (Column $column) use ($type) {
+                return $column->getType() == $type;
+            }
+        );
     }
 
     /**
@@ -925,7 +935,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * Checks to see if a Row has the correct number of Cells for the DataTable
      *
      * @since 4.0.0
-     * @param \Khill\Lavacharts\DataTables\Row $row
+     * @param Row $row
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      */
     private function verifyRowCellCount(Row $row)
