@@ -56,9 +56,9 @@
             "required": ["v"],
             "properties": {
                 "v": {
-                    "oneOf": [
-                        { "type": "integer" },
-                        { "type": "string" }
+                    "anyOf": [
+                        { "type": "string" },
+                        { "type": "number" }
                     ]
                 },
                 "f": {
