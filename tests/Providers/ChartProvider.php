@@ -9,6 +9,7 @@ use Khill\Lavacharts\Charts\BarChart;
 use Khill\Lavacharts\Charts\BubbleChart;
 use Khill\Lavacharts\Charts\CalendarChart;
 use Khill\Lavacharts\Charts\CandlestickChart;
+use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Charts\ColumnChart;
 use Khill\Lavacharts\Charts\ComboChart;
 use Khill\Lavacharts\Charts\DonutChart;
@@ -33,9 +34,9 @@ class ChartProvider
     /**
      * Return a test Chart by type.
      *
-     * @param string                                 $type
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\Chart
+     * @param string    $type
+     * @param DataTable $data
+     * @return Chart
      */
     public static function make($type, DataTable $data)
     {
@@ -47,8 +48,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\AnnotationChart
+     * @param DataTable $data
+     * @return AnnotationChart
      */
     public static function AnnotationChart(DataTable $data)
     {
@@ -59,8 +60,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\AreaChart
+     * @param DataTable $data
+     * @return AreaChart
      */
     public static function AreaChart(DataTable $data)
     {
@@ -77,8 +78,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\BarChart
+     * @param DataTable $data
+     * @return BarChart
      */
     public static function BarChart(DataTable $data)
     {
@@ -91,8 +92,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\BubbleChart
+     * @param DataTable $data
+     * @return BubbleChart
      */
     public static function BubbleChart(DataTable $data)
     {
@@ -120,8 +121,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\CalendarChart
+     * @param DataTable $data
+     * @return CalendarChart
      */
     public static function CalendarChart(DataTable $data)
     {
@@ -150,8 +151,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\CandlestickChart
+     * @param DataTable $data
+     * @return CandlestickChart
      */
     public static function CandlestickChart(DataTable $data)
     {
@@ -163,8 +164,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\ColumnChart
+     * @param DataTable $data
+     * @return ColumnChart
      */
     public static function ColumnChart(DataTable $data)
     {
@@ -179,8 +180,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\ComboChart
+     * @param DataTable $data
+     * @return ComboChart
      */
     public static function ComboChart(DataTable $data)
     {
@@ -205,8 +206,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\DonutChart
+     * @param DataTable $data
+     * @return DonutChart
      */
     public static function DonutChart(DataTable $data)
     {
@@ -216,8 +217,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\GanttChart
+     * @param DataTable $data
+     * @return GanttChart
      */
     public static function GanttChart(DataTable $data)
     {
@@ -228,8 +229,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\GaugeChart
+     * @param DataTable $data
+     * @return GaugeChart
      */
     public static function GaugeChart(DataTable $data)
     {
@@ -249,8 +250,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\GeoChart
+     * @param DataTable $data
+     * @return GeoChart
      */
     public static function GeoChart(DataTable $data)
     {
@@ -262,8 +263,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\HistogramChart
+     * @param DataTable $data
+     * @return HistogramChart
      */
     public static function HistogramChart(DataTable $data)
     {
@@ -275,8 +276,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\LineChart
+     * @param DataTable $data
+     * @return LineChart
      */
     public static function LineChart(DataTable $data)
     {
@@ -297,8 +298,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\OrgChart
+     * @param DataTable $data
+     * @return OrgChart
      */
     public static function OrgChart(DataTable $data)
     {
@@ -314,8 +315,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\PieChart
+     * @param DataTable $data
+     * @return PieChart
      */
     public static function PieChart(DataTable $data)
     {
@@ -332,8 +333,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\SankeyChart
+     * @param DataTable $data
+     * @return SankeyChart
      */
     public static function SankeyChart(DataTable $data)
     {
@@ -366,8 +367,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\ScatterChart
+     * @param DataTable $data
+     * @return ScatterChart
      */
     public static function ScatterChart(DataTable $data)
     {
@@ -391,8 +392,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\SteppedAreaChart
+     * @param DataTable $data
+     * @return SteppedAreaChart
      */
     public static function SteppedAreaChart(DataTable $data)
     {
@@ -407,8 +408,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\TableChart
+     * @param DataTable $data
+     * @return TableChart
      */
     public static function TableChart(DataTable $data)
     {
@@ -416,8 +417,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\TimelineChart
+     * @param DataTable $data
+     * @return TimelineChart
      */
     public static function TimelineChart(DataTable $data)
     {
@@ -431,8 +432,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\TreeMapChart
+     * @param DataTable $data
+     * @return TreeMapChart
      */
     public static function TreeMapChart(DataTable $data)
     {
@@ -444,8 +445,8 @@ class ChartProvider
     }
 
     /**
-     * @param \Khill\Lavacharts\DataTables\DataTable $data
-     * @return \Khill\Lavacharts\Charts\WordTreeChart
+     * @param DataTable $data
+     * @return WordTreeChart
      */
     public static function WordTreeChart(DataTable $data)
     {

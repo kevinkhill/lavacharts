@@ -18,17 +18,19 @@
             }
         }
     },
+    "additionalProperties": false,
     "definitions": {
         "Column": {
             "title": "Column",
             "type": "object",
-            "required": ["label", "type"],
+            "required": ["type"],
             "properties": {
                 "id": {
                     "type": "string"
                 },
                 "label": {
                     "type": "string"
+
                 },
                 "type": {
                     "type": "string"
@@ -58,7 +60,8 @@
                 "v": {
                     "anyOf": [
                         { "type": "string" },
-                        { "type": "number" }
+                        { "type": "number" },
+                        { "type": "null" }
                     ]
                 },
                 "f": {

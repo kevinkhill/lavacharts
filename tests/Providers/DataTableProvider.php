@@ -4,7 +4,6 @@ namespace Khill\Lavacharts\Tests\Providers;
 
 use BadMethodCallException;
 use Carbon\Carbon;
-use Khill\Lavacharts\DataTables\DataFactory;
 use Khill\Lavacharts\DataTables\DataTable;
 
 class DataTableProvider
@@ -13,6 +12,7 @@ class DataTableProvider
      * Return a DataTable for the type of chart.
      *
      * @param string $type
+     * @return DataTable
      */
     public static function get($type)
     {
@@ -24,7 +24,7 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function AnnotationChart()
     {
@@ -56,7 +56,7 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function AreaChart()
     {
@@ -77,7 +77,7 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function BarChart()
     {
@@ -94,11 +94,11 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function BubbleChart()
     {
-        $data = DataFactory::arrayToDataTable([
+        $data = DataTable::fromArray([
             ['ID', 'Life Expectancy', 'Fertility Rate', 'Region',     'Population'],
             ['CAN',    80.66,              1.67,      'North America',  33739900],
             ['DEU',    79.84,              1.36,      'Europe',         81902307],
@@ -116,7 +116,7 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function CalendarChart()
     {
@@ -135,11 +135,11 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function CandlestickChart()
     {
-        $data = DataFactory::arrayToDataTable([
+        $data = DataTable::fromArray([
             ['Mon', 20, 28, 38, 45],
             ['Tue', 31, 38, 55, 66],
             ['Wed', 50, 55, 77, 80],
@@ -152,7 +152,7 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function ColumnChart()
     {
@@ -170,7 +170,7 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function ComboChart()
     {
@@ -189,7 +189,7 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function DonutChart()
     {
@@ -197,7 +197,7 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function GanttChart()
     {
@@ -205,7 +205,7 @@ class DataTableProvider
             return $days * 24 * 60 * 60 * 1000;
         };
 
-        $data = DataFactory::DataTable([
+        $data = DataTable::create([
             ['string', 'Task ID'],
             ['string', 'Task Name'],
             ['date', 'Start Date'],
@@ -233,7 +233,7 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function GaugeChart()
     {
@@ -248,7 +248,7 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function GeoChart()
     {
@@ -266,11 +266,11 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function HistogramChart()
     {
-        $data = DataFactory::arrayToDataTable([
+        $data = DataTable::fromArray([
             ['Dinosaur', 'Length'],
             ['Acrocanthosaurus (top-spined lizard)', 12.2],
             ['Albertosaurus (Alberta lizard)', 9.1],
@@ -306,11 +306,11 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function LineChart()
     {
-        $data = DataFactory::DataTable([
+        $data = DataTable::create([
             ['date', 'Dates'],
             ['number', 'High Temp'],
             ['number', 'Average Temp'],
@@ -338,7 +338,7 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function OrgChart()
     {
@@ -362,7 +362,7 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function PieChart()
     {
@@ -378,7 +378,7 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function SankeyChart()
     {
@@ -399,7 +399,7 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function ScatterChart()
     {
@@ -415,11 +415,11 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function SteppedAreaChart()
     {
-        $data = DataFactory::DataTable([
+        $data = DataTable::create([
             ['string', 'Director (Year)'],
             ['number', 'Rotten Tomatoes'],
             ['number', 'IMDB']
@@ -434,7 +434,7 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function TableChart()
     {
@@ -455,7 +455,7 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function TimelineChart()
     {
@@ -477,11 +477,11 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function TreeMapChart()
     {
-        $data = DataFactory::arrayToDataTable([
+        $data = DataTable::fromArray([
             ['Location', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
             ['Global',    null,                 0,                               0],
             ['America',   'Global',             0,                               0],
@@ -517,11 +517,11 @@ class DataTableProvider
     }
 
     /**
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public static function WordTreeChart()
     {
-        $data = DataFactory::arrayToDataTable([
+        $data = DataTable::fromArray([
             ['Phrases'],
             ['cats are better than dogs'],
             ['cats eat kibble'],

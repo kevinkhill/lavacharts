@@ -75,12 +75,24 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * Create a new DataTable using the DataFactory
      *
      * @param array $args
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      * @internal param array $options
      */
     public static function create(...$args)
     {
         return DataFactory::DataTable($args);
+    }
+
+    /**
+     * Create a new DataTable from an array using the DataFactory
+     *
+     * @param array $tableArray
+     * @param bool  $firstRowIsData
+     * @return DataTable
+     */
+    public static function fromArray($tableArray, $firstRowIsData = false)
+    {
+        return DataFactory::arrayToDataTable($tableArray, $firstRowIsData);
     }
 
     /**
@@ -234,7 +246,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * passed to a cell in a date column, that was parsed incorrectly by Carbon::parse()
      *
      * @param  string $dateTimeFormat
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
      */
     public function setDateTimeFormat($dateTimeFormat)
@@ -256,7 +268,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * the chart's format.
      *
      * @since  3.0.0
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public function bare()
     {
@@ -286,7 +298,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @param Format       $format  A column format object. (Optional)
      * @param string       $role    A role for the column. (Optional)
      * @param array        $options
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidArgumentException
      */
     public function addColumn(
@@ -311,7 +323,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * Adds multiple columns to the DataTable
      *
      * @param  array[] $arrayOfColumns Array of columns to batch add to the DataTable.
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnDefinition
      */
     public function addColumns(array $arrayOfColumns)
@@ -335,7 +347,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @param  string $label  A label for the column.
      * @param  Format $format A column format object. (Optional)
      * @param  string $role   A role for the column. (Optional)
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
     public function addBooleanColumn($label = '', Format $format = null, $role = null)
@@ -349,7 +361,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @param  string $label  A label for the column.
      * @param  Format $format A column format object. (Optional)
      * @param  string $role   A role for the column. (Optional)
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
     public function addStringColumn($label = '', Format $format = null, $role = null)
@@ -363,7 +375,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @param  string $label  A label for the column.
      * @param  Format $format A column format object. (Optional)
      * @param  string $role   A role for the column. (Optional)
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
     public function addDateColumn($label = '', Format $format = null, $role = null)
@@ -378,7 +390,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @param  string $label  A label for the column.
      * @param  Format $format A column format object. (Optional)
      * @param  string $role   A role for the column. (Optional)
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
     public function addDateTimeColumn($label = '', Format $format = null, $role = null)
@@ -393,7 +405,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @param  string $label  A label for the column.
      * @param  Format $format A column format object. (Optional)
      * @param  string $role   A role for the column. (Optional)
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
     public function addTimeOfDayColumn($label = '', Format $format = null, $role = null)
@@ -407,7 +419,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @param  string $label  A label for the column.
      * @param  Format $format A column format object. (Optional)
      * @param  string $role   A role for the column. (Optional)
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnType
      */
     public function addNumberColumn($label = '', Format $format = null, $role = null)
@@ -422,7 +434,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @param  string $type    Type of data the column will define.
      * @param  string $role    Type of role that the data will represent.
      * @param  array  $options Customization of the role.
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnRole
      */
     public function addRoleColumn($type, $role, array $options = [])
@@ -441,7 +453,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @param  Format $format  A column format object.
      * @param  string $role    A role for the column.
      * @param  array  $options Extra, column specific options
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnDefinition
      */
     protected function createColumnWithParams(
@@ -473,7 +485,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      *
      * @since  3.0.0
      * @param  int $index
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
     public function dropColumn($index)
@@ -492,7 +504,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      *
      * @param  integer                                     $index
      * @param  \Khill\Lavacharts\DataTables\Columns\Format $format
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      */
     public function formatColumn($index, Format $format)
@@ -506,7 +518,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * Sets the format of multiple columns.
      *
      * @param  array $formatArray
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      */
     public function formatColumns(array $formatArray)
     {
@@ -550,7 +562,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      *
      *
      * @param  array|Row|null $values Array of values describing cells or null for a null row.
-     * @return \Khill\Lavacharts\DataTables\DataTable
+     * @return DataTable
      * @throws \Khill\Lavacharts\Exceptions\InvalidArgumentException
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      * @throws \Khill\Lavacharts\Exceptions\UndefinedColumnsException

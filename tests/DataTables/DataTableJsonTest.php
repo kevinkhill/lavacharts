@@ -36,9 +36,9 @@ class DataTableJsonTest extends JsonTestCase
             $this->datatable->addRow(
                 [
                     '2016-1-'.$day,
-                    rand(90000,100000),
-                    rand(90000,100000),
-                    rand(9000000,1000000),
+                    rand(90000, 100000),
+                    rand(90000, 100000),
+                    rand(9000000, 1000000) * 1.001,
                 ]
             );
         }
@@ -46,9 +46,13 @@ class DataTableJsonTest extends JsonTestCase
 
     public function chartTypeProvider()
     {
-        return array_map(function ($chartType) {
-            return [$chartType];
-        }, ChartFactory::TYPES);
+        $types = [];
+
+        foreach (ChartFactory::TYPES as $chartType) {
+            $types[$chartType] = [$chartType];
+        }
+
+        return $types;
     }
 
     /**
