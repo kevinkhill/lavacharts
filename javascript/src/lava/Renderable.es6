@@ -19,6 +19,7 @@
  * @property {Object}   _errors   - Collection of errors to be thrown.
  */
 import { ElementIdNotFound } from "./Errors.es6";
+import { getType } from "./Utils.es6"
 
 /**
  * Chart module
@@ -80,21 +81,38 @@ export class Renderable
      * @param {object} payload Json representation of a DataTable
      */
     setData(payload) {
-         // If a DataTable#toJson() payload is received, with formatted columns,
-         // then payload.data will be defined, and used as the DataTable
-        if (typeof payload.data === 'object') {
-            payload = payload.data;
+        // If the payload is from JoinedDataTable::toJson(), then create
+        // two new DataTables and join them with the defined options.
+        if (getType(payload.data) === 'Array') {
+            this.data = google.visualization.data.join(
+                new google.visualization.DataTable(payload.data[0]),
+                new google.visualization.DataTable(payload.data[1]),
+                payload.keys,
+                payload.joinMethod,
+                payload.dt2Columns,
+                payload.dt2Columns
+            );
+
+            return;
         }
 
         // Since Google compiles their classes, we can't use instanceof to check since
         // it is no longer called a "DataTable" (it's "gvjs_P" but that could change...)
-        if (typeof payload.getTableProperties === 'function') {
+        if (getType(payload.getTableProperties) === 'Function') {
             this.data = payload;
 
-        // Otherwise assume it is a JSON representation of a DataTable and create one.
-        } else {
-            this.data = new google.visualization.DataTable(payload);
+            return;
         }
+
+        // If a DataTable#toJson() payload is received, with formatted columns,
+        // then payload.data will be defined, and used as the DataTable
+        if (getType(payload.data) === 'Object') {
+            payload = payload.data;
+        }
+        // TODO: handle formats better...
+
+        // If we reach here, then it must be standard JSON for creating a DataTable.
+        this.data = new google.visualization.DataTable(payload);
     }
 
     /**

@@ -1,6 +1,15 @@
 {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "description": "Schema for a Chart to be used with Lava.js",
     "title": "Chart",
     "type": "object",
+    "required": [
+        "type",
+        "class",
+        "label",
+        "elementId",
+        "datatable"
+    ],
     "properties": {
         "class": {
             "type": "string"
@@ -31,7 +40,6 @@
         },
         "formats": {
             "type": "array"
-        },
-    },
-    "required": ["class", "datatable", "elementId", "label", "pngOutput", "type"]
+        }
+    }
 }

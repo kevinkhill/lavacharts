@@ -11,6 +11,18 @@ export function noop() {
 }
 
 /**
+ * Return the type of object.
+ *
+ * @param {object} object
+ * @return {mixed}
+ */
+export function getType(object) {
+    let type = Object.prototype.toString.call(object);
+
+    return type.replace('[object ','').replace(']','');
+}
+
+/**
  * Simple Promise for the DOM to be ready.
  *
  * @return {Promise}

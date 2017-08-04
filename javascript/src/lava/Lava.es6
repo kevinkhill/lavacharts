@@ -182,11 +182,11 @@ export class LavaJs extends EventEmitter
                 renderable.render();
             });
 
-            console.log('[lava.js] Executing lava.ready(callback)');
-            $lava._readyCallback();
-
             console.log('[lava.js] Firing "ready" event.');
             $lava.emit('ready');
+
+            console.log('[lava.js] Executing lava.ready(callback)');
+            $lava._readyCallback();
         });
     }
 
