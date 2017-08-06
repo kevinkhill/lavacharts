@@ -4,12 +4,14 @@ namespace Khill\Lavacharts\Tests;
 
 use Khill\Lavacharts\Charts\ChartFactory;
 use Khill\Lavacharts\DataTables\Columns\Column;
-use Khill\Lavacharts\DataTables\Columns\ColumnFactory;
+use Khill\Lavacharts\DataTables\Columns\Format;
 use Khill\Lavacharts\DataTables\DataTable;
 use PHPUnit\Framework\TestCase;
 
 abstract class ProvidersTestCase extends TestCase
 {
+    const CHART_NAMESPACE = '\\Khill\\Lavacharts\\Charts\\';
+
     /**
      * Partial DataTable for use throughout various tests
      *
@@ -82,6 +84,22 @@ abstract class ProvidersTestCase extends TestCase
 
         foreach (ChartFactory::TYPES as $chartType) {
             $types[$chartType] = [$chartType];
+        }
+
+        return $types;
+    }
+
+    /**
+     * Returns all available format types, labeled as self for testing.
+     *
+     * @return array
+     */
+    public function formatTypeProvider()
+    {
+        $types = [];
+
+        foreach (Format::TYPES as $formatType) {
+            $types[$formatType] = [$formatType];
         }
 
         return $types;

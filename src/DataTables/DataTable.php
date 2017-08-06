@@ -55,7 +55,12 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     /**
      * Column types that use dates and/or times
      */
-    const DATE_TIME_COLUMNS = ['date', 'time', 'datetime', 'timeofday'];
+    const DATE_TIME_COLUMNS = [
+        'date',
+        'time',
+        'datetime',
+        'timeofday',
+    ];
 
     /**
      * Array of the DataTable's column objects.

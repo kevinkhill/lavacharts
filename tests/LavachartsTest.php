@@ -2,18 +2,15 @@
 
 namespace Khill\Lavacharts\Tests;
 
-use Khill\Lavacharts\Charts\ChartFactory;
-use Khill\Lavacharts\Charts\LineChart;
-use Khill\Lavacharts\Charts\PieChart;
+use Khill\Lavacharts\DataTables\Columns\Format;
 use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Lavacharts;
-use Khill\Lavacharts\Tests\Traits\DataProviders;
 use Mockery;
 
 class LavachartsTest extends ProvidersTestCase
 {
     /**
-     * @var  Lavacharts
+     * @var Lavacharts
      */
     private $lava;
 
@@ -42,7 +39,25 @@ class LavachartsTest extends ProvidersTestCase
     {
         $chart = $this->lava->$chartType('My'.$chartType);
 
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Charts\\'.$chartType, $chart);
+        $this->assertInstanceOf(self::CHART_NAMESPACE.$chartType, $chart);
+    }
+
+    /**
+     * @covers \Khill\Lavacharts\Lavacharts::store()
+     * @dataProvider chartTypeProvider
+     * @param string $chartType
+     */
+    public function testManuallyStoringChartsInTheVolcano($chartType)
+    {
+        $chartClass = self::CHART_NAMESPACE.$chartType;
+
+        $chart = new $chartClass('My'.$chartType);
+
+        $this->lava->store($chart);
+
+        $volcano = $this->lava->getVolcano();
+
+        $this->assertInstanceOf(self::CHART_NAMESPACE.$chartType, $volcano->get('My'.$chartType));
     }
 
     /**
@@ -55,11 +70,23 @@ class LavachartsTest extends ProvidersTestCase
 
         $volcano = $this->lava->getVolcano();
 
-        $this->assertInstanceOf('\\Khill\\Lavacharts\\Charts\\'.$chartType, $volcano->get('My'.$chartType));
+        $this->assertInstanceOf(self::CHART_NAMESPACE.$chartType, $volcano->get('My'.$chartType));
     }
 
     /**
-     * @covers Lavacharts::exists()
+     * @covers \Khill\Lavacharts\Lavacharts::get()
+     * @dataProvider chartTypeProvider
+     * @param string $chartType
+     */
+    public function testGettingStoredChartsFromVolcano($chartType)
+    {
+        $this->lava->$chartType('My'.$chartType);
+
+        $this->assertInstanceOf(self::CHART_NAMESPACE.$chartType, $this->lava->get('My'.$chartType));
+    }
+
+    /**
+     * @covers \Khill\Lavacharts\Lavacharts::exists()
      * @dataProvider chartTypeProvider
      * @param string $chartType
      */
@@ -70,178 +97,44 @@ class LavachartsTest extends ProvidersTestCase
         $this->assertTrue($this->lava->exists('My'.$chartType));
     }
 
-    public function testExistsWithNonExistentChartTypeInVolcano()
-    {
-        $this->lava->LineChart('TestChart', $this->partialDataTable);
-
-        $this->assertFalse($this->lava->exists('SheepChart', 'TestChart'));
-    }
-
-    public function testExistsWithNonExistentChartLabelInVolcano()
-    {
-        $this->lava->LineChart('WhaaaaatChart?', $this->partialDataTable);
-
-        $this->assertFalse($this->lava->exists('LineChart', 'TestChart'));
-    }
-
-    /**
-     * @dataProvider nonStringProvider
-     */
-    public function testExistsWithNonStringInputForType($badTypes)
-    {
-        $this->lava->LineChart('TestChart', $this->partialDataTable);
-
-        $this->assertFalse($this->lava->exists($badTypes, 'TestChart'));
-    }
-
-    /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidLabel
-     */
-    public function testExistsWithNonStringInputForLabel($badTypes)
-    {
-        $this->lava->LineChart('TestChart', $this->partialDataTable);
-
-        $this->assertFalse($this->lava->exists('LineChart', $badTypes));
-    }
-
-
-    /**
-     * @dataProvider chartTypeProvider
-     */
-    public function testCreatingChartsViaMagicMethodOfLavaObject($chartType)
-    {
-        $chart = $this->lava->$chartType(
-            'My Fancy '.$chartType,
-            $this->getMockDataTable()
-        );
-
-        $this->assertEquals('My Fancy '.$chartType, $chart->getLabelStr());
-        $this->assertEquals($chartType, $chart->getType());
-        $this->assertInstanceOf(DataTable::class, $chart->getDataTable());
-    }
-
-    /**
-     * @depends testCreateDataTableViaMagicMethod
-     */
     public function testRenderChart()
     {
+        $this->markTestSkipped('Re-evaluation of render() calling renderAll() is needed.');
+
         $this->lava->LineChart('test', $this->partialDataTable);
 
         $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div')));
     }
 
     /**
-     * depends testCreateDataTableViaMagicMethod
+     * @dataProvider formatTypeProvider
+     * @param string $formatType
      */
-    public function testRenderChartWithElementIdAndDivWithNoDimensions()
+    public function testCreatingFormatObjectViaMagicMethod($formatType)
     {
-        $this->lava->LineChart('test', $this->partialDataTable);
+        $format = $this->lava->$formatType();
 
-        $output = $this->lava->render('LineChart', 'test', 'test-div', true);
-
-        $this->assertStringHasString($output, '<div id="test-div"></div>');
+        $this->assertInstanceOf(Format::class, $format);
     }
 
     /**
-     * depends testCreateDataTableViaMagicMethod
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidChartType
      */
-    public function testRenderChartWithNoElementIdAndDivNoDimensions()
+    public function testCreatingNonExistentChartViaAlias()
     {
-        $this->lava->LineChart('test', $this->partialDataTable, [
-            'elementId' => 'test-div'
-        ]);
-
-        $output = $this->lava->render('LineChart', 'test', true);
-
-        $this->assertStringHasString($output, '<div id="test-div"></div>');
+        $this->lava->TacoChart();
     }
 
     /**
-     * @depends testCreateDataTableViaMagicMethod
+     * @expectedException \BadMethodCallException
      */
-    public function testRenderChartWithDivAndDimensions()
+    public function testNonExistentLavachartsMethod()
     {
-        $this->lava->LineChart('test', $this->partialDataTable);
-
-        $dims = [
-            'height' => 200,
-            'width' => 200
-        ];
-
-        $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div', $dims)));
+        $this->lava->DataTebal();
     }
 
     /**
-     * @depends testCreateDataTableViaMagicMethod
-     */
-    public function testRenderChartWithDivAndBadDimensionKeys()
-    {
-        $this->lava->LineChart('test', $this->partialDataTable);
-
-        $dims = [
-            'heiXght' => 200,
-            'wZidth' => 200
-        ];
-
-        $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div', $dims)));
-    }
-
-    /**
-     * @depends testCreateDataTableViaMagicMethod
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidDivDimensions
-     */
-    public function testRenderChartWithDivAndBadDimensionType()
-    {
-        $this->lava->LineChart('test', $this->partialDataTable);
-
-        $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div', 'TacosTacosTacos')));
-    }
-
-    /**
-     * @depends testCreateDataTableViaMagicMethod
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
-     */
-    public function testRenderChartWithDivAndDimensionsWithBadValues()
-    {
-        $this->lava->LineChart('my-chart', $this->partialDataTable);
-
-        $dims = [
-            'height' => 4.6,
-            'width' => 'hotdogs'
-        ];
-
-        $this->assertTrue(is_string($this->lava->render('LineChart', 'my-chart', 'test-div', $dims)));
-    }
-
-    /**
-     * @depends testCreateDataTableViaMagicMethod
-     */
-    public function testCreateFormatObjectViaMagicMethodWithConstructorConfig()
-    {
-        $dt = $this->lava->DataTable();
-
-        $df = $this->lava->DateFormat([
-            'formatType' => 'medium'
-        ]);
-
-        $dt->addDateColumn('dates', $df);
-
-        $this->lava->LineChart('test', $dt);
-
-        $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div')));
-    }
-
-    /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidRenderable
-     */
-    public function testRenderAliasWithInvalidLavaObject()
-    {
-        $this->lava->renderTacoChart();
-    }
-
-    /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidLabel
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidArgumentException
      */
     public function testCreateChartWithMissingLabel()
     {
@@ -249,61 +142,28 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidLabel
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidArgumentException
      */
     public function testCreateChartWithInvalidLabel()
     {
-        $this->lava->LineChart(5, $this->partialDataTable);
+        $this->lava->LineChart(5);
     }
 
-    /**
-     * @depends testCreatingChartsViaMagicMethodOfLavaObject
-     */
-    public function testStoreChartIntoVolcano()
+    public function testLavaJsOutput()
     {
-        $mockPieChart = Mockery::mock(PieChart::class, [
-            $this->mockLabel,
-            Mockery::mock(DataTable::class)
-        ])->shouldReceive('getType')
-          ->andReturn('PieChart')
-          ->shouldReceive('getLabel')
-          ->andReturn('MockLabel')
-          ->getMock();
+        $lavaJsSrc = file_get_contents('../javascript/dist/lava.js');
+        $lavaJsOutput = $this->lava->lavajs();
 
-        $this->lava->store($mockPieChart);
+        // Get the script tag contents
+        preg_match('/(?:<script\b[^>]*>)([\s\S]*?)(?:<\/script>)/', $lavaJsOutput, $matches);
 
-        $volcano = $this->inspect($this->lava, 'volcano');
-        $charts = $this->inspect($volcano, 'charts');
+        // Replace the "OPTIONS_JSON" placeholder with the actual options in the lava.js source.
+        $lavaJsSrc = preg_replace('/OPTIONS_JSON/', $this->lava->getOptions()->toJson(), $lavaJsSrc);
 
-        $this->assertArrayHasKey('PieChart', $charts);
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\PieChart', $charts['PieChart']['MockLabel']);
-    }
+        // The lava.js source, with json-ed options, should now match the lavajs() output
+        $this->assertEquals($lavaJsSrc, $matches[1]);
 
-    public function testJsapiMethodWithCoreJsTracking()
-    {
-        $this->lava->jsapi();
-
-        $this->assertTrue(
-            $this->inspect($this->lava, 'scriptManager')->lavaJsRendered()
-        );
-    }
-
-    public function testLavaJsMethodWithCoreJsTracking()
-    {
-        $this->lava->lavajs();
-
-        $this->assertTrue(
-            $this->inspect($this->lava, 'scriptManager')->lavaJsRendered()
-        );
-    }
-
-    public function formatTypeProvider()
-    {
-        return [
-            ['ArrowFormat'],
-            ['BarFormat'],
-            ['DateFormat'],
-            ['NumberFormat']
-        ];
+        // The ScriptManager should also know that the lava.js module has be output.
+        $this->assertTrue($this->lava->getScriptManager()->lavaJsLoaded());
     }
 }

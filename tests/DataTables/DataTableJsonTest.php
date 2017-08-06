@@ -44,17 +44,6 @@ class DataTableJsonTest extends JsonTestCase
         }
     }
 
-    public function chartTypeProvider()
-    {
-        $types = [];
-
-        foreach (ChartFactory::TYPES as $chartType) {
-            $types[$chartType] = [$chartType];
-        }
-
-        return $types;
-    }
-
     /**
      * @dataProvider chartTypeProvider
      * @param string $chartType
