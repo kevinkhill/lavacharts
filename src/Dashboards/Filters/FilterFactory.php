@@ -44,7 +44,7 @@ class FilterFactory
      */
     public static function create($type, $args)
     {
-        $args = new Args($args);
+        $args = new Args($args); // TODO: keep?
 
         $labelOrIndex = $args->verify(0, ['string', 'int']);
         $options = $args->verify(1, 'array', []);

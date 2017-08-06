@@ -6,16 +6,10 @@ use Khill\Lavacharts\Charts\ChartFactory;
 use Khill\Lavacharts\DataTables\Columns\Column;
 use Khill\Lavacharts\DataTables\Columns\ColumnFactory;
 use Khill\Lavacharts\DataTables\DataTable;
+use PHPUnit\Framework\TestCase;
 
-define('DATATABLE_NS', "\\Khill\\Lavacharts\\DataTables\\");
-
-abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
+abstract class ProvidersTestCase extends TestCase
 {
-    /**
-     * Namespace for Mocks
-     */
-    const NS = '\Khill\Lavacharts';
-
     /**
      * Partial DataTable for use throughout various tests
      *
@@ -32,7 +26,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
          */
         date_default_timezone_set('America/Los_Angeles');
 
-        $this->partialDataTable = \Mockery::mock(DATATABLE_NS.'DataTable')->makePartial();
+        $this->partialDataTable = \Mockery::mock(DataTable::class)->makePartial();
     }
 
     /**
@@ -62,37 +56,35 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * DataProvider for the column types
+     * Returns all available column types, labeled as self for testing.
      *
      * @return array
      */
     public function columnTypeProvider()
     {
-        return array_map(function ($columnType) {
-            return [$columnType];
-        }, Column::TYPES);
+        $types = [];
+
+        foreach (Column::TYPES as $columnType) {
+            $types[$columnType] = [$columnType];
+        }
+
+        return $types;
     }
 
     /**
-     * DataProvider for the chart types
+     * Returns all available chart types, labeled as self for testing.
      *
      * @return array
      */
     public function chartTypeProvider()
     {
-        return array_map(function ($chartType) {
-            return [$chartType];
-        }, ChartFactory::TYPES);
-    }
+        $types = [];
 
-    /**
-     * Create a mock DataTable
-     *
-     * @return \Mockery\Mock
-     */
-    public function getMockDataTable()
-    {
-        return \Mockery::mock(DataTable::class)->makePartial();
+        foreach (ChartFactory::TYPES as $chartType) {
+            $types[$chartType] = [$chartType];
+        }
+
+        return $types;
     }
 
     public function nonStringOrIntProvider()

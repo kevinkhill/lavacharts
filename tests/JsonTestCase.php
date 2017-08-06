@@ -3,7 +3,6 @@
 namespace Khill\Lavacharts\Tests;
 
 use JsonSchema\Validator;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class JsonTestCase
@@ -17,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  * @link https://github.com/laravel/framework/blob/5.4/src/Illuminate/Support/Arr.php
  * @link https://github.com/laravel/framework/blob/5.4/src/Illuminate/Support/Str.php
  */
-class JsonTestCase extends TestCase
+class JsonTestCase extends ProvidersTestCase
 {
     /**
      * @var Validator

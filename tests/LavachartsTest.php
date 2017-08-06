@@ -3,49 +3,71 @@
 namespace Khill\Lavacharts\Tests;
 
 use Khill\Lavacharts\Charts\ChartFactory;
+use Khill\Lavacharts\Charts\LineChart;
 use Khill\Lavacharts\Charts\PieChart;
 use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Lavacharts;
+use Khill\Lavacharts\Tests\Traits\DataProviders;
 use Mockery;
 
-/**
- * @property \Khill\Lavacharts\Lavacharts lava
- */
 class LavachartsTest extends ProvidersTestCase
 {
+    /**
+     * @var  Lavacharts
+     */
+    private $lava;
+
     public function setUp()
     {
         parent::setUp();
 
         $this->lava = new Lavacharts;
-
-        $this->mockLabel = Mockery::mock('\\Khill\\Lavacharts\\Values\\Label', ['MockLabel'])->makePartial();
-
-        $this->partialDataTableWithReceives = Mockery::mock('\\Khill\\Lavacharts\\DataTables\\DataTable')
-                                          ->shouldReceive('toJson')
-                                          ->atMost(1)
-                                          ->shouldReceive('hasFormats')
-                                          ->atLeast(1)
-                                          ->getMock();
-
-        $this->mockLineChart = Mockery::mock('\\Khill\\Lavacharts\\Charts\\LineChart');
     }
 
-    public function testCreateDataTableViaAlias()
+    public function testCreatingDataTableViaMagicMethod()
     {
-        $this->assertInstanceOf(DATATABLE_NS.'DataTable', $this->lava->DataTable());
+        $this->assertInstanceOf(DataTable::class, $this->lava->DataTable());
     }
 
-    public function testCreateDataTableViaAliasWithTimezone()
+    public function testCreatingDataTableViaMagicMethodWithTimezone()
     {
-        $this->assertInstanceOf(DATATABLE_NS.'DataTable', $this->lava->DataTable('America/Los_Angeles'));
+        $this->assertInstanceOf(DataTable::class, $this->lava->DataTable('America/Los_Angeles'));
     }
 
-    public function testExistsWithExistingChartInVolcano()
+    /**
+     * @dataProvider chartTypeProvider
+     * @param string $chartType
+     */
+    public function testCreatingChartsViaMagicMethod($chartType)
     {
-        $this->lava->LineChart('TestChart', $this->partialDataTable);
+        $chart = $this->lava->$chartType('My'.$chartType);
 
-        $this->assertTrue($this->lava->exists('LineChart', 'TestChart'));
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\Charts\\'.$chartType, $chart);
+    }
+
+    /**
+     * @dataProvider chartTypeProvider
+     * @param string $chartType
+     */
+    public function testCreatingChartsViaMagicMethodAreStoredInVolcano($chartType)
+    {
+        $this->lava->$chartType('My'.$chartType);
+
+        $volcano = $this->lava->getVolcano();
+
+        $this->assertInstanceOf('\\Khill\\Lavacharts\\Charts\\'.$chartType, $volcano->get('My'.$chartType));
+    }
+
+    /**
+     * @covers Lavacharts::exists()
+     * @dataProvider chartTypeProvider
+     * @param string $chartType
+     */
+    public function testExistsWithChartsInVolcano($chartType)
+    {
+        $this->lava->$chartType('My'.$chartType);
+
+        $this->assertTrue($this->lava->exists('My'.$chartType));
     }
 
     public function testExistsWithNonExistentChartTypeInVolcano()
@@ -96,11 +118,11 @@ class LavachartsTest extends ProvidersTestCase
 
         $this->assertEquals('My Fancy '.$chartType, $chart->getLabelStr());
         $this->assertEquals($chartType, $chart->getType());
-        $this->assertInstanceOf(DATATABLE_NS.'DataTable', $chart->getDataTable());
+        $this->assertInstanceOf(DataTable::class, $chart->getDataTable());
     }
 
     /**
-     * @depends testCreateDataTableViaAlias
+     * @depends testCreateDataTableViaMagicMethod
      */
     public function testRenderChart()
     {
@@ -110,7 +132,7 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * depends testCreateDataTableViaAlias
+     * depends testCreateDataTableViaMagicMethod
      */
     public function testRenderChartWithElementIdAndDivWithNoDimensions()
     {
@@ -122,7 +144,7 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * depends testCreateDataTableViaAlias
+     * depends testCreateDataTableViaMagicMethod
      */
     public function testRenderChartWithNoElementIdAndDivNoDimensions()
     {
@@ -136,7 +158,7 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @depends testCreateDataTableViaAlias
+     * @depends testCreateDataTableViaMagicMethod
      */
     public function testRenderChartWithDivAndDimensions()
     {
@@ -151,7 +173,7 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @depends testCreateDataTableViaAlias
+     * @depends testCreateDataTableViaMagicMethod
      */
     public function testRenderChartWithDivAndBadDimensionKeys()
     {
@@ -166,7 +188,7 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @depends testCreateDataTableViaAlias
+     * @depends testCreateDataTableViaMagicMethod
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidDivDimensions
      */
     public function testRenderChartWithDivAndBadDimensionType()
@@ -177,7 +199,7 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @depends testCreateDataTableViaAlias
+     * @depends testCreateDataTableViaMagicMethod
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidConfigValue
      */
     public function testRenderChartWithDivAndDimensionsWithBadValues()
@@ -193,9 +215,9 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @depends testCreateDataTableViaAlias
+     * @depends testCreateDataTableViaMagicMethod
      */
-    public function testCreateFormatObjectViaAliasWithConstructorConfig()
+    public function testCreateFormatObjectViaMagicMethodWithConstructorConfig()
     {
         $dt = $this->lava->DataTable();
 

@@ -5,7 +5,6 @@ namespace Khill\Lavacharts;
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Charts\ChartFactory;
 use Khill\Lavacharts\Dashboards\Dashboard;
-use Khill\Lavacharts\Dashboards\DashboardFactory;
 use Khill\Lavacharts\Dashboards\Filters\Filter;
 use Khill\Lavacharts\Dashboards\Filters\FilterFactory;
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
