@@ -8,8 +8,8 @@ namespace Khill\Lavacharts\Support\Contracts;
  * Classes that implement this provide a method for custom JSON output.
  *
  * @package   Khill\Lavacharts\Support\Contracts
- * @since     3.1.0
  * @since     4.0.0 Added constants
+ * @since     3.1.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page

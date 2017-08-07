@@ -113,8 +113,9 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
             $loader->addNamespace('Khill\Lavacharts', __DIR__);
         }
 
-        $this->volcano       = new Volcano;
-        $this->scriptManager = new ScriptManager($this->options); //TODO: options?
+        $this->volcano       = new Volcano();
+        $this->scriptManager = new ScriptManager();
+        $this->scriptManager->setOptions($this->options);
     }
 
     /**
@@ -163,8 +164,8 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     public function toArray()
     {
         return [
-            'options'     => $this->options,
-            'renderables' => $this->volcano,
+            'options'     => $this->options->toArray(),
+            'renderables' => $this->volcano->toArray(),
         ];
     }
 
@@ -241,14 +242,14 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @since 4.0.0 Changing method signature
      * @since 3.0.0
      * @param string             $label
-     * @param DataInterface|null $datatable
+     * @param DataInterface|null $data
      * @param array              $options
      * @return Dashboard
      * @throws InvalidLabelException
      */
-    public function Dashboard($label, DataInterface $datatable = null, array $options = [])
+    public function Dashboard($label, DataInterface $data = null, array $options = [])
     {
-        $dashboard = new Dashboard($label, $datatable, $options);
+        $dashboard = new Dashboard($label, $data, $options);
 
         $this->volcano->store($dashboard);
 

@@ -81,10 +81,7 @@ class ScriptManager implements Customizable
     public static function scriptTagWrap(Buffer $buffer)
     {
         return $buffer
-//            ->prepend(PHP_EOL)
             ->prepend(static::JS_OPEN)
-//            ->prepend(PHP_EOL)
-//            ->append(PHP_EOL)
             ->append(static::JS_CLOSE);
     }
 
@@ -93,11 +90,9 @@ class ScriptManager implements Customizable
      *
      * @param array $options
      */
-    function __construct(/*$options = []*/)
+    function __construct()
     {
         $this->outputBuffer = new Buffer();
-
-//        $this->setOptions($options);
     }
 
     /**

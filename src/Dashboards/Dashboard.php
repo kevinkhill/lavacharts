@@ -41,11 +41,11 @@ class Dashboard extends Renderable implements Visualization
      *
      * If passed an array of bindings, they will be applied upon creation.
      *
-     * @param string        $label   Label for the Dashboard
-     * @param DataInterface $data    DataInterface for the dashboard
-     * @param array         $options Options for the Dashboard
+     * @param string             $label   Label for the Dashboard
+     * @param DataInterface|null $data    DataInterface for the dashboard
+     * @param array              $options Options for the Dashboard
      */
-    public function __construct($label, DataInterface $data, $options = [])
+    public function __construct($label, DataInterface $data = null, $options = [])
     {
         parent::__construct($label, $data, $options);
 

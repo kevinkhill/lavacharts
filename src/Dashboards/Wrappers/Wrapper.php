@@ -60,8 +60,9 @@ abstract class Wrapper implements Arrayable, Javascriptable, Jsonable, JsClass
      */
     public function __construct(Wrappable $wrappable, $elementId)
     {
-        $this->contents  = $wrappable;
-        $this->elementId = Str::verify($elementId);
+        $this->contents = $wrappable;
+
+        $this->setElementId($elementId);
     }
 
     /**
@@ -82,8 +83,8 @@ abstract class Wrapper implements Arrayable, Javascriptable, Jsonable, JsClass
     public function toArray()
     {
         return [
-            'options'     => $this->contents->getOptions(),
             'containerId' => $this->elementId,
+            'options'     => $this->contents->getOptions(),
             $this->contents->getWrapType() => $this->contents->getType()
         ];
     }
@@ -94,7 +95,7 @@ abstract class Wrapper implements Arrayable, Javascriptable, Jsonable, JsClass
      *
      * @return string
      */
-    public function getJavascriptFormat()
+    public function getJavascriptFormat() //TODO: remove?
     {
         return 'new %s(%s)';
     }

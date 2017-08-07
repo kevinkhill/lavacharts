@@ -2,9 +2,17 @@
 
 namespace Khill\Lavacharts\Tests;
 
+use Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Dashboards\Dashboard;
+use Khill\Lavacharts\Dashboards\Filters\Filter;
+use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
+use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use Khill\Lavacharts\DataTables\Columns\Format;
+use Khill\Lavacharts\DataTables\DataFactory;
 use Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Javascript\ScriptManager;
 use Khill\Lavacharts\Lavacharts;
+use Khill\Lavacharts\Volcano;
 use Mockery;
 
 class LavachartsTest extends ProvidersTestCase
@@ -19,6 +27,58 @@ class LavachartsTest extends ProvidersTestCase
         parent::setUp();
 
         $this->lava = new Lavacharts;
+    }
+
+    public function testGetVolcano()
+    {
+        $this->assertInstanceOf(Volcano::class, $this->lava->getVolcano());
+    }
+
+    public function testGetScriptManager()
+    {
+        $this->assertInstanceOf(ScriptManager::class, $this->lava->getScriptManager());
+    }
+
+    public function testGettingAnInstanceOfDataFactory()
+    {
+        $this->assertInstanceOf(DataFactory::class, $this->lava->DataFactory());
+    }
+
+    public function testToArray()
+    {
+        $lavaArray = $this->lava->toArray();
+
+        $this->assertTrue(is_array($lavaArray));
+        $this->assertArrayHasKey('options', $lavaArray);
+        $this->assertArrayHasKey('renderables', $lavaArray);
+        $this->assertTrue(is_array($lavaArray['options']));
+        $this->assertTrue(is_array($lavaArray['renderables']));
+    }
+
+    public function testControlWrapperCreation()
+    {
+        $controlWrapper = $this->lava->ControlWrapper(
+            Mockery::mock(Filter::class),
+            'filter-div-id'
+        );
+
+        $this->assertInstanceOf(ControlWrapper::class, $controlWrapper);
+    }
+
+    public function testChartWrapperCreation()
+    {
+        $chart = Mockery::mock(Chart::class)
+                        ->shouldReceive('setRenderable')
+                        ->once()
+                        ->with(false)
+                        ->getMock();
+
+        $chartWrapper = $this->lava->ChartWrapper(
+            $chart,
+            'filter-div-id'
+        );
+
+        $this->assertInstanceOf(ChartWrapper::class, $chartWrapper);
     }
 
     public function testCreatingDataTableViaMagicMethod()
@@ -53,11 +113,26 @@ class LavachartsTest extends ProvidersTestCase
 
         $chart = new $chartClass('My'.$chartType);
 
+        $this->assertInstanceOf(self::CHART_NAMESPACE.$chartType, $chart);
+
         $this->lava->store($chart);
 
         $volcano = $this->lava->getVolcano();
 
         $this->assertInstanceOf(self::CHART_NAMESPACE.$chartType, $volcano->get('My'.$chartType));
+    }
+
+    public function testManuallyStoringDashboardsInTheVolcano()
+    {
+        $dashboard = new Dashboard('MyDash');
+
+        $this->assertInstanceOf(Dashboard::class, $dashboard);
+
+        $this->lava->store($dashboard);
+
+        $volcano = $this->lava->getVolcano();
+
+        $this->assertInstanceOf(Dashboard::class, $volcano->get('MyDash'));
     }
 
     /**
@@ -71,6 +146,17 @@ class LavachartsTest extends ProvidersTestCase
         $volcano = $this->lava->getVolcano();
 
         $this->assertInstanceOf(self::CHART_NAMESPACE.$chartType, $volcano->get('My'.$chartType));
+    }
+
+    public function testCreatingDashboardsViaLavaAreStoredInVolcano()
+    {
+        $dashboard = $this->lava->Dashboard('MyDash');
+
+        $this->assertInstanceOf(Dashboard::class, $dashboard);
+
+        $volcano = $this->lava->getVolcano();
+
+        $this->assertInstanceOf(Dashboard::class, $volcano->get('MyDash'));
     }
 
     /**
@@ -97,15 +183,6 @@ class LavachartsTest extends ProvidersTestCase
         $this->assertTrue($this->lava->exists('My'.$chartType));
     }
 
-    public function testRenderChart()
-    {
-        $this->markTestSkipped('Re-evaluation of render() calling renderAll() is needed.');
-
-        $this->lava->LineChart('test', $this->partialDataTable);
-
-        $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div')));
-    }
-
     /**
      * @dataProvider formatTypeProvider
      * @param string $formatType
@@ -115,6 +192,20 @@ class LavachartsTest extends ProvidersTestCase
         $format = $this->lava->$formatType();
 
         $this->assertInstanceOf(Format::class, $format);
+    }
+
+    public function testCreatingDashboards()
+    {
+
+    }
+
+    public function testRenderChart()
+    {
+        $this->markTestSkipped('Re-evaluation of render() calling renderAll() is needed.');
+
+        $this->lava->LineChart('test', $this->partialDataTable);
+
+        $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div')));
     }
 
     /**
