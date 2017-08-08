@@ -79,6 +79,9 @@ Register Lavacharts in your app by adding these lines to the respective arrays f
     'Lava' => Khill\Lavacharts\Laravel\LavachartsFacade::class,
 ]
 ```
+#### Configuration
+To modify the default configuration of Lavacharts, datetime formats for datatables or adding your maps api key...
+Publish the configuration with `php artisan vendor:publish --provider=\Khill\Lavacharts\Laravel\LavachartsServiceProvider`
 
 
 ### Laravel 4.x
@@ -102,6 +105,9 @@ Register Lavacharts in your app by adding these lines to the respective arrays f
     'Lava' => "Khill\Lavacharts\Laravel\LavachartsFacade",
 )
 ```
+#### Configuration
+To modify the default configuration of Lavacharts, datetime formats for datatables or adding your maps api key...
+Publish the configuration with `php artisan config:publish khill/lavacharts`
 
 
 ## Symfony
