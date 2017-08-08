@@ -28,6 +28,17 @@ abstract class Filter implements Customizable, Wrappable
     use HasOptions;
 
     /**
+     * Valid filter types
+     */
+    const TYPES = [
+        'CategoryFilter',
+        'ChartRangeFilter',
+        'DateRangeFilter',
+        'NumberRangeFilter',
+        'StringFilter'
+    ];
+
+    /**
      * Type of wrapped class
      */
     const WRAP_TYPE = 'controlType';
@@ -40,7 +51,23 @@ abstract class Filter implements Customizable, Wrappable
     abstract public function getType();
 
     /**
+     * Create a new filter object by named type
+     *
+     * @param string     $type
+     * @param string|int $labelOrIndex
+     * @param array      $options
+     * @return mixed
+     */
+    public static function create($type, $labelOrIndex, array $options = [])
+    {
+        $type = $type.'Filter';
+
+        return new $type($labelOrIndex, $options);
+    }
+
+    /**
      * Builds a new Filter Object.
+     *
      * Takes either a column label or a column index to filter. The options object will be
      * created internally, so no need to set defaults. The child filter objects will set them.
      *
@@ -55,11 +82,15 @@ abstract class Filter implements Customizable, Wrappable
         }
 
         if (is_int($labelOrIndex)) {
-            $options = array_merge($options, ['filterColumnIndex' => $labelOrIndex]);
+            $options = array_merge($options, [
+                'filterColumnIndex' => $labelOrIndex
+            ]);
         }
 
         if (is_string($labelOrIndex)) {
-            $options = array_merge($options, ['filterColumnLabel' => $labelOrIndex]);
+            $options = array_merge($options, [
+                'filterColumnLabel' => $labelOrIndex
+            ]);
         }
 
         $this->setOptions($options);

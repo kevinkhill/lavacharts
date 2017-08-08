@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\DataTables\Columns;
 
 use JsonSerializable;
+use Khill\Lavacharts\Exceptions\InvalidFormatType;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 
@@ -51,9 +52,14 @@ class Format implements JsonSerializable, Customizable
      *
      * @param string $type
      * @param array  $options
+     * @throws InvalidFormatType
      */
     public function __construct($type, array $options = [])
     {
+        if (! in_array($type, static::TYPES)) {
+            throw new InvalidFormatType($type);
+        }
+
         $this->type = $type;
 
         $this->setOptions($options);

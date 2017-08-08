@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\DataTables\Columns;
 
-use Khill\Lavacharts\Builders\AbstractBuilder;
+use Khill\Lavacharts\Support\AbstractBuilder;
 
 /**
  * ColumnBuilder Class

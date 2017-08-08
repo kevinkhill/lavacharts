@@ -1,6 +1,6 @@
 <?php
 
-namespace Khill\Lavacharts\Builders;
+namespace Khill\Lavacharts\Support;
 
 use ReflectionClass;
 use BadMethodCallException;

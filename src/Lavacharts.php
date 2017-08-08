@@ -11,7 +11,6 @@ use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use Khill\Lavacharts\DataTables\DataFactory;
 use Khill\Lavacharts\DataTables\Columns\Format;
-use Khill\Lavacharts\Exceptions\InvalidFormatType;
 use Khill\Lavacharts\Exceptions\InvalidLabelException;
 use Khill\Lavacharts\Javascript\ScriptManager;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
@@ -143,10 +142,6 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
         }
 
         if (Str::endsWith($method, 'Format')) {
-            if (! in_array($method, Format::TYPES)) {
-                throw new InvalidFormatType($method);
-            }
-
             return new Format($method, count($args) > 0 ? $args[0] : []);
         }
 
@@ -329,7 +324,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * by explicitly specifying a locale when creating the DataTable.
      *
      * @deprecated 4.0.0 Set this option with the constructor, or with
-     *                   $lava->options->set('locale', 'en');
+     *                   $lava->setOption('locale', 'en');
      * @since      3.1.0
      * @param  string $locale
      * @return $this
@@ -366,10 +361,10 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
         $msg  = 'As of Lavacharts 4.0, the render() method has been depreciated. ';
         $msg .= 'Please refer to the migration guide for instructions on upgrading to the new syntax.';
 
-        trigger_error($msg, E_DEPRECATED);
+        trigger_error($msg, E_USER_WARNING);
 
-//        TODO: call renderAll() and bypass subsequent render() calls
-//        $this->renderAll();
+//        TODO: bypass any subsequent render() calls
+        $this->renderAll();
     }
 
     /**

@@ -1,12 +1,10 @@
 <?php
 
-namespace Khill\Lavacharts\Builders;
+namespace Khill\Lavacharts\Charts;
 
-//@TODO refactor this class
-
-use Khill\Lavacharts\Charts\ChartFactory;
-use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Exceptions\InvalidChartType;
+use Khill\Lavacharts\Support\Contracts\DataInterface;
+use Khill\Lavacharts\Support\StringValue as Str;
 
 /**
  * Class ChartBuilder
@@ -22,8 +20,22 @@ use Khill\Lavacharts\Exceptions\InvalidChartType;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT      MIT
  */
-class ChartBuilder extends RenderableBuilder
+class ChartBuilder
 {
+    /**
+     * The chart's unique label.
+     *
+     * @var string
+     */
+    protected $label = null;
+
+    /**
+     * The chart's unique elementId.
+     *
+     * @var string
+     */
+    protected $elementId = null;
+
     /**
      * Type of chart to create.
      *
@@ -69,7 +81,7 @@ class ChartBuilder extends RenderableBuilder
     public function setType($type)
     {
         if (ChartFactory::isValidChart($type) === false) {
-            throw new InvalidChartType($type, ChartFactory::getChartTypes());
+            throw new InvalidChartType($type);
         }
 
         $this->type = $type;
@@ -80,12 +92,38 @@ class ChartBuilder extends RenderableBuilder
     /**
      * Sets the DataTable for the chart.
      *
-     * @param  \Khill\Lavacharts\DataTables\DataTable $datatable
+     * @param DataInterface|null $data
+     * @return ChartBuilder
+     */
+    public function setDatatable(DataInterface $data = null)
+    {
+        $this->datatable = $data;
+
+        return $this;
+    }
+
+    /**
+     * Creates and sets the label for the chart.
+     *
+     * @param  string $label
      * @return self
      */
-    public function setDatatable(/*DataTable */$datatable = null)
+    public function setLabel($label)
     {
-        $this->datatable = $datatable;
+        $this->label = Str::verify($label);
+
+        return $this;
+    }
+
+    /**
+     * Creates and sets the elementId for the chart.
+     *
+     * @param  string $elementId
+     * @return self
+     */
+    public function setElementId($elementId)
+    {
+        $this->elementId = Str::verify($elementId);
 
         return $this;
     }
@@ -132,35 +170,35 @@ class ChartBuilder extends RenderableBuilder
     /**
      * Creates the chart from the assigned values.
      *
-     * @return \Khill\Lavacharts\Charts\Chart
+     * @return Chart
      */
     public function getChart()
     {
-        $chart =  '\\Khill\\Lavacharts\\Charts\\' . $this->type;
+        $chartClass =  '\\Khill\\Lavacharts\\Charts\\' . $this->type;
 
-        /** @var \Khill\Lavacharts\Charts\Chart $newChart */
-        $newChart = new $chart(
+        /** @var Chart $chart */
+        $chart = new $chartClass(
             $this->label,
             $this->datatable,
             $this->options
         );
 
         if (array_key_exists('elementId', $this->options)) {
-            $newChart->setElementId($this->options['elementId']);
+            $chart->setElementId($this->options['elementId']);
         }
 
         if (isset($this->elementId)) {
-            $newChart->setElementId($this->elementId);
+            $chart->setElementId($this->elementId);
         }
 
-        if (method_exists($newChart, 'setPngOutput')) {
-            $newChart->setPngOutput($this->pngOutput);
+        if (method_exists($chart, 'setPngOutput')) {
+            $chart->setPngOutput($this->pngOutput);
         }
 
-        if (method_exists($newChart, 'setMaterialOutput')) {
-            $newChart->setMaterialOutput($this->materialOutput);
+        if (method_exists($chart, 'setMaterialOutput')) {
+            $chart->setMaterialOutput($this->materialOutput);
         }
 
-        return $newChart;
+        return $chart;
     }
 }

@@ -24,17 +24,6 @@ use Khill\Lavacharts\Support\Arr;
 class FilterFactory
 {
     /**
-     * Valid filter types
-     */
-    const TYPES = [
-        'Category',
-        'ChartRange',
-        'DateRange',
-        'NumberRange',
-        'String'
-    ];
-
-    /**
      * Create a new Filter.
      *
      * @param  string $type
@@ -55,7 +44,7 @@ class FilterFactory
         }
 
         // Check if valid filter type
-        if (in_array($type, self::TYPES, true) === false) {
+        if (! in_array($type, Filter::TYPES, true)) {
             throw new InvalidFilterType($type);
         }
 

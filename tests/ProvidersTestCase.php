@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Tests;
 
 use Khill\Lavacharts\Charts\ChartFactory;
+use Khill\Lavacharts\Dashboards\Filters\Filter;
 use Khill\Lavacharts\DataTables\Columns\Column;
 use Khill\Lavacharts\DataTables\Columns\Format;
 use Khill\Lavacharts\DataTables\DataTable;
@@ -100,6 +101,22 @@ abstract class ProvidersTestCase extends TestCase
 
         foreach (Format::TYPES as $formatType) {
             $types[$formatType] = [$formatType];
+        }
+
+        return $types;
+    }
+
+    /**
+     * Returns all available filter types, labeled as self for testing.
+     *
+     * @return array
+     */
+    public function filterTypeProvider()
+    {
+        $types = [];
+
+        foreach (Filter::TYPES as $filterType) {
+            $types[$filterType] = [$filterType];
         }
 
         return $types;

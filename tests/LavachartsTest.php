@@ -29,6 +29,29 @@ class LavachartsTest extends ProvidersTestCase
         $this->lava = new Lavacharts;
     }
 
+    public function testGetDefaultOptions()
+    {
+        $options = Lavacharts::getDefaultOptions();
+
+        $this->assertTrue(is_array($options));
+
+        $this->assertArrayHasKey('auto_run', $options);
+        $this->assertArrayHasKey('locale', $options);
+        $this->assertArrayHasKey('timezone', $options);
+        $this->assertArrayHasKey('datetime_format', $options);
+        $this->assertArrayHasKey('maps_api_key', $options);
+        $this->assertArrayHasKey('responsive', $options);
+        $this->assertArrayHasKey('debounce_timeout', $options);
+
+        $this->assertEquals(true, $options['auto_run']);
+        $this->assertEquals('en', $options['locale']);
+        $this->assertEquals('America/Los_Angeles', $options['timezone']);
+        $this->assertEquals('', $options['datetime_format']);
+        $this->assertEquals('', $options['maps_api_key']);
+        $this->assertEquals(true, $options['responsive']);
+        $this->assertEquals(250, $options['debounce_timeout']);
+    }
+
     public function testGetVolcano()
     {
         $this->assertInstanceOf(Volcano::class, $this->lava->getVolcano());
@@ -103,7 +126,6 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @covers \Khill\Lavacharts\Lavacharts::store()
      * @dataProvider chartTypeProvider
      * @param string $chartType
      */
@@ -139,7 +161,7 @@ class LavachartsTest extends ProvidersTestCase
      * @dataProvider chartTypeProvider
      * @param string $chartType
      */
-    public function testCreatingChartsViaMagicMethodAreStoredInVolcano($chartType)
+    public function testChartsCreatedViaMagicMethodAreStoredInVolcano($chartType)
     {
         $this->lava->$chartType('My'.$chartType);
 
@@ -148,11 +170,19 @@ class LavachartsTest extends ProvidersTestCase
         $this->assertInstanceOf(self::CHART_NAMESPACE.$chartType, $volcano->get('My'.$chartType));
     }
 
-    public function testCreatingDashboardsViaLavaAreStoredInVolcano()
+    public function testCreatingDashboards()
     {
         $dashboard = $this->lava->Dashboard('MyDash');
 
         $this->assertInstanceOf(Dashboard::class, $dashboard);
+    }
+
+    /**
+     * @depends testCreatingDashboards
+     */
+    public function testDashboardsCreatedViaLavaAreStoredInVolcano()
+    {
+        $this->lava->Dashboard('MyDash');
 
         $volcano = $this->lava->getVolcano();
 
@@ -160,7 +190,6 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @covers \Khill\Lavacharts\Lavacharts::get()
      * @dataProvider chartTypeProvider
      * @param string $chartType
      */
@@ -172,7 +201,6 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @covers \Khill\Lavacharts\Lavacharts::exists()
      * @dataProvider chartTypeProvider
      * @param string $chartType
      */
@@ -187,25 +215,47 @@ class LavachartsTest extends ProvidersTestCase
      * @dataProvider formatTypeProvider
      * @param string $formatType
      */
-    public function testCreatingFormatObjectViaMagicMethod($formatType)
+    public function testCreatingFormatsViaMagicMethod($formatType)
     {
         $format = $this->lava->$formatType();
 
         $this->assertInstanceOf(Format::class, $format);
     }
 
-    public function testCreatingDashboards()
+    /**
+     * @dataProvider filterTypeProvider
+     * @param string $filterType
+     */
+    public function testCreatingFiltersViaMagicMethod($filterType)
     {
+        $filter = $this->lava->$filterType();
 
+        $this->assertInstanceOf(Filter::class, $filter);
     }
 
     public function testRenderChart()
     {
         $this->markTestSkipped('Re-evaluation of render() calling renderAll() is needed.');
 
-        $this->lava->LineChart('test', $this->partialDataTable);
+        $this->lava->LineChart('test', Mockery::mock(DataTable::class));
 
         $this->assertTrue(is_string($this->lava->render('LineChart', 'test', 'test-div')));
+    }
+
+    /**
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidFormatType
+     */
+    public function testCreatingInvalidFormatType()
+    {
+        $this->lava->BookFormat();
+    }
+
+    /**
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidFilterType
+     */
+    public function testCreatingInvalidFilterType()
+    {
+        $this->lava->NoiseFilter();
     }
 
     /**

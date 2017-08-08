@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-use Khill\Lavacharts\Dashboards\Filters\FilterFactory;
+use Khill\Lavacharts\Dashboards\Filters\Filter;
 
 class InvalidFilterType extends LavaException
 {
@@ -14,7 +14,7 @@ class InvalidFilterType extends LavaException
             $message = gettype($invalidFilter);
         }
 
-        $message .= ' is not a valid filter, must be one of [ ' . implode(' | ', FilterFactory::FILTER_TYPES) . ']';
+        $message .= ' is not a valid filter, must be one of [ ' . implode(' | ', Filter::TYPES) . ']';
 
         parent::__construct($message);
     }
