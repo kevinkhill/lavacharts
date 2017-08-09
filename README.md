@@ -1,4 +1,4 @@
-# Lavacharts 3.1.6
+# Lavacharts 3.1.7
 
 [![Total Downloads](https://img.shields.io/packagist/dt/khill/lavacharts.svg?style=plastic)](https://packagist.org/packages/khill/lavacharts)
 [![License](https://img.shields.io/packagist/l/khill/lavacharts.svg?style=plastic)](http://opensource.org/licenses/MIT)
@@ -81,7 +81,7 @@ Register Lavacharts in your app by adding these lines to the respective arrays f
 ```
 #### Configuration
 To modify the default configuration of Lavacharts, datetime formats for datatables or adding your maps api key...
-Publish the configuration with `php artisan vendor:publish --provider=\Khill\Lavacharts\Laravel\LavachartsServiceProvider`
+Publish the configuration with `php artisan vendor:publish --tag=lavacharts`
 
 
 ### Laravel 4.x
