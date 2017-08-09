@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Dashboards\Filters;
 
 use Khill\Lavacharts\Exceptions\InvalidArgumentException;
+use Khill\Lavacharts\Exceptions\InvalidFilterType;
 use Khill\Lavacharts\Exceptions\InvalidParamType;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
@@ -23,7 +24,7 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-abstract class Filter implements Customizable, Wrappable
+class Filter implements Customizable, Wrappable
 {
     use HasOptions;
 
@@ -39,16 +40,16 @@ abstract class Filter implements Customizable, Wrappable
     ];
 
     /**
-     * Type of wrapped class
+     * Type of wrapper
      */
     const WRAP_TYPE = 'controlType';
 
     /**
-     * Returns the type of filter
+     * The type of filter
      *
-     * @return string
+     * @var string
      */
-    abstract public function getType();
+    private $type;
 
     /**
      * Create a new filter object by named type
@@ -60,9 +61,17 @@ abstract class Filter implements Customizable, Wrappable
      */
     public static function create($type, $labelOrIndex, array $options = [])
     {
-        $type = $type.'Filter';
+        // Append 'Filter' because $lava->Filter('NumberRangeFilter', 1) is silly.
+        if (is_string($type)) {
+            $type = str_replace('Filter', '', $type);
+        }
 
-        return new $type($labelOrIndex, $options);
+        // Check if valid filter type
+        if (! in_array($type, Filter::TYPES, true)) {
+            throw new InvalidFilterType($type);
+        }
+
+        return new static($labelOrIndex, $options);
     }
 
     /**
@@ -94,6 +103,15 @@ abstract class Filter implements Customizable, Wrappable
         }
 
         $this->setOptions($options);
+    }
+
+    /**
+     * Returns the type of filter
+     *
+     * @return string
+     */
+    public function getType() {
+        return $this->type;
     }
 
     /**

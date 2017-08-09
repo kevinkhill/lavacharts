@@ -38,20 +38,8 @@ class FilterFactory
         $labelOrIndex = $args->verify(0, ['string', 'int']);
         $options = $args->verify(1, 'array', []);
 
-        // Strip 'Filter' if given
-        if (is_string($type)) {
-            $type = str_replace('Filter', '', $type);
-        }
+        //TODO: Delete this
 
-        // Check if valid filter type
-        if (! in_array($type, Filter::TYPES, true)) {
-            throw new InvalidFilterType($type);
-        }
-
-        // Build the namespace
-        $filter = self::makeNamespace($type);
-
-        return new $filter($labelOrIndex, $options);
     }
 
     /**
