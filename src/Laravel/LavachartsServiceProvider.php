@@ -52,7 +52,7 @@ class LavachartsServiceProvider extends ServiceProvider
 
         $this->publishes([
             $this->configPath => config_path($this->configFile),
-        ]);
+        ], 'lavacharts');
     }
 
     public function register()
