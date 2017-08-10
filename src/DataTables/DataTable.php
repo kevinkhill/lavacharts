@@ -173,7 +173,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     public function toJson($withFormats = true)
     {
         if ($this->hasFormattedColumns() && $withFormats === true) {
-            // TODO: remove this?
+//TODO: Figure out a better way to get the formats to the lava.js module. We should output a pure DataTable from toJson() to be compatable with the JSON Schema
             return json_encode([
                 'data'    => $this,
                 'formats' => $this->getFormattedColumns(),
@@ -206,7 +206,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     public function getJavascriptSource()
     {
         return [
-            $this->toJson(false)
+            $this->toJson(false) //TODO: no no no
         ];
     }
 
