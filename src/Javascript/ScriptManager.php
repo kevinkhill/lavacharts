@@ -69,6 +69,18 @@ class ScriptManager
     }
 
     /**
+     * Calling this method before rendering will override the output of the lava.js
+     * module into the page. The 'auto_run' option is also set to false, since we
+     * are now relying on the user to load the lava.js module manually.
+     */
+    public function bypassLavaJsOutput()
+    {
+        $this->lavaJsRendered = true;
+
+        $this->options->set('auto_run', false);
+    }
+
+    /**
      * Returns true|false depending on if the lava.js module
      * has be output to the page
      *

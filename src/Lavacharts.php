@@ -43,7 +43,7 @@ class Lavacharts
     /**
      * Lavacharts version
      */
-    const VERSION = '3.1.7';
+    const VERSION = '3.1.9';
 
     /**
      * Locale for the Charts and Dashboards.
@@ -136,6 +136,17 @@ class Lavacharts
         }
 
         return $lavaClass;
+    }
+
+    /**
+     * Get the ScriptManager instance.
+     *
+     * @since 3.1.9
+     * @return ScriptManager
+     */
+    public function getScriptManager()
+    {
+        return $this->scriptManager;
     }
 
     /**
