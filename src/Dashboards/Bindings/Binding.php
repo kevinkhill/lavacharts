@@ -6,7 +6,9 @@ use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\Wrapper;
 use Khill\Lavacharts\Javascript\JavascriptSource;
+use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
+use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 
 /**
@@ -22,9 +24,9 @@ use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Binding extends JavascriptSource implements Jsonable
+class Binding implements Arrayable, Jsonable
 {
-    use ToJavascript;
+    use ArrayToJson;
 
     /**
      * Array of ControlWrappers.
@@ -62,6 +64,19 @@ class Binding extends JavascriptSource implements Jsonable
     {
         $this->chartWrappers   = $chartWrappers;
         $this->controlWrappers = $controlWrappers;
+    }
+
+    /**
+     * Convert the binding to an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'controlWrappers' => $this->controlWrappers,
+            'chartWrappers' => $this->chartWrappers
+        ];
     }
 
     /**
@@ -106,77 +121,5 @@ class Binding extends JavascriptSource implements Jsonable
     public function getControlWrap($index)
     {
         return $this->controlWrappers[$index];
-    }
-
-    /**
-     * Return a format string that will be used by vsprintf to convert the
-     * extending class to javascript.
-     *
-     * @return string
-     */
-    public function getJavascriptFormat()
-    {
-        // "this" refers to the lava.Dashboard object
-        return 'this.dashboard.bind(%s, %s);';
-    }
-
-    /**
-     * Return an array of arguments to pass to the format string provided
-     * by getJavascriptFormat().
-     *
-     * These variables will be used with vsprintf, and the format string
-     * to convert the extending class to javascript.
-     *
-     * @return array
-     */
-    public function getJavascriptSource()
-    {
-        return [
-            $this->wrappersToJavascript($this->controlWrappers),
-            $this->wrappersToJavascript($this->chartWrappers)
-        ];
-    }
-
-    /**
-     * Map the wrapper values from the array to javascript notation.
-     *
-     * @access private
-     * @param  array $wrapperArray Array of control or chart wrappers
-     * @return string Json notation for the wrappers
-     */
-    private function wrappersToJavascript($wrapperArray)
-    {
-        if (count($wrapperArray) == 1) {
-            return $wrapperArray[0]->toJavascript();
-        }
-
-        $wrappers = array_map(function (Wrapper $wrapper) {
-            return $wrapper->toJavascript();
-        }, $wrapperArray);
-
-        return '[' . implode(',', $wrappers) . ']';
-    }
-
-    /**
-     * Returns a customize JSON representation of an object.
-     *
-     * @return string
-     */
-    public function toJson()
-    {
-        return json_encode($this);
-    }
-
-    /**
-     * Custom serialization of the chart.
-     *
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        return [
-            $this->controlWrappers,
-            $this->chartWrappers
-        ];
     }
 }

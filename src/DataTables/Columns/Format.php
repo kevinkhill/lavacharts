@@ -48,6 +48,18 @@ class Format implements JsonSerializable, Customizable
     private $type;
 
     /**
+     * Create a new Format by named type with an array of arguments.
+     *
+     * @param string $type
+     * @param array $args
+     * @return Format
+     */
+    public static function create($type, $args)
+    {
+        return new static($type, count($args) > 0 ? $args[0] : []);
+    }
+
+    /**
      * Format constructor.
      *
      * @param string $type

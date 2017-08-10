@@ -59,14 +59,18 @@ export class Dashboard extends Renderable
      */
     _attachBindings() {
         for (let binding of this.bindings) {
-            let [controlWrapper, chartWrapper] = binding;
+            // let [controlWrapper, chartWrapper] = binding;
+
+            console.log('binding', binding);
+            console.log('controlWrapper', binding.controlWrappers);
+            console.log('chartWrapper', binding.chartWrappers);
 
             this.gchart.bind(
                 new google.visualization.ControlWrapper(
-                    controlWrapper[0]
+                    binding.controlWrappers[0]
                 ),
                 new google.visualization.ChartWrapper(
-                    chartWrapper[0]
+                    binding.chartWrappers[0]
                 )
             );
         }

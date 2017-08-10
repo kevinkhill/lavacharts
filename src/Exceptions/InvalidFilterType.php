@@ -2,7 +2,7 @@
 
 namespace Khill\Lavacharts\Exceptions;
 
-use Khill\Lavacharts\Dashboards\Filters\Filter;
+use Khill\Lavacharts\Dashboards\Filter;
 
 class InvalidFilterType extends LavaException
 {

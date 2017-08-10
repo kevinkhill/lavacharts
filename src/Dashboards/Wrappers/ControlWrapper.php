@@ -2,8 +2,7 @@
 
 namespace Khill\Lavacharts\Dashboards\Wrappers;
 
-use Khill\Lavacharts\Support\Google;
-use Khill\Lavacharts\Dashboards\Filters\Filter;
+use Khill\Lavacharts\Dashboards\Filter;
 
 /**
  * ControlWrapper Class

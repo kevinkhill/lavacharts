@@ -1,12 +1,13 @@
 <?php
 
-namespace Khill\Lavacharts\Dashboards\Filters;
+namespace Khill\Lavacharts\Dashboards;
 
 use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Exceptions\InvalidFilterType;
-use Khill\Lavacharts\Exceptions\InvalidParamType;
+use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
+use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 
 /**
@@ -24,9 +25,9 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Filter implements Customizable, Wrappable
+class Filter implements /*Arrayable,*/ Customizable, Wrappable
 {
-    use HasOptions;
+    use HasOptions/*, ArrayToJson*/;
 
     /**
      * Valid filter types
@@ -52,26 +53,29 @@ class Filter implements Customizable, Wrappable
     private $type;
 
     /**
-     * Create a new filter object by named type
+     * Create a new filter by named type and an array of args.
      *
-     * @param string     $type
-     * @param string|int $labelOrIndex
-     * @param array      $options
-     * @return mixed
+     * The type will have 'Filter' removed (if it exists) and append back back.
+     * This makes it so filters can be created by partial or full name.
+     *
+     * @param string $type
+     * @param array  $args
+     * @return Filter
      */
-    public static function create($type, $labelOrIndex, array $options = [])
+    public static function create($type, $args)
     {
-        // Append 'Filter' because $lava->Filter('NumberRangeFilter', 1) is silly.
         if (is_string($type)) {
             $type = str_replace('Filter', '', $type);
+            $type = $type . 'Filter';
         }
 
-        // Check if valid filter type
-        if (! in_array($type, Filter::TYPES, true)) {
-            throw new InvalidFilterType($type);
+        if (count($args) == 1) {
+            return new static($type, $args[0]);
         }
 
-        return new static($labelOrIndex, $options);
+        if (count($args) == 2) {
+            return new static($type, $args[0], $args[1]);
+        }
     }
 
     /**
@@ -80,12 +84,18 @@ class Filter implements Customizable, Wrappable
      * Takes either a column label or a column index to filter. The options object will be
      * created internally, so no need to set defaults. The child filter objects will set them.
      *
+     * @param  string     $type
      * @param  string|int $labelOrIndex
      * @param  array      $options Array of options to set.
      * @throws \Khill\Lavacharts\Exceptions\InvalidArgumentException
+     * @throws \Khill\Lavacharts\Exceptions\InvalidFilterType
      */
-    public function __construct($labelOrIndex, array $options = [])
+    public function __construct($type, $labelOrIndex, array $options = [])
     {
+        if (! in_array($type, Filter::TYPES, true)) {
+            throw new InvalidFilterType($type);
+        }
+
         if (! is_int($labelOrIndex) && ! is_string($labelOrIndex)) {
             throw new InvalidArgumentException($labelOrIndex, 'string | int');
         }
@@ -102,11 +112,21 @@ class Filter implements Customizable, Wrappable
             ]);
         }
 
+        $this->type = $type;
         $this->setOptions($options);
     }
 
+//    public function toArray()
+//    {
+//        return [
+//            'type' => $this->getType(),
+//            'wrapType' => $this->getWrapType(),
+//            'options' => $this->options->toArray(),
+//        ];
+//    }
+
     /**
-     * Returns the type of filter
+     * Returns the type of Filter
      *
      * @return string
      */

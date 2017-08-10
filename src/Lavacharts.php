@@ -5,8 +5,7 @@ namespace Khill\Lavacharts;
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Charts\ChartFactory;
 use Khill\Lavacharts\Dashboards\Dashboard;
-use Khill\Lavacharts\Dashboards\Filters\Filter;
-use Khill\Lavacharts\Dashboards\Filters\FilterFactory;
+use Khill\Lavacharts\Dashboards\Filter;
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use Khill\Lavacharts\DataTables\DataFactory;
@@ -137,31 +136,17 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
             return $this->createChart($method, $args);
         }
 
-        if (Str::endsWith($method, 'Filter')) {
-            return FilterFactory::create($method, $args);
+        if (Str::endsWith($method, 'Format')) {
+            return $this->Format($method, $args);
         }
 
-        if (Str::endsWith($method, 'Format')) {
-            return new Format($method, count($args) > 0 ? $args[0] : []);
+        if (in_array($method, Filter::TYPES)) {
+            return $this->Filter($method, $args);
         }
 
         throw new \BadMethodCallException(
             sprintf('Unknown method "%s" in "%s".', $method, get_class())
         );
-    }
-
-    /**
-     * Convert the Lavacharts object to an array
-     *
-     * @since 4.0.0
-     * @return array
-     */
-    public function toArray()
-    {
-        return [
-            'options'     => $this->options->toArray(),
-            'renderables' => $this->volcano->toArray(),
-        ];
     }
 
     /**
@@ -180,6 +165,20 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
 
 //        @TODO This is the goal :)
 //        return new ScriptManager($this->options, json_encode($this));
+    }
+
+    /**
+     * Convert the Lavacharts object to an array
+     *
+     * @since 4.0.0
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'options'     => $this->options->toArray(),
+            'renderables' => $this->volcano->toArray(),
+        ];
     }
 
     /**
@@ -229,6 +228,32 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     public function DataFactory()
     {
         return new DataFactory;
+    }
+
+    /**
+     * Create a new Format based by named type.
+     *
+     * @since 4.0.0
+     * @param string $type
+     * @param array  $args
+     * @return Format
+     */
+    public function Format($type, ...$args)
+    {
+        return Format::create($type, $args);
+    }
+
+    /**
+     * Create a new Filter based by named type.
+     *
+     * @since 4.0.0
+     * @param string $type
+     * @param array  $args
+     * @return Filter
+     */
+    public function Filter($type, ...$args)
+    {
+        return Filter::create($type, $args);
     }
 
     /**

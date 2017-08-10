@@ -18,7 +18,7 @@ use Khill\Lavacharts\Support\Contracts\JsClass;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class ChartWrapper extends Wrapper implements JsClass
+class ChartWrapper extends Wrapper
 {
     /**
      * Builds a ChartWrapper object.
