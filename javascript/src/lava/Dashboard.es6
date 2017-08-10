@@ -59,20 +59,22 @@ export class Dashboard extends Renderable
      */
     _attachBindings() {
         for (let binding of this.bindings) {
-            // let [controlWrapper, chartWrapper] = binding;
+            let controlWraps = [];
+            let chartWraps = [];
 
-            console.log('binding', binding);
-            console.log('controlWrapper', binding.controlWrappers);
-            console.log('chartWrapper', binding.chartWrappers);
+            for (let controlWrap of binding.controlWrappers) {
+                controlWraps.push(
+                    new google.visualization.ControlWrapper(controlWrap)
+                );
+            }
 
-            this.gchart.bind(
-                new google.visualization.ControlWrapper(
-                    binding.controlWrappers[0]
-                ),
-                new google.visualization.ChartWrapper(
-                    binding.chartWrappers[0]
-                )
-            );
+            for (let chartWrap of binding.chartWrappers) {
+                chartWraps.push(
+                    new google.visualization.ChartWrapper(chartWrap)
+                );
+            }
+
+            this.gchart.bind(controlWraps, chartWraps);
         }
     }
 }

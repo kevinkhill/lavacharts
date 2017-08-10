@@ -4,10 +4,8 @@ namespace Khill\Lavacharts\Dashboards;
 
 use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Exceptions\InvalidFilterType;
-use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
-use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 
 /**
@@ -25,9 +23,9 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Filter implements /*Arrayable,*/ Customizable, Wrappable
+class Filter implements Customizable, Wrappable
 {
-    use HasOptions/*, ArrayToJson*/;
+    use HasOptions;
 
     /**
      * Valid filter types

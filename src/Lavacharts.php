@@ -132,16 +132,16 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
             return call_user_func_array([DataFactory::class, $method], $args);
         }
 
-        if (Str::endsWith($method, 'Chart')) {
+        if (in_array($method, ChartFactory::TYPES)) {
             return $this->createChart($method, $args);
         }
 
-        if (Str::endsWith($method, 'Format')) {
-            return $this->Format($method, $args);
+        if (in_array($method, Format::TYPES)) {
+            return Format::create($method, $args);
         }
 
         if (in_array($method, Filter::TYPES)) {
-            return $this->Filter($method, $args);
+            return Filter::create($method, $args);
         }
 
         throw new \BadMethodCallException(
