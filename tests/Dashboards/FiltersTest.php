@@ -2,99 +2,229 @@
 
 namespace Khill\Lavacharts\Tests\Dashboards\Filters;
 
-use Khill\Lavacharts\Dashboards\Filters\Filter;
-use Khill\Lavacharts\Dashboards\Filters\StringFilter;
+use Khill\Lavacharts\Dashboards\Filter;
+use Khill\Lavacharts\Lavacharts;
+use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 
 class FiltersTest extends ProvidersTestCase
 {
-    public function filterTypeProvider()
+    /**
+     * @var Lavacharts
+     */
+    protected $lava;
+
+    public function setUp()
     {
-        return [
-            ['CategoryFilter'],
-            ['ChartRangeFilter'],
-            ['DateRangeFilter'],
-            ['NumberRangeFilter'],
-            ['StringFilter']
-        ];
+        parent::setUp();
+
+        $this->lava = new Lavacharts;
     }
 
     /**
      * @dataProvider filterTypeProvider
-     */
-    public function testConstructorWithColumnIndex($filterType)
-    {
-        $filter = 'Khill\Lavacharts\Dashboards\Filters\\'.$filterType;
-
-        $filterClass = new $filter(2);
-
-        $options = $this->inspect($filterClass, 'options');
-
-        $this->assertEquals(2, $options['filterColumnIndex']);
-    }
-
-    /**
-     * @dataProvider filterTypeProvider
-     */
-    public function testConstructorWithColumnLabel($filterType)
-    {
-        $filter = 'Khill\Lavacharts\Dashboards\Filters\\'.$filterType;
-
-        $filterClass = new $filter('myColumnLabel');
-
-        $options = $this->inspect($filterClass, 'options');
-
-        $this->assertEquals('myColumnLabel', $options['filterColumnLabel']);
-    }
-
-    /**
-     * @dataProvider filterTypeProvider
-     * @depends testConstructorWithColumnIndex
-     */
-    public function testConstructorWithColumnIndexAndOptions($filterType)
-    {
-        $filter = 'Khill\Lavacharts\Dashboards\Filters\\'.$filterType;
-
-        $filterClass = new $filter(2, ['floatOption' => 12.34]);
-
-        $options = $this->inspect($filterClass, 'options');
-
-        $this->assertEquals(12.34, $options['floatOption']);
-    }
-
-    /**
-     * @dataProvider filterTypeProvider
-     * @depends testConstructorWithColumnLabel
-     */
-    public function testGetWrapType($filterType)
-    {
-        $filter = 'Khill\Lavacharts\Dashboards\Filters\\'.$filterType;
-
-        $filterClass = new $filter('myColumnLabel');
-
-        $this->assertEquals('controlType', $filterClass->getWrapType());
-    }
-
-    /**
-     * @depends testConstructorWithColumnIndex
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidParamType
-     */
-    public function testConstructorWithInvalidType()
-    {
-        new StringFilter(new \stdClass());
-    }
-
-    /**
-     * @dataProvider filterTypeProvider
-     * @depends testConstructorWithColumnIndex
-     * @covers \Khill\Lavacharts\Dashboards\Filters\Filter::getType
+     * @param $filterType
      */
     public function testGetType($filterType)
     {
-        $filter = 'Khill\Lavacharts\Dashboards\Filters\\'.$filterType;
+        /** @var Filter $filter */
+        $filter = $this->lava->$filterType(1);
 
-        $filterClass = new $filter('myColumnLabel');
+        $this->assertEquals($filterType, $filter->getType());
+    }
 
-        $this->assertEquals($filterType, $filterClass->getType());
+    /**
+     * @dataProvider filterTypeProvider
+     * @param $filterType
+     */
+    public function testGetWrapType($filterType)
+    {
+        /** @var Filter $filter */
+        $filter = $this->lava->$filterType(1);
+
+        $this->assertEquals('controlType', $filter->getWrapType());
+    }
+
+    /**
+     * @dataProvider filterlessFilterTypeProvider
+     * @param $filterType
+     */
+    public function testCreatingFiltersStaticlyByNameAndColumnIndex($filterType)
+    {
+        $filter = Filter::create($filterType, [1]);
+
+        $this->assertEquals(1, $filter->getOption('filterColumnIndex'));
+    }
+
+    /**
+     * @dataProvider filterTypeProvider
+     * @param $filterType
+     */
+    public function testCreatingFiltersStaticlyByFullNameAndColumnIndex($filterType)
+    {
+        $filter = Filter::create($filterType, [1]);
+
+        $this->assertEquals(1, $filter->getOption('filterColumnIndex'));
+    }
+
+    /**
+     * @dataProvider filterlessFilterTypeProvider
+     * @param $filterType
+     */
+    public function testCreatingFiltersStaticlyByNameAndColumnIndexWithOptions($filterType)
+    {
+        $filter = Filter::create($filterType, [1, ['thisOption' => 'hasValue']]);
+
+        $this->assertEquals(1, $filter->getOption('filterColumnIndex'));
+        $this->assertInstanceOf(Options::class, $filter->getOptions());
+        $this->assertEquals('hasValue', $filter->getOption('thisOption'));
+    }
+
+    /**
+     * @dataProvider filterlessFilterTypeProvider
+     * @param $filterType
+     */
+    public function testCreatingFiltersByNameAndColumnIndex($filterType)
+    {
+        $filter = new Filter($filterType, 1);
+
+        $this->assertEquals(1, $filter->getOption('filterColumnIndex'));
+    }
+
+    /**
+     * @dataProvider filterTypeProvider
+     * @param $filterType
+     */
+    public function testCreatingFiltersByFullNameAndColumnIndex($filterType)
+    {
+        $filter = new Filter($filterType, 1);
+
+        $this->assertEquals(1, $filter->getOption('filterColumnIndex'));
+    }
+
+    /**
+     * @dataProvider filterTypeProvider
+     * @param $filterType
+     */
+    public function testCreatingFiltersViaLavaByNamedAliasAndColumnIndex($filterType)
+    {
+        /** @var Filter $filter */
+        $filter = $this->lava->$filterType(1);
+
+        $this->assertEquals(1, $filter->getOption('filterColumnIndex'));
+    }
+
+    /**
+     * @dataProvider filterlessFilterTypeProvider
+     * @param $filterType
+     */
+    public function testCreatingFiltersByNameAndColumnLabel($filterType)
+    {
+        $filter = new Filter($filterType, 'TheLabel');
+
+        $this->assertEquals('TheLabel', $filter->getOption('filterColumnLabel'));
+    }
+
+    /**
+     * @dataProvider filterTypeProvider
+     * @param $filterType
+     */
+    public function testCreatingFiltersByFullNameAndColumnLabel($filterType)
+    {
+        $filter = new Filter($filterType, 'TheLabel');
+
+        $this->assertEquals('TheLabel', $filter->getOption('filterColumnLabel'));
+    }
+
+    /**
+     * @dataProvider filterTypeProvider
+     * @param $filterType
+     */
+    public function testCreatingFiltersViaLavaByNamedAliasAndColumnLabel($filterType)
+    {
+        /** @var Filter $filter */
+        $filter = $this->lava->$filterType('TheLabel');
+
+        $this->assertEquals('TheLabel', $filter->getOption('filterColumnLabel'));
+    }
+
+    /**
+     * @dataProvider filterlessFilterTypeProvider
+     * @param $filterType
+     */
+    public function testCreatingFiltersByNameAndColumnIndexWithOptions($filterType)
+    {
+        $filter = new Filter($filterType, 1, ['thisOption' => 'hasValue']);
+
+        $this->assertEquals(1, $filter->getOption('filterColumnIndex'));
+        $this->assertInstanceOf(Options::class, $filter->getOptions());
+        $this->assertEquals('hasValue', $filter->getOption('thisOption'));
+    }
+
+    /**
+     * @dataProvider filterTypeProvider
+     * @param $filterType
+     */
+    public function testCreatingFiltersByFullNameAndColumnIndexWithOptions($filterType)
+    {
+        $filter = new Filter($filterType, 1, ['thisOption' => 'hasValue']);
+
+        $this->assertEquals(1, $filter->getOption('filterColumnIndex'));
+        $this->assertInstanceOf(Options::class, $filter->getOptions());
+        $this->assertEquals('hasValue', $filter->getOption('thisOption'));
+    }
+
+    /**
+     * @dataProvider filterTypeProvider
+     * @param $filterType
+     */
+    public function testCreatingFiltersViaLavaByNamedAliasAndColumnIndexWithOptions($filterType)
+    {
+        /** @var Filter $filter */
+        $filter = $this->lava->$filterType(1, ['thisOption' => 'hasValue']);
+
+        $this->assertEquals(1, $filter->getOption('filterColumnIndex'));
+        $this->assertInstanceOf(Options::class, $filter->getOptions());
+        $this->assertEquals('hasValue', $filter->getOption('thisOption'));
+    }
+
+    /**
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidArgumentException
+     */
+    public function testCreatingFiltersStaticlyByNameWithMissingColumnIndex()
+    {
+        $filter = Filter::create('NumberFilter');
+    }
+
+    /**
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidArgumentException
+     */
+    public function testCreatingFiltersStaticlyByNameWithMissingColumnIndex()
+    {
+        $filter = Filter::create('NumberFilter');
+    }
+
+    /**
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidFilterType
+     */
+    public function testCreatingInvalidFilterTypeViaLava()
+    {
+        $this->lava->Filter('TacoFilter', 1);
+    }
+
+    /**
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidArgumentException
+     */
+    public function testInvalidArgumentForFilterLabel()
+    {
+        $this->lava->StringFilter(['ThisShouldFail']);
+    }
+
+    /**
+     * @expectedException \Khill\Lavacharts\Exceptions\BadMethodCallException
+     */
+    public function testLavaAliasForInvalidFilterType()
+    {
+        $this->lava->TacoFilter();
     }
 }

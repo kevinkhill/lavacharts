@@ -3,10 +3,11 @@
 namespace Khill\Lavacharts\Tests;
 
 use Khill\Lavacharts\Charts\ChartFactory;
-use Khill\Lavacharts\Dashboards\Filters\Filter;
+use Khill\Lavacharts\Dashboards\Filter;
 use Khill\Lavacharts\DataTables\Columns\Column;
 use Khill\Lavacharts\DataTables\Columns\Format;
 use Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Lavacharts;
 use PHPUnit\Framework\TestCase;
 
 abstract class ProvidersTestCase extends TestCase
@@ -19,18 +20,6 @@ abstract class ProvidersTestCase extends TestCase
      * @var \Khill\Lavacharts\DataTables\DataTable
      */
     protected $partialDataTable;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        /**
-         * Setting timezone to avoid warning from Carbon
-         */
-        date_default_timezone_set('America/Los_Angeles');
-
-        $this->partialDataTable = \Mockery::mock(DataTable::class)->makePartial();
-    }
 
     /**
      * Checks if a string contains another string
@@ -116,6 +105,24 @@ abstract class ProvidersTestCase extends TestCase
         $types = [];
 
         foreach (Filter::TYPES as $filterType) {
+            $types[$filterType] = [$filterType];
+        }
+
+        return $types;
+    }
+
+    /**
+     * Returns all available filter types, without 'Filter', labeled as self for testing.
+     *
+     * @return array
+     */
+    public function filterlessFilterTypeProvider()
+    {
+        $types = [];
+
+        foreach (Filter::TYPES as $filterType) {
+            $filterType = str_replace('Filter', '', $filterType);
+
             $types[$filterType] = [$filterType];
         }
 

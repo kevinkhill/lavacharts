@@ -10,6 +10,8 @@ use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use Khill\Lavacharts\DataTables\DataFactory;
 use Khill\Lavacharts\DataTables\Columns\Format;
+use Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Exceptions\BadMethodCallException;
 use Khill\Lavacharts\Exceptions\InvalidLabelException;
 use Khill\Lavacharts\Javascript\ScriptManager;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
@@ -122,9 +124,8 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @since  1.0.0
      * @param  string $method Name of method
      * @param  array  $args   Passed arguments
-     * @throws \Khill\Lavacharts\Exceptions\InvalidLabelException
-     * @throws \Khill\Lavacharts\Exceptions\InvalidFormatType
-     * @return mixed Returns Charts, Dashboards, DataTables, Formats and Filters
+     * @return Chart|Dashboard|DataTable|Format|Filter
+     * @throws \Khill\Lavacharts\Exceptions\BadMethodCallException
      */
     public function __call($method, $args)
     {
@@ -144,9 +145,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
             return Filter::create($method, $args);
         }
 
-        throw new \BadMethodCallException(
-            sprintf('Unknown method "%s" in "%s".', $method, get_class())
-        );
+        throw new BadMethodCallException($this, $method);
     }
 
     /**
@@ -320,7 +319,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Returns the ScriptManager instance.
      *
-     * @since 4.0.0
+     * @since 3.1.9
      * @return ScriptManager
      */
     public function getScriptManager()

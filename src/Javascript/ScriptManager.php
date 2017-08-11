@@ -87,12 +87,22 @@ class ScriptManager implements Customizable
 
     /**
      * ScriptManager constructor.
-     *
-     * @param array $options
      */
     function __construct()
     {
         $this->outputBuffer = new Buffer();
+    }
+
+    /**
+     * Calling this method before rendering will override the output of the lava.js
+     * module into the page. The 'auto_run' option is also set to false, since we
+     * are now relying on the user to load the lava.js module manually.
+     */
+    public function bypassLavaJsOutput()
+    {
+        $this->lavaJsLoaded = true;
+
+        $this->options->set('auto_run', false);
     }
 
     /**
@@ -147,7 +157,7 @@ class ScriptManager implements Customizable
      * Returns the output buffer of the ScriptManager.
      *
      * @since 4.0.0
-     * @return \Khill\Lavacharts\Support\Buffer
+     * @return Buffer
      */
     public function getOutputBuffer()
     {
@@ -169,7 +179,7 @@ class ScriptManager implements Customizable
      * Gets the lava.js module.
      *
      * @param array $options
-     * @return \Khill\Lavacharts\Support\Buffer
+     * @return Buffer
      */
     public function getLavaJs($options)
     {

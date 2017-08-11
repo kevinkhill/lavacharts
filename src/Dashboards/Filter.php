@@ -59,21 +59,19 @@ class Filter implements Customizable, Wrappable
      * @param string $type
      * @param array  $args
      * @return Filter
+     * @throws \Khill\Lavacharts\Exceptions\InvalidArgumentException
      */
     public static function create($type, $args)
     {
-        if (is_string($type)) {
-            $type = str_replace('Filter', '', $type);
-            $type = $type . 'Filter';
+        if (count($args) == 2) {
+            return new static($type, $args[0], $args[1]);
         }
 
         if (count($args) == 1) {
             return new static($type, $args[0]);
         }
 
-        if (count($args) == 2) {
-            return new static($type, $args[0], $args[1]);
-        }
+        throw new InvalidArgumentException($args, 'int | string');
     }
 
     /**
@@ -90,6 +88,11 @@ class Filter implements Customizable, Wrappable
      */
     public function __construct($type, $labelOrIndex, array $options = [])
     {
+        if (is_string($type)) {
+            $type = str_replace('Filter', '', $type);
+            $type = $type . 'Filter';
+        }
+
         if (! in_array($type, Filter::TYPES, true)) {
             throw new InvalidFilterType($type);
         }
