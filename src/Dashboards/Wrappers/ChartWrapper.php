@@ -3,7 +3,8 @@
 namespace Khill\Lavacharts\Dashboards\Wrappers;
 
 use Khill\Lavacharts\Charts\Chart;
-use Khill\Lavacharts\Support\Contracts\JsClass;
+use Khill\Lavacharts\Charts\ChartFactory;
+use Khill\Lavacharts\Exceptions\InvalidChartType;
 
 /**
  * ChartWrapper Class
@@ -23,14 +24,18 @@ class ChartWrapper extends Wrapper
     /**
      * Builds a ChartWrapper object.
      *
-     * @param Chart  $chart
+     * @since 4.0.0 Instead of a Chart object, just the string name is needed.
+     * @param string $chartType
      * @param string $containerId
+     * @throws InvalidChartType
      */
-    public function __construct(Chart $chart, $containerId)
+    public function __construct($chartType, $containerId)
     {
-        $chart->setRenderable(false);
+        if (! in_array($chartType, ChartFactory::TYPES)) {
+            throw new InvalidChartType($chartType);
+        }
 
-        parent::__construct($chart, $containerId);
+        parent::__construct(Chart::create($chartType), $containerId);
     }
 
     /**

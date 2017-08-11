@@ -29,6 +29,21 @@ class Chart extends Renderable implements Visualization, Wrappable
     const WRAP_TYPE = 'chartType';
 
     /**
+     * Create a new chart from a named type.
+     *
+     *
+     * The label will be a generated string since it cannot be empty.
+     *
+     * @param string $chartType
+     */
+    public static function create($chartType)
+    {
+        $chartType = __NAMESPACE__ . '\\' . $chartType;
+
+        return new $chartType(md5(microtime()));
+    }
+
+    /**
      * Builds a new chart with the given label.
      *
      * @param string        $label   Identifying label for the chart.

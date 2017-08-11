@@ -75,7 +75,7 @@ class Binding implements Arrayable, Jsonable
     {
         return [
             'controlWrappers' => $this->controlWrappers,
-            'chartWrappers' => $this->chartWrappers
+            'chartWrappers'   => $this->chartWrappers
         ];
     }
 

@@ -30,7 +30,6 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
  *
  *
  * @package       Khill\Lavacharts
- * @since         1.0.0
  * @author        Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2017, KHill Designs
  * @link          http://github.com/kevinkhill/lavacharts GitHub Repository Page
@@ -43,6 +42,11 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
  * @method BarFormat($labelOrIndex, array $option = [])
  * @method DateFormat($labelOrIndex, array $option = [])
  * @method NumberFormat($labelOrIndex, array $option = [])
+ * @method CategoryFilter($labelOrIndex, array $option = [])
+ * @method ChartRangeFilter($labelOrIndex, array $option = [])
+ * @method DateRangeFilter($labelOrIndex, array $option = [])
+ * @method NumberRangeFilter($labelOrIndex, array $option = [])
+ * @method StringFilter($labelOrIndex, array $option = [])
  */
 class Lavacharts implements Customizable, Jsonable, Arrayable
 {
@@ -59,13 +63,6 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     const DATATABLE_TYPES = [
         'DataTable',
         'JoinedDataTable',
-    ];
-
-    /**
-     * Base classes to map with __call()
-     */
-    const BASE_LAVA_CLASSES = [
-        'DataFactory', //TODO: look into this again.
     ];
 
     /**
@@ -116,7 +113,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     }
 
     /**
-     * Magic function to reduce repetitive coding and create aliases.
+     * Magic function to create aliases methods for common classes.
      *
      * @since  1.0.0
      * @param  string $method Name of method
@@ -294,16 +291,22 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Create a new ChartWrapper from a Chart
      *
+     * @since  4.0.0 Allowing string named types of charts along with Chart objects
      * @since  3.0.0
-     * @param  Chart  $chart     Chart to wrap
-     * @param  string $elementId HTML element ID to output the control.
+     * @param  Chart|string $chart     Chart to wrap or type of chart to create and wrap.
+     * @param  string       $elementId HTML element ID to output the control.
      * @return ChartWrapper
      */
-    public function ChartWrapper(Chart $chart, $elementId)
+    public function ChartWrapper($chart, $elementId)
     {
+        if ($chart instanceof Chart) {
+            $chart = $chart->getType();
+        }
+
+        $chartType = Str::verify($chart);
         $elementId = Str::verify($elementId);
 
-        return new ChartWrapper($chart, $elementId);
+        return new ChartWrapper($chartType, $elementId);
     }
 
     /**

@@ -22,12 +22,12 @@ use Khill\Lavacharts\Exceptions\BindingException;
 class BindingFactory
 {
     /**
-     * Create a new Binding for the dashboard.
+     * Create a new Binding for the Dashboard.
      *
-     * @param  mixed $controlWraps One or array of many ControlWrappers
-     * @param  mixed $chartWraps   One or array of many ChartWrappers
+     * @param  ControlWrapper|ControlWrapper[] $controlWraps One or array of many ControlWrappers
+     * @param  ChartWrapper|ChartWrapper[]     $chartWraps   One or array of many ChartWrappers
      * @throws \Khill\Lavacharts\Exceptions\BindingException
-     * @return \Khill\Lavacharts\Dashboards\Bindings\Binding
+     * @return Binding
      */
     public static function create($controlWraps, $chartWraps)
     {
