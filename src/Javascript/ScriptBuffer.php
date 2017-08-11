@@ -5,12 +5,12 @@ namespace Khill\Lavacharts\Javascript;
 use Khill\Lavacharts\Support\Buffer;
 
 /**
- * Class Buffer
+ * ScriptBuffer Class
  *
- * Uses for building string outputs to send to the browser
+ * Used for building <script> tags
  *
  * @package   Khill\Lavacharts\Support
- * @since     3.1.0
+ * @since     4.0.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2015, KHill Designs
  * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
@@ -20,20 +20,6 @@ use Khill\Lavacharts\Support\Buffer;
 class ScriptBuffer extends Buffer
 {
     /**
-     * Opening javascript tag.
-     *
-     * @var string
-     */
-    const JS_OPEN = '<script type="text/javascript">';
-
-    /**
-     * Closing javascript tag.
-     *
-     * @var string
-     */
-    const JS_CLOSE = '</script>';
-
-    /**
      * Buffer constructor.
      *
      * @param string|mixed $str
@@ -42,6 +28,7 @@ class ScriptBuffer extends Buffer
     {
         parent::__construct($str);
 
-        $this->prepend(static::JS_OPEN)->append(static::JS_CLOSE);
+        $this->prepend(ScriptManager::JS_OPEN)
+             ->append(ScriptManager::JS_CLOSE);
     }
 }

@@ -73,20 +73,6 @@ class ScriptManager implements Customizable
      */
     private $scriptsOutput = false;
 
-
-    /**
-     * Wraps a buffer with an html script tag
-     *
-     * @param Buffer $buffer
-     * @return Buffer
-     */
-    public static function scriptTagWrap(Buffer $buffer)
-    {
-        return $buffer
-            ->prepend(static::JS_OPEN)
-            ->append(static::JS_CLOSE);
-    }
-
     /**
      * ScriptManager constructor.
      */
@@ -126,9 +112,14 @@ class ScriptManager implements Customizable
     }
 
     /**
+     * Disable the output of the lava.js module <script> block
+     *
      * Calling this method before rendering will override the output of the lava.js
      * module into the page. The 'auto_run' option is also set to false, since we
      * are now relying on the user to load the lava.js module manually.
+     *
+     * @since 3.1.9
+     * @return void
      */
     public function bypassLavaJsOutput()
     {
@@ -210,16 +201,14 @@ class ScriptManager implements Customizable
     /**
      * Gets the lava.js module.
      *
-     * @param array $options
+     * @param Options $options
      * @return Buffer
      */
-    public function getLavaJs($options)
+    public function getLavaJs(Options $options)
     {
         $this->lavaJsLoaded = true;
 
         $buffer = new ScriptBuffer($this->getLavaJsSource());
-
-        $options = Options::create($options);
 
         $buffer->pregReplace('/OPTIONS_JSON/', $options->toJson());
 

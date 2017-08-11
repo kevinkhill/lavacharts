@@ -365,7 +365,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     }
 
     /**
-     * Outputs the lava.js module for manual placement.
+     * Outputs the lava.js module <script> block for manual placement.
      *
      * @since 3.0.3
      * @param array $options
@@ -375,7 +375,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     {
         $this->options->merge($options);
 
-        return (string) $this->scriptManager->getLavaJs($this->options->toArray());
+        return (string) $this->scriptManager->getLavaJs($this->options);
     }
 
     /**
