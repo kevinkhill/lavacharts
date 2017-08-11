@@ -3,11 +3,13 @@
 namespace Khill\Lavacharts\Javascript;
 
 use Khill\Lavacharts\Exceptions\InvalidElementIdException;
+use Khill\Lavacharts\Lavacharts;
 use Khill\Lavacharts\Support\Buffer;
 use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
+use Khill\Lavacharts\Volcano;
 
 /**
  * ScriptManager Class
@@ -91,6 +93,36 @@ class ScriptManager implements Customizable
     function __construct()
     {
         $this->outputBuffer = new Buffer();
+    }
+
+    /**
+     * Renders all charts and dashboards that have been defined.
+     *
+     *
+     * @since 4.0.0
+     * @param Volcano $volcano
+     * @return string <script> tags
+     */
+    public function getScriptTags(Volcano $volcano)
+    {       // TODO: this fails silently if the chart doesn't have an elementId
+        if (! $this->lavaJsLoaded()) {
+            $this->loadLavaJs($this->options);
+        }
+
+        if (count($volcano) > 0) {
+            $this->openScriptTag();
+
+            /** @var Renderable $renderable */
+            foreach ($volcano as $renderable) {
+                if ($renderable->isRenderable()) {
+                    $this->addRenderableToOutput($renderable);
+                }
+            }
+
+            $this->closeScriptTag();
+        }
+
+        return $this->getOutputBuffer();
     }
 
     /**

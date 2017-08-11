@@ -65,9 +65,6 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Base classes to map with __call()
      */
     const BASE_LAVA_CLASSES = [
-//        'ChartWrapper',
-//        'ControlWrapper',
-//        'DataTable',
         'DataFactory', //TODO: look into this again.
     ];
 
@@ -152,18 +149,22 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Run the library and get the resulting scripts.
      *
      *
-     * This method will create a <script> for the lava.js module along with
-     * one additional <script> with all of the charts & dashboards.
+     * This method will create a <script> tag for the lava.js module, if
+     * it is not bypassed or already output, along with one additional
+     * <script> block with all of the charts & dashboards.
+     *
+     * Options can be passed in to override the default config.
+     * Available options are defined in src/Laravel/config/lavacharts.php
      *
      * @since 4.0.0
+     * @param array $options Array of options to override defaults before script output.
      * @return string HTML script elements
      */
-    public function flow()
+    public function flow(array $options = [])
     {
-        return $this->renderAll();
-
-//        @TODO This is the goal :)
-//        return new ScriptManager($this->options, json_encode($this));
+        $this->scriptManager->mergeOptions($options);
+        // TODO: this needs testing.
+        return $this->scriptManager->getScriptTags($this->volcano);
     }
 
     /**
@@ -389,6 +390,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
 
 //        TODO: bypass any subsequent render() calls
         $this->renderAll();
+        // TODO: call flow() instead.
     }
 
     /**
@@ -403,7 +405,8 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @return string
      */
     public function renderAll(array $options = [])
-    {        // TODO: this fails silently if the chart doesn't have an elementId
+    {
+        // TODO: have this call flow() instead.
         $this->options->merge($options);
 
         if (! $this->scriptManager->lavaJsLoaded()) {
