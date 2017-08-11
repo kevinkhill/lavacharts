@@ -9,17 +9,11 @@ use Khill\Lavacharts\DataTables\Columns\Format;
 use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Lavacharts;
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 
 abstract class ProvidersTestCase extends TestCase
 {
     const CHART_NAMESPACE = '\\Khill\\Lavacharts\\Charts\\';
-
-    /**
-     * Partial DataTable for use throughout various tests
-     *
-     * @var \Khill\Lavacharts\DataTables\DataTable
-     */
-    protected $partialDataTable;
 
     /**
      * Checks if a string contains another string
@@ -27,7 +21,7 @@ abstract class ProvidersTestCase extends TestCase
      * @param $haystack
      * @param $needle
      */
-    public function assetStringHasString($haystack, $needle)
+    public function assertStringContains($haystack, $needle)
     {
         $this->assertTrue(strpos($haystack, $needle) !== false);
     }
@@ -41,7 +35,7 @@ abstract class ProvidersTestCase extends TestCase
      */
     public function inspect($obj, $prop)
     {
-        $refObj = new \ReflectionProperty($obj, $prop);
+        $refObj = new ReflectionProperty($obj, $prop);
         $refObj->setAccessible(true);
 
         return $refObj->getValue($obj);
@@ -96,6 +90,24 @@ abstract class ProvidersTestCase extends TestCase
     }
 
     /**
+     * Returns all available format types, without 'Format', labeled as self for testing.
+     *
+     * @return array
+     */
+    public function shortnameFormatTypeProvider()
+    {
+        $types = [];
+
+        foreach (Format::TYPES as $formatType) {
+            $formatType = str_replace('Format', '', $formatType);
+
+            $types[$formatType] = [$formatType];
+        }
+
+        return $types;
+    }
+
+    /**
      * Returns all available filter types, labeled as self for testing.
      *
      * @return array
@@ -116,7 +128,7 @@ abstract class ProvidersTestCase extends TestCase
      *
      * @return array
      */
-    public function filterlessFilterTypeProvider()
+    public function shortnameFilterTypeProvider()
     {
         $types = [];
 

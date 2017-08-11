@@ -3,28 +3,22 @@
 namespace Khill\Lavacharts\Tests\Dashboards;
 
 use Khill\Lavacharts\Dashboards\Bindings\BindingFactory;
+use Khill\Lavacharts\Dashboards\Bindings\ManyToMany;
+use Khill\Lavacharts\Dashboards\Bindings\ManyToOne;
+use Khill\Lavacharts\Dashboards\Bindings\OneToMany;
+use Khill\Lavacharts\Dashboards\Bindings\OneToOne;
 
-/**
- * @property \Khill\Lavacharts\Dashboards\Bindings\BindingFactory factory
- */
 class BindingFactoryTest extends DashboardsTestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->factory = new BindingFactory;
-    }
-
     /**
      * @covers \Khill\Lavacharts\Dashboards\Bindings\OneToOne
      * @covers \Khill\Lavacharts\Dashboards\Bindings\BindingFactory::create
      */
     public function testBindWithOneToOne()
     {
-        $binding = $this->factory->create($this->mockControlWrap, $this->mockChartWrap);
+        $binding = BindingFactory::create($this->mockControlWrap, $this->mockChartWrap);
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Bindings\OneToOne', $binding);
+        $this->assertInstanceOf(OneToOne::class, $binding);
     }
 
     /**
@@ -33,12 +27,12 @@ class BindingFactoryTest extends DashboardsTestCase
      */
     public function testBindWithOneToMany()
     {
-        $binding = $this->factory->create(
+        $binding = BindingFactory::create(
             $this->mockControlWrap,
             [$this->mockChartWrap, $this->mockChartWrap]
         );
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Bindings\OneToMany', $binding);
+        $this->assertInstanceOf(OneToMany::class, $binding);
     }
 
     /**
@@ -47,12 +41,12 @@ class BindingFactoryTest extends DashboardsTestCase
      */
     public function testBindWithManyToOne()
     {
-        $binding = $this->factory->create(
+        $binding = BindingFactory::create(
             [$this->mockControlWrap, $this->mockControlWrap],
             $this->mockChartWrap
         );
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Bindings\ManyToOne', $binding);
+        $this->assertInstanceOf(ManyToOne::class, $binding);
     }
 
     /**
@@ -61,11 +55,11 @@ class BindingFactoryTest extends DashboardsTestCase
      */
     public function testBindWithManyToMany()
     {
-        $binding = $this->factory->create(
+        $binding = BindingFactory::create(
             [$this->mockControlWrap, $this->mockControlWrap],
             [$this->mockChartWrap, $this->mockChartWrap]
         );
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Dashboards\Bindings\ManyToMany', $binding);
+        $this->assertInstanceOf(ManyToMany::class, $binding);
     }
 }

@@ -47,7 +47,7 @@ class FiltersTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider filterlessFilterTypeProvider
+     * @dataProvider shortnameFilterTypeProvider
      * @param $filterType
      */
     public function testCreatingFiltersStaticlyByNameAndColumnIndex($filterType)
@@ -69,7 +69,7 @@ class FiltersTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider filterlessFilterTypeProvider
+     * @dataProvider shortnameFilterTypeProvider
      * @param $filterType
      */
     public function testCreatingFiltersStaticlyByNameAndColumnIndexWithOptions($filterType)
@@ -82,7 +82,7 @@ class FiltersTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider filterlessFilterTypeProvider
+     * @dataProvider shortnameFilterTypeProvider
      * @param $filterType
      */
     public function testCreatingFiltersByNameAndColumnIndex($filterType)
@@ -116,7 +116,7 @@ class FiltersTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider filterlessFilterTypeProvider
+     * @dataProvider shortnameFilterTypeProvider
      * @param $filterType
      */
     public function testCreatingFiltersByNameAndColumnLabel($filterType)
@@ -150,7 +150,7 @@ class FiltersTest extends ProvidersTestCase
     }
 
     /**
-     * @dataProvider filterlessFilterTypeProvider
+     * @dataProvider shortnameFilterTypeProvider
      * @param $filterType
      */
     public function testCreatingFiltersByNameAndColumnIndexWithOptions($filterType)
