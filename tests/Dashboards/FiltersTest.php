@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Tests\Dashboards\Filters;
 
 use Khill\Lavacharts\Dashboards\Filter;
+use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Lavacharts;
 use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
@@ -191,17 +192,17 @@ class FiltersTest extends ProvidersTestCase
     /**
      * @expectedException \Khill\Lavacharts\Exceptions\InvalidArgumentException
      */
-    public function testCreatingFiltersStaticlyByNameWithMissingColumnIndex()
+    public function testCreatingFiltersViaLavaAliasWithNoArgs()
     {
-        $filter = Filter::create('NumberFilter');
+        $this->lava->StringFilter();
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidArgumentException
+     * @expectedException \PHPUnit_Framework_Error_Warning
      */
     public function testCreatingFiltersStaticlyByNameWithMissingColumnIndex()
     {
-        $filter = Filter::create('NumberFilter');
+        Filter::create('NumberFilter');
     }
 
     /**
