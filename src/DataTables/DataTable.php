@@ -5,6 +5,7 @@ namespace Khill\Lavacharts\DataTables;
 use Carbon\Carbon;
 use DateTimeZone;
 use Exception;
+use Khill\Lavacharts\Dashboards\Filter;
 use Khill\Lavacharts\DataTables\Cells\Cell;
 use Khill\Lavacharts\DataTables\Cells\DateCell;
 use Khill\Lavacharts\DataTables\Columns\Column;
@@ -48,9 +49,9 @@ use Khill\Lavacharts\Support\StringValue;
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */
-class DataTable implements DataInterface, Customizable, Arrayable, Javascriptable, Jsonable
+class DataTable implements DataInterface, Customizable, Arrayable, /*Javascriptable,*/ Jsonable
 {
-    use HasOptions, ArrayToJson, ToJavascript;
+    use HasOptions, ArrayToJson/*, ToJavascript*/;
 
     /**
      * Column types that use dates and/or times
@@ -156,7 +157,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     /**
      * @inheritdoc
      */
-    public function toJsDataTable()
+    public function toJsDataTable() //TODO: re-think this.
     {
         return $this->toJavascript();
     }
@@ -170,15 +171,15 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      * @param bool $withFormats
      * @return string JSON representation of the DataTable.
      */
-    public function toJson($withFormats = true)
+    public function toJson(/*$withFormats = false*/)
     {
-        if ($this->hasFormattedColumns() && $withFormats === true) {
 //TODO: Figure out a better way to get the formats to the lava.js module. We should output a pure DataTable from toJson() to be compatable with the JSON Schema
-            return json_encode([
-                'data'    => $this,
-                'formats' => $this->getFormattedColumns(),
-            ]);
-        }
+//        if ($this->hasFormattedColumns() && $withFormats === true) {
+//            return json_encode([
+//                'data'    => $this,
+//                'formats' => $this->getFormattedColumns(),
+//            ]);
+//        }
 
         return json_encode($this);
     }
@@ -189,10 +190,10 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      *
      * @return string
      */
-    public function getJavascriptFormat()
-    {
-        return 'new google.visualization.DataTable(%s)';
-    }
+//    public function getJavascriptFormat()
+//    {
+//        return 'new google.visualization.DataTable(%s)';
+//    }
 
     /**
      * Return an array of arguments to pass to the format string provided
@@ -203,12 +204,12 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
      *
      * @return array
      */
-    public function getJavascriptSource()
-    {
-        return [
-            $this->toJson(false) //TODO: no no no
-        ];
-    }
+//    public function getJavascriptSource()
+//    {
+//        return [
+//            $this->toJson(false) //TODO: no no no
+//        ];
+//    }
 
     /**
      * Returns the current timezone used in the DataTable
@@ -739,6 +740,20 @@ class DataTable implements DataInterface, Customizable, Arrayable, Javascriptabl
     public function getColumnCount()
     {
         return count($this->columns);
+    }
+
+    /**
+     * Create a new Filter by name and index / label.
+     *
+     * @since 4.0.0
+     * @param string     $filterType
+     * @param int|string $indexOrLabel
+     * @param array      $options
+     * @return Filter
+     */
+    public function getColumnFilter($filterType, $indexOrLabel, array $options = [])
+    {
+        return new Filter($filterType, $indexOrLabel, $options);
     }
 
     /**

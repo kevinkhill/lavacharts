@@ -5,6 +5,7 @@ namespace Khill\Lavacharts\DataTables\Columns;
 use JsonSerializable;
 use Khill\Lavacharts\Exceptions\InvalidFormatType;
 use Khill\Lavacharts\Support\Contracts\Customizable;
+use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 
 /**
@@ -24,7 +25,7 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
  */
 class Format implements JsonSerializable, Customizable
 {
-    use HasOptions;
+    use HasOptions, ArrayToJson;
 
     const TYPES = [
         'ArrowFormat',
@@ -51,7 +52,7 @@ class Format implements JsonSerializable, Customizable
      * Create a new Format by named type with an array of arguments.
      *
      * @param string $type
-     * @param array $args
+     * @param array  $args
      * @return Format
      */
     public static function create($type, $args)
@@ -68,6 +69,11 @@ class Format implements JsonSerializable, Customizable
      */
     public function __construct($type, array $options = [])
     {
+        if (is_string($type)) {
+            $type = str_replace('Format', '', $type);
+            $type = $type . 'Format';
+        }
+
         if (! in_array($type, static::TYPES)) {
             throw new InvalidFormatType($type);
         }
@@ -78,14 +84,37 @@ class Format implements JsonSerializable, Customizable
     }
 
     /**
-     * Apply the  a new Column with the same values, while applying the Format.
+     * Convert the Format to an array.
      *
-     * @param  Column $column
-     * @return Column
+     * @return array
      */
-    public function applyToColumn(Column $column)
+    public function toArray()
     {
-        return $column->setFormat($this);
+        return [
+            'type'    => $this->type,
+            'index'   => $this->index,
+            'options' => $this->options
+        ];
+    }
+
+    /**
+     * Returns the type of format.
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Returns the index of the column that is formatted.
+     *
+     * @return int
+     */
+    public function getIndex()
+    {
+        return $this->index;
     }
 
     /**
@@ -101,25 +130,14 @@ class Format implements JsonSerializable, Customizable
         return $this;
     }
 
-    public function toJson()
-    {
-        return json_encode($this);
-    }
-
-    public function toArray()
-    {
-        return [
-            'type'    => $this->type,
-            'index'   => $this->index,
-            'options' => $this->options
-        ];
-    }
-
     /**
-     * @inheritdoc
+     * Apply the  a new Column with the same values, while applying the Format.
+     *
+     * @param  Column $column
+     * @return Column
      */
-    public function jsonSerialize()
+    public function applyToColumn(Column $column)
     {
-        return $this->toArray();
+        return $column->setFormat($this);
     }
 }

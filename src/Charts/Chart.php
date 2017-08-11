@@ -2,6 +2,7 @@
 
 namespace Khill\Lavacharts\Charts;
 
+use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
 use Khill\Lavacharts\Support\Contracts\Visualization;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
@@ -40,7 +41,7 @@ class Chart extends Renderable implements Visualization, Wrappable
     {
         $chartType = __NAMESPACE__ . '\\' . $chartType;
 
-        return new $chartType(md5(microtime()));
+        return new $chartType(md5($chartType.'-'.microtime()));
     }
 
     /**
@@ -53,6 +54,19 @@ class Chart extends Renderable implements Visualization, Wrappable
     public function __construct($label, DataInterface $data = null, array $options = [])
     {
         parent::__construct($label, $data, $options);
+    }
+
+    /**
+     * Wrap the current chart with a ChartWrapper.
+     *
+     * @since 4.0.0
+     * @return ChartWrapper
+     */
+    public function getChartWrapper()
+    {
+        $this->isRenderable = false;
+
+        return new ChartWrapper($this->getType(), $this->getElementId());
     }
 
     /**

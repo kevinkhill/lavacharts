@@ -21,7 +21,7 @@ use Khill\Lavacharts\Support\Options;
 interface Customizable
 {
     /**
-     * Retrieve the instance Options.
+     * Retrieve the Options instance
      *
      * @return Options
      */

@@ -297,7 +297,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @param  string       $elementId HTML element ID to output the control.
      * @return ChartWrapper
      */
-    public function ChartWrapper($chart, $elementId)
+    public function ChartWrapper($chart, $elementId) //TODO: add options to the signature
     {
         if ($chart instanceof Chart) {
             $chart = $chart->getType();

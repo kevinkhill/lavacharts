@@ -5,6 +5,8 @@ namespace Khill\Lavacharts\Dashboards\Wrappers;
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Charts\ChartFactory;
 use Khill\Lavacharts\Exceptions\InvalidChartType;
+use Khill\Lavacharts\Support\Contracts\Customizable;
+use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 
 /**
  * ChartWrapper Class
@@ -19,8 +21,10 @@ use Khill\Lavacharts\Exceptions\InvalidChartType;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class ChartWrapper extends Wrapper
+class ChartWrapper extends Wrapper implements Customizable
 {
+    use HasOptions;
+
     /**
      * Builds a ChartWrapper object.
      *
@@ -29,7 +33,7 @@ class ChartWrapper extends Wrapper
      * @param string $containerId
      * @throws InvalidChartType
      */
-    public function __construct($chartType, $containerId)
+    public function __construct($chartType, $containerId) //TODO: add options to the signature
     {
         if (! in_array($chartType, ChartFactory::TYPES)) {
             throw new InvalidChartType($chartType);

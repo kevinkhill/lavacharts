@@ -4,12 +4,9 @@ namespace Khill\Lavacharts\Dashboards\Bindings;
 
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
-use Khill\Lavacharts\Dashboards\Wrappers\Wrapper;
-use Khill\Lavacharts\Javascript\JavascriptSource;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
-use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 
 /**
  * Parent Binding Class

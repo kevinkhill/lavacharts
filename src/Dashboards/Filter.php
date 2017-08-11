@@ -2,10 +2,14 @@
 
 namespace Khill\Lavacharts\Dashboards;
 
+use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Exceptions\InvalidFilterType;
+use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
+use Khill\Lavacharts\Support\StringValue as Str;
+use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 
 /**
@@ -23,9 +27,9 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Filter implements Customizable, Wrappable
+class Filter implements Arrayable, Customizable, Wrappable
 {
-    use HasOptions;
+    use HasOptions, ArrayToJson;
 
     /**
      * Valid filter types
@@ -117,14 +121,32 @@ class Filter implements Customizable, Wrappable
         $this->setOptions($options);
     }
 
-//    public function toArray()
-//    {
-//        return [
-//            'type' => $this->getType(),
-//            'wrapType' => $this->getWrapType(),
-//            'options' => $this->options->toArray(),
-//        ];
-//    }
+    /**
+     * Convert the Filter to an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'type'     => $this->getType(),
+            'wrapType' => $this->getWrapType(),
+            'options'  => $this->options->toArray(),
+        ];
+    }
+
+    /**
+     * Create a new ControlWrapper using the Filter.
+     *
+     * @param string $elementId
+     * @return ControlWrapper
+     */
+    public function getControlWrapper($elementId)
+    {
+        $elementId = Str::verify($elementId);
+
+        return new ControlWrapper($this, $elementId);
+    }
 
     /**
      * Returns the type of Filter
