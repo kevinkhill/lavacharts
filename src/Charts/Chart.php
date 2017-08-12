@@ -190,12 +190,20 @@ class Chart extends Renderable implements Visualization, Wrappable
             'type'      => $this->getType(), // TODO: unused in js side?
             'class'     => $this->getJsClass(),
             'elementId' => $this->getElementId(),
-            'formats'   => $this->getFormats(),
             'datatable' => $this->getDataTable(),
             'packages'  => [$this->getJsPackage()],
             'options'   => $this->options->without(['elementId', 'events']),
-            'events'    => $this->hasOption('events') ? $this->options->events : [],
         ];
+
+        if ($this->hasOption('events')) {
+            $chartArray['events'] = $this->options->events;
+        }
+
+        if (method_exists($this->datatable, 'hasFormattedColumns')) {
+            if ($this->datatable->hasFormattedColumns()) {
+                $chartArray['formats'] = $this->getFormats();
+            }
+        }
 
         // TODO: needs testing
         if (method_exists($this, 'getPngOutput')) {
@@ -203,13 +211,13 @@ class Chart extends Renderable implements Visualization, Wrappable
         }
 
         // TODO: needs testing
-        if (method_exists($this, 'getMaterialOutput') &&
-            $this->getMaterialOutput()
-        ) {
-            $chartArray['options'] = sprintf(
-                $this->getJsClass() . '.convertOptions(%s)',
-                $this->getOptions()->toJson()
-            );
+        if (method_exists($this, 'getMaterialOutput')) {
+            if ($this->getMaterialOutput()) {
+                $chartArray['options'] = sprintf(
+                    $this->getJsClass() . '.convertOptions(%s)',
+                    $this->getOptions()->toJson()
+                );
+            }
         }
 
         return $chartArray;

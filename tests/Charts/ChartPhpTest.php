@@ -2,179 +2,86 @@
 
 namespace Khill\Lavacharts\Tests\Charts;
 
+use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Charts\LineChart;
 use Khill\Lavacharts\DataTables\DataTable;
+use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
+use Mockery;
 
 class ChartTestCase extends ProvidersTestCase
 {
-    public function makeChart($type, $options = [])
+    /**
+     * @dataProvider chartTypeProvider
+     * @param string $chartType
+     */
+    public function testCreatingChartsManually($chartType)
     {
-        return new $type(
-            $this->getMockLabel('TestChart'),
-            $this->getMockDataTable(),
-            $options
-        );
+        $chartFQN = static::CHART_NAMESPACE.$chartType;
+
+        /** @var Chart $chart */
+        $chart = new $chartFQN('TestChart');
+
+        $this->assertInstanceOf(Chart::class, $chart);
+        $this->assertEquals('TestChart', $chart->getLabel());
+        $this->assertEquals($chartType, $chart->getType());
     }
 
     /**
      * @dataProvider chartTypeProvider
      * @param string $chartType
      */
-    public function testInstanceCreation($chartType)
+    public function testCreatingChartsManuallyWithDataTable($chartType)
     {
-        $chartFQN = "Khill\\Lavacharts\\Charts\\".$chartType;
+        $chartFQN = static::CHART_NAMESPACE.$chartType;
 
-        $chart = new $chartFQN(
-            $this->getMockLabel('TestChart'),
-            $this->getMockDataTable()
-        );
+        /** @var Chart $chart */
+        $chart = new $chartFQN('TestChart', Mockery::mock(DataTable::class));
 
-        $this->assertEquals('TestChart', $chart->getLabel());
-        $this->assertEquals($chartType, $chart->getType());
         $this->assertInstanceOf(DataTable::class, $chart->getDataTable());
     }
 
     /**
-     * @depends testInstanceCreation
+     * @dataProvider chartTypeProvider
+     * @param string $chartType
      */
-    public function testSettingOptionsWithConstructor()
+    public function testCreatingChartsManuallyWithDataTableAndOptions($chartType)
     {
-        $chart = $this->makeLineChart(
-            ['colors' => ['red', 'green']]
-        );
+        $chartFQN = static::CHART_NAMESPACE.$chartType;
 
-        $options = $this->inspect($chart, 'options');
+        /** @var Chart $chart */
+        $chart = new $chartFQN('TestChart', Mockery::mock(DataTable::class), [
+            'title' => 'Chart!'
+        ]);
 
-        $this->assertTrue(is_array($options));
-        $this->assertArrayHasKey('colors', $options);
-        $this->assertEquals(['red', 'green'], $options['colors']);
+        $this->assertInstanceOf(Options::class, $chart->getOptions());
+        $this->assertEquals('Chart!', $chart->getOption('title'));
     }
 
     /**
-     * @depends testSettingOptionsWithConstructor
+     * @dataProvider chartTypeProvider
+     * @param string $chartType
      */
-    public function testGetOptions()
+    public function testChartToArray($chartType)
     {
-        $chart = $this->makeLineChart(
-            ['colors' => ['red', 'green']]
-        );
+        $datatable = Mockery::mock(DataTable::class)
+            ->shouldReceive('hasFormattedColumns')
+            ->once()
+            ->andReturn(false)
+            ->getMock();
 
-        $options = $chart->getOptions();
+        $chartFQN = static::CHART_NAMESPACE.$chartType;
 
-        $this->assertTrue(is_array($options));
-        $this->assertEquals(['red', 'green'], $options['colors']);
-    }
+        /** @var Chart $chart */
+        $chart = new $chartFQN('TestChart', $datatable, [
+            'title' => 'Chart!'
+        ]);
 
-    /**
-     * @depends testGetOptions
-     */
-    public function testSettingOptionsViaMagicMethod()
-    {
-        $chart = $this->makeLineChart();
+        $chartArr = $chart->toArray();
 
-        $chart->legend(['position' => 'out']);
-
-        $options = $chart->getOptions();
-
-        $this->assertArrayHasKey('legend', $options);
-        $this->assertArrayHasKey('position', $options['legend']);
-        $this->assertEquals('out', $options['legend']['position']);
-    }
-
-    /**
-     * @depends testGetOptions
-     */
-    public function testSettingStringValueOptionViaMagicMethod()
-    {
-        $chart = $this->makeLineChart();
-
-        $chart->title('Charts!');
-
-        $options = $chart->getOptions();
-
-        $this->assertEquals('Charts!', $options['title']);
-    }
-
-    /**
-     * @depends testGetOptions
-     */
-    public function testSetOptions()
-    {
-        $expected = [
-            'title' => 'My Cool Chart',
-            'width' => 1024,
-            'height' => 768
-        ];
-
-        $chart = $this->makeLineChart();
-        $chart->setOptions($expected);
-
-        $options = $chart->getOptions();
-
-        $this->assertTrue(is_array($options));
-        $this->assertEquals('My Cool Chart', $options['title']);
-        $this->assertEquals(1024, $options['width']);
-        $this->assertEquals(768, $options['height']);
-    }
-
-    /**
-     * @depends testSetOptions
-     * @depends testGetOptions
-     */
-    public function testMergeOptions()
-    {
-        $expected = [
-            'title' => 'My Cool Chart'
-        ];
-
-        $chart = $this->makeLineChart();
-
-        $chart->setOptions($expected);
-
-        $chart->mergeOptions(['width' => 1024]);
-
-        $options = $chart->getOptions();
-
-        $this->assertEquals('My Cool Chart', $options['title']);
-        $this->assertEquals(1024, $options['width']);
-    }
-
-    /**
-     * @depends testSetOptions
-     * @depends testGetOptions
-     */
-    public function testCustomize()
-    {
-        $expected = [
-            'title' => 'My Cool Chart',
-            'width' => 1024,
-            'height' => 768
-        ];
-
-        $chart = $this->makeLineChart();
-        $chart->customize($expected);
-
-        $options = $chart->getOptions();
-
-        $this->assertEquals('My Cool Chart', $options['title']);
-        $this->assertEquals(1024, $options['width']);
-        $this->assertEquals(768, $options['height']);
-    }
-
-    /**
-     * @depends testSettingOptionsViaMagicMethod
-     */
-    public function testOptionsToJson()
-    {
-        $chart = $this->makeLineChart();
-
-        $chart->title('My Cool Chart');
-        $chart->width(1024);
-        $chart->height(768);
-
-        $expected = '{"type":"LineChart","label":"TestChart","options":{"title":"My Cool Chart","width":1024,"height":768},"datatable":{"cols":[],"rows":[]},"element_id":""}';
-
-        $this->assertEquals($expected, $chart->getOptions()->toJson());
+        $this->assertTrue(is_array($chartArr));
+        $this->assertArrayHasKey('options', $chartArr);
+        $this->assertArrayHasKey('title', $chartArr['options']);
+        $this->assertEquals('Chart!', $chartArr['options']['title']);
     }
 }
