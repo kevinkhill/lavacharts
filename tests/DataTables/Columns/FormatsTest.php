@@ -8,13 +8,11 @@ use Khill\Lavacharts\Lavacharts;
 use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 
+/**
+ * @property Lavacharts lava
+ */
 class FormatsTest extends ProvidersTestCase
 {
-    /**
-     * @var Lavacharts
-     */
-    protected $lava;
-
     public function setUp()
     {
         parent::setUp();

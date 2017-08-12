@@ -104,12 +104,12 @@ class LavachartsTest extends ProvidersTestCase
         $this->assertInstanceOf(ChartWrapper::class, $chartWrapper);
     }
 
-    public function testCreatingDataTableViaMagicMethod()
+    public function testCreatingDataTableViaLavaAlias()
     {
         $this->assertInstanceOf(DataTable::class, $this->lava->DataTable());
     }
 
-    public function testCreatingDataTableViaMagicMethodWithTimezone()
+    public function testCreatingDataTableViaLavaAliasWithTimezone()
     {
         $this->assertInstanceOf(DataTable::class, $this->lava->DataTable('America/Los_Angeles'));
     }
@@ -118,7 +118,7 @@ class LavachartsTest extends ProvidersTestCase
      * @dataProvider chartTypeProvider
      * @param string $chartType
      */
-    public function testCreatingChartsViaMagicMethod($chartType)
+    public function testCreatingChartsViaLavaAlias($chartType)
     {
         $chart = $this->lava->$chartType('My'.$chartType);
 
@@ -161,7 +161,7 @@ class LavachartsTest extends ProvidersTestCase
      * @dataProvider chartTypeProvider
      * @param string $chartType
      */
-    public function testChartsCreatedViaMagicMethodAreStoredInVolcano($chartType)
+    public function testChartsCreatedViaLavaAliasAreStoredInVolcano($chartType)
     {
         $this->lava->$chartType('My'.$chartType);
 
@@ -215,7 +215,7 @@ class LavachartsTest extends ProvidersTestCase
      * @dataProvider formatTypeProvider
      * @param string $formatType
      */
-    public function testCreatingFormatsViaMagicMethod($formatType)
+    public function testCreatingFormatsViaLavaAlias($formatType)
     {
         $format = $this->lava->$formatType();
 
@@ -226,7 +226,7 @@ class LavachartsTest extends ProvidersTestCase
      * @dataProvider filterTypeProvider
      * @param string $filterType
      */
-    public function testCreatingFiltersViaMagicMethod($filterType)
+    public function testCreatingFiltersViaLavaAlias($filterType)
     {
         $filter = $this->lava->$filterType();
 

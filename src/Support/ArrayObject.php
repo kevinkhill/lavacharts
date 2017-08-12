@@ -81,9 +81,4 @@ abstract class ArrayObject implements ArrayAccess, Arrayable, Countable, Iterato
     {
         return $this->offsetExists($offset) ? $this->toArray()[$offset] : null;
     }
-
-    private function &getArrayAccessPropertyRef()
-    {
-        return $this->{$this->getArrayAccessProperty()};
-    }
 }

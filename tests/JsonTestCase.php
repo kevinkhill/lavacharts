@@ -33,7 +33,7 @@ class JsonTestCase extends ProvidersTestCase
     public function assertValidJsonWithSchema($data, $pathToSchema)
     {
         $schema = (object) [
-            '$ref' => 'file://' . realpath($pathToSchema)
+            '$ref' => 'file://' . realpath(__DIR__.'/'.$pathToSchema)
         ];
 
         $this->validator->check($data, $schema);

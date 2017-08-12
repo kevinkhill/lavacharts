@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Exception;
 use Khill\Lavacharts\Exceptions\UndefinedDateCellException;
 use Khill\Lavacharts\Support\Contracts\Javascriptable;
+use Khill\Lavacharts\Support\StringValue as Str;
 use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
 
 /**
@@ -38,7 +39,7 @@ class DateCell extends Cell implements Javascriptable
     public static function create($datetime)
     {
         try {
-            $carbon = new Carbon($datetime);
+            $carbon = new Carbon(Str::verify($datetime));
 
             return new static($carbon);
         } catch (Exception $e) {
@@ -59,7 +60,7 @@ class DateCell extends Cell implements Javascriptable
     public static function createFromFormat($format, $datetime)
     {
         try {
-            $carbon = Carbon::createFromFormat($format, $datetime);
+            $carbon = Carbon::createFromFormat(Str::verify($format), Str::verify($datetime));
 
             return new static($carbon);
         } catch (Exception $e) {
@@ -86,7 +87,9 @@ class DateCell extends Cell implements Javascriptable
      */
     public function toArray()
     {
-        return ['v' => $this->toJavascript()];
+        $this->value = $this->toJavascript();
+
+        return parent::toArray();
     }
 
     /**

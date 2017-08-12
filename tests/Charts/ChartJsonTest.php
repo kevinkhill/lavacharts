@@ -11,7 +11,7 @@ use Khill\Lavacharts\Tests\JsonTestCase;
  */
 class ChartJsonTest extends JsonTestCase
 {
-    const CHART_SCHEMA = '../JsonSchema/chart.json';
+    const CHART_SCHEMA = './JsonSchema/chart.json';
 
     public function setUp()
     {
@@ -40,7 +40,7 @@ class ChartJsonTest extends JsonTestCase
     }
 
     /** @test */
-    public function validate_chart_json_against_schema()
+    public function validateChartJsonAgainstSchema()
     {
         $data = json_decode($this->getJson());
 
@@ -48,7 +48,7 @@ class ChartJsonTest extends JsonTestCase
     }
 
     /** @test */
-    public function has_element_id()
+    public function hasElementId()
     {
         $this->assertJsonFragment([
             'elementId' => 'chart'
@@ -56,7 +56,7 @@ class ChartJsonTest extends JsonTestCase
     }
 
     /** @test */
-    public function has_label()
+    public function hasLabel()
     {
         $this->assertJsonFragment([
             'label' => 'Sales'
@@ -64,7 +64,7 @@ class ChartJsonTest extends JsonTestCase
     }
 
     /** @test */
-    public function has_options()
+    public function hasOptions()
     {
         $this->assertJsonFragment([
             'options' => [

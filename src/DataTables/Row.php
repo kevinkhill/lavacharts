@@ -46,6 +46,7 @@ class Row extends ArrayObject implements Jsonable
      * Create a new Row from an arbitrary number of cells.
      *
      * @since 4.0.0
+     * @param array $args
      * @return Row
      */
     public static function create(...$args)
@@ -121,7 +122,17 @@ class Row extends ArrayObject implements Jsonable
      */
     public function toArray()
     {
-        return ['c' => $this->cells];
+//        $cells = [];
+//
+//        foreach ($this->cells as $cell) {
+//            $cells[] = $cell->toArray();
+//        }
+//
+        return [
+            'c' => array_map(function (Cell $cell) {
+                return $cell->toArray();
+            }, $this->cells)
+        ];
     }
 
     /**
@@ -157,12 +168,10 @@ class Row extends ArrayObject implements Jsonable
         return count($this->cells);
     }
 
-
     /**
-     * Returns the Cell at the given index from the Row.
+     * Returns the Cell at the given index.
      *
      * @param  int $index Column index to fetch from the row.
-     *
      * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
      * @return Cell
      */
@@ -173,5 +182,18 @@ class Row extends ArrayObject implements Jsonable
         }
 
         return $this->cells[$index];
+    }
+
+    /**
+     * Returns the value of the Cell at the given index.
+     *
+     * @since 4.0.0
+     * @param  int $index Column index to fetch from the row.
+     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
+     * @return Cell
+     */
+    public function getCellValue($index)
+    {
+        return $this->getCell($index)->getValue();
     }
 }

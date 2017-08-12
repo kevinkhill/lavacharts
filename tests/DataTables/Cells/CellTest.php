@@ -2,85 +2,87 @@
 
 namespace Khill\Lavacharts\Tests\DataTables\Cells;
 
+use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\DataTables\Cells\Cell;
 
+/**
+ * @property Cell   testCell
+ * @property string cellJson
+ */
 class CellTest extends ProvidersTestCase
 {
-    public $Cell;
-
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
+
+        $this->cellJson = '{"v":1,"f":"low","p":{"textStyle":{"fontName":"Arial"}}}';
+
+        $this->testCell = $cell = new Cell(1, 'low', ['textStyle' => ['fontName' => 'Arial']]);
     }
 
-    /**
-     * @covers \Khill\Lavacharts\DataTables\Cells\Cell::__construct
-     */
     public function testConstructorArgs()
     {
-        $column = new Cell(1, 'low', ['textstyle' => ['fontName' => 'Arial']]);
+        $this->assertEquals(1, $this->testCell->getValue());
+        $this->assertEquals('low', $this->testCell->getFormat());
+        $this->assertInstanceOf(Options::class, $this->testCell->getOptions());
+    }
 
-        $this->assertEquals(1, $this->inspect($column, 'v'));
-        $this->assertEquals('low', $this->inspect($column, 'f'));
-        //@TODO investigate this
-        //$this->assertTrue(is_array($this->inspect($column, 'p')));
+    public function testCellToArray()
+    {
+        $cellArr = $this->testCell->toArray();
+
+        $this->assertTrue(is_array($cellArr));
+
+        $this->assertArrayHasKey('v', $cellArr);
+        $this->assertEquals(1, $cellArr['v']);
+
+        $this->assertArrayHasKey('f', $cellArr);
+        $this->assertEquals('low', $cellArr['f']);
+
+        $this->assertArrayHasKey('p', $cellArr);
+        $this->assertTrue(is_array($cellArr['p']));
+
+        $this->assertArrayHasKey('textStyle', $cellArr['p']);
+        $this->assertTrue(is_array($cellArr['p']['textStyle']));
+
+        $this->assertArrayHasKey('fontName', $cellArr['p']['textStyle']);
+        $this->assertEquals('Arial', $cellArr['p']['textStyle']['fontName']);
+
+    }
+
+    public function testCellJsonSerialization()
+    {
+        $this->assertEquals(
+            $this->cellJson,
+            json_encode($this->testCell)
+        );
+    }
+
+    public function testCellToJson()
+    {
+        $this->assertEquals(
+            $this->cellJson,
+            $this->testCell->toJson()
+        );
     }
 
     /**
-     * @dataProvider nonStringProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidParamType
-     * @covers \Khill\Lavacharts\DataTables\Cells\Cell::__construct
+     * @group error
+     * @expectedException \Khill\Lavacharts\Exceptions\InvalidArgumentException
      */
-    public function testConstructorArgFormatWithBadType($badTypes)
+    public function testCreatingCellWithInvalidFormatString()
     {
-        new Cell(1, $badTypes);
-    }
-    
-    /**
-     * @depends testConstructorArgs
-     * @covers \Khill\Lavacharts\DataTables\Cells\Cell::getValue
-     */
-    public function testGetValue()
-    {
-        $column = new Cell(1);
-
-        $this->assertEquals(1, $column->getValue());
+        new Cell(1, ['NotString']);
     }
 
     /**
-     * @depends testConstructorArgs
-     * @covers \Khill\Lavacharts\DataTables\Cells\Cell::getFormat
+     * @group error
+     * @expectedException \PHPUnit_Framework_Error
      */
-    public function testGetFormat()
+    public function testCreatingCellWithInvalidOptions()
     {
-        $column = new Cell(1, 'low');
-
-        $this->assertEquals('low', $column->getFormat());
-    }
-
-    /**
-     * @depends testConstructorArgs
-     * @covers \Khill\Lavacharts\DataTables\Cells\Cell::getOptions
-     */
-    public function testGetOptions()
-    {
-        $column = new Cell(1, 'low', ['textstyle' => ['fontName' => 'Arial']]);
-
-        $this->assertTrue(is_array($column->getOptions()));
-    }
-
-    /**
-     * @depends testConstructorArgs
-     * @covers \Khill\Lavacharts\DataTables\Cells\Cell::jsonSerialize
-     */
-    public function testJsonSerialization()
-    {
-        $column = new Cell(1, 'low', ['textstyle' => ['fontName' => 'Arial']]);
-
-        $json = '{"v":1,"f":"low","p":{"textstyle":{"fontName":"Arial"}}}';
-
-        $this->assertEquals($json, json_encode($column));
+        new Cell(1, 'low', 5.2);
     }
 }
 

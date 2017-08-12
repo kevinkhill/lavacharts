@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Tests\Dashboards;
 
 use Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Charts\LineChart;
 use Khill\Lavacharts\Dashboards\Filter;
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
@@ -32,23 +33,23 @@ class DashboardsTestCase extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->mockChart = new MockChart(
-            'TestChart',
-            Mockery::mock(DataTable::class)
-        );
-
         $this->mockChartWrap = Mockery::mock(
             ChartWrapper::class,
             [
-                $this->mockChart,
+                'LineChart',
                 'chart-div'
             ]
         );
+        $this->mockChartWrap
+        ->shouldReceive('setElementId')
+        ->once()
+        ->with('chart-div')
+        ->andSet('elementId', 'chart-div');
 
         $this->mockControlWrap = Mockery::mock(
             ControlWrapper::class,
             [
-                Mockery::mock(Filter::class, ['NumberRange']),
+                Mockery::mock(Filter::class, ['NumberRange', 1]),
                 'control-div'
             ]
         );

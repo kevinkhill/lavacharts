@@ -2,100 +2,127 @@
 
 namespace Khill\Lavacharts\Tests\DataTables\Cells;
 
+use Carbon\Carbon;
+use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\DataTables\Cells\DateCell;
+use Mockery;
 
 class DateCellTest extends ProvidersTestCase
 {
     /**
-     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::__construct
+     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::__construct()
      */
     public function testConstructorArgs()
     {
-        $mockCarbon = \Mockery::mock('\Carbon\Carbon[parse]', ['2015-09-04 9:31:00']);
+        /** @var Carbon $mockCarbon */
+        $mockCarbon = Mockery::mock('\Carbon\Carbon[parse]', ['2015-09-04 9:31:00']);
 
-        $column = new DateCell($mockCarbon, 'start', ['color'=>'red']);
+        $cell = new DateCell($mockCarbon, 'start', ['color' => 'red']);
 
-        $this->assertInstanceOf('Carbon\Carbon', $this->inspect($column, 'v'));
-        $this->assertEquals('start', $this->inspect($column, 'f'));
-
-        //@TODO fix this
-        //$this->assertTrue(is_array($this->inspect($column, 'p')));
-    }
-
-
-    /**
-     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::parseString
-     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::__toString
-     */
-    public function testParseStringWithNoFormat()
-    {
-        $cell = DateCell::parseString('3/24/1988 8:01:05');
-        $this->assertEquals('Date(1988,2,24,8,1,5)', (string) $cell);
-
-        $cell = DateCell::parseString('March 24th, 1988 8:01:05');
-        $this->assertEquals('Date(1988,2,24,8,1,5)', (string) $cell);
+        $this->assertInstanceOf(Carbon::class, $cell->getValue());
+        $this->assertEquals('start', $cell->getFormat());
+        $this->assertInstanceOf(Options::class, $cell->getOptions());
     }
 
     /**
-     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::parseString
-     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::__toString
+     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::create()
+     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::__toString()
      */
-    public function testParseStringWithFormat()
+    public function testCreatingDateCellStatically()
     {
+        $cell = DateCell::create('3/24/1988 8:01:05');
+        $this->assertEquals('Date(1988,2,24,8,1,5)', $cell);
 
-        $cell = DateCell::parseString('5:45pm on Saturday 24th March 2012', 'g:ia \o\n l jS F Y');
+        $cell = DateCell::create('March 24th, 1988 8:01:05');
+        $this->assertEquals('Date(1988,2,24,8,1,5)', $cell);
+    }
 
-        $this->assertEquals('Date(2012,2,24,17,45,0)', (string) $cell);
+    /**
+     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::create()
+     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::__toString()
+     */
+    public function testCreateFromFormat()
+    {
+        $cell = DateCell::createFromFormat('g:ia \o\n l jS F Y', '5:45pm on Saturday 24th March 2012');
+
+        $this->assertEquals('Date(2012,2,24,17,45,0)', $cell);
     }
 
     /**
      * @expectedException \Exception
-     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::parseString
+     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::create()
      */
     public function testParseStringWithBadDateTimeString()
     {
-        DateCell::parseString('132/06/199210');
+        DateCell::create('132/06/199210');
     }
 
     /**
-     * @dataProvider nonStringOrNullProvider
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidDateTimeString
-     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::parseString
+     * @expectedException \Khill\Lavacharts\Exceptions\UndefinedDateCellException
+     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::create()
      */
-    public function testParseStringWithBadTypesForDateTime($badTypes)
+    public function testCreatingDateCellStaticallyWithBadType()
     {
-        DateCell::parseString($badTypes);
+        $a = DateCell::create('This is not a datetime');
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidDateTimeFormat
-     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::parseString
+     * @expectedException \Khill\Lavacharts\Exceptions\UndefinedDateCellException
+     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::create()
      */
-    public function testParseStringWithBadFormatString()
+    public function testCreatingDateCellStaticallyWithCreateFromFormatAndBadFormatString()
     {
-        DateCell::parseString('1/2/2003', 'sushi');
+        DateCell::createFromFormat('1/2/2003', 'sushi');
     }
 
     /**
-     * @dataProvider nonStringProvider
-     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::parseString
+     * @expectedException \Khill\Lavacharts\Exceptions\UndefinedDateCellException
+     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::create()
      */
-    public function testParseStringWithBadTypesForFormat()
+    public function testCreatingDateCellStaticallyWithCreateFromFormatAndBadFormatType()
     {
-        DateCell::parseString('1/2/2003', ['imnotaformat']);
+        DateCell::createFromFormat('1/2/2003', ['imnotaformat']);
     }
 
     /**
-     * @depends testConstructorArgs
-     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::jsonSerialize
+     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::toArray()
      */
-    public function testJsonSerialization()
+    public function testDateCellToArray()
     {
-        $mockCarbon = \Mockery::mock('\Carbon\Carbon[parse]', ['2015-09-04 9:31:00']);
+        $mockCarbon = Mockery::mock('\Carbon\Carbon[parse]', ['2015-09-04 9:31:00']);
+
+        $cell = new DateCell($mockCarbon);
+
+        $cellArr = $cell->toArray();
+
+        $this->assertTrue(is_array($cellArr));
+
+        $this->assertArrayHasKey('v', $cellArr);
+        $this->assertEquals('Date(2015,8,4,9,31,0)', $cellArr['v']);
+    }
+
+    /**
+     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::jsonSerialize()
+     */
+    public function testDateCellJsonSerialization()
+    {
+        $mockCarbon = Mockery::mock('\Carbon\Carbon[parse]', ['2015-09-04 9:31:00']);
 
         $cell = new DateCell($mockCarbon);
 
         $this->assertEquals('{"v":"Date(2015,8,4,9,31,0)"}', json_encode($cell));
+    }
+
+    /**
+     * @covers \Khill\Lavacharts\DataTables\Cells\DateCell::toJson()
+     */
+    public function testDateCellToJson()
+    {
+        $mockCarbon = Mockery::mock('\Carbon\Carbon[parse]', ['2015-09-04 9:31:00']);
+
+        $cell = new DateCell($mockCarbon);
+
+        $this->assertEquals('{"v":"Date(2015,8,4,9,31,0)"}', $cell->toJson());
     }
 }

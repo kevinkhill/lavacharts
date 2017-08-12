@@ -2,8 +2,11 @@
 
 namespace Khill\Lavacharts\Tests\Dashboards;
 
+use Khill\Lavacharts\Charts\AreaChart;
+use Khill\Lavacharts\Charts\LineChart;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
+use Mockery;
 
 class ChartWrapperTest extends ProvidersTestCase
 {
@@ -14,14 +17,12 @@ class ChartWrapperTest extends ProvidersTestCase
     {
         parent::setUp();
 
-        $this->mockElementId = $this->getMockElementId('TestLabel');
-
         $this->jsonOutput = '{"options":{"Option1":5,"Option2":true},"containerId":"TestLabel","chartType":"LineChart"}';
     }
 
     public function getMockLineChart()
     {
-        return \Mockery::mock('\Khill\Lavacharts\Charts\LineChart')
+        return Mockery::mock(LineChart::class)
             ->shouldReceive('setRenderable')
             ->once()
             ->with(false)
@@ -45,12 +46,11 @@ class ChartWrapperTest extends ProvidersTestCase
      */
     public function testGetElementId()
     {
-        $areaChart = \Mockery::mock('\Khill\Lavacharts\Charts\AreaChart')->makePartial();
+        $areaChart = Mockery::mock(AreaChart::class)->makePartial();
 
-        $chartWrapper = new ChartWrapper($areaChart, $this->mockElementId);
+        $chartWrapper = new ChartWrapper($areaChart, 'test-div');
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Values\ElementId', $chartWrapper->getElementId());
-        $this->assertEquals('TestLabel', $chartWrapper->getElementIdStr());
+        $this->assertEquals('TestLabel', $chartWrapper->getElementId());
     }
 
     /**
@@ -58,11 +58,11 @@ class ChartWrapperTest extends ProvidersTestCase
      */
     public function testUnwrap()
     {
-        $areaChart = \Mockery::mock('\Khill\Lavacharts\Charts\AreaChart')->makePartial();
+        $areaChart = Mockery::mock(AreaChart::class)->makePartial();
 
-        $chartWrapper = new ChartWrapper($areaChart, $this->mockElementId);
+        $chartWrapper = new ChartWrapper($areaChart, 'test-div');
 
-        $this->assertInstanceOf('\Khill\Lavacharts\Charts\AreaChart', $chartWrapper->unwrap());
+        $this->assertInstanceOf(AreaChart::class, $chartWrapper->unwrap());
     }
 
     /**
@@ -70,13 +70,13 @@ class ChartWrapperTest extends ProvidersTestCase
      */
     public function testGetJsClass()
     {
-        $chart = \Mockery::mock('\Khill\Lavacharts\Charts\LineChart')
+        $chart = Mockery::mock(LineChart::class)
             ->shouldReceive('setRenderable')
             ->once()
             ->with(false)
             ->getMock();
 
-        $chartWrapper = new ChartWrapper($chart, $this->mockElementId);
+        $chartWrapper = new ChartWrapper($chart, 'test-div');
 
         $javascript = 'google.visualization.ChartWrapper';
 
@@ -87,7 +87,7 @@ class ChartWrapperTest extends ProvidersTestCase
     {
         $chart = $this->getMockLineChart();
 
-        $chartWrapper = new ChartWrapper($chart, $this->mockElementId);
+        $chartWrapper = new ChartWrapper($chart, 'test-div');
 
         $this->assertEquals($this->jsonOutput, json_encode($chartWrapper));
     }
@@ -99,7 +99,7 @@ class ChartWrapperTest extends ProvidersTestCase
     {
         $chart = $this->getMockLineChart();
 
-        $chartWrapper = new ChartWrapper($chart, $this->mockElementId);
+        $chartWrapper = new ChartWrapper($chart, 'test-div');
 
         $this->assertEquals($this->jsonOutput, $chartWrapper->toJson());
     }
@@ -112,7 +112,7 @@ class ChartWrapperTest extends ProvidersTestCase
     {
         $chart = $this->getMockLineChart();
 
-        $chartWrapper = new ChartWrapper($chart, $this->mockElementId);
+        $chartWrapper = new ChartWrapper($chart, 'test-div');
 
         $this->assertEquals(
             'new google.visualization.ChartWrapper('.$this->jsonOutput.')',

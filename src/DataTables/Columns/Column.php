@@ -186,22 +186,22 @@ class Column implements Customizable, Arrayable, Jsonable
      */
     public function toArray()
     {
-        $column = [
+        $columnArr = [
             'type' => $this->type,
         ];
 
         if (StringValue::isNonEmpty($this->label)) {
-            $column['label'] = $this->label;
+            $columnArr['label'] = $this->label;
+        }
+
+        if ($this->hasOptions()) {
+            $columnArr['p'] = $this->options->toArray();
         }
 
         if ($this->role instanceof Role) {
-            $column['p'] = ['role' => (string) $this->role];
-
-            if ($this->hasOptions()) {
-                $column['p'] = array_merge($column['p'], $this->options);
-            }
+            $columnArr['p']['role'] = (string) $this->role;
         }
 
-        return $column;
+        return $columnArr;
     }
 }

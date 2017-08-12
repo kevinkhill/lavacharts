@@ -32,10 +32,10 @@ class Chart extends Renderable implements Visualization, Wrappable
     /**
      * Create a new chart from a named type.
      *
-     *
      * The label will be a generated string since it cannot be empty.
      *
      * @param string $chartType
+     * @return Chart
      */
     public static function create($chartType)
     {

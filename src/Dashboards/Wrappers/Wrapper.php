@@ -10,7 +10,7 @@ use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasElementIdTrait as HasElementId;
 
 /**
- * Abstract Wrapper Class
+ * Abstract Wrapper Clas
  *
  * The control and chart wrappers extend this for common methods.
  *

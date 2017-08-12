@@ -50,7 +50,7 @@ class Cell implements Customizable, Arrayable, Jsonable
      */
     public static function createFromArray(array $cellDef)
     {
-        $reflectionClass = new ReflectionClass(Cell::class);
+        $reflectionClass = new ReflectionClass(static::class);
 
         return $reflectionClass->newInstanceArgs($cellDef);
     }
@@ -81,36 +81,6 @@ class Cell implements Customizable, Arrayable, Jsonable
     }
 
     /**
-     * Mapping the 'p' attribute of the cell to it's options.
-     *
-     * @deprecated 4.0.0 Why did I add this?
-     * @since  3.1.0
-     * @param  string $attr
-     * @return array
-     */
-    public function __get($attr)
-    {
-        if ($attr == 'p') {
-            return $this->options->toArray();
-        }
-    }
-
-    /**
-     * Allowing the 'p' attribute to be checked for options by using the hasOptions method.
-     *
-     * @deprecated 4.0.0 Why did I add this?
-     * @since  3.1.0
-     * @param  string $attr
-     * @return bool
-     */
-    function __isset($attr)
-    {
-        if ($attr == 'p') {
-            return $this->hasOptions();
-        }
-    }
-
-    /**
      * Returns the value.
      *
      * @return mixed
@@ -137,16 +107,16 @@ class Cell implements Customizable, Arrayable, Jsonable
      */
     public function toArray()
     {
-        $cell = ['v' => $this->value];
+        $cellArr = ['v' => $this->value];
 
         if (!empty($this->format)) {
-            $cell['f'] = $this->format;
+            $cellArr['f'] = $this->format;
         }
 
         if ($this->hasOptions()) {
-            $cell['p'] = $this->options->toArray();
+            $cellArr['p'] = $this->options->toArray();
         }
 
-        return $cell;
+        return $cellArr;
     }
 }
