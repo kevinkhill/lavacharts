@@ -3,13 +3,12 @@
 namespace Khill\Lavacharts\Tests\Charts;
 
 use Khill\Lavacharts\Charts\Chart;
-use Khill\Lavacharts\Charts\LineChart;
 use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Mockery;
 
-class ChartTestCase extends ProvidersTestCase
+class ChartPhpTest extends ProvidersTestCase
 {
     /**
      * @dataProvider chartTypeProvider

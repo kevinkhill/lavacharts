@@ -39,32 +39,28 @@ class ChartJsonTest extends JsonTestCase
         return $this->chart->toJson();
     }
 
-    /** @test */
-    public function validateChartJsonAgainstSchema()
+    public function testValidateChartJsonAgainstSchema()
     {
         $data = json_decode($this->getJson());
 
         $this->assertValidJsonWithSchema($data, static::CHART_SCHEMA);
     }
 
-    /** @test */
-    public function hasElementId()
+    public function testHasElementId()
     {
         $this->assertJsonFragment([
             'elementId' => 'chart'
         ]);
     }
 
-    /** @test */
-    public function hasLabel()
+    public function testHasLabel()
     {
         $this->assertJsonFragment([
             'label' => 'Sales'
         ]);
     }
 
-    /** @test */
-    public function hasOptions()
+    public function testHasOptions()
     {
         $this->assertJsonFragment([
             'options' => [
