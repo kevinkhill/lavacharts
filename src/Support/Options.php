@@ -152,14 +152,15 @@ class Options extends ArrayObject implements Arrayable, Jsonable
     }
 
     /**
-     * Check if an option has been set.
+     * Check if an option has been set and is of a certain type.
      *
      * @param string $option
+     * @param string $type
      * @return bool
      */
     public function hasAndIs($option, $type)
     {
-        return $this->has($option) && call_user_func("is_$type", $this->get($option));
+        return $this->has($option) && gettype($this->get($option)) === $type;
     }
 
     /**
@@ -183,10 +184,13 @@ class Options extends ArrayObject implements Arrayable, Jsonable
      *
      * @param string $option
      * @param mixed  $value
+     * @return self
      */
     public function set($option, $value)
     {
         $this->options[$option] = $value;
+
+        return $this;
     }
 
     /**
@@ -196,25 +200,23 @@ class Options extends ArrayObject implements Arrayable, Jsonable
      *
      * @param  string $option
      * @param  mixed  $value
-     * @return bool True if the value was set, otherwise false.
+     * @return self
      */
     public function setIfNot($option, $value)
     {
         if (! $this->has($option)) {
             $this->options[$option] = $value;
-
-            return true;
         }
 
-        return false;
+        return $this;
     }
 
     /**
-     * Remove an option from the set.
+     * Delete an option from the set.
      *
      * @param  string $option
      * @return self
-     * @throws UndefinedOptionException If th
+     * @throws UndefinedOptionException
      */
     public function forget($option)
     {
@@ -228,9 +230,30 @@ class Options extends ArrayObject implements Arrayable, Jsonable
     }
 
     /**
+     * Remove an option from the set.
+     *
+     * @param  string $option
+     * @return mixed
+     * @throws UndefinedOptionException
+     */
+    public function pop($option)
+    {
+        if (! $this->has($option)) {
+            throw new UndefinedOptionException($option);
+        }
+
+        $value = $this->options[$option];
+
+        $this->forget($option);
+
+        return $value;
+    }
+
+    /**
      * Merge a set of options with the existing options.
      *
-     * @param array $options
+     * @param array|Options $options
+     * @return self
      */
     public function merge($options)
     {
@@ -239,23 +262,29 @@ class Options extends ArrayObject implements Arrayable, Jsonable
         }
 
         $this->options = array_merge($this->options, $options);
+
+        return $this;
     }
 
     /**
      * Returns the options without the options specified.
      *
-     * @param array $options
-     * @return array
+     * @param string|array $options
+     * @return Options
      */
-    public function without(array $options)
+    public function without($options)
     {
+        if (is_string($options)) {
+            $options = [$options];
+        }
+
         $without = [];
 
         foreach ($options as $key) {
             $without[$key] = null;
         }
 
-        return array_diff_key($this->options, $without);
+        return new static(array_diff_key($this->options, $without));
     }
 
     /**
