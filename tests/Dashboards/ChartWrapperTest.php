@@ -3,42 +3,24 @@
 namespace Khill\Lavacharts\Tests\Dashboards;
 
 use Khill\Lavacharts\Charts\AreaChart;
-use Khill\Lavacharts\Charts\LineChart;
-use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
+use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Mockery;
 
+/**
+ * @property AreaChart mockAreaChart
+ * @property string    jsonOutput
+ */
 class ChartWrapperTest extends ProvidersTestCase
 {
-    public $mockElementId;
-    public $jsonOutput;
-
     public function setUp()
     {
         parent::setUp();
 
-        $this->jsonOutput = '{"options":{"Option1":5,"Option2":true},"containerId":"TestLabel","chartType":"LineChart"}';
-    }
+        $this->jsonOutput = '{"containerId":"test-div","options":[],"chartType":"AreaChart"}';
 
-    public function getMockLineChart()
-    {
-        return Mockery::mock(LineChart::class)
-            ->shouldReceive('setRenderable')
-            ->once()
-            ->with(false)
-            ->shouldReceive('getType')
-            ->once()
-            ->andReturn('LineChart')
-            ->shouldReceive('getWrapType')
-            ->once()
-            ->andReturn('chartType')
-            ->shouldReceive('jsonSerialize')
-            ->once()
-            ->andReturn([
-                'Option1' => 5,
-                'Option2' => true
-            ])
-            ->getMock();
+        $this->mockAreaChart = Mockery::mock(AreaChart::class);
+        $this->mockAreaChart->shouldReceive(['getType' => 'AreaChart']);
     }
 
     /**
@@ -46,11 +28,9 @@ class ChartWrapperTest extends ProvidersTestCase
      */
     public function testGetElementId()
     {
-        $areaChart = Mockery::mock(AreaChart::class)->makePartial();
+        $chartWrapper = new ChartWrapper($this->mockAreaChart, 'test-div');
 
-        $chartWrapper = new ChartWrapper($areaChart, 'test-div');
-
-        $this->assertEquals('TestLabel', $chartWrapper->getElementId());
+        $this->assertEquals('test-div', $chartWrapper->getElementId());
     }
 
     /**
@@ -58,9 +38,7 @@ class ChartWrapperTest extends ProvidersTestCase
      */
     public function testUnwrap()
     {
-        $areaChart = Mockery::mock(AreaChart::class)->makePartial();
-
-        $chartWrapper = new ChartWrapper($areaChart, 'test-div');
+        $chartWrapper = new ChartWrapper($this->mockAreaChart, 'test-div');
 
         $this->assertInstanceOf(AreaChart::class, $chartWrapper->unwrap());
     }
@@ -70,13 +48,7 @@ class ChartWrapperTest extends ProvidersTestCase
      */
     public function testGetJsClass()
     {
-        $chart = Mockery::mock(LineChart::class)
-            ->shouldReceive('setRenderable')
-            ->once()
-            ->with(false)
-            ->getMock();
-
-        $chartWrapper = new ChartWrapper($chart, 'test-div');
+        $chartWrapper = new ChartWrapper($this->mockAreaChart, 'test-div');
 
         $javascript = 'google.visualization.ChartWrapper';
 
@@ -85,38 +57,21 @@ class ChartWrapperTest extends ProvidersTestCase
 
     public function testJsonSerialize()
     {
-        $chart = $this->getMockLineChart();
+        $chartWrapper = new ChartWrapper($this->mockAreaChart, 'test-div');
 
-        $chartWrapper = new ChartWrapper($chart, 'test-div');
-
-        $this->assertEquals($this->jsonOutput, json_encode($chartWrapper));
+        $this->assertJsonStringEqualsJsonString(
+            $this->jsonOutput,
+            json_encode($chartWrapper)
+        );
     }
 
-    /**
-     * @depends testJsonSerialize
-     */
     public function testToJson()
     {
-        $chart = $this->getMockLineChart();
+        $chartWrapper = new ChartWrapper($this->mockAreaChart, 'test-div');
 
-        $chartWrapper = new ChartWrapper($chart, 'test-div');
-
-        $this->assertEquals($this->jsonOutput, $chartWrapper->toJson());
-    }
-
-    /**
-     * @depends testGetJsClass
-     * @depends testToJson
-     */
-    public function testGetJsConstructor()
-    {
-        $chart = $this->getMockLineChart();
-
-        $chartWrapper = new ChartWrapper($chart, 'test-div');
-
-        $this->assertEquals(
-            'new google.visualization.ChartWrapper('.$this->jsonOutput.')',
-            $chartWrapper->getJsConstructor()
+        $this->assertJsonStringEqualsJsonString(
+            $this->jsonOutput,
+            $chartWrapper->toJson()
         );
     }
 }

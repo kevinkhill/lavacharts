@@ -3,7 +3,6 @@
 namespace Khill\Lavacharts\Tests\Dashboards\Filters;
 
 use Khill\Lavacharts\Dashboards\Filter;
-use Khill\Lavacharts\Exceptions\InvalidArgumentException;
 use Khill\Lavacharts\Lavacharts;
 use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
@@ -50,7 +49,7 @@ class FiltersTest extends ProvidersTestCase
      * @dataProvider shortnameFilterTypeProvider
      * @param $filterType
      */
-    public function testCreatingFiltersStaticlyByNameAndColumnIndex($filterType)
+    public function testCreatingFiltersStaticallyByNameAndColumnIndex($filterType)
     {
         $filter = Filter::create($filterType, [1]);
 
@@ -61,7 +60,7 @@ class FiltersTest extends ProvidersTestCase
      * @dataProvider filterTypeProvider
      * @param $filterType
      */
-    public function testCreatingFiltersStaticlyByFullNameAndColumnIndex($filterType)
+    public function testCreatingFiltersStaticallyByFullNameAndColumnIndex($filterType)
     {
         $filter = Filter::create($filterType, [1]);
 
@@ -72,7 +71,7 @@ class FiltersTest extends ProvidersTestCase
      * @dataProvider shortnameFilterTypeProvider
      * @param $filterType
      */
-    public function testCreatingFiltersStaticlyByNameAndColumnIndexWithOptions($filterType)
+    public function testCreatingFiltersStaticallyByNameAndColumnIndexWithOptions($filterType)
     {
         $filter = Filter::create($filterType, [1, ['thisOption' => 'hasValue']]);
 
@@ -200,7 +199,7 @@ class FiltersTest extends ProvidersTestCase
     /**
      * @expectedException \PHPUnit_Framework_Error_Warning
      */
-    public function testCreatingFiltersStaticlyByNameWithMissingColumnIndex()
+    public function testCreatingFiltersStaticallyByNameWithMissingColumnIndex()
     {
         Filter::create('NumberFilter');
     }
