@@ -8,7 +8,7 @@ class InvalidChartType extends LavaException
 {
     public function __construct($type)
     {
-        $message = '"%s" is not a valid chart type, must be one of %s';
+        $message = '"%s" is not a valid chart type, must be one of [ %s ].';
 
         parent::__construct(sprintf(
             $message,

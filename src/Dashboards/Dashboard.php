@@ -143,7 +143,7 @@ class Dashboard extends Renderable implements Visualization
     public function setBindings(array $bindings)
     {
         foreach ($bindings as $binding) {
-            return $this->bind($binding[0], $binding[1]);
+            $this->bind($binding[0], $binding[1]);
         }
 
         return $this;

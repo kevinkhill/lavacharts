@@ -6,14 +6,17 @@ use Khill\Lavacharts\Charts\ChartFactory;
 use Khill\Lavacharts\Dashboards\Filter;
 use Khill\Lavacharts\DataTables\Columns\Column;
 use Khill\Lavacharts\DataTables\Columns\Format;
-use Khill\Lavacharts\DataTables\DataTable;
-use Khill\Lavacharts\Lavacharts;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 
 abstract class ProvidersTestCase extends TestCase
 {
     const CHART_NAMESPACE = '\\Khill\\Lavacharts\\Charts\\';
+
+    protected function getPath($path)
+    {
+        return realpath(__DIR__ . '/../' . $path);
+    }
 
     /**
      * Checks if a string contains another string

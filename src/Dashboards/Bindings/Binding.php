@@ -93,7 +93,7 @@ class Binding implements Arrayable, Jsonable
      * @param  int $index Which chart wrap to retrieve
      * @return ChartWrapper
      */
-    public function getChartWrap($index)
+    public function getChartWrapper($index)
     {
         return $this->chartWrappers[$index];
     }
@@ -115,7 +115,7 @@ class Binding implements Arrayable, Jsonable
      * @param  int $index Which control wrap to retrieve
      * @return ControlWrapper
      */
-    public function getControlWrap($index)
+    public function getControlWrapper($index)
     {
         return $this->controlWrappers[$index];
     }

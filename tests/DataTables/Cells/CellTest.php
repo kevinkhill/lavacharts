@@ -51,17 +51,17 @@ class CellTest extends ProvidersTestCase
 
     }
 
-    public function testCellJsonSerialization()
+    public function testJsonSerialization()
     {
-        $this->assertEquals(
+        $this->assertJsonStringEqualsJsonString(
             $this->cellJson,
             json_encode($this->testCell)
         );
     }
 
-    public function testCellToJson()
+    public function testToJson()
     {
-        $this->assertEquals(
+        $this->assertJsonStringEqualsJsonString(
             $this->cellJson,
             $this->testCell->toJson()
         );

@@ -8,9 +8,11 @@ use Khill\Lavacharts\Exceptions\InvalidFilterType;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\Wrappable;
+use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Support\StringValue as Str;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
+use ReflectionClass;
 
 /**
  * Filter Parent Class
@@ -63,19 +65,14 @@ class Filter implements Arrayable, Customizable, Wrappable
      * @param string $type
      * @param array  $args
      * @return Filter
-     * @throws \Khill\Lavacharts\Exceptions\InvalidArgumentException
      */
     public static function create($type, $args)
     {
-        if (count($args) == 2) {
-            return new static($type, $args[0], $args[1]);
-        }
+        $filter = new ReflectionClass(static::class);
 
-        if (count($args) == 1) {
-            return new static($type, $args[0]);
-        }
+        array_unshift($args, $type);
 
-        throw new InvalidArgumentException($args, 'int | string');
+        return $filter->newInstanceArgs($args);
     }
 
     /**
@@ -92,6 +89,8 @@ class Filter implements Arrayable, Customizable, Wrappable
      */
     public function __construct($type, $labelOrIndex, array $options = [])
     {
+        $this->options = new Options($options);
+
         if (is_string($type)) {
             $type = str_replace('Filter', '', $type);
             $type = $type . 'Filter';
@@ -101,51 +100,19 @@ class Filter implements Arrayable, Customizable, Wrappable
             throw new InvalidFilterType($type);
         }
 
+        $this->type = $type;
+
         if (! is_int($labelOrIndex) && ! is_string($labelOrIndex)) {
             throw new InvalidArgumentException($labelOrIndex, 'string | int');
         }
 
         if (is_int($labelOrIndex)) {
-            $options = array_merge($options, [
-                'filterColumnIndex' => $labelOrIndex
-            ]);
+            $this->setColumnIndex($labelOrIndex);
         }
 
         if (is_string($labelOrIndex)) {
-            $options = array_merge($options, [
-                'filterColumnLabel' => $labelOrIndex
-            ]);
+            $this->setColumnLabel($labelOrIndex);
         }
-
-        $this->type = $type;
-        $this->setOptions($options);
-    }
-
-    /**
-     * Convert the Filter to an array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return [
-            'type'     => $this->getType(),
-            'wrapType' => $this->getWrapType(),
-            'options'  => $this->options->toArray(),
-        ];
-    }
-
-    /**
-     * Create a new ControlWrapper using the Filter.
-     *
-     * @param string $elementId
-     * @return ControlWrapper
-     */
-    public function getControlWrapper($elementId)
-    {
-        $elementId = Str::verify($elementId);
-
-        return new ControlWrapper($this, $elementId);
     }
 
     /**
@@ -166,5 +133,66 @@ class Filter implements Arrayable, Customizable, Wrappable
     public function getWrapType()
     {
         return static::WRAP_TYPE;
+    }
+
+    /**
+     * Convert the Filter to an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'type'     => $this->getType(),
+            'wrapType' => $this->getWrapType(),
+            'options'  => $this->options->toArray(),
+        ];
+    }
+
+    /**
+     * Set the Column index to be filtered.
+     *
+     * If label was set, it will be replaced by the index.
+     *
+     * @since 4.0.0
+     * @param int $index
+     */
+    public function setColumnIndex($index)
+    {
+        if ($this->options->has('filterColumnLabel')) {
+            $this->options->forget('filterColumnLabel');
+        }
+
+        $this->options->set('filterColumnIndex', $index);
+    }
+
+    /**
+     * Set the Column label to be filtered.
+     *
+     * If index was set, it will be replaced by the label.
+     *
+     * @since 4.0.0
+     * @param int $label
+     */
+    public function setColumnLabel($label)
+    {
+        if ($this->options->has('filterColumnIndex')) {
+            $this->options->forget('filterColumnIndex');
+        }
+
+        $this->options->set('filterColumnLabel', $label);
+    }
+
+    /**
+     * Create a new ControlWrapper using the Filter.
+     *
+     * @param string $elementId
+     * @return ControlWrapper
+     */
+    public function getControlWrapper($elementId)
+    {
+        $elementId = Str::verify($elementId);
+
+        return new ControlWrapper($this, $elementId);
     }
 }

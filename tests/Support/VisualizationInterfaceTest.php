@@ -114,6 +114,7 @@ class VisualizationInterfaceTest extends ProvidersTestCase
     /**
      * @dataProvider chartTypeProvider
      * @covers Chart::getType()
+     * @param string $chartType
      */
     public function testGetType($chartType)
     {
@@ -125,6 +126,7 @@ class VisualizationInterfaceTest extends ProvidersTestCase
     /**
      * @dataProvider chartTypeProvider
      * @covers Chart::getJsPackage()
+     * @param string $chartType
      */
     public function testGetJsPackage($chartType)
     {
@@ -136,6 +138,7 @@ class VisualizationInterfaceTest extends ProvidersTestCase
     /**
      * @dataProvider chartTypeProvider
      * @covers Chart::getJsClass()
+     * @param string $chartType
      */
     public function testGetJsClass($chartType)
     {
@@ -147,6 +150,7 @@ class VisualizationInterfaceTest extends ProvidersTestCase
     /**
      * @dataProvider chartTypeProvider
      * @covers Chart::getVersion()
+     * @param string $chartType
      */
     public function testGetVersion($chartType)
     {

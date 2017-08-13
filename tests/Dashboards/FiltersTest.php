@@ -189,14 +189,6 @@ class FiltersTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidArgumentException
-     */
-    public function testCreatingFiltersViaLavaAliasWithNoArgs()
-    {
-        $this->lava->StringFilter();
-    }
-
-    /**
      * @expectedException \PHPUnit_Framework_Error_Warning
      */
     public function testCreatingFiltersStaticallyByNameWithMissingColumnIndex()

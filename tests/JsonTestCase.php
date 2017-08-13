@@ -50,7 +50,7 @@ class JsonTestCase extends ProvidersTestCase
     }
 
     /**
-     * Assert that the response is a superset of the given JSON.
+     * Assert that the data is a superset of the given JSON.
      *
      * @param  array  $data
      * @return $this

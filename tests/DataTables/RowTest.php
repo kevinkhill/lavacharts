@@ -105,11 +105,11 @@ class RowTest extends ProvidersTestCase
      * @depends testRowJsonSerializationWithScalarValues
      * @covers \Khill\Lavacharts\DataTables\Row::toJson()
      */
-    public function testRowToJsonWithScalarValues()
+    public function testToJsonWithScalarValues()
     {
         $row = new Row([2, 1, 2.1]);
 
-        $this->assertEquals(
+        $this->assertJsonStringEqualsJsonString(
             '{"c":[{"v":2},{"v":1},{"v":2.1}]}',
             $row->toJson()
         );
@@ -119,11 +119,11 @@ class RowTest extends ProvidersTestCase
      * @depends testRowJsonSerializationWithScalarValues
      * @covers \Khill\Lavacharts\DataTables\Row::toJson()
      */
-    public function testRowToJsonWithNulls()
+    public function testToJsonWithNulls()
     {
         $row = new Row([null, null, null]);
 
-        $this->assertEquals(
+        $this->assertJsonStringEqualsJsonString(
             '{"c":[{"v":null},{"v":null},{"v":null}]}',
             $row->toJson()
         );

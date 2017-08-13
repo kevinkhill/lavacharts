@@ -61,9 +61,7 @@ abstract class Renderable implements Arrayable, Customizable, Javascriptable, Js
         $this->options   = Options::create($options);
 
         if ($this->options->hasAndIs('elementId', 'string')) {
-            $this->elementId = $this->options->elementId;
-
-            $this->options->forget('elementId');
+            $this->elementId = $this->options->pop('elementId');
         }
     }
 

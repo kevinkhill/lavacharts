@@ -28,14 +28,18 @@ class ChartWrapper extends Wrapper implements Customizable
     /**
      * Builds a ChartWrapper object.
      *
-     * @since 4.0.0 Instead of a Chart object, just the string name is needed.
-     * @param string $chartType
+     * @since 4.0.0 String chart names are allowed along with Chart objects.
+     * @param Chart|string $chartType
      * @param string $containerId
      * @throws InvalidChartType
      */
     public function __construct($chartType, $containerId) //TODO: add options to the signature
     {
-        if (! in_array($chartType, ChartFactory::TYPES)) {
+        if ($chartType instanceof Chart) {
+            $chartType = $chartType->getType();
+        }
+
+        if (! in_array($chartType, ChartFactory::TYPES, true)) {
             throw new InvalidChartType($chartType);
         }
 

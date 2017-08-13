@@ -159,8 +159,9 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      */
     public function flow(array $options = [])
     {
-        $this->scriptManager->mergeOptions($options);
         // TODO: this needs testing.
+        $this->scriptManager->mergeOptions($options);
+
         return $this->scriptManager->getScriptTags($this->volcano);
     }
 
@@ -293,17 +294,12 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      *
      * @since  4.0.0 Allowing string named types of charts along with Chart objects
      * @since  3.0.0
-     * @param  Chart|string $chart     Chart to wrap or type of chart to create and wrap.
+     * @param  Chart|string $chartType Chart to wrap or type of chart to create and wrap.
      * @param  string       $elementId HTML element ID to output the control.
      * @return ChartWrapper
      */
-    public function ChartWrapper($chart, $elementId) //TODO: add options to the signature
+    public function ChartWrapper($chartType, $elementId) //TODO: add options to the signature
     {
-        if ($chart instanceof Chart) {
-            $chart = $chart->getType();
-        }
-
-        $chartType = Str::verify($chart);
         $elementId = Str::verify($elementId);
 
         return new ChartWrapper($chartType, $elementId);

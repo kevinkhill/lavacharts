@@ -10,7 +10,7 @@ use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasElementIdTrait as HasElementId;
 
 /**
- * Abstract Wrapper Clas
+ * Abstract Wrapper Class
  *
  * The control and chart wrappers extend this for common methods.
  *
@@ -74,7 +74,7 @@ abstract class Wrapper implements Arrayable, Jsonable, JsClass
     {
         return [
             'containerId' => $this->elementId,
-            'options'     => $this->contents->getOptions()->toArray(),
+            'options'     => $this->contents->getOptions(),
             $this->contents->getWrapType() => $this->contents->getType()
         ];
     }

@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Tests;
 
 use Khill\Lavacharts\Charts\Chart;
+use Khill\Lavacharts\Charts\GeoChart;
 use Khill\Lavacharts\Dashboards\Dashboard;
 use Khill\Lavacharts\Dashboards\Filter;
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
@@ -15,6 +16,9 @@ use Khill\Lavacharts\Lavacharts;
 use Khill\Lavacharts\Volcano;
 use Mockery;
 
+/**
+ * @property Filter mockFilter
+ */
 class LavachartsTest extends ProvidersTestCase
 {
     /**
@@ -27,6 +31,8 @@ class LavachartsTest extends ProvidersTestCase
         parent::setUp();
 
         $this->lava = new Lavacharts;
+
+        $this->mockFilter = Mockery::mock(Filter::class);
     }
 
     public function testGetDefaultOptions()
@@ -81,23 +87,34 @@ class LavachartsTest extends ProvidersTestCase
     public function testControlWrapperCreation()
     {
         $controlWrapper = $this->lava->ControlWrapper(
-            Mockery::mock(Filter::class),
+            $this->mockFilter,
             'filter-div-id'
         );
 
         $this->assertInstanceOf(ControlWrapper::class, $controlWrapper);
     }
 
-    public function testChartWrapperCreation()
+    public function testChartWrapperCreationWithChart()
     {
-        $chart = Mockery::mock(Chart::class)
-                        ->shouldReceive('setRenderable')
-                        ->once()
-                        ->with(false)
-                        ->getMock();
+        $chart = Mockery::mock(GeoChart::class)
+            ->shouldReceive('setRenderable')
+            ->with(false)
+            ->shouldReceive('getType')
+            ->andReturn('GeoChart')
+            ->getMock();
 
         $chartWrapper = $this->lava->ChartWrapper(
             $chart,
+            'filter-div-id'
+        );
+
+        $this->assertInstanceOf(ChartWrapper::class, $chartWrapper);
+    }
+
+    public function testChartWrapperCreationWithStringChartType()
+    {
+        $chartWrapper = $this->lava->ChartWrapper(
+            'GanttChart',
             'filter-div-id'
         );
 
@@ -228,7 +245,7 @@ class LavachartsTest extends ProvidersTestCase
      */
     public function testCreatingFiltersViaLavaAlias($filterType)
     {
-        $filter = $this->lava->$filterType();
+        $filter = $this->lava->$filterType(0);
 
         $this->assertInstanceOf(Filter::class, $filter);
     }
@@ -243,7 +260,7 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidFormatType
+     * @expectedException \Khill\Lavacharts\Exceptions\BadMethodCallException
      */
     public function testCreatingInvalidFormatType()
     {
@@ -251,7 +268,7 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidFilterType
+     * @expectedException \Khill\Lavacharts\Exceptions\BadMethodCallException
      */
     public function testCreatingInvalidFilterType()
     {
@@ -259,7 +276,7 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException \Khill\Lavacharts\Exceptions\InvalidChartType
+     * @expectedException \Khill\Lavacharts\Exceptions\BadMethodCallException
      */
     public function testCreatingNonExistentChartViaAlias()
     {
@@ -267,7 +284,7 @@ class LavachartsTest extends ProvidersTestCase
     }
 
     /**
-     * @expectedException \BadMethodCallException
+     * @expectedException \Khill\Lavacharts\Exceptions\BadMethodCallException
      */
     public function testNonExistentLavachartsMethod()
     {
@@ -292,7 +309,7 @@ class LavachartsTest extends ProvidersTestCase
 
     public function testLavaJsOutput()
     {
-        $lavaJsSrc = file_get_contents('../javascript/dist/lava.js');
+        $lavaJsSrc = file_get_contents($this->getPath('javascript/dist/lava.js'));
         $lavaJsOutput = $this->lava->lavajs();
 
         // Get the script tag contents

@@ -192,11 +192,14 @@ class Chart extends Renderable implements Visualization, Wrappable
             'elementId' => $this->getElementId(),
             'datatable' => $this->getDataTable(),
             'packages'  => [$this->getJsPackage()],
-            'options'   => $this->options->without(['elementId', 'events']),
         ];
 
-        if ($this->hasOption('events')) {
-            $chartArray['events'] = $this->options->events;
+        if ($this->hasOptions()) {
+            $chartArray['options'] = $this->options->without(['elementId', 'events'])->toArray();
+
+            if ($this->hasOption('events')) {
+                $chartArray['events'] = $this->options->get('events');
+            }
         }
 
         if (method_exists($this->datatable, 'hasFormattedColumns')) {

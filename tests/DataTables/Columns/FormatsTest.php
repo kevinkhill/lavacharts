@@ -49,7 +49,7 @@ class FormatsTest extends ProvidersTestCase
      * @dataProvider shortnameFormatTypeProvider
      * @param $formatType
      */
-    public function testCreatingFormatsStaticlyByShortName($formatType)
+    public function testCreatingFormatsStaticallyByShortName($formatType)
     {
         $type = $formatType.'Format';
 
@@ -64,7 +64,7 @@ class FormatsTest extends ProvidersTestCase
      * @dataProvider formatTypeProvider
      * @param $formatType
      */
-    public function testCreatingFormatsStaticlyByFullName($formatType)
+    public function testCreatingFormatsStaticallyByFullName($formatType)
     {
         $format = Format::create($formatType, []);
 
@@ -75,10 +75,10 @@ class FormatsTest extends ProvidersTestCase
     /**
      * @group static
      * @dataProvider shortnameFormatTypeProvider
-     * @depends testCreatingFormatsStaticlyByShortName
+     * @depends testCreatingFormatsStaticallyByShortName
      * @param $formatType
      */
-    public function testCreatingFormatsStaticlyByShortNameWithOptions($formatType)
+    public function testCreatingFormatsStaticallyByShortNameWithOptions($formatType)
     {
         $format = Format::create($formatType, [['thisOption' => 'hasValue']]);
 
@@ -194,7 +194,7 @@ class FormatsTest extends ProvidersTestCase
      * @group errors
      * @expectedException \PHPUnit_Framework_Error_Warning
      */
-    public function testCreatingFormatStaticlyWithInvalidType()
+    public function testCreatingFormatStaticallyWithInvalidType()
     {
         Format::create('TacoFormat');
     }
