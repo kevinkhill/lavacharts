@@ -1,10 +1,10 @@
-# Lavacharts 3.1.7
+# Lavacharts 3.1
 
 [![Total Downloads](https://img.shields.io/packagist/dt/khill/lavacharts.svg?style=plastic)](https://packagist.org/packages/khill/lavacharts)
 [![License](https://img.shields.io/packagist/l/khill/lavacharts.svg?style=plastic)](http://opensource.org/licenses/MIT)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg?style=plastic)](https://php.net/)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/kevinkhill/lavacharts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![PayPayl](https://img.shields.io/badge/paypal-donate-yellow.svg?style=plastic)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FLP6MYY3PYSFQ)
+[![PayPal](https://img.shields.io/badge/paypal-donate-yellow.svg?style=plastic)](https://www.paypal.me/kevinkhill/)
 
 Lavacharts is a graphing / chart library for PHP5.4+ that wraps the Google Chart API.
 
@@ -14,7 +14,7 @@ Stable:
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/3.1.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=3.1)
 
 Dev:
-[![Development Release](https://img.shields.io/badge/release-3.2.x--dev-brightgreen.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/master)
+[![Development Release](https://img.shields.io/badge/release-dev-master-brightgreen.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/master)
 [![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/master.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/master.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=master)
 
@@ -75,7 +75,7 @@ Register Lavacharts in your app by adding these lines to the respective arrays f
 // ...
 'aliases' => [
     // ...
-    
+
     'Lava' => Khill\Lavacharts\Laravel\LavachartsFacade::class,
 ]
 ```
@@ -101,7 +101,7 @@ Register Lavacharts in your app by adding these lines to the respective arrays f
 // ...
 'aliases' => array(
     // ...
-    
+
     'Lava' => "Khill\Lavacharts\Laravel\LavachartsFacade",
 )
 ```
@@ -122,7 +122,7 @@ Add the bundle to the registerBundles method in the AppKernel, found at `app/App
 class AppKernel extends Kernel
 {
     // ..
-    
+
     public function registerBundles()
     {
         $bundles = array(
