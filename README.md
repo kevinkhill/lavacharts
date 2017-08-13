@@ -1,4 +1,4 @@
-# Lavacharts 3.1
+# Lavacharts 3.1.8
 
 [![Total Downloads](https://img.shields.io/packagist/dt/khill/lavacharts.svg?style=plastic)](https://packagist.org/packages/khill/lavacharts)
 [![License](https://img.shields.io/packagist/l/khill/lavacharts.svg?style=plastic)](http://opensource.org/licenses/MIT)
@@ -14,7 +14,7 @@ Stable:
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/3.1.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=3.1)
 
 Dev:
-[![Development Release](https://img.shields.io/badge/release-dev-master-brightgreen.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/master)
+[![Development Release](https://img.shields.io/badge/release-dev--master-brightgreen.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/master)
 [![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/master.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/master.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=master)
 
