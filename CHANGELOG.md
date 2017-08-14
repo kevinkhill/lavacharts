@@ -1,6 +1,5 @@
 - 4.0.0
-  - Dropping support for PHP5.4
-  - Adding support for Angular
+  - See [CHANGELOG-4.0](https://github.com/kevinkhill/lavacharts/blob/master/CHANGELOG-4.0.md)
 
 - 3.1.6
     - Adding `DataTableInterface` and `ToDataTableTrait`
