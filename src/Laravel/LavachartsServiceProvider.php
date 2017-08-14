@@ -41,18 +41,11 @@ class LavachartsServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        /**
-         * If the package method exists, we're using Laravel 4
-         */
-        if (method_exists($this, 'package')) {
-            $this->package('khill/lavacharts');
-        }
-
         include __DIR__.'/BladeTemplateExtensions.php';
 
         $this->publishes([
             $this->configPath => config_path($this->configFile),
-        ]);
+        ], 'lavacharts');
     }
 
     public function register()
@@ -67,9 +60,9 @@ class LavachartsServiceProvider extends ServiceProvider
 
         $this->app->booting(function() {
             $loader = AliasLoader::getInstance();
-            $loader->alias('Lava', 'Khill\Lavacharts\Laravel\LavachartsFacade');
+            $loader->alias('Lava', LavachartsFacade::class);
+            $loader->register();
         });
-
     }
 
     public function provides()

@@ -110,6 +110,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
         $this->volcano       = new Volcano();
         $this->scriptManager = new ScriptManager();
         $this->scriptManager->setOptions($this->options);
+        $this->scriptManager->setVolcano($this->volcano);
     }
 
     /**
@@ -159,10 +160,9 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      */
     public function flow(array $options = [])
     {
-        // TODO: this needs testing.
         $this->scriptManager->mergeOptions($options);
 
-        return $this->scriptManager->getScriptTags($this->volcano);
+        return $this->scriptManager->getScriptTags();
     }
 
     /**
@@ -369,9 +369,11 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      */
     public function lavajs(array $options = [])
     {
-        $this->options->merge($options);
+        $options = new Options($options);
 
-        return (string) $this->scriptManager->getLavaJs($this->options);
+        $this->scriptManager->mergeOptions($options);
+
+        return (string) $this->scriptManager->getLavaJs();
     }
 
     /**

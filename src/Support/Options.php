@@ -22,10 +22,6 @@ use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
  * @link          http://github.com/kevinkhill/lavacharts GitHub Repository Page
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
- *
- * @property string elementId
- * @property string datetime_format
- * @property string pngOutput
  */
 class Options extends ArrayObject implements Arrayable, Jsonable
 {
@@ -161,6 +157,18 @@ class Options extends ArrayObject implements Arrayable, Jsonable
     public function hasAndIs($option, $type)
     {
         return $this->has($option) && gettype($this->get($option)) === $type;
+    }
+
+    /**
+     * Check if an option has been set and is of a certain type.
+     *
+     * @param string $option
+     * @param mixed  $value
+     * @return bool
+     */
+    public function hasAndEquals($option, $value)
+    {
+        return $this->has($option) && $this->get($option) === $value;
     }
 
     /**

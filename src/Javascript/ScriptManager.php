@@ -74,6 +74,13 @@ class ScriptManager implements Customizable
     private $scriptsOutput = false;
 
     /**
+     * Instance of the Volcano to use for rendering.
+     *
+     * @var Volcano
+     */
+    private $volcano;
+
+    /**
      * ScriptManager constructor.
      */
     function __construct()
@@ -82,24 +89,34 @@ class ScriptManager implements Customizable
     }
 
     /**
+     * Set the instance of the Volcano to use when rendering charts.
+     *
+     * @param Volcano $volcano
+     */
+    public function setVolcano(Volcano $volcano)
+    {
+        $this->volcano = $volcano;
+    }
+
+    /**
      * Renders all charts and dashboards that have been defined.
      *
+     * TODO: this fails silently if the chart doesn't have an elementId
      *
      * @since 4.0.0
-     * @param Volcano $volcano
      * @return string <script> tags
      */
-    public function getScriptTags(Volcano $volcano)
-    {       // TODO: this fails silently if the chart doesn't have an elementId
+    public function getScriptTags()
+    {
         if (! $this->lavaJsLoaded()) {
-            $this->loadLavaJs($this->options);
+            $this->loadLavaJs();
         }
 
-        if (count($volcano) > 0) {
+        if ($this->volcano->count() > 0) {
             $this->openScriptTag();
 
             /** @var Renderable $renderable */
-            foreach ($volcano as $renderable) {
+            foreach ($this->volcano as $renderable) {
                 if ($renderable->isRenderable()) {
                     $this->addRenderableToOutput($renderable);
                 }
@@ -191,26 +208,24 @@ class ScriptManager implements Customizable
      * Initialize the output buffer with the Lava.js module.
      *
      * @since 4.0.0
-     * @param $options
      */
-    public function loadLavaJs($options)
+    public function loadLavaJs()
     {
-        $this->outputBuffer = $this->getLavaJs($options);
+        $this->outputBuffer = $this->getLavaJs();
     }
 
     /**
      * Gets the lava.js module.
      *
-     * @param Options $options
      * @return Buffer
      */
-    public function getLavaJs(Options $options)
+    public function getLavaJs()
     {
         $this->lavaJsLoaded = true;
 
         $buffer = new ScriptBuffer($this->getLavaJsSource());
 
-        $buffer->pregReplace('/OPTIONS_JSON/', $options->toJson());
+        $buffer->pregReplace('/OPTIONS_JSON/', $this->options->toJson());
 
         return $buffer;
     }

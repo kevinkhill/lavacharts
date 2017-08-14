@@ -8,13 +8,18 @@ use Khill\Lavacharts\Charts\ChartFactory;
 /**
  * Blade Template Extensions
  *
- * These extend blade templates to allow for a shorter syntax for rendering charts.
- * Instead of using {{ Lava::render('LineChart', 'MyChart', 'div-id') }}
- * you can use the chart type (or dashboard) as an @ directive.
- * The above example would turn into @linechart('MyChart', 'div-id')
+ * Charts do not need to be individually called upon to be rendered. They are fully defined before the view
+ * so a much cleaner, and shorter syntax can be used in the view for rendering the charts.
+ *
+ * The @lavacharts() directive will output two <script> tags; The lava.js module and all the necessary javascript
+ * for rendering the charts.
+ *
+ * The @lavajs() is provided as a convenience method, for those who would like to separate the output if the <script>
+ * tags, for manual placement.
  *
  *
  * @package    Khill\Lavacharts\Laravel
+ * @since      4.0.0 Removed: Laravel 4 support, Chart aliases, renderAll. Added: lavacharts() and lavajs()
  * @since      2.5.0
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @copyright  (c) 2015, KHill Designs
@@ -26,55 +31,16 @@ use Khill\Lavacharts\Charts\ChartFactory;
 $app   = App::getFacadeApplication();
 $blade = $app['view']->getEngineResolver()->resolve('blade')->getCompiler();
 
-$renderables = array_merge(['Dashboard'], ChartFactory::TYPES);
+$blade->directive('lavajs', function ($expression) {
+    $expression = ltrim($expression, '(');
+    $expression = rtrim($expression, ')');
 
+    return "<?php echo \Lava::lavajs($expression); ?>";
+});
 
-foreach ($renderables as $chart) {
+$blade->directive('lavacharts', function ($expression) {
+    $expression = ltrim($expression, '(');
+    $expression = rtrim($expression, ')');
 
-    if (method_exists($blade, 'directive')) {
-// Laravel 5
-        $blade->directive(strtolower($chart), function ($expression) use ($chart) {
-            $expression = ltrim($expression, '(');
-            $expression = rtrim($expression, ')');
-
-            return "<?php echo \Lava::render('$chart', $expression); ?>";
-        });
-
-        $blade->directive('renderAll', function ($expression) {
-            $expression = ltrim($expression, '(');
-            $expression = rtrim($expression, ')');
-
-            return "<?php echo \Lava::renderAll($expression); ?>";
-        });
-
-
-        $blade->directive('lavacharts', function ($expression) {
-            $expression = ltrim($expression, '(');
-            $expression = rtrim($expression, ')');
-
-            return "<?php echo \Lava::flow($expression); ?>";
-        });
-
-    } else {
-
-// Laravel 4
-        $blade->extend(
-            function ($view, $compiler) use ($chart) {
-                $pattern = $compiler->createMatcher(strtolower($chart));
-                $output = '$1<?php echo \Lava::render(' . $chart . ', $2); ?>';
-
-                return preg_replace($pattern, $output, $view);
-            }
-        );
-
-        $blade->extend(
-            function ($view, $compiler) {
-                $pattern = $compiler->createMatcher('renderAll');
-                $output = '$1<?php echo \Lava::renderAll($2); ?>';
-
-                return preg_replace($pattern, $output, $view);
-            }
-        );
-
-    }
-}
+    return "<?php echo \Lava::flow($expression); ?>";
+});
