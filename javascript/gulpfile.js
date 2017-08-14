@@ -8,7 +8,6 @@
     gulpif = require('gulp-if'),
    stylish = require('jshint-stylish'),
         fs = require('fs'),
-         Q = require('q'),
    replace = require('gulp-replace'),
       argv = require('yargs').array('browsers').argv,
     source = require('vinyl-source-stream'),
