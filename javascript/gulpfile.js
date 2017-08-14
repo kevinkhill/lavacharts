@@ -154,21 +154,21 @@ gulp.task('render', done => {
     phpServer('renderer.php', 5000, () => {
         const chart = 'PieChart';
 
-        const nightmare = Nightmare({
-            openDevTools: {
-                mode: 'detach'
-            },
-            show: true
-        })
-        .viewport(800, 600)
-        .on('did-finish-load', (type, message, stack) => {
-            console.log('did-finish-load');
-        })
-        .goto('http://localhost:5000/'+chart)
-        .end(() => "some value")
-        //prints "some value"
-        .then(connect.closeServer)
-        .then((value) => console.log(value));
+        const nightmare = Nightmare();
+
+        nightmare
+            .viewport(800, 600)
+            .on('did-finish-load', () => {
+
+                console.log('did-finish-load');
+            })
+            .goto('http://localhost:5000/'+chart)
+            .wait(2000)
+            .screenshot('./renders/'+chart+'.png')
+            .end(() => "some value")
+            //prints "some value"
+            .then(connect.closeServer)
+            .then((value) => console.log(value));
     });
 });
 

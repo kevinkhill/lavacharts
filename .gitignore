@@ -2,9 +2,6 @@ vendor/
 build/
 .idea/
 
-javascript/node_modules/
-javascript/phantomjs/renders/
-
 composer.phar
 
 *.log
