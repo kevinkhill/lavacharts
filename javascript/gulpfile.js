@@ -148,28 +148,27 @@ gulp.task('demos', function() {
     phpServer('demo.php', process.env.PORT || 6000);
 });
 
-gulp.task('render', function (done) {
-    phpServer('renderer.php', 5000, function() {
-        var chart    = 'PieChart';
-        var renderer = renderChart(chart);
+gulp.task('render', done => {
+    const Nightmare = require('nightmare');
 
-        renderer.stdout.on('data', function (data) {
-            console.log('['+chart+'] ' + data);
-        });
+    phpServer('renderer.php', 5000, () => {
+        const chart = 'PieChart';
 
-        renderer.on('close', function (code) {
-            const chartPath = renderOutputDir+'/'+chart+'.png';
-
-            if (fs.existsSync(chartPath)) {
-                execSync('convert ' + chartPath + ' -trim +repage ' + chartPath);
-
-                console.log('[' + chart + '] Successfully Cropped.');
-            } else {
-                console.log('[' + chart + '] ' + chartPath + ' not found.');
-            }
-
-            phpServerEnd(done);
-        });
+        const nightmare = Nightmare({
+            openDevTools: {
+                mode: 'detach'
+            },
+            show: true
+        })
+        .viewport(800, 600)
+        .on('did-finish-load', (type, message, stack) => {
+            console.log('did-finish-load');
+        })
+        .goto('http://localhost:5000/'+chart)
+        .end(() => "some value")
+        //prints "some value"
+        .then(connect.closeServer)
+        .then((value) => console.log(value));
     });
 });
 
