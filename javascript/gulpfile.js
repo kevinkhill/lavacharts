@@ -1,13 +1,13 @@
+const _ = require('lodash');
+const Nightmare = require('nightmare');
+
   var gulp = require('gulp'),
+      glob = require('glob'),
      gutil = require('gulp-util'),
       bump = require('gulp-bump'),
-    jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
  streamify = require('gulp-streamify'),
-    notify = require('gulp-notify'),
     gulpif = require('gulp-if'),
-   stylish = require('jshint-stylish'),
-        fs = require('fs'),
    replace = require('gulp-replace'),
       argv = require('yargs').array('browsers').argv,
     source = require('vinyl-source-stream'),
@@ -15,18 +15,15 @@ browserify = require('browserify'),
   babelify = require('babelify'),
   stripify = require('stripify'),
      bSync = require('browser-sync').create(),
-      exec = require('child_process').exec,
-     spawn = require('child_process').spawn,
-  execSync = require('child_process').execSync,
-   phantom = require('gulp-phantom'),
    connect = require('gulp-connect-php'),
   watchify = require('watchify'),
   notifier = require('node-notifier');
 
-var renderOutputDir = './phantomjs/renders';
+const serverPort = 5000;
+const renderOutputDir = process.cwd()+'/renders/';
 
 function compile(prod, watch, sync) {
-    var bundler = browserify({
+    let bundler = browserify({
         debug: true,
         entries: ['./src/lava.entry.es6'],
         cache: {},
@@ -68,7 +65,7 @@ function compile(prod, watch, sync) {
 
     if (watch) {
         bundler.on('update', function() {
-            var msg = 'lava.js re-bundling...';
+            const msg = 'lava.js re-bundling...';
 
             gutil.log(gutil.colors.green(msg));
 
@@ -93,102 +90,74 @@ function compile(prod, watch, sync) {
 }
 
 function getChartTypes(callback) {
-    exec('php ../tests/Examples/chartTypes.php', function (error, stdout, stderr) {
-        console.log(stderr);
+    glob('*.php', {
+        cwd: '../src/Charts/',
+        nomount: true
+    }, (err, chartTypes) => {
+        _.pullAll(chartTypes, [
+            'Chart.php',
+            'ChartBuilder.php',
+            'ChartFactory.php',
+        ]);
 
-        var charts = eval(stdout);
-
-        callback(charts);
+        callback(_.map(chartTypes, chartType => {
+            return chartType.slice(0, -4);
+        }));
     });
 }
 
-function renderChart(type, callback) {
-    const phantom = './node_modules/.bin/phantomjs';
-    const renderScript = './phantomjs/render.js';
-
-    console.log('[' + type + '] Launching phantom.');
-
-    //return exec([phantom, renderScript, type].join(' '), callback);
-    return spawn(phantom, [renderScript, type]);
-}
-
-function phpServer(router, port, callback) {
+function phpServer(router, callback) {
     const base = '../tests/Examples/';
 
     connect.server({
         base: base,
-        port: port || 8080,
+        port: serverPort,
         ini: base + 'php.ini',
         router: base + router
-    }, callback || function(){});
+    }, callback);
 }
 
-function phpServerEnd(done) {
-    connect.closeServer(function() {
-        done();
-    });
-}
-
-gulp.task('default', ['build']);
+gulp.task('default', ['dev']);
 
 // compile(prod, watch, sync)
-gulp.task('build',   function() { return compile(false, false, false) });
-gulp.task('watch',   function() { return compile(false, true, false)  });
-gulp.task('sync',    function() { return compile(false, true, true)   });
-gulp.task('release', function() { return compile(true,  false, false) });
-
+gulp.task('dev',   function() { return compile(false, false, false) });
+gulp.task('watch', function() { return compile(false, true, false)  });
+gulp.task('sync',  function() { return compile(false, true, true)   });
+gulp.task('prod',  function() { return compile(true,  false, false) });
 
 gulp.task('charts', function() {
-    getChartTypes(function (charts) {
+    getChartTypes(charts => {
         console.log(charts);
     });
 });
 
-gulp.task('demos', function() {
-    phpServer('demo.php', process.env.PORT || 6000);
-});
-
 gulp.task('render', done => {
-    const Nightmare = require('nightmare');
+    phpServer('renderer.php', () => {
+        getChartTypes(chartTypes => {
+            let renders = _.map(chartTypes, chartType => {
+                const nightmare = Nightmare();
 
-    phpServer('renderer.php', 5000, () => {
-        const chart = 'PieChart';
+                gutil.log(gutil.colors.green('Rendering '+chartType));
 
-        const nightmare = Nightmare();
+                return nightmare
+                    .viewport(800, 600)
+                    .goto('http://localhost:'+serverPort+'/'+chartType)
+                    .wait(3000)
+                    .screenshot(renderOutputDir+chartType+'.png')
+                    .end()
+                    .catch(err => {
+                        console.log(err);
+                    });
+            });
 
-        nightmare
-            .viewport(800, 600)
-            .on('did-finish-load', () => {
-
-                console.log('did-finish-load');
-            })
-            .goto('http://localhost:5000/'+chart)
-            .wait(2000)
-            .screenshot('./renders/'+chart+'.png')
-            .end(() => "some value")
-            //prints "some value"
-            .then(connect.closeServer)
-            .then((value) => console.log(value));
+            Promise.all(renders).then(connect.closeServer);
+        });
     });
 });
 
-gulp.task('phantom', function() {
-    gulp.src("./phantomjs/render.js")
-        .pipe(phantom({
-            ext: json
-        }))
-        .pipe(gulp.dest("./data/"));
-});
-
-gulp.task('jshint', function (done) {
-    return gulp.src('./src/**/*.js')
-               .pipe(jshint())
-               .pipe(jshint.reporter(stylish));
-});
-
 gulp.task('bump', function (done) { //-v=1.2.3
-    var version = argv.v;
-    var minorVersion = version.slice(0, -2);
+    let version = argv.v;
+    let minorVersion = version.slice(0, -2);
 
     gulp.src('./package.json')
         .pipe(bump({version:argv.v}))
