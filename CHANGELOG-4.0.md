@@ -1,14 +1,13 @@
 # Lavacharts 4.0
 The biggest change in v4 is how the PHP Library interacts with the Lava.js module, and how the javascript rendering flow works.
 
-
 ## [Unreleased]
 
 ## [4.0.0] - 2017-09-01
 ### Added
 - Added a Lava.js Service for Angular.
-- Most classes implement Arrayable and Jsonable to convert the classes into JSON to pass to Lava.js
- -
+- Most classes implement Arrayable and Jsonable interfaces to convert the classes into JSON to pass to Lava.js
+- 
 
 ### Changed
 - Lava.js rewritten in ES6 to be leaner, faster and do more of the heavy lifting
@@ -17,19 +16,18 @@ The biggest change in v4 is how the PHP Library interacts with the Lava.js modul
   - They no longer write out large amounts of javascript. They boil down to a JSON representation of themselves and get passed into Lava.js.
 - ScriptManager now handles all javascript generation
 - Charts now use methods over constants
--
+- Creating Dashboards has been simplified.
 
 ### Removed
-- render() & renderAll() form Lavacharts
+- PHP 5.4 & 5.5 support
+- Laravel 4 support
+- render() from Lavacharts
 - customize() from Charts
-- Javascript templates for charts and dashboards
-- DashboardBuilder, GenericBuilder
-- ChartJsFactory, DashboardJsFactory
 - Named Filter Classes
 - Named Format Classes
--
-- Laravel 4 support
-- PHP 5.4 & 5.5 support
+- DashboardBuilder, GenericBuilder
+- ChartJsFactory, DashboardJsFactory
+- Javascript templates for charts and dashboards
 
 
 # More Notes
@@ -54,7 +52,7 @@ The biggest change in v4 is how the PHP Library interacts with the Lava.js modul
 - This will output the Lava.js module into a `<script>` tag (this can be overriden, or loaded manually, or externally) and one additional `<script>` tag with all the needed javascript for rendering.
   - Charts will output `lava.addNewChart({CHART_JSON})` and Dashboards will output `lava.addNewDashboard({DASHBOARD_JSON})`
   - This further simplifies the library, by not tying the user to expecting large chunks of javascript dumped into the page. The user can setup API endpoints to serve the Renderables' JSON and use lava.js manually to store them, and call `lava.run()` and be done with it.
-- The `lava.run` method now simply loads `google` (if it is not already available in page) and then calls each Renderables' `render()` method.
+- The `lava.run()` method now simply loads `google` (if it is not already available in page) and then calls each Renderables' `render()` method.
 
  - - -
 
