@@ -1,26 +1,27 @@
+/* jshint node:true */
+
 const _ = require('lodash');
 const Nightmare = require('nightmare');
+const PhpServer = require('gulp-connect-php');
+const PortFinder = require('portfinder');
 
   var gulp = require('gulp'),
       glob = require('glob'),
      gutil = require('gulp-util'),
       bump = require('gulp-bump'),
+      path = require('path'),
     uglify = require('gulp-uglify'),
  streamify = require('gulp-streamify'),
     gulpif = require('gulp-if'),
    replace = require('gulp-replace'),
-      argv = require('yargs').array('browsers').argv,
+      args = require('yargs').array('browsers').argv,
     source = require('vinyl-source-stream'),
 browserify = require('browserify'),
   babelify = require('babelify'),
   stripify = require('stripify'),
      bSync = require('browser-sync').create(),
-   connect = require('gulp-connect-php'),
   watchify = require('watchify'),
   notifier = require('node-notifier');
-
-const serverPort = 5000;
-const renderOutputDir = process.cwd()+'/renders/';
 
 function compile(prod, watch, sync) {
     let bundler = browserify({
@@ -106,64 +107,145 @@ function getChartTypes(callback) {
     });
 }
 
-function phpServer(router, callback) {
-    const base = '../tests/Examples/';
+function getNightmare(timeout) {
+    return new Nightmare({
+        gotoTimeout: timeout,
+        waitTimeout: timeout,
+        loadTimeout: timeout,
+        executionTimeout: timeout
+    });
+}
 
-    connect.server({
-        base: base,
-        port: serverPort,
-        ini: base + 'php.ini',
-        router: base + router
-    }, callback);
+function createPhpServer(port) {
+    const base = path.resolve(process.cwd(), '../tests/Examples');
+    const server = new PhpServer();
+
+    return new Promise(resolve => {
+        server.server({
+            base: base,
+            port: port,
+            ini: base + '/php.ini',
+            router: base + '/renderer.php'
+        });
+
+        resolve(server);
+    });
+}
+
+function getPhpServer() {
+    return PortFinder.getPortPromise()
+        .then(createPhpServer)
+        .catch(err => {
+            console.log(err);
+        });
+}
+
+function renderChart(chartType) {
+    return getPhpServer()
+        .then(server => {
+            let chartUrl = 'http://localhost:' + server.port + '/' + chartType;
+            let renderDir = path.resolve(process.cwd(), 'renders');
+            let chartImg = renderDir + '/' + chartType + '.png';
+
+            console.log('Nightmare opening ' + chartUrl);
+
+            return getNightmare(5000)
+                .viewport(800, 600)
+                .goto(chartUrl)
+                .wait(3000)
+                .screenshot(chartImg)
+                .end(() => {
+                    console.log('Saved screenshot to ' + chartImg);
+
+                    server.closeServer();
+                })
+                // .then();
+        });
+
 }
 
 gulp.task('default', ['dev']);
 
-// compile(prod, watch, sync)
-gulp.task('dev',   function() { return compile(false, false, false) });
-gulp.task('watch', function() { return compile(false, true, false)  });
-gulp.task('sync',  function() { return compile(false, true, true)   });
-gulp.task('prod',  function() { return compile(true,  false, false) });
+/**
+ * Lava.js compilation tasks.
+ *
+ * The compile method accepts three boolean flags for the following signature:
+ *   compile(prod, watch, sync)
+ */
+gulp.task('dev',   () => { compile(false, false, false) });
+gulp.task('watch', () => { compile(false, true, false)  });
+gulp.task('sync',  () => { compile(false, true, true)   });
+gulp.task('prod',  () => { compile(true,  false, false) });
 
-gulp.task('charts', function() {
-    getChartTypes(charts => {
-        console.log(charts);
+/**
+ *
+ */
+gulp.task('charts', (done) => {
+    getChartTypes(chartTypes => {
+        console.log(chartTypes);
+
+        done();
     });
 });
 
+/**
+ * Render a specific chart.
+ *
+ * Specify the type as the php classname
+ *
+ * Syntax:
+ *   gulp render --type [ AreaChart | LineChart | GeoChart | etc... ]
+ */
 gulp.task('render', done => {
-    phpServer('renderer.php', () => {
-        getChartTypes(chartTypes => {
-            let renders = _.map(chartTypes, chartType => {
-                const nightmare = Nightmare();
+    // let chartType = args.type.replace(/\b[a-z]/g, letter => {
+    //     return letter.toUpperCase();
+    // });
+    let chartType = args.type;
 
-                gutil.log(gutil.colors.green('Rendering '+chartType));
+    getChartTypes(chartTypes => {
+        if (chartTypes.indexOf(chartType) === -1) {
+            return done(chartType + ' is not a valid chart type.');
+        }
 
-                return nightmare
-                    .viewport(800, 600)
-                    .goto('http://localhost:'+serverPort+'/'+chartType)
-                    .wait(3000)
-                    .screenshot(renderOutputDir+chartType+'.png')
-                    .end()
-                    .catch(err => {
-                        console.log(err);
-                    });
+        renderChart(args.type)
+            .then(() => {
+                done();
+            })
+            .catch(err => {
+                console.log(err);
             });
-
-            Promise.all(renders).then(connect.closeServer);
-        });
     });
 });
 
-gulp.task('bump', function (done) { //-v=1.2.3
-    let version = argv.v;
+/**
+ * Render all of the available charts.
+ *
+ * Syntax:
+ *   gulp render:all
+ */
+gulp.task('renderAll', done => {
+    getChartTypes(chartTypes => {
+        Promise.all(_.map(chartTypes, renderChart))
+            .then(() => {
+                done();
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    });
+});
+
+gulp.task('bump', done => { //-v=1.2.3
+    let version = args.v;
     let minorVersion = version.slice(0, -2);
 
     gulp.src('./package.json')
-        .pipe(bump({version:argv.v}))
+        .pipe(bump({version:args.v}))
         .pipe(gulp.dest('./'));
 
     gulp.src(['./README.md', './.travis.yml'])
-        .pipe(replace(/("|=|\/|-)[0-9]+\.[0-9]+/g, '$1'+minorVersion))
+        .pipe(replace(/(["=\/-])[0-9]+\.[0-9]+/g, '$1'+minorVersion))
         .pipe(gulp.dest('./'));
+
+    done();
 });

@@ -41,6 +41,7 @@
     "nightmare": "^2.10.0",
     "node-notifier": "^5.1.2",
     "node-resemble-js": "^0.2.0",
+    "portfinder": "^1.0.13",
     "rxjs": "^5.1.0",
     "sinon": "^1.17.3",
     "stripify": "^4.0.0",
