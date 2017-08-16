@@ -1,6 +1,5 @@
 /* jshint node:true */
 
-import _ from 'lodash';
 import gulp from 'gulp';
 import args from 'yargs';
 import bump from 'gulp-bump';
@@ -8,6 +7,8 @@ import replace from 'gulp-replace';
 import compile from './gulp-functions/Compile';
 import renderChart from './gulp-functions/Renderer';
 import getChartTypes from './gulp-functions/GetChartTypes';
+import { map as promiseMap } from 'bluebird';
+import { map, head, chunk } from 'lodash';
 
 gulp.task('default', ['dev']);
 
@@ -73,13 +74,15 @@ gulp.task('render', done => {
  */
 gulp.task('renderAll', done => {
     getChartTypes(chartTypes => {
-        Promise.all(_.map(chartTypes, renderChart))
-            .then(() => {
-                done();
-            })
-            .catch(err => {
-                console.log(err);
-            });
+        promiseMap(chartTypes, chartType => {
+            return renderChart(chartType);
+        }, {concurrency: 3})
+        .then(() => {
+            done();
+        })
+        .catch(err => {
+            console.log(err);
+        });
     });
 });
 
