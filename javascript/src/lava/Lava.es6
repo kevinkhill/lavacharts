@@ -36,7 +36,7 @@ export class LavaJs extends EventEmitter
          * @type {string}
          * @public
          */
-        this.VERSION = '4.0.0';
+        this.VERSION = '__VERSION__';
 
         /**
          * Version of the Google charts API to load.

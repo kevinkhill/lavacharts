@@ -1,20 +1,20 @@
-/* jshint node:true */
+import glob from 'glob';
+import { pullAll, map } from 'lodash';
+import { cwd } from 'process';
+import { resolve } from 'path';
 
-const _ = require('lodash');
-const glob = require('glob');
-
-export function getChartTypes(callback) {
+export default function getChartTypes(callback) {
     glob('*.php', {
-        cwd: '../src/Charts/',
+        cwd: resolve(cwd(), '../src/Charts/'),
         nomount: true
     }, (err, chartTypes) => {
-        _.pullAll(chartTypes, [
+        pullAll(chartTypes, [
             'Chart.php',
             'ChartBuilder.php',
             'ChartFactory.php',
         ]);
 
-        callback(_.map(chartTypes, chartType => {
+        callback(map(chartTypes, chartType => {
             return chartType.slice(0, -4);
         }));
     });

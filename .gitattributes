@@ -9,7 +9,7 @@ javascript/karma/ export-ignore
 .gitignore export-ignore
 .travis.yml export-ignore
 .codeclimate.yml export-ignore
-gulpfile.js export-ignore
+gulpfile.babel.js export-ignore
 package.json export-ignore
 phpunit.xml
 javascript/lava.spec.js export-ignore

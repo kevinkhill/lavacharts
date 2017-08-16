@@ -10,6 +10,7 @@
     "node": "0.12.*"
   },
   "dependencies": {
+    "babel-register": "^6.24.1",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
@@ -18,6 +19,7 @@
     "babelify": "^7.3.0",
     "browser-sync": "^2.18.12",
     "browserify": "^14.4.0",
+    "browserify-versionify": "^1.0.6",
     "glob": "^7.1.2",
     "gulp": "^3.9.1",
     "gulp-bump": "^0.3.0",
