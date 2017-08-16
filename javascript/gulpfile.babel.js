@@ -1,14 +1,14 @@
 /* jshint node:true */
 
 import gulp from 'gulp';
-import args from 'yargs';
+import yargs from 'yargs';
 import bump from 'gulp-bump';
 import replace from 'gulp-replace';
 import compile from './gulp-functions/Compile';
 import renderChart from './gulp-functions/Renderer';
 import getChartTypes from './gulp-functions/GetChartTypes';
-import { map as promiseMap } from 'bluebird';
-import { map, head, chunk } from 'lodash';
+import { cpus } from 'os'
+import { map } from 'bluebird';
 
 gulp.task('default', ['dev']);
 
@@ -24,66 +24,69 @@ gulp.task('watch', () => { compile(false, true, false)  });
 gulp.task('sync',  () => { compile(false, true, true)   });
 
 /**
- * Get all available chart types
- *
- * Syntax:
- *   gulp charts
- */
-gulp.task('charts', done => {
-    getChartTypes(chartTypes => {
-        console.log(chartTypes.join(', '));
-
-        done();
-    });
-});
-
-/**
  * Render a specific chart.
  *
  * Specify the type as the php class name
  *
  * Syntax:
- *   gulp render -t [ AreaChart | LineChart | GeoChart | etc... ]
+ *   gulp render --type [ AreaChart | LineChart | GeoChart | etc... ]
  */
 gulp.task('render', done => {
-    // let chartType = args.type.replace(/\b[a-z]/g, letter => {
-    //     return letter.toUpperCase();
-    // });
-    let chartType = args.t;
+    const chartTypes = getChartTypes();
+    const args = yargs
+        .fail(msg => {
+            throw new Error(msg);
+        })
+        .alias('t', 'type')
+        .describe('t', 'choose the type of chart to render')
+        .choices('t', chartTypes)
+        .wrap(70)
+        .help('help')
+        .argv;
 
-    getChartTypes(chartTypes => {
-        if (chartTypes.indexOf(chartType) === -1) {
-            return done(chartType + ' is not a valid chart type.');
-        }
-
-        renderChart(args.type)
-            .then(() => {
-                done();
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    });
-});
-
-/**
- * Render all of the available charts.
- *
- * Syntax:
- *   gulp render:all
- */
-gulp.task('renderAll', done => {
-    getChartTypes(chartTypes => {
-        promiseMap(chartTypes, chartType => {
-            return renderChart(chartType);
-        }, {concurrency: 3})
+    renderChart(args.t)
         .then(() => {
             done();
         })
         .catch(err => {
             console.log(err);
         });
+});
+
+/**
+ * Render all of the available charts.
+ *
+ * The renders will be ran in batches equal to the number of processors.
+ *
+ * Syntax:
+ *   gulp renderAll
+ */
+gulp.task('renderAll', done => {
+    let batchSize = cpus().length;
+
+    console.log('Rendering charts in batches of '+batchSize);
+
+    map(getChartTypes(), chartType => {
+        return renderChart(chartType);
+    }, {concurrency: batchSize})
+    .then(() => {
+        done();
+    })
+    .catch(err => {
+        console.log(err);
     });
+});
+
+/**
+ * Get all available chart types
+ *
+ * Syntax:
+ *   gulp charts
+ */
+gulp.task('charts', done => {
+    console.log('Available charts for rendering:');
+    console.log(getChartTypes().join(', '));
+    done();
 });
 
 /**

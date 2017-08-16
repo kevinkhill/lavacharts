@@ -30,8 +30,7 @@ export default function renderChart(chartType) {
                     console.log('Saved screenshot to ' + chartImg);
 
                     server.closeServer();
-                })
-            // .then();
+                });
         });
 
 }
