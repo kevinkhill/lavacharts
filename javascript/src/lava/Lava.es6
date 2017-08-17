@@ -1,3 +1,6 @@
+/* jshint browser:true */
+/* globals google:true */
+
 /**
  * lava.js module
  *
@@ -8,26 +11,27 @@
  */
 import _forIn from 'lodash/forIn';
 import EventEmitter from 'events';
-import { Chart } from './Chart.es6';
-import { Dashboard } from './Dashboard.es6';
-import { noop } from './Utils.es6';
+import Chart from './Chart.es6';
+import Dashboard from './Dashboard.es6';
+import defaultOptions from './Options.js';
+import { noop, addEvent } from './Utils.es6';
 import { InvalidCallback, RenderableNotFound } from './Errors.es6'
 
 
 /**
- * @property {string}             VERSION        Version of the module.
- * @property {Chart}              Chart          Chart class.
- * @property {Dashboard}          Dashboard      Dashboard class.
- * @property {object}             _errors
- * @property {string}             GOOGLE_LOADER_URL     Url to Google's static loader
- * @property {object}             options        Options for the module
+ * @property {string}             VERSION
+ * @property {string}             GOOGLE_API_VERSION
+ * @property {string}             GOOGLE_LOADER_URL
+ * @property {Chart}              Chart
+ * @property {Dashboard}          Dashboard
+ * @property {object}             options
  * @property {function}           _readyCallback
  * @property {Array.<string>}     _packages
  * @property {Array.<Renderable>} _renderables
  */
-export class LavaJs extends EventEmitter
+export default class LavaJs extends EventEmitter
 {
-    constructor() {
+    constructor(newOptions) {
         super();
 
         /**
@@ -76,7 +80,7 @@ export class LavaJs extends EventEmitter
          * @type {Object}
          * @public
          */
-        this.options = OPTIONS_JSON;
+        this.options = newOptions || defaultOptions;
 
         /**
          * Array of visualization packages for charts and dashboards.
@@ -113,9 +117,9 @@ export class LavaJs extends EventEmitter
      * @return {Renderable}
      */
     createChart(json) {
-        console.log('JSON_PAYLOAD', json);
+        console.log('Creating Chart', json);
 
-        this._addPackages(json.packages);
+        this._addPackages(json.packages); // TODO: move this into the store method?
 
         return new this.Chart(json);
     }
@@ -127,7 +131,7 @@ export class LavaJs extends EventEmitter
      * @see createChart
      * @param {object} json
      */
-    addNewChart(json) {
+    addNewChart(json) { //TODO: rename to storeNewChart(json) ?
         this.store(this.createChart(json));
     }
 
@@ -141,7 +145,7 @@ export class LavaJs extends EventEmitter
      * @return {Dashboard}
      */
     createDashboard(json) {
-        console.log('JSON_PAYLOAD', json);
+        console.log('Creating Dashboard', json);
 
         this._addPackages(json.packages);
 
@@ -158,7 +162,7 @@ export class LavaJs extends EventEmitter
      * @param  {object} json
      * @return {Dashboard}
      */
-    addNewDashboard(json) {
+    addNewDashboard(json) { //TODO: rename to storeNewDashboard(json) ?
         this.store(this.createDashboard(json));
     }
 
@@ -167,14 +171,36 @@ export class LavaJs extends EventEmitter
      *
      * @public
      */
-    run() {
+    run(window) {
         const $lava = this;
+
+        if ($lava.options.responsive === true) {
+            let debounced = null;
+
+            addEvent(window, 'resize', () => {
+                let redraw = $lava.redrawAll.bind($lava);
+
+                clearTimeout(debounced);
+
+                debounced = setTimeout(() => {
+                    console.log('[lava.js] Window re-sized, redrawing...');
+
+                    redraw();
+                }, $lava.options.debounce_timeout);
+            });
+        }
 
         console.log('[lava.js] Running...');
         console.log('[lava.js] Loading options:', this.options);
 
         $lava._loadGoogle().then(() => {
             console.log('[lava.js] Google is ready.');
+
+            /**
+             * Convenience map for google.visualization to be accessible
+             * via lava.visualization
+             */
+            this.visualization = google.visualization;
 
             _forIn($lava._renderables, renderable => {
                 console.log(`[lava.js] Rendering ${renderable.uuid()}`);
@@ -199,6 +225,40 @@ export class LavaJs extends EventEmitter
         console.log(`[lava.js] Storing ${renderable.uuid()}`);
 
         this._renderables[renderable.label] = renderable;
+    }
+
+    /**
+     * Returns the LavaChart javascript objects
+     *
+     *
+     * The LavaChart object holds all the user defined properties such as data, options, formats,
+     * the GoogleChart object, and relative methods for internal use.
+     *
+     * The GoogleChart object is available as ".chart" from the returned LavaChart.
+     * It can be used to access any of the available methods such as
+     * getImageURI() or getChartLayoutInterface().
+     * See https://google-developers.appspot.com/chart/interactive/docs/gallery/linechart#methods
+     * for some examples relative to LineCharts.
+     *
+     * @public
+     * @param  {string}   label
+     * @param  {Function} callback
+     * @throws InvalidLabel
+     * @throws InvalidCallback
+     * @throws RenderableNotFound
+     */
+    get(label, callback) {
+        if (typeof callback !== 'function') {
+            throw new InvalidCallback(callback);
+        }
+
+        let renderable = this._renderables[label];
+
+        if (! renderable) {
+            throw new RenderableNotFound(label);
+        }
+
+        callback(renderable);
     }
 
     /**
@@ -288,47 +348,34 @@ export class LavaJs extends EventEmitter
      * to make the charts responsive to the browser resizing.
      */
     redrawAll() {
+        if (this._renderables.length === 0) {
+            console.log(`[lava.js] Nothing to redraw.`);
+
+            return false;
+        } else {
+            console.log(`[lava.js] Redrawing ${this._renderables.length} renderables.`);
+        }
+
         for (let renderable of this._renderables) {
             console.log(`[lava.js] Redrawing ${renderable.uuid()}`);
 
-            const redraw = renderable.draw.bind(renderable);
+            let redraw = renderable.draw.bind(renderable);
 
             redraw();
         }
+
+        return true;
     }
 
     /**
-     * Returns the LavaChart javascript objects
-     *
-     *
-     * The LavaChart object holds all the user defined properties such as data, options, formats,
-     * the GoogleChart object, and relative methods for internal use.
-     *
-     * The GoogleChart object is available as ".chart" from the returned LavaChart.
-     * It can be used to access any of the available methods such as
-     * getImageURI() or getChartLayoutInterface().
-     * See https://google-developers.appspot.com/chart/interactive/docs/gallery/linechart#methods
-     * for some examples relative to LineCharts.
+     * Aliasing google.visualization.arrayToDataTable to lava.arrayToDataTable
      *
      * @public
-     * @param  {string}   label
-     * @param  {Function} callback
-     * @throws InvalidLabel
-     * @throws InvalidCallback
-     * @throws RenderableNotFound
+     * @param {Array} arr
+     * @return {google.visualization.DataTable}
      */
-    get(label, callback) {
-        if (typeof callback !== 'function') {
-            throw new InvalidCallback(callback);
-        }
-
-        let renderable = this._renderables[label];
-
-        if (! renderable) {
-            throw new RenderableNotFound(label);
-        }
-
-        callback(renderable);
+    arrayToDataTable(arr) {
+        return this.visualization.arrayToDataTable(arr);
     }
 
     /**

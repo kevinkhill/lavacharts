@@ -28,7 +28,7 @@ import { stringToFunction } from './Utils.es6';
  * @property {Function} render    - Renders the chart.
  * @property {Function} uuid      - Creates identification string for the chart.
  */
-export class Chart extends Renderable
+export default class Chart extends Renderable
 {
     /**
      * Chart Class

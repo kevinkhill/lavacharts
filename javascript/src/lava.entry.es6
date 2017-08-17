@@ -1,5 +1,8 @@
-import { LavaJs } from './lava/Lava.es6';
-import { addEvent, domLoaded } from './lava/Utils.es6';
+/* jshint browser:true */
+/* globals __OPTIONS__:true */
+
+import LavaJs from './lava/Lava.es6';
+import { domLoaded } from './lava/Utils.es6';
 
 /**
  * Assign the Lava.js module to the window and
@@ -11,27 +14,11 @@ let $lava = window.lava = new LavaJs();
  * Once the DOM has loaded...
  */
 domLoaded().then(() => {
-    /**
-     * Adding the resize event listener for redrawing charts if
-     * the option responsive is set to true.
-     */
-    if ($lava.options.responsive === true) {
-        let debounced = null;
-
-        addEvent(window, 'resize', () => {
-            let redraw = $lava.redrawAll.bind($lava);
-
-            clearTimeout(debounced);
-
-            debounced = setTimeout(() => {
-                console.log('[lava.js] Window re-sized, redrawing...');
-
-                redraw();
-            }, $lava.options.debounce_timeout);
-        });
+    if (typeof __OPTIONS__ !== 'undefined') {
+        $lava.options = __OPTIONS__;
     }
 
     if ($lava.options.auto_run === true) {
-        $lava.run();
+        $lava.run(window);
     }
 });

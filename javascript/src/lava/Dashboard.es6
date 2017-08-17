@@ -24,7 +24,7 @@ import { stringToFunction } from './Utils.es6';
  * @property {Function} render    - Renders the Dashboard.
  * @property {Function} uuid      - Unique identifier for the Dashboard.
  */
-export class Dashboard extends Renderable
+export default class Dashboard extends Renderable
 {
     constructor(json) {
         super(json);
