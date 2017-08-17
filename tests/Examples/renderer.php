@@ -14,14 +14,15 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
         $height = floor($width*(6/19));
 
         $title = 'My' . ((strpos($chartType, 'To') > 0) ? 'Dashboard' : $chartType);
+        $id = strtolower($title);
 
         if (strpos($chartType, 'Chart') > 0) {
             require_once(__DIR__ . '/Charts/' . $chartType . '.php');
-            $id = $lava->fetch($chartType, $title)->getElementId();
         } else {
             require_once(__DIR__ . '/Dashboards/' . $chartType . '.php');
-            $id = $lava->fetch('Dashboard', $title)->getElementId();
         }
+
+        $lava->get($title)->setElementId($id);
     }
 }
 ?>
@@ -46,11 +47,7 @@ if (preg_match('/\.(?:png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"])) {
                 <? } ?>
             </div>
 <?php
-            if (strpos($chartType, 'Chart') > 0) {
-                echo $lava->render($chartType, $title);
-            } else {
-                echo $lava->render('Dashboard', $title);
-            }
+    echo $lava->renderAll();
 ?>
     <script type="text/javascript">
         lava.ready(function() {

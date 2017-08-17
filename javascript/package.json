@@ -10,21 +10,24 @@
     "node": "0.12.*"
   },
   "dependencies": {
+    "babel-register": "^6.24.1",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
     "@angular/core": "^4.2.4",
     "babel-preset-es2015": "^6.24.1",
     "babelify": "^7.3.0",
+    "bluebird": "^3.5.0",
     "browser-sync": "^2.18.12",
     "browserify": "^14.4.0",
+    "browserify-versionify": "^1.0.6",
+    "glob": "^7.1.2",
     "gulp": "^3.9.1",
     "gulp-bump": "^0.3.0",
-    "gulp-connect-php": "0.0.8",
+    "gulp-connect-php": "^1.0.1",
     "gulp-if": "^2.0.0",
     "gulp-jshint": "^1.10.0",
     "gulp-notify": "^3.0.0",
-    "gulp-phantom": "0.0.6",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
     "gulp-spawn": "^0.3.0",
@@ -38,8 +41,10 @@
     "karma": "^0.13.0",
     "karma-jasmine": "^0.3.5",
     "karma-sinon": "^1.0.4",
+    "nightmare": "^2.10.0",
     "node-notifier": "^5.1.2",
     "node-resemble-js": "^0.2.0",
+    "portfinder": "^1.0.13",
     "rxjs": "^5.1.0",
     "sinon": "^1.17.3",
     "stripify": "^4.0.0",
@@ -56,6 +61,7 @@
     "url": "https://github.com/kevinkhill/lavacharts/issues"
   },
   "scripts": {
+    "gulp": "./node_modules/.bin/gulp",
     "test": "./node_modules/.bin/karma start --singleRun",
     "jsdoc": "./node_modules/.bin/jsdoc -d build/jsdoc --package package.json javascript/src/lava/Lava.js"
   }
