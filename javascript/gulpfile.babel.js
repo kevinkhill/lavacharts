@@ -1,19 +1,21 @@
 /* jshint node:true */
 
+import {cpus} from 'os'
+import {map} from 'bluebird';
+import { log } from 'gulp-util';
+import { red, green } from 'chalk';
+import {readFileSync} from 'fs';
 import gulp from 'gulp';
 import yargs from 'yargs';
-import bump from 'gulp-bump';
-import replace from 'gulp-replace';
+import ext from 'gulp-ext';
+import tap from 'gulp-tap';
 import babel from 'gulp-babel';
-import source from 'vinyl-source-stream';
+import replace from 'gulp-replace';
 import browserify from 'browserify';
+import source from 'vinyl-source-stream';
 import compile from './gulp-functions/Compile';
 import renderChart from './gulp-functions/Renderer';
 import getChartTypes from './gulp-functions/GetChartTypes';
-import { cpus } from 'os'
-import { map } from 'bluebird';
-import { log } from 'gulp-util';
-import { readFileSync } from 'fs';
 
 const pkg = JSON.parse(readFileSync('./package.json'));
 
@@ -30,27 +32,32 @@ gulp.task('prod',  () => { compile(true,  false, false) });
 gulp.task('watch', () => { compile(false, true, false)  });
 gulp.task('sync',  () => { compile(false, true, true)   });
 
-gulp.task('lavajs', () =>
-    gulp.src('src/lava/lava.es6')
-        .pipe(babel({
-            presets: ['es2015']
-        }))
-        .pipe(tap(file => {
+gulp.task('lavajs', () => {
+    let lavajs = browserify({
+        debug       : true,
+        entries     : ['./src/lava.browser.es6'],
+        cache       : {},
+        packageCache: {}
+    });
 
-            log('bundling ' + file.path);
-
-            // replace file contents with browserify's bundle stream
-            file.contents = browserify(file.path, {debug: true})
-
-                .transform('versionify')
-                .bundle();
-
-        }))
-        // .pipe(source('lava.js'))
+    lavajs
+        .transform('babelify', {presets: ['es2015'] })
+        .transform('browserify-versionify')
+        .bundle()
+        .on('error', err => {
+            if (err instanceof SyntaxError) {
+                log(red('Syntax Error'));
+                log(err.message);
+                log(err.filename+":"+err.loc.line);
+                log(err.codeFrame);
+            } else {
+                log(red('Error'), err.message);
+            }
+        })
+        .pipe(source('lava.js'))
         // .pipe(gulpif(prod, streamify(uglify())))
-        .pipe(replace('__VERSION__', pkg.version))
-        .pipe(gulp.dest('dist'))
-);
+        .pipe(gulp.dest('dist'));
+});
 
 /**
  * Render a specific chart.
@@ -117,24 +124,3 @@ gulp.task('charts', done => {
     console.log(getChartTypes().join(', '));
     done();
 });
-
-/**
- * Render all of the available charts.
- *
- * Syntax:
- *   gulp version -v 4.0.0
- */
-// gulp.task('version', done => {
-//     let version = args.v;
-//     let minorVersion = version.slice(0, -2);
-//
-//     gulp.src('./package.json')
-//         .pipe(bump({version:args.v}))
-//         .pipe(gulp.dest('./'));
-//
-//     gulp.src(['./README.md', './.travis.yml'])
-//         .pipe(replace(/(["=\/-])[0-9]+\.[0-9]+/g, '$1'+minorVersion))
-//         .pipe(gulp.dest('./'));
-//
-//     done();
-// });

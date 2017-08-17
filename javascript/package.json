@@ -29,6 +29,7 @@
     "gulp-babel": "^7.0.0",
     "gulp-bump": "^0.3.0",
     "gulp-connect-php": "^1.0.1",
+    "gulp-ext": "^1.0.0",
     "gulp-if": "^2.0.0",
     "gulp-jshint": "^1.10.0",
     "gulp-notify": "^3.0.0",

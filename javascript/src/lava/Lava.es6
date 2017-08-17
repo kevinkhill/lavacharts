@@ -167,11 +167,20 @@ export default class LavaJs extends EventEmitter
     }
 
     /**
+     * Public method for initializing google on the page.
+     *
+     * @public
+     */
+    init() {
+        return this._loadGoogle();
+    }
+
+    /**
      * Runs the Lava.js module
      *
      * @public
      */
-    run(window) {
+    run() {
         const $lava = this;
 
         if ($lava.options.responsive === true) {
@@ -193,7 +202,7 @@ export default class LavaJs extends EventEmitter
         console.log('[lava.js] Running...');
         console.log('[lava.js] Loading options:', this.options);
 
-        $lava._loadGoogle().then(() => {
+        $lava.init().then(() => {
             console.log('[lava.js] Google is ready.');
 
             /**

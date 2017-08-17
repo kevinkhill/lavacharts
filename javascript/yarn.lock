@@ -2254,6 +2254,13 @@ gulp-connect-php@^1.0.1:
     bin-version-check "^2.1.0"
     opn "^1.0.0"
 
+gulp-ext@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/gulp-ext/-/gulp-ext-1.0.0.tgz#beeff0f5e87e7d8e135dea0629fa5cbacb103016"
+  dependencies:
+    gulp-util "~2.2.14"
+    through2 "~0.4.1"
+
 gulp-if@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/gulp-if/-/gulp-if-2.0.2.tgz#a497b7e7573005041caa2bc8b7dda3c80444d629"
@@ -4847,6 +4854,13 @@ through2@~0.2.3:
   resolved "https://registry.yarnpkg.com/through2/-/through2-0.2.3.tgz#eb3284da4ea311b6cc8ace3653748a52abf25a3f"
   dependencies:
     readable-stream "~1.1.9"
+    xtend "~2.1.1"
+
+through2@~0.4.1:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/through2/-/through2-0.4.2.tgz#dbf5866031151ec8352bb6c4db64a2292a840b9b"
+  dependencies:
+    readable-stream "~1.0.17"
     xtend "~2.1.1"
 
 "through@>=2.2.7 <3":
