@@ -21,17 +21,6 @@ namespace Khill\Lavacharts\Support\Traits;
 trait ToJavascriptTrait
 {
     /**
-     * Using the format provided and the source variables, transform the instance
-     * to javascript source.
-     *
-     * @return string
-     */
-    public function toJavascript()
-    {
-        return vsprintf($this->getJavascriptFormat(), $this->getJavascriptSource());
-    }
-
-    /**
      * When accessing as a string, the instance will converted to javascript source.
      *
      * @return string

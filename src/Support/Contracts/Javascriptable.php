@@ -24,23 +24,4 @@ interface Javascriptable
      * @return string
      */
     public function toJavascript();
-
-    /**
-     * Return a format string that will be used by vsprintf to convert the
-     * extending class to javascript.
-     *
-     * @return string
-     */
-    public function getJavascriptFormat();
-
-    /**
-     * Return an array of arguments to pass to the format string provided
-     * by getJavascriptFormat().
-     *
-     * These variables will be used with vsprintf, and the format string
-     * to convert the extending class to javascript.
-     *
-     * @return array
-     */
-    public function getJavascriptSource();
 }

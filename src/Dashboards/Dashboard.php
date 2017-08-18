@@ -189,35 +189,6 @@ class Dashboard extends Renderable implements Visualization
     }
 
     /**
-     * Convert the Chart to Javascript.
-     *
-     * @return string
-     */
-    public function toJavascript()
-    {
-        return sprintf(
-            $this->getJavascriptFormat(),
-            $this->getJavascriptSource()
-        );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getJavascriptSource()
-    {
-        return $this->toJson();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getJavascriptFormat()
-    {
-        return 'window.lava.addNewDashboard(%s);';
-    }
-
-    /**
      * Array representation of the Dashboard.
      *
      * @since 4.0.0

@@ -66,6 +66,19 @@ abstract class Renderable implements Arrayable, Customizable, Javascriptable, Js
     }
 
     /**
+     * Convert the Chart to Javascript.
+     *
+     * @return string
+     */
+    public function toJavascript()
+    {
+        return sprintf(
+            'window.lava.createAndStore(%s);',
+            $this->toJson()
+        );
+    }
+
+    /**
      * Returns the class type.
      *
      * This will be used to create the javascript class name.

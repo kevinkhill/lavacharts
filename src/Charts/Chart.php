@@ -144,40 +144,6 @@ class Chart extends Renderable implements Visualization, Wrappable
     }
 
     /**
-     * Convert the Chart to Javascript.
-     *
-     * @return string
-     */
-    public function toJavascript()
-    {
-        return sprintf(
-            $this->getJavascriptFormat(),
-            $this->getJavascriptSource()
-        );
-    }
-
-    /**
-     * Return the JSON payload that will be passed to lava.createChart.
-     *
-     * @return string
-     */
-    public function getJavascriptSource()
-    {
-        return $this->toJson();
-    }
-
-    /**
-     * Return a format string that will be used to convert the class to javascript.
-     *
-     * @lang javascript
-     * @return string
-     */
-    public function getJavascriptFormat()
-    {
-        return 'window.lava.addNewChart(%s);';
-    }
-
-    /**
      * Array representation of the Chart.
      *
      * @return array

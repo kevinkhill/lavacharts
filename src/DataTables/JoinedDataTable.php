@@ -63,30 +63,19 @@ class JoinedDataTable implements DataInterface, Javascriptable
      *
      * @return string
      */
-    public function getJavascriptFormat()
+    public function toJavascript()
     {
-        return 'google.visualization.data.join(%s, %s, "%s", %s, %s, %s)';
-    }
-
-    /**
-     * Return an array of arguments to pass to the format string provided
-     * by getJavascriptFormat().
-     *
-     * These variables will be used with vsprintf, and the format string
-     * to convert the extending class to javascript.
-     *
-     * @return array
-     */
-    public function getJavascriptSource()
-    {
-        return array_merge(
-            $this->tables,
-            [
-                $this->options->joinMethod,
-                json_encode($this->options->keys),
-                json_encode($this->options->dt1Columns),
-                json_encode($this->options->dt2Columns),
-            ]
+        return vsprintf(
+            'google.visualization.data.join(%s, %s, "%s", %s, %s, %s)',
+            array_merge(
+                $this->tables,
+                [
+                    $this->options->joinMethod,
+                    json_encode($this->options->keys),
+                    json_encode($this->options->dt1Columns),
+                    json_encode($this->options->dt2Columns),
+                ]
+            )
         );
     }
 }
