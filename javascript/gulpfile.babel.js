@@ -32,33 +32,6 @@ gulp.task('prod',  () => { compile(true,  false, false) });
 gulp.task('watch', () => { compile(false, true, false)  });
 gulp.task('sync',  () => { compile(false, true, true)   });
 
-gulp.task('lavajs', () => {
-    let lavajs = browserify({
-        debug       : true,
-        entries     : ['./src/lava.browser.es6'],
-        cache       : {},
-        packageCache: {}
-    });
-
-    lavajs
-        .transform('babelify', {presets: ['es2015'] })
-        .transform('browserify-versionify')
-        .bundle()
-        .on('error', err => {
-            if (err instanceof SyntaxError) {
-                log(red('Syntax Error'));
-                log(err.message);
-                log(err.filename+":"+err.loc.line);
-                log(err.codeFrame);
-            } else {
-                log(red('Error'), err.message);
-            }
-        })
-        .pipe(source('lava.js'))
-        // .pipe(gulpif(prod, streamify(uglify())))
-        .pipe(gulp.dest('dist'));
-});
-
 /**
  * Render a specific chart.
  *

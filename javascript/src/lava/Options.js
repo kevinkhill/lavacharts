@@ -1,5 +1,5 @@
 const defaultOptions = {
-    "auto_run"        : true,
+    "auto_run"        : false,
     "locale"          : "en",
     "timezone"        : "America/Los_Angeles",
     "datetime_format" : "",

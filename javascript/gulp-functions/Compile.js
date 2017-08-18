@@ -19,7 +19,11 @@ let bundler = browserify({
     debug: true,
     entries: ['./src/lava.entry.es6'],
     cache: {},
-    packageCache: {}
+    packageCache: {},
+    transform: [
+        'browserify-versionify',
+        ['babelify', {presets: ['es2015'] }]
+    ]
 });
 
 function rebundle(prod = false) {
@@ -42,8 +46,8 @@ function rebundle(prod = false) {
 }
 
 export default function compile(prod, watch, sync) {
-    bundler.transform(babelify, {presets: ['es2015'] });
-    bundler.transform(versionify);
+    // bundler.transform(babelify, {presets: ['es2015'] });
+    // bundler.transform(versionify);
 
     if (prod) {
         bundler.transform('stripify');

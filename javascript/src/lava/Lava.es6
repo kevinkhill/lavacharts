@@ -83,6 +83,13 @@ export default class LavaJs extends EventEmitter
         this.options = newOptions || defaultOptions;
 
         /**
+         * Reference to the google.visualization object.
+         *
+         * @type {google.visualization}
+         */
+        this.visualization = null;
+
+        /**
          * Array of visualization packages for charts and dashboards.
          *
          * @type {Array.<string>}
@@ -172,7 +179,9 @@ export default class LavaJs extends EventEmitter
      * @public
      */
     init() {
-        return this._loadGoogle();
+        return this._loadGoogle().then(() => {
+            this.visualization = google.visualization;
+        });
     }
 
     /**
@@ -181,47 +190,27 @@ export default class LavaJs extends EventEmitter
      * @public
      */
     run() {
-        const $lava = this;
-
-        if ($lava.options.responsive === true) {
-            let debounced = null;
-
-            addEvent(window, 'resize', () => {
-                let redraw = $lava.redrawAll.bind($lava);
-
-                clearTimeout(debounced);
-
-                debounced = setTimeout(() => {
-                    console.log('[lava.js] Window re-sized, redrawing...');
-
-                    redraw();
-                }, $lava.options.debounce_timeout);
-            });
-        }
+        // const $lava = this;
 
         console.log('[lava.js] Running...');
         console.log('[lava.js] Loading options:', this.options);
 
-        $lava.init().then(() => {
+        this._attachRedrawHandler();
+
+        this.init().then(() => {
             console.log('[lava.js] Google is ready.');
 
-            /**
-             * Convenience map for google.visualization to be accessible
-             * via lava.visualization
-             */
-            this.visualization = google.visualization;
-
-            _forIn($lava._renderables, renderable => {
+            _forIn(this._renderables, renderable => {
                 console.log(`[lava.js] Rendering ${renderable.uuid()}`);
 
                 renderable.render();
             });
 
             console.log('[lava.js] Firing "ready" event.');
-            $lava.emit('ready');
+            this.emit('ready');
 
             console.log('[lava.js] Executing lava.ready(callback)');
-            $lava._readyCallback();
+            this._readyCallback();
         });
     }
 
@@ -396,6 +385,30 @@ export default class LavaJs extends EventEmitter
      */
     _addPackages(packages) {
         this._packages = this._packages.concat(packages);
+    }
+
+    /**
+     * Attach a listener to the window resize event for redrawing the charts.
+     *
+     * @private
+     */
+    _attachRedrawHandler() {
+        if (this.options.responsive === true) {
+            let debounced = null;
+
+            addEvent(window, 'resize', () => {
+                // let redraw = this.redrawAll().bind(this);
+
+                clearTimeout(debounced);
+
+                debounced = setTimeout(() => {
+                    console.log('[lava.js] Window re-sized, redrawing...');
+
+                    // redraw();
+                    this.redrawAll()
+                }, this.options.debounce_timeout);
+            });
+        }
     }
 
     /**
