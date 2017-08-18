@@ -7,8 +7,7 @@
  * @copyright (c) 2017, KHill Designs
  * @license   MIT
  */
-import { Renderable } from './Renderable.es6';
-import { stringToFunction } from './Utils.es6';
+import { Renderable } from './Renderable';
 
 /**
  * Dashboard class

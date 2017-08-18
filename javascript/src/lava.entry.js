@@ -1,8 +1,8 @@
 /* jshint browser:true */
 /* globals __OPTIONS__:true */
 
-import LavaJs from './lava/Lava.es6';
-import { domLoaded } from './lava/Utils.es6';
+import LavaJs from './lava/Lava';
+import { domLoaded } from './lava/Utils';
 
 /**
  * Assign the Lava.js module to the window and

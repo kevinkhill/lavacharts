@@ -11,11 +11,11 @@
  */
 import _forIn from 'lodash/forIn';
 import EventEmitter from 'events';
-import Chart from './Chart.es6';
-import Dashboard from './Dashboard.es6';
-import defaultOptions from './Options.js';
-import { noop, addEvent } from './Utils.es6';
-import { InvalidCallback, RenderableNotFound } from './Errors.es6'
+import Chart from './Chart';
+import Dashboard from './Dashboard';
+import defaultOptions from './Options';
+import { noop, addEvent } from './Utils';
+import { InvalidCallback, RenderableNotFound } from './Errors'
 
 
 /**

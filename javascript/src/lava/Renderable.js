@@ -18,8 +18,8 @@
  * @property {Function} uuid      - Creates identification string for the chart.
  * @property {Object}   _errors   - Collection of errors to be thrown.
  */
-import { ElementIdNotFound } from "./Errors.es6";
-import { getType } from "./Utils.es6"
+import { getType } from "./Utils"
+import { ElementIdNotFound } from "./Errors";
 
 /**
  * Chart module

@@ -7,7 +7,6 @@ import uglify from 'gulp-uglify';
 import babelify from 'babelify';
 import watchify from 'watchify';
 import streamify from 'gulp-streamify';
-import versionify from 'browserify-versionify';
 import { dest } from 'gulp';
 import { log } from 'gulp-util';
 import { red, green } from 'chalk';
@@ -17,7 +16,7 @@ const browserSync = createBrowserSync();
 
 let bundler = browserify({
     debug: true,
-    entries: ['./src/lava.entry.es6'],
+    entries: ['./src/lava.entry.js'],
     cache: {},
     packageCache: {},
     transform: [
@@ -46,9 +45,6 @@ function rebundle(prod = false) {
 }
 
 export default function compile(prod, watch, sync) {
-    // bundler.transform(babelify, {presets: ['es2015'] });
-    // bundler.transform(versionify);
-
     if (prod) {
         bundler.transform('stripify');
     }

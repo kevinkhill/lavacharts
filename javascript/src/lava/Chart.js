@@ -8,8 +8,8 @@
  * @license   MIT
  */
 import _forIn from 'lodash/forIn';
-import { Renderable } from './Renderable.es6';
-import { stringToFunction } from './Utils.es6';
+import { Renderable } from './Renderable';
+import { stringToFunction } from './Utils';
 
 /**
  * Chart class used for storing all the needed configuration for rendering.

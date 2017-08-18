@@ -1,23 +1,14 @@
 /* jshint node:true */
 
+import gulp from 'gulp';
+import yargs from 'yargs';
+import compile from './gulp-functions/Compile';
+import renderChart from './gulp-functions/Renderer';
+import getChartTypes from './gulp-functions/GetChartTypes';
 import {cpus} from 'os'
 import {map} from 'bluebird';
 import { log } from 'gulp-util';
 import { red, green } from 'chalk';
-import {readFileSync} from 'fs';
-import gulp from 'gulp';
-import yargs from 'yargs';
-import ext from 'gulp-ext';
-import tap from 'gulp-tap';
-import babel from 'gulp-babel';
-import replace from 'gulp-replace';
-import browserify from 'browserify';
-import source from 'vinyl-source-stream';
-import compile from './gulp-functions/Compile';
-import renderChart from './gulp-functions/Renderer';
-import getChartTypes from './gulp-functions/GetChartTypes';
-
-const pkg = JSON.parse(readFileSync('./package.json'));
 
 gulp.task('default', ['dev']);
 
