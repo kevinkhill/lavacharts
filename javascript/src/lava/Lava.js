@@ -16,6 +16,7 @@ import Dashboard from './Dashboard';
 import defaultOptions from './Options';
 import {addEvent, noop} from './Utils';
 import {InvalidCallback, RenderableNotFound} from './Errors'
+import Renderable from './Renderable';
 
 /**
  * @property {string}             VERSION
@@ -102,7 +103,6 @@ export default class LavaJs extends EventEmitter {
      * as an independent library.
      *
      * @public
-     * @static
      * @param  {object} json
      * @return {Renderable}
      */
@@ -123,6 +123,10 @@ export default class LavaJs extends EventEmitter {
      * @param {Renderable} renderable
      */
     store(renderable) {
+        if (renderable instanceof Renderable === false) {
+            renderable = this.create(renderable);
+        }
+
         console.log(`[lava.js] Storing ${renderable.uuid}`);
 
         this._addPackages(renderable.packages);
@@ -162,16 +166,6 @@ export default class LavaJs extends EventEmitter {
         }
 
         callback(renderable);
-    }
-
-    /**
-     * Convenience method for creating and storing a new Chart / Dashboard.
-     *
-     * @public
-     * @param json
-     */
-    createAndStore(json) {
-        return this.store(this.create(json));
     }
 
     /**

@@ -73,7 +73,7 @@ abstract class Renderable implements Arrayable, Customizable, Javascriptable, Js
     public function toJavascript()
     {
         return sprintf(
-            'window.lava.createAndStore(%s);',
+            'lava.store(%s);',
             $this->toJson()
         );
     }
