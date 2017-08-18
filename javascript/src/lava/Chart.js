@@ -7,7 +7,7 @@
  * @copyright (c) 2017, KHill Designs
  * @license   MIT
  */
-import _forIn from 'lodash/forIn';
+import forIn from 'lodash/forIn';
 import Renderable from './Renderable';
 
 /**
@@ -113,7 +113,7 @@ export default class Chart extends Renderable
     _attachEvents() {
         let $chart = this;
 
-        _forIn(this.events, function (callback, event) {
+        forIn(this.events, function (callback, event) {
             let context = window;
             let func = callback;
 

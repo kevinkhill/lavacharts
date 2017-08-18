@@ -8,7 +8,8 @@
  * @copyright (c) 2017, KHill Designs
  * @license   http://opensource.org/licenses/MIT MIT
  */
-import _forIn from 'lodash/forIn';
+import forIn from 'lodash/forIn';
+import uniq from 'lodash/uniq';
 import EventEmitter from 'events';
 import Chart from './Chart';
 import Dashboard from './Dashboard';
@@ -27,8 +28,7 @@ import {InvalidCallback, RenderableNotFound} from './Errors'
  * @property {Array.<string>}     _packages
  * @property {Array.<Renderable>} _renderables
  */
-export default class LavaJs extends EventEmitter
-{
+export default class LavaJs extends EventEmitter {
     constructor(newOptions) {
         super();
 
@@ -187,7 +187,7 @@ export default class LavaJs extends EventEmitter
 
             this.visualization = google.visualization;
 
-            _forIn(this._renderables, renderable => {
+            forIn(this._renderables, renderable => {
                 console.log(`[lava.js] Rendering ${renderable.uuid}`);
 
                 renderable.render();
@@ -232,14 +232,14 @@ export default class LavaJs extends EventEmitter
      * @throws InvalidCallback
      * @throws RenderableNotFound
      */
-    get(label, callback) {
+    get (label, callback) {
         if (typeof callback !== 'function') {
             throw new InvalidCallback(callback);
         }
 
         let renderable = this._renderables[label];
 
-        if (! renderable) {
+        if (!renderable) {
             throw new RenderableNotFound(label);
         }
 
@@ -353,17 +353,6 @@ export default class LavaJs extends EventEmitter
     }
 
     /**
-     * Aliasing google.visualization.arrayToDataTable to lava.arrayToDataTable
-     *
-     * @public
-     * @param {Array} arr
-     * @return {google.visualization.DataTable}
-     */
-    arrayToDataTable(arr) {
-        return this.visualization.arrayToDataTable(arr);
-    }
-
-    /**
      * Adds to the list of packages that Google needs to load.
      *
      * @private
@@ -446,7 +435,7 @@ export default class LavaJs extends EventEmitter
      */
     _googleChartLoader(resolve) {
         let config = {
-            packages: this._packages,
+            packages: uniq(this._packages),
             language: this.options.locale
         };
 
@@ -469,12 +458,12 @@ export default class LavaJs extends EventEmitter
      * @returns {Element}
      */
     _addGoogleScriptToHead(resolve) {
-        let $lava = this;
+        let $lava  = this;
         let script = document.createElement('script');
 
-        script.type = 'text/javascript';
-        script.async = true;
-        script.src = this.GOOGLE_LOADER_URL;
+        script.type   = 'text/javascript';
+        script.async  = true;
+        script.src    = this.GOOGLE_LOADER_URL;
         script.onload = script.onreadystatechange = function (event) {
             event = event || window.event;
 
