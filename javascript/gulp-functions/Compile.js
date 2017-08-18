@@ -7,10 +7,10 @@ import uglify from 'gulp-uglify';
 import babelify from 'babelify';
 import watchify from 'watchify';
 import streamify from 'gulp-streamify';
-import { dest } from 'gulp';
-import { log } from 'gulp-util';
-import { red, green } from 'chalk';
-import { create as createBrowserSync } from 'browser-sync';
+import {dest} from 'gulp';
+import {log} from 'gulp-util';
+import {green, red} from 'chalk';
+import {create as createBrowserSync} from 'browser-sync';
 
 const browserSync = createBrowserSync();
 

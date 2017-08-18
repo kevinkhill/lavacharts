@@ -1,4 +1,3 @@
-/* jshint undef: true, unused: true */
 /* globals document */
 
 /**
@@ -64,26 +63,4 @@ export function addEvent(target, type, callback, eventReturn)
     else {
         target["on" + type] = callback;
     }
-}
-
-/**
- * Get a function a by its' namespaced string name with context.
- *
- * Credit to Jason Bunting
- *
- * @link https://stackoverflow.com/users/1790/jason-bunting
- * @link https://stackoverflow.com/a/359910
- * @param {string} functionName
- * @param {object} context
- * @private
- */
-export function stringToFunction(functionName, context) {
-    let namespaces = functionName.split('.');
-    let func = namespaces.pop();
-
-    for (let i = 0; i < namespaces.length; i++) {
-        context = context[namespaces[i]];
-    }
-
-    return context[func];
 }

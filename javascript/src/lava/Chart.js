@@ -9,8 +9,6 @@
  */
 import _forIn from 'lodash/forIn';
 import Renderable from './Renderable';
-import VisualizationProps from './VisualizationProps';
-import { stringToFunction } from './Utils';
 
 /**
  * Chart class used for storing all the needed configuration for rendering.
@@ -43,13 +41,10 @@ export default class Chart extends Renderable
     constructor (json) {
         super(json);
 
-        this.type    = json.type;
         this.formats = json.formats;
 
         this.events    = typeof json.events === 'object' ? json.events : null;
         this.pngOutput = typeof json.pngOutput === 'undefined' ? false : Boolean(json.pngOutput);
-
-        this.vizProps = new VisualizationProps(this.type);
 
         /**
          * Any dependency on window.google must be in the render scope.
@@ -57,9 +52,7 @@ export default class Chart extends Renderable
         this.render = () => {
             this.setData(json.datatable);
 
-            console.log(this.vizProps.class);
-
-            this.gchart = new google.visualization[this.vizProps.class](this.element);
+            this.gchart = new google.visualization[this.class](this.element);
 
             if (this.formats) {
                 this.applyFormats();
@@ -75,15 +68,6 @@ export default class Chart extends Renderable
                 this.drawPng();
             }
         };
-    }
-
-    /**
-     * Get the type of package needed to render the chart.
-     *
-     * @return {string}
-     */
-    get package() {
-        return this.vizProps.package;
     }
 
     /**
@@ -138,7 +122,7 @@ export default class Chart extends Renderable
                 func = callback[1];
             }
 
-            console.log(`[lava.js] The "${$chart.uuid()}::${event}" event will be handled by "${func}" in the context`, context);
+            console.log(`[lava.js] The "${$chart.uuid}::${event}" event will be handled by "${func}" in the context`, context);
 
             /**
              * Set the context of "this" within the user provided callback to the

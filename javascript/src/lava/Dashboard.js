@@ -26,9 +26,10 @@ import Renderable from './Renderable';
 export default class Dashboard extends Renderable
 {
     constructor(json) {
+        json.type = 'Dashboard';
+
         super(json);
 
-        this.type     = 'Dashboard';
         this.bindings = json.bindings;
 
         /**

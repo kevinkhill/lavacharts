@@ -1,6 +1,5 @@
 /* jshint browser:true */
 /* globals google:true */
-
 /**
  * lava.js module
  *
@@ -14,9 +13,8 @@ import EventEmitter from 'events';
 import Chart from './Chart';
 import Dashboard from './Dashboard';
 import defaultOptions from './Options';
-import { noop, addEvent } from './Utils';
-import { InvalidCallback, RenderableNotFound } from './Errors'
-
+import {addEvent, noop} from './Utils';
+import {InvalidCallback, RenderableNotFound} from './Errors'
 
 /**
  * @property {string}             VERSION
@@ -190,7 +188,7 @@ export default class LavaJs extends EventEmitter
             this.visualization = google.visualization;
 
             _forIn(this._renderables, renderable => {
-                console.log(`[lava.js] Rendering ${renderable.uuid()}`);
+                console.log(`[lava.js] Rendering ${renderable.uuid}`);
 
                 renderable.render();
             });
@@ -209,7 +207,7 @@ export default class LavaJs extends EventEmitter
      * @param {Renderable} renderable
      */
     store(renderable) {
-        console.log(`[lava.js] Storing ${renderable.uuid()}`);
+        console.log(`[lava.js] Storing ${renderable.uuid}`);
 
         this._renderables[renderable.label] = renderable;
     }
@@ -344,7 +342,7 @@ export default class LavaJs extends EventEmitter
         }
 
         for (let renderable of this._renderables) {
-            console.log(`[lava.js] Redrawing ${renderable.uuid()}`);
+            console.log(`[lava.js] Redrawing ${renderable.uuid}`);
 
             let redraw = renderable.draw.bind(renderable);
 

@@ -6,12 +6,12 @@
  * @copyright (c) 2017, KHill Designs
  * @license   MIT
  */
-class LavaError extends Error
+class LavaJsError extends Error
 {
     constructor (message) {
         super();
 
-        this.name    = 'LavaError';
+        this.name    = 'LavaJsError';
         this.message = (message || '');
     };
 }
@@ -22,7 +22,7 @@ class LavaError extends Error
  * thrown when when anything but a function is given as a callback
  * @type {function}
  */
-export class InvalidCallback extends LavaError
+export class InvalidCallback extends LavaJsError
 {
     constructor (callback) {
         super(`[lava.js] "${typeof callback}" is not a valid callback.`);
@@ -38,7 +38,7 @@ export class InvalidCallback extends LavaError
  *
  * @type {function}
  */
-export class InvalidLabel extends LavaError
+export class InvalidLabel extends LavaJsError
 {
     constructor (label) {
         super(`[lava.js] "${typeof label}" is not a valid label.`);
@@ -53,7 +53,7 @@ export class InvalidLabel extends LavaError
  *
  * @type {function}
  */
-export class ElementIdNotFound extends LavaError
+export class ElementIdNotFound extends LavaJsError
 {
     constructor (elemId) {
         super(`[lava.js] DOM node where id="${elemId}" was not found.`);

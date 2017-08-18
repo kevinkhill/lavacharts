@@ -18,8 +18,9 @@
  * @property {Function} uuid      - Creates identification string for the chart.
  * @property {Object}   _errors   - Collection of errors to be thrown.
  */
-import { getType } from "./Utils"
-import { ElementIdNotFound } from "./Errors";
+import {getType} from "./Utils"
+import {ElementIdNotFound} from "./Errors";
+import VisualizationProps from './VisualizationProps';
 
 /**
  * Chart module
@@ -43,6 +44,7 @@ export default class Renderable
      */
     constructor(json) {
         this.gchart    = null;
+        this.type      = json.type;
         this.label     = json.label;
         this.options   = json.options;
         this.elementId = json.elementId;
@@ -52,6 +54,18 @@ export default class Renderable
         if (! this.element) {
             throw new ElementIdNotFound(this.elementId);
         }
+
+        this._vizProps = new VisualizationProps(this.type);
+    }
+
+    /**
+     * The google.visualization class needed for rendering.
+     *
+     * @return {string}
+     */
+    get class()
+    {
+        return this._vizProps.class
     }
 
     /**
@@ -59,7 +73,7 @@ export default class Renderable
      *
      * @return {string}
      */
-    uuid() {
+    get uuid() {
         return this.type+'::'+this.label;
     }
 
