@@ -8,7 +8,8 @@
  * @license   MIT
  */
 import _forIn from 'lodash/forIn';
-import { Renderable } from './Renderable';
+import Renderable from './Renderable';
+import VisualizationProps from './VisualizationProps';
 import { stringToFunction } from './Utils';
 
 /**
@@ -43,11 +44,12 @@ export default class Chart extends Renderable
         super(json);
 
         this.type    = json.type;
-        this.class   = json.class;
         this.formats = json.formats;
 
         this.events    = typeof json.events === 'object' ? json.events : null;
         this.pngOutput = typeof json.pngOutput === 'undefined' ? false : Boolean(json.pngOutput);
+
+        this.vizProps = new VisualizationProps(this.type);
 
         /**
          * Any dependency on window.google must be in the render scope.
@@ -55,9 +57,9 @@ export default class Chart extends Renderable
         this.render = () => {
             this.setData(json.datatable);
 
-            let ChartClass = stringToFunction(this.class, window);
+            console.log(this.vizProps.class);
 
-            this.gchart = new ChartClass(this.element);
+            this.gchart = new google.visualization[this.vizProps.class](this.element);
 
             if (this.formats) {
                 this.applyFormats();
@@ -65,10 +67,6 @@ export default class Chart extends Renderable
 
             if (this.events) {
                 this._attachEvents();
-                // TODO: Idea... forward events to be listenable by the user, instead of having the user define them as a string callback.
-                // lava.get('MyCoolChart').on('ready', function(data) {
-                //     console.log(this);  // gChart
-                // });
             }
 
             this.draw();
@@ -77,6 +75,15 @@ export default class Chart extends Renderable
                 this.drawPng();
             }
         };
+    }
+
+    /**
+     * Get the type of package needed to render the chart.
+     *
+     * @return {string}
+     */
+    get package() {
+        return this.vizProps.package;
     }
 
     /**

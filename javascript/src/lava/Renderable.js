@@ -30,7 +30,7 @@ import { ElementIdNotFound } from "./Errors";
  * @copyright (c) 2017, KHill Designs
  * @license   MIT
  */
-export class Renderable
+export default class Renderable
 {
     /**
      * Chart Class
@@ -81,7 +81,7 @@ export class Renderable
      * @param {object} payload Json representation of a DataTable
      */
     setData(payload) {
-        // If the payload is from JoinedDataTable::toJson(), then create
+        // If the payload is from the php class JoinedDataTable->toJson(), then create
         // two new DataTables and join them with the defined options.
         if (getType(payload.data) === 'Array') {
             this.data = google.visualization.data.join(
@@ -104,12 +104,20 @@ export class Renderable
             return;
         }
 
-        // If a DataTable#toJson() payload is received, with formatted columns,
+        // If an Array is received, then attempt to use parse with arrayToDataTable.
+        if (getType(payload) === 'Array') {
+            this.data = google.visualization.arrayToDataTable(payload);
+
+            return;
+        }
+
+        // If a php DataTable->toJson() payload is received, with formatted columns,
         // then payload.data will be defined, and used as the DataTable
         if (getType(payload.data) === 'Object') {
             payload = payload.data;
+
+            // TODO: handle formats better...
         }
-        // TODO: handle formats better...
 
         // If we reach here, then it must be standard JSON for creating a DataTable.
         this.data = new google.visualization.DataTable(payload);

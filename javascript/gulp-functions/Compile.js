@@ -36,8 +36,6 @@ function rebundle(prod = false) {
             } else {
                 log(red('Error'), err.message);
             }
-
-            this.emit('end');
         })
         .pipe(source('lava.js'))
         .pipe(gulpif(prod, streamify(uglify())))

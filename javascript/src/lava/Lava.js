@@ -174,31 +174,20 @@ export default class LavaJs extends EventEmitter
     }
 
     /**
-     * Public method for initializing google on the page.
-     *
-     * @public
-     */
-    init() {
-        return this._loadGoogle().then(() => {
-            this.visualization = google.visualization;
-        });
-    }
-
-    /**
      * Runs the Lava.js module
      *
      * @public
      */
     run() {
-        // const $lava = this;
-
         console.log('[lava.js] Running...');
         console.log('[lava.js] Loading options:', this.options);
 
         this._attachRedrawHandler();
 
-        this.init().then(() => {
+        this._loadGoogle().then(() => {
             console.log('[lava.js] Google is ready.');
+
+            this.visualization = google.visualization;
 
             _forIn(this._renderables, renderable => {
                 console.log(`[lava.js] Rendering ${renderable.uuid()}`);

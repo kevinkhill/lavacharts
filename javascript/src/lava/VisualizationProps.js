@@ -110,7 +110,7 @@ export default class VisualizationProps
      *
      * @return {string}
      */
-    getPackage() {
+    get package() {
         return this.CHART_TYPE_PACKAGE_MAP[this.chartType];
     }
 
@@ -119,7 +119,7 @@ export default class VisualizationProps
      *
      * @return {string}
      */
-    getClass() {
+    get class() {
         return this.CHART_TYPE_CLASS_MAP[this.chartType];
     }
 
@@ -128,7 +128,7 @@ export default class VisualizationProps
      *
      * @return {number}
      */
-    getVersion() {
+    get version() {
         return this.CHART_TYPE_VERSION_MAP[this.chartType];
     }
 }
