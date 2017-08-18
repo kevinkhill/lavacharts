@@ -54,8 +54,6 @@ export default class Renderable
         if (! this.element) {
             throw new ElementIdNotFound(this.elementId);
         }
-
-        this._vizProps = new VisualizationProps(this.type);
     }
 
     /**
@@ -65,7 +63,9 @@ export default class Renderable
      */
     get class()
     {
-        return this._vizProps.class
+        let vizProps = new VisualizationProps(this.type);
+
+        return vizProps.class;
     }
 
     /**
