@@ -47,6 +47,7 @@ export default class Renderable
         this.type      = json.type;
         this.label     = json.label;
         this.options   = json.options;
+        this.packages  = json.packages;
         this.elementId = json.elementId;
 
         this.element = document.getElementById(this.elementId);

@@ -26,51 +26,41 @@ import {InvalidCallback, RenderableNotFound} from './Errors'
  * @property {object}             options
  * @property {function}           _readyCallback
  * @property {Array.<string>}     _packages
- * @property {Array.<Renderable>} _renderables
+ * @property {Array.<Renderable>} _volcano
  */
 export default class LavaJs extends EventEmitter {
+    /**
+     * Create a new LavaJs object
+     *
+     * @constructor
+     * @param {Object} newOptions
+     */
     constructor(newOptions) {
         super();
 
         /**
          * Version of the Lava.js module.
          *
-         * @type {string}
          * @public
+         * @type {string}
          */
         this.VERSION = '__VERSION__';
 
         /**
          * Version of the Google charts API to load.
          *
-         * @type {string}
          * @public
+         * @type {string}
          */
         this.GOOGLE_API_VERSION = 'current';
 
         /**
          * Urls to Google's static loader
          *
-         * @type {string}
          * @public
+         * @type {string}
          */
         this.GOOGLE_LOADER_URL = 'https://www.gstatic.com/charts/loader.js';
-
-        /**
-         * Storing the Chart module within Lava.js
-         *
-         * @type {Chart}
-         * @public
-         */
-        this.Chart = Chart;
-
-        /**
-         * Storing the Dashboard module within Lava.js
-         *
-         * @type {Dashboard}
-         * @public
-         */
-        this.Dashboard = Dashboard;
 
         /**
          * JSON object of config items.
@@ -81,135 +71,63 @@ export default class LavaJs extends EventEmitter {
         this.options = newOptions || defaultOptions;
 
         /**
-         * Reference to the google.visualization object.
-         *
-         * @type {google.visualization}
-         */
-        this.visualization = null;
-
-        /**
          * Array of visualization packages for charts and dashboards.
          *
+         * @protected
          * @type {Array.<string>}
-         * @private
          */
         this._packages = [];
 
         /**
          * Array of charts and dashboards stored in the module.
          *
+         * @protected
          * @type {Array.<Renderable>}
-         * @private
          */
-        this._renderables = [];
+        this._volcano = [];
 
         /**
          * Ready callback to be called when the module is finished running.
          *
+         * @protected
          * @callback _readyCallback
-         * @private
          */
         this._readyCallback = noop;
     }
 
     /**
-     * Create a new Chart from a JSON payload.
+     * Static method for creating new Charts and Dashboards from a JSON definition.
      *
-     * The JSON payload comes from the PHP Chart class.
+     * The JSON payload can come from Lavacharts or manually if used
+     * as an independent library.
      *
      * @public
+     * @static
      * @param  {object} json
      * @return {Renderable}
      */
-    createChart(json) {
-        console.log('Creating Chart', json);
+    create(json) {
+        console.log(`Creating a new ${json.type}:`, json);
 
-        this._addPackages(json.packages); // TODO: move this into the store method?
+        if (json.type === 'Dashboard') {
+            return new Dashboard(json);
+        }
 
-        return new this.Chart(json);
-    }
-
-    /**
-     * Create and store a new Chart from a JSON payload.
-     *
-     * @public
-     * @see createChart
-     * @param {object} json
-     */
-    addNewChart(json) { //TODO: rename to storeNewChart(json) ?
-        this.store(this.createChart(json));
-    }
-
-    /**
-     * Create a new Dashboard with a given label.
-     *
-     * The JSON payload comes from the PHP Dashboard class.
-     *
-     * @public
-     * @param  {object} json
-     * @return {Dashboard}
-     */
-    createDashboard(json) {
-        console.log('Creating Dashboard', json);
-
-        this._addPackages(json.packages);
-
-        return new this.Dashboard(json);
-    }
-
-    /**
-     * Create and store a new Dashboard from a JSON payload.
-     *
-     * The JSON payload comes from the PHP Dashboard class.
-     *
-     * @public
-     * @see createDashboard
-     * @param  {object} json
-     * @return {Dashboard}
-     */
-    addNewDashboard(json) { //TODO: rename to storeNewDashboard(json) ?
-        this.store(this.createDashboard(json));
-    }
-
-    /**
-     * Runs the Lava.js module
-     *
-     * @public
-     */
-    run() {
-        console.log('[lava.js] Running...');
-        console.log('[lava.js] Loading options:', this.options);
-
-        this._attachRedrawHandler();
-
-        this._loadGoogle().then(() => {
-            console.log('[lava.js] Google is ready.');
-
-            this.visualization = google.visualization;
-
-            forIn(this._renderables, renderable => {
-                console.log(`[lava.js] Rendering ${renderable.uuid}`);
-
-                renderable.render();
-            });
-
-            console.log('[lava.js] Firing "ready" event.');
-            this.emit('ready');
-
-            console.log('[lava.js] Executing lava.ready(callback)');
-            this._readyCallback();
-        });
+        return new Chart(json);
     }
 
     /**
      * Stores a renderable lava object within the module.
      *
+     * @public
      * @param {Renderable} renderable
      */
     store(renderable) {
         console.log(`[lava.js] Storing ${renderable.uuid}`);
 
-        this._renderables[renderable.label] = renderable;
+        this._addPackages(renderable.packages);
+
+        this._volcano[renderable.label] = renderable;
     }
 
     /**
@@ -232,18 +150,58 @@ export default class LavaJs extends EventEmitter {
      * @throws InvalidCallback
      * @throws RenderableNotFound
      */
-    get (label, callback) {
+    get(label, callback) {
         if (typeof callback !== 'function') {
             throw new InvalidCallback(callback);
         }
 
-        let renderable = this._renderables[label];
+        let renderable = this._volcano[label];
 
         if (!renderable) {
             throw new RenderableNotFound(label);
         }
 
         callback(renderable);
+    }
+
+    /**
+     * Convenience method for creating and storing a new Chart / Dashboard.
+     *
+     * @public
+     * @param json
+     */
+    createAndStore(json) {
+        return this.store(this.create(json));
+    }
+
+    /**
+     * Runs the Lava.js module
+     *
+     * @public
+     */
+    run() {
+        console.log('[lava.js] Running...');
+        console.log('[lava.js] Loading options:', this.options);
+
+        this._attachRedrawHandler();
+
+        this._loadGoogle().then(() => {
+            console.log('[lava.js] Google is ready.');
+
+            this.visualization = google.visualization;
+
+            forIn(this._volcano, renderable => {
+                console.log(`[lava.js] Rendering ${renderable.uuid}`);
+
+                renderable.render();
+            });
+
+            console.log('[lava.js] Firing "ready" event.');
+            this.emit('ready');
+
+            console.log('[lava.js] Executing lava.ready(callback)');
+            this._readyCallback();
+        });
     }
 
     /**
@@ -333,21 +291,21 @@ export default class LavaJs extends EventEmitter {
      * to make the charts responsive to the browser resizing.
      */
     redrawAll() {
-        if (this._renderables.length === 0) {
+        let renderableCount = Object.keys(this._volcano).length;
+
+        if (renderableCount === 0) {
             console.log(`[lava.js] Nothing to redraw.`);
 
             return false;
-        } else {
-            console.log(`[lava.js] Redrawing ${this._renderables.length} renderables.`);
         }
 
-        for (let renderable of this._renderables) {
+        console.log(`[lava.js] Redrawing ${renderableCount} renderables.`);
+
+        forIn(this._volcano, renderable => {
             console.log(`[lava.js] Redrawing ${renderable.uuid}`);
 
-            let redraw = renderable.draw.bind(renderable);
-
-            redraw();
-        }
+            renderable.draw();
+        });
 
         return true;
     }
