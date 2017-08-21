@@ -11,7 +11,7 @@ import { log } from 'gulp-util';
 import { red, green } from 'chalk';
 
 
-gulp.task('default', ['dev']);
+gulp.task('default', ['dev', 'prod']);
 
 /**
  * Lava.js compilation tasks.
