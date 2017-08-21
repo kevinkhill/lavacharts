@@ -20,7 +20,7 @@
  */
 import {getType} from "./Utils"
 import {ElementIdNotFound} from "./Errors";
-import VisualizationProps from './VisualizationProps';
+import getProperties from './VisualizationMap';
 
 /**
  * Chart module
@@ -47,7 +47,7 @@ export default class Renderable
         this.type      = json.type;
         this.label     = json.label;
         this.options   = json.options;
-        this.packages  = json.packages;
+        // this.packages  = json.packages;
         this.elementId = json.elementId;
 
         this.element = document.getElementById(this.elementId);
@@ -64,9 +64,17 @@ export default class Renderable
      */
     get class()
     {
-        let vizProps = new VisualizationProps(this.type);
+        return getProperties(this.type).class;
+    }
 
-        return vizProps.class;
+    /**
+     * The google.visualization class needed for rendering.
+     *
+     * @return {string}
+     */
+    get packages()
+    {
+        return getProperties(this.type).package;
     }
 
     /**

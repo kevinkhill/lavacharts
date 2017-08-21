@@ -14,7 +14,7 @@ import EventEmitter from 'events';
 import Chart from './Chart';
 import Dashboard from './Dashboard';
 import defaultOptions from './Options';
-import {addEvent, noop} from './Utils';
+import {addEvent, getType, noop} from './Utils';
 import {InvalidCallback, RenderableNotFound} from './Errors'
 import Renderable from './Renderable';
 
@@ -141,7 +141,7 @@ export default class LavaJs extends EventEmitter {
      * The LavaChart object holds all the user defined properties such as data, options, formats,
      * the GoogleChart object, and relative methods for internal use.
      *
-     * The GoogleChart object is available as ".chart" from the returned LavaChart.
+     * The GoogleChart object is available as ".gchart" from the returned LavaChart.
      * It can be used to access any of the available methods such as
      * getImageURI() or getChartLayoutInterface().
      * See https://google-developers.appspot.com/chart/interactive/docs/gallery/linechart#methods
@@ -312,7 +312,13 @@ export default class LavaJs extends EventEmitter {
      * @return {Array}
      */
     _addPackages(packages) {
-        this._packages = this._packages.concat(packages);
+        if (typeof packages === 'string') {
+            this._packages.push(packages);
+        }
+
+        if (getType(packages) === 'Array') {
+            this._packages = this._packages.concat(packages);
+        }
     }
 
     /**
