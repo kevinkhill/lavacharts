@@ -2,7 +2,7 @@
 /* globals __OPTIONS__:true */
 
 import LavaJs from './lava/Lava';
-import { domLoaded } from './lava/Utils';
+import {domLoaded} from './lava/Utils';
 
 /**
  * Assign the Lava.js module to the window and

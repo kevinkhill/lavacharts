@@ -13,10 +13,10 @@ import uniq from 'lodash/uniq';
 import EventEmitter from 'events';
 import Chart from './Chart';
 import Dashboard from './Dashboard';
+import Renderable from './Renderable';
 import defaultOptions from './Options';
 import {addEvent, getType, noop} from './Utils';
 import {InvalidCallback, RenderableNotFound} from './Errors'
-import Renderable from './Renderable';
 
 /**
  * @property {string}             VERSION
@@ -93,7 +93,7 @@ export default class LavaJs extends EventEmitter {
          * @protected
          * @callback _readyCallback
          */
-        this._readyCallback = noop;
+        this._readyCallback = undefined;
     }
 
     /**
@@ -132,6 +132,8 @@ export default class LavaJs extends EventEmitter {
         this._addPackages(renderable.packages);
 
         this._volcano[renderable.label] = renderable;
+
+        return renderable;
     }
 
     /**
@@ -148,24 +150,17 @@ export default class LavaJs extends EventEmitter {
      * for some examples relative to LineCharts.
      *
      * @public
-     * @param  {string}   label
-     * @param  {Function} callback
-     * @throws InvalidLabel
-     * @throws InvalidCallback
+     * @param  {string} label
      * @throws RenderableNotFound
      */
-    get(label, callback) {
-        if (typeof callback !== 'function') {
-            throw new InvalidCallback(callback);
-        }
-
+    get(label) {
         let renderable = this._volcano[label];
 
-        if (!renderable) {
+        if (! renderable) {
             throw new RenderableNotFound(label);
         }
 
-        callback(renderable);
+        return renderable;
     }
 
     /**
@@ -193,8 +188,10 @@ export default class LavaJs extends EventEmitter {
             console.log('[lava.js] Firing "ready" event.');
             this.emit('ready');
 
-            console.log('[lava.js] Executing lava.ready(callback)');
-            this._readyCallback();
+            if (this._readyCallback) {
+                console.log('[lava.js] Executing lava.ready(callback)');
+                this._readyCallback();
+            }
         });
     }
 
@@ -212,7 +209,7 @@ export default class LavaJs extends EventEmitter {
             throw new InvalidCallback(callback);
         }
 
-        this._readyCallback = callback;
+        this._readyCallback = callback.bind(this);
     }
 
     /**

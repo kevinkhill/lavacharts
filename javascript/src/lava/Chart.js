@@ -43,7 +43,7 @@ export default class Chart extends Renderable
 
         this.formats = json.formats;
 
-        this.events    = typeof json.events === 'object' ? json.events : null;
+        //this.events    = typeof json.events === 'object' ? json.events : null;
         this.pngOutput = typeof json.pngOutput === 'undefined' ? false : Boolean(json.pngOutput);
 
         /**
@@ -54,13 +54,15 @@ export default class Chart extends Renderable
 
             this.gchart = new google.visualization[this.class](this.element);
 
+            this._attachEventRelays();
+
             if (this.formats) {
                 this.applyFormats();
             }
 
-            if (this.events) {
-                this._attachEvents();
-            }
+            // if (this.events) {
+            //     this._attachEvents();
+            // }
 
             this.draw();
 
@@ -111,9 +113,7 @@ export default class Chart extends Renderable
      * @private
      */
     _attachEvents() {
-        let $chart = this;
-
-        forIn(this.events, function (callback, event) {
+        forIn(this.events, (callback, event) => {
             let context = window;
             let func = callback;
 
@@ -122,17 +122,17 @@ export default class Chart extends Renderable
                 func = callback[1];
             }
 
-            console.log(`[lava.js] The "${$chart.uuid}::${event}" event will be handled by "${func}" in the context`, context);
+            console.log(`[lava.js] The "${this.uuid}::${event}" event will be handled by "${func}" in the context`, context);
 
             /**
              * Set the context of "this" within the user provided callback to the
              * chart that fired the event while providing the datatable of the chart
              * to the callback as an argument.
              */
-            google.visualization.events.addListener($chart.gchart, event, function() {
-                const callback = context[func].bind($chart.gchart);
+            google.visualization.events.addListener(this.gchart, event, () => {
+                let callback = context[func].bind(this.gchart);
 
-                callback($chart.data);
+                callback(this.data);
             });
         });
     }
