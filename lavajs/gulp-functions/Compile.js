@@ -4,7 +4,7 @@ import source from 'vinyl-source-stream';
 import notifier from 'node-notifier';
 import browserify from 'browserify';
 import uglify from 'gulp-uglify';
-import babelify from 'babelify';
+import rename from 'gulp-rename';
 import watchify from 'watchify';
 import streamify from 'gulp-streamify';
 import {dest} from 'gulp';
@@ -15,13 +15,16 @@ import {create as createBrowserSync} from 'browser-sync';
 const browserSync = createBrowserSync();
 
 let bundler = browserify({
-    debug: true,
-    entries: ['./src/lava.entry.js'],
-    cache: {},
+    debug:        true,
+    entries:      ['./src/lava.entry.js'],
+    cache:        {},
     packageCache: {},
-    transform: [
+    transform:    [
         'browserify-versionify',
-        ['babelify', {presets: ['es2015'] }]
+        [
+            'babelify',
+            {presets: ['es2015']}
+        ]
     ]
 });
 
@@ -39,6 +42,7 @@ function rebundle(prod = false) {
         })
         .pipe(source('lava.js'))
         .pipe(gulpif(prod, streamify(uglify())))
+        .pipe(gulpif(prod, rename('lava.min.js')))
         .pipe(dest('dist'));
 }
 
@@ -62,7 +66,7 @@ export default function compile(prod, watch, sync) {
             log(green(msg));
 
             notifier.notify({
-                title: 'Browserify',
+                title:   'Browserify',
                 message: msg
             });
 
