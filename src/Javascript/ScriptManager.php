@@ -36,7 +36,7 @@ class ScriptManager implements Customizable
      *
      * @var string
      */
-    const LAVA_JS = '/../../javascript/dist/lava.js';
+    const LAVA_JS = '/../../lavajs/dist/lava.js';
 
     /**
      * Opening javascript tag.
