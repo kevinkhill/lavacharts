@@ -59,20 +59,30 @@ class Customizable implements \ArrayAccess, \JsonSerializable
      *
      * @param string $option
      * @param mixed  $value
+     * @return self
      */
     public function setOption($option, $value)
     {
         $this->options[$option] = $value;
+
+        return $this;
     }
 
     /**
      * Sets the values of the customized class with an array of key value pairs.
      *
      * @param array $options
+     * @return self
      */
     public function setOptions(array $options)
     {
         $this->options = $options;
+
+        if (method_exists($this, 'setExtendedAttributes')) {
+            $this->setExtendedAttributes();
+        }
+
+        return $this;
     }
 
     /**
@@ -80,10 +90,13 @@ class Customizable implements \ArrayAccess, \JsonSerializable
      *
      * @since 3.0.5
      * @param array $options
+     * @return self
      */
     public function mergeOptions(array $options)
     {
         $this->options = array_merge($this->options, $options);
+
+        return $this;
     }
 
     /**

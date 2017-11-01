@@ -1,4 +1,4 @@
-# Lavacharts 3.1.8
+# Lavacharts 3.1.9
 
 [![Total Downloads](https://img.shields.io/packagist/dt/khill/lavacharts.svg?style=plastic)](https://packagist.org/packages/khill/lavacharts)
 [![License](https://img.shields.io/packagist/l/khill/lavacharts.svg?style=plastic)](http://opensource.org/licenses/MIT)
@@ -59,7 +59,11 @@ If you are using Lavacharts with Silex, Lumen or your own Composer project, that
 ## Laravel
 To integrate Lavacharts into Laravel, a ServiceProvider has been included.
 
-### Laravel 5.x
+### Laravel ~5.5
+Thanks to the fantastic new [Package Auto-Discovery](https://laravel-news.com/package-auto-discovery) feature added in 5.5, you're ready to go, no extra configuration required :)
+
+
+### Laravel ~5.4
 Register Lavacharts in your app by adding these lines to the respective arrays found in `config/app.php`:
 ```php
 <?php
@@ -84,7 +88,7 @@ To modify the default configuration of Lavacharts, datetime formats for datatabl
 Publish the configuration with `php artisan vendor:publish --tag=lavacharts`
 
 
-### Laravel 4.x
+### Laravel ~4
 Register Lavacharts in your app by adding these lines to the respective arrays found in `app/config/app.php`:
 
 ```php

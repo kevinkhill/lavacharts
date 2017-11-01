@@ -1,4 +1,25 @@
+- 3.1.9
+  - Fixing bug where using `setOptions` instead of the constructor skipped the processing of `png` and `material` attributes.
+
+- 3.1.8
+  - Production build of the Lava.js module.
+
+- 3.1.7
+  - Added the tag lavacharts to the config publishing.
+    Use `php artisan vendor:publish --tag=lavacharts`
+    If that does not work, try to clear the cache with `php artisan config:clear` and re-publish with `--force`.
+
+- 3.1.6
+  - The event callback within lava.js was modified to pass back the chart and the datatable so users can interact with either during an event. This solves issue [#203](https://github.com/kevinkhill/lavacharts/issues/203)
+  
+- 3.1.5
+  - Adding DonutChart alias class back
+
+- 3.1.4 
+  - Chart's should resize properly on page resize.
+  
 - 3.1.3 
+  - Adding support for date columns to be null which enables support for Gantt charts to have linked sections.
   - Adding JavascriptDate class that mimics the way the Javascript Date object is created. (I wanted to be able to copy and paste google's examples into addRows)
   
 - 3.1.1 & 3.1.2

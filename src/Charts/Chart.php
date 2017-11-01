@@ -53,7 +53,34 @@ class Chart extends Customizable implements Renderable, Wrappable, Jsonable, Vis
         if (array_key_exists('elementId', $options)) {
             $this->elementId = new ElementId($options['elementId']);
         }
+
+        $this->setExtendedAttributes();
     }
+
+    /**
+     * Set extended chart attributes from the assigned options, if present.
+     *
+     * @since 3.1.9
+     */
+    protected function setExtendedAttributes()
+    {
+        if (method_exists($this, 'setPngOutput') &&
+            array_key_exists('png', $this->options))
+            {
+                $this->setPngOutput($this->options['png']);
+
+                unset($this->options['png']);
+            }
+
+        if (method_exists($this, 'setMaterialOutput') &&
+            array_key_exists('material', $this->options))
+            {
+                $this->setMaterialOutput($this->options['material']);
+
+                unset($this->options['material']);
+            }
+    }
+
 
     /**
      * Returns the chart type.

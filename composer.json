@@ -15,46 +15,6 @@
             "name": "Kevin Hill",
             "email": "kevinkhill@gmail.com",
             "role": "Creator"
-        },
-        {
-            "name": "twify93",
-            "homepage": "https://github.com/twify93",
-            "role": "Contributor"
-        },
-        {
-            "name": "SendDerek",
-            "homepage": "https://github.com/SendDerek",
-            "role": "Contributor"
-        },
-        {
-            "name": " MicahKV",
-            "email": "micah138@yahoo.com",
-            "role": "Contributor"
-        },
-        {
-            "name": "deringer",
-            "homepage": "https://github.com/deringer",
-            "role": "Contributor"
-        },
-        {
-            "name": "stevebauman",
-            "homepage": "https://github.com/stevebauman",
-            "role": "Contributor"
-        },
-        {
-            "name": "rajivseelam",
-            "homepage": "https://github.com/rajivseelam",
-            "role": "Contributor"
-        },
-        {
-            "name": "tobias-kuendig",
-            "homepage": "https://github.com/tobias-kuendig",
-            "role": "Contributor"
-        },
-        {
-            "name": "Stonos",
-            "homepage": "https://github.com/Stonos",
-            "role": "Contributor"
         }
     ],
     "support": {
@@ -79,7 +39,6 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~4.8",
-        "mybuilder/phpunit-accelerator": "~1.1",
         "mockery/mockery": "~0.9",
         "squizlabs/php_codesniffer": "~2.5",
         "satooshi/php-coveralls": "~1.0",
@@ -99,6 +58,11 @@
         "lavajs:gulp" : "gulp --cwd javascript",
         "lavajs:pull" : "git subtree --prefix=javascript pull lavajs master",
         "lavajs:push" : "git subtree --prefix=javascript push lavajs master"
+    },
+    "config": {
+        "platform": {
+            "php": "5.4"
+        }
     },
     "minimum-stability": "stable"
 }
