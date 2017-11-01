@@ -27,11 +27,11 @@ trait MaterialRenderableTrait
     /**
      * Sets the chart to be rendered as material design or classic.
      *
-     * @param bool $png Sets the material render status.
+     * @param bool $material Sets the material render status.
      */
-    public function setMaterialOutput($png)
+    public function setMaterialOutput($material)
     {
-        $this->material = $png;
+        $this->material = $material;
     }
 
     /**

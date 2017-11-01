@@ -67,7 +67,7 @@ class ChartBuilder extends GenericBuilder
     public function setType($type)
     {
         if (ChartFactory::isValidChart($type) === false) {
-            throw new InvalidChartType($type, ChartFactory::getChartTypes());
+            throw new InvalidChartType($type);
         }
 
         $this->type = $type;

@@ -12,6 +12,7 @@ use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\DataTables\Formats\Format;
+use Khill\Lavacharts\Exceptions\InvalidElementId;
 use Khill\Lavacharts\Exceptions\InvalidLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Javascript\ScriptManager;
@@ -355,12 +356,14 @@ class Lavacharts
     {
         $label = new Label($label);
 
-        if (is_string($elementId)) {
+        try {
             $elementId = new ElementId($elementId);
+        } catch (InvalidElementId $e) {
+            $elementId = null;
         }
 
         if (is_array($elementId)) {
-            $div = $elementId; // @TODO allow missing element ids to use renderable instance's id
+            $div = $elementId;
         }
 
         if ($type == 'Dashboard') {
@@ -415,6 +418,10 @@ class Lavacharts
     {
         /** @var \Khill\Lavacharts\Charts\Chart $chart */
         $chart = $this->volcano->get($type, $label);
+
+        if ($elementId === null) {
+            $elementId = $chart->getElementId();
+        }
 
         if ($elementId instanceof ElementId) {
             $chart->setElementId($elementId);

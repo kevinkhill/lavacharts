@@ -121,15 +121,15 @@ class LavachartsTest extends ProvidersTestCase
     /**
      * depends testCreateDataTableViaAlias
      */
-    public function testRenderChartWithNoElementIdAndDivNoDimensions()
+    public function testUseChartElementIdWhenMissingInRenderCall()
     {
         $this->lava->LineChart('test', $this->partialDataTable, [
             'elementId' => 'test-div'
         ]);
 
-        $output = $this->lava->render('LineChart', 'test', true);
+        $output = $this->lava->render('LineChart', 'test');
 
-        $this->assertStringHasString($output, '<div id="test-div"></div>');
+        $this->assertStringHasString($output, '$chart.setElement(\'test-div\')');
     }
 
     /**

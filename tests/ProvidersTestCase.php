@@ -39,7 +39,7 @@ abstract class ProvidersTestCase extends \PHPUnit_Framework_TestCase
      * @param $haystack
      * @param $needle
      */
-    public function assetStringHasString($haystack, $needle)
+    public function assertStringHasString($haystack, $needle)
     {
         $this->assertTrue(strpos($haystack, $needle) !== false);
     }

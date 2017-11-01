@@ -51,7 +51,6 @@
   </logging>
 
   <listeners>
-    <listener class="\MyBuilder\PhpunitAccelerator\TestListener" />
     <listener class="\Mockery\Adapter\Phpunit\TestListener" />
   </listeners>
 </phpunit>

@@ -159,7 +159,13 @@ class DataFactory
         $datatable = new DataTable();
 
         foreach ($decodedJson['cols'] as $column) {
-            $datatable->addColumn($column['type'], $column['label']);
+            if (isset($column['label'])) {
+                $label = $column['label'];
+            } else {
+                $label = '';
+            }
+
+            $datatable->addColumn($column['type'], $label);
         }
 
         foreach ($decodedJson['rows'] as $row) {

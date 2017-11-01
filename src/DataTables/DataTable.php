@@ -753,6 +753,10 @@ class DataTable implements Jsonable, JsonSerializable
      * @return bool
      */
     protected function isValidTimezone($tz) {
+        if (! is_string($tz)) {
+            return false;
+        }
+
         $timezoneList = call_user_func_array('array_merge', timezone_abbreviations_list());
 
         $timezones = array_map(function ($timezone) {
