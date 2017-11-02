@@ -2,10 +2,10 @@
 
 namespace Khill\Lavacharts\Tests\Javascript;
 
+use Khill\Lavacharts\Charts\LineChart;
 use Khill\Lavacharts\Javascript\ChartJsFactory;
 use Khill\Lavacharts\Tests\ProvidersTestCase;
 use Khill\Lavacharts\DataTables\DataTable;
-use Khill\Lavacharts\Javascript\JavascriptFactory;
 
 /**
  * @property \Mockery\Mock                               mockChartLabel
@@ -29,10 +29,15 @@ class ChartJsFactoryTest extends ProvidersTestCase
                   ->addColumn('number')
                   ->addRow([10101, 12345, 67890]);
 
-        $this->mlc = \Mockery::mock('Khill\Lavacharts\Charts\LineChart', [$this->mockChartLabel, $datatable, [
+//        $this->mlc = \Mockery::mock('Khill\Lavacharts\Charts\LineChart', [$this->mockChartLabel, $datatable, [
+//            'elementId' => 'chart-div',
+//            'legend' => 'none'
+//        ]])->makePartial();
+
+        $this->mlc = new LineChart($this->mockChartLabel, $datatable, [
             'elementId' => 'chart-div',
             'legend' => 'none'
-        ]])->makePartial();
+        ]);
 
         $this->factory = new ChartJsFactory($this->mlc);
     }
@@ -58,6 +63,6 @@ class ChartJsFactoryTest extends ProvidersTestCase
         $this->assertEquals($templateVars['pngOutput'], false);
         $this->assertEquals($templateVars['formats'], '');
         $this->assertEquals($templateVars['events'], '');
-        $this->assertEquals($templateVars['chartOptions'], '{"elementId":"chart-div","legend":"none"}');
+        $this->assertEquals($templateVars['chartOptions'], '{"legend":"none"}');
     }
 }
