@@ -95,15 +95,15 @@ class DateCell extends Cell implements Javascriptable
     /**
      * @inheritdoc
      */
-    public function getJavascriptFormat()
+    public function toJavascript()
     {
-        return 'Date(%d,%d,%d,%d,%d,%d)';
+        return vsprintf('Date(%d,%d,%d,%d,%d,%d)', $this->getDateValues());
     }
 
     /**
      * @inheritdoc
      */
-    public function getJavascriptSource()
+    private function getDateValues()
     {
         return [
             isset($this->value->year)   ? $this->value->year      : 'null',
