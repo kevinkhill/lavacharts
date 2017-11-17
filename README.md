@@ -1,4 +1,4 @@
-# Lavacharts 4.0.0
+# Lavacharts 4.0
 [![Total Downloads](https://img.shields.io/packagist/dt/khill/lavacharts.svg?style=plastic)](https://packagist.org/packages/khill/lavacharts)
 [![License](https://img.shields.io/packagist/l/khill/lavacharts.svg?style=plastic)](http://opensource.org/licenses/MIT)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.5-8892BF.svg?style=plastic)](https://php.net/)
@@ -13,7 +13,7 @@ Stable:
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/3.1.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=3.1)
 
 Dev:
-[![Development Release](https://img.shields.io/badge/release-3.2.x--dev-brightgreen.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/master)
+[![Development Release](https://img.shields.io/badge/release-dev--master-brightgreen.svg?style=plastic)](https://github.com/kevinkhill/lavacharts/tree/master)
 [![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/master.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/master.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=master)
 
@@ -23,7 +23,7 @@ Dev:
   - Options include: `auto_run`, `locale`, `datetime_format`, `timezone`, `maps_api_key`
 
 - **Updated!** New DataInterface for creating custom DataProviders.
-  - [JoinedDataTable] (https://github.com/kevinkhill/lavacharts/blob/3.2/src/DataTables/JoinedDataTable.php) Is an example of one of the usages for DataInterface. 
+  - [JoinedDataTable](https://github.com/kevinkhill/lavacharts/blob/4.0/src/DataTables/JoinedDataTable.php) Is an example of one of the usages for DataInterface. 
   
 - **Updated!**
   - Lava.js Event handling now can be given context if the default of "window" doesn't work for you.
@@ -40,8 +40,8 @@ Dev:
   - Events integration
 - Column Formatters and Roles
 
-- Framework Integrations for [Laravel](https://github.com/kevinkhill/lavacharts/blob/3.2/src/Laravel/LavachartsServiceProvider.php), [Symfony](https://github.com/kevinkhill/lavacharts/tree/3.2/src/Symfony/Bundle/Resources), [Angular](https://github.com/kevinkhill/lavacharts/blob/3.2/javascript/src/angular/LavaJsService.ts)
-- Template Extensions for [Blade](https://github.com/kevinkhill/lavacharts/blob/3.2/src/Laravel/BladeTemplateExtensions.php), [Twig](https://github.com/kevinkhill/lavacharts/blob/3.2/src/Symfony/Bundle/Twig/LavachartsExtension.php)
+- Framework Integrations for [Laravel](https://github.com/kevinkhill/lavacharts/blob/4.0/src/Laravel/LavachartsServiceProvider.php), [Symfony](https://github.com/kevinkhill/lavacharts/tree/4.0/src/Symfony/Bundle/Resources), [Angular](https://github.com/kevinkhill/lavacharts/blob/4.0/javascript/src/angular/LavaJsService.ts)
+- Template Extensions for [Blade](https://github.com/kevinkhill/lavacharts/blob/4.0/src/Laravel/BladeTemplateExtensions.php), [Twig](https://github.com/kevinkhill/lavacharts/blob/4.0/src/Symfony/Bundle/Twig/LavachartsExtension.php)
   
 - [Carbon](https://github.com/briannesbitt/Carbon) support for date/datetime/timeofday columns
 
@@ -58,7 +58,7 @@ Dev:
 ## Installing
 In your project's main `composer.json` file, add this line to the requirements:
 ```json
-"khill/lavacharts": "~3.2"
+"khill/lavacharts": "~4.0"
 ```
 
 Run Composer to install Lavacharts:
