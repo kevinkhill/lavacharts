@@ -59,9 +59,10 @@ If you are using Lavacharts with Silex, Lumen or your own Composer project, that
 ## Laravel
 To integrate Lavacharts into Laravel, a ServiceProvider has been included.
 
+<!--
 ### Laravel ~5.5
 Thanks to the fantastic new [Package Auto-Discovery](https://laravel-news.com/package-auto-discovery) feature added in 5.5, you're ready to go, no extra configuration required :)
-
+-->
 
 ### Laravel ~5.4
 Register Lavacharts in your app by adding these lines to the respective arrays found in `config/app.php`:
