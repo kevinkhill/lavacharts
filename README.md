@@ -237,6 +237,3 @@ Or if you have multiple charts, you can condense theh view code withL
 
 # Changelog
 The complete changelog can be found [here](https://github.com/kevinkhill/lavacharts/wiki/Changelog)
-
-
-[![Code Sponsor](https://app.codesponsor.io/embed/JGCF6isJwAiwbcooAWY752mE/kevinkhill/lavacharts.svg)](https://app.codesponsor.io/link/JGCF6isJwAiwbcooAWY752mE/kevinkhill/lavacharts)
