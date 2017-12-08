@@ -3,6 +3,7 @@ build/
 .idea/
 
 javascript/node_modules/
+javascript/renders/
 javascript/phantomjs/renders/
 
 composer.phar
