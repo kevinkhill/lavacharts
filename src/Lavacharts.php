@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace Khill\Lavacharts;
 
@@ -24,6 +24,8 @@ use Khill\Lavacharts\Values\Label;
 use Khill\Lavacharts\Values\StringValue;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Support\Contracts\RenderableInterface as Renderable;
+
+require('./Support/Traits/HasOptionsTrait.php');
 
 /**
  * Lavacharts - A PHP wrapper library for the Google Chart API
@@ -72,8 +74,6 @@ class Lavacharts
      */
     public function __construct(array $options = [])
     {
-        $this->initializeOptions($options);
-
         if ( ! $this->usingComposer()) {
             require_once(__DIR__.'/Support/Psr4Autoloader.php');
 
@@ -81,6 +81,8 @@ class Lavacharts
             $loader->register();
             $loader->addNamespace('Khill\Lavacharts', __DIR__);
         }
+
+        $this->initializeOptions($options);
 
         $this->volcano       = new Volcano;
         $this->chartFactory  = new ChartFactory;
