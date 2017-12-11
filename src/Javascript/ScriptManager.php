@@ -105,6 +105,7 @@ class ScriptManager implements Customizable
      *
      * @since 4.0.0
      * @return string <script> tags
+     * @throws \Khill\Lavacharts\Exceptions\InvalidElementIdException
      */
     public function getScriptTags()
     {

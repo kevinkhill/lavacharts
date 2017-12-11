@@ -12,7 +12,6 @@ use Khill\Lavacharts\DataTables\DataFactory;
 use Khill\Lavacharts\DataTables\Columns\Format;
 use Khill\Lavacharts\DataTables\DataTable;
 use Khill\Lavacharts\Exceptions\BadMethodCallException;
-use Khill\Lavacharts\Exceptions\InvalidLabelException;
 use Khill\Lavacharts\Javascript\ScriptManager;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
@@ -94,6 +93,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Lavacharts constructor.
      *
      * @param array $options
+     * @throws \Khill\Lavacharts\Exceptions\InvalidArgumentException
      */
     public function __construct(array $options = [])
     {
@@ -109,6 +109,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
 
         $this->volcano       = new Volcano();
         $this->scriptManager = new ScriptManager();
+
         $this->scriptManager->setOptions($this->options);
         $this->scriptManager->setVolcano($this->volcano);
     }
@@ -121,6 +122,8 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @param  array  $args   Passed arguments
      * @return Chart|Dashboard|DataTable|Format|Filter
      * @throws \Khill\Lavacharts\Exceptions\BadMethodCallException
+     * @throws \Khill\Lavacharts\Exceptions\InvalidChartType
+     * @throws \Khill\Lavacharts\Exceptions\InvalidDataTable
      */
     public function __call($method, $args)
     {
@@ -157,6 +160,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @since 4.0.0
      * @param array $options Array of options to override defaults before script output.
      * @return string HTML script elements
+     * @throws \Khill\Lavacharts\Exceptions\InvalidElementIdException
      */
     public function flow(array $options = [])
     {
@@ -211,6 +215,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @since 3.0.0
      * @param string $label
      * @return Renderable
+     * @throws \Khill\Lavacharts\Exceptions\RenderableNotFound
      */
     public function get($label)
     {
@@ -263,7 +268,6 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @param DataInterface|null $data
      * @param array              $options
      * @return Dashboard
-     * @throws InvalidLabelException
      */
     public function Dashboard($label, DataInterface $data = null, array $options = [])
     {
@@ -380,7 +384,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * The render method is depreciated.
      *
      * @deprecated 4.0.0
-     * @throws \Khill\Lavacharts\Exceptions\DepreciatedMethodException
+     * @throws \Khill\Lavacharts\Exceptions\InvalidElementIdException
      */
     public function render()
     {
@@ -404,6 +408,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @since 4.0.0 Takes options and merges them with existing options.
      * @param array $options Options for rendering
      * @return string
+     * @throws \Khill\Lavacharts\Exceptions\InvalidElementIdException
      */
     public function renderAll(array $options = [])
     {
@@ -437,7 +442,8 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @param string $type
      * @param array  $args
      * @return Chart
-     * @throws InvalidLabelException
+     * @throws \Khill\Lavacharts\Exceptions\InvalidChartType
+     * @throws \Khill\Lavacharts\Exceptions\InvalidDataTable
      */
     private function createChart($type, $args)
     {
