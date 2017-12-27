@@ -58,6 +58,16 @@
         "lavajs:pull" : "git subtree --prefix=javascript pull lavajs master",
         "lavajs:push" : "git subtree --prefix=javascript --rejoin push lavajs master"
     },
+    "extra": {
+    "laravel": {
+      "providers": [
+        "Khill\\Lavacharts\\Laravel\\LavachartsServiceProvider"
+      ],
+      "aliases": {
+        "Lava": "Khill\\Lavacharts\\Laravel\\LavachartsFacade"
+      }      
+    }
+  },
     "minimum-stability": "stable",
     "config": {
         "platform": {
