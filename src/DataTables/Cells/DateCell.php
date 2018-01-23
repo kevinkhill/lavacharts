@@ -3,10 +3,9 @@
 namespace Khill\Lavacharts\DataTables\Cells;
 
 use Carbon\Carbon;
-use Khill\Lavacharts\Exceptions\CarbonParseError;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeString;
-use Khill\Lavacharts\Exceptions\InvalidStringValue;
+use Khill\Lavacharts\Support\Traits\DateableTrait;
 use Khill\Lavacharts\Values\StringValue;
 
 /**
@@ -24,6 +23,8 @@ use Khill\Lavacharts\Values\StringValue;
  */
 class DateCell extends Cell
 {
+    use DateableTrait;
+
     /**
      * Creates a new DateCell object from a Carbon object.
      *
@@ -107,21 +108,13 @@ class DateCell extends Cell
             return 'null';
         }
 
-        return sprintf(
-            'Date(%d,%d,%d,%d,%d,%d)',
-            isset($this->v->year)   ? $this->v->year      : 'null',
-            isset($this->v->month)  ? $this->v->month - 1 : 'null', //silly javascript
-            isset($this->v->day)    ? $this->v->day       : 'null',
-            isset($this->v->hour)   ? $this->v->hour      : 'null',
-            isset($this->v->minute) ? $this->v->minute    : 'null',
-            isset($this->v->second) ? $this->v->second    : 'null'
-        );
+        return $this->toJsDate($this->v);
     }
 
     /**
      * Custom serialization of the Carbon date.
      *
-     * @return string
+     * @return array
      */
     public function jsonSerialize()
     {

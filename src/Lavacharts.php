@@ -1,7 +1,8 @@
-<?php 
+<?php
 
 namespace Khill\Lavacharts;
 
+use DateTime;
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Charts\ChartFactory;
 use Khill\Lavacharts\Dashboards\Dashboard;
@@ -17,6 +18,7 @@ use Khill\Lavacharts\Exceptions\InvalidLabel;
 use Khill\Lavacharts\Exceptions\InvalidLavaObject;
 use Khill\Lavacharts\Javascript\ScriptManager;
 use Khill\Lavacharts\Support\Config;
+use Khill\Lavacharts\Support\Date;
 use Khill\Lavacharts\Support\Html\HtmlFactory;
 use Khill\Lavacharts\Support\Psr4Autoloader;
 use Khill\Lavacharts\Values\ElementId;
@@ -150,6 +152,19 @@ class Lavacharts
     public function getScriptManager()
     {
         return $this->scriptManager;
+    }
+
+    /**
+     * Create an instance of DateTime that will serialize down to the javascript
+     * representation of a Date
+     *
+     * @since 3.1.10
+     * @param DateTime $datetime
+     * @return string
+     */
+    public function Date(DateTime $datetime)
+    {
+        return new Date($datetime);
     }
 
     /**
