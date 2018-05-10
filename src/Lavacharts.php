@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Khill\Lavacharts;
 
@@ -46,7 +46,7 @@ class Lavacharts
     /**
      * Lavacharts version
      */
-    const VERSION = '3.1.9';
+    const VERSION = '3.1.10';
 
     /**
      * Locale for the Charts and Dashboards.
