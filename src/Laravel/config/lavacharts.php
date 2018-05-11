@@ -69,7 +69,7 @@ return [
     |  https://secure.php.net/manual/en/function.date.php
     |
     */
-    'datetime_format' => '',
+    'datetime_format' => 'Y-m-d',
 
 
     /*
