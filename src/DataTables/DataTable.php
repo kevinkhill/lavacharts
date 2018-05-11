@@ -17,6 +17,7 @@ use Khill\Lavacharts\Exceptions\InvalidColumnDefinition;
 use Khill\Lavacharts\Exceptions\InvalidColumnIndex;
 use Khill\Lavacharts\Exceptions\InvalidDateTimeFormat;
 use Khill\Lavacharts\Exceptions\UndefinedColumnsException;
+use Khill\Lavacharts\Support\StringValue as Str;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
@@ -25,7 +26,6 @@ use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 use Khill\Lavacharts\Support\Traits\ToJavascriptTrait as ToJavascript;
-use Khill\Lavacharts\Support\StringValue;
 
 /**
  * The DataTable object is used to hold the data passed into a visualization.
@@ -257,7 +257,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, /*Javascripta
      */
     public function setDateTimeFormat($dateTimeFormat)
     {
-        if (StringValue::isNonEmpty($dateTimeFormat) === false) {
+        if (Str::isNonEmpty($dateTimeFormat) === false) {
             throw new InvalidDateTimeFormat($dateTimeFormat);
         }
 
@@ -572,6 +572,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, /*Javascripta
      * @throws \Khill\Lavacharts\Exceptions\InvalidArgumentException
      * @throws \Khill\Lavacharts\Exceptions\InvalidCellCount
      * @throws \Khill\Lavacharts\Exceptions\UndefinedColumnsException
+     * @throws \Khill\Lavacharts\Exceptions\UndefinedOptionException
      */
     public function addRow($values = null)
     {
@@ -985,10 +986,11 @@ class DataTable implements DataInterface, Customizable, Arrayable, /*Javascripta
      * @param $cellValue
      * @return Cell
      * @throws InvalidArgumentException
+     * @throws \Khill\Lavacharts\Exceptions\UndefinedOptionException
      */
     private function createDateCell($cellValue)
     {
-        $dateTimeFormat = $this->getOptions()->get('datetime_format');
+        $dateTimeFormat = $this->options->get('datetime_format');
 
         // DateCells can only be created by Carbon instances or
         // strings consumable by Carbon so....
@@ -1006,10 +1008,10 @@ class DataTable implements DataInterface, Customizable, Arrayable, /*Javascripta
         // attempt to implicitly parse the string. If the format
         // string is not empty, then attempt to use it to explicitly
         // create a Carbon instance from the format.
-        if (! empty($dateTimeFormat)) {
+        if (Str::isNonEmpty($dateTimeFormat)) {
             return DateCell::createFromFormat($dateTimeFormat, $cellValue);
-        } else {
-            return DateCell::create($cellValue);
         }
+
+        return DateCell::create($cellValue);
     }
 }
