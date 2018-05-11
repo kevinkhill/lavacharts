@@ -34,17 +34,12 @@ class DateCell extends Cell implements Javascriptable
      *
      * @param  string $datetime
      * @return Cell
-     * @throws \Khill\Lavacharts\Exceptions\UndefinedDateCellException
      */
     public static function create($datetime)
     {
-        try {
-            $carbon = new Carbon(Str::verify($datetime));
+        $carbon = new Carbon(Str::verify($datetime));
 
-            return new static($carbon);
-        } catch (Exception $e) {
-            throw new UndefinedDateCellException($datetime);
-        }
+        return new static($carbon);
     }
 
     /**
@@ -55,17 +50,12 @@ class DateCell extends Cell implements Javascriptable
      * @param  string $format
      * @param  string $datetime
      * @return DateCell
-     * @throws \Khill\Lavacharts\Exceptions\UndefinedDateCellException
      */
     public static function createFromFormat($format, $datetime)
     {
-        try {
-            $carbon = Carbon::createFromFormat(Str::verify($format), Str::verify($datetime));
+        $carbon = Carbon::createFromFormat(Str::verify($format), Str::verify($datetime));
 
-            return new static($carbon);
-        } catch (Exception $e) {
-            throw new UndefinedDateCellException($datetime, $format);
-        }
+        return new static($carbon);
     }
 
     /**
@@ -101,7 +91,9 @@ class DateCell extends Cell implements Javascriptable
     }
 
     /**
-     * @inheritdoc
+     * Returns an array with nulls for missing pieces for the DateCell
+     *
+     * @return array
      */
     private function getDateValues()
     {
