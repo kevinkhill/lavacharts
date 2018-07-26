@@ -757,16 +757,8 @@ class DataTable implements Jsonable, JsonSerializable
             return false;
         }
 
-        $timezoneList = call_user_func_array('array_merge', timezone_abbreviations_list());
-
-        $timezones = array_map(function ($timezone) {
-            if ($timezone['timezone_id'] != null) {
-                return strtolower($timezone['timezone_id']);
-            }
-        }, $timezoneList);
-
-        $timezones = array_filter($timezones, 'is_string');
-        $timezones = array_unique($timezones);
+        $timezones = timezone_identifiers_list();
+        $timezones = array_map('strtolower',$timezones);
 
         return in_array(strtolower($tz), $timezones, true);
     }
