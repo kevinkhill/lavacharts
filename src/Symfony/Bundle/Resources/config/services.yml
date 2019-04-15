@@ -4,10 +4,10 @@ parameters:
 
 services:
     lavacharts:
-        class: %khill.lavacharts.class%
+        class: "%khill.lavacharts.class%"
 
     lavacharts.twig_extension:
-        class: %khill.lavacharts.twig%
+        class: "%khill.lavacharts.twig%"
         public: false
         arguments: ['@lavacharts']
         tags:
