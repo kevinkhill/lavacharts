@@ -18,6 +18,8 @@ Dev:
 [![Build Status](https://img.shields.io/travis/kevinkhill/lavacharts/master.svg?style=plastic)](https://travis-ci.org/kevinkhill/lavacharts)
 [![Coverage Status](https://img.shields.io/coveralls/kevinkhill/lavacharts/master.svg?style=plastic)](https://coveralls.io/r/kevinkhill/lavacharts?branch=master)
 
+## Developer Note
+Please don't be discouraged if you see that it has been "years" since an update, but rather think that Lavacharts has settled into a "stable" state and requires less tinkering from me. I would love to add new features, but my responsibilities leave little room for my projects. I am happy to field issues, answer questions, debug and help if needed. Lavacharts is not vaporware! :smile:
 
 ## Package Features
 - **Updated!** Laravel 5.5+ auto-discovery
