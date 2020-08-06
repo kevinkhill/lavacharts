@@ -531,7 +531,7 @@ module.exports = (function() {
 
         console.log('[lava.js] Google loaded with options:', config);
 
-        google.charts.load('current', config);
+        google.charts.load('47', config);
 
         google.charts.setOnLoadCallback(deferred.resolve);
     };
