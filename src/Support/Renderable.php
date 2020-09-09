@@ -12,15 +12,15 @@ use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
  * This class is the parent to charts, dashboards, and controls since they
  * will need to be rendered onto the page.
  *
- * @package    Khill\Lavacharts\Support
- * @since      3.1.0
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2017, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT MIT
+ * @package   Khill\Lavacharts\Support
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright 2020 Kevin Hill
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      http://lavacharts.com                   Official Documentation
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @since     3.1.0
  */
-class RenderableTrait
+class Renderable
 {
     use HasElementId;
 
@@ -41,15 +41,15 @@ class RenderableTrait
     /**
      * Sets the renderable's ElementId or generates on from a string
      *
-     * @param \Khill\Lavacharts\Values\Label     $label
-     * @param \Khill\Lavacharts\Values\ElementId $elementId
+     * @param \Khill\Lavacharts\Values\Label     $label     Label of the chart
+     * @param \Khill\Lavacharts\Values\ElementId $elementId Element ID in the page
      */
     public function __construct(Label $label, ElementId $elementId = null)
     {
         $this->label = $label;
 
         if ($elementId === null) {
-            $this->generateElementId();
+            $this->elementId = $this->_generateElementId();
         } else {
             $this->elementId = $elementId;
         }
@@ -58,8 +58,10 @@ class RenderableTrait
     /**
      * Creates and/or sets the Label.
      *
-     * @param  string|\Khill\Lavacharts\Values\Label $label
+     * @param \Khill\Lavacharts\Values\Label $label Label of the chart
+     *
      * @throws \Khill\Lavacharts\Exceptions\InvalidLabel
+     * @return void
      */
     public function setLabel($label)
     {
@@ -96,16 +98,17 @@ class RenderableTrait
      * This method removes invalid characters from the chart label
      * to use as an elementId.
      *
-     * @link http://stackoverflow.com/a/11330527/2503458
      * @access private
+     * @link   http://stackoverflow.com/a/11330527/2503458
+     * @return string
      */
-    private function generateElementId()
+    private function _generateElementId()
     {
         $string = strtolower((string) $this->label);
         $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
         $string = preg_replace("/[\s-]+/", " ", $string);
         $string = preg_replace("/[\s_]/", "-", $string);
 
-        $this->setElementId($string);
+        return $string;
     }
 }
