@@ -14,7 +14,7 @@ use Khill\Lavacharts\Support\Contracts\Jsonable as Jsonable;
  * @since     3.1.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
  * @copyright (c) 2015, KHill Designs
- * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT MIT
  */

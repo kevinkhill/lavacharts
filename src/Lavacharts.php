@@ -29,13 +29,13 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 /**
  * Lavacharts - A PHP wrapper library for the Google Chart API
  *
- *
- * @package       Khill\Lavacharts
- * @author        Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2017, KHill Designs
- * @link          http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link          http://lavacharts.com                   Official Docs Site
- * @license       http://opensource.org/licenses/MIT      MIT
+ * @category  Class
+ * @package   Khill\Lavacharts
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright 2020 Kevin Hill
+ * @license   http://opensource.org/licenses/MIT      MIT
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository
+ * @link      http://lavacharts.com                   Official Docs Site
  *
  * @method DataTable(array $options = [])
  * @method JoinedDataTable(DataInterface $data1, DataInterface $data2, array $options = [])
@@ -83,7 +83,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Get the default set of options used by Lavacharts.
      *
-     * @since 4.0.0
+     * @since  4.0.0
      * @return array
      */
     public static function getDefaultOptions()
@@ -94,8 +94,9 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Lavacharts constructor.
      *
-     * @param array $options
-     * @throws \Khill\Lavacharts\Exceptions\InvalidArgumentException
+     * @param array $options Customization options
+     *
+     * @throws InvalidArgumentException
      */
     public function __construct(array $options = [])
     {
@@ -111,13 +112,14 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Magic function to create aliases methods for common classes.
      *
+     * @param string $method Name of method
+     * @param array  $args   Passed arguments
+     *
      * @since  1.0.0
-     * @param  string $method Name of method
-     * @param  array  $args   Passed arguments
      * @return Chart|Dashboard|DataTable|Format|Filter
-     * @throws \Khill\Lavacharts\Exceptions\BadMethodCallException
-     * @throws \Khill\Lavacharts\Exceptions\InvalidChartType
-     * @throws \Khill\Lavacharts\Exceptions\InvalidDataTable
+     * @throws BadMethodCallException
+     * @throws InvalidChartType
+     * @throws InvalidDataTable
      */
     public function __call($method, $args)
     {
@@ -143,7 +145,6 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Run the library and get the resulting scripts.
      *
-     *
      * This method will create a <script> tag for the lava.js module, if
      * it is not bypassed or already output, along with one additional
      * <script> block with all of the charts & dashboards.
@@ -151,10 +152,11 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Options can be passed in to override the default config.
      * Available options are defined in src/Laravel/config/lavacharts.php
      *
-     * @since 4.0.0
      * @param array $options Array of options to override defaults before script output.
+     *
+     * @since  4.0.0
      * @return string HTML script elements
-     * @throws \Khill\Lavacharts\Exceptions\InvalidElementIdException
+     * @throws InvalidElementIdException
      */
     public function flow(array $options = [])
     {
@@ -166,7 +168,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Convert the Lavacharts object to an array
      *
-     * @since 4.0.0
+     * @since  4.0.0
      * @return array
      */
     public function toArray()
@@ -180,9 +182,10 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Shortcut method for accessing store() on the Volcano
      *
-     * @since 3.0.0 Simplified to forward the call to the Volcano.
-     * @param \Khill\Lavacharts\Support\Renderable $renderable
-     * @return \Khill\Lavacharts\Support\Renderable
+     * @param Renderable $renderable
+     *
+     * @since  3.0.0 Simplified to forward the call to the Volcano.
+     * @return Renderable
      */
     public function store(Renderable $renderable)
     {
@@ -192,12 +195,13 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Shortcut method for accessing exists() on the Volcano
      *
-     * @since 4.0.0 Simplified to forward the call to the Volcano.
-     * @since 2.4.2
      * @param string $label
+     *
+     * @since  4.0.0 Simplified to forward the call to the Volcano.
+     * @since  2.4.2 Initial Implementation
      * @return bool
      */
-    public function exists($label)
+    public function exists(string $label): bool
     {
         return $this->volcano->exists($label);
     }
@@ -205,11 +209,12 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Shortcut method for accessing get() on the Volcano
      *
-     * @since 4.0.0 Renamed fetch to get and simplified to forward the call to the Volcano.
-     * @since 3.0.0
-     * @param string $label
+     * @param string $label Label of the {@link Chart} to retrieve
+     *
+     * @since  4.0.0 Renamed fetch, forwards the call to the Volcano.
+     * @since  3.0.0 Initial Implementation
      * @return Renderable
-     * @throws \Khill\Lavacharts\Exceptions\RenderableNotFound
+     * @throws RenderableNotFound
      */
     public function get($label)
     {
@@ -219,10 +224,10 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     /**
      * Get an instance of the DataFactory
      *
-     * @since 4.0.0
+     * @since  4.0.0
      * @return DataFactory
      */
-    public function DataFactory()
+    public function DataFactory(): DataFactory
     {
         return new DataFactory;
     }
@@ -248,7 +253,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @param array  $args
      * @return Filter
      */
-    public function Filter($type, ...$args)
+    public function Filter($type, ...$args): Filter
     {
         return Filter::create($type, $args);
     }
@@ -309,7 +314,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @since 4.0.0
      * @return Volcano
      */
-    public function getVolcano()
+    public function getVolcano(): Volcano
     {
         return $this->volcano;
     }
@@ -378,7 +383,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * The render method is depreciated.
      *
      * @deprecated 4.0.0
-     * @throws \Khill\Lavacharts\Exceptions\InvalidElementIdException
+     * @throws InvalidElementIdException
      */
     public function render()
     {
@@ -402,7 +407,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @since 4.0.0 Takes options and merges them with existing options.
      * @param array $options Options for rendering
      * @return string
-     * @throws \Khill\Lavacharts\Exceptions\InvalidElementIdException
+     * @throws InvalidElementIdException
      */
     public function renderAll(array $options = [])
     {
@@ -436,8 +441,8 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @param string $type
      * @param array  $args
      * @return Chart
-     * @throws \Khill\Lavacharts\Exceptions\InvalidChartType
-     * @throws \Khill\Lavacharts\Exceptions\InvalidDataTable
+     * @throws InvalidChartType
+     * @throws InvalidDataTable
      */
     private function createChart($type, $args)
     {

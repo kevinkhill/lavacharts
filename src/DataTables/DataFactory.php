@@ -19,8 +19,8 @@ use ReflectionClass;
  * @package   Khill\Lavacharts\DataTables
  * @since     3.1.0
  * @author    Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2017, KHill Designs
- * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @copyright 2020 Kevin Hill
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */

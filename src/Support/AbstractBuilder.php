@@ -15,7 +15,7 @@ use InvalidArgumentException;
  * @package       Khill\Lavacharts\Support
  * @since         4.0.0
  * @author        TheCelavi <https://pastebin.com/u/TheCelavi>
- * @link          http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link          http://github.com/kevinkhill/lavacharts GitHub Repository
  * @link          http://lavacharts.com                   Official Docs Site
  * @license       http://opensource.org/licenses/MIT      MIT
  */

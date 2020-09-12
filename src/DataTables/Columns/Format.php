@@ -18,8 +18,8 @@ use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
  * @package    Khill\Lavacharts\DataTables\Formats
  * @author     Kevin Hill <kevinkhill@gmail.com>
  * @since      3.0.0
- * @copyright  (c) 2017, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @copyright  2020 Kevin Hill
+ * @link       http://github.com/kevinkhill/lavacharts GitHub Repository
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT      MIT
  */

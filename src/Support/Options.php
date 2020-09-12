@@ -14,14 +14,14 @@ use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
  * Lightweight wrapper for what would be an array of options. Useful for converting
  * to json or chaining from what has set options.
  *
- *
- * @package       Khill\Lavacharts\Support
- * @since         4.0.0
- * @author        Kevin Hill <kevinkhill@gmail.com>
- * @copyright (c) 2017, KHill Designs
- * @link          http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link          http://lavacharts.com                   Official Docs Site
- * @license       http://opensource.org/licenses/MIT      MIT
+ * @category  Class
+ * @package   Khill\Lavacharts\Support
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright 2020 Kevin Hill
+ * @license   http://opensource.org/licenses/MIT      MIT
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository
+ * @link      http://lavacharts.com                   Official Docs Site
+ * @since     4.0.0
  */
 class Options extends ArrayObject implements Arrayable, Jsonable
 {
@@ -38,6 +38,7 @@ class Options extends ArrayObject implements Arrayable, Jsonable
      * Create a new Options object from an array or another Options object.
      *
      * @param array|Options $options
+     *
      * @return Options
      * @throws InvalidArgumentException
      */
@@ -61,7 +62,7 @@ class Options extends ArrayObject implements Arrayable, Jsonable
      */
     public static function getDefault()
     {
-        return require(__DIR__.'/../Laravel/config/lavacharts.php');
+        return include __DIR__.'/../Laravel/config/lavacharts.php';
     }
 
     /**
@@ -77,8 +78,7 @@ class Options extends ArrayObject implements Arrayable, Jsonable
     /**
      * Customizable constructor.
      *
-     * @public
-     * @param array $options
+     * @param array $options Customization options
      */
     public function __construct(array $options = [])
     {
