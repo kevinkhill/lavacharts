@@ -14,14 +14,16 @@ class JsonValidator
     public function assertHeader($headerName, $value = null)
     {
         PHPUnit::assertTrue(
-            $this->headers->has($headerName), "Header [{$headerName}] not present on response."
+            $this->headers->has($headerName),
+            "Header [{$headerName}] not present on response."
         );
 
         $actual = $this->headers->get($headerName);
 
         if (! is_null($value)) {
             PHPUnit::assertEquals(
-                $value, $this->headers->get($headerName),
+                $value,
+                $this->headers->get($headerName),
                 "Header [{$headerName}] was found, but value [{$actual}] does not match [{$value}]."
             );
         }
@@ -90,7 +92,10 @@ class JsonValidator
     public function assertJson(array $data)
     {
         PHPUnit::assertArraySubset(
-            $data, $this->decodeResponseJson(), false, $this->assertJsonMessage($data)
+            $data,
+            $this->decodeResponseJson(),
+            false,
+            $this->assertJsonMessage($data)
         );
 
         return $this;

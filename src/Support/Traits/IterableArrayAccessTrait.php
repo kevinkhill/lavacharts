@@ -4,7 +4,6 @@ namespace Khill\Lavacharts\Support\Traits;
 
 use ArrayIterator;
 
-
 /**
  * Trait DynamicArrayAccessTrait
  *

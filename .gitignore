@@ -1,10 +1,4 @@
+node_modules/
 vendor/
 build/
 .idea/
-
-composer.phar
-
-*.log
-*.sublime-*
-*___jb*
-*DS_Store

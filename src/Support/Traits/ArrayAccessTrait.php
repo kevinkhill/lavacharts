@@ -2,7 +2,6 @@
 
 namespace Khill\Lavacharts\Support\Traits;
 
-
 trait ArrayAccessTrait
 {
     /**

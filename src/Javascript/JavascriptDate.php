@@ -62,8 +62,13 @@ class JavascriptDate extends Carbon
         $format = '%s-%s-%s %s:%02s:%02s';
 
         return parent::__construct(sprintf(
-            self::OUTPUT_FORMAT, $year, $month, $day, $hour, $minute, $second
+            self::OUTPUT_FORMAT,
+            $year,
+            $month,
+            $day,
+            $hour,
+            $minute,
+            $second
         ), $tz);
     }
-
 }

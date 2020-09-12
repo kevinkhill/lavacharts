@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Khill\Lavacharts;
 
 use Khill\Lavacharts\Charts\Chart;
@@ -98,14 +100,6 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
     public function __construct(array $options = [])
     {
         $this->initOptions($options);
-
-        if (! $this->usingComposer()) {
-            require_once(__DIR__ . '/Support/Psr4Autoloader.php');
-
-            $loader = new Psr4Autoloader;
-            $loader->register();
-            $loader->addNamespace('Khill\Lavacharts', __DIR__);
-        }
 
         $this->volcano       = new Volcano();
         $this->scriptManager = new ScriptManager();

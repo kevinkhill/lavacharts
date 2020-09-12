@@ -120,7 +120,8 @@ class Filter implements Arrayable, Customizable, Wrappable
      *
      * @return string
      */
-    public function getType() {
+    public function getType()
+    {
         return $this->type;
     }
 

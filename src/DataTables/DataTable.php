@@ -115,7 +115,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, /*Javascripta
         if (isset($options['timezone'])) {
             try {
                 $timezone = (new DateTimeZone($options['timezone']))->getName();
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 $timezone = date_default_timezone_get();
 
                 trigger_error(
@@ -173,7 +173,7 @@ class DataTable implements DataInterface, Customizable, Arrayable, /*Javascripta
      */
     public function toJson(/*$withFormats = false*/)
     {
-//TODO: Figure out a better way to get the formats to the lava.js module. We should output a pure DataTable from toJson() to be compatable with the JSON Schema
+        //TODO: Figure out a better way to get the formats to the lava.js module. We should output a pure DataTable from toJson() to be compatable with the JSON Schema
 //        if ($this->hasFormattedColumns() && $withFormats === true) {
 //            return json_encode([
 //                'data'    => $this,
@@ -758,6 +758,19 @@ class DataTable implements DataInterface, Customizable, Arrayable, /*Javascripta
     }
 
     /**
+     * Returns the label of a column based on it's index.
+     *
+     * @since  3.0.0
+     * @param  int $index
+     * @return string
+     * @throws InvalidColumnIndex
+     */
+    public function getColumnLabel($index)
+    {
+        return $this->getColumn($index)->getLabel();
+    }
+
+    /**
      * Returns the columns who's type matches the given value.
      *
      * @since  3.0.0
@@ -778,25 +791,12 @@ class DataTable implements DataInterface, Customizable, Arrayable, /*Javascripta
     }
 
     /**
-     * Returns the label of a column based on it's index.
-     *
-     * @since  3.0.0
-     * @param  int $index
-     * @return string
-     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
-     */
-    public function getColumnLabel($index)
-    {
-        return $this->getColumn($index)->getLabel();
-    }
-
-    /**
      * Returns the type of a column based on it's index.
      *
      * @since  3.0.0
      * @param  int $index
      * @return string
-     * @throws \Khill\Lavacharts\Exceptions\InvalidColumnIndex
+     * @throws InvalidColumnIndex
      */
     public function getColumnType($index)
     {

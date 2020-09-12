@@ -15,17 +15,17 @@ use Khill\Lavacharts\Volcano;
  * ScriptManager Class
  *
  * This class takes charts and uses all the info to build the complete
- * javascript blocks for outputting into the page. Also will output the lava.js module
- * and track if it is in page or not.
+ * javascript blocks for output into the page. The lava.js module will be
+ * output and tracked if it is in page or not.
  *
- * @category   Class
- * @package    Khill\Lavacharts\Javascript
- * @since      3.0.5
- * @author     Kevin Hill <kevinkhill@gmail.com>
- * @copyright  (c) 2017, KHill Designs
- * @link       http://github.com/kevinkhill/lavacharts GitHub Repository Page
- * @link       http://lavacharts.com                   Official Docs Site
- * @license    http://opensource.org/licenses/MIT      MIT
+ * @category  Class
+ * @package   Khill\Lavacharts\Javascript
+ * @author    Kevin Hill <kevinkhill@gmail.com>
+ * @copyright 2020 Kevin Hill
+ * @license   http://opensource.org/licenses/MIT      MIT
+ * @link      http://github.com/kevinkhill/lavacharts GitHub Repository Page
+ * @link      http://lavacharts.com                   Official Docs Site
+ * @since     3.0.5
  */
 class ScriptManager implements Customizable
 {
@@ -36,7 +36,7 @@ class ScriptManager implements Customizable
      *
      * @var string
      */
-    const LAVA_JS = '/../../lavajs/dist/lava.js';
+    const LAVA_JS_ROOT = 'node_modules/@lavacharts/lava.js/dist';
 
     /**
      * Opening javascript tag.
@@ -78,12 +78,12 @@ class ScriptManager implements Customizable
      *
      * @var Volcano
      */
-    private $volcano;
+    private $_volcano;
 
     /**
      * ScriptManager constructor.
      */
-    function __construct()
+    public function __construct()
     {
         $this->outputBuffer = new Buffer();
     }
@@ -91,11 +91,11 @@ class ScriptManager implements Customizable
     /**
      * Set the instance of the Volcano to use when rendering charts.
      *
-     * @param Volcano $volcano
+     * @param Volcano $volcano Volcano instance
      */
     public function setVolcano(Volcano $volcano)
     {
-        $this->volcano = $volcano;
+        $this->_volcano = $volcano;
     }
 
     /**
@@ -104,6 +104,7 @@ class ScriptManager implements Customizable
      * TODO: this fails silently if the chart doesn't have an elementId
      *
      * @since 4.0.0
+     *
      * @return string <script> tags
      * @throws \Khill\Lavacharts\Exceptions\InvalidElementIdException
      */
@@ -113,11 +114,11 @@ class ScriptManager implements Customizable
             $this->loadLavaJs();
         }
 
-        if ($this->volcano->count() > 0) {
+        if ($this->_volcano->count() > 0) {
             $this->openScriptTag();
 
             /** @var Renderable $renderable */
-            foreach ($this->volcano as $renderable) {
+            foreach ($this->_volcano as $renderable) {
                 if ($renderable->isRenderable()) {
                     $this->addRenderableToOutput($renderable);
                 }
@@ -197,7 +198,7 @@ class ScriptManager implements Customizable
     /**
      * Returns the output buffer of the ScriptManager.
      *
-     * @since 4.0.0
+     * @since  4.0.0
      * @return Buffer
      */
     public function getOutputBuffer()
@@ -234,11 +235,12 @@ class ScriptManager implements Customizable
     /**
      * Add a renderable to the output buffer.
      *
-     * @since 4.0.0
-     * @param \Khill\Lavacharts\Support\Renderable $renderable
+     * @param Renderable $renderable Renderable instance to include.
+     *
+     * @since  4.0.0
      * @throws \Khill\Lavacharts\Exceptions\InvalidElementIdException
      */
-    public function addRenderableToOutput(Renderable $renderable)
+    public function addRenderableToOutput(Renderable $renderable): Buffer
     {
         if (! $renderable->hasElementId()) {
             throw new InvalidElementIdException($renderable);
@@ -253,6 +255,18 @@ class ScriptManager implements Customizable
         $buffer->pregReplace('/"null"/', 'NULL');
 
         $this->outputBuffer->append($buffer);
+
+        return $this->outputBuffer;
+    }
+
+    /**
+     * Get the lavacharts package root
+     *
+     * @return string
+     */
+    private function _getLavaJsPkgPath(string $file): string
+    {
+        return realpath(__DIR__.'/../../'.self::LAVA_JS_ROOT.'/'.$file);
     }
 
     /**
@@ -262,8 +276,16 @@ class ScriptManager implements Customizable
      */
     private function getLavaJsSource()
     {
-        $lavaJs = realpath(__DIR__ . self::LAVA_JS);
+        return file_get_contents($this->_getLavaJsPkgPath('lava.js'));
+    }
 
-        return file_get_contents($lavaJs);
+    /**
+     * Get the source of the lava.js module as a Buffer
+     *
+     * @return string
+     */
+    private function getLavachartsJsSource()
+    {
+        return file_get_contents($this->_getLavaJsPkgPath('lavacharts.js'));
     }
 }

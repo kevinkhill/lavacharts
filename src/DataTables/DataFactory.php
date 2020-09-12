@@ -64,7 +64,6 @@ class DataFactory
             if (is_array($args[0])) {
                 $datatable->addColumns($args[0]);
             }
-
         }
 
         if (count($args) == 3) {
@@ -83,7 +82,6 @@ class DataFactory
             if ($args[1] instanceof Closure) {
                 $datatable->addRows($args[1]());
             }
-
         }
 
         return $datatable;

@@ -86,8 +86,7 @@ class Column implements Customizable, Arrayable, Jsonable
         Format $format = null,
         $role = '',
         array $options = []
-    )
-    {
+    ) {
         $this->setOptions($options);
 
         $this->type   = $type;

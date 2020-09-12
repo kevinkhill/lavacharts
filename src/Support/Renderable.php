@@ -54,7 +54,7 @@ abstract class Renderable implements Arrayable, Customizable, Javascriptable, Js
      * @param DataInterface|null $data
      * @param array              $options
      */
-    function __construct($label, DataInterface $data = null, array $options = [])
+    public function __construct($label, DataInterface $data = null, array $options = [])
     {
         $this->datatable = $data;
         $this->label     = Str::verify($label);

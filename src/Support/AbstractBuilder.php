@@ -46,7 +46,7 @@ abstract class AbstractBuilder
 
     public function __set($name, $value)
     {
-        if ( ! $this->__isset($name)) {
+        if (! $this->__isset($name)) {
             throw new InvalidArgumentException(
                 sprintf('Unknown property "%s" in "%s".', $name, get_class($this))
             );
@@ -57,7 +57,7 @@ abstract class AbstractBuilder
 
     public function __get($name)
     {
-        if ( ! $this->__isset($name)) {
+        if (! $this->__isset($name)) {
             throw new InvalidArgumentException(
                 sprintf('Unknown property "%s" in "%s".', $name, get_class($this))
             );
@@ -113,12 +113,12 @@ abstract class AbstractBuilder
      *
      * @return array
      */
-    protected abstract function configureParameters();
+    abstract protected function configureParameters();
 
     /**
      * Get full qualified class name of class that instance ought to be constructed.
      *
      * @return string
      */
-    protected abstract function getObjectFqcn();
+    abstract protected function getObjectFqcn();
 }

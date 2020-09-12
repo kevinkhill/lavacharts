@@ -46,4 +46,3 @@ trait GetDataTableTrait
         return $data;
     }
 }
-

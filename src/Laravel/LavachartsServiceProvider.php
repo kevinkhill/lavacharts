@@ -54,11 +54,11 @@ class LavachartsServiceProvider extends ServiceProvider
 
         $defaultConfig = $this->app['config']->get('lavacharts');
 
-        $this->app->singleton('lavacharts', function() use ($defaultConfig) {
+        $this->app->singleton('lavacharts', function () use ($defaultConfig) {
             return new Lavacharts($defaultConfig);
         });
 
-        $this->app->booting(function() {
+        $this->app->booting(function () {
             $loader = AliasLoader::getInstance();
             $loader->alias('Lava', LavachartsFacade::class);
             $loader->register();
@@ -69,5 +69,4 @@ class LavachartsServiceProvider extends ServiceProvider
     {
         return ['lavacharts'];
     }
-
 }
