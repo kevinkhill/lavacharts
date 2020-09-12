@@ -1,0 +1,15 @@
+{
+  "name": "lavacharts-4.0",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:kevinkhill/lavacharts.git",
+  "author": "Kevin Hill <kevinkhill@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@lavacharts/lava.js": "../../lava.js"
+  },
+  "devDependencies": {
+    "cypress": "^5.1.0",
+    "php-server": "^0.2.1"
+  }
+}
