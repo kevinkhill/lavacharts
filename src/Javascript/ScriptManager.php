@@ -39,20 +39,6 @@ class ScriptManager implements Customizable
     const LAVA_JS_ROOT = 'node_modules/@lavacharts/lava.js/dist';
 
     /**
-     * Opening javascript tag.
-     *
-     * @var string
-     */
-    const JS_OPEN = '<script type="text/javascript">';
-
-    /**
-     * Closing javascript tag.
-     *
-     * @var string
-     */
-    const JS_CLOSE = '</script>';
-
-    /**
      * Script output buffer.
      *
      * @var Buffer
@@ -78,7 +64,7 @@ class ScriptManager implements Customizable
      *
      * @var Volcano
      */
-    private $_volcano;
+    private $volcano;
 
     /**
      * ScriptManager constructor.
@@ -86,6 +72,8 @@ class ScriptManager implements Customizable
     public function __construct()
     {
         $this->outputBuffer = new Buffer();
+
+        $this->lavajs = new NodeModule('@lavacharts/lava.js');
     }
 
     /**
@@ -95,7 +83,7 @@ class ScriptManager implements Customizable
      */
     public function setVolcano(Volcano $volcano)
     {
-        $this->_volcano = $volcano;
+        $this->volcano = $volcano;
     }
 
     /**
@@ -106,7 +94,7 @@ class ScriptManager implements Customizable
      * @since 4.0.0
      *
      * @return string <script> tags
-     * @throws \Khill\Lavacharts\Exceptions\InvalidElementIdException
+     * @throws InvalidElementIdException
      */
     public function getScriptTags()
     {
@@ -114,11 +102,11 @@ class ScriptManager implements Customizable
             $this->loadLavaJs();
         }
 
-        if ($this->_volcano->count() > 0) {
+        if ($this->volcano->count() > 0) {
             $this->openScriptTag();
 
             /** @var Renderable $renderable */
-            foreach ($this->_volcano as $renderable) {
+            foreach ($this->volcano as $renderable) {
                 if ($renderable->isRenderable()) {
                     $this->addRenderableToOutput($renderable);
                 }
@@ -225,7 +213,7 @@ class ScriptManager implements Customizable
     {
         $this->lavaJsLoaded = true;
 
-        $buffer = new ScriptBuffer($this->getLavaJsSource());
+        $buffer = new NodeModule();
 
         $buffer->pregReplace('/__OPTIONS__/', $this->options->toJson());
 
