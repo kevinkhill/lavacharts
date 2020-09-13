@@ -75,11 +75,12 @@ class NodeModule
     /**
      * Get the contents of the script as a <script> to input to the page
      *
+     * @param string $file
      * @return Buffer
      */
-    public function getScriptTag(): Buffer
+    public function getScriptTag(string $file): Buffer
     {
-        $buffer = new Buffer($this->getFileContents());
+        $buffer = new Buffer($this->getFileContents($file));
 
         $buffer->prepend(self::JS_OPEN)->append(self::JS_CLOSE);
 
@@ -89,10 +90,11 @@ class NodeModule
     /**
      * Get the contents of the script as a string
      *
+     * @param string $file
      * @return string
      */
-    public function getFileContents(): string
+    public function getFileContents(string $file): string
     {
-        return file_get_contents($this->abspath);
+        return file_get_contents($this->resolve($file));
     }
 }
