@@ -8,21 +8,25 @@ use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Charts\ChartFactory;
 use Khill\Lavacharts\Dashboards\Dashboard;
 use Khill\Lavacharts\Dashboards\Filter;
+use Khill\Lavacharts\Exceptions\InvalidDataTable;
+use Khill\Lavacharts\Exceptions\InvalidChartType;
+use Khill\Lavacharts\Exceptions\RenderableNotFound;
 use Khill\Lavacharts\Dashboards\Wrappers\ChartWrapper;
+use Khill\Lavacharts\Exceptions\BadMethodCallException;
 use Khill\Lavacharts\Dashboards\Wrappers\ControlWrapper;
 use Khill\Lavacharts\DataTables\DataFactory;
 use Khill\Lavacharts\DataTables\Columns\Format;
 use Khill\Lavacharts\DataTables\DataTable;
-use Khill\Lavacharts\Exceptions\BadMethodCallException;
 use Khill\Lavacharts\Javascript\ScriptManager;
 use Khill\Lavacharts\Support\Contracts\Arrayable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Contracts\DataInterface;
 use Khill\Lavacharts\Support\Contracts\Jsonable;
 use Khill\Lavacharts\Support\Options;
-use Khill\Lavacharts\Support\Psr4Autoloader;
 use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\StringValue as Str;
+use Khill\Lavacharts\Exceptions\InvalidArgumentException;
+use Khill\Lavacharts\Exceptions\InvalidElementIdException;
 use Khill\Lavacharts\Support\Traits\ArrayToJsonTrait as ArrayToJson;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
 
@@ -95,7 +99,6 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * Lavacharts constructor.
      *
      * @param array $options Customization options
-     *
      * @throws InvalidArgumentException
      */
     public function __construct(array $options = [])
@@ -154,11 +157,11 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      *
      * @param array $options Array of options to override defaults before script output.
      *
-     * @since  4.0.0
      * @return string HTML script elements
      * @throws InvalidElementIdException
+     * @since  4.0.0
      */
-    public function flow(array $options = [])
+    public function run(array $options = [])
     {
         $this->scriptManager->mergeOptions($options);
 
@@ -216,7 +219,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @return Renderable
      * @throws RenderableNotFound
      */
-    public function get($label)
+    public function get(string $label)
     {
         return $this->volcano->get($label);
     }
@@ -285,7 +288,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @param  string $elementId HTML element ID to output the control.
      * @return ControlWrapper
      */
-    public function ControlWrapper(Filter $filter, $elementId)
+    public function ControlWrapper(Filter $filter, string $elementId)
     {
         $elementId = Str::verify($elementId);
 
@@ -370,7 +373,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @param array $options
      * @return string Google Chart API and lava.js script blocks
      */
-    public function lavajs(array $options = [])
+    public function lavaJs(array $options = [])
     {
         $options = new Options($options);
 
@@ -394,7 +397,7 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
 
 //        TODO: bypass any subsequent render() calls
         $this->renderAll();
-        // TODO: call flow() instead.
+        // TODO: call run() instead.
     }
 
     /**
@@ -411,7 +414,6 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      */
     public function renderAll(array $options = [])
     {
-        // TODO: have this call flow() instead.
         $this->options->merge($options);
 
         if (! $this->scriptManager->lavaJsLoaded()) {
@@ -444,30 +446,12 @@ class Lavacharts implements Customizable, Jsonable, Arrayable
      * @throws InvalidChartType
      * @throws InvalidDataTable
      */
-    private function createChart($type, $args)
+    private function createChart(string $type, array $args)
     {
         $chart = ChartFactory::create($type, $args);
 
         $this->volcano->store($chart);
 
         return $chart;
-    }
-
-    /**
-     * Checks if running in composer environment
-     *
-     * This will check if the folder 'composer' is within the path to Lavacharts.
-     *
-     * @access private
-     * @since  2.4.0
-     * @return boolean
-     */
-    private function usingComposer()
-    {
-        if (strpos(realpath(__FILE__), 'composer') !== false) {
-            return true;
-        } else {
-            return false;
-        }
     }
 }

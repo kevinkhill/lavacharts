@@ -2,10 +2,9 @@
 
 namespace Khill\Lavacharts\Javascript;
 
+use phpDocumentor\Reflection\Types\This;
 use Khill\Lavacharts\Exceptions\InvalidElementIdException;
-use Khill\Lavacharts\Lavacharts;
 use Khill\Lavacharts\Support\Buffer;
-use Khill\Lavacharts\Support\Options;
 use Khill\Lavacharts\Support\Renderable;
 use Khill\Lavacharts\Support\Contracts\Customizable;
 use Khill\Lavacharts\Support\Traits\HasOptionsTrait as HasOptions;
@@ -32,18 +31,11 @@ class ScriptManager implements Customizable
     use HasOptions;
 
     /**
-     * Lava.js module location.
-     *
-     * @var string
-     */
-    const LAVA_JS_ROOT = 'node_modules/@lavacharts/lava.js/dist';
-
-    /**
      * Script output buffer.
      *
      * @var Buffer
      */
-    private $outputBuffer;
+    private $output;
 
     /**
      * Tracks if the lava.js module and google loader have been output.
@@ -67,13 +59,17 @@ class ScriptManager implements Customizable
     private $volcano;
 
     /**
+     * @var NodeModule
+     */
+    private $module;
+
+    /**
      * ScriptManager constructor.
      */
     public function __construct()
     {
-        $this->outputBuffer = new Buffer();
-
-        $this->lavajs = new NodeModule('@lavacharts/lava.js');
+        $this->output = new Buffer();
+        $this->module = new NodeModule('@lavacharts/lava.js');
     }
 
     /**
@@ -99,7 +95,7 @@ class ScriptManager implements Customizable
     public function getScriptTags()
     {
         if (! $this->lavaJsLoaded()) {
-            $this->loadLavaJs();
+            $this->output = $this->getLavaJs();
         }
 
         if ($this->volcano->count() > 0) {
@@ -160,12 +156,26 @@ class ScriptManager implements Customizable
     /**
      * Appends an opening script tag to the output buffer.
      *
+     * @param string $content
+     * @return This
+     * @since 4.0.0
+     */
+    public function fillScriptTag(string $content): This
+    {
+        $this->output->append(static::JS_OPEN);
+
+        return $this;
+    }
+
+    /**
+     * Appends an opening script tag to the output buffer.
+     *
      * @since 4.0.0
      * @return self
      */
-    public function openScriptTag()
+    public function openScriptTag(): This
     {
-        $this->outputBuffer->append(static::JS_OPEN);
+        $this->output->append(static::JS_OPEN);
 
         return $this;
     }
@@ -176,9 +186,9 @@ class ScriptManager implements Customizable
      * @since 4.0.0
      * @return self
      */
-    public function closeScriptTag()
+    public function closeScriptTag(): This
     {
-        $this->outputBuffer->append(static::JS_CLOSE);
+        $this->output->append(static::JS_CLOSE);
 
         return $this;
     }
@@ -189,19 +199,9 @@ class ScriptManager implements Customizable
      * @since  4.0.0
      * @return Buffer
      */
-    public function getOutputBuffer()
+    public function getOutputBuffer(): Buffer
     {
-        return $this->outputBuffer;
-    }
-
-    /**
-     * Initialize the output buffer with the Lava.js module.
-     *
-     * @since 4.0.0
-     */
-    public function loadLavaJs()
-    {
-        $this->outputBuffer = $this->getLavaJs();
+        return $this->output;
     }
 
     /**
@@ -209,15 +209,14 @@ class ScriptManager implements Customizable
      *
      * @return Buffer
      */
-    public function getLavaJs()
+    public function getLavaJs(): Buffer
     {
         $this->lavaJsLoaded = true;
 
-        $buffer = new NodeModule();
-
-        $buffer->pregReplace('/__OPTIONS__/', $this->options->toJson());
-
-        return $buffer;
+//
+//        $module->getFileContents()->pregReplace('/__OPTIONS__/', $this->options->toJson());
+//
+        return $this->module->getScriptTag('lava.js');
     }
 
     /**
@@ -226,7 +225,7 @@ class ScriptManager implements Customizable
      * @param Renderable $renderable Renderable instance to include.
      *
      * @since  4.0.0
-     * @throws \Khill\Lavacharts\Exceptions\InvalidElementIdException
+     * @throws InvalidElementIdException
      */
     public function addRenderableToOutput(Renderable $renderable): Buffer
     {
@@ -242,9 +241,9 @@ class ScriptManager implements Customizable
         /** Converting string nulls to actual nulls */
         $buffer->pregReplace('/"null"/', 'NULL');
 
-        $this->outputBuffer->append($buffer);
+        $this->output->append($buffer);
 
-        return $this->outputBuffer;
+        return $this->output;
     }
 
     /**
@@ -252,9 +251,9 @@ class ScriptManager implements Customizable
      *
      * @return string
      */
-    private function _getLavaJsPkgPath(string $file): string
+    private function getLavaJsModule(string $file): NodeModule
     {
-        return realpath(__DIR__.'/../../'.self::LAVA_JS_ROOT.'/'.$file);
+        return   $this->module ;
     }
 
     /**
@@ -264,7 +263,7 @@ class ScriptManager implements Customizable
      */
     private function getLavaJsSource()
     {
-        return file_get_contents($this->_getLavaJsPkgPath('lava.js'));
+        return file_get_contents($this->getLavaJsPkgPath('lava.js'));
     }
 
     /**
@@ -274,6 +273,6 @@ class ScriptManager implements Customizable
      */
     private function getLavachartsJsSource()
     {
-        return file_get_contents($this->_getLavaJsPkgPath('lavacharts.js'));
+        return file_get_contents($this->getLavaJsPkgPath('lavacharts.js'));
     }
 }

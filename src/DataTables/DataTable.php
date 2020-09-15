@@ -746,13 +746,13 @@ class DataTable implements DataInterface, Customizable, Arrayable, /*Javascripta
     /**
      * Create a new Filter by name and index / label.
      *
-     * @since 4.0.0
-     * @param string     $filterType
+     * @param string $filterType
      * @param int|string $indexOrLabel
-     * @param array      $options
+     * @param array $options
      * @return Filter
+     * @since 4.0.0
      */
-    public function getColumnFilter($filterType, $indexOrLabel, array $options = [])
+    public function getColumnFilter(string $filterType, $indexOrLabel, array $options = [])
     {
         return new Filter($filterType, $indexOrLabel, $options);
     }
@@ -760,12 +760,12 @@ class DataTable implements DataInterface, Customizable, Arrayable, /*Javascripta
     /**
      * Returns the label of a column based on it's index.
      *
-     * @since  3.0.0
-     * @param  int $index
+     * @param int $index
      * @return string
      * @throws InvalidColumnIndex
+     * @since  3.0.0
      */
-    public function getColumnLabel($index)
+    public function getColumnLabel(int $index)
     {
         return $this->getColumn($index)->getLabel();
     }

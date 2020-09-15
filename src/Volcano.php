@@ -2,9 +2,6 @@
 
 namespace Khill\Lavacharts;
 
-use ArrayIterator;
-use Countable;
-use IteratorAggregate;
 use Khill\Lavacharts\Charts\Chart;
 use Khill\Lavacharts\Dashboards\Dashboard;
 use Khill\Lavacharts\Exceptions\RenderableNotFound;
@@ -69,11 +66,10 @@ class Volcano extends ArrayObject implements Jsonable
     /**
      * Fetches an existing Renderable from the Volcano with no checks.
      *
-     * @param  string $label Label of the Renderable.
+     * @param string $label Label of the Renderable.
      * @return Chart|Dashboard|Renderable
-     * @throws RenderableNotFound
      */
-    public function get($label)
+    public function get(string $label): Renderable
     {
         return $this->renderables[$label];
     }
@@ -84,7 +80,7 @@ class Volcano extends ArrayObject implements Jsonable
      * @param  string $label Unique identifying label of the Renderable to check.
      * @return bool
      */
-    public function exists($label)
+    public function exists(string $label): bool
     {
         $label = Str::verify($label);
 
@@ -98,7 +94,7 @@ class Volcano extends ArrayObject implements Jsonable
      * @return Chart|Dashboard|Renderable
      * @throws RenderableNotFound
      */
-    public function find($label)
+    public function find(string $label): Renderable
     {
         if (! $this->exists($label)) {
             throw new RenderableNotFound($label);

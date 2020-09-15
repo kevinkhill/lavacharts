@@ -3,6 +3,7 @@
 namespace Khill\Lavacharts\Javascript;
 
 use Khill\Lavacharts\Support\Buffer;
+use Khill\Lavacharts\Support\ScriptTag;
 
 /**
  * NodeModule Class
@@ -25,6 +26,11 @@ class NodeModule
      * @var string
      */
     const ROOT = __DIR__ . '/../../node_modules';
+
+    /**
+     * @var string
+     */
+    const DIST = 'dist';
 
     /**
      * Opening javascript tag.
@@ -69,32 +75,28 @@ class NodeModule
      */
     public function resolve(string $file): string
     {
-        return $this->moduleRoot . '/dist/' . $file;
+        return $this->moduleRoot . '/' . self::DIST . '/' . $file;
+    }
+
+    /**
+     * Get the contents of the script as a Buffer
+     *
+     * @param string $file
+     * @return Buffer
+     */
+    public function getFile(string $file): Buffer
+    {
+        return new Buffer(file_get_contents($this->resolve($file)));
     }
 
     /**
      * Get the contents of the script as a <script> to input to the page
      *
      * @param string $file
-     * @return Buffer
+     * @return ScriptTag
      */
-    public function getScriptTag(string $file): Buffer
+    public function getScriptTag(string $file): ScriptTag
     {
-        $buffer = new Buffer($this->getFileContents($file));
-
-        $buffer->prepend(self::JS_OPEN)->append(self::JS_CLOSE);
-
-         return $buffer;
-    }
-
-    /**
-     * Get the contents of the script as a string
-     *
-     * @param string $file
-     * @return string
-     */
-    public function getFileContents(string $file): string
-    {
-        return file_get_contents($this->resolve($file));
+        return new ScriptTag($this->getFile($file));
     }
 }

@@ -52,7 +52,7 @@ class Buffer implements Jsonable
      *
      * @return string
      */
-    public function toJson()
+    public function toJson(): string
     {
         return json_encode($this->__toString());
     }
@@ -62,7 +62,7 @@ class Buffer implements Jsonable
      *
      * @return string
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): string
     {
         return $this->__toString();
     }
@@ -70,17 +70,17 @@ class Buffer implements Jsonable
     /**
      * Sets the contents of the buffer
      *
-     * @param  string|mixed $object
+     * @param string|mixed $object
      * @throws InvalidArgumentException
      */
-    public function setContents($object)
+    public function setContents(string $object)
     {
-        if (! is_string($object) && ! method_exists($object, '__toString')) {
-            throw new InvalidArgumentException(
-                $object,
-                'string or objects implementing __toString'
-            );
-        }
+//        if (! is_string($object) && ! method_exists($object, '__toString')) {
+//            throw new InvalidArgumentException(
+//                $object,
+//                'string or objects implementing __toString'
+//            );
+//        }
 
         $this->contents = (string) $object;
     }
@@ -90,7 +90,7 @@ class Buffer implements Jsonable
      *
      * @return string
      */
-    public function getContents()
+    public function getContents(): string
     {
         return $this->contents;
     }
@@ -101,7 +101,7 @@ class Buffer implements Jsonable
      * @param  string|Buffer $str
      * @return self
      */
-    public function append($str)
+    public function append(string $str): self
     {
         $this->contents = $this->contents . $str;
 
@@ -114,7 +114,7 @@ class Buffer implements Jsonable
      * @param  string|Buffer $str
      * @return self
      */
-    public function prepend($str)
+    public function prepend(string $str): self
     {
         $this->contents = $str . $this->contents;
 
@@ -128,7 +128,7 @@ class Buffer implements Jsonable
      * @param  string $replace
      * @return self
      */
-    public function replace($search, $replace)
+    public function replace(string $search, string $replace): self
     {
         $this->contents = str_replace($search, $replace, $this->contents);
 
@@ -142,7 +142,7 @@ class Buffer implements Jsonable
      * @param  string $replace
      * @return self
      */
-    public function pregReplace($search, $replace)
+    public function pregReplace(string $search, string $replace): self
     {
         $this->contents = preg_replace($search, $replace, $this->contents);
 

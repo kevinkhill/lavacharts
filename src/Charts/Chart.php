@@ -57,6 +57,16 @@ class Chart extends Renderable implements Visualization, Wrappable
     }
 
     /**
+     * Return the lava.js integration
+     *
+     * @return string
+     */
+    public function toJavascript()
+    {
+        return sprintf('lava.chart(%s);', $this->toJson());
+    }
+
+    /**
      * Wrap the current chart with a ChartWrapper.
      *
      * @since 4.0.0

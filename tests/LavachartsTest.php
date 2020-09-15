@@ -26,7 +26,7 @@ class LavachartsTest extends ProvidersTestCase
      */
     private $lava;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

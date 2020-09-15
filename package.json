@@ -5,6 +5,9 @@
   "repository": "git@github.com:kevinkhill/lavacharts.git",
   "author": "Kevin Hill <kevinkhill@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "e2e": "cd e2e && php -S localhost:8000 ."
+  },
   "dependencies": {
     "@lavacharts/lava.js": "../../lava.js"
   },
