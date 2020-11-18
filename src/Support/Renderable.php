@@ -20,7 +20,7 @@ use \Khill\Lavacharts\Support\Traits\ElementIdTrait as HasElementId;
  * @link       http://lavacharts.com                   Official Docs Site
  * @license    http://opensource.org/licenses/MIT MIT
  */
-class RenderableTrait
+class Renderable
 {
     use HasElementId;
 
