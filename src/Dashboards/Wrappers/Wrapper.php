@@ -22,7 +22,7 @@ use Khill\Lavacharts\Support\Contracts\JsClassInterface as JsClass;
  * @link      http://lavacharts.com                   Official Docs Site
  * @license   http://opensource.org/licenses/MIT      MIT
  */
-class Wrapper implements \JsonSerializable, Jsonable, JsClass
+class Wrapper extends Customizable implements \JsonSerializable, Jsonable, JsClass
 {
     use HasElementId;
 
@@ -50,6 +50,7 @@ class Wrapper implements \JsonSerializable, Jsonable, JsClass
     {
         $this->contents  = $itemToWrap;
         $this->elementId = $elementId;
+		$this->options = array();
     }
 
     /**
@@ -69,11 +70,11 @@ class Wrapper implements \JsonSerializable, Jsonable, JsClass
      */
     public function jsonSerialize()
     {
-        return [
+        return array_merge($this->options, [
             'options'     => $this->contents,
             'containerId' => (string) $this->elementId,
             $this->contents->getWrapType() => $this->contents->getType()
-        ];
+        ]);
     }
 
     /**
