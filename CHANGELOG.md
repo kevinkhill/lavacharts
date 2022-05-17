@@ -1,4 +1,4 @@
-- 3.1.10
+- 3.1.15
   - Fixed PHP 8.1 compatibility issues between `JavascriptDate` and `Carbon`, which may cause opcache compilation failures. 
 
 - 3.1.9
