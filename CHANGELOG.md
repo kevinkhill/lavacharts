@@ -1,3 +1,6 @@
+- 3.1.10
+  - Fixed PHP 8.1 compatibility issues between `JavascriptDate` and `Carbon`, which may cause opcache compilation failures. 
+
 - 3.1.9
   - Fixing bug where using `setOptions` instead of the constructor skipped the processing of `png` and `material` attributes.
 
@@ -126,7 +129,7 @@
       - Called after all of the google jsapi is loaded and the charts are rendered.
 
 - 2.5.7
- - AJAX data loading bugfixes
+- AJAX data loading bugfixes
 
 - 2.5.6
   - Fixes for AJAX chart loading
