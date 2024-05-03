@@ -25,6 +25,7 @@ class LavachartsServiceProvider extends ServiceProvider
 {
     protected $defer = true;
 
+    private string $configPath;
     private $configFile = 'lavacharts.php';
 
     /**

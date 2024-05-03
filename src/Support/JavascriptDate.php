@@ -9,9 +9,8 @@ class JavascriptDate extends Carbon
     /**
      * JavascriptDate constructor.
      */
-    public function __construct()
+    public function __construct($time = null, $tz = null)
     {
-        $tz   = null;
         $hour = null;
         $args = func_get_args();
 
@@ -41,7 +40,7 @@ class JavascriptDate extends Carbon
             $second = isset($args[5]) ? $args[5] : 0;
         }
 
-        return parent::__construct(sprintf('%s-%s-%s %s:%02s:%02s', $year, $month, $day, $hour, $minute, $second), $tz);
+        parent::__construct(sprintf('%s-%s-%s %s:%02s:%02s', $year, $month, $day, $hour, $minute, $second), $tz);
     }
 
 }
